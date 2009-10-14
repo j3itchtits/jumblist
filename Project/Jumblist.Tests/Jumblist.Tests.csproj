@@ -8,8 +8,8 @@
     <ProjectGuid>{269C053A-58FC-474C-A769-B238A0DCF9EA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KnowledgeFeed.Mvc.Tests</RootNamespace>
-    <AssemblyName>KnowledgeFeed.Mvc.Tests</AssemblyName>
+    <RootNamespace>Jumblist.Tests</RootNamespace>
+    <AssemblyName>Jumblist.Tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
