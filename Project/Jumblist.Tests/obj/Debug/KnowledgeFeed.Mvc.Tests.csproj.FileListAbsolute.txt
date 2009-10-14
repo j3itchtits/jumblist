@@ -1,0 +1,10 @@
+C:\Documents and Settings\sclode\My Documents\Visual Studio 2008\Projects\KnowledgeFeed\KnowledgeFeed.Mvc.Tests\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\sclode\My Documents\Visual Studio 2008\Projects\KnowledgeFeed\KnowledgeFeed.Mvc.Tests\bin\Debug\KnowledgeFeed.Mvc.Tests.dll.config
+C:\Documents and Settings\sclode\My Documents\Visual Studio 2008\Projects\KnowledgeFeed\KnowledgeFeed.Mvc.Tests\bin\Debug\KnowledgeFeed.Mvc.Tests.dll
+C:\Documents and Settings\sclode\My Documents\Visual Studio 2008\Projects\KnowledgeFeed\KnowledgeFeed.Mvc.Tests\bin\Debug\KnowledgeFeed.Mvc.Tests.pdb
+C:\Documents and Settings\sclode\My Documents\Visual Studio 2008\Projects\KnowledgeFeed\KnowledgeFeed.Mvc.Tests\bin\Debug\KnowledgeFeed.Mvc.dll
+C:\Documents and Settings\sclode\My Documents\Visual Studio 2008\Projects\KnowledgeFeed\KnowledgeFeed.Mvc.Tests\bin\Debug\nunit.framework.dll
+C:\Documents and Settings\sclode\My Documents\Visual Studio 2008\Projects\KnowledgeFeed\KnowledgeFeed.Mvc.Tests\bin\Debug\KnowledgeFeed.Mvc.pdb
+C:\Documents and Settings\sclode\My Documents\Visual Studio 2008\Projects\KnowledgeFeed\KnowledgeFeed.Mvc.Tests\bin\Debug\nunit.framework.xml
+C:\Documents and Settings\sclode\My Documents\Visual Studio 2008\Projects\KnowledgeFeed\KnowledgeFeed.Mvc.Tests\obj\Debug\KnowledgeFeed.Mvc.Tests.dll
+C:\Documents and Settings\sclode\My Documents\Visual Studio 2008\Projects\KnowledgeFeed\KnowledgeFeed.Mvc.Tests\obj\Debug\KnowledgeFeed.Mvc.Tests.pdb

@@ -1,0 +1,5 @@
+C:\Projects\Websites\FreecycleHack\Site\Jumblist.Website\bin\KnowledgeFeed.Mvc.dll
+C:\Projects\Websites\FreecycleHack\Site\Jumblist.Website\bin\KnowledgeFeed.Mvc.pdb
+C:\Projects\Websites\FreecycleHack\Site\Jumblist.Website\obj\Debug\ResolveAssemblyReference.cache
+C:\Projects\Websites\FreecycleHack\Site\Jumblist.Website\obj\Debug\KnowledgeFeed.Mvc.dll
+C:\Projects\Websites\FreecycleHack\Site\Jumblist.Website\obj\Debug\KnowledgeFeed.Mvc.pdb

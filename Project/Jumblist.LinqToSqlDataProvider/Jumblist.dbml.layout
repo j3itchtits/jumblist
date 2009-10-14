@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Jumblist">
+  <DataContextMoniker Name="/JumblistDataContext" />
+  <nestedChildShapes>
+    <classShape Id="d1e54d51-6a7b-4cc4-97b3-d9c8dd4ccea5" absoluteBounds="0.5, 2.375, 2, 2.0822371419270831">
+      <DataClassMoniker Name="/JumblistDataContext/Feed" />
+      <nestedChildShapes>
+        <elementListCompartment Id="292877cc-59bf-4676-82a5-0b33042396ae" absoluteBounds="0.51499999999999968, 2.835, 1.9700000000000002, 1.5222371419270833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="f1bbfd2b-834d-4576-bb27-3f9ac0808044" absoluteBounds="3.5, 0.5, 2, 3.5613631184895826">
+      <DataClassMoniker Name="/JumblistDataContext/Message" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1778d5c8-6350-49f4-b5e3-afed651165d1" absoluteBounds="3.5149999999999997, 0.96, 1.9700000000000002, 3.001363118489583" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.5 : 3.21818155924479); (3.5 : 3.21818155924479)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/JumblistDataContext/Feed/Feed_Message" />
+      <nodes>
+        <classShapeMoniker Id="d1e54d51-6a7b-4cc4-97b3-d9c8dd4ccea5" />
+        <classShapeMoniker Id="f1bbfd2b-834d-4576-bb27-3f9ac0808044" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="d32cfede-4702-414f-bf1e-4f32cc0b775b" absoluteBounds="0.5, 0.5, 2, 1.4248478190104168">
+      <DataClassMoniker Name="/JumblistDataContext/Author" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b984712b-4082-4f67-9df1-891c8b4e6530" absoluteBounds="0.51500000000000012, 0.96, 1.9700000000000002, 0.86484781901041674" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.5 : 1.21242390950521); (3.5 : 1.21242390950521)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/JumblistDataContext/Author/Author_Message" />
+      <nodes>
+        <classShapeMoniker Id="d32cfede-4702-414f-bf1e-4f32cc0b775b" />
+        <classShapeMoniker Id="f1bbfd2b-834d-4576-bb27-3f9ac0808044" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
