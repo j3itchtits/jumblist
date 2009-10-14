@@ -1,6 +1,0 @@
-C:\Projects\Websites\FreecycleHack\Site\Jumblist.LinqToSqlDataProvider\obj\Debug\ResolveAssemblyReference.cache
-C:\Projects\Websites\FreecycleHack\Site\Jumblist.LinqToSqlDataProvider\bin\Debug\Jumblist.LinqToSqlDataProvider.dll.config
-C:\Projects\Websites\FreecycleHack\Site\Jumblist.LinqToSqlDataProvider\bin\Debug\Jumblist.LinqToSqlDataProvider.dll
-C:\Projects\Websites\FreecycleHack\Site\Jumblist.LinqToSqlDataProvider\bin\Debug\Jumblist.LinqToSqlDataProvider.pdb
-C:\Projects\Websites\FreecycleHack\Site\Jumblist.LinqToSqlDataProvider\obj\Debug\Jumblist.LinqToSqlDataProvider.dll
-C:\Projects\Websites\FreecycleHack\Site\Jumblist.LinqToSqlDataProvider\obj\Debug\Jumblist.LinqToSqlDataProvider.pdb
