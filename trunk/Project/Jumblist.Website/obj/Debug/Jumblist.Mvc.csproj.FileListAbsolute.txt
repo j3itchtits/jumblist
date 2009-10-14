@@ -1,5 +1,0 @@
-C:\Projects\FreecycleHack\Site\Jumblist.Mvc\bin\KnowledgeFeed.Mvc.dll
-C:\Projects\FreecycleHack\Site\Jumblist.Mvc\bin\KnowledgeFeed.Mvc.pdb
-C:\Projects\FreecycleHack\Site\Jumblist.Mvc\obj\Debug\ResolveAssemblyReference.cache
-C:\Projects\FreecycleHack\Site\Jumblist.Mvc\obj\Debug\KnowledgeFeed.Mvc.dll
-C:\Projects\FreecycleHack\Site\Jumblist.Mvc\obj\Debug\KnowledgeFeed.Mvc.pdb

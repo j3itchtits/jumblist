@@ -1,5 +1,0 @@
-C:\Documents and Settings\sclode\My Documents\Visual Studio 2008\Projects\KnowledgeFeed\KnowledgeFeed.Mvc\bin\KnowledgeFeed.Mvc.dll
-C:\Documents and Settings\sclode\My Documents\Visual Studio 2008\Projects\KnowledgeFeed\KnowledgeFeed.Mvc\bin\KnowledgeFeed.Mvc.pdb
-C:\Documents and Settings\sclode\My Documents\Visual Studio 2008\Projects\KnowledgeFeed\KnowledgeFeed.Mvc\obj\Debug\ResolveAssemblyReference.cache
-C:\Documents and Settings\sclode\My Documents\Visual Studio 2008\Projects\KnowledgeFeed\KnowledgeFeed.Mvc\obj\Debug\KnowledgeFeed.Mvc.dll
-C:\Documents and Settings\sclode\My Documents\Visual Studio 2008\Projects\KnowledgeFeed\KnowledgeFeed.Mvc\obj\Debug\KnowledgeFeed.Mvc.pdb

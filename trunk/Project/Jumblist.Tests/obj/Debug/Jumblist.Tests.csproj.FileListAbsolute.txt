@@ -1,9 +1,0 @@
-C:\Projects\Websites\FreecycleHack\Site\Jumblist.Tests\bin\Debug\KnowledgeFeed.Mvc.Tests.dll.config
-C:\Projects\Websites\FreecycleHack\Site\Jumblist.Tests\bin\Debug\KnowledgeFeed.Mvc.Tests.dll
-C:\Projects\Websites\FreecycleHack\Site\Jumblist.Tests\bin\Debug\KnowledgeFeed.Mvc.Tests.pdb
-C:\Projects\Websites\FreecycleHack\Site\Jumblist.Tests\bin\Debug\KnowledgeFeed.Mvc.dll
-C:\Projects\Websites\FreecycleHack\Site\Jumblist.Tests\bin\Debug\KnowledgeFeed.Mvc.pdb
-C:\Projects\Websites\FreecycleHack\Site\Jumblist.Tests\bin\Debug\nunit.framework.xml
-C:\Projects\Websites\FreecycleHack\Site\Jumblist.Tests\obj\Debug\ResolveAssemblyReference.cache
-C:\Projects\Websites\FreecycleHack\Site\Jumblist.Tests\obj\Debug\KnowledgeFeed.Mvc.Tests.dll
-C:\Projects\Websites\FreecycleHack\Site\Jumblist.Tests\obj\Debug\KnowledgeFeed.Mvc.Tests.pdb
