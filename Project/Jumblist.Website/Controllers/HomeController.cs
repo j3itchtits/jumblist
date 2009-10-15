@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Jumblist.Website.Helpers;
+using Jumblist.Website.BackgroundServices;
 
 namespace Jumblist.Website.Controllers
 {
@@ -19,6 +19,12 @@ namespace Jumblist.Website.Controllers
         public ActionResult About()
         {
 
+            return View();
+        }
+
+        public ActionResult HttpGet()
+        {
+
             ViewData["Message"] = "Welcome to ASP.NET MVC!";
             ViewData["Weather"] = HttpContext.Items["Temp"];
 
@@ -31,19 +37,24 @@ namespace Jumblist.Website.Controllers
 
             //HTTP GET EXAMPLES 1
 
-            string getUrl1 = "http://www.catlingraduates.com/wp-login.php";
-            var getResponse1 = new HttpRequestResponse(getUrl1);
+            //string getUrl1 = "http://www.catlingraduates.com/wp-login.php";
+            //var getResponse1 = new HttpRequestResponse(getUrl1);
 
             //HTTP GET EXAMPLES 2
 
-            string getUrl2 = "http://www.catlingraduates.com/wp-login.php";
+            string getUrl2 = "http://stuartclode.co.uk/wp-admin/edit.php";
             var getResponse2 = new BasicHttpRequestResponse(getUrl2);
-            getResponse2.UserName = "admincatlin";
-            getResponse2.Password = "br5GEku7";
+            getResponse2.UserName = "sclode";
+            getResponse2.Password = "Ed!nb8rgh";
 
-            ViewData["GetUrl"] = getUrl1;
-            ViewData["GetResponse"] = getResponse1.SendRequest();
+            ViewData["GetUrl"] = getUrl2;
+            ViewData["GetResponse"] = getResponse2.SendGetRequest();
 
+            return View();
+        }
+
+        public ActionResult HttpPost()
+        {
 
             //HTTP POST EXAMPLES
 
@@ -54,14 +65,14 @@ namespace Jumblist.Website.Controllers
             //sd.Add( "&context", "Italian sculptors and painters of the renaissance favored the Virgin Mary for inspiration" );
             //sd.Add( "&query", "madonna" );
 
-            string postUrl = "http://www.catlingraduates.com/wp-login.php";
+            string postUrl = "http://stuartclode.co.uk/wp-login.php";
 
             Dictionary<string, string> sd = new Dictionary<string, string>();
-            sd.Add("log", "admincatlin");
-            sd.Add("&pwd", "br5GEku7");
-            sd.Add("&redirect_to", "http://www.catlingraduates.com/about-catlin/");
+            sd.Add( "log", "sclode" );
+            sd.Add( "&pwd", "Ed!nb8rgh" );
+            sd.Add( "&redirect_to", "http://stuartclode.co.uk/" );
 
-            var postResponse = new BasicHttpRequestResponse(postUrl);
+            var postResponse = new BasicHttpRequestResponse( postUrl );
             postResponse.PostParameters = sd;
 
             ViewData["PostUrl"] = postUrl;
@@ -69,6 +80,5 @@ namespace Jumblist.Website.Controllers
 
             return View();
         }
-
      }
 }

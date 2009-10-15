@@ -39,6 +39,9 @@
     <Reference Include="System.Data.DataSetExtensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Web.Mvc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -64,9 +67,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\BasicHttpRequestResponse.cs" />
-    <Compile Include="Helpers\HttpRequestResponse.cs" />
-    <Compile Include="Helpers\PollingService.cs" />
+    <Compile Include="BackgroundServices\BasicHttpRequestResponse.cs" />
+    <Compile Include="BackgroundServices\HttpRequestResponse.cs" />
+    <Compile Include="BackgroundServices\PollingService.cs" />
+    <Compile Include="Models\Data\JumblistLinqtoSql.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JumblistLinqtoSql.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +85,8 @@
     </Content>
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Views\Home\HttpGet.aspx" />
+    <Content Include="Views\Home\HttpPost.aspx" />
     <Content Include="Web.config" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\jquery-1.3.2.js" />
@@ -99,7 +109,20 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\Data\" />
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Models\Data\JumblistLinqtoSql.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>JumblistLinqtoSql.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Models\Data\JumblistLinqtoSql.dbml.layout">
+      <DependentUpon>JumblistLinqtoSql.dbml</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
     <Folder Include="Models\Repository\" />
     <Folder Include="Models\Service\" />
     <Folder Include="Models\Validation\" />

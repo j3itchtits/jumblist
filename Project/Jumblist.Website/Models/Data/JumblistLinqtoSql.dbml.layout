@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 13.125" name="JumblistLinqtoSql">
+  <DataContextMoniker Name="/JumblistLinqtoSqlDataContext" />
+  <nestedChildShapes>
+    <classShape Id="142681b0-fe8d-410f-8642-1668f753746f" absoluteBounds="0.75, 5.5, 2, 1.4248478190104166">
+      <DataClassMoniker Name="/JumblistLinqtoSqlDataContext/Author" />
+      <nestedChildShapes>
+        <elementListCompartment Id="09f7800f-0bd2-4965-b5d0-991706cf5266" absoluteBounds="0.765, 5.96, 1.9700000000000002, 0.86484781901041674" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="89af55d8-7a6d-4265-bb83-2293ecbcd144" absoluteBounds="0.75, 7.625, 2, 2.0822371419270835">
+      <DataClassMoniker Name="/JumblistLinqtoSqlDataContext/Feed" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0ec9070f-b692-4d63-8fda-4872338e3e05" absoluteBounds="0.765, 8.085, 1.9700000000000002, 1.5222371419270833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="0c5e9aef-1795-4f5a-83b3-d47f68fb5d58" absoluteBounds="3.5, 6.75, 2, 1.0961531575520844">
+      <DataClassMoniker Name="/JumblistLinqtoSqlDataContext/Keyword" />
+      <nestedChildShapes>
+        <elementListCompartment Id="febd542e-a829-4f37-b440-6544c417dd14" absoluteBounds="3.515, 7.21, 1.9700000000000002, 0.53615315755208326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="2db8ebdb-1c02-44e5-967b-f00e1f3f49e3" absoluteBounds="3.5, 11.5, 2, 1.4248478190104166">
+      <DataClassMoniker Name="/JumblistLinqtoSqlDataContext/Location" />
+      <nestedChildShapes>
+        <elementListCompartment Id="35626e85-f1f7-4d44-8f24-040d535409ae" absoluteBounds="3.515, 11.96, 1.9700000000000002, 0.86484781901041674" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="8514435c-a00f-4196-acf9-96746b713e5c" absoluteBounds="0.75, 11.625, 2, 1.0961531575520844">
+      <DataClassMoniker Name="/JumblistLinqtoSqlDataContext/LocationType" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e76ad737-0411-4feb-9194-a65c75666b78" absoluteBounds="0.765, 12.085, 1.9700000000000002, 0.53615315755208326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="7068eefe-c1c2-46be-b72e-03d479fd3168" absoluteBounds="6.25, 2.75, 2, 1.0961531575520835">
+      <DataClassMoniker Name="/JumblistLinqtoSqlDataContext/MessageKeyword" />
+      <nestedChildShapes>
+        <elementListCompartment Id="90070c42-de63-4db8-97e2-4ceeb2c614f2" absoluteBounds="6.265, 3.21, 1.9700000000000002, 0.53615315755208326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="5ddf9703-6eb4-4c7d-9a72-008c00859da0" absoluteBounds="6.25, 0.75, 2, 1.0961531575520835">
+      <DataClassMoniker Name="/JumblistLinqtoSqlDataContext/MessageLocation" />
+      <nestedChildShapes>
+        <elementListCompartment Id="77db8f5b-2d16-4f5b-b92d-dce8a7b6590b" absoluteBounds="6.265, 1.21, 1.9700000000000002, 0.53615315755208326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="8a79db11-3998-4d98-b16d-e49d8c4e1026" absoluteBounds="3.5, 1.875, 2, 2.7396264648437496">
+      <DataClassMoniker Name="/JumblistLinqtoSqlDataContext/Message" />
+      <nestedChildShapes>
+        <elementListCompartment Id="98681c1a-b3aa-49cb-8959-370e8fcd2aa7" absoluteBounds="3.515, 2.335, 1.9700000000000002, 2.17962646484375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="1ef52740-0165-4391-9efc-331ceb837f2a" absoluteBounds="0.75, 2.75, 2, 1.0961531575520835">
+      <DataClassMoniker Name="/JumblistLinqtoSqlDataContext/MessageType" />
+      <nestedChildShapes>
+        <elementListCompartment Id="dd816203-66fc-4eec-89f5-a78b370d5d43" absoluteBounds="0.765, 3.21, 1.9700000000000002, 0.53615315755208326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.75 : 12.173076578776); (3.5 : 12.173076578776)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/JumblistLinqtoSqlDataContext/LocationType/LocationType_Location" />
+      <nodes>
+        <classShapeMoniker Id="8514435c-a00f-4196-acf9-96746b713e5c" />
+        <classShapeMoniker Id="2db8ebdb-1c02-44e5-967b-f00e1f3f49e3" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.5 : 7.29807657877604); (5.79166666666667 : 7.29807657877604 : JumpStart); (5.95833333333333 : 7.29807657877604 : JumpEnd); (7.25 : 7.29807657877604); (7.25 : 3.84615315755208)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/JumblistLinqtoSqlDataContext/Keyword/Keyword_MessageKeyword" />
+      <nodes>
+        <classShapeMoniker Id="0c5e9aef-1795-4f5a-83b3-d47f68fb5d58" />
+        <classShapeMoniker Id="7068eefe-c1c2-46be-b72e-03d479fd3168" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.5 : 11.5); (5.875 : 11.125); (5.875 : 1.29807657877604); (6.25 : 1.29807657877604)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+      <AssociationMoniker Name="/JumblistLinqtoSqlDataContext/Location/Location_MessageLocation" />
+      <nodes>
+        <classShapeMoniker Id="2db8ebdb-1c02-44e5-967b-f00e1f3f49e3" />
+        <classShapeMoniker Id="5ddf9703-6eb4-4c7d-9a72-008c00859da0" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.5 : 3.29807657877604); (5.79166666666667 : 3.29807657877604 : JumpStart); (5.95833333333333 : 3.29807657877604 : JumpEnd); (6.25 : 3.29807657877604)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/JumblistLinqtoSqlDataContext/Message/Message_MessageKeyword" />
+      <nodes>
+        <classShapeMoniker Id="8a79db11-3998-4d98-b16d-e49d8c4e1026" />
+        <classShapeMoniker Id="7068eefe-c1c2-46be-b72e-03d479fd3168" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(4.5 : 1.875); (4.5 : 1.60336736816406); (5.79166666666667 : 1.60336736816406 : JumpStart); (5.95833333333333 : 1.60336736816406 : JumpEnd); (6.25 : 1.60336736816406)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/JumblistLinqtoSqlDataContext/Message/Message_MessageLocation" />
+      <nodes>
+        <classShapeMoniker Id="8a79db11-3998-4d98-b16d-e49d8c4e1026" />
+        <classShapeMoniker Id="5ddf9703-6eb4-4c7d-9a72-008c00859da0" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 5.5); (3.125 : 5.125); (3.125 : 3.24481323242187); (3.5 : 3.24481323242187)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+      <AssociationMoniker Name="/JumblistLinqtoSqlDataContext/Author/Author_Message" />
+      <nodes>
+        <classShapeMoniker Id="142681b0-fe8d-410f-8642-1668f753746f" />
+        <classShapeMoniker Id="8a79db11-3998-4d98-b16d-e49d8c4e1026" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 7.68807592307692); (3.3125 : 7.12557592307692); (3.3125 : 3.96097184863281); (3.5 : 3.96097184863281)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+      <AssociationMoniker Name="/JumblistLinqtoSqlDataContext/Feed/Feed_Message" />
+      <nodes>
+        <classShapeMoniker Id="89af55d8-7a6d-4265-bb83-2293ecbcd144" />
+        <classShapeMoniker Id="8a79db11-3998-4d98-b16d-e49d8c4e1026" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(4.20923076923077 : 4.61462646484375); (4.20923076923077 : 4.86462646484375); (4.80461538461539 : 4.86462646484375); (4.80461538461539 : 4.61462646484375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/JumblistLinqtoSqlDataContext/Message/Message_Message" />
+      <nodes>
+        <classShapeMoniker Id="8a79db11-3998-4d98-b16d-e49d8c4e1026" />
+        <classShapeMoniker Id="8a79db11-3998-4d98-b16d-e49d8c4e1026" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 3.60798319498698); (3.04166666666667 : 3.60798319498698 : JumpStart); (3.20833333333333 : 3.60798319498698 : JumpEnd); (3.5 : 3.60798319498698)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/JumblistLinqtoSqlDataContext/MessageType/MessageType_Message" />
+      <nodes>
+        <classShapeMoniker Id="1ef52740-0165-4391-9efc-331ceb837f2a" />
+        <classShapeMoniker Id="8a79db11-3998-4d98-b16d-e49d8c4e1026" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
