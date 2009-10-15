@@ -4,8 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jumblist.Website", "Jumblis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jumblist.Tests", "Jumblist.Tests\Jumblist.Tests.csproj", "{269C053A-58FC-474C-A769-B238A0DCF9EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jumblist.LinqToSqlDataProvider", "Jumblist.LinqToSqlDataProvider\Jumblist.LinqToSqlDataProvider.csproj", "{76C522D6-431E-4408-B0F3-60A39E46EFFD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,10 +18,6 @@ Global
 		{269C053A-58FC-474C-A769-B238A0DCF9EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{269C053A-58FC-474C-A769-B238A0DCF9EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{269C053A-58FC-474C-A769-B238A0DCF9EA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{76C522D6-431E-4408-B0F3-60A39E46EFFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{76C522D6-431E-4408-B0F3-60A39E46EFFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{76C522D6-431E-4408-B0F3-60A39E46EFFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{76C522D6-431E-4408-B0F3-60A39E46EFFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

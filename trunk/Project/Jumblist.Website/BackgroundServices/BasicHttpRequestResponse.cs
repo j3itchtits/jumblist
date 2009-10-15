@@ -8,7 +8,7 @@ using System.Text;
 using System.Collections.Specialized;
 using System.Collections;
 
-namespace Jumblist.Website.Helpers
+namespace Jumblist.Website.BackgroundServices
 {
     public class BasicHttpRequestResponse
     {
@@ -47,16 +47,19 @@ namespace Jumblist.Website.Helpers
             string ifModifiedSince = "arse";
             string responseDate = string.Empty;
 
+            NetworkCredential creds = new NetworkCredential( UserName, Password );
+            CredentialCache credCache = new CredentialCache();
+            // Cached credentials can only be used when requested by
+            // specific URLs and authorization schemes
+            credCache.Add( new Uri( _url ), "Basic", creds );
+
+
             var request = WebRequest.Create( _url ) as HttpWebRequest;
 
             //request.Timeout = 1000;
             //request.Headers[HttpRequestHeader.IfNoneMatch] = eTag;
             //request.IfModifiedSince = DateTime.Now.AddHours( -1 );
-
-            //request.Credentials = new NetworkCredential( "noostu", "edinburgh" );
-            CredentialCache wrCache = new CredentialCache();
-            wrCache.Add( new Uri( _url ), "Digest", new NetworkCredential( UserName, Password ) );
-            request.Credentials = wrCache;
+            request.Credentials = credCache;
             request.PreAuthenticate = true;
 
             //request.AllowAutoRedirect = true;
