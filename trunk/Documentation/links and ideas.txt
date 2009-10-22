@@ -30,7 +30,5 @@ http://my.freecycle.org/login?redirect=%2Fhome%2F
 Freecycle UK split news article
 http://www.guardian.co.uk/environment/green-living-blog/2009/sep/10/uk-freecycle-us-network
 
-Hacking Yahoo Groups
-http://books.google.co.uk/books?id=4M2wlXE0oCsC&dq=Spidering+Hacks&printsec=frontcover&source=bl&ots=xWgNxs3Tuk&sig=2voeqMyl4yhAqZqHWJViG84ZGs0&hl=en&ei=MBKmSrf5K8mfjAesqsnDDg&sa=X&oi=book_result&ct=result&resnum=2#v=onepage&q=&f=false
 
-margin: -5px -5px 5px; padding: 5px 5px 1px; background-color: rgb(221, 221, 221);
+
