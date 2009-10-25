@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jumblist.Website", "Jumblis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jumblist.Tests", "Jumblist.Tests\Jumblist.Tests.csproj", "{269C053A-58FC-474C-A769-B238A0DCF9EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jumblist.Model", "Jumblist.Model\Jumblist.Model.csproj", "{714965B2-1CDB-440B-B8D3-33E59256A665}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jumblist.Services", "Jumblist.Services\Jumblist.Services.csproj", "{9E4A685D-78BF-4401-9007-803FB54B131B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +22,14 @@ Global
 		{269C053A-58FC-474C-A769-B238A0DCF9EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{269C053A-58FC-474C-A769-B238A0DCF9EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{269C053A-58FC-474C-A769-B238A0DCF9EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{714965B2-1CDB-440B-B8D3-33E59256A665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{714965B2-1CDB-440B-B8D3-33E59256A665}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{714965B2-1CDB-440B-B8D3-33E59256A665}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{714965B2-1CDB-440B-B8D3-33E59256A665}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E4A685D-78BF-4401-9007-803FB54B131B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E4A685D-78BF-4401-9007-803FB54B131B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E4A685D-78BF-4401-9007-803FB54B131B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E4A685D-78BF-4401-9007-803FB54B131B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
