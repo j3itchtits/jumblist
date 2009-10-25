@@ -1,0 +1,34 @@
+The Big Picture
+
+http://gettingreal.37signals.com
+
+1. 1 point plan
+
+Jumblist: Easy freecycling
+
+2. Features
+
+Search by type
+Search by tag
+Search by location
+Lists by type
+Lists by tag
+Lists by location
+Individual posts categorised by rank, time, type, tag - with maps (location)
+Admin area
+
+3. Interface
+
+4. Infrastructure
+
+ASP.NET MVC
+Castle Windsor
+N2 CMS
+Spark View Engine
+SolrNet Search Engine
+NHibernate ??
+LAF
+
+
+
+
