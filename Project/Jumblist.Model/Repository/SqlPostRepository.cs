@@ -19,9 +19,36 @@ namespace Jumblist.Model.Repository
 
         #region IPostRepository Members
 
-        public IQueryable<Post> PostList
+        public IQueryable<Post> SelectPosts()
         {
-            get { return postTable; }
+            return postTable;
+        }
+
+        public IQueryable<Post> SelectPostsByCategory(int postCategoryId)
+        {
+            return postTable;
+            //var posts = from post in SelectPosts()
+
+        }
+
+        public Post GetPost(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Add(Post post)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(Post post)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Save()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -8,6 +8,18 @@ namespace Jumblist.Model.Abstract
 {
     public interface IPostRepository
     {
-        IQueryable<Post> PostList { get; }
+        //Query Lists
+        IQueryable<Post> SelectPosts();
+        IQueryable<Post> SelectPostsByCategory( int postCategoryId );
+
+        //Query Item
+        Post SelectPost(int id);
+
+        // Insert/Delete
+        void Add(Post post);
+        void Delete(Post post);
+
+        // Persistence
+        void Save();
     }
 }

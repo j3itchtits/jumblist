@@ -3,3 +3,8 @@ D:\Projects\Websites\Jumblist\Project\Jumblist.Services\bin\Debug\Jumblist.Servi
 D:\Projects\Websites\Jumblist\Project\Jumblist.Services\obj\Debug\ResolveAssemblyReference.cache
 D:\Projects\Websites\Jumblist\Project\Jumblist.Services\obj\Debug\Jumblist.Services.dll
 D:\Projects\Websites\Jumblist\Project\Jumblist.Services\obj\Debug\Jumblist.Services.pdb
+C:\Projects\Websites\Jumblist\Project\Jumblist.Services\bin\Debug\Jumblist.Services.dll
+C:\Projects\Websites\Jumblist\Project\Jumblist.Services\bin\Debug\Jumblist.Services.pdb
+C:\Projects\Websites\Jumblist\Project\Jumblist.Services\obj\Debug\ResolveAssemblyReference.cache
+C:\Projects\Websites\Jumblist\Project\Jumblist.Services\obj\Debug\Jumblist.Services.dll
+C:\Projects\Websites\Jumblist\Project\Jumblist.Services\obj\Debug\Jumblist.Services.pdb

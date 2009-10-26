@@ -30,7 +30,7 @@ namespace Jumblist.Website.Controllers
 
         public ActionResult List()
         {
-            return View( postRespository.PostList.ToList() );
+            return View(postRespository.SelectPosts().ToList());
         }
 
     }
