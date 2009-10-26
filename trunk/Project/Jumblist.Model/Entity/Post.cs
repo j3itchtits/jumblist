@@ -9,31 +9,40 @@ namespace Jumblist.Model.Entity
     [Table(Name="Posts")]
     public class Post
     {
-        [Column(IsPrimaryKey=true,IsDbGenerated=true,AutoSync=AutoSync.OnInsert)]
-        public int Id { get; set; }
+        [Column( IsPrimaryKey=true, IsDbGenerated=true, AutoSync=AutoSync.OnInsert )]
+        public int PostId { get; set; }
 
-        [Column]
+        [Column( Name="PostParentId") ]
         public int ParentId { get; set; }
 
-        [Column]
+        [Column( Name = "PostUrl" )]
         public string Url { get; set; }
 
-        [Column]
+        [Column( Name = "PostTitle" )]
         public string Title { get; set; }
 
-        [Column]
+        [Column( Name = "PostBody" )]
         public string Body { get; set; }
 
-        [Column]
+        [Column( Name = "PostDateTime" )]
         public DateTime DateTime { get; set; }
 
-        [Column]
+        [Column( Name = "PostCategoryId" )]
+        public int CategoryId { get; set; }
+
+        [Column( Name = "PostLatitude" )]
         public double Latitude { get; set; }
 
-        [Column]
+        [Column( Name = "PostLongitude" )]
         public double Longitude { get; set; }
 
-        [Column]
+        [Column( Name = "PostDisplay" )]
         public bool Display { get; set; }
+
+        [Column]
+        public int AuthorId { get; set; }
+
+        [Column]
+        public int FeedId { get; set; }
     }
 }
