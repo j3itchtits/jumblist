@@ -7,22 +7,22 @@ using Jumblist.Model.Entity;
 
 namespace Jumblist.Model.Repository
 {
-    public class FakePostRepository : IPostRepository
+    public class FakePostRepository
     {
 
         #region IPostRepository Members
 
-        public IQueryable<Post> PostList
+        public IQueryable<Post> SelectPosts()
         {
-            get { return FakePosts(); }
+            return FakePosts();
         }
 
         private IQueryable<Post> FakePosts()
         {
             return new List<Post> { 
-                new Post { PostTitle = "First Post", PostUrl = "http://www.jumblist.com/first" },
-                new Post { PostTitle = "Second Post", PostUrl = "http://www.jumblist.com/second" },
-                new Post { PostTitle = "Third Post", PostUrl = "http://www.jumblist.com/thrid" }
+                new Post { Title = "First Post", Url = "http://www.jumblist.com/first" },
+                new Post { Title = "Second Post", Url = "http://www.jumblist.com/second" },
+                new Post { Title = "Third Post", Url = "http://www.jumblist.com/thrid" }
             }.AsQueryable();
         }
 

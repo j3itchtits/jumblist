@@ -10,30 +10,30 @@ namespace Jumblist.Model.Entity
     public class Post
     {
         [Column(IsPrimaryKey=true,IsDbGenerated=true,AutoSync=AutoSync.OnInsert)]
-        public int PostId { get; set; }
+        public int Id { get; set; }
 
         [Column]
-        public int PostParentId { get; set; }
+        public int ParentId { get; set; }
 
         [Column]
-        public string PostUrl { get; set; }
+        public string Url { get; set; }
 
         [Column]
-        public string PostTitle { get; set; }
+        public string Title { get; set; }
 
-        //[Column]
-        //public string PostBody { get; set; }
+        [Column]
+        public string Body { get; set; }
 
-        //[Column]
-        //public DateTime PostDateTime { get; set; }
+        [Column]
+        public DateTime DateTime { get; set; }
 
-        //[Column]
-        //public float PostLatitude { get; set; }
+        [Column]
+        public double Latitude { get; set; }
 
-        //[Column]
-        //public float PostLongitude { get; set; }
+        [Column]
+        public double Longitude { get; set; }
 
-        //[Column]
-        //public bool PostDisplay { get; set; }
+        [Column]
+        public bool Display { get; set; }
     }
 }
