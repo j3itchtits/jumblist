@@ -10,38 +10,38 @@ namespace Jumblist.Model.Repository
 {
     public class SqlPostRepository : IPostRepository
     {
-        private Table<Post> postTable;
+        private DataContext dataContext;
 
         public SqlPostRepository( string connectionString )
         {
-            postTable = (new DataContext(connectionString)).GetTable<Post>();
+            dataContext = new DataContext( connectionString );
         }
 
         #region IPostRepository Members
 
         public IQueryable<Post> SelectPosts()
         {
-            return postTable;
+            return dataContext.GetTable<Post>();
         }
 
-        public IQueryable<Post> SelectPostsByCategory(int postCategoryId)
+        public IQueryable<Post> SelectPostsByCategory( int categoryId )
         {
-            return postTable;
-            //var posts = from post in SelectPosts()
-
+            return from post in SelectPosts()
+                   where post.CategoryId == categoryId
+                   select post;
         }
 
-        public Post GetPost(int id)
+        public Post SelectPost( int postId )
+        {
+            return SelectPosts().SingleOrDefault( post => post.PostId == postId );
+        }
+
+        public void Add( Post post )
         {
             throw new NotImplementedException();
         }
 
-        public void Add(Post post)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(Post post)
+        public void Delete( Post post )
         {
             throw new NotImplementedException();
         }
