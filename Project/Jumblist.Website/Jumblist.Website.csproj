@@ -75,7 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\PostController.cs" />
+    <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -93,6 +93,7 @@
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Views\Home\Index.aspx" />
+    <Content Include="Views\Posts\Details.aspx" />
     <Content Include="Views\Posts\Index.aspx" />
     <Content Include="Views\Posts\List.ascx" />
     <Content Include="Views\Posts\Tag.aspx" />

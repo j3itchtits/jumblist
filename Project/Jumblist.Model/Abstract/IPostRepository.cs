@@ -16,7 +16,8 @@ namespace Jumblist.Model.Abstract
         IQueryable<Post> SelectPostsByTagLocation(string tagName, float latitude, float longitude, int distance);
 
         //Query Item
-        Post SelectPost(int id);
+        Post SelectPost( int id );
+        Post SelectPost( string name );
 
         // Insert/Delete
         void Add(Post post);
@@ -24,5 +25,7 @@ namespace Jumblist.Model.Abstract
 
         // Persistence
         void Save();
+
+        
     }
 }

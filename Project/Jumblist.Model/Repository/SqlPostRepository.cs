@@ -58,6 +58,11 @@ namespace Jumblist.Model.Repository
             return dataContext.Posts.SingleOrDefault(post => post.PostId == postId);
         }
 
+        public Post SelectPost( string title )
+        {
+            return dataContext.Posts.SingleOrDefault( post => post.Title == title );
+        }
+
         public void Add( Post post )
         {
             throw new NotImplementedException();
