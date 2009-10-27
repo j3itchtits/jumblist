@@ -10,27 +10,30 @@ using System.Configuration;
 
 namespace Jumblist.Website.Controllers
 {
-    public class PostController : Controller
+    public class PostsController : Controller
     {
         private IPostRepository postRespository;
 
-        public PostController()
+        public PostsController()
         {
             postRespository = new SqlPostRepository( ConfigurationManager.ConnectionStrings["JumblistDatabaseConnectionString"].ConnectionString );
             //postRespository = new FakePostRepository();
         }
 
         //
-        // GET: /Post/
+        // GET: /Posts/
 
         public ActionResult Index()
         {
-            return View();
+            return View(postRespository.SelectPosts().ToList());
         }
 
-        public ActionResult List()
+        //
+        // GET: /Posts/Tag/[tagName]
+
+        public ActionResult Tag( string tagName )
         {
-            return View(postRespository.SelectPosts().ToList());
+            return View(postRespository.SelectPostsByTag(tagName).ToList());
         }
 
     }
