@@ -25,7 +25,7 @@ namespace Jumblist.Website
 
             foreach (var t in controllerTypes)
             {
-                container.AddComponentLifeStyle(t.FullName, t, LifestyleType.Transient);
+                container.AddComponentWithLifestyle(t.FullName, t, LifestyleType.Transient);
             }
         }
     }
