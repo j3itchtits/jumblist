@@ -90,11 +90,6 @@
     <Compile Include="WindsorControllerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\JumblistDatabase.mdf">
-    </Content>
-    <Content Include="App_Data\JumblistDatabase_log.ldf">
-      <DependentUpon>JumblistDatabase.mdf</DependentUpon>
-    </Content>
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Views\Home\Index.aspx" />
@@ -123,6 +118,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="Content\" />
     <Folder Include="Helpers\" />
   </ItemGroup>
