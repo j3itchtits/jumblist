@@ -49,7 +49,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IPostRepository.cs" />
+    <Compile Include="Entity\JumblistDataContext.cs" />
+    <Compile Include="Entity\NearestPostResult.cs" />
     <Compile Include="Entity\Post.cs" />
+    <Compile Include="Entity\PostTag.cs" />
+    <Compile Include="Entity\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\FakePostRepository.cs" />
     <Compile Include="Repository\SqlPostRepository.cs" />
