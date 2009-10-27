@@ -16,7 +16,7 @@ namespace Jumblist.Website.Controllers
 
         public PostsController()
         {
-            postRespository = new SqlPostRepository( ConfigurationManager.ConnectionStrings["JumblistDatabaseConnectionString"].ConnectionString );
+            postRespository = new SqlPostRepository( ConfigurationManager.ConnectionStrings["ApplicationServices"].ConnectionString );
             //postRespository = new FakePostRepository();
         }
 
