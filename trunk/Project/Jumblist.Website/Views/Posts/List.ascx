@@ -4,7 +4,7 @@
 <% foreach ( var post in Model )
    { %>
         <tr class="item">
-            <td><%= post.Title %></td>      
+            <td><%= Html.ActionLink( post.Title, "Details", new { id = post.PostId } ) %></td>   
             <td><%= post.Url %></td>      
             <td><%= post.Body %></td>  
             <td><%= post.DateTime.ToShortDateString() %></td>
