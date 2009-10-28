@@ -17,22 +17,19 @@ namespace Jumblist.Website
             routes.IgnoreRoute( "{resource}.axd/{*pathInfo}" );
 
             routes.MapRoute(
+                "Pages",                                              // Route name
+                "{action}",                           // URL with parameters
+                new { controller = "Pages", action = "Index", id = "" }  // Parameter defaults
+            );
+
+            routes.MapRoute(
                 "Default",                                              // Route name
                 "{controller}/{action}/{id}",                           // URL with parameters
-                new { controller = "Home", action = "Index", id = "" }  // Parameter defaults
+                new { controller = "", action = "", id = "" }  // Parameter defaults
             );
 
-            routes.MapRoute(
-                "SinglePage",                                              // Route name
-                "{action}/{id}",                           // URL with parameters
-                new { controller = "Home", action = "Index", id = "" }  // Parameter defaults
-            );
 
-            routes.MapRoute(
-                "Item",                                              // Route name
-                "{controller}/{id}",                           // URL with parameters
-                new { controller = "Post", action = "Item", id = "" }  // Parameter defaults
-            );
+
 
         }
 

@@ -8,6 +8,11 @@
 
 <body>
     <div class="container">
+
+        <%= Html.RouteLink( "Home", "Pages", new { action = "Index" } )%> | 
+        <%= Html.RouteLink( "About", "Pages", new { action = "About" } )%> | 
+        <%= Html.RouteLink( "Help", "Pages", new { action = "Help" } )%> | 
+        
         <asp:ContentPlaceHolder ID="MainContent" runat="server" />
     </div>
 </body>
