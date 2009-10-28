@@ -92,6 +92,8 @@
   <ItemGroup>
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Views\Home\About.aspx" />
+    <Content Include="Views\Home\Help.aspx" />
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Posts\Details.aspx" />
     <Content Include="Views\Posts\Index.aspx" />

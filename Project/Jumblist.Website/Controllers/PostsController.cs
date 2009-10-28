@@ -51,15 +51,14 @@ namespace Jumblist.Website.Controllers
 
         // HTTP-GET: /Posts/Details/[name]
 
-        public ActionResult Details2( string name )
+        public ActionResult Item( string name )
         {
-            ViewData["PageTitle"] = "Details";
             var model = postRespository.SelectPost( name );
 
             if (model == null)
                 return View( "NotFound" );
             else
-                return View( "Details", model );
+                return View("Item", model);
         }
     }
 }

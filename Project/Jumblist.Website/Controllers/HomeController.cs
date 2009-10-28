@@ -17,5 +17,15 @@ namespace Jumblist.Website.Controllers
             return View();
         }
 
+        public ActionResult About()
+        {
+            return View();
+        }
+
+        public ActionResult Help()
+        {
+            return View();
+        }
+
     }
 }

@@ -22,6 +22,18 @@ namespace Jumblist.Website
                 new { controller = "Home", action = "Index", id = "" }  // Parameter defaults
             );
 
+            routes.MapRoute(
+                "SinglePage",                                              // Route name
+                "{action}/{id}",                           // URL with parameters
+                new { controller = "Home", action = "Index", id = "" }  // Parameter defaults
+            );
+
+            routes.MapRoute(
+                "Item",                                              // Route name
+                "{controller}/{id}",                           // URL with parameters
+                new { controller = "Post", action = "Item", id = "" }  // Parameter defaults
+            );
+
         }
 
         protected void Application_Start()
