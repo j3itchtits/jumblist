@@ -20,25 +20,36 @@ namespace Jumblist.Website.Controllers
             this.postRespository = postRespository;
         }
 
+        public int PageSize { get; set; }
+
         //
         // GET: /Posts/
 
-        public ActionResult Index()
+        public ViewResult List( int? id )
         {
-            return View(postRespository.SelectPosts().ToList());
+            PageSize = 3;
+            if (id == null) id = 1;
+
+            var postList = postRespository.SelectPosts();
+            int totalNumberOfPosts = postList.Count();
+
+            ViewData["TotalPages"] = totalNumberOfPosts / PageSize;
+            ViewData["CurrentPage"] = id;
+
+            return View( postList.Skip( ( (int)id - 1 ) * PageSize ).Take( PageSize ).ToList() );
         }
 
         //
         // GET: /Posts/Tag/[tagName]
 
-        public ActionResult Tag( string tagName )
+        public ViewResult Tag( string tagName )
         {
             return View(postRespository.SelectPostsByTag(tagName).ToList());
         }
 
         // HTTP-GET: /Posts/Details/[id]
 
-        public ActionResult Details( int id )
+        public ViewResult Details( int id )
         {
             ViewData["PageTitle"] = "Details";
             var model = postRespository.SelectPost( id );
@@ -51,7 +62,7 @@ namespace Jumblist.Website.Controllers
 
         // HTTP-GET: /Posts/Details/[name]
 
-        public ActionResult Item( string name )
+        public ViewResult Item( string name )
         {
             var model = postRespository.SelectPost( name );
 

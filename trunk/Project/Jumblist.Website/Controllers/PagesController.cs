@@ -7,8 +7,10 @@ using System.Web.Mvc.Ajax;
 
 namespace Jumblist.Website.Controllers
 {
-    public class HomeController : Controller
+    public class PagesController : Controller
     {
+        
+
         //
         // GET: /Home/
 

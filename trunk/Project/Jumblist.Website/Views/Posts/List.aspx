@@ -8,6 +8,8 @@
 
     <h2>All Posts</h2>
     
-    <% Html.RenderPartial( "List", Model ); %>
+    <% Html.RenderPartial( "ListPosts", Model ); %>
 
+    <%= Html.PagingLinks( (int)ViewData["CurrentPage"], (int)ViewData["TotalPages"], x => Url.Action("List", new { id = x } ) ) %>
+    
 </asp:Content>

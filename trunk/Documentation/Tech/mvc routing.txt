@@ -1,0 +1,21 @@
+Jumblist Routing
+
+/ 																					page				index
+/about																			page				about
+
+/posts/list																	posts				list
+/posts/list/2																posts				list							2
+/posts/tagged/fridge-freezer								posts				tagged						fridge-freezer
+/posts/tagged/fridge-freezer/2							posts				tagged						fridge-freezer					2
+/posts/tagged/fridge-freezer+desk						posts				tagged						"fridge-freezer desk"
+/posts/location/tn33												posts				location					tn33
+/posts/taggedlocation/fridge/tn33						posts				taggedlocation		fridge									tn33
+/tags/list																	tags				list
+/locations/list															locations		list
+/authors/list																authors			list
+
+
+/posts/197191/wanted-fridge									posts				details						197191									wanted-fridge
+
+
+/search?q=sellotape+bmw+scarf								search			results						"sellotape bmw scarf"	
