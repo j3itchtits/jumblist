@@ -7,12 +7,14 @@ using System.Web.Mvc.Ajax;
 using Jumblist.Model.Abstract;
 using Jumblist.Model.Repository;
 using System.Configuration;
+using Jumblist.Model.Entity;
+using Jumblist.Website.Helpers;
 
 namespace Jumblist.Website.Controllers
 {
     public class PostsController : Controller
     {
-
+        private int pageSize = 3;
         private IPostRepository postRespository;
 
         public PostsController( IPostRepository postRespository )
@@ -20,23 +22,33 @@ namespace Jumblist.Website.Controllers
             this.postRespository = postRespository;
         }
 
-        public int PageSize { get; set; }
+        public int PageSize 
+        {
+            get { return pageSize; }
+            set { pageSize = value; } 
+        }
 
         //
         // GET: /Posts/
 
         public ViewResult List( int? id )
         {
-            PageSize = 3;
             if (id == null) id = 1;
 
             var postList = postRespository.SelectPosts();
-            int totalNumberOfPosts = postList.Count();
 
-            ViewData["TotalPages"] = totalNumberOfPosts / PageSize;
-            ViewData["CurrentPage"] = id;
+            var pagedPostList = new PaginatedList<Post>(postList, (id ?? 0), PageSize);
 
-            return View( postList.Skip( ( (int)id - 1 ) * PageSize ).Take( PageSize ).ToList() );
+            return View(pagedPostList);
+
+
+
+            //int totalNumberOfPosts = postList.Count();
+
+            //ViewData["TotalPages"] = (int)Math.Ceiling(totalNumberOfPosts / (double)PageSize);
+            //ViewData["CurrentPage"] = id;
+
+            //return View( postList.Skip( ( (int)id - 1 ) * PageSize ).Take( PageSize ).ToList() );
         }
 
         //
