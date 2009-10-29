@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
-using Jumblist.Model.Abstract;
+using Jumblist.Model.Interface;
 using Jumblist.Model.Repository;
 using System.Configuration;
 using Jumblist.Model.Entity;
@@ -29,42 +29,51 @@ namespace Jumblist.Website.Controllers
         }
 
         //
-        // GET: /Posts/
+        // GET: /Posts/List/[parameter1]
 
-        public ViewResult List( int? id )
+        public ViewResult List( int? parameter1 )
         {
-            if (id == null) id = 1;
-
             var postList = postRespository.SelectPosts();
 
-            var pagedPostList = new PaginatedList<Post>(postList, (id ?? 0), PageSize);
+            var pagedPostList = new PaginatedList<Post>( postList, (parameter1 ?? 1), PageSize );
 
             return View(pagedPostList);
 
-
-
-            //int totalNumberOfPosts = postList.Count();
-
-            //ViewData["TotalPages"] = (int)Math.Ceiling(totalNumberOfPosts / (double)PageSize);
-            //ViewData["CurrentPage"] = id;
-
-            //return View( postList.Skip( ( (int)id - 1 ) * PageSize ).Take( PageSize ).ToList() );
         }
+
 
         //
-        // GET: /Posts/Tag/[tagName]
+        // GET: /Posts/Tagged/[parameter1]/[parameter2]
 
-        public ViewResult Tag( string tagName )
+        public ViewResult Tagged( string parameter1, int? parameter2 )
         {
-            return View(postRespository.SelectPostsByTag(tagName).ToList());
+            var postList = postRespository.SelectPostsByTag( parameter1 );
+
+            var pagedPostList = new PaginatedList<Post>( postList, (parameter2 ?? 1), PageSize );
+
+            return View( pagedPostList );
         }
 
-        // HTTP-GET: /Posts/Details/[id]
 
-        public ViewResult Details( int id )
+        //
+        // GET: /Posts/Location/[parameter1]/[parameter2]
+
+        public ViewResult Location( string parameter1, int? parameter2 )
+        {
+            var postList = postRespository.SelectPostsByLocation( parameter1 );
+
+            var pagedPostList = new PaginatedList<Post>( postList, (parameter2 ?? 1), PageSize );
+
+            return View( pagedPostList );
+        }
+
+
+        // HTTP-GET: /Post/[id]/[name]
+
+        public ViewResult Details( int? id, string name )
         {
             ViewData["PageTitle"] = "Details";
-            var model = postRespository.SelectPost( id );
+            var model = postRespository.SelectPost( (id ?? 1) );
 
             if (model == null)
                 return View( "NotFound" );
@@ -72,16 +81,7 @@ namespace Jumblist.Website.Controllers
                 return View( "Details", model );
         }
 
-        // HTTP-GET: /Posts/Details/[name]
 
-        public ViewResult Item( string name )
-        {
-            var model = postRespository.SelectPost( name );
 
-            if (model == null)
-                return View( "NotFound" );
-            else
-                return View("Item", model);
-        }
     }
 }

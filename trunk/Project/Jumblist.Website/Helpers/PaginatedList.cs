@@ -18,14 +18,14 @@ namespace Jumblist.Website.Helpers
             PageSize = pageSize;
             TotalCount = source.Count();
             TotalPages = (int)Math.Ceiling(TotalCount / (double)PageSize);
-            this.AddRange(source.Skip(CurrentPage * PageSize).Take(PageSize));
+            this.AddRange(source.Skip((CurrentPage - 1) * PageSize).Take(PageSize));
         }
 
         public bool HasPreviousPage
         {
             get
             {
-                return (CurrentPage > 0);
+                return ((CurrentPage - 1) > 0);
             }
         }
 
@@ -33,7 +33,7 @@ namespace Jumblist.Website.Helpers
         {
             get
             {
-                return (CurrentPage + 1 < TotalPages);
+                return (CurrentPage < TotalPages);
             }
         }
     }

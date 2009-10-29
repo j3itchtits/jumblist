@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Jumblist.Model.Abstract;
+using Jumblist.Model.Interface;
 using Jumblist.Model.Entity;
 using System.Data.Linq;
 
 namespace Jumblist.Model.Repository
 {
-    public class SqlPostRepository : IPostRepository
+    public class PostRepository : IPostRepository
     {
         private JumblistDataContext dataContext;
 
-        public SqlPostRepository( string connectionString )
+        public PostRepository( string connectionString )
         {
             dataContext = new JumblistDataContext(connectionString);
         }
@@ -36,6 +36,15 @@ namespace Jumblist.Model.Repository
             return from p in dataContext.Posts
                    join loc in dataContext.NearestPosts(latitude, longitude, distance)
                    on p.PostId equals loc.PostId
+                   select p;
+        }
+
+        public IQueryable<Post> SelectPostsByLocation( string locationName )
+        {
+            return from p in dataContext.Posts
+                   join pl in dataContext.PostLocations on p.PostId equals pl.PostId
+                   join l in dataContext.Locations on pl.LocationId equals l.LocationId
+                   where l.Name == locationName
                    select p;
         }
 
