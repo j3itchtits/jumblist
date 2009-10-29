@@ -14,17 +14,17 @@ namespace Jumblist.Website.Controllers
         //
         // GET: /Home/
 
-        public ActionResult Index()
+        public ViewResult Index()
         {
             return View();
         }
 
-        public ActionResult About()
+        public ViewResult About()
         {
             return View();
         }
 
-        public ActionResult Help()
+        public ViewResult Help()
         {
             return View();
         }
