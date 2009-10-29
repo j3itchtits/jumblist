@@ -48,15 +48,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IPostRepository.cs" />
+    <Compile Include="Entity\Location.cs" />
+    <Compile Include="Entity\PostLocation.cs" />
+    <Compile Include="Interface\ILocationRepository.cs" />
+    <Compile Include="Interface\IPostRepository.cs" />
     <Compile Include="Entity\JumblistDataContext.cs" />
     <Compile Include="Entity\NearestPostResult.cs" />
     <Compile Include="Entity\Post.cs" />
     <Compile Include="Entity\PostTag.cs" />
     <Compile Include="Entity\Tag.cs" />
+    <Compile Include="Interface\ITagRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\FakePostRepository.cs" />
-    <Compile Include="Repository\SqlPostRepository.cs" />
+    <Compile Include="Repository\LocationRepository.cs" />
+    <Compile Include="Repository\PostRepository.cs" />
+    <Compile Include="Repository\TagRepository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

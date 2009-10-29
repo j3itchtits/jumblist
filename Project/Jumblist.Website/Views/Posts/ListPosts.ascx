@@ -1,10 +1,11 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<IEnumerable<Jumblist.Model.Entity.Post>>" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<Jumblist.Website.Helpers.PaginatedList<Jumblist.Model.Entity.Post>>" %>
 
 <table cellpadding="5">
 <% foreach ( var post in Model )
    { %>
         <tr class="item">
-            <td><%= Html.ActionLink( post.Title, "Details", new { id = post.PostId } ) %></td>   
+            <td><%= Html.RouteLink( post.Title, "Detail", new { id = post.PostId, name = Url.ToFriendlyUrl( post.Title ) } )%></td>  
+          
             <td><%= post.Url %></td>      
             <td><%= post.Body %></td>  
             <td><%= post.DateTime.ToShortDateString() %></td>

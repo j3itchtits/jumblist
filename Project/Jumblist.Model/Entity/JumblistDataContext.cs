@@ -32,11 +32,27 @@ namespace Jumblist.Model.Entity
             }
         }
 
+        public Table<PostLocation> PostLocations
+        {
+            get
+            {
+                return this.GetTable<PostLocation>();
+            }
+        }
+
         public Table<Tag> Tags
         {
             get
             {
                 return this.GetTable<Tag>();
+            }
+        }
+
+        public Table<Location> Locations
+        {
+            get
+            {
+                return this.GetTable<Location>();
             }
         }
 
