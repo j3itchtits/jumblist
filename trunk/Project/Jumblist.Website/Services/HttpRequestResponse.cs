@@ -7,7 +7,7 @@ using System.Collections.Specialized;
 using System.Text;
 using System.IO;
 
-namespace Jumblist.Website.BackgroundServices
+namespace Jumblist.Website.Services
 {
     public class HttpRequestResponse
     {

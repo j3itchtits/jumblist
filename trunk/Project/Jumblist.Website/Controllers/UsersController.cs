@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using System.Web.Security;
-using Jumblist.Website.BackgroundServices.Authentication;
+using Jumblist.Website.Services.Authentication;
 
 namespace Jumblist.Website.Controllers
 {

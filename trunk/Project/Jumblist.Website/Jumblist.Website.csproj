@@ -74,8 +74,6 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackgroundServices\Authentication\FormsAuthenticationService.cs" />
-    <Compile Include="BackgroundServices\Authentication\IFormsAuthentication.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\PagesController.cs" />
@@ -89,13 +87,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="BackgroundServices\BasicHttpRequestResponse.cs" />
-    <Compile Include="BackgroundServices\HttpRequestResponse.cs" />
-    <Compile Include="BackgroundServices\PollingService.cs" />
     <Compile Include="Helpers\PaginatedList.cs" />
     <Compile Include="Helpers\PagingLinksHelper.cs" />
     <Compile Include="Helpers\UrlEncoderHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Authentication\FormsAuthenticationService.cs" />
+    <Compile Include="Services\Authentication\IFormsAuthentication.cs" />
+    <Compile Include="Services\BasicHttpRequestResponse.cs" />
+    <Compile Include="Services\HttpRequestResponse.cs" />
+    <Compile Include="Services\PollingService.cs" />
     <Compile Include="WindsorControllerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
