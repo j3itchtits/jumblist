@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.Linq.Mapping;
+using System.Data.Linq;
 
 namespace Jumblist.Model.Entity
 {
@@ -20,5 +21,17 @@ namespace Jumblist.Model.Entity
 
         [Column( Name = "LocationCategoryId" )]
         public int CategoryId { get; set; }
+
+        private EntityRef<LocationCategory> locationCategory;
+
+        [Association( Name = "FK_Locations_LocationCategories", Storage = "locationCategory", ThisKey = "CategoryId", OtherKey = "LocationCategoryId", IsForeignKey = true )]
+        public LocationCategory Category
+        {
+            get
+            {
+                return locationCategory.Entity;
+            }
+        }
+
     }
 }

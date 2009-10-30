@@ -74,10 +74,14 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackgroundServices\Authentication\FormsAuthenticationService.cs" />
+    <Compile Include="BackgroundServices\Authentication\IFormsAuthentication.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\PagesController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -97,6 +101,7 @@
   <ItemGroup>
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Views\Admin\Home.aspx" />
     <Content Include="Views\Locations\List.aspx" />
     <Content Include="Views\Locations\ListLocations.ascx" />
     <Content Include="Views\Pages\About.aspx" />
@@ -107,8 +112,10 @@
     <Content Include="Views\Posts\ListPosts.ascx" />
     <Content Include="Views\Posts\Location.aspx" />
     <Content Include="Views\Posts\Tagged.aspx" />
+    <Content Include="Views\Shared\LogOnUserControl.ascx" />
     <Content Include="Views\Tags\List.aspx" />
     <Content Include="Views\Tags\ListTags.ascx" />
+    <Content Include="Views\Users\Login.aspx" />
     <Content Include="Web.config" />
     <Content Include="Scripts\jquery-1.3.2.js" />
     <Content Include="Scripts\jquery-1.3.2.min.js" />

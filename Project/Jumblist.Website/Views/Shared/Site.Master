@@ -13,6 +13,8 @@
         <%= Html.RouteLink( "About", "pages", new { action = "about" } )%> | 
         <%= Html.RouteLink( "Help", "pages", new { action = "help" } )%> | 
         
+        <% Html.RenderPartial( "LogOnUserControl" ); %>
+                
         <asp:ContentPlaceHolder ID="MainContent" runat="server" />
     </div>
 </body>

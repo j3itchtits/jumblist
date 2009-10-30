@@ -31,13 +31,13 @@ namespace Jumblist.Website
             routes.MapRoute(
                 "Default2",                                              // Route name
                 "{controller}/{action}/{parameter1}/{parameter2}",                           // URL with parameters
-                new { controller = "", action = "", parameter1 = "", parameter2 = "" }  // Parameter defaults
+                new { controller = "", action = "index", parameter1 = "", parameter2 = "" }  // Parameter defaults
             );
 
             routes.MapRoute(
                 "Default",                                              // Route name
                 "{controller}/{action}/{parameter1}",                           // URL with parameters
-                new { controller = "", action = "", parameter1 = "" }  // Parameter defaults
+                new { controller = "", action = "index", parameter1 = "" }  // Parameter defaults
             );
 
 
