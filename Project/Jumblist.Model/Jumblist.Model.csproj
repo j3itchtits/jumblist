@@ -63,7 +63,7 @@
     <Compile Include="Repository\LocationRepository.cs" />
     <Compile Include="Repository\PostRepository.cs" />
     <Compile Include="Repository\TagRepository.cs" />
-    <Compile Include="Test.cs" />
+    <Compile Include="Repository\Testy.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
