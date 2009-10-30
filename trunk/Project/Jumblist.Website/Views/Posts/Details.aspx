@@ -9,7 +9,7 @@
     <h2><%= Model.Title %></h2>
     
     <table cellpadding="5">
-    <tr><td>Url: <%= Model.Url%></td> </tr>     
+    <tr><td>Url: <a href="<%= Model.Url%>" target="_blank">Yahoo</a> </td> </tr>     
     <tr><td>Body: <%= Model.Body%></td> </tr> 
     <tr><td>Date: <%= Model.DateTime.ToShortDateString()%></td></tr>
     <tr><td>Category: <%= Model.CategoryId%></td></tr>
