@@ -52,7 +52,7 @@
     <Compile Include="Entity\PostLocation.cs" />
     <Compile Include="Interface\ILocationRepository.cs" />
     <Compile Include="Interface\IPostRepository.cs" />
-    <Compile Include="Entity\JumblistDataContext.cs" />
+    <Compile Include="JumblistDataContext.cs" />
     <Compile Include="Entity\NearestPostResult.cs" />
     <Compile Include="Entity\Post.cs" />
     <Compile Include="Entity\PostTag.cs" />
