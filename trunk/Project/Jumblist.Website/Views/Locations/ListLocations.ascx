@@ -5,7 +5,7 @@
    { %>
         <tr class="item">
             <td><%= Html.ActionLink( location.Name, "location", "posts", new { parameter1 = Url.ToFriendlyUrl( location.Name ) }, null )%></td>
-             
+            <td><%= location.Category.Name %></td> 
         </tr>            
 <% } %>
 </table>

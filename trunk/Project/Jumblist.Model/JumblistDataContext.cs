@@ -57,6 +57,14 @@ namespace Jumblist.Model
             }
         }
 
+        public Table<LocationCategory> LocationCategories
+        {
+            get
+            {
+                return this.GetTable<LocationCategory>();
+            }
+        }
+
         [Function(Name = "dbo.NearestPosts", IsComposable = true)]
         public IQueryable<NearestPostsResult> NearestPosts([Parameter(DbType = "Real")] System.Nullable<float> lat, [Parameter(Name = "long", DbType = "Real")] System.Nullable<float> @long, [Parameter(DbType = "Real")] System.Nullable<int> distance)
         {
