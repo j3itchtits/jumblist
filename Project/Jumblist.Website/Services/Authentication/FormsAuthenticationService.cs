@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Security;
 
-namespace Jumblist.Website.BackgroundServices.Authentication
+namespace Jumblist.Website.Services.Authentication
 {
     public class FormsAuthenticationService : IFormsAuthentication
     {

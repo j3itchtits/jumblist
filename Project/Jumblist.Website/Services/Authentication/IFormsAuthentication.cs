@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Jumblist.Website.BackgroundServices.Authentication
+namespace Jumblist.Website.Services.Authentication
 {
     public interface IFormsAuthentication
     {

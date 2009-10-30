@@ -5,7 +5,7 @@ using System.Web;
 using System.Threading;
 using System.Data;
 
-namespace Jumblist.Website.BackgroundServices
+namespace Jumblist.Website.Services
 {
     public class PollingService : IHttpModule
     {
