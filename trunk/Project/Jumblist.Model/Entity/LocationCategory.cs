@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.Linq.Mapping;
+using System.Data.Linq;
 
 namespace Jumblist.Model.Entity
 {
@@ -14,5 +15,16 @@ namespace Jumblist.Model.Entity
 
         [Column( Name = "LocationCategoryName" )]
         public string Name { get; set; }
+
+        private EntitySet<Location> locations = new EntitySet<Location>();
+
+        [Association(Name = "FK_Locations_LocationCategories", Storage = "locations", ThisKey = "LocationCategoryId", OtherKey = "CategoryId", IsForeignKey = true)]
+        public IEnumerable<Location> Locations
+        {
+            get
+            {
+                return locations.AsEnumerable<Location>();
+            }
+        }
     }
 }
