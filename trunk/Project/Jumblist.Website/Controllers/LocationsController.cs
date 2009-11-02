@@ -14,10 +14,12 @@ namespace Jumblist.Website.Controllers
     {
         private int pageSize = 10;
         private ILocationRepository locationRepository;
+        private ILocationCategoryRepository locationCategoryRepository;
 
-        public LocationsController( ILocationRepository locationRepository )
+        public LocationsController( ILocationRepository locationRepository, ILocationCategoryRepository locationCategoryRepository )
         {
             this.locationRepository = locationRepository;
+            this.locationCategoryRepository = locationCategoryRepository;
         }
 
         public int PageSize
@@ -38,5 +40,25 @@ namespace Jumblist.Website.Controllers
             return View( pagedLocationList );
         }
 
+        //
+        // GET: /Locations/Categories
+
+        public ViewResult Categories()
+        {
+            var locationCategoryList = locationCategoryRepository.SelectLocationCategories();
+
+            return View( locationCategoryList );
+        }
+
+        //
+        // GET: /Locations/Category/[parameter1]
+
+        public ViewResult Category( string parameter1 )
+        {
+            //var locationList = locationRepository.SelectLocationsByCategory( parameter1 );
+            var locationCategory = locationCategoryRepository.SelectLocationCategory( parameter1 );
+
+            return View( locationCategory );
+        }
     }
 }

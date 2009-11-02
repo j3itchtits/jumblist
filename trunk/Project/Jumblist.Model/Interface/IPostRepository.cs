@@ -9,8 +9,9 @@ namespace Jumblist.Model.Interface
     public interface IPostRepository
     {
         //Query Lists
+        IQueryable<Post> Posts { get; }
         IQueryable<Post> SelectPosts();
-        IQueryable<Post> SelectPostsByCategory( int postCategoryId );
+        IQueryable<Post> SelectPostsByCategory( int categoryId );
         IQueryable<Post> SelectPostsByLocation( float latitude, float longitude, int distance );
         IQueryable<Post> SelectPostsByLocation( string locationName );
         IQueryable<Post> SelectPostsByTag( string tagName );

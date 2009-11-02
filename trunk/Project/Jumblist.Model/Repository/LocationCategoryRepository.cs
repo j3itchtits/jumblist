@@ -18,19 +18,19 @@ namespace Jumblist.Model.Repository
 
         #region ILocationCategoryRepository Members
 
-        public IQueryable<LocationCategory> SelectLocationsCategories()
+        public IQueryable<LocationCategory> SelectLocationCategories()
         {
             return dataContext.LocationCategories;
         }
 
         public LocationCategory SelectLocationCategory( int id )
         {
-            throw new NotImplementedException();
+            return dataContext.LocationCategories.FirstOrDefault( category => category.LocationCategoryId == id );
         }
 
         public LocationCategory SelectLocationCategory( string name )
         {
-            throw new NotImplementedException();
+            return dataContext.LocationCategories.FirstOrDefault( category => category.Name == name );
         }
 
         public void Add( LocationCategory locationCategory )

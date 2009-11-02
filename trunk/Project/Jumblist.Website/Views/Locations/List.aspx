@@ -7,7 +7,18 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <h2>All Locations</h2>
-    
-    <% Html.RenderPartial( "ListLocations", Model ); %>
 
+    <% 
+        foreach ( var location in Model )
+        {
+            Html.RenderPartial( "LocationSummary", location );
+        }
+    %>
+    
+    
+
+    <p><%= Html.ActionLink( "Categories", "categories" ) %></p>
+    
+    <p>Filter by Categories: <% Html.RenderAction( "categories" ); %></p>
+    
 </asp:Content>

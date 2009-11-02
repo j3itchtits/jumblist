@@ -23,9 +23,23 @@ namespace Jumblist.Model.Repository
             return dataContext.Locations;
         }
 
+        public IQueryable<Location> SelectLocationsByCategory( int id )
+        {
+            return from l in dataContext.Locations
+                   where l.CategoryId == id
+                   select l;
+        }
+
+        public IQueryable<Location> SelectLocationsByCategory( string name )
+        {
+            return from l in dataContext.Locations
+                   where l.Category.Name == name
+                   select l;
+        }
+
         public Location SelectLocation( int id )
         {
-            return dataContext.Locations.FirstOrDefault( location => location.LocationId == id ); 
+            return dataContext.Locations.SingleOrDefault( location => location.LocationId == id ); 
         }
 
         public Location SelectLocation( string name )

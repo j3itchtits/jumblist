@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.Linq.Mapping;
+using System.Data.Linq;
 
 namespace Jumblist.Model.Entity
 {
     [Table(Name="Posts")]
     public class Post
     {
+        //private EntitySet<PostLocation> postLocations = new EntitySet<PostLocation>();
+        private EntityRef<PostCategory> postCategory;
+
         [Column( IsPrimaryKey=true, IsDbGenerated=true, AutoSync=AutoSync.OnInsert )]
         public int PostId { get; set; }
 
@@ -44,5 +48,17 @@ namespace Jumblist.Model.Entity
 
         [Column]
         public int FeedId { get; set; }
+
+        //[Association( Name = "FK_PostLocations_Posts", Storage = "postLocations", ThisKey = "PostId", OtherKey = "PostId", IsForeignKey = true )]
+        //public IQueryable<PostLocation> PostLocations
+        //{
+        //    get { return postLocations.AsQueryable<PostLocation>(); }
+        //}
+
+        [Association( Name = "FK_Posts_PostCategories", Storage = "postCategory", ThisKey = "CategoryId", OtherKey = "PostCategoryId", IsForeignKey = true )]
+        public PostCategory Category
+        {
+            get { return postCategory.Entity; }
+        }
     }
 }

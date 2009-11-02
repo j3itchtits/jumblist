@@ -28,18 +28,36 @@ namespace Jumblist.Website.Controllers
             set { pageSize = value; } 
         }
 
+
         //
         // GET: /Posts/List/[parameter1]
 
         public ViewResult List( int? parameter1 )
         {
-            var postList = postRespository.SelectPosts();
+            var postList = postRespository.Posts;
 
-            var pagedPostList = new PaginatedList<Post>( postList, (parameter1 ?? 1), PageSize );
+            var pagedPostList = new PaginatedList<Post>( postList, ( parameter1 ?? 1 ), PageSize );
 
-            return View(pagedPostList);
+            return View( "List", pagedPostList );
 
         }
+
+        //
+        // GET: /Posts/List/[parameter1]
+
+        //public ViewResult List( string parameter1, int? parameter2 )
+        //{
+        //    var postList = ( string.IsNullOrEmpty( parameter1 ) )
+        //        ? postRespository.Posts
+        //        : postRespository.Posts.Where( p => p.Category.Name == parameter1 );
+
+        //    ViewData["Category"] = parameter1;
+
+        //    var pagedPostList = new PaginatedList<Post>( postList, ( parameter2 ?? 1 ), PageSize );
+
+        //    return View( "List", pagedPostList );
+
+        //}
 
 
         //

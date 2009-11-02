@@ -15,6 +15,8 @@
     
     <p><%= Html.ActionLink( "View All Locations", "list", "locations" ) %></p>
     
+    
+    
     <p>-----------</p>
     
     <p><%= Html.ActionLink( "View Posts By Tag", "tagged", "posts", new { parameter1 = Url.ToFriendlyUrl( "Fridge" ) }, null )%></p>
