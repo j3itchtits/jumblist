@@ -24,7 +24,7 @@ namespace Jumblist.Website.Helpers
             return result.ToString();
         }
 
-        public static string NextPreviousLinks( this HtmlHelper helper, int currentPage, bool hasPreviousPage, bool hasNextPage, Func<int, string> pageUrl )
+        public static string NextPreviousPageLinks( this HtmlHelper helper, int currentPage, bool hasPreviousPage, bool hasNextPage, Func<int, string> pageUrl )
         {
             string result = string.Empty;
 

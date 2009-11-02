@@ -14,10 +14,15 @@ namespace Jumblist.Model.Repository
 
         public PostRepository( string connectionString )
         {
-            dataContext = new JumblistDataContext(connectionString);
+            dataContext = new JumblistDataContext( connectionString );
         }
 
         #region IPostRepository Members
+
+        public IQueryable<Post> Posts
+        {
+            get { return dataContext.Posts; }
+        }
 
         public IQueryable<Post> SelectPosts()
         {
@@ -31,7 +36,7 @@ namespace Jumblist.Model.Repository
                    select p;
         }
 
-        public IQueryable<Post> SelectPostsByLocation(float latitude, float longitude, int distance)
+        public IQueryable<Post> SelectPostsByLocation( float latitude, float longitude, int distance )
         {
             return from p in dataContext.Posts
                    join loc in dataContext.NearestPosts(latitude, longitude, distance)
@@ -48,7 +53,7 @@ namespace Jumblist.Model.Repository
                    select p;
         }
 
-        public IQueryable<Post> SelectPostsByTag(string tagName)
+        public IQueryable<Post> SelectPostsByTag( string tagName )
         {
             return from p in dataContext.Posts
                    join pt in dataContext.PostTags on p.PostId equals pt.PostId
@@ -64,12 +69,12 @@ namespace Jumblist.Model.Repository
 
         public Post SelectPost( int postId )
         {
-            return dataContext.Posts.SingleOrDefault(post => post.PostId == postId);
+            return dataContext.Posts.SingleOrDefault( post => post.PostId == postId );
         }
 
         public Post SelectPost( string title )
         {
-            return dataContext.Posts.SingleOrDefault( post => post.Title == title );
+            return dataContext.Posts.FirstOrDefault( post => post.Title == title );
         }
 
         public void Add( Post post )

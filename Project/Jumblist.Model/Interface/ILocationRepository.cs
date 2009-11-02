@@ -10,10 +10,13 @@ namespace Jumblist.Model.Interface
     {
         //Query Lists
         IQueryable<Location> SelectLocations();
+        IQueryable<Location> SelectLocationsByCategory( int id );
+        IQueryable<Location> SelectLocationsByCategory( string name );
 
         //Query Item
         Location SelectLocation( int id );
         Location SelectLocation( string name );
+
 
         // Insert/Delete
         void Add( Location location );

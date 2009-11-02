@@ -47,6 +47,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ReferenceAssemblies\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Web.Mvc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceAssemblies\Microsoft.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core">
@@ -102,8 +106,12 @@
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Views\Admin\Home.aspx" />
+    <Content Include="Views\Locations\Category.aspx" />
+    <Content Include="Views\Locations\LocationSummary.ascx" />
+    <Content Include="Views\Locations\Categories.ascx" />
     <Content Include="Views\Locations\List.aspx" />
     <Content Include="Views\Locations\ListLocations.ascx" />
+    <Content Include="Views\Locations\PagedListLocations.ascx" />
     <Content Include="Views\Pages\About.aspx" />
     <Content Include="Views\Pages\Help.aspx" />
     <Content Include="Views\Pages\Index.aspx" />

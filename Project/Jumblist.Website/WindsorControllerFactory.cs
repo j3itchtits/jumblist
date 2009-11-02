@@ -33,6 +33,7 @@ namespace Jumblist.Website
             {
                 container.AddComponentLifeStyle(t.FullName, t, LifestyleType.Transient);
             }
+
         }
 
         // Constructs the controller instance needed to service each request

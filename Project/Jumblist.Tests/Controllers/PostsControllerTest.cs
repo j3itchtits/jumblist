@@ -65,6 +65,10 @@ namespace Jumblist.Tests.Controllers
             Assert.AreEqual( "Taken: Socks", posts[1].Title );
         }
 
-        
+        [Test]
+        public void List_Includes_All_Posts_When_Category_IsNull()
+        {
+
+        }
     }
 }

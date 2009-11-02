@@ -10,6 +10,8 @@ namespace Jumblist.Model.Entity
     [Table(Name = "Locations")]
     public class Location
     {
+        private EntityRef<LocationCategory> locationCategory;
+
         [Column(IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert)]
         public int LocationId { get; set; }
 
@@ -22,15 +24,10 @@ namespace Jumblist.Model.Entity
         [Column( Name = "LocationCategoryId" )]
         public int CategoryId { get; set; }
 
-        private EntityRef<LocationCategory> locationCategory;
-
         [Association( Name = "FK_Locations_LocationCategories", Storage = "locationCategory", ThisKey = "CategoryId", OtherKey = "LocationCategoryId", IsForeignKey = true )]
         public LocationCategory Category
         {
-            get
-            {
-                return locationCategory.Entity;
-            }
+            get { return locationCategory.Entity; }
         }
 
     }

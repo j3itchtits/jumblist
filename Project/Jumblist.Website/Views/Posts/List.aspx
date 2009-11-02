@@ -12,7 +12,7 @@
 
     <p><%= Html.PagingLinks( Model.CurrentPage, Model.TotalPages, x => Url.Action( "List", new { parameter1 = x } ) )%></p>
     
-    <p><%= Html.NextPreviousLinks( Model.CurrentPage, Model.HasPreviousPage, Model.HasNextPage, x => Url.Action( "List", new { parameter1 = x } ) )%></p>
+    <p><%= Html.NextPreviousPageLinks( Model.CurrentPage, Model.HasPreviousPage, Model.HasNextPage, x => Url.Action( "List", new { parameter1 = x } ) )%></p>
     
     
 </asp:Content>

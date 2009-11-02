@@ -32,7 +32,7 @@ namespace Jumblist.Model.Repository
 
         public Tag SelectTag( int id )
         {
-            return dataContext.Tags.FirstOrDefault( tag => tag.TagId == id ); 
+            return dataContext.Tags.SingleOrDefault( tag => tag.TagId == id ); 
         }
 
         public Tag SelectTag( string name )
