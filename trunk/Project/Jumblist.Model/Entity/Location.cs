@@ -11,6 +11,7 @@ namespace Jumblist.Model.Entity
     public class Location
     {
         private EntityRef<LocationCategory> locationCategory;
+        private EntitySet<PostLocation> postLocations = new EntitySet<PostLocation>();
 
         [Column(IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert)]
         public int LocationId { get; set; }
@@ -30,5 +31,10 @@ namespace Jumblist.Model.Entity
             get { return locationCategory.Entity; }
         }
 
+        [Association(Name = "FK_PostLocations_Locations", Storage = "postLocations", ThisKey = "LocationId", OtherKey = "LocationId", IsForeignKey = true)]
+        public IQueryable<PostLocation> PostLocations
+        {
+            get { return postLocations.AsQueryable<PostLocation>(); }
+        }
     }
 }

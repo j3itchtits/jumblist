@@ -18,6 +18,11 @@ namespace Jumblist.Model.Repository
 
         #region ILocationCategoryRepository Members
 
+        public IQueryable<LocationCategory> LocationCategories
+        {
+            get { return dataContext.LocationCategories; }
+        }
+
         public IQueryable<LocationCategory> SelectLocationCategories()
         {
             return dataContext.LocationCategories;

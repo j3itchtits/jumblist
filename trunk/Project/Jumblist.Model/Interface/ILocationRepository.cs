@@ -9,6 +9,7 @@ namespace Jumblist.Model.Interface
     public interface ILocationRepository
     {
         //Query Lists
+        IQueryable<Location> Locations { get; }
         IQueryable<Location> SelectLocations();
         IQueryable<Location> SelectLocationsByCategory( int id );
         IQueryable<Location> SelectLocationsByCategory( string name );

@@ -17,11 +17,59 @@ namespace Jumblist.Model
 		{
 		}
 
+        public Table<Author> Authors
+        {
+            get
+            {
+                return GetTable<Author>();
+            }
+        }
+
+        public Table<Feed> Feeds
+        {
+            get
+            {
+                return GetTable<Feed>();
+            }
+        }
+
+        public Table<FeedCategory> FeedCategories
+        {
+            get
+            {
+                return GetTable<FeedCategory>();
+            }
+        }
+
+        public Table<Location> Locations
+        {
+            get
+            {
+                return this.GetTable<Location>();
+            }
+        }
+
+        public Table<LocationCategory> LocationCategories
+        {
+            get
+            {
+                return this.GetTable<LocationCategory>();
+            }
+        }
+
         public Table<Post> Posts
         {
             get
             {
                 return GetTable<Post>();
+            }
+        }
+
+        public Table<PostCategory> PostCategories
+        {
+            get
+            {
+                return this.GetTable<PostCategory>();
             }
         }
 
@@ -49,21 +97,14 @@ namespace Jumblist.Model
             }
         }
 
-        public Table<Location> Locations
+        public Table<TagCategory> TagCategories
         {
             get
             {
-                return this.GetTable<Location>();
+                return this.GetTable<TagCategory>();
             }
         }
 
-        public Table<LocationCategory> LocationCategories
-        {
-            get
-            {
-                return this.GetTable<LocationCategory>();
-            }
-        }
 
         [Function(Name = "dbo.NearestPosts", IsComposable = true)]
         public IQueryable<NearestPostsResult> NearestPosts([Parameter(DbType = "Real")] System.Nullable<float> lat, [Parameter(Name = "long", DbType = "Real")] System.Nullable<float> @long, [Parameter(DbType = "Real")] System.Nullable<int> distance)
