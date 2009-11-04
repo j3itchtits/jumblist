@@ -62,6 +62,22 @@ namespace Jumblist.Model.Repository
                    select p;
         }
 
+        public IQueryable<Post> SelectPostsByAuthor( string authorName )
+        {
+            return from p in dataContext.Posts
+                   join a in dataContext.Authors on p.AuthorId equals a.AuthorId
+                   where a.Name == authorName
+                   select p;
+        }
+
+        public IQueryable<Post> SelectPostsByFeed( string feedTitle )
+        {
+            return from p in dataContext.Posts
+                   join f in dataContext.Feeds on p.FeedId equals f.FeedId
+                   where f.TitleUrlEncoded == feedTitle
+                   select p;
+        }
+
         public IQueryable<Post> SelectPostsByTagLocation(string tagName, float latitude, float longitude, int distance)
         {
             throw new NotImplementedException();

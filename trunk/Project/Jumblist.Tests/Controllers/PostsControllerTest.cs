@@ -19,8 +19,9 @@ namespace Jumblist.Tests.Controllers
         public void List_FirstPage_IsDisplayed()
         {
             //Arrange
-            var repository = new MockPostRepository().Repository;
-            var controller = new PostsController(repository);
+            var postRepository = new MockPostRepository().Repository;
+            var postCategoryRepository = new MockPostCategoryRepository().Repository;
+            var controller = new PostsController( postRepository, postCategoryRepository );
 
             //Act
             var result = controller.List(null);
@@ -33,8 +34,9 @@ namespace Jumblist.Tests.Controllers
         public void List_Correct_Number_Of_Items_Displayed_On_Page()
         {
             //Arrange
-            var repository = new MockPostRepository().Repository;
-            var controller = new PostsController(repository);
+            var postRepository = new MockPostRepository().Repository;
+            var postCategoryRepository = new MockPostCategoryRepository().Repository;
+            var controller = new PostsController( postRepository, postCategoryRepository );
 
             //Act
             var result = controller.List(null);
@@ -48,8 +50,9 @@ namespace Jumblist.Tests.Controllers
         public void List_Presents_Correct_Page_Of_Posts()
         {
             //Arrange
-            var repository = new MockPostRepository().Repository;
-            var controller = new PostsController( repository );
+            var postRepository = new MockPostRepository().Repository;
+            var postCategoryRepository = new MockPostCategoryRepository().Repository;
+            var controller = new PostsController( postRepository, postCategoryRepository );
             controller.PageSize = 3;
 
             //Act

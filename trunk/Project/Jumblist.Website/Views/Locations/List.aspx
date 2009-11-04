@@ -14,11 +14,9 @@
             Html.RenderPartial( "LocationSummary", location );
         }
     %>
-    
-    
 
-    <p><%= Html.ActionLink( "Categories", "categories" ) %></p>
+    <p><%= Html.PagingLinks( Model.CurrentPage, Model.TotalPages, x => Url.Action( "list", new { parameter1 = x } ) )%></p>
     
-    <p>Filter by Categories: <% Html.RenderAction( "categories" ); %></p>
-    
+    <p><% Html.RenderAction( "categories" ); %></p>
+         
 </asp:Content>

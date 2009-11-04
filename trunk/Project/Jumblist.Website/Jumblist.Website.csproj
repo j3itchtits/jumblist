@@ -79,6 +79,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AuthorsController.cs" />
+    <Compile Include="Controllers\FeedsController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\PagesController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
@@ -106,16 +108,22 @@
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Views\Admin\Home.aspx" />
+    <Content Include="Views\Authors\List.aspx" />
+    <Content Include="Views\Authors\AuthorSummary.ascx" />
+    <Content Include="Views\Feeds\FeedSummary.ascx" />
+    <Content Include="Views\Feeds\List.aspx" />
     <Content Include="Views\Locations\Category.aspx" />
     <Content Include="Views\Locations\LocationSummary.ascx" />
     <Content Include="Views\Locations\Categories.ascx" />
     <Content Include="Views\Locations\List.aspx" />
-    <Content Include="Views\Locations\ListLocations.ascx" />
-    <Content Include="Views\Locations\PagedListLocations.ascx" />
     <Content Include="Views\Pages\About.aspx" />
     <Content Include="Views\Pages\Help.aspx" />
     <Content Include="Views\Pages\Index.aspx" />
+    <Content Include="Views\Posts\Author.aspx" />
+    <Content Include="Views\Posts\Categories.ascx" />
+    <Content Include="Views\Posts\Category.aspx" />
     <Content Include="Views\Posts\Details.aspx" />
+    <Content Include="Views\Posts\Feed.aspx" />
     <Content Include="Views\Posts\List.aspx" />
     <Content Include="Views\Posts\ListPosts.ascx" />
     <Content Include="Views\Posts\Location.aspx" />
