@@ -30,7 +30,7 @@ namespace Jumblist.Model.Repository
 
         public LocationCategory SelectLocationCategory( int id )
         {
-            return dataContext.LocationCategories.FirstOrDefault( category => category.LocationCategoryId == id );
+            return dataContext.LocationCategories.SingleOrDefault( category => category.LocationCategoryId == id );
         }
 
         public LocationCategory SelectLocationCategory( string name )

@@ -15,7 +15,9 @@
     
     <p><%= Html.ActionLink( "View All Locations", "list", "locations" ) %></p>
     
+    <p><%= Html.ActionLink( "View All Authors", "list", "authors" ) %></p>
     
+    <p><%= Html.ActionLink( "View All Feeds", "list", "feeds" ) %></p>
     
     <p>-----------</p>
     

@@ -15,6 +15,8 @@ namespace Jumblist.Model.Interface
         IQueryable<Post> SelectPostsByLocation( float latitude, float longitude, int distance );
         IQueryable<Post> SelectPostsByLocation( string locationName );
         IQueryable<Post> SelectPostsByTag( string tagName );
+        IQueryable<Post> SelectPostsByAuthor( string authorName );
+        IQueryable<Post> SelectPostsByFeed( string feedTitle );
         IQueryable<Post> SelectPostsByTagLocation( string tagName, float latitude, float longitude, int distance );
 
         //Query Item

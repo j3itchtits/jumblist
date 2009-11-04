@@ -15,6 +15,7 @@ namespace Jumblist.Model.Entity
         private EntityRef<Feed> feed;
         private EntitySet<PostLocation> postLocations = new EntitySet<PostLocation>();
         private EntitySet<PostTag> postTags = new EntitySet<PostTag>();
+        private EntitySet<Location> locations = new EntitySet<Location>();
 
         [Column( IsPrimaryKey=true, IsDbGenerated=true, AutoSync=AutoSync.OnInsert )]
         public int PostId { get; set; }
@@ -80,6 +81,11 @@ namespace Jumblist.Model.Entity
         public IQueryable<PostTag> PostTags
         {
             get { return postTags.AsQueryable<PostTag>(); }
+        }
+
+        public IQueryable<Location> Locations
+        {
+            get { return locations.AsQueryable<Location>(); }
         }
     }
 }

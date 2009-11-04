@@ -16,6 +16,12 @@ namespace Jumblist.Model.Entity
         [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
         public int FeedId { get; set; }
 
+        [Column( Name = "FeedTitle" )]
+        public string Title { get; set; }
+
+        [Column( Name = "FeedTitleUrlEncoded" )]
+        public string TitleUrlEncoded { get; set; }
+
         [Column( Name = "FeedUrl" )]
         public string Url { get; set; }
 

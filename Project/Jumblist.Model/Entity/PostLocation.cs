@@ -13,10 +13,10 @@ namespace Jumblist.Model.Entity
         private EntityRef<Post> post;
         private EntityRef<Location> location;
 
-        [Column]
+        [Column( IsPrimaryKey = true )]
         public int PostId { get; set; }
 
-        [Column]
+        [Column( IsPrimaryKey = true )]
         public int LocationId { get; set; }
 
         [Association(Name = "FK_PostLocations_Posts", Storage = "post", ThisKey = "PostId", OtherKey = "PostId", IsForeignKey = true)]

@@ -62,6 +62,7 @@
     <Compile Include="Controllers\PagesControllerTest.cs" />
     <Compile Include="Controllers\PostsControllerTest.cs" />
     <Compile Include="Helpers\PagingLinksHelperTest.cs" />
+    <Compile Include="Mocks\MockPostCategoryRepository.cs" />
     <Compile Include="Mocks\MockPostRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

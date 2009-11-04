@@ -56,6 +56,7 @@
     <Compile Include="Entity\LocationCategory.cs" />
     <Compile Include="Entity\PostCategory.cs" />
     <Compile Include="Entity\PostLocation.cs" />
+    <Compile Include="Interface\ITagCategoryRepository.cs" />
     <Compile Include="Interface\IPostCategoryRepository.cs" />
     <Compile Include="Interface\IFeedCategoryRepository.cs" />
     <Compile Include="Interface\IFeedRepository.cs" />
@@ -71,6 +72,10 @@
     <Compile Include="Interface\ITagRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AuthorRepository.cs" />
+    <Compile Include="Repository\PostCategoryRepository.cs" />
+    <Compile Include="Repository\FeedRepository.cs" />
+    <Compile Include="Repository\TagCategoryRepository.cs" />
+    <Compile Include="Repository\FeedCategoryRepository.cs" />
     <Compile Include="Repository\FakePostRepository.cs" />
     <Compile Include="Repository\LocationCategoryRepository.cs" />
     <Compile Include="Repository\LocationRepository.cs" />
