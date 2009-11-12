@@ -33,7 +33,7 @@ namespace Jumblist.Website.Controllers
         {
             var tagList = tagRespository.SelectTags();
 
-            var pagedTagList = new PaginatedList<Tag>( tagList, (parameter1 ?? 1), PageSize );
+            var pagedTagList = new PaginatedList<Tag>( tagList.ToList(), (parameter1 ?? 1), PageSize );
 
             return View( pagedTagList );
 

@@ -10,11 +10,8 @@ namespace Jumblist.Model.Entity
     [Table(Name = "Locations")]
     public class Location
     {
-        private EntityRef<LocationCategory> locationCategory;
-        private EntitySet<PostLocation> postLocations = new EntitySet<PostLocation>();
-
         [Column(IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert)]
-        public int LocationId { get; set; }
+        public int LocationId { get; internal set; }
 
         [Column( Name = "LocationParentId" )]
         public int? ParentId { get; set; }
@@ -23,18 +20,27 @@ namespace Jumblist.Model.Entity
         public string Name { get; set; }
 
         [Column( Name = "LocationCategoryId" )]
-        public int CategoryId { get; set; }
+        internal int LocationCategoryId { get; set; }
 
-        [Association( Name = "FK_Locations_LocationCategories", Storage = "locationCategory", ThisKey = "CategoryId", OtherKey = "LocationCategoryId", IsForeignKey = true )]
+        internal EntityRef<LocationCategory> locationCategory;
+        [Association( Name = "FK_Locations_LocationCategories", Storage = "locationCategory", ThisKey = "LocationCategoryId", OtherKey = "LocationCategoryId", IsForeignKey = true )]
         public LocationCategory Category
         {
             get { return locationCategory.Entity; }
+            internal set { locationCategory.Entity = value; LocationCategoryId = value.LocationCategoryId; }
         }
 
+        private EntitySet<PostLocation> postLocations = new EntitySet<PostLocation>();
         [Association(Name = "FK_PostLocations_Locations", Storage = "postLocations", ThisKey = "LocationId", OtherKey = "LocationId", IsForeignKey = true)]
-        public IQueryable<PostLocation> PostLocations
+        public IList<PostLocation> PostLocations
         {
-            get { return postLocations.AsQueryable<PostLocation>(); }
+            get { return postLocations.ToList().AsReadOnly(); }
+        }
+
+        private EntitySet<Post> posts = new EntitySet<Post>();
+        public IList<Post> Posts
+        {
+            get { return PostLocations.Select( p => p.Post ).ToList().AsReadOnly(); }
         }
     }
 }

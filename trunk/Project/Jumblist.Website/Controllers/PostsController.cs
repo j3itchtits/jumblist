@@ -38,7 +38,7 @@ namespace Jumblist.Website.Controllers
         {
             var postList = postRespository.Posts;
 
-            var pagedPostList = new PaginatedList<Post>( postList, ( parameter1 ?? 1 ), PageSize );
+            var pagedPostList = new PaginatedList<Post>( postList.ToList(), ( parameter1 ?? 1 ), PageSize );
 
             return View( "List", pagedPostList );
 
@@ -97,7 +97,7 @@ namespace Jumblist.Website.Controllers
         {
             var postList = postRespository.SelectPostsByTag( parameter1 );
 
-            var pagedPostList = new PaginatedList<Post>( postList, (parameter2 ?? 1), PageSize );
+            var pagedPostList = new PaginatedList<Post>( postList.ToList(), (parameter2 ?? 1), PageSize );
 
             return View( pagedPostList );
         }
@@ -110,7 +110,7 @@ namespace Jumblist.Website.Controllers
         {
             var postList = postRespository.SelectPostsByLocation( parameter1 );
 
-            var pagedPostList = new PaginatedList<Post>( postList, (parameter2 ?? 1), PageSize );
+            var pagedPostList = new PaginatedList<Post>( postList.ToList(), ( parameter2 ?? 1 ), PageSize );
 
             return View( pagedPostList );
         }
@@ -125,7 +125,7 @@ namespace Jumblist.Website.Controllers
 
             var postList = postRespository.SelectPostsByAuthor( parameter1 );
 
-            var pagedPostList = new PaginatedList<Post>( postList, (parameter2 ?? 1), PageSize );
+            var pagedPostList = new PaginatedList<Post>( postList.ToList(), ( parameter2 ?? 1 ), PageSize );
 
             return View( pagedPostList );
         }
@@ -138,7 +138,7 @@ namespace Jumblist.Website.Controllers
         {
             var postList = postRespository.SelectPostsByFeed( parameter1 );
 
-            var pagedPostList = new PaginatedList<Post>( postList, (parameter2 ?? 1), PageSize );
+            var pagedPostList = new PaginatedList<Post>( postList.ToList(), ( parameter2 ?? 1 ), PageSize );
 
             return View( pagedPostList );
         }

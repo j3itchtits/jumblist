@@ -10,18 +10,17 @@ namespace Jumblist.Model.Entity
     [Table( Name = "TagCategories" )]
     public class TagCategory
     {
-        private EntitySet<Tag> tags = new EntitySet<Tag>();
-
         [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
-        public int TagCategoryId { get; set; }
+        public int TagCategoryId { get; internal set; }
 
         [Column( Name = "TagCategoryName" )]
         public string Name { get; set; }
 
-        [Association(Name = "FK_Tags_TagCategories", Storage = "tags", ThisKey = "TagCategoryId", OtherKey = "CategoryId", IsForeignKey = true)]
-        public IQueryable<Tag> Tags
+        private EntitySet<Tag> tags = new EntitySet<Tag>();
+        [Association( Name = "FK_Tags_TagCategories", Storage = "tags", ThisKey = "TagCategoryId", OtherKey = "TagCategoryId", IsForeignKey = true )]
+        public IList<Tag> Tags
         {
-            get { return tags.AsQueryable<Tag>(); }
+            get { return tags.ToList().AsReadOnly(); }
         }
 
     }

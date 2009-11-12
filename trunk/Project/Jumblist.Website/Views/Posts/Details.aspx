@@ -1,24 +1,41 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Jumblist.Model.Entity.Post>" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="HeadContentTitle" runat="server">
 	Details
 </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
     <h2><%= Model.Title %></h2>
     
-    <table cellpadding="5">
-    <tr><td>Url: <a href="<%= Model.Url %>" target="_blank">Linkback</a> </td> </tr>     
-    <tr><td>Body: <%= Model.Body %></td> </tr> 
-    <tr><td>Date: <%= Model.DateTime.ToShortDateString() %></td></tr>
-    <tr><td>Category: <%= Model.CategoryId %></td></tr>
-    <tr><td>Lat: <%= Model.Latitude.ToString() %></td></tr>
-    <tr><td>Long: <%= Model.Longitude.ToString() %></td></tr>
-    <tr><td>Display?: <%= Model.Display.ToString() %></td></tr>
-    <tr><td>AuthorId: <%= Model.AuthorId.ToString() %></td></tr>
-    <tr><td>FeedId: <%= Model.FeedId.ToString() %></td></tr>
-  
-    </table>
+    <div class="post-item">
+        <div>Url: <a href="<%= Model.Url %>" target="_blank">Linkback</a></div>     
+        <div>Body: <%= Model.Body %></div> 
+        <div>Date: <%= Model.DateTime.ToShortDateString() %></div> 
+        <div>Category: <%= Model.PostCategory.Name %></div> 
+        <div>Lat: <%= Model.Latitude.ToString() %></div> 
+        <div>Long: <%= Model.Longitude.ToString() %></div> 
+        <div>Display?: <%= Model.Display.ToString() %></div> 
+        <div>Author: <%= Model.Author.Name %></div> 
+        <div>Feed: <%= Model.Feed.Title %></div> 
+    </div>
+    
+    <div class="post-locations">
+        <div><b>Locations: </b>
+        <% foreach ( var location in Model.Locations )
+           {
+               Response.Write( location.Name + ", " );
+           } %>
+        </div>
+    </div>
 
+    <div class="post-tags">
+        <div><b>Tags: </b>
+        <% foreach ( var tag in Model.Tags )
+           {
+               Response.Write( tag.Name + ", " );
+           } %>
+        </div>
+    </div>
+    
 </asp:Content>

@@ -32,7 +32,7 @@ namespace Jumblist.Model.Repository
         public IQueryable<Post> SelectPostsByCategory( int categoryId )
         {
             return from p in dataContext.Posts
-                   where p.CategoryId == categoryId
+                   where p.PostCategoryId == categoryId
                    select p;
         }
 

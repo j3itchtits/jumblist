@@ -10,22 +10,21 @@ namespace Jumblist.Model.Entity
     [Table(Name = "PostTags")]
     public class PostTag
     {
-        private EntityRef<Post> post;
-        private EntityRef<Tag> tag;
-
         [Column( IsPrimaryKey = true )]
-        public int PostId { get; set; }
+        public int PostId { get; internal set; }
 
         [Column( IsPrimaryKey = true )]
         public int TagId { get; set; }
 
-        [Association(Name = "FK_PostTags_Posts", Storage = "post", ThisKey = "PostId", OtherKey = "PostId", IsForeignKey = true)]
+        private EntityRef<Post> post;
+        [Association( Name = "FK_PostTags_Posts", Storage = "post", ThisKey = "PostId", OtherKey = "PostId", IsForeignKey = true, DeleteOnNull = true )]
         public Post Post
         {
             get { return post.Entity; }
         }
 
-        [Association(Name = "FK_PostTags_Tags", Storage = "tag", ThisKey = "TagId", OtherKey = "TagId", IsForeignKey = true)]
+        private EntityRef<Tag> tag;
+        [Association( Name = "FK_PostTags_Tags", Storage = "tag", ThisKey = "TagId", OtherKey = "TagId", IsForeignKey = true, DeleteOnNull = true )]
         public Tag Tag
         {
             get { return tag.Entity; }

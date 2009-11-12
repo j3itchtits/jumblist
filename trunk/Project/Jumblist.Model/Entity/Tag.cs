@@ -10,11 +10,8 @@ namespace Jumblist.Model.Entity
     [Table(Name = "Tags")]
     public class Tag
     {
-        private EntityRef<TagCategory> tagCategory;
-        private EntitySet<PostTag> postTags = new EntitySet<PostTag>();
-
         [Column(IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert)]
-        public int TagId { get; set; }
+        public int TagId { get; internal set; }
 
         [Column(Name = "TagParentId")]
         public int ParentId { get; set; }
@@ -23,18 +20,27 @@ namespace Jumblist.Model.Entity
         public string Name { get; set; }
 
         [Column(Name = "TagCategoryId")]
-        public int CategoryId { get; set; }
+        internal int TagCategoryId { get; set; }
 
-        [Association(Name = "FK_Tags_TagCategories", Storage = "tagCategory", ThisKey = "CategoryId", OtherKey = "TagCategoryId", IsForeignKey = true)]
+        internal EntityRef<TagCategory> tagCategory;
+        [Association( Name = "FK_Tags_TagCategories", Storage = "tagCategory", ThisKey = "TagCategoryId", OtherKey = "TagCategoryId", IsForeignKey = true )]
         public TagCategory Category
         {
             get { return tagCategory.Entity; }
+            internal set { tagCategory.Entity = value; TagCategoryId = value.TagCategoryId; }
         }
 
+        private EntitySet<PostTag> postTags = new EntitySet<PostTag>();
         [Association(Name = "FK_PostTags_Tags", Storage = "postTags", ThisKey = "TagId", OtherKey = "TagId", IsForeignKey = true)]
-        public IQueryable<PostTag> PostTags
+        public IList<PostTag> PostTags
         {
-            get { return postTags.AsQueryable<PostTag>(); }
+            get { return postTags.ToList().AsReadOnly(); }
+        }
+
+        private EntitySet<Post> posts = new EntitySet<Post>();
+        public IList<Post> Posts
+        {
+            get { return PostTags.Select( p => p.Post ).ToList().AsReadOnly(); }
         }
     }
 }
