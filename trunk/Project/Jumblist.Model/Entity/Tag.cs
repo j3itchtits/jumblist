@@ -19,17 +19,6 @@ namespace Jumblist.Model.Entity
         [Column(Name = "TagName")]
         public string Name { get; set; }
 
-        [Column(Name = "TagCategoryId")]
-        internal int TagCategoryId { get; set; }
-
-        internal EntityRef<TagCategory> tagCategory;
-        [Association( Name = "FK_Tags_TagCategories", Storage = "tagCategory", ThisKey = "TagCategoryId", OtherKey = "TagCategoryId", IsForeignKey = true )]
-        public TagCategory Category
-        {
-            get { return tagCategory.Entity; }
-            internal set { tagCategory.Entity = value; TagCategoryId = value.TagCategoryId; }
-        }
-
         private EntitySet<PostTag> postTags = new EntitySet<PostTag>();
         [Association(Name = "FK_PostTags_Tags", Storage = "postTags", ThisKey = "TagId", OtherKey = "TagId", IsForeignKey = true)]
         public IList<PostTag> PostTags

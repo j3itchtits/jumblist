@@ -18,6 +18,6 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <p><% Html.RenderAction( "categories" ); %></p>
+    <% Html.RenderAction( "categories" ); %>
     
 </asp:Content>

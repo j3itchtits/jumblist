@@ -27,7 +27,7 @@ namespace Jumblist.Website.Controllers
         }
 
         //
-        // GET: /Posts/List/[parameter1]
+        // GET: /Tags/List/[parameter1]
 
         public ViewResult List( int? parameter1 )
         {
@@ -38,6 +38,5 @@ namespace Jumblist.Website.Controllers
             return View( pagedTagList );
 
         }
-
     }
 }
