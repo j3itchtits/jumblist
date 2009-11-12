@@ -10,11 +10,8 @@ namespace Jumblist.Model.Entity
     [Table( Name = "Feeds" )]
     public class Feed
     {
-        private EntityRef<FeedCategory> feedCategory;
-        private EntitySet<Post> posts = new EntitySet<Post>();
-
         [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
-        public int FeedId { get; set; }
+        public int FeedId { get; internal set; }
 
         [Column( Name = "FeedTitle" )]
         public string Title { get; set; }
@@ -41,18 +38,21 @@ namespace Jumblist.Model.Entity
         public DateTime LastUpdateDateTime { get; set; }
 
         [Column( Name = "FeedCategoryId" )]
-        public int CategoryId { get; set; }
+        internal int FeedCategoryId { get; set; }
 
-        [Association(Name = "FK_Feeds_FeedCategories", Storage = "feedCategory", ThisKey = "CategoryId", OtherKey = "FeedCategoryId", IsForeignKey = true)]
+        internal EntityRef<FeedCategory> feedCategory;
+        [Association( Name = "FK_Feeds_FeedCategories", Storage = "feedCategory", ThisKey = "FeedCategoryId", OtherKey = "FeedCategoryId", IsForeignKey = true )]
         public FeedCategory Category
         {
             get { return feedCategory.Entity; }
+            internal set { feedCategory.Entity = value; FeedCategoryId = value.FeedCategoryId; }
         }
 
+        private EntitySet<Post> posts = new EntitySet<Post>();
         [Association(Name = "FK_Posts_Feeds", Storage = "posts", ThisKey = "FeedId", OtherKey = "FeedId", IsForeignKey = true)]
-        public IQueryable<Post> Posts
+        public IList<Post> Posts
         {
-            get { return posts.AsQueryable<Post>(); }
+            get { return posts.ToList().AsReadOnly(); }
         }
     }
 }

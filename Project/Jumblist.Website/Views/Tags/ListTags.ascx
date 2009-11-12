@@ -1,11 +1,10 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<Jumblist.Website.Helpers.PaginatedList<Jumblist.Model.Entity.Tag>>" %>
 
-<table cellpadding="5">
+<div>
 <% foreach ( var tag in Model )
    { %>
-        <tr class="item">
-            <td><%= Html.ActionLink( tag.Name, "tagged", "posts", new { parameter1 = Url.ToFriendlyUrl( tag.Name ) }, null )%></td>
-             
-        </tr>            
+        <p>
+            <%= tag.Name %> (<%= tag.Category.Name%>) - <%= Html.ActionLink( "Posts", "tagged", "posts", new { parameter1 = Url.ToFriendlyUrl( tag.Name ) }, null )%>             
+        </p>            
 <% } %>
-</table>
+</div>

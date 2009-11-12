@@ -31,7 +31,7 @@ namespace Jumblist.Model.Repository
         public IQueryable<Location> SelectLocationsByCategory( int id )
         {
             return from l in dataContext.Locations
-                   where l.CategoryId == id
+                   where l.LocationCategoryId == id
                    select l;
         }
 

@@ -2,8 +2,7 @@
 
 <table cellpadding="5" border="1">
 <tr><td colspan="2">Post Categories</td></tr>
-<% foreach ( var category in Model )
-   { %>
+<% foreach ( var category in Model ) { %>
         <tr class="item">
             <td><%= category.Name %></td> 
             <td><%= Html.ActionLink( "Posts", "category", "posts", new { parameter1 = Url.ToFriendlyUrl( category.Name ) }, null )%></td>

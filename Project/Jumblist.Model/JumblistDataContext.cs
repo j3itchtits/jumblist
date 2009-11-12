@@ -61,7 +61,7 @@ namespace Jumblist.Model
         {
             get
             {
-                return GetTable<Post>();
+                return this.GetTable<Post>();
             }
         }
 

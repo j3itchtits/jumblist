@@ -7,20 +7,13 @@ using System.Data.Linq;
 
 namespace Jumblist.Model.Entity
 {
-    [Table(Name="Posts")]
+    [Table( Name = "Posts" )]
     public class Post
     {
-        private EntityRef<PostCategory> postCategory;
-        private EntityRef<Author> author;
-        private EntityRef<Feed> feed;
-        private EntitySet<PostLocation> postLocations = new EntitySet<PostLocation>();
-        private EntitySet<PostTag> postTags = new EntitySet<PostTag>();
-        private EntitySet<Location> locations = new EntitySet<Location>();
+        [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
+        public int PostId { get; internal set; }
 
-        [Column( IsPrimaryKey=true, IsDbGenerated=true, AutoSync=AutoSync.OnInsert )]
-        public int PostId { get; set; }
-
-        [Column( Name="PostParentId") ]
+        [Column( Name = "PostParentId" )]
         public int ParentId { get; set; }
 
         [Column( Name = "PostUrl" )]
@@ -35,9 +28,6 @@ namespace Jumblist.Model.Entity
         [Column( Name = "PostDateTime" )]
         public DateTime DateTime { get; set; }
 
-        [Column( Name = "PostCategoryId" )]
-        public int CategoryId { get; set; }
-
         [Column( Name = "PostLatitude" )]
         public double Latitude { get; set; }
 
@@ -47,45 +37,63 @@ namespace Jumblist.Model.Entity
         [Column( Name = "PostDisplay" )]
         public bool Display { get; set; }
 
-        [Column]
-        public int AuthorId { get; set; }
+        [Column( Name = "PostCategoryId" )]
+        internal int PostCategoryId { get; set; }
 
-        [Column]
-        public int FeedId { get; set; }
+        [Column( Name = "AuthorId" )]
+        internal int AuthorId { get; set; }
 
-        [Association( Name = "FK_Posts_PostCategories", Storage = "postCategory", ThisKey = "CategoryId", OtherKey = "PostCategoryId", IsForeignKey = true )]
+        [Column( Name = "FeedId" )]
+        internal int FeedId { get; set; }
+
+        internal EntityRef<PostCategory> postCategory;
+        [Association( Name = "FK_Posts_PostCategories", Storage = "postCategory", ThisKey = "PostCategoryId", OtherKey = "PostCategoryId", IsForeignKey = true )]
         public PostCategory Category
         {
             get { return postCategory.Entity; }
+            internal set { postCategory.Entity = value; PostCategoryId = value.PostCategoryId; }
         }
 
-        [Association(Name = "FK_Posts_Authors", Storage = "author", ThisKey = "AuthorId", OtherKey = "AuthorId", IsForeignKey = true)]
+        internal EntityRef<Author> author;
+        [Association( Name = "FK_Posts_Authors", Storage = "author", ThisKey = "AuthorId", OtherKey = "AuthorId", IsForeignKey = true )]
         public Author Author
         {
             get { return author.Entity; }
+            internal set { author.Entity = value; AuthorId = value.AuthorId; }
         }
 
-        [Association(Name = "FK_Posts_Feed", Storage = "feed", ThisKey = "FeedId", OtherKey = "FeedId", IsForeignKey = true)]
+        internal EntityRef<Feed> feed;
+        [Association( Name = "FK_Posts_Feed", Storage = "feed", ThisKey = "FeedId", OtherKey = "FeedId", IsForeignKey = true )]
         public Feed Feed
         {
             get { return feed.Entity; }
+            internal set { feed.Entity = value; FeedId = value.FeedId; }
         }
 
-        [Association(Name = "FK_PostLocations_Posts", Storage = "postLocations", ThisKey = "PostId", OtherKey = "PostId", IsForeignKey = true)]
-        public IQueryable<PostLocation> PostLocations
+        private EntitySet<PostLocation> postLocations = new EntitySet<PostLocation>();
+        [Association( Name = "FK_PostLocations_Posts", Storage = "postLocations", ThisKey = "PostId", OtherKey = "PostId", IsForeignKey = true )]
+        public IList<PostLocation> PostLocations
         {
-            get { return postLocations.AsQueryable<PostLocation>(); }
+            get { return postLocations.ToList().AsReadOnly(); }
         }
 
-        [Association(Name = "FK_PostTags_Posts", Storage = "postTags", ThisKey = "PostId", OtherKey = "PostId", IsForeignKey = true)]
-        public IQueryable<PostTag> PostTags
+        private EntitySet<Location> locations = new EntitySet<Location>();
+        public IList<Location> Locations
         {
-            get { return postTags.AsQueryable<PostTag>(); }
+            get { return PostLocations.Select( l => l.Location ).ToList().AsReadOnly(); }
         }
 
-        public IQueryable<Location> Locations
+        private EntitySet<PostTag> postTags = new EntitySet<PostTag>();
+        [Association( Name = "FK_PostTags_Posts", Storage = "postTags", ThisKey = "PostId", OtherKey = "PostId", IsForeignKey = true )]
+        public IList<PostTag> PostTags
         {
-            get { return locations.AsQueryable<Location>(); }
+            get { return postTags.ToList().AsReadOnly(); }
+        }
+
+        private EntitySet<Tag> tags = new EntitySet<Tag>();
+        public IList<Tag> Tags
+        {
+            get { return PostTags.Select( t => t.Tag ).ToList().AsReadOnly(); }
         }
     }
 }

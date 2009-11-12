@@ -10,19 +10,17 @@ namespace Jumblist.Model.Entity
     [Table( Name = "FeedCategories" )]
     public class FeedCategory
     {
-        private EntitySet<Feed> feeds = new EntitySet<Feed>();
-
         [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
-        public int FeedCategoryId { get; set; }
+        public int FeedCategoryId { get; internal set; }
 
         [Column( Name = "FeedCategoryName" )]
         public string Name { get; set; }
 
-        [Association( Name = "FK_Feeds_FeedCategories", Storage = "feeds", ThisKey = "FeedCategoryId", OtherKey = "CategoryId", IsForeignKey = true )]
-        public IQueryable<Feed> Feeds
+        private EntitySet<Feed> feeds = new EntitySet<Feed>();
+        [Association( Name = "FK_Feeds_FeedCategories", Storage = "feeds", ThisKey = "FeedCategoryId", OtherKey = "FeedCategoryId", IsForeignKey = true )]
+        public IList<Feed> Feeds
         {
-            get { return feeds.AsQueryable<Feed>(); }
+            get { return feeds.ToList().AsReadOnly(); }
         }
-
     }
 }

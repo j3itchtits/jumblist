@@ -34,7 +34,7 @@ namespace Jumblist.Website.Controllers
         {
             var feedList = feedRepository.Feeds;
 
-            var pagedFeedList = new PaginatedList<Feed>( feedList, (parameter1 ?? 1), PageSize );
+            var pagedFeedList = new PaginatedList<Feed>( feedList.ToList(), ( parameter1 ?? 1 ), PageSize );
 
             return View( "List", pagedFeedList );
         }

@@ -34,10 +34,11 @@ namespace Jumblist.Website.Controllers
         {
             var authorList = authorRepository.Authors;
 
-            var pagedAuthorList = new PaginatedList<Author>( authorList, (parameter1 ?? 1), PageSize );
+            var pagedAuthorList = new PaginatedList<Author>( authorList.ToList(), ( parameter1 ?? 1 ), PageSize );
 
             return View( "List", pagedAuthorList );
         }
+
 
     }
 }

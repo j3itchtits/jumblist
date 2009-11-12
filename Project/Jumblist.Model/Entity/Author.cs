@@ -10,10 +10,8 @@ namespace Jumblist.Model.Entity
     [Table( Name = "Authors" )]
     public class Author
     {
-        private EntitySet<Post> posts = new EntitySet<Post>();
-
         [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
-        public int AuthorId { get; set; }
+        public int AuthorId { get; internal set; }
 
         [Column( Name = "AuthorName" )]
         public string Name { get; set; }
@@ -24,10 +22,11 @@ namespace Jumblist.Model.Entity
         [Column( Name = "AuthorEmailHttpLink" )]
         public string EmailHttpLink { get; set; }
 
+        private EntitySet<Post> posts = new EntitySet<Post>();
         [Association(Name = "FK_Posts_Authors", Storage = "posts", ThisKey = "AuthorId", OtherKey = "AuthorId", IsForeignKey = true)]
-        public IQueryable<Post> Posts
+        public IList<Post> Posts
         {
-            get { return posts.AsQueryable<Post>(); }
+            get { return posts.ToList().AsReadOnly(); }
         }
     }
 }

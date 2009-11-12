@@ -10,18 +10,17 @@ namespace Jumblist.Model.Entity
     [Table( Name = "PostCategories" )]
     public class PostCategory
     {
-        private EntitySet<Post> posts = new EntitySet<Post>();
-
         [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
-        public int PostCategoryId { get; set; }
+        public int PostCategoryId { get; internal set; }
 
         [Column( Name = "PostCategoryName" )]
         public string Name { get; set; }
 
-        [Association( Name = "FK_Posts_PostCategories", Storage = "posts", ThisKey = "PostCategoryId", OtherKey = "CategoryId", IsForeignKey = true )]
-        public IQueryable<Post> Posts
+        private EntitySet<Post> posts = new EntitySet<Post>();
+        [Association( Name = "FK_Posts_PostCategories", Storage = "posts", ThisKey = "PostCategoryId", OtherKey = "PostCategoryId", IsForeignKey = true )]
+        public IList<Post> Posts
         {
-            get { return posts.AsQueryable<Post>(); }
+            get { return posts.ToList().AsReadOnly(); }
         }
 
     }

@@ -12,7 +12,7 @@ namespace Jumblist.Website.Helpers
         public int TotalCount { get; private set; }
         public int TotalPages { get; private set; }
 
-        public PaginatedList(IQueryable<T> source, int currentPage, int pageSize)
+        public PaginatedList( IList<T> source, int currentPage, int pageSize )
         {
             CurrentPage = currentPage;
             PageSize = pageSize;

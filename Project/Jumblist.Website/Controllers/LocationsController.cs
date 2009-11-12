@@ -35,7 +35,7 @@ namespace Jumblist.Website.Controllers
         {
             var locationList = locationRepository.Locations;
 
-            var pagedLocationList = new PaginatedList<Location>( locationList, (parameter1 ?? 1), PageSize );
+            var pagedLocationList = new PaginatedList<Location>( locationList.ToList(), ( parameter1 ?? 1 ), PageSize );
 
             return View( "List", pagedLocationList );
         }
