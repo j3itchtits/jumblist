@@ -8,12 +8,7 @@
 
     <h2>Locations By Category - <%= Model.Name %></h2>
 
-    <% 
-        foreach (var location in Model.Locations)
-        {
-            Html.RenderPartial( "LocationSummary", location );
-        }
-    %>
+    <% Html.RenderPartial( "ListLocations", Model.Locations ); %>
     
 
 

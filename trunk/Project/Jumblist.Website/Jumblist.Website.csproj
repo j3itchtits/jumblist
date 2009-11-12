@@ -117,7 +117,7 @@
     <Content Include="Views\Feeds\FeedSummary.ascx" />
     <Content Include="Views\Feeds\List.aspx" />
     <Content Include="Views\Locations\Category.aspx" />
-    <Content Include="Views\Locations\LocationSummary.ascx" />
+    <Content Include="Views\Locations\ListLocations.ascx" />
     <Content Include="Views\Locations\Categories.ascx" />
     <Content Include="Views\Locations\List.aspx" />
     <Content Include="Views\Pages\About.aspx" />
@@ -133,8 +133,6 @@
     <Content Include="Views\Posts\Location.aspx" />
     <Content Include="Views\Posts\Tagged.aspx" />
     <Content Include="Views\Shared\LogOnUserControl.ascx" />
-    <Content Include="Views\Tags\Categories.ascx" />
-    <Content Include="Views\Tags\Category.aspx" />
     <Content Include="Views\Tags\List.aspx" />
     <Content Include="Views\Tags\ListTags.ascx" />
     <Content Include="Views\Users\Login.aspx" />
