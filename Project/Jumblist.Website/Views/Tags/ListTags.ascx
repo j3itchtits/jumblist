@@ -4,7 +4,7 @@
 <% foreach ( var tag in Model )
    { %>
         <p>
-            <%= tag.Name %> (<%= tag.Category.Name%>) - <%= Html.ActionLink( "Posts", "tagged", "posts", new { parameter1 = Url.ToFriendlyUrl( tag.Name ) }, null )%>             
+            <%= Html.ActionLink( tag.Name, "tagged", "posts", new { parameter1 = Url.ToFriendlyUrl( tag.Name ) }, null )%>
         </p>            
 <% } %>
 </div>

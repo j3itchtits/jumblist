@@ -133,6 +133,8 @@
     <Content Include="Views\Posts\Location.aspx" />
     <Content Include="Views\Posts\Tagged.aspx" />
     <Content Include="Views\Shared\LogOnUserControl.ascx" />
+    <Content Include="Views\Tags\Categories.ascx" />
+    <Content Include="Views\Tags\Category.aspx" />
     <Content Include="Views\Tags\List.aspx" />
     <Content Include="Views\Tags\ListTags.ascx" />
     <Content Include="Views\Users\Login.aspx" />

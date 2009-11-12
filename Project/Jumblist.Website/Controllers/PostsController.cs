@@ -63,7 +63,7 @@ namespace Jumblist.Website.Controllers
 
 
         //
-        // GET: /Locations/Categories
+        // GET: /Posts/Categories
 
         public ViewResult Categories()
         {
@@ -73,7 +73,7 @@ namespace Jumblist.Website.Controllers
         }
 
         //
-        // GET: /Locations/Category/[parameter1]/[parameter2]
+        // GET: /Posts/Category/[parameter1=category]/[parameter2=pagenumber]
 
         public ViewResult Category( string parameter1, int? parameter2 )
         {

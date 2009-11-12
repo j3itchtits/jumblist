@@ -49,14 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity\Author.cs" />
-    <Compile Include="Entity\TagCategory.cs" />
     <Compile Include="Entity\Feed.cs" />
     <Compile Include="Entity\FeedCategory.cs" />
     <Compile Include="Entity\Location.cs" />
     <Compile Include="Entity\LocationCategory.cs" />
     <Compile Include="Entity\PostCategory.cs" />
     <Compile Include="Entity\PostLocation.cs" />
-    <Compile Include="Interface\ITagCategoryRepository.cs" />
     <Compile Include="Interface\IPostCategoryRepository.cs" />
     <Compile Include="Interface\IFeedCategoryRepository.cs" />
     <Compile Include="Interface\IFeedRepository.cs" />
@@ -74,7 +72,6 @@
     <Compile Include="Repository\AuthorRepository.cs" />
     <Compile Include="Repository\PostCategoryRepository.cs" />
     <Compile Include="Repository\FeedRepository.cs" />
-    <Compile Include="Repository\TagCategoryRepository.cs" />
     <Compile Include="Repository\FeedCategoryRepository.cs" />
     <Compile Include="Repository\FakePostRepository.cs" />
     <Compile Include="Repository\LocationCategoryRepository.cs" />
