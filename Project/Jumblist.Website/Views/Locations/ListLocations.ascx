@@ -3,8 +3,6 @@
 <div>
 <% foreach ( var location in Model )
    { %>
-        <p>
-            <%= Html.ActionLink( location.Name, "location", "posts", new { parameter1 = Url.ToFriendlyUrl( location.Name ) }, null )%>
-        </p>            
+        <% Html.RenderPartial( "LocationSummar", location ); %>     
 <% } %>
 </div>

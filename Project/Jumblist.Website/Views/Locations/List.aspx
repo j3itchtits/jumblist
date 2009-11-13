@@ -8,7 +8,12 @@
 
     <h2>All Locations</h2>
 
-    <% Html.RenderPartial( "ListLocations", Model ); %>
+    <% 
+        foreach ( var location in Model )
+        { 
+            Html.RenderPartial( "LocationSummary", location );
+        } 
+    %>
     
     <p><%= Html.PagingLinks( Model.CurrentPage, Model.TotalPages, x => Url.Action( "list", new { parameter1 = x } ) )%></p>
     

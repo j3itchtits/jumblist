@@ -120,6 +120,7 @@
     <Content Include="Views\Locations\ListLocations.ascx" />
     <Content Include="Views\Locations\Categories.ascx" />
     <Content Include="Views\Locations\List.aspx" />
+    <Content Include="Views\Locations\LocationSummary.ascx" />
     <Content Include="Views\Pages\About.aspx" />
     <Content Include="Views\Pages\Help.aspx" />
     <Content Include="Views\Pages\Index.aspx" />
