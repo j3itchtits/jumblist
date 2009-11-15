@@ -9,6 +9,7 @@ using Jumblist.Model.Repository;
 using System.Configuration;
 using Jumblist.Model.Entity;
 using Jumblist.Website.Helpers;
+using Jumblist.Website.Services.Navigation;
 
 namespace Jumblist.Website.Controllers
 {
@@ -65,11 +66,19 @@ namespace Jumblist.Website.Controllers
         //
         // GET: /Posts/Categories
 
-        public ViewResult Categories()
+        public ViewResult Categories( string highlightedCategory )
         {
             var postCategoryList = postCategoryRespository.PostCategories;
+            //var categories = postRespository.Posts.Select( x => x.Category ).Distinct();
 
-            return View( "Categories", postCategoryList );
+            List<Link> navLinks = new List<Link>();
+            navLinks.Add( new CategoryLink( null ) { IsSelected = ( string.IsNullOrEmpty( highlightedCategory ) ) } );
+            foreach ( var category in postCategoryList )
+            {
+                navLinks.Add( new CategoryLink( category.Name ) { IsSelected = ( highlightedCategory == category.Name ) } );
+            }
+
+            return View( "Categories", navLinks );
         }
 
         //

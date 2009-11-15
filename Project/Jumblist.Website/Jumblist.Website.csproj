@@ -101,6 +101,8 @@
     <Compile Include="Services\Authentication\IFormsAuthentication.cs" />
     <Compile Include="Services\BasicHttpRequestResponse.cs" />
     <Compile Include="Services\HttpRequestResponse.cs" />
+    <Compile Include="Services\Navigation\CategoryLink.cs" />
+    <Compile Include="Services\Navigation\Link.cs" />
     <Compile Include="Services\PollingService.cs" />
     <Compile Include="WindsorControllerFactory.cs" />
   </ItemGroup>

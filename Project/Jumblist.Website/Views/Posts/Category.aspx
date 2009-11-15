@@ -13,3 +13,9 @@
     <p><%= Html.PagingLinks( Model.CurrentPage, Model.TotalPages, x => Url.Action( "Category", new { parameter1 = ViewData["CategoryName"], parameter2 = x } ) )%></p>
     
 </asp:Content>
+
+<asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
+
+    <% Html.RenderAction( "categories", "posts", new { highlightedCategory = ViewData["CategoryName"] } ); %>
+    
+</asp:Content>
