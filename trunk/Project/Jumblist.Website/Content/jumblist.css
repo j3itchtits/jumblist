@@ -136,7 +136,30 @@ div
  ** Styles *
  ****************************/
  
- table.list
- {
+table.list
+{
 	font-size: 100%;
- }
+}
+
+tr.item a 
+{
+	display: block;
+}
+
+tr.item a.selected 
+{
+	background-color: #666;
+	color: #fff;
+}
+
+tr.item a:hover 
+{
+	background-color: #666;
+	color: #fff;
+}
+
+tr.item a.selected:hover 
+{
+	background-color: #666;
+	color: #fff;
+}
