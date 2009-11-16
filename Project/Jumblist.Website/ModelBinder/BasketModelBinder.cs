@@ -5,7 +5,7 @@ using System.Text;
 using System.Web.Mvc;
 using Jumblist.Model.Entity;
 
-namespace Jumblist.Website.ModelBinders
+namespace Jumblist.Website.ModelBinder
 {
     public class BasketModelBinder : IModelBinder
     {
@@ -17,9 +17,6 @@ namespace Jumblist.Website.ModelBinders
         {
             if (bindingContext.Model != null)
                 throw new InvalidOperationException( "Cannot update instances" );
-
-            var obj = controllerContext.HttpContext.Session[basketCookieKey];
-
 
             Basket basket = (Basket)controllerContext.HttpContext.Session[basketCookieKey];
             if (basket == null)

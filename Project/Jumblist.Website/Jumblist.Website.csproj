@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthorsController.cs" />
+    <Compile Include="Controllers\BasketController.cs" />
     <Compile Include="Controllers\FeedsController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\PagesController.cs" />
@@ -95,7 +96,7 @@
     </Compile>
     <Compile Include="Helpers\PagingLinksHelper.cs" />
     <Compile Include="Helpers\UrlEncoderHelper.cs" />
-    <Compile Include="ModelBinders\BasketModelBinder.cs" />
+    <Compile Include="ModelBinder\BasketModelBinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Authentication\FormsAuthenticationService.cs" />
     <Compile Include="Services\Authentication\IFormsAuthentication.cs" />
@@ -117,6 +118,7 @@
     <Content Include="Views\Admin\Home.aspx" />
     <Content Include="Views\Authors\List.aspx" />
     <Content Include="Views\Authors\AuthorSummary.ascx" />
+    <Content Include="Views\Basket\Index.aspx" />
     <Content Include="Views\Feeds\FeedSummary.ascx" />
     <Content Include="Views\Feeds\List.aspx" />
     <Content Include="Views\Locations\Category.aspx" />

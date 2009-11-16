@@ -24,7 +24,7 @@ namespace Jumblist.Model.Entity
 
         public void ClearItem( Post post )
         {
-            items.Remove( post );
+            items.RemoveAll(p => p.PostId == post.PostId );
         }
 
         public void ClearAll()
