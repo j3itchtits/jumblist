@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Jumblist.Website.ModelBinder;
+using Jumblist.Model.Entity;
 
 namespace Jumblist.Website
 {
@@ -20,6 +22,12 @@ namespace Jumblist.Website
                 "Detail",                                              // Route name
                 "post/{id}/{name}",                           // URL with parameters
                 new { controller = "posts", action = "details", id = "", name = "" }  // Parameter defaults
+            );
+
+            routes.MapRoute(
+                "Basket",
+                "basket/{action}",
+                new { controller = "basket", action = "index" }
             );
 
             routes.MapRoute(
@@ -49,6 +57,7 @@ namespace Jumblist.Website
         {
             RegisterRoutes( RouteTable.Routes );
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory());
+            ModelBinders.Binders.Add( typeof( Basket ), new BasketModelBinder() );
         }
     }
 }
