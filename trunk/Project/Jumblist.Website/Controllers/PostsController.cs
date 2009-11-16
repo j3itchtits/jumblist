@@ -10,6 +10,7 @@ using System.Configuration;
 using Jumblist.Model.Entity;
 using Jumblist.Website.Helpers;
 using Jumblist.Website.Services.Navigation;
+using Jumblist.Website.Services.Paging;
 
 namespace Jumblist.Website.Controllers
 {

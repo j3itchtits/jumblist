@@ -7,6 +7,7 @@ using System.Web.Mvc.Ajax;
 using Jumblist.Model.Interface;
 using Jumblist.Website.Helpers;
 using Jumblist.Model.Entity;
+using Jumblist.Website.Services.Paging;
 
 namespace Jumblist.Website.Controllers
 {

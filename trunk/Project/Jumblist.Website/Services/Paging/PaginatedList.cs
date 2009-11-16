@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Jumblist.Website.Helpers
+namespace Jumblist.Website.Services.Paging
 {
     public class PaginatedList<T> : List<T>
     {
