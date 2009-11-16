@@ -7,7 +7,7 @@ using System.Collections.Specialized;
 using System.Text;
 using System.IO;
 
-namespace Jumblist.Website.Services
+namespace Jumblist.Website.Services.Scraping
 {
     public class HttpRequestResponse
     {

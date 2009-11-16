@@ -15,7 +15,7 @@ namespace Jumblist.Model.Entity
 
         public void AddPost( Post post )
         {
-            var post = posts.FirstOrDefault( p => p.PostId == post.PostId );
+            var first = posts.FirstOrDefault( p => p.PostId == post.PostId );
         }
 
         public void ClearPost( Post post )
