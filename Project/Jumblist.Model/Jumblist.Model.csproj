@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity\Author.cs" />
+    <Compile Include="Entity\Basket.cs" />
     <Compile Include="Entity\Feed.cs" />
     <Compile Include="Entity\FeedCategory.cs" />
     <Compile Include="Entity\Location.cs" />
