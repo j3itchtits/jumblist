@@ -12,12 +12,13 @@
         <div>Url: <a href="<%= Model.Url %>" target="_blank">Linkback</a></div>     
         <div>Body: <%= Model.Body %></div> 
         <div>Date: <%= Model.DateTime.ToShortDateString() %></div> 
-        <div>Category: <%= Model.PostCategory.Name %></div> 
+        <div>Category: <%= Model.Category.Name %></div> 
         <div>Lat: <%= Model.Latitude.ToString() %></div> 
         <div>Long: <%= Model.Longitude.ToString() %></div> 
         <div>Display?: <%= Model.Display.ToString() %></div> 
         <div>Author: <%= Model.Author.Name %></div> 
         <div>Feed: <%= Model.Feed.Title %></div> 
+        <div><% Html.RenderPartial( "AddToBasket", Model ); %></div>
     </div>
     
     <div class="post-locations">
