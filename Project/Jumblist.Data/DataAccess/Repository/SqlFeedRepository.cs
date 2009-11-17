@@ -7,11 +7,11 @@ using Jumblist.Data.Model;
 
 namespace Jumblist.Data.DataAccess.Repository
 {
-    public class FeedRepository : IFeedRepository
+    public class SqlFeedRepository : IFeedRepository
     {
         private JumblistDataContext dataContext;
 
-        public FeedRepository( string connectionString )
+        public SqlFeedRepository( string connectionString )
         {
             dataContext = new JumblistDataContext(connectionString);
         }

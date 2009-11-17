@@ -7,11 +7,11 @@ using Jumblist.Data.Model;
 
 namespace Jumblist.Data.DataAccess.Repository
 {
-    public class AuthorRepository : IAuthorRepository
+    public class SqlAuthorRepository : IAuthorRepository
     {
         private JumblistDataContext dataContext;
 
-        public AuthorRepository(string connectionString)
+        public SqlAuthorRepository(string connectionString)
         {
             dataContext = new JumblistDataContext(connectionString);
         }

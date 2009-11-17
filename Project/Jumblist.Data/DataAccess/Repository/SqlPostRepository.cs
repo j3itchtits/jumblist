@@ -8,11 +8,11 @@ using System.Data.Linq;
 
 namespace Jumblist.Data.DataAccess.Repository
 {
-    public class PostRepository : IPostRepository
+    public class SqlPostRepository : IPostRepository
     {
         private JumblistDataContext dataContext;
 
-        public PostRepository( string connectionString )
+        public SqlPostRepository( string connectionString )
         {
             dataContext = new JumblistDataContext( connectionString );
         }
