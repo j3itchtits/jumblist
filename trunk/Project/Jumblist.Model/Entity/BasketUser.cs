@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace Jumblist.Model.Entity
 {
-    public class User : IDataErrorInfo
+    public class BasketUser : IDataErrorInfo
     {
         public string Name { get; set; }
         public string Email { get; set; }

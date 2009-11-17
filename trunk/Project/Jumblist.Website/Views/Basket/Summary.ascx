@@ -5,7 +5,7 @@
         <span class="caption">
             Your jumblist: <%= Model.Items.Count %> items
         </span>
-        <%= Html.ActionLink( "Email", "email", "basket", new { returnUrl = Request.Url.PathAndQuery }, null ) %>    
+        <%= Html.ActionLink( "Email Me", "emailbasket", "basket", new { returnUrl = Request.Url.PathAndQuery }, null )%>    
     <% } else { %> 
         Your jumblist is empty   
     <% } %>

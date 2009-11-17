@@ -9,13 +9,13 @@ using Jumblist.Website.Services.Authentication;
 
 namespace Jumblist.Website.Controllers
 {
-    public class UsersController : Controller
+    public class AccountController : Controller
     {
 
         // This constructor is used by the MVC framework to instantiate the controller using
         // the default forms authentication and membership providers.
 
-        public UsersController()
+        public AccountController()
             : this( null )
         {
         }
@@ -23,7 +23,7 @@ namespace Jumblist.Website.Controllers
         // This constructor is not used by the MVC framework but is instead provided for ease
         // of unit testing this type. See the comments at the end of this file for more
         // information.
-        public UsersController( IFormsAuthentication formsAuth )
+        public AccountController( IFormsAuthentication formsAuth )
         {
             FormsAuth = formsAuth ?? new FormsAuthenticationService();
         }
