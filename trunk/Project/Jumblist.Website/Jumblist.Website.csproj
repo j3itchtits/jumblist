@@ -116,10 +116,10 @@
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Views\Account\Login.aspx" />
-    <Content Include="Views\Admin\Home.aspx" />
+    <Content Include="Views\Admin\Index.aspx" />
     <Content Include="Views\Authors\List.aspx" />
     <Content Include="Views\Authors\AuthorSummary.ascx" />
-    <Content Include="Views\Basket\EmailBasket.aspx" />
+    <Content Include="Views\Basket\Email.aspx" />
     <Content Include="Views\Basket\Index.aspx" />
     <Content Include="Views\Basket\Summary.ascx" />
     <Content Include="Views\Feeds\FeedSummary.ascx" />

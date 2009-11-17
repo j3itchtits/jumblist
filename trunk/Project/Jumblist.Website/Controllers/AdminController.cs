@@ -13,9 +13,9 @@ namespace Jumblist.Website.Controllers
         //
         // GET: /Admin/
 
-        public ActionResult Home()
+        public ActionResult Index()
         {
-            return View();
+            return View( "Index" );
         }
 
     }
