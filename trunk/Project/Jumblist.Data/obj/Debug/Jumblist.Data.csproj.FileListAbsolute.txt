@@ -1,5 +1,0 @@
-C:\Projects\Websites\Jumblist\Project\Jumblist.Data\obj\Debug\ResolveAssemblyReference.cache
-C:\Projects\Websites\Jumblist\Project\Jumblist.Data\bin\Debug\Jumblist.Data.dll
-C:\Projects\Websites\Jumblist\Project\Jumblist.Data\bin\Debug\Jumblist.Data.pdb
-C:\Projects\Websites\Jumblist\Project\Jumblist.Data\obj\Debug\Jumblist.Data.dll
-C:\Projects\Websites\Jumblist\Project\Jumblist.Data\obj\Debug\Jumblist.Data.pdb
