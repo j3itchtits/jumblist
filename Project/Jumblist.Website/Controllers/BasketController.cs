@@ -51,9 +51,9 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult EmailBasket( Basket basket, string returnUrl )
+        public ViewResult Email( Basket basket, string returnUrl )
         {
-            return View( "EmailBasket", basket.BasketUser );
+            return View( "Email", basket.BasketUser );
         }
     }
 }

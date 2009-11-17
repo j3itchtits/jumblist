@@ -19,7 +19,7 @@ namespace Jumblist.Website
             routes.IgnoreRoute( "{resource}.axd/{*pathInfo}" );
 
             routes.MapRoute(
-                "Detail",                                              // Route name
+                "Post-Detail",                                              // Route name
                 "post/{id}/{name}",                           // URL with parameters
                 new { controller = "posts", action = "details", id = "", name = "" }  // Parameter defaults
             );
@@ -31,21 +31,27 @@ namespace Jumblist.Website
             );
 
             routes.MapRoute(
+                "Admin",
+                "admin/{action}",
+                new { controller = "admin", action = "index" }
+            );
+
+            routes.MapRoute(
                 "Pages",                                              // Route name
                 "{action}",                           // URL with parameters
                 new { controller = "pages", action = "index" }  // Parameter defaults
             );
 
             routes.MapRoute(
-                "Default2",                                              // Route name
+                "Default-TwoParameters",                                              // Route name
                 "{controller}/{action}/{parameter1}/{parameter2}",                           // URL with parameters
-                new { controller = "", action = "index", parameter1 = "", parameter2 = "" }  // Parameter defaults
+                new { controller = "", action = "", parameter1 = "", parameter2 = "" }  // Parameter defaults
             );
 
             routes.MapRoute(
-                "Default",                                              // Route name
+                "Default-OneParameter",                                              // Route name
                 "{controller}/{action}/{parameter1}",                           // URL with parameters
-                new { controller = "", action = "index", parameter1 = "" }  // Parameter defaults
+                new { controller = "", action = "", parameter1 = "" }  // Parameter defaults
             );
 
 

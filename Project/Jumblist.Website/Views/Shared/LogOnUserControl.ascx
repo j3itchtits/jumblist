@@ -2,13 +2,13 @@
 <%
     if (Request.IsAuthenticated) {
 %>
-        Welcome <b><%= Html.Encode(Page.User.Identity.Name) %></b>!
-        [ <%= Html.RouteLink( "Log Out", "default", new { controller = "users", action = "logout" } ) %> ]
+        Welcome <b><%= Html.RouteLink( Html.Encode( Page.User.Identity.Name ), "Admin", new { controller = "admin", action = "index" } )%></b>!
+        [ <%= Html.RouteLink( "Log Out", "Default-OneParameter", new { controller = "account", action = "logout" } )%> ]
 <%
     }
     else {
 %> 
-        [ <%= Html.RouteLink( "Login", "default", new { controller = "users", action = "login", returnurl = HttpContext.Current.Request.Url.PathAndQuery } ) %> ]
+        [ <%= Html.RouteLink( "Login", "Default-OneParameter", new { controller = "account", action = "login", returnurl = Request.Url.PathAndQuery } )%> ]
 <%
     }
 %>

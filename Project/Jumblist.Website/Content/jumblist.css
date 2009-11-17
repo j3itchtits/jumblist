@@ -108,6 +108,7 @@ div
 {
 	width: 760px;
 	float: left;
+
 }
 
 #container #container-right
@@ -138,7 +139,8 @@ div
  
 table.list
 {
-	font-size: 100%;
+	font-size: 80%;
+	width: 100%;
 }
 
 tr.item a 
