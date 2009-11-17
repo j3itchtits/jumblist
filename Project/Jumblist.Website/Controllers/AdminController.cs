@@ -7,6 +7,7 @@ using System.Web.Mvc.Ajax;
 
 namespace Jumblist.Website.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         //

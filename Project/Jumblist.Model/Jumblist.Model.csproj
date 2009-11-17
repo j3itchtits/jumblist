@@ -50,13 +50,13 @@
   <ItemGroup>
     <Compile Include="Entity\Author.cs" />
     <Compile Include="Entity\Basket.cs" />
+    <Compile Include="Entity\BasketUser.cs" />
     <Compile Include="Entity\Feed.cs" />
     <Compile Include="Entity\FeedCategory.cs" />
     <Compile Include="Entity\Location.cs" />
     <Compile Include="Entity\LocationCategory.cs" />
     <Compile Include="Entity\PostCategory.cs" />
     <Compile Include="Entity\PostLocation.cs" />
-    <Compile Include="Entity\User.cs" />
     <Compile Include="Interface\IPostCategoryRepository.cs" />
     <Compile Include="Interface\IFeedCategoryRepository.cs" />
     <Compile Include="Interface\IFeedRepository.cs" />

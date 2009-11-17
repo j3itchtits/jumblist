@@ -50,5 +50,10 @@ namespace Jumblist.Website.Controllers
             return RedirectToAction( "Index", new { returnUrl } );
         }
 
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ViewResult EmailBasket( Basket basket, string returnUrl )
+        {
+            return View( "EmailBasket", basket.BasketUser );
+        }
     }
 }

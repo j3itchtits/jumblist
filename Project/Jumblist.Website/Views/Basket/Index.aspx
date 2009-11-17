@@ -40,7 +40,7 @@
     </table>
     <p align="center" class="actionButtons">
         <a href="<%= Html.Encode(ViewData["returnUrl"]) %>">Continue browsing</a>
-        <%= Html.ActionLink( "Email", "email", new { returnUrl = Request.Url.PathAndQuery } ) %>        
+        <%= Html.ActionLink( "Email Me", "emailbasket", new { returnUrl = Request.Url.PathAndQuery } ) %>        
     </p>
 
 </asp:Content>
