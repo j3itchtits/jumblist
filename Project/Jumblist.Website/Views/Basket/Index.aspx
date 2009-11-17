@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Jumblist.Model.Entity.Basket>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Jumblist.Data.Model.Basket>" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="HeadContentTitle" runat="server">
     Your Basket
@@ -40,7 +40,7 @@
     </table>
     <p align="center" class="actionButtons">
         <a href="<%= Html.Encode(ViewData["returnUrl"]) %>">Continue browsing</a>
-        <%= Html.ActionLink( "Email Me", "emailbasket", new { returnUrl = Request.Url.PathAndQuery } ) %>        
+        <%= Html.ActionLink( "Email Me", "email", new { returnUrl = Request.Url.PathAndQuery } ) %>        
     </p>
 
 </asp:Content>

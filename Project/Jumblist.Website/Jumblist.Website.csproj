@@ -119,6 +119,7 @@
     <Content Include="Views\Admin\Index.aspx" />
     <Content Include="Views\Authors\List.aspx" />
     <Content Include="Views\Authors\AuthorSummary.ascx" />
+    <Content Include="Views\Basket\Completed.aspx" />
     <Content Include="Views\Basket\Email.aspx" />
     <Content Include="Views\Basket\Index.aspx" />
     <Content Include="Views\Basket\Summary.ascx" />
@@ -162,9 +163,9 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Jumblist.Model\Jumblist.Model.csproj">
+    <ProjectReference Include="..\Jumblist.Data\Jumblist.Data.csproj">
       <Project>{714965B2-1CDB-440B-B8D3-33E59256A665}</Project>
-      <Name>Jumblist.Model</Name>
+      <Name>Jumblist.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

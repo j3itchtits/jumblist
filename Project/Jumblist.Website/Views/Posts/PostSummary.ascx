@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<Jumblist.Model.Entity.Post>" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<Jumblist.Data.Model.Post>" %>
 
 <tr class="item">
     <td><%= Html.RouteLink( Model.Title, "Post-Detail", new { id = Model.PostId, name = Url.ToFriendlyUrl( Model.Title ) } )%></td>  

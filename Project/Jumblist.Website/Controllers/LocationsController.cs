@@ -4,9 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
-using Jumblist.Model.Interface;
+using Jumblist.Data.DataAccess.Interface;
 using Jumblist.Website.Helpers;
-using Jumblist.Model.Entity;
+using Jumblist.Data.Model;
 using Jumblist.Website.Services.Paging;
 
 namespace Jumblist.Website.Controllers

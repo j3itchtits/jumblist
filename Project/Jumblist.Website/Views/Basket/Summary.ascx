@@ -1,4 +1,4 @@
-<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Jumblist.Model.Entity.Basket>" %>
+<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Jumblist.Data.Model.Basket>" %>
 
 <div id="cart">
     <% if (Model.Items.Count > 0) { %>

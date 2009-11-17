@@ -5,7 +5,7 @@ using System.Text;
 using System.Data.Linq.Mapping;
 using System.Data.Linq;
 
-namespace Jumblist.Model.Entity
+namespace Jumblist.Data.Model
 {
     [Table( Name = "Posts" )]
     public class Post

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace Jumblist.Model.Entity
+namespace Jumblist.Data.Model
 {
     public class BasketUser : IDataErrorInfo
     {
