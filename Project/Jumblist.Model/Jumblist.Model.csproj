@@ -56,6 +56,7 @@
     <Compile Include="Entity\LocationCategory.cs" />
     <Compile Include="Entity\PostCategory.cs" />
     <Compile Include="Entity\PostLocation.cs" />
+    <Compile Include="Entity\User.cs" />
     <Compile Include="Interface\IPostCategoryRepository.cs" />
     <Compile Include="Interface\IFeedCategoryRepository.cs" />
     <Compile Include="Interface\IFeedRepository.cs" />

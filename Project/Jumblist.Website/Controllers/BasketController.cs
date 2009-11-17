@@ -25,6 +25,11 @@ namespace Jumblist.Website.Controllers
             return View( "Index", basket );
         }
 
+        public ViewResult Summary( Basket basket )
+        {
+            return View( "Summary", basket );
+        }
+
         public RedirectToRouteResult AddItem( Basket basket, int postId, string returnUrl )
         {
             Post post = postRespository.SelectPost( postId );

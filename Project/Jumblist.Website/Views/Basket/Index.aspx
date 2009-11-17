@@ -13,12 +13,12 @@
        
     <table>
         <thead><tr>
-            <th align="left">Items</th>
+            <th align="left" colspan="2">Items</th>
         </tr></thead>
         <tbody>
             <% foreach(var item in Model.Items) { %>
                 <tr>
-                    <td align="left"><%= item.Title %></td>
+                    <td><%= item.Title %></td>
                     <td>
                         <% using(Html.BeginForm("clearitem", "basket")) { %>
                             <%= Html.Hidden("postId", item.PostId) %>
@@ -28,15 +28,19 @@
                     </td>                    
                 </tr>
             <% } %>
+            <tr>
+                <td colspan="2" align="right">
+                    <% using(Html.BeginForm("clearall", "basket")) { %>
+                        <%= Html.Hidden("returnUrl", ViewData["returnUrl"]) %>
+                        <input type="submit" value="Remove All" />
+                    <% } %>
+                </td>
+            </tr>            
         </tbody>
     </table>
     <p align="center" class="actionButtons">
-        <% using(Html.BeginForm("clearall", "basket")) { %>
-            <%= Html.Hidden("returnUrl", ViewData["returnUrl"]) %>
-            <input type="submit" value="Remove All" />
-        <% } %>
-        <a href="<%= Html.Encode(ViewData["returnUrl"]) %>">Continue shopping</a>
-        <%= Html.ActionLink("Check out now", "CheckOut") %>        
+        <a href="<%= Html.Encode(ViewData["returnUrl"]) %>">Continue browsing</a>
+        <%= Html.ActionLink( "Email", "email", new { returnUrl = Request.Url.PathAndQuery } ) %>        
     </p>
 
 </asp:Content>

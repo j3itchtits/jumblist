@@ -15,17 +15,24 @@
 
     
         <div id="header">
-            <div id="header-interior">Jumblist</div>
-        </div>
-        
-        <div id="menu">
-            <div id="menu-interior">
-                <%= Html.RouteLink( "Home", "pages", new { action = "index" } )%> | 
-                <%= Html.RouteLink( "About", "pages", new { action = "about" } )%> | 
-                <%= Html.RouteLink( "Help", "pages", new { action = "help" } )%> | 
-                <% Html.RenderPartial( "LogOnUserControl" ); %>        
+            <div id="header-interior">
+                <div id="logo">Jumblist</div>
+                <div id="basket">
+                    <% if (!(ViewContext.Controller is Jumblist.Website.Controllers.BasketController))
+                       {
+                           Html.RenderAction( "Summary", "Basket" );  
+                       } %>
+                </div>
+                <div id="menu">
+                    <%= Html.RouteLink( "Home", "pages", new { action = "index" } )%> | 
+                    <%= Html.RouteLink( "About", "pages", new { action = "about" } )%> | 
+                    <%= Html.RouteLink( "Help", "pages", new { action = "help" } )%> | 
+                    <% Html.RenderPartial( "LogOnUserControl" ); %>  
+                </div>
             </div>
         </div>
+        
+
 
         <div id="container">        
             <div id="container-left">

@@ -119,6 +119,7 @@
     <Content Include="Views\Authors\List.aspx" />
     <Content Include="Views\Authors\AuthorSummary.ascx" />
     <Content Include="Views\Basket\Index.aspx" />
+    <Content Include="Views\Basket\Summary.ascx" />
     <Content Include="Views\Feeds\FeedSummary.ascx" />
     <Content Include="Views\Feeds\List.aspx" />
     <Content Include="Views\Locations\Category.aspx" />
