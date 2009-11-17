@@ -5,9 +5,9 @@ using System.Text;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 using System.Reflection;
-using Jumblist.Model.Entity;
+using Jumblist.Data.Model;
 
-namespace Jumblist.Model
+namespace Jumblist.Data.DataAccess
 {
     public class JumblistDataContext : DataContext
     {
