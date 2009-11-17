@@ -7,11 +7,11 @@ using Jumblist.Data.Model;
 
 namespace Jumblist.Data.DataAccess.Repository
 {
-    public class LocationRepository : ILocationRepository
+    public class SqlLocationRepository : ILocationRepository
     {
         private JumblistDataContext dataContext;
 
-        public LocationRepository( string connectionString )
+        public SqlLocationRepository( string connectionString )
         {
             dataContext = new JumblistDataContext(connectionString);
         }

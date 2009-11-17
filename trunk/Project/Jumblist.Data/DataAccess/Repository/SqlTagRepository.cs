@@ -7,11 +7,11 @@ using Jumblist.Data.Model;
 
 namespace Jumblist.Data.DataAccess.Repository
 {
-    public class TagRepository : ITagRepository
+    public class SqlTagRepository : ITagRepository
     {
         private JumblistDataContext dataContext;
 
-        public TagRepository( string connectionString )
+        public SqlTagRepository( string connectionString )
         {
             dataContext = new JumblistDataContext(connectionString);
         }
