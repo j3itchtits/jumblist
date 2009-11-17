@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<Jumblist.Website.Services.Paging.PaginatedList<Jumblist.Model.Entity.Post>>" %>
 
-<table cellpadding="5" class="list">
+<table cellpadding="5" class="list" style="display:inline;">
 <% foreach ( var post in Model )
    { %>
         <tr class="item">
