@@ -49,6 +49,12 @@
     <Compile Include="Basket\IBasketSubmitter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jumblist.Data\Jumblist.Data.csproj">
+      <Project>{714965B2-1CDB-440B-B8D3-33E59256A665}</Project>
+      <Name>Jumblist.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

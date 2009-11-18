@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
-using Jumblist.Data.DataAccess.Interface;
+using Jumblist.Data.Access;
 using Jumblist.Website.Helpers;
 using Jumblist.Data.Model;
 using Jumblist.Website.Services.Paging;
