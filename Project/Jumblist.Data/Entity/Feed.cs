@@ -5,7 +5,7 @@ using System.Text;
 using System.Data.Linq.Mapping;
 using System.Data.Linq;
 
-namespace Jumblist.Data.Model
+namespace Jumblist.Data.Entity
 {
     [Table( Name = "Feeds" )]
     public class Feed

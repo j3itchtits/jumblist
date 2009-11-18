@@ -66,19 +66,19 @@
     <Compile Include="Access\Repository\SqlPostCategoryRepository.cs" />
     <Compile Include="Access\Repository\SqlPostRepository.cs" />
     <Compile Include="Access\Repository\SqlTagRepository.cs" />
-    <Compile Include="Model\Author.cs" />
-    <Compile Include="Model\Basket.cs" />
-    <Compile Include="Model\BasketUser.cs" />
-    <Compile Include="Model\Feed.cs" />
-    <Compile Include="Model\FeedCategory.cs" />
-    <Compile Include="Model\Location.cs" />
-    <Compile Include="Model\LocationCategory.cs" />
-    <Compile Include="Model\NearestPostResult.cs" />
-    <Compile Include="Model\Post.cs" />
-    <Compile Include="Model\PostCategory.cs" />
-    <Compile Include="Model\PostLocation.cs" />
-    <Compile Include="Model\PostTag.cs" />
-    <Compile Include="Model\Tag.cs" />
+    <Compile Include="Entity\Author.cs" />
+    <Compile Include="Entity\Basket.cs" />
+    <Compile Include="Entity\BasketUser.cs" />
+    <Compile Include="Entity\Feed.cs" />
+    <Compile Include="Entity\FeedCategory.cs" />
+    <Compile Include="Entity\Location.cs" />
+    <Compile Include="Entity\LocationCategory.cs" />
+    <Compile Include="Entity\NearestPostResult.cs" />
+    <Compile Include="Entity\Post.cs" />
+    <Compile Include="Entity\PostCategory.cs" />
+    <Compile Include="Entity\PostLocation.cs" />
+    <Compile Include="Entity\PostTag.cs" />
+    <Compile Include="Entity\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

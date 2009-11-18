@@ -1,4 +1,4 @@
-﻿using Jumblist.Data.Model;
+﻿using Jumblist.Data.Entity;
 
 namespace Jumblist.Services
 {

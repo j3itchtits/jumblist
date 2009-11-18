@@ -5,7 +5,7 @@ using System.Text;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 using System.Reflection;
-using Jumblist.Data.Model;
+using Jumblist.Data.Entity;
 
 namespace Jumblist.Data.Access
 {

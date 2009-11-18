@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Jumblist.Data.Model
+namespace Jumblist.Data.Entity
 {
     public class Basket
     {

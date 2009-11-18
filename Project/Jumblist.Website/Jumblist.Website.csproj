@@ -51,6 +51,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ReferenceAssemblies\Microsoft.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="MvcContrib.Castle, Version=1.0.0.960, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceAssemblies\MvcContrib.Castle.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core">
@@ -78,11 +82,13 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JumblistApplication.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthorsController.cs" />
     <Compile Include="Controllers\BasketController.cs" />
     <Compile Include="Controllers\FeedsController.cs" />
+    <Compile Include="Controllers\JumblistControllerFactory.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\PagesController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
@@ -106,7 +112,6 @@
     <Compile Include="Services\Scraping\BasicHttpRequestResponse.cs" />
     <Compile Include="Services\Scraping\HttpRequestResponse.cs" />
     <Compile Include="Services\Scraping\PollingService.cs" />
-    <Compile Include="WindsorControllerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\jumblist.css" />

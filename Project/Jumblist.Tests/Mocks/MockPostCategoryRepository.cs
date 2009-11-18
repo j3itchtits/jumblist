@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Moq;
 using Jumblist.Data.Access;
-using Jumblist.Data.Model;
+using Jumblist.Data.Entity;
 
 namespace Jumblist.Tests.Mocks
 {
