@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using Jumblist.Data.Access;
 using Jumblist.Website.Helpers;
-using Jumblist.Data.Model;
+using Jumblist.Data.Entity;
 using Jumblist.Website.Services.Paging;
 
 namespace Jumblist.Website.Controllers

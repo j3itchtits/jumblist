@@ -6,7 +6,7 @@ using NUnit.Framework;
 using Jumblist.Tests.Mocks;
 using Jumblist.Website.Controllers;
 using Jumblist.Data.Access;
-using Jumblist.Data.Model;
+using Jumblist.Data.Entity;
 using System.Web.Mvc;
 
 

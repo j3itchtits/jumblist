@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data.Linq.Mapping;
 
-namespace Jumblist.Data.Model
+namespace Jumblist.Data.Entity
 {
     public class NearestPostsResult
     {

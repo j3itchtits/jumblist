@@ -8,31 +8,51 @@ using Castle.Windsor.Configuration.Interpreters;
 using Castle.Core.Resource;
 using System.Reflection;
 using Castle.Core;
+using MvcContrib.Castle;
 
 namespace Jumblist.Website
 {
-    public class WindsorControllerFactory : DefaultControllerFactory
+    public class JumblistControllerFactory : DefaultControllerFactory
     {
-        private WindsorContainer container;
+        private IWindsorContainer container;
 
         // The constructor:
         // 1. Sets up a new IoC container
         // 2. Registers all components specified in web.config
         // 3. Registers all controller types as components
-        public WindsorControllerFactory()
+        public JumblistControllerFactory()
         {
             // Instantiate a container, taking configuration from web.config
             container = new WindsorContainer(new XmlInterpreter(new ConfigResource("castle")));
+            RegisterControllerTypes( container );
+        }
+
+        public JumblistControllerFactory( IWindsorContainer container )
+        {
+            RegisterControllerTypes( container );
+        }
+
+        private void RegisterControllerTypes( IWindsorContainer container )
+        {
+
+            //Assembly.GetExecutingAssembly().GetExportedTypes()
+            //    .Where( t => typeof( IController ).IsAssignableFrom( t ) )
+            //    .ForEach( t => container.AddComponentLifeStyle( t.Name.ToLower(), t, LifestyleType.Transient ) );
+
+            //container.RegisterControllers( Assembly.GetExecutingAssembly() );
 
             // Also register all the controller types as transient
             var controllerTypes = from t in Assembly.GetExecutingAssembly().GetTypes()
-                                  where typeof(IController).IsAssignableFrom(t)
+                                  where typeof( IController ).IsAssignableFrom( t )
                                   select t;
 
-            foreach (var t in controllerTypes)
+            foreach ( var t in controllerTypes )
             {
-                container.AddComponentLifeStyle(t.FullName, t, LifestyleType.Transient);
+                container.AddComponentLifeStyle( t.FullName, t, LifestyleType.Transient );
             }
+
+
+
 
         }
 

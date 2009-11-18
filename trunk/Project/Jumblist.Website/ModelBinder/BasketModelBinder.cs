@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
-using Jumblist.Data.Model;
+using Jumblist.Data.Entity;
 
 namespace Jumblist.Website.ModelBinder
 {

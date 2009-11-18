@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Jumblist.Data.Model.Post>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Jumblist.Data.Entity.Post>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContentTitle" runat="server">
 	Details
