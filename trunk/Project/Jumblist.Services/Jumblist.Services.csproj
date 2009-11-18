@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{714965B2-1CDB-440B-B8D3-33E59256A665}</ProjectGuid>
+    <ProjectGuid>{8166403E-0419-446B-B641-B0F724980D1E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Jumblist.Data</RootNamespace>
-    <AssemblyName>Jumblist.Data</AssemblyName>
+    <RootNamespace>Jumblist.Services</RootNamespace>
+    <AssemblyName>Jumblist.Services</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -35,9 +35,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -48,41 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess\Interface\IAuthorRepository.cs" />
-    <Compile Include="DataAccess\Interface\IFeedCategoryRepository.cs" />
-    <Compile Include="DataAccess\Interface\IFeedRepository.cs" />
-    <Compile Include="DataAccess\Interface\ILocationCategoryRepository.cs" />
-    <Compile Include="DataAccess\Interface\ILocationRepository.cs" />
-    <Compile Include="DataAccess\Interface\IPostCategoryRepository.cs" />
-    <Compile Include="DataAccess\Interface\IPostRepository.cs" />
-    <Compile Include="DataAccess\Interface\ITagRepository.cs" />
-    <Compile Include="DataAccess\JumblistDataContext.cs" />
-    <Compile Include="DataAccess\Repository\FakePostRepository.cs" />
-    <Compile Include="DataAccess\Repository\SqlAuthorRepository.cs" />
-    <Compile Include="DataAccess\Repository\SqlFeedCategoryRepository.cs" />
-    <Compile Include="DataAccess\Repository\SqlFeedRepository.cs" />
-    <Compile Include="DataAccess\Repository\SqlLocationCategoryRepository.cs" />
-    <Compile Include="DataAccess\Repository\SqlLocationRepository.cs" />
-    <Compile Include="DataAccess\Repository\SqlPostCategoryRepository.cs" />
-    <Compile Include="DataAccess\Repository\SqlPostRepository.cs" />
-    <Compile Include="DataAccess\Repository\SqlTagRepository.cs" />
-    <Compile Include="Model\Author.cs" />
-    <Compile Include="Model\Basket.cs" />
-    <Compile Include="Model\BasketUser.cs" />
-    <Compile Include="Model\Feed.cs" />
-    <Compile Include="Model\FeedCategory.cs" />
-    <Compile Include="Model\Location.cs" />
-    <Compile Include="Model\LocationCategory.cs" />
-    <Compile Include="Model\NearestPostResult.cs" />
-    <Compile Include="Model\Post.cs" />
-    <Compile Include="Model\PostCategory.cs" />
-    <Compile Include="Model\PostLocation.cs" />
-    <Compile Include="Model\PostTag.cs" />
-    <Compile Include="Model\Tag.cs" />
+    <Compile Include="Basket\EmailBasketSubmitter.cs" />
+    <Compile Include="Basket\IBasketSubmitter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
