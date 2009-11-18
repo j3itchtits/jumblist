@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Moq;
-using Jumblist.Data.DataAccess.Interface;
+using Jumblist.Data.Access;
 using Jumblist.Data.Model;
 
 namespace Jumblist.Tests.Mocks

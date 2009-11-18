@@ -7,7 +7,7 @@ using System.Data.Linq.Mapping;
 using System.Reflection;
 using Jumblist.Data.Model;
 
-namespace Jumblist.Data.DataAccess
+namespace Jumblist.Data.Access
 {
     public class JumblistDataContext : DataContext
     {

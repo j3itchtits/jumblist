@@ -5,7 +5,7 @@ using System.Text;
 using Jumblist.Data.Model;
 using System.Net.Mail;
 
-namespace Jumblist.Data.Services
+namespace Jumblist.Services
 {
     public class EmailBasketSubmitter : IBasketSubmitter
     {

@@ -167,6 +167,10 @@
       <Project>{714965B2-1CDB-440B-B8D3-33E59256A665}</Project>
       <Name>Jumblist.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Jumblist.Services\Jumblist.Services.csproj">
+      <Project>{8166403E-0419-446B-B641-B0F724980D1E}</Project>
+      <Name>Jumblist.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\" />

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Jumblist.Data.DataAccess.Interface;
 using Jumblist.Data.Model;
 using System.Data.Linq;
 
-namespace Jumblist.Data.DataAccess.Repository
+namespace Jumblist.Data.Access
 {
     public class SqlPostRepository : IPostRepository
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Jumblist.Data.Model;
 
-namespace Jumblist.Data.DataAccess.Interface
+namespace Jumblist.Data.Access
 {
     public interface ILocationRepository
     {
