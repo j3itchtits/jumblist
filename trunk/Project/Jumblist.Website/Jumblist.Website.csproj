@@ -51,6 +51,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ReferenceAssemblies\Microsoft.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="MvcContrib, Version=1.5.996.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceAssemblies\MvcContrib.dll</HintPath>
+    </Reference>
     <Reference Include="MvcContrib.Castle, Version=1.0.0.960, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ReferenceAssemblies\MvcContrib.Castle.dll</HintPath>
@@ -112,6 +116,7 @@
     <Compile Include="Services\Scraping\BasicHttpRequestResponse.cs" />
     <Compile Include="Services\Scraping\HttpRequestResponse.cs" />
     <Compile Include="Services\Scraping\PollingService.cs" />
+    <Compile Include="WindsorExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\jumblist.css" />
