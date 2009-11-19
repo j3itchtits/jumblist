@@ -6,15 +6,19 @@ using Jumblist.Data.Entity;
 
 namespace Jumblist.Data.Access
 {
-    public class SqlAuthorRepository : IAuthorRepository
+    public class SqlAuthorRepository : Repository, IAuthorRepository
     {
         private JumblistDataContext dataContext;
 
-        public SqlAuthorRepository(string connectionString)
+        public SqlAuthorRepository()
         {
-            dataContext = new JumblistDataContext(connectionString);
+            dataContext = new JumblistDataContext( base.ConnectionString );
         }
 
+        public SqlAuthorRepository( string connectionString )
+        {
+            dataContext = new JumblistDataContext( connectionString );
+        }
 
         #region IAuthorRepository Members
 

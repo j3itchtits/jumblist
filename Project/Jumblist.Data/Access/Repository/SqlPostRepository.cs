@@ -7,9 +7,14 @@ using System.Data.Linq;
 
 namespace Jumblist.Data.Access
 {
-    public class SqlPostRepository : IPostRepository
+    public class SqlPostRepository : Repository, IPostRepository
     {
         private JumblistDataContext dataContext;
+
+        public SqlPostRepository()
+        {
+            dataContext = new JumblistDataContext( base.ConnectionString );
+        }
 
         public SqlPostRepository( string connectionString )
         {

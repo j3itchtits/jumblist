@@ -58,6 +58,7 @@
     <Compile Include="Access\Interface\ITagRepository.cs" />
     <Compile Include="Access\JumblistDataContext.cs" />
     <Compile Include="Access\Repository\FakePostRepository.cs" />
+    <Compile Include="Access\Repository\Repository.cs" />
     <Compile Include="Access\Repository\SqlAuthorRepository.cs" />
     <Compile Include="Access\Repository\SqlFeedCategoryRepository.cs" />
     <Compile Include="Access\Repository\SqlFeedRepository.cs" />

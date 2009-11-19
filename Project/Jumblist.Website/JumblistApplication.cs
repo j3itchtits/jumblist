@@ -14,6 +14,7 @@ using Jumblist.Data.Entity;
 using Jumblist.Website.ModelBinder;
 using MvcContrib.Castle;
 using Castle.Core;
+using System.Runtime.CompilerServices;
 
 namespace Jumblist.Website
 {
@@ -26,40 +27,41 @@ namespace Jumblist.Website
             AddControllers( container );
             AddSingleComponents( container );
             //AddServices( container );
-            //AddRepositories( container );
+            AddRepositories( container );
         }
 
         //add all my controllers
         private void AddControllers( IWindsorContainer container )
         {
-            //container.RegisterControllers( Assembly.GetExecutingAssembly() );
+            container.RegisterControllers( Assembly.GetExecutingAssembly() );
 
             //Also register all the controller types as transient
-            var controllerTypes = from t in Assembly.GetExecutingAssembly().GetTypes()
-                                  where typeof( IController ).IsAssignableFrom( t )
-                                  select t;
+            //var controllerTypes = from t in Assembly.GetExecutingAssembly().GetTypes()
+            //                      where typeof( IController ).IsAssignableFrom( t )
+            //                      select t;
 
-            foreach ( Type t in controllerTypes )
-                container.AddComponentLifeStyle( t.FullName, t, LifestyleType.Transient );
+            //foreach (Type t in controllerTypes)
+            //    container.AddComponentLifeStyle( t.FullName, t, LifestyleType.Transient );
         }
 
         //handle any one off registrations that aren't convention based
         private void AddSingleComponents( IWindsorContainer container )
         {
-          
-            container.Register( Component.For<IPostRepository>()
-                .Named( "PostRepository" )
-                .ImplementedBy<SqlPostRepository>()
-                .LifeStyle.PerWebRequest
-                .Parameters( Parameter.ForKey( "connectionString" ).Eq( jumblistDbConnString ) )
-            );
 
-            container.Register( Component.For<IPostCategoryRepository>()
-                .Named( "PostCategoryRepository" )
-                .ImplementedBy<SqlPostCategoryRepository>()
-                .LifeStyle.PerWebRequest
-                .Parameters( Parameter.ForKey( "connectionString" ).Eq( jumblistDbConnString ) )
-            );
+          
+            //container.Register( Component.For<IPostRepository>()
+            //    .Named( "PostRepository" )
+            //    .ImplementedBy<SqlPostRepository>()
+            //    .LifeStyle.PerWebRequest
+            //    .Parameters( Parameter.ForKey( "connectionString" ).Eq( jumblistDbConnString ) )
+            //);
+
+            //container.Register( Component.For<IPostCategoryRepository>()
+            //    .Named( "PostCategoryRepository" )
+            //    .ImplementedBy<SqlPostCategoryRepository>()
+            //    .LifeStyle.PerWebRequest
+            //    .Parameters( Parameter.ForKey( "connectionString" ).Eq( jumblistDbConnString ) )
+            //);
 
             container.Register( Component.For<IBasketSubmitter>()
                 .Named( "BasketSubmitterService" )
@@ -78,12 +80,15 @@ namespace Jumblist.Website
         {
             container.Register( AllTypes.Pick()
                 .FromAssemblyNamed( "Jumblist.Services" )
+                .Configure( c => c.LifeStyle.PerWebRequest )
+                .WithService.FirstNonGenericCoreInterface( "Jumblist.Core" ) //look for interfaces from this assembly
                 
-                .WithService.FirstInterface()
             );
         }
 
         //register all custom repositories (not generic)
+        //http://blog.coreycoogan.com/2009/11/06/castle-windsor-tutorial-in-asp-net-mvc/
+        //http://code-magazine.com/article.aspx?quickid=0906051&page=3
         private void AddRepositories( IWindsorContainer container )
         {
             container.Register(
@@ -91,7 +96,9 @@ namespace Jumblist.Website
                 //.FromAssembly( typeof( SqlPostRepository ).Assembly )
                 .FromAssemblyNamed( "Jumblist.Data" )
                 .Configure( c => c.LifeStyle.PerWebRequest )
-                .WithService.FirstInterface());
+                .Configure( c => c.DependsOn( new { connectionString = jumblistDbConnString } ) )
+                .WithService.FirstInterface()
+            );
         }
 
         public void RegisterRoutes( RouteCollection routes )
@@ -152,4 +159,6 @@ namespace Jumblist.Website
             binders[typeof( Basket )] = new BasketModelBinder();
         }
     }
+
+
 }
