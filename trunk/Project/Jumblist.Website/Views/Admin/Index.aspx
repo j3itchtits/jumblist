@@ -1,11 +1,11 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="HeadContentTitle" runat="server">
-	Index
+<asp:Content ID="Content2" ContentPlaceHolderID="head" runat="server">
+	<title>Admin Home</title>
 </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Admin Main page</h2>
+    <h2>Admin Home</h2>
 
 </asp:Content>
