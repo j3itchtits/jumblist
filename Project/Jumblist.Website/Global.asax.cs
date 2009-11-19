@@ -15,8 +15,6 @@ namespace Jumblist.Website
     public class Global : System.Web.HttpApplication
     {
 
-
-
         protected void Application_Start()
         {
             //create the container
@@ -31,10 +29,6 @@ namespace Jumblist.Website
 
             //set the controller factory
             ControllerBuilder.Current.SetControllerFactory( new WindsorControllerFactory( container ) );
-
-            
-
-            
             
         }
 

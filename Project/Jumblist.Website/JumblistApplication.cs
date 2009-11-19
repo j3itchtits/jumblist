@@ -13,6 +13,7 @@ using Jumblist.Data.Access;
 using Jumblist.Data.Entity;
 using Jumblist.Website.ModelBinder;
 using MvcContrib.Castle;
+using Castle.Core;
 
 namespace Jumblist.Website
 {
@@ -31,15 +32,15 @@ namespace Jumblist.Website
         //add all my controllers
         private void AddControllers( IWindsorContainer container )
         {
-            container.RegisterControllers( Assembly.GetExecutingAssembly() );
+            //container.RegisterControllers( Assembly.GetExecutingAssembly() );
 
-            // Also register all the controller types as transient
-            //var controllerTypes = from t in Assembly.GetExecutingAssembly().GetTypes()
-            //                      where typeof( IController ).IsAssignableFrom( t )
-            //                      select t;
+            //Also register all the controller types as transient
+            var controllerTypes = from t in Assembly.GetExecutingAssembly().GetTypes()
+                                  where typeof( IController ).IsAssignableFrom( t )
+                                  select t;
 
-            //foreach ( Type t in controllerTypes )
-            //    container.AddComponentLifeStyle( t.FullName, t, LifestyleType.Transient );
+            foreach ( Type t in controllerTypes )
+                container.AddComponentLifeStyle( t.FullName, t, LifestyleType.Transient );
         }
 
         //handle any one off registrations that aren't convention based

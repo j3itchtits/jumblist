@@ -82,9 +82,9 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="JumblistApplication.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthorsController.cs" />
     <Compile Include="Controllers\BasketController.cs" />
     <Compile Include="Controllers\FeedsController.cs" />
@@ -176,6 +176,13 @@
       <Project>{8166403E-0419-446B-B641-B0F724980D1E}</Project>
       <Name>Jumblist.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\admin.css" />
+    <Content Include="Views\Admin\PostEdit.aspx" />
+    <Content Include="Views\Admin\Navigation.ascx" />
+    <Content Include="Views\Admin\Posts.aspx" />
+    <Content Include="Views\Shared\Admin.Master" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\" />

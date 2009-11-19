@@ -6,47 +6,45 @@
     <title><asp:ContentPlaceHolder ID="HeadContentTitle" runat="server" /></title>
     <link href="~/content/yui-reset.css" rel="stylesheet" type="text/css" runat="server" />
     <link href="~/content/yui-fonts-min.css" rel="stylesheet" type="text/css" runat="server" />
-    <link href="~/content/yui-base.css" rel="stylesheet" type="text/css" runat="server" />
     <link href="~/content/jumblist.css" rel="stylesheet" type="text/css" runat="server" />
     <asp:ContentPlaceHolder ID="HeadContentJavascript" runat="server" />    
 </head>
 
 <body>
-
-    
-        <div id="header">
-            <div id="header-interior">
-                <div id="logo">Jumblist</div>
-                <div id="basket">
-                    <% if (!(ViewContext.Controller is Jumblist.Website.Controllers.BasketController))
-                       {
-                           Html.RenderAction( "Summary", "Basket" );  
-                       } %>
-                </div>
-                <div id="menu">
-                    <%= Html.RouteLink( "Home", "Pages", new { action = "index" } )%> | 
-                    <%= Html.RouteLink( "About", "Pages", new { action = "about" } )%> | 
-                    <%= Html.RouteLink( "Help", "Pages", new { action = "help" } )%> | 
-                    <% Html.RenderPartial( "LogOnUserControl" ); %>  
-                </div>
+  
+    <div id="header">
+        <div id="header-interior">
+            <div id="logo">Jumblist</div>
+            <div id="basket">
+                <% if (!(ViewContext.Controller is Jumblist.Website.Controllers.BasketController))
+                   {
+                       Html.RenderAction( "Summary", "Basket" );  
+                   } %>
+            </div>
+            <div id="menu">
+                <%= Html.RouteLink( "Home", "Pages", new { action = "index" } )%> | 
+                <%= Html.RouteLink( "About", "Pages", new { action = "about" } )%> | 
+                <%= Html.RouteLink( "Help", "Pages", new { action = "help" } )%> | 
+                <% Html.RenderPartial( "LogOnUserControl" ); %>  
             </div>
         </div>
+    </div>
+
+
+
+    <div id="container">        
+        <div id="container-left">
+            <asp:ContentPlaceHolder ID="BodyContentLeft" runat="server" />
+        </div>
         
-
-
-        <div id="container">        
-            <div id="container-left">
-                <asp:ContentPlaceHolder ID="BodyContentLeft" runat="server" />
-            </div>
-            
-            <div id="container-right">
-                <asp:ContentPlaceHolder ID="BodyContentRight" runat="server" />
-            </div>
-        </div>     
-           
-        <div id="footer">
-            <div id="footer-interior"><span>Copyright notice etc</span></div>
-        </div>                                
+        <div id="container-right">
+            <asp:ContentPlaceHolder ID="BodyContentRight" runat="server" />
+        </div>
+    </div>     
+       
+    <div id="footer">
+        <div id="footer-interior"><span>Copyright notice etc</span></div>
+    </div>                                
        
 
 </body>
