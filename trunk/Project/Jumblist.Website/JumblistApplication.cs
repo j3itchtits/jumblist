@@ -8,7 +8,7 @@ using System.Web.Routing;
 using System.Reflection;
 using Castle.Windsor;
 using Castle.MicroKernel.Registration;
-using Jumblist.Core;
+using Jumblist.Core.Service;
 using Jumblist.Services.Basket;
 using Jumblist.Data.Access;
 using Jumblist.Data.Entity;

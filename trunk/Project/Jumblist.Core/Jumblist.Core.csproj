@@ -45,14 +45,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IBasketSubmitter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\IBasketSubmitter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jumblist.Data\Jumblist.Data.csproj">
       <Project>{714965B2-1CDB-440B-B8D3-33E59256A665}</Project>
       <Name>Jumblist.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
+    <Folder Include="Repository\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -49,14 +49,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Access\FakePostRepository.cs" />
-    <Compile Include="Access\Interface\IAuthorRepository.cs" />
-    <Compile Include="Access\Interface\IFeedCategoryRepository.cs" />
-    <Compile Include="Access\Interface\IFeedRepository.cs" />
-    <Compile Include="Access\Interface\ILocationCategoryRepository.cs" />
-    <Compile Include="Access\Interface\ILocationRepository.cs" />
-    <Compile Include="Access\Interface\IPostCategoryRepository.cs" />
-    <Compile Include="Access\Interface\IPostRepository.cs" />
-    <Compile Include="Access\Interface\ITagRepository.cs" />
+    <Compile Include="Access\Interface\IAuthorRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Access\Interface\IFeedCategoryRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Access\Interface\IFeedRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Access\Interface\ILocationCategoryRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Access\Interface\ILocationRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Access\Interface\IPostCategoryRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Access\Interface\IPostRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Access\Interface\ITagRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Access\JumblistDataContext.cs" />
     <Compile Include="Access\SqlAuthorRepository.cs" />
     <Compile Include="Access\SqlFeedCategoryRepository.cs" />

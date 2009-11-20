@@ -7,7 +7,7 @@ using System.Web.Mvc.Ajax;
 using Jumblist.Data.Access;
 using Jumblist.Data.Entity;
 using Jumblist.Services;
-using Jumblist.Core;
+using Jumblist.Core.Service;
 
 namespace Jumblist.Website.Controllers
 {
