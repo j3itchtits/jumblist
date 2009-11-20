@@ -46,10 +46,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Basket\EmailBasketSubmitter.cs" />
-    <Compile Include="Basket\IBasketSubmitter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Jumblist.Core\Jumblist.Core.csproj">
+      <Project>{94140A3D-4E0F-46A0-AA1A-0F52EFFE7C72}</Project>
+      <Name>Jumblist.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Jumblist.Data\Jumblist.Data.csproj">
       <Project>{714965B2-1CDB-440B-B8D3-33E59256A665}</Project>
       <Name>Jumblist.Data</Name>

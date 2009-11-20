@@ -172,6 +172,10 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Jumblist.Core\Jumblist.Core.csproj">
+      <Project>{94140A3D-4E0F-46A0-AA1A-0F52EFFE7C72}</Project>
+      <Name>Jumblist.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Jumblist.Data\Jumblist.Data.csproj">
       <Project>{714965B2-1CDB-440B-B8D3-33E59256A665}</Project>
       <Name>Jumblist.Data</Name>
