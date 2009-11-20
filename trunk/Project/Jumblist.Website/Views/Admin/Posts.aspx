@@ -19,8 +19,8 @@
                 <td><%= item.PostId %></td>
                 <td><%= Html.Encode( item.Title ) %></td>
                 <td>
-                    <%= Html.ActionLink( "Edit", "Edit", new { item.PostId } )%>
-                    <%= Html.ActionLink( "Delete", "Delete", new { item.PostId } )%>
+                    <%= Html.ActionLink( "Edit", "postedit", new { item.PostId } )%>
+                    <%= Html.ActionLink( "Delete", "postdelete", new { item.PostId } )%>
                 </td>
             </tr>
         <% } %>

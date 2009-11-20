@@ -25,6 +25,11 @@ namespace Jumblist.Data.Access
             }.AsQueryable();
         }
 
+        public void Save( Post post )
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }
