@@ -1,0 +1,5 @@
+C:\Projects\Mvc\Jumblist\Project\Jumblist.Core\bin\Debug\Jumblist.Core.dll
+C:\Projects\Mvc\Jumblist\Project\Jumblist.Core\bin\Debug\Jumblist.Core.pdb
+C:\Projects\Mvc\Jumblist\Project\Jumblist.Core\obj\Debug\ResolveAssemblyReference.cache
+C:\Projects\Mvc\Jumblist\Project\Jumblist.Core\obj\Debug\Jumblist.Core.dll
+C:\Projects\Mvc\Jumblist\Project\Jumblist.Core\obj\Debug\Jumblist.Core.pdb
