@@ -8,7 +8,7 @@
 
     <h2>All Posts</h2>
     
-
+   
     <% Html.RenderPartial( "ListPosts", Model ); %>
 
         

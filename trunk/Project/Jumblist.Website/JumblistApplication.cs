@@ -35,11 +35,15 @@ namespace Jumblist.Website
         {
             container.RegisterControllers( Assembly.GetExecutingAssembly() );
 
+            //container.Register( AllTypes
+            //   .Of<IController>()
+            //   .FromAssembly( Assembly.GetExecutingAssembly() )
+            //   .Configure( c => c.LifeStyle.Transient.Named( c.Implementation.Name.ToLower() ) ) );
+
             //Also register all the controller types as transient
             //var controllerTypes = from t in Assembly.GetExecutingAssembly().GetTypes()
             //                      where typeof( IController ).IsAssignableFrom( t )
             //                      select t;
-
             //foreach (Type t in controllerTypes)
             //    container.AddComponentLifeStyle( t.FullName, t, LifestyleType.Transient );
         }
@@ -91,9 +95,7 @@ namespace Jumblist.Website
         //http://code-magazine.com/article.aspx?quickid=0906051&page=3
         private void AddRepositories( IWindsorContainer container )
         {
-            container.Register(
-                AllTypes.Pick()
-                //.FromAssembly( typeof( SqlPostRepository ).Assembly )
+            container.Register( AllTypes.Pick()
                 .FromAssemblyNamed( "Jumblist.Data" )
                 .Configure( c => c.LifeStyle.PerWebRequest )
                 .Configure( c => c.DependsOn( new { connectionString = jumblistDbConnString } ) )
@@ -160,5 +162,27 @@ namespace Jumblist.Website
         }
     }
 
+    public static class WindsorExtensions
+    {
+        /// <summary>
+        /// Searches for the first interface found associated with the 
+        /// <see cref="ServiceDescriptor" /> which is not generic and which 
+        /// is found in the specified namespace.
+        /// </summary>
+        public static BasedOnDescriptor FirstNonGenericCoreInterface( this ServiceDescriptor descriptor, string interfaceNamespace )
+        {
+            return descriptor.Select( delegate( Type type, Type baseType )
+            {
+                var interfaces = type.GetInterfaces()
+                    .Where( t => t.IsGenericType == false && t.Namespace.StartsWith( interfaceNamespace ) );
 
+                if (interfaces.Count() > 0)
+                {
+                    return new[] { interfaces.ElementAt( 0 ) };
+                }
+
+                return null;
+            } );
+        }
+    }
 }

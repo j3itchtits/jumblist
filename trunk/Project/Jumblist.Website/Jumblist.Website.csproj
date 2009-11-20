@@ -116,7 +116,6 @@
     <Compile Include="Services\Scraping\BasicHttpRequestResponse.cs" />
     <Compile Include="Services\Scraping\HttpRequestResponse.cs" />
     <Compile Include="Services\Scraping\PollingService.cs" />
-    <Compile Include="WindsorExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\jumblist.css" />
