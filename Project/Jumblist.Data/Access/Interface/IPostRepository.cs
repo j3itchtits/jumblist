@@ -28,7 +28,7 @@ namespace Jumblist.Data.Access
         void Delete( Post post );
 
         // Persistence
-        void Save();
+        void Save( Post post );
 
         
     }

@@ -102,9 +102,12 @@ namespace Jumblist.Data.Access
             throw new NotImplementedException();
         }
 
-        public void Save()
+        public void Save( Post post )
         {
-            throw new NotImplementedException();
+            if (post.PostId == 0)
+            {
+                dataContext.Posts.InsertOnSubmit( post );
+            }
         }
 
         #endregion
