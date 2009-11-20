@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net.Mail;
-using Jumblist.Core;
+using Jumblist.Core.Service;
 
 namespace Jumblist.Services.Basket
 {
