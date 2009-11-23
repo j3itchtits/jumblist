@@ -11,7 +11,7 @@ namespace Jumblist.Data.Entity
     public class PostLocation
     {
         [Column( IsPrimaryKey = true )]
-        public int PostId { get; internal set; }
+        public int PostId { get; set; }
 
         [Column( IsPrimaryKey = true )]
         public int LocationId { get; set; }

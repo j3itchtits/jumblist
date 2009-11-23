@@ -64,8 +64,8 @@ namespace Jumblist.Data.Access
             }
             else
             {
-                dataContext.Tags.Attach( tag );
-                dataContext.Tags.Context.Refresh( RefreshMode.KeepCurrentValues, tag );
+                //dataContext.Tags.Attach( tag );
+                //dataContext.Tags.Context.Refresh( RefreshMode.KeepCurrentValues, tag );
             }
             dataContext.Tags.Context.SubmitChanges();
         }

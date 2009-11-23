@@ -11,7 +11,7 @@ namespace Jumblist.Data.Entity
     public class Feed
     {
         [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
-        public int FeedId { get; internal set; }
+        public int FeedId { get; set; }
 
         [Column( Name = "FeedTitle" )]
         public string Title { get; set; }

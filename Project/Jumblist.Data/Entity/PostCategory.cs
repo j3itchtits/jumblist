@@ -11,7 +11,7 @@ namespace Jumblist.Data.Entity
     public class PostCategory
     {
         [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
-        public int PostCategoryId { get; internal set; }
+        public int PostCategoryId { get; set; }
 
         [Column( Name = "PostCategoryName" )]
         public string Name { get; set; }

@@ -48,7 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Access\SqlTempRepository.cs" />
     <Compile Include="Access\FakePostRepository.cs" />
+    <Compile Include="Access\Interface\ITempRepository.cs" />
     <Compile Include="Access\Interface\IAuthorRepository.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -99,6 +101,7 @@
     <Compile Include="Entity\PostLocation.cs" />
     <Compile Include="Entity\PostTag.cs" />
     <Compile Include="Entity\Tag.cs" />
+    <Compile Include="Entity\Temp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

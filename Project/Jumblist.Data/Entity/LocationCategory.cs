@@ -11,7 +11,7 @@ namespace Jumblist.Data.Entity
     public class LocationCategory
     {
         [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
-        public int LocationCategoryId { get; internal set; }
+        public int LocationCategoryId { get; set; }
 
         [Column( Name = "LocationCategoryName" )]
         public string Name { get; set; }
