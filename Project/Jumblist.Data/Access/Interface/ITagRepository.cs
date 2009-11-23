@@ -9,6 +9,7 @@ namespace Jumblist.Data.Access
     public interface ITagRepository
     {
         //Query Lists
+        IQueryable<Tag> Tags { get; }
         IQueryable<Tag> SelectTags();
         IQueryable<Tag> SelectTopLevelTags();
 
@@ -21,7 +22,7 @@ namespace Jumblist.Data.Access
         void Delete( Tag tag );
 
         // Persistence
-        void Save();
+        void Save( Tag tag );
 
 
     }

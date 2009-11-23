@@ -70,10 +70,12 @@
     <Compile Include="Access\Interface\IPostRepository.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Access\Interface\IRepository.cs" />
     <Compile Include="Access\Interface\ITagRepository.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Access\JumblistDataContext.cs" />
+    <Compile Include="Access\Repository.cs" />
     <Compile Include="Access\SqlAuthorRepository.cs" />
     <Compile Include="Access\SqlFeedCategoryRepository.cs" />
     <Compile Include="Access\SqlFeedRepository.cs" />
@@ -85,8 +87,10 @@
     <Compile Include="Entity\Author.cs" />
     <Compile Include="Entity\Basket.cs" />
     <Compile Include="Entity\BasketUser.cs" />
+    <Compile Include="Entity\EntityBase.cs" />
     <Compile Include="Entity\Feed.cs" />
     <Compile Include="Entity\FeedCategory.cs" />
+    <Compile Include="Entity\IEntityBase.cs" />
     <Compile Include="Entity\Location.cs" />
     <Compile Include="Entity\LocationCategory.cs" />
     <Compile Include="Entity\NearestPostResult.cs" />

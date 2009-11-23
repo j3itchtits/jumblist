@@ -12,86 +12,72 @@ namespace Jumblist.Website.Controllers
     public class AdminController : Controller
     {
         private IPostRepository postRepository;
+        private ITagRepository tagRepository;
 
-        public AdminController( IPostRepository postRepository )
+        public AdminController( IPostRepository postRepository, ITagRepository tagRepository )
         {
             this.postRepository = postRepository;
+            this.tagRepository = tagRepository;
         }
 
         public ActionResult Index()
         {
-            return View( "Index" );
+            return View();
         }
 
         public ActionResult Posts()
         {
             var postList = postRepository.Posts.ToList();
-            return View( "Posts", postList );
+            return View( postList );
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult PostEdit( int postId )
+        public ViewResult EditPost( int postId )
         {
             Post post = postRepository.SelectPost( postId );
-            return View( "PostEdit", post );
-        }
-        //
-        // GET: /Admin/Details/5
-
-        public ActionResult Details(int id)
-        {
-            return View();
+            return View( post );
         }
 
-        //
-        // GET: /Admin/Create
-
-        public ActionResult Create()
+        [AcceptVerbs( HttpVerbs.Post )]
+        public ActionResult EditPost( Post post )
         {
-            return View();
-        } 
-
-        //
-        // POST: /Admin/Create
-
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                postRepository.Save( post );
+                TempData["message"] = post.Title + " has been saved.";
+                return RedirectToAction( "Posts" );
             }
-            catch
+            else
             {
-                return View();
+                return View( post );
             }
         }
 
-        //
-        // GET: /Admin/Edit/5
- 
-        public ActionResult Edit(int id)
+        public ActionResult Tags()
         {
-            return View();
+            var tagList = tagRepository.Tags.ToList();
+            return View( tagList );
         }
 
-        //
-        // POST: /Admin/Edit/5
-
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Edit(int id, FormCollection collection)
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ViewResult EditTag( int tagId )
         {
-            try
+            Tag tag = tagRepository.SelectTag( tagId );
+            return View( tag );
+        }
+
+        [AcceptVerbs( HttpVerbs.Post )]
+        public ActionResult EditTag( Tag tag )
+        {
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
- 
-                return RedirectToAction("Index");
+                tagRepository.Save( tag );
+                TempData["message"] = tag.Name + " has been saved.";
+                return RedirectToAction( "Tags" );
             }
-            catch
+            else
             {
-                return View();
+                return View( tag );
             }
         }
     }
