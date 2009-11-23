@@ -11,7 +11,7 @@ namespace Jumblist.Data.Entity
     public class PostTag
     {
         [Column( IsPrimaryKey = true )]
-        public int PostId { get; internal set; }
+        public int PostId { get; set; }
 
         [Column( IsPrimaryKey = true )]
         public int TagId { get; set; }
@@ -28,6 +28,7 @@ namespace Jumblist.Data.Entity
         public Tag Tag
         {
             get { return tag.Entity; }
+            set { tag.Entity = value; }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Jumblist.Data.Entity
     public class Author
     {
         [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
-        public int AuthorId { get; internal set; }
+        public int AuthorId { get; set; }
 
         [Column( Name = "AuthorName" )]
         public string Name { get; set; }

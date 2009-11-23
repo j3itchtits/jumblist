@@ -1,16 +1,17 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage<Jumblist.Data.Entity.Tag>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage<Jumblist.Data.Entity.Temp>" %>
 
 <asp:Content ContentPlaceHolderID="head" runat="server">
-	<title>Admin - Edit Tag - <%= Model.Name %></title>
+	<title>Admin - Edit Temp - <%= Model.Name %></title>
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Edit Tag - <%= Model.Name %></h2>
+    <h2>Edit Temp - <%= Model.Name %></h2>
 
-    <% using (Html.BeginForm( "savetag", "admin" )) { %>
+    <% using (Html.BeginForm( "savetemp", "admin" )) { %>
 
-        <%= Html.Hidden( "TagId" ) %>
+        <%= Html.Hidden( "TempId" ) %>
+
         
         <table border="1" style="margin: 10px 0px">
         
@@ -21,7 +22,7 @@
         
         </table>       
         
-        <input type="submit" value="Save" /> &nbsp;&nbsp;<%= Html.ActionLink( "Cancel", "tags" ) %>
+        <input type="submit" value="Save" /> &nbsp;&nbsp;<%= Html.ActionLink( "Cancel", "temp" ) %>
         
     <% } %>
     

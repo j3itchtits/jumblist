@@ -8,5 +8,6 @@
 <td><%= Html.ActionLink( "Locations", "locations" )%></td>
 <td><%= Html.ActionLink( "Feeds", "feeds" )%></td>
 <td><%= Html.ActionLink( "Authors", "authors" )%></td>
+<td><%= Html.ActionLink( "Temp", "temp" )%></td>
 </tr>
 </table>

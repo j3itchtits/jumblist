@@ -97,6 +97,14 @@ namespace Jumblist.Data.Access
             }
         }
 
+        public Table<Temp> Temp
+        {
+            get
+            {
+                return this.GetTable<Temp>();
+            }
+        }
+
         [Function(Name = "dbo.NearestPosts", IsComposable = true)]
         public IQueryable<NearestPostsResult> NearestPosts([Parameter(DbType = "Real")] System.Nullable<float> lat, [Parameter(Name = "long", DbType = "Real")] System.Nullable<float> @long, [Parameter(DbType = "Real")] System.Nullable<int> distance)
         {

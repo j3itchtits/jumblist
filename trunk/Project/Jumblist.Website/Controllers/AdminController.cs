@@ -13,11 +13,13 @@ namespace Jumblist.Website.Controllers
     {
         private IPostRepository postRepository;
         private ITagRepository tagRepository;
+        private ITempRepository tempRepository;
 
-        public AdminController( IPostRepository postRepository, ITagRepository tagRepository )
+        public AdminController( IPostRepository postRepository, ITagRepository tagRepository, ITempRepository tempRepository )
         {
             this.postRepository = postRepository;
             this.tagRepository = tagRepository;
+            this.tempRepository = tempRepository;
         }
 
         public ActionResult Index()
@@ -60,6 +62,12 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
+        public ViewResult CreateTag()
+        {
+            return View( "EditTag", new Tag() );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult EditTag( int tagId )
         {
             Tag tag = tagRepository.SelectTag( tagId );
@@ -67,8 +75,13 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult EditTag( Tag tag )
+        public ActionResult SaveTag( Tag tag )
         {
+            Tag original = tagRepository.SelectTag( tag.TagId );
+
+            if (original != null)
+                UpdateModel( original );
+
             if (ModelState.IsValid)
             {
                 tagRepository.Save( tag );
@@ -78,6 +91,45 @@ namespace Jumblist.Website.Controllers
             else
             {
                 return View( tag );
+            }
+        }
+
+        public ActionResult Temp()
+        {
+            var tempList = tempRepository.Temp.ToList();
+            return View( tempList );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ViewResult CreateTemp()
+        {
+            return View( "EditTemp", new Temp() );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ViewResult EditTemp( int tempId )
+        {
+            Temp temp = tempRepository.SelectTemp( tempId );
+            return View( temp );
+        }
+
+        [AcceptVerbs( HttpVerbs.Post )]
+        public ActionResult SaveTemp( Temp temp )
+        {
+            Temp original = tempRepository.SelectTemp( temp.TempId );
+
+            if (original != null)
+                UpdateModel( original );
+
+            if (ModelState.IsValid)
+            {
+                tempRepository.Save( temp );
+                TempData["message"] = temp.Name + " has been saved.";
+                return RedirectToAction( "Temp" );
+            }
+            else
+            {
+                return View( temp );
             }
         }
     }

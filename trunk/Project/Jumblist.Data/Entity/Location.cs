@@ -11,7 +11,7 @@ namespace Jumblist.Data.Entity
     public class Location
     {
         [Column(IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert)]
-        public int LocationId { get; internal set; }
+        public int LocationId { get; set; }
 
         [Column( Name = "LocationParentId" )]
         public int? ParentId { get; set; }
