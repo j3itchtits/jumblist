@@ -8,7 +8,7 @@ using System.Data.Linq;
 namespace Jumblist.Data.Entity
 {
     [Table(Name = "Tags")]
-    public class Tag
+    public class Tag : EntityBase
     {
         [Column(IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert)]
         public int TagId { get; internal set; }
@@ -20,7 +20,7 @@ namespace Jumblist.Data.Entity
         public string Name { get; set; }
 
         private EntitySet<PostTag> postTags = new EntitySet<PostTag>();
-        [Association(Name = "FK_PostTags_Tags", Storage = "postTags", ThisKey = "TagId", OtherKey = "TagId", IsForeignKey = true)]
+        [Association( Name = "FK_PostTags_Tags", Storage = "postTags", ThisKey = "TagId", OtherKey = "TagId", IsForeignKey = true )]
         public IList<PostTag> PostTags
         {
             get { return postTags.ToList().AsReadOnly(); }

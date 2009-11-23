@@ -5,6 +5,7 @@
    { %>
         <p>
             <%= Html.ActionLink( tag.Name, "tagged", "posts", new { parameter1 = Url.ToFriendlyUrl( tag.Name ) }, null )%>
+            - <%= tag.EntityText %>
         </p>            
 <% } %>
 </div>

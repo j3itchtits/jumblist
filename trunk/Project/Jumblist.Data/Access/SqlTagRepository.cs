@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Jumblist.Data.Entity;
+using System.Data.Linq;
 
 namespace Jumblist.Data.Access
 {
@@ -14,8 +15,14 @@ namespace Jumblist.Data.Access
         {
             dataContext = new JumblistDataContext(connectionString);
         }
+
         //Comment
         #region ITagRepository Members
+
+        public IQueryable<Tag> Tags
+        {
+            get { return dataContext.Tags; }
+        }
 
         public IQueryable<Tag> SelectTags()
         {
@@ -49,9 +56,18 @@ namespace Jumblist.Data.Access
             throw new NotImplementedException();
         }
 
-        public void Save()
+        public void Save( Tag tag )
         {
-            throw new NotImplementedException();
+            if (tag.TagId == 0)
+            {
+                dataContext.Tags.InsertOnSubmit( tag );
+            }
+            else
+            {
+                dataContext.Tags.Attach( tag );
+                dataContext.Tags.Context.Refresh( RefreshMode.KeepCurrentValues, tag );
+            }
+            dataContext.Tags.Context.SubmitChanges();
         }
 
         #endregion

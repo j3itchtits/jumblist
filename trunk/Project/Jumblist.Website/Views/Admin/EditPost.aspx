@@ -8,9 +8,10 @@
 
     <h2>Edit Post - <%= Model.Title %></h2>
 
-    <% using (Html.BeginForm( "PostEdit", "Admin" )) { %>
+    <% using (Html.BeginForm( "editpost", "admin" )) { %>
 
-        <%= Html.Hidden("PostId") %>
+        <%= Html.Hidden( "PostId" ) %>
+        <%= Html.Hidden( "ParentId" )%>
         
         <table border="1" style="margin: 10px 0px">
         <tr>

@@ -108,6 +108,12 @@ namespace Jumblist.Data.Access
             {
                 dataContext.Posts.InsertOnSubmit( post );
             }
+            else
+            {
+                dataContext.Posts.Attach( post );
+                dataContext.Posts.Context.Refresh( RefreshMode.KeepCurrentValues, post );
+            }
+            dataContext.Posts.Context.SubmitChanges();
         }
 
         #endregion
