@@ -14,11 +14,12 @@ namespace Jumblist.Website
 
     public class Global : System.Web.HttpApplication
     {
+        private static IWindsorContainer container;
 
         protected void Application_Start()
         {
             //create the container
-            var container = new WindsorContainer();
+            container = new WindsorContainer();
 
             //configure the container
             var app = new JumblistApplication();
@@ -30,6 +31,11 @@ namespace Jumblist.Website
             //set the controller factory
             ControllerBuilder.Current.SetControllerFactory( new WindsorControllerFactory( container ) );
             
+        }
+
+        protected void Application_End( object sender, EventArgs e )
+        {
+            container.Dispose();
         }
 
     }
