@@ -28,7 +28,6 @@ namespace Jumblist.Data.Entity
         public Tag Tag
         {
             get { return tag.Entity; }
-            set { tag.Entity = value; }
         }
     }
 }

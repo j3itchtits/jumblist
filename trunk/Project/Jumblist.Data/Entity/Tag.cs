@@ -23,16 +23,8 @@ namespace Jumblist.Data.Entity
         [Association( Name = "FK_PostTags_Tags", Storage = "postTags", ThisKey = "TagId", OtherKey = "TagId", IsForeignKey = true )]
         public EntitySet<PostTag> PostTags
         {
-            get
-            {
-                return postTags;
-            }
-            set
-            {
-                postTags.Assign( value );
-            }
+            get { return postTags; }
         }
-
 
         public IList<Post> Posts
         {
