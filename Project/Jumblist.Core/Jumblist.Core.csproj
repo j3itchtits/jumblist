@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B491CACC-CB79-4FF1-BD9F-0EC617333D0F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Jumblist.Core</RootNamespace>
+    <AssemblyName>Jumblist.Core</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="xVal, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f8fbed92c68c4006, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceAssemblies\xVal.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Model\Feed.cs" />
+    <Compile Include="Model\Data\Feed.cs" />
+    <Compile Include="Model\Data\FeedCategory.cs" />
+    <Compile Include="Model\Data\Location.cs" />
+    <Compile Include="Model\Data\Post.cs" />
+    <Compile Include="Model\Data\PostCategory.cs" />
+    <Compile Include="Model\Data\PostLocation.cs" />
+    <Compile Include="Model\Data\PostTag.cs" />
+    <Compile Include="Model\Data\Role.cs" />
+    <Compile Include="Model\Data\Tag.cs" />
+    <Compile Include="Model\Data\User.cs" />
+    <Compile Include="Model\Location.cs" />
+    <Compile Include="Model\Notification.cs" />
+    <Compile Include="Model\NotificationMessage.cs" />
+    <Compile Include="Model\Post.cs" />
+    <Compile Include="Model\Role.cs" />
+    <Compile Include="Model\Tag.cs" />
+    <Compile Include="Model\User.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\FeedService.cs" />
+    <Compile Include="Service\FormsAuthenticationService.cs" />
+    <Compile Include="Service\IFeedService.cs" />
+    <Compile Include="Service\IFormsAuthenticationService.cs" />
+    <Compile Include="Service\IUserService.cs" />
+    <Compile Include="Service\PostServiceExtensions.cs" />
+    <Compile Include="Service\UserService.cs" />
+    <Compile Include="Model\Validation\PriceAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StuartClode.Mvc\StuartClode.Mvc.csproj">
+      <Project>{24F71C77-8733-4D9A-9B6C-9F3230529AD1}</Project>
+      <Name>StuartClode.Mvc</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

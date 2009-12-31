@@ -1,0 +1,31 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Web Developer Express 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jumblist.Website", "Jumblist.Website\Jumblist.Website.csproj", "{BC4A063C-BB13-49ED-9504-469DFE4E76FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jumblist.Core", "Jumblist.Core\Jumblist.Core.csproj", "{B491CACC-CB79-4FF1-BD9F-0EC617333D0F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StuartClode.Mvc", "StuartClode.Mvc\StuartClode.Mvc.csproj", "{24F71C77-8733-4D9A-9B6C-9F3230529AD1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC4A063C-BB13-49ED-9504-469DFE4E76FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC4A063C-BB13-49ED-9504-469DFE4E76FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC4A063C-BB13-49ED-9504-469DFE4E76FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC4A063C-BB13-49ED-9504-469DFE4E76FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B491CACC-CB79-4FF1-BD9F-0EC617333D0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B491CACC-CB79-4FF1-BD9F-0EC617333D0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B491CACC-CB79-4FF1-BD9F-0EC617333D0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B491CACC-CB79-4FF1-BD9F-0EC617333D0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24F71C77-8733-4D9A-9B6C-9F3230529AD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24F71C77-8733-4D9A-9B6C-9F3230529AD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24F71C77-8733-4D9A-9B6C-9F3230529AD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24F71C77-8733-4D9A-9B6C-9F3230529AD1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
