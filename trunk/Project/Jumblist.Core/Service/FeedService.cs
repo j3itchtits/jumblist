@@ -1,11 +1,11 @@
-﻿using JumblistTest.Core.Model;
+﻿using Jumblist.Core.Model;
 using System.Collections.Generic;
 using System.Linq;
 using StuartClode.Mvc.Service;
 using StuartClode.Mvc.Repository;
 using xVal.ServerSide;
 
-namespace JumblistTest.Core.Service
+namespace Jumblist.Core.Service
 {
     public class FeedService : DataService<Feed>, IFeedService
     {

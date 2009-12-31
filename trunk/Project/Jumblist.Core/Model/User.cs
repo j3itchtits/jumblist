@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Principal;
 
-namespace JumblistTest.Core.Model
+namespace Jumblist.Core.Model
 {
     public partial class User
     {

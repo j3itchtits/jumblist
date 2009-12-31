@@ -1,8 +1,8 @@
 ﻿using System.Web.Mvc;
-using JumblistTest.Website.Filter;
-using JumblistTest.Core.Model;
+using Jumblist.Website.Filter;
+using Jumblist.Core.Model;
 
-namespace JumblistTest.Website.Controller
+namespace Jumblist.Website.Controller
 {
     //[CustomAuthentication]
     [CopyTempDataToViewData]

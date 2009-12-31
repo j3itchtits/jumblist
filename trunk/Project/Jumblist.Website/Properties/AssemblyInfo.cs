@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle( "JumblistTest.Website" )]
+[assembly: AssemblyTitle( "Jumblist.Website" )]
 [assembly: AssemblyDescription( "" )]
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "Bernard Hodes Group" )]
-[assembly: AssemblyProduct( "JumblistTest.Website" )]
+[assembly: AssemblyProduct( "Jumblist.Website" )]
 [assembly: AssemblyCopyright( "Copyright © Bernard Hodes Group 2009" )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]

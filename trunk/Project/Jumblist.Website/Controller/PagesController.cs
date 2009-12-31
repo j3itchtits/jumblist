@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using System.Web.Security;
 
-namespace JumblistTest.Website.Controller
+namespace Jumblist.Website.Controller
 {
     public class PagesController : ControllerBase
     {

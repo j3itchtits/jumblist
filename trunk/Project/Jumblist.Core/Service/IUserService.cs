@@ -1,8 +1,8 @@
-﻿using JumblistTest.Core.Model;
+﻿using Jumblist.Core.Model;
 using System.Collections.Generic;
 using StuartClode.Mvc.Service;
 
-namespace JumblistTest.Core.Service
+namespace Jumblist.Core.Service
 {
     public interface IUserService : IDataService<User>
     {

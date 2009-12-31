@@ -1,4 +1,4 @@
-﻿using JumblistTest.Core.Model;
+﻿using Jumblist.Core.Model;
 using System.Collections.Generic;
 using StuartClode.Mvc.Repository;
 using System.Linq;
@@ -6,7 +6,7 @@ using StuartClode.Mvc.Service;
 using System.Web;
 using System;
 
-namespace JumblistTest.Core.Service
+namespace Jumblist.Core.Service
 {
     public class UserService : DataService<User>, IUserService
     {

@@ -70,12 +70,8 @@
     <Content Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Jumblist.Data\Jumblist.Data.csproj">
-      <Project>{714965B2-1CDB-440B-B8D3-33E59256A665}</Project>
-      <Name>Jumblist.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Jumblist.Website\Jumblist.Website.csproj">
-      <Project>{9701C927-1178-41BA-BE56-45B0A1C65A48}</Project>
+      <Project>{BC4A063C-BB13-49ED-9504-469DFE4E76FF}</Project>
       <Name>Jumblist.Website</Name>
     </ProjectReference>
   </ItemGroup>

@@ -1,8 +1,8 @@
-﻿using JumblistTest.Core.Model;
+﻿using Jumblist.Core.Model;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JumblistTest.Core.Service
+namespace Jumblist.Core.Service
 {
     public interface IFeedService
     {

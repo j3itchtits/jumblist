@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Text.RegularExpressions;
 
-namespace JumblistTest.Website.Extension
+namespace Jumblist.Website.Extension
 {
     public static class UrlHelperExtensions
     {

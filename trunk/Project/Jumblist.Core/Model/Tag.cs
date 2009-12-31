@@ -5,7 +5,7 @@ using System.Text;
 using System.Data.Linq.Mapping;
 using System.Data.Linq;
 
-namespace JumblistTest.Core.Model
+namespace Jumblist.Core.Model
 {
     public partial class Tag
     {

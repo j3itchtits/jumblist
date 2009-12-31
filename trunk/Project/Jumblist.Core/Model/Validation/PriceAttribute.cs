@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
-using JumblistTest.Core.Service;
+using Jumblist.Core.Service;
 
-namespace JumblistTest.Core.Model.Validation
+namespace Jumblist.Core.Model.Validation
 {
     public class PriceAttribute : ValidationAttribute
     {

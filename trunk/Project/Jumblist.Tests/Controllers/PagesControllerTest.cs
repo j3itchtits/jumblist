@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using Jumblist.Website.Controllers;
+using Jumblist.Website.Controller;
 using System.Web.Mvc;
 
 namespace Jumblist.Tests.Controllers

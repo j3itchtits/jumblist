@@ -1,8 +1,8 @@
 using System.Web.Mvc;
-using JumblistTest.Website.ViewModel;
-using JumblistTest.Core.Model;
+using Jumblist.Website.ViewModel;
+using Jumblist.Core.Model;
 
-namespace JumblistTest.Website.Filter
+namespace Jumblist.Website.Filter
 {
     public class CopyTempDataToViewDataAttribute : ActionFilterAttribute
 	{

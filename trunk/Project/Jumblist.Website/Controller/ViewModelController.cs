@@ -3,11 +3,11 @@ using System.Collections.Specialized;
 using System.Reflection;
 using System.Web.Mvc;
 using StuartClode.Mvc.Repository;
-using JumblistTest.Website.ViewModel;
+using Jumblist.Website.ViewModel;
 using StuartClode.Mvc.Extension;
 using StuartClode.Mvc.Service;
 
-namespace JumblistTest.Website.Controller
+namespace Jumblist.Website.Controller
 {
     public class ViewModelController<T> : ControllerBase where T : class, new()
     {
