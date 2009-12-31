@@ -9,6 +9,7 @@ using Jumblist.Core.Service;
 using StuartClode.Mvc.Service;
 using xVal.ServerSide;
 using StuartClode.Mvc.Extension;
+using Jumblist.Website.Filter;
 
 namespace Jumblist.Website.Controller
 {
@@ -22,6 +23,7 @@ namespace Jumblist.Website.Controller
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
+        [CustomAuthorization( RoleLevel = RoleLevels.Administrator )]
         public ViewResult List()
         {
             var list = feedService.SelectList();
