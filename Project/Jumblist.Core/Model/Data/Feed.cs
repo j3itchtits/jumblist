@@ -6,10 +6,10 @@ using System.Data.Linq.Mapping;
 using System.Data.Linq;
 using System.ComponentModel.DataAnnotations;
 using StuartClode.Mvc.Helper;
-using JumblistTest.Core.Model.Validation;
-using JumblistTest.Core.Service;
+using Jumblist.Core.Model.Validation;
+using Jumblist.Core.Service;
 
-namespace JumblistTest.Core.Model
+namespace Jumblist.Core.Model
 {
     [Table( Name = "Feeds" )]
     public partial class Feed

@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using System.Web.UI;
 
-namespace JumblistTest.Website
+namespace Jumblist.Website
 {
     public partial class _Default : Page
     {

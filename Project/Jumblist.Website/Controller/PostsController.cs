@@ -5,12 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using System.Configuration;
-using JumblistTest.Core.Model;
-using JumblistTest.Core.Service;
-using JumblistTest.Website.ViewModel;
+using Jumblist.Core.Model;
+using Jumblist.Core.Service;
+using Jumblist.Website.ViewModel;
 using StuartClode.Mvc.Service;
 
-namespace JumblistTest.Website.Controller
+namespace Jumblist.Website.Controller
 {
     public class PostsController : ViewModelController<Post>
     {

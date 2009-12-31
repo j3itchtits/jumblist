@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<IEnumerable<JumblistTest.Core.Model.Feed>>" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<IEnumerable<Jumblist.Core.Model.Feed>>" %>
 
 <table class="list">
 <% foreach ( var feed in Model )

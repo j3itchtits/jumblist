@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using JumblistTest.Core.Model;
+using Jumblist.Core.Model;
 using StuartClode.Mvc.Service;
 
-namespace JumblistTest.Core.Service
+namespace Jumblist.Core.Service
 {
     public static class PostServiceExtensions
     {

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
-using JumblistTest.Core.Model;
-using JumblistTest.Core.Service;
+using Jumblist.Core.Model;
+using Jumblist.Core.Service;
 using StuartClode.Mvc.Service;
 using xVal.ServerSide;
 using StuartClode.Mvc.Extension;
 
-namespace JumblistTest.Website.Controller
+namespace Jumblist.Website.Controller
 {
     public class FeedsController : ViewModelController<Feed>
     {

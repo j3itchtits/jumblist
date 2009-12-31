@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using JumblistTest.Core.Model;
+using Jumblist.Core.Model;
 using System.Web.Mvc;
-using JumblistTest.Core.Service;
+using Jumblist.Core.Service;
 
-namespace JumblistTest.Website.ViewModel
+namespace Jumblist.Website.ViewModel
 {
     //Use as an alternative to DefaultViewModel - not sure when applicable
     public class PostViewModel : ViewModelBase

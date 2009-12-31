@@ -1,6 +1,6 @@
-﻿using JumblistTest.Core.Model;
+﻿using Jumblist.Core.Model;
 
-namespace JumblistTest.Website.ViewModel
+namespace Jumblist.Website.ViewModel
 {
     public abstract class ViewModelBase : IViewModelBase
     {

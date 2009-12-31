@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jumblist.Core", "Jumblist.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StuartClode.Mvc", "StuartClode.Mvc\StuartClode.Mvc.csproj", "{24F71C77-8733-4D9A-9B6C-9F3230529AD1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jumblist.Tests", "Jumblist.Tests\Jumblist.Tests.csproj", "{269C053A-58FC-474C-A769-B238A0DCF9EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{24F71C77-8733-4D9A-9B6C-9F3230529AD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24F71C77-8733-4D9A-9B6C-9F3230529AD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24F71C77-8733-4D9A-9B6C-9F3230529AD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{269C053A-58FC-474C-A769-B238A0DCF9EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{269C053A-58FC-474C-A769-B238A0DCF9EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{269C053A-58FC-474C-A769-B238A0DCF9EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{269C053A-58FC-474C-A769-B238A0DCF9EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JumblistTest.Core.Model
+namespace Jumblist.Core.Model
 {
     public partial class Role
     {

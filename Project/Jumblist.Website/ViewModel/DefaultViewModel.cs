@@ -5,7 +5,7 @@ using StuartClode.Mvc.Extension;
 using System.Reflection;
 using StuartClode.Mvc.Service;
 
-namespace JumblistTest.Website.ViewModel
+namespace Jumblist.Website.ViewModel
 {
     public class DefaultViewModel<T> : ViewModelBase
     {

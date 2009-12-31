@@ -1,7 +1,7 @@
 ﻿using System;
-using JumblistTest.Core.Model;
+using Jumblist.Core.Model;
 
-namespace JumblistTest.Website
+namespace Jumblist.Website
 {
     public interface IViewModelBase
     {

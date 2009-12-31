@@ -9,11 +9,11 @@ using Castle.MicroKernel.Registration;
 using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Service;
 using StuartClode.Mvc.IoC;
-using JumblistTest.Core.Service;
+using Jumblist.Core.Service;
 using System.Configuration;
 using System.Reflection;
 
-namespace JumblistTest.Website
+namespace Jumblist.Website
 {
 
     public class MvcApplication : System.Web.HttpApplication
