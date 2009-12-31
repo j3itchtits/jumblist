@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Moq;
-using Jumblist.Data.Access;
-using Jumblist.Data.Entity;
+using Jumblist.Core.Model;
+using Jumblist.Core.Service;
+using StuartClode.Mvc.Service;
 
 namespace Jumblist.Tests.Mocks
 {
     public class MockPostCategoryRepository
     {
         private List<PostCategory> postCategoryList;
-        private IPostCategoryRepository postCategoryRepository;
+        private IDataService<PostCategory> postCategoryRepository;
 
         public MockPostCategoryRepository()
         {
@@ -24,7 +25,7 @@ namespace Jumblist.Tests.Mocks
             postCategoryRepository = GenerateMockPostCategoryRepository( postCategoryList );
         }
 
-        public IPostCategoryRepository Repository
+        public IDataService<PostCategory> Repository
         {
             get { return postCategoryRepository; }
         }
@@ -37,10 +38,10 @@ namespace Jumblist.Tests.Mocks
             };
         }
 
-        private IPostCategoryRepository GenerateMockPostCategoryRepository( List<PostCategory> postCategories )
+        private IDataService<PostCategory> GenerateMockPostCategoryRepository( List<PostCategory> postCategories )
         {
-            var mockRepository = new Mock<IPostCategoryRepository>();
-            mockRepository.Setup( x => x.PostCategories ).Returns( postCategories.AsQueryable() );
+            var mockRepository = new Mock<IDataService<PostCategory>>();
+            mockRepository.Setup( x => x.SelectList() ).Returns( postCategories.AsQueryable() );
             return mockRepository.Object;
         }
     }

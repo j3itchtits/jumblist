@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using System.Web.Mvc;
-using Jumblist.Website.Helpers;
+using Jumblist.Website.Extension;
 
 namespace Jumblist.Tests.Helpers
 {

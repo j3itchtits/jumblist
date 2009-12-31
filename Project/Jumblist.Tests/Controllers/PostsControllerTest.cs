@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Jumblist.Tests.Mocks;
-using Jumblist.Website.Controllers;
-using Jumblist.Data.Access;
-using Jumblist.Data.Entity;
+using Jumblist.Website.Controller;
 using System.Web.Mvc;
+using Jumblist.Core.Model;
 
 
 namespace Jumblist.Tests.Controllers
@@ -21,10 +20,10 @@ namespace Jumblist.Tests.Controllers
             //Arrange
             var postRepository = new MockPostRepository().Repository;
             var postCategoryRepository = new MockPostCategoryRepository().Repository;
-            var controller = new PostsController( postRepository, postCategoryRepository );
+            var controller = new PostsController( postRepository );
 
             //Act
-            var result = controller.List(null);
+            var result = controller.List();
 
             // Assert
             Assert.IsNotNull(result);
@@ -36,10 +35,10 @@ namespace Jumblist.Tests.Controllers
             //Arrange
             var postRepository = new MockPostRepository().Repository;
             var postCategoryRepository = new MockPostCategoryRepository().Repository;
-            var controller = new PostsController( postRepository, postCategoryRepository );
+            var controller = new PostsController( postRepository );
 
             //Act
-            var result = controller.List(null);
+            var result = controller.List();
             var posts = result.ViewData.Model as IList<Post>;
             
             // Assert
@@ -52,11 +51,11 @@ namespace Jumblist.Tests.Controllers
             //Arrange
             var postRepository = new MockPostRepository().Repository;
             var postCategoryRepository = new MockPostCategoryRepository().Repository;
-            var controller = new PostsController( postRepository, postCategoryRepository );
-            controller.PageSize = 3;
+            var controller = new PostsController( postRepository );
+            //controller.PageSize = 3;
 
             //Act
-            var result = controller.List( 2 );
+            var result = controller.List();
 
             //Assert
             Assert.IsNotNull( result, "Didn't render the view" );

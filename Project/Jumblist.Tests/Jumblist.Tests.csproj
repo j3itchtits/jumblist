@@ -70,9 +70,17 @@
     <Content Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Jumblist.Core\Jumblist.Core.csproj">
+      <Project>{B491CACC-CB79-4FF1-BD9F-0EC617333D0F}</Project>
+      <Name>Jumblist.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Jumblist.Website\Jumblist.Website.csproj">
       <Project>{BC4A063C-BB13-49ED-9504-469DFE4E76FF}</Project>
       <Name>Jumblist.Website</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StuartClode.Mvc\StuartClode.Mvc.csproj">
+      <Project>{24F71C77-8733-4D9A-9B6C-9F3230529AD1}</Project>
+      <Name>StuartClode.Mvc</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
