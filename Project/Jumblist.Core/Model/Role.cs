@@ -21,4 +21,13 @@ namespace Jumblist.Core.Model
         public bool IsAuthor { get { return Name == Author.Name; } }
         public bool IsAdministrator { get { return Name == Administrator.Name; } }
     }
+
+    [Serializable]
+    [Flags]
+    public enum RoleLevels
+    {
+        Administrator = 1,
+        Editor = 2,
+        Author = 3
+    }
 }

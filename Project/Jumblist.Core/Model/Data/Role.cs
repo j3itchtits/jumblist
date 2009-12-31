@@ -15,6 +15,9 @@ namespace Jumblist.Core.Model
         [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
         public int RoleId { get; set; }
 
+        [Column( Name = "RoleLevel" )]
+        public int Level { get; set; }
+
         [Column( Name = "RoleName" )]
         public string Name { get; set; }
 
