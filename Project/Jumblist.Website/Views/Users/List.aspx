@@ -17,7 +17,7 @@
             <p><%= Html.Encode( TempData["notificationmessage"] )%></p>
         <% } %>
         
-        <% Html.RenderPartial( "ListPartial", Model.Items ); %>
+        <% Html.RenderPartial( "ListPartial", Model.List ); %>
 
     </div>
     

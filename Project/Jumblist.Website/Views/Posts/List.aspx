@@ -11,13 +11,18 @@
     <%= Html.MessageBox( ViewData.Model ) %>
     
     <div id="itemsList">
-        <% Html.RenderPartial( "ListPosts", Model.Items ); %>
+        <% Html.RenderPartial( "ListPosts", Model.PaginatedList ); %>
     </div>
     
     <p>
         <%= Html.ActionLink( "Create", "create" )%>
     </p> 
    
+    <p><%= Html.PagingLinks( Model.PaginatedList.CurrentPage, Model.PaginatedList.TotalPages, x => Url.Action( "List", new { id = x } ) )%></p>
+    
+    <p><%= Html.NextPreviousPageLinks( Model.PaginatedList.CurrentPage, Model.PaginatedList.HasPreviousPage, Model.PaginatedList.HasNextPage, x => Url.Action( "List", new { id = x } ) )%></p>
+    
+
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">

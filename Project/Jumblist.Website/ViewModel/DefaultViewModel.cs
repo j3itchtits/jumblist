@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using StuartClode.Mvc.Extension;
 using System.Reflection;
 using StuartClode.Mvc.Service;
+using Jumblist.Core.Service;
 
 namespace Jumblist.Website.ViewModel
 {
@@ -11,8 +12,9 @@ namespace Jumblist.Website.ViewModel
     {
         private readonly Dictionary<Type, object> lookupLists = new Dictionary<Type, object>();
 
-        public IEnumerable<T> Items { get; set; }
+        public IEnumerable<T> List { get; set; }
         public T Item { get; set; }
+        public PaginatedList<T> PaginatedList { get; set; }
 
         public DefaultViewModel<T> With( T item )
         {
@@ -20,9 +22,15 @@ namespace Jumblist.Website.ViewModel
             return this;
         }
 
-        public DefaultViewModel<T> With( IEnumerable<T> items )
+        public DefaultViewModel<T> With( IEnumerable<T> list )
         {
-            Items = items;
+            List = list;
+            return this;
+        }
+
+        public DefaultViewModel<T> With( PaginatedList<T> list )
+        {
+            PaginatedList = list;
             return this;
         }
 

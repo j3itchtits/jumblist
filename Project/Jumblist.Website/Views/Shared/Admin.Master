@@ -1,14 +1,14 @@
-<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+<head id="Head1" runat="server">
     <title><asp:ContentPlaceHolder ID="HeadContentTitle" runat="server" /></title>
     
     <link href="<%= Url.Stylesheet( "yui-reset.css" )%>" rel="stylesheet" type="text/css"/>
     <link href="<%= Url.Stylesheet( "yui-reset.css" )%>" rel="stylesheet" type="text/css"/>
     <link href="<%= Url.Stylesheet( "yui-fonts-min.css" )%>" rel="stylesheet" type="text/css"/>
-    <link href="<%= Url.Stylesheet( "jumblist.css" )%>" rel="stylesheet" type="text/css"/>
+    <link href="<%= Url.Stylesheet( "admin.css" )%>" rel="stylesheet" type="text/css"/>
 
     <script src="<%= Url.Script( "MicrosoftAjax.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "MicrosoftMvcAjax.js" )%>" type="text/javascript"></script>
@@ -25,12 +25,7 @@
     <div id="header">
         <div id="header-interior">
             <div id="logo">Jumblist</div>
-            <div id="basket">
-                <% if (!(ViewContext.Controller is BasketController))
-                   {
-                       Html.RenderAction( "Summary", "Basket" );  
-                   } %>
-            </div>
+
             <div id="menu">
                 <%= Html.HomepageLink( "Home" ) %> | 
                 <%= Html.ActionLink<PagesController>( p => p.About(), "About" )%> | 

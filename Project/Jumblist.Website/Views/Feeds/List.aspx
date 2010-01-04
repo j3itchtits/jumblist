@@ -12,7 +12,7 @@
     <%= Html.MessageBoxAlt( Model )%>
     
     <div id="itemsList">
-        <% Html.RenderPartial( "ListPartial", Model.Items ); %>
+        <% Html.RenderPartial( "ListPartial", Model.List ); %>
     </div>
     
     <p>
