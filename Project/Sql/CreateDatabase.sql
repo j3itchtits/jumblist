@@ -71,7 +71,7 @@ GO
 
 USE [JumblistDatabase]
 GO
-/****** Object:  Table [dbo].[PostCategories]    Script Date: 12/31/2009 14:42:22 ******/
+/****** Object:  Table [dbo].[PostCategories]    Script Date: 01/04/2010 17:17:56 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -90,7 +90,7 @@ INSERT [dbo].[PostCategories] ([PostCategoryId], [PostCategoryName]) VALUES (1, 
 INSERT [dbo].[PostCategories] ([PostCategoryId], [PostCategoryName]) VALUES (2, N'Wanted')
 INSERT [dbo].[PostCategories] ([PostCategoryId], [PostCategoryName]) VALUES (3, N'Taken')
 SET IDENTITY_INSERT [dbo].[PostCategories] OFF
-/****** Object:  Table [dbo].[FeedCategories]    Script Date: 12/31/2009 14:42:22 ******/
+/****** Object:  Table [dbo].[FeedCategories]    Script Date: 01/04/2010 17:17:56 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -107,7 +107,7 @@ GO
 SET IDENTITY_INSERT [dbo].[FeedCategories] ON
 INSERT [dbo].[FeedCategories] ([FeedCategoryId], [FeedCategoryName]) VALUES (1, N'Yahoo Freecycle Group')
 SET IDENTITY_INSERT [dbo].[FeedCategories] OFF
-/****** Object:  UserDefinedFunction [dbo].[DistanceBetween]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  UserDefinedFunction [dbo].[DistanceBetween]    Script Date: 01/04/2010 17:17:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -148,7 +148,7 @@ SET @dDistance = @kEarthRadius * @c;
 return (@dDistance);
 END
 GO
-/****** Object:  Table [dbo].[LocationCategories]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  Table [dbo].[LocationCategories]    Script Date: 01/04/2010 17:17:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -169,7 +169,7 @@ INSERT [dbo].[LocationCategories] ([LocationCategoryId], [LocationCategoryName])
 INSERT [dbo].[LocationCategories] ([LocationCategoryId], [LocationCategoryName]) VALUES (4, N'Postcode')
 INSERT [dbo].[LocationCategories] ([LocationCategoryId], [LocationCategoryName]) VALUES (5, N'Address')
 SET IDENTITY_INSERT [dbo].[LocationCategories] OFF
-/****** Object:  Table [dbo].[Tags]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  Table [dbo].[Tags]    Script Date: 01/04/2010 17:17:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -205,7 +205,7 @@ INSERT [dbo].[Tags] ([TagId], [TagName]) VALUES (21, N'Clothes rails')
 INSERT [dbo].[Tags] ([TagId], [TagName]) VALUES (22, N'Clothes raill')
 INSERT [dbo].[Tags] ([TagId], [TagName]) VALUES (23, N'Roofing feltt')
 SET IDENTITY_INSERT [dbo].[Tags] OFF
-/****** Object:  Table [dbo].[Roles]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  Table [dbo].[Roles]    Script Date: 01/04/2010 17:17:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -224,17 +224,20 @@ SET IDENTITY_INSERT [dbo].[Roles] ON
 INSERT [dbo].[Roles] ([RoleId], [RoleLevel], [RoleName]) VALUES (1, 3, N'Author')
 INSERT [dbo].[Roles] ([RoleId], [RoleLevel], [RoleName]) VALUES (2, 1, N'Administrator')
 INSERT [dbo].[Roles] ([RoleId], [RoleLevel], [RoleName]) VALUES (3, 2, N'Editor')
+INSERT [dbo].[Roles] ([RoleId], [RoleLevel], [RoleName]) VALUES (4, 4, N'External User')
 SET IDENTITY_INSERT [dbo].[Roles] OFF
-/****** Object:  Table [dbo].[Users]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 01/04/2010 17:17:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Users](
 	[UserId] [int] IDENTITY(1,1) NOT NULL,
-	[UserName] [nvarchar](250) NOT NULL,
+	[UserName] [nvarchar](50) NOT NULL,
 	[UserEmail] [nvarchar](250) NOT NULL,
-	[UserPassword] [nvarchar](50) NULL,
+	[UserPassword] [nvarchar](50) NOT NULL,
+	[UserPostcode] [nvarchar](10) NULL,
+	[UserSearchRadiusMiles] [int] NULL,
 	[UserLink] [nvarchar](250) NULL,
 	[UserIsActive] [bit] NOT NULL,
 	[UserDateCreated] [datetime] NOT NULL,
@@ -246,15 +249,14 @@ CREATE TABLE [dbo].[Users](
 ) ON [PRIMARY]
 GO
 SET IDENTITY_INSERT [dbo].[Users] ON
-INSERT [dbo].[Users] ([UserId], [UserName], [UserEmail], [UserPassword], [UserLink], [UserIsActive], [UserDateCreated], [RoleId]) VALUES (1, N'wish4lifeoriley1', N'http://groups.yahoo.com/group/hastings-freecycle/post?postID=ENZOPaItqO_7Y8uUJdCQtCDOeuZx-cfGtf3_TagWtv-3kdnG9cZd9UolmDLqRqDSOWWrcih_gWeNrAQ64YyNU5BabuGnF59BVxrtF_exCX_GtTKu5Fwj', N'', N'http://profiles.yahoo.com/wish4lifeoriley', 1, CAST(0x00009CD200000000 AS DateTime), 1)
-INSERT [dbo].[Users] ([UserId], [UserName], [UserEmail], [UserPassword], [UserLink], [UserIsActive], [UserDateCreated], [RoleId]) VALUES (2, N'shewhodigs1 ', N'http://groups.yahoo.com/group/hastings-freecycle/post?postID=r_S4hBTW6hE3fqafDdsGkMGOf5n-A4DXMnA170292d94cn2FCT9r0j-knG2exn5RfI0XKuvviqrd6aExHDBm7ad3KcFYGFrDDXZzh-D5', NULL, N'http://profiles.yahoo.com/shewhodigs1', 1, CAST(0x00009CD200000000 AS DateTime), 1)
-INSERT [dbo].[Users] ([UserId], [UserName], [UserEmail], [UserPassword], [UserLink], [UserIsActive], [UserDateCreated], [RoleId]) VALUES (6, N'mel8258 ', N'http://groups.yahoo.com/group/hastings-freecycle/post?postID=gIzD0Zi9vHL9aaQhzKktSD3k8zgAhdnMnWuX2IRSPUnwOK3nmoNZfO18dEETrYq_WWyQG_pRUU02Z2l94gkonXKQSgDEOab4c3Cd1Nk', NULL, N'http://profiles.yahoo.com/mel8258 ', 1, CAST(0x00009CD200000000 AS DateTime), 1)
-INSERT [dbo].[Users] ([UserId], [UserName], [UserEmail], [UserPassword], [UserLink], [UserIsActive], [UserDateCreated], [RoleId]) VALUES (7, N'bluemerle38', N'http://groups.yahoo.com/group/hastings-freecycle/post?postID=QEeKGqvcY9q273kctJpm0VvxMfRgEw3-vrOOcoYAoaFeJLm24DfDT1jpoRc6kcsKP9SctSdwSfRJm_RAXaDRWMLF5TS7nDUhzh_nJkk', NULL, N'http://profiles.yahoo.com/bluemerle38', 1, CAST(0x00009CD200000000 AS DateTime), 1)
-INSERT [dbo].[Users] ([UserId], [UserName], [UserEmail], [UserPassword], [UserLink], [UserIsActive], [UserDateCreated], [RoleId]) VALUES (8, N'Nigel Ford', N'http://groups.yahoo.com/group/hastings-freecycle/post?postID=gFhJMfqqfKHGcbPMpMbwYnccwhZluLZXUnV54KCsU98LF-aowGN0J-zv1ZVG2m6ZUG8FMFGrbmdS2ejHHgKEtHpe7V5kLV6x1aZvNns', NULL, N'http://profiles.yahoo.com/nigel9131 ', 1, CAST(0x00009CD200000000 AS DateTime), 1)
-INSERT [dbo].[Users] ([UserId], [UserName], [UserEmail], [UserPassword], [UserLink], [UserIsActive], [UserDateCreated], [RoleId]) VALUES (9, N'b.fosberry', N'http://groups.yahoo.com/group/hastings-freecycle/post?postID=aTtb9qoHYdJgCSDWd1FEguqcMuW8O2S6yvIOEFqDUYYkVzJy7bWVOCwzD5TY_qp-0yIH8PHTGdTbeucA3EaHDeRZpQ77j2lGKfMMuN17HbUWdbGfwTO0f7A7NfV5H_Y', NULL, N'http://profiles.yahoo.com/b.fosberry', 1, CAST(0x00009CD200000000 AS DateTime), 1)
-INSERT [dbo].[Users] ([UserId], [UserName], [UserEmail], [UserPassword], [UserLink], [UserIsActive], [UserDateCreated], [RoleId]) VALUES (12, N'a72d8a8e-bf1a-45f7-930f-ed06ba1db62b', N'sclode@hodes.co.uk', N'1B4E9835735B0FB2EF62623D0E392EC40E0C339F', NULL, 1, CAST(0x00009CDB01111E6A AS DateTime), 2)
+INSERT [dbo].[Users] ([UserId], [UserName], [UserEmail], [UserPassword], [UserPostcode], [UserSearchRadiusMiles], [UserLink], [UserIsActive], [UserDateCreated], [RoleId]) VALUES (1, N'wish4lifeoriley1', N'user@yahoo.com', N'F42343E88594581338AA', NULL, NULL, N'http://profiles.yahoo.com/wish4lifeoriley', 1, CAST(0x00009CD200000000 AS DateTime), 4)
+INSERT [dbo].[Users] ([UserId], [UserName], [UserEmail], [UserPassword], [UserPostcode], [UserSearchRadiusMiles], [UserLink], [UserIsActive], [UserDateCreated], [RoleId]) VALUES (2, N'shewhodigs1 ', N'user@yahoo.com', N'F42343E88594581338AA', NULL, NULL, N'http://profiles.yahoo.com/shewhodigs1', 1, CAST(0x00009CD200000000 AS DateTime), 4)
+INSERT [dbo].[Users] ([UserId], [UserName], [UserEmail], [UserPassword], [UserPostcode], [UserSearchRadiusMiles], [UserLink], [UserIsActive], [UserDateCreated], [RoleId]) VALUES (6, N'mel8258 ', N'user@yahoo.com', N'F42343E88594581338AA', NULL, NULL, N'http://profiles.yahoo.com/mel8258 ', 1, CAST(0x00009CD200000000 AS DateTime), 4)
+INSERT [dbo].[Users] ([UserId], [UserName], [UserEmail], [UserPassword], [UserPostcode], [UserSearchRadiusMiles], [UserLink], [UserIsActive], [UserDateCreated], [RoleId]) VALUES (7, N'bluemerle38', N'user@yahoo.com', N'F42343E88594581338AA', NULL, NULL, N'http://profiles.yahoo.com/bluemerle38', 1, CAST(0x00009CD200000000 AS DateTime), 4)
+INSERT [dbo].[Users] ([UserId], [UserName], [UserEmail], [UserPassword], [UserPostcode], [UserSearchRadiusMiles], [UserLink], [UserIsActive], [UserDateCreated], [RoleId]) VALUES (8, N'Nigel Ford', N'user@yahoo.com', N'F42343E88594581338AA', NULL, NULL, N'http://profiles.yahoo.com/nigel9131 ', 1, CAST(0x00009CD200000000 AS DateTime), 4)
+INSERT [dbo].[Users] ([UserId], [UserName], [UserEmail], [UserPassword], [UserPostcode], [UserSearchRadiusMiles], [UserLink], [UserIsActive], [UserDateCreated], [RoleId]) VALUES (9, N'b.fosberry', N'user@yahoo.com', N'F42343E88594581338AA', NULL, NULL, N'http://profiles.yahoo.com/b.fosberry', 1, CAST(0x00009CD200000000 AS DateTime), 4)
 SET IDENTITY_INSERT [dbo].[Users] OFF
-/****** Object:  Table [dbo].[Feeds]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  Table [dbo].[Feeds]    Script Date: 01/04/2010 17:17:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -280,7 +282,7 @@ SET IDENTITY_INSERT [dbo].[Feeds] ON
 INSERT [dbo].[Feeds] ([FeedId], [FeedTitle], [FeedTitleUrlEncoded], [FeedUrl], [FeedUsername], [FeedPassword], [FeedCheckIntervalTicks], [FeedLastUpdateHttpStatus], [FeedLastUpdateDateTime], [FeedCategoryId]) VALUES (1, N'Hastings Freecycle Group', N'hastings-freecycle-group', N'http://groups.yahoo.com/group/hastings-freecycle/messages/?xm=1&o=1&l=1&m=e', N'noostu', N'edinburgh', 10000, N'200', CAST(0x00009BCC00000000 AS DateTime), 1)
 INSERT [dbo].[Feeds] ([FeedId], [FeedTitle], [FeedTitleUrlEncoded], [FeedUrl], [FeedUsername], [FeedPassword], [FeedCheckIntervalTicks], [FeedLastUpdateHttpStatus], [FeedLastUpdateDateTime], [FeedCategoryId]) VALUES (2, N'Rye Freecycle Group', N'rye-freecycle-group', N'http://groups.yahoo.com/group/rye-freecycle/messages/?xm=1&o=1&l=1&m=e', N'noostu', N'edinburgh', 10000, N'200', CAST(0x00009BC900000000 AS DateTime), 1)
 SET IDENTITY_INSERT [dbo].[Feeds] OFF
-/****** Object:  Table [dbo].[Locations]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  Table [dbo].[Locations]    Script Date: 01/04/2010 17:17:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -315,7 +317,7 @@ INSERT [dbo].[Locations] ([LocationId], [LocationParentId], [LocationName], [Loc
 INSERT [dbo].[Locations] ([LocationId], [LocationParentId], [LocationName], [LocationCategoryId]) VALUES (18, 1, N'Udimore', 3)
 INSERT [dbo].[Locations] ([LocationId], [LocationParentId], [LocationName], [LocationCategoryId]) VALUES (19, 1, N'Cripps Corner', 3)
 SET IDENTITY_INSERT [dbo].[Locations] OFF
-/****** Object:  Table [dbo].[Posts]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  Table [dbo].[Posts]    Script Date: 01/04/2010 17:17:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -406,7 +408,7 @@ INSERT [dbo].[Posts] ([PostId], [PostParentId], [PostUrl], [PostTitle], [PostBod
 INSERT [dbo].[Posts] ([PostId], [PostParentId], [PostUrl], [PostTitle], [PostBody], [PostDateTime], [PostCategoryId], [PostLatitude], [PostLongitude], [PostDisplay], [UserId], [FeedId]) VALUES (14, 15, N'http://groups.yahoo.com/group/hastings-freecycle/message/36881?l=1', N'Taken - Grove School sweatshirts, lampshades still available.', N'Thank you for your interest, these have now gone.', CAST(0x00009CAD00A4CB80 AS DateTime), 3, 49.989, 0.123111, 1, 9, 1)
 INSERT [dbo].[Posts] ([PostId], [PostParentId], [PostUrl], [PostTitle], [PostBody], [PostDateTime], [PostCategoryId], [PostLatitude], [PostLongitude], [PostDisplay], [UserId], [FeedId]) VALUES (15, 0, N'http://groups.yahoo.com/group/hastings-freecycle/message/36857?l=1', N'Offered - Grove School polo and sweatshirts.', N'2 sweatshirts, one from wards size medium, one made by uneek, size XS. 3 polo shirts, one from wards size 36, 2 fruit of the loom 152cm. Must be picked up today. TN37  area.', CAST(0x00009CAD009DEDB0 AS DateTime), 1, 49.989, 0.123111, 1, 9, 1)
 SET IDENTITY_INSERT [dbo].[Posts] OFF
-/****** Object:  Table [dbo].[PostTags]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  Table [dbo].[PostTags]    Script Date: 01/04/2010 17:17:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -437,7 +439,7 @@ INSERT [dbo].[PostTags] ([Id], [PostId], [TagId]) VALUES (12, 14, 14)
 INSERT [dbo].[PostTags] ([Id], [PostId], [TagId]) VALUES (13, 14, 15)
 INSERT [dbo].[PostTags] ([Id], [PostId], [TagId]) VALUES (14, 15, 14)
 SET IDENTITY_INSERT [dbo].[PostTags] OFF
-/****** Object:  Table [dbo].[PostLocations]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  Table [dbo].[PostLocations]    Script Date: 01/04/2010 17:17:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -461,7 +463,7 @@ INSERT [dbo].[PostLocations] ([Id], [PostId], [LocationId]) VALUES (5, 6, 10)
 INSERT [dbo].[PostLocations] ([Id], [PostId], [LocationId]) VALUES (6, 11, 11)
 INSERT [dbo].[PostLocations] ([Id], [PostId], [LocationId]) VALUES (7, 15, 12)
 SET IDENTITY_INSERT [dbo].[PostLocations] OFF
-/****** Object:  UserDefinedFunction [dbo].[NearestMessages]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  UserDefinedFunction [dbo].[NearestMessages]    Script Date: 01/04/2010 17:17:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -479,61 +481,61 @@ AS
 	FROM         Posts 
 	WHERE dbo.DistanceBetween(@lat, @long, PostLatitude, PostLongitude) < @distance
 GO
-/****** Object:  Default [DF_Locations_LocationParentId]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  Default [DF_Locations_LocationParentId]    Script Date: 01/04/2010 17:17:58 ******/
 ALTER TABLE [dbo].[Locations] ADD  CONSTRAINT [DF_Locations_LocationParentId]  DEFAULT ((0)) FOR [LocationParentId]
 GO
-/****** Object:  Default [DF_Messages_MessageParentId]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  Default [DF_Messages_MessageParentId]    Script Date: 01/04/2010 17:17:58 ******/
 ALTER TABLE [dbo].[Posts] ADD  CONSTRAINT [DF_Messages_MessageParentId]  DEFAULT ((0)) FOR [PostParentId]
 GO
-/****** Object:  ForeignKey [FK_Users_Roles]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  ForeignKey [FK_Users_Roles]    Script Date: 01/04/2010 17:17:58 ******/
 ALTER TABLE [dbo].[Users]  WITH CHECK ADD  CONSTRAINT [FK_Users_Roles] FOREIGN KEY([RoleId])
 REFERENCES [dbo].[Roles] ([RoleId])
 GO
 ALTER TABLE [dbo].[Users] CHECK CONSTRAINT [FK_Users_Roles]
 GO
-/****** Object:  ForeignKey [FK_Feeds_FeedCategories]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  ForeignKey [FK_Feeds_FeedCategories]    Script Date: 01/04/2010 17:17:58 ******/
 ALTER TABLE [dbo].[Feeds]  WITH CHECK ADD  CONSTRAINT [FK_Feeds_FeedCategories] FOREIGN KEY([FeedCategoryId])
 REFERENCES [dbo].[FeedCategories] ([FeedCategoryId])
 GO
 ALTER TABLE [dbo].[Feeds] CHECK CONSTRAINT [FK_Feeds_FeedCategories]
 GO
-/****** Object:  ForeignKey [FK_Locations_LocationCategories]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  ForeignKey [FK_Locations_LocationCategories]    Script Date: 01/04/2010 17:17:58 ******/
 ALTER TABLE [dbo].[Locations]  WITH CHECK ADD  CONSTRAINT [FK_Locations_LocationCategories] FOREIGN KEY([LocationCategoryId])
 REFERENCES [dbo].[LocationCategories] ([LocationCategoryId])
 GO
 ALTER TABLE [dbo].[Locations] CHECK CONSTRAINT [FK_Locations_LocationCategories]
 GO
-/****** Object:  ForeignKey [FK_Posts_Feeds]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  ForeignKey [FK_Posts_Feeds]    Script Date: 01/04/2010 17:17:58 ******/
 ALTER TABLE [dbo].[Posts]  WITH CHECK ADD  CONSTRAINT [FK_Posts_Feeds] FOREIGN KEY([FeedId])
 REFERENCES [dbo].[Feeds] ([FeedId])
 GO
 ALTER TABLE [dbo].[Posts] CHECK CONSTRAINT [FK_Posts_Feeds]
 GO
-/****** Object:  ForeignKey [FK_Posts_PostCategories]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  ForeignKey [FK_Posts_PostCategories]    Script Date: 01/04/2010 17:17:58 ******/
 ALTER TABLE [dbo].[Posts]  WITH CHECK ADD  CONSTRAINT [FK_Posts_PostCategories] FOREIGN KEY([PostCategoryId])
 REFERENCES [dbo].[PostCategories] ([PostCategoryId])
 GO
 ALTER TABLE [dbo].[Posts] CHECK CONSTRAINT [FK_Posts_PostCategories]
 GO
-/****** Object:  ForeignKey [FK_Posts_Users]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  ForeignKey [FK_Posts_Users]    Script Date: 01/04/2010 17:17:58 ******/
 ALTER TABLE [dbo].[Posts]  WITH CHECK ADD  CONSTRAINT [FK_Posts_Users] FOREIGN KEY([UserId])
 REFERENCES [dbo].[Users] ([UserId])
 GO
 ALTER TABLE [dbo].[Posts] CHECK CONSTRAINT [FK_Posts_Users]
 GO
-/****** Object:  ForeignKey [FK_PostTags_Posts]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  ForeignKey [FK_PostTags_Posts]    Script Date: 01/04/2010 17:17:58 ******/
 ALTER TABLE [dbo].[PostTags]  WITH CHECK ADD  CONSTRAINT [FK_PostTags_Posts] FOREIGN KEY([PostId])
 REFERENCES [dbo].[Posts] ([PostId])
 GO
 ALTER TABLE [dbo].[PostTags] CHECK CONSTRAINT [FK_PostTags_Posts]
 GO
-/****** Object:  ForeignKey [FK_PostTags_Tags]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  ForeignKey [FK_PostTags_Tags]    Script Date: 01/04/2010 17:17:58 ******/
 ALTER TABLE [dbo].[PostTags]  WITH CHECK ADD  CONSTRAINT [FK_PostTags_Tags] FOREIGN KEY([TagId])
 REFERENCES [dbo].[Tags] ([TagId])
 GO
 ALTER TABLE [dbo].[PostTags] CHECK CONSTRAINT [FK_PostTags_Tags]
 GO
-/****** Object:  ForeignKey [FK_PostLocations_Locations]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  ForeignKey [FK_PostLocations_Locations]    Script Date: 01/04/2010 17:17:58 ******/
 ALTER TABLE [dbo].[PostLocations]  WITH CHECK ADD  CONSTRAINT [FK_PostLocations_Locations] FOREIGN KEY([LocationId])
 REFERENCES [dbo].[Locations] ([LocationId])
 ON UPDATE CASCADE
@@ -541,7 +543,7 @@ ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[PostLocations] CHECK CONSTRAINT [FK_PostLocations_Locations]
 GO
-/****** Object:  ForeignKey [FK_PostLocations_Posts]    Script Date: 12/31/2009 14:42:24 ******/
+/****** Object:  ForeignKey [FK_PostLocations_Posts]    Script Date: 01/04/2010 17:17:58 ******/
 ALTER TABLE [dbo].[PostLocations]  WITH CHECK ADD  CONSTRAINT [FK_PostLocations_Posts] FOREIGN KEY([PostId])
 REFERENCES [dbo].[Posts] ([PostId])
 ON UPDATE CASCADE

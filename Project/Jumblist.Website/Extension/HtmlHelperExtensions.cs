@@ -29,12 +29,17 @@ namespace Jumblist.Website.Extension
 
         public static string RegisterLink( this HtmlHelper helper, string linkText )
         {
-            return RegisterLink( helper, linkText, null );
+            return RegisterLink( helper, linkText, string.Empty, null );
         }
 
-        public static string RegisterLink( this HtmlHelper helper, string linkText, object htmlAttributes )
+        public static string RegisterLink( this HtmlHelper helper, string linkText, string returnUrl )
         {
-            return helper.ActionLink( linkText, "register", "users", null, htmlAttributes );
+            return RegisterLink( helper, linkText, returnUrl, null );
+        }
+
+        public static string RegisterLink( this HtmlHelper helper, string linkText, string returnUrl, object htmlAttributes )
+        {
+            return helper.ActionLink( linkText, "register", "users", new { returnurl = returnUrl }, htmlAttributes );
         }
 
         public static string LoginLink( this HtmlHelper helper, string linkText )

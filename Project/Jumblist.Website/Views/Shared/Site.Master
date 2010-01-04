@@ -37,14 +37,7 @@
                 <%= Html.ActionLink<PagesController>( p => p.Help(), "Help" )%> | 
               
                 <% Html.RenderPartial( "LogOnUserControl" ); %>  
-                
-                <p style="color:Red">
-                <br />Debug: 
-                <br />Name: <%= Html.Encode( Page.User.Identity.Name ) %>
-                <br />IsAuthenticated?: <%= Html.Encode( Page.User.Identity.IsAuthenticated.ToString() ) %>
-                <br />IsAdministrator: <%= Html.Encode( Page.User.IsInRole( "Administrator" ).ToString() ) %>
-                </p>
-                
+               
             </div>
         </div>
     </div>

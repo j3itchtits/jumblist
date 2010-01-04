@@ -81,28 +81,28 @@ namespace Jumblist.Website.Controller
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Save( Feed item )
+        public ActionResult Save( Feed feed )
         {
             try
             {
-                item.TitleUrlEncoded = item.Title.ToFriendlyUrl();
-                feedService.Save( item );
+                feed.TitleUrlEncoded = feed.Title.ToFriendlyUrl();
+                feedService.Save( feed );
             }
             catch (RulesException ex)
             {
-                ex.AddModelStateErrors( ModelState, "Item" );
+                ex.AddModelStateErrors( ModelState, "feed" );
             }
             
 
             if (ModelState.IsValid)
             {
-                NotificationMessage = new NotificationMessage { Text = item.Title + " has been saved.", StyleClass = "message" };
+                NotificationMessage = new NotificationMessage { Text = feed.Title + " has been saved.", StyleClass = "message" };
                 return RedirectToAction( "list", "feeds" );
             }
             else
             {
-                var model = BuildDataEditDefaultViewModel().With( item );
-                model.PageTitle = string.Format( "Edit - {0}", item.Title );
+                var model = BuildDataEditDefaultViewModel().With( feed );
+                model.PageTitle = string.Format( "Edit - {0}", feed.Title );
                 model.NotificationMessage = new NotificationMessage { Text = "Something went wrong", StyleClass = "error" };
                 return View( "edit", model );
             }

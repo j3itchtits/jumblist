@@ -6,7 +6,7 @@ namespace Jumblist.Core.Service
 {
     public interface IUserService : IDataService<User>
     {
-        User RegisterUser( string name, string email, string password );
+        User RegisterUser( string name, string email, string postcode, string password, string confirmpassword );
         //User CurrentUser { get; }
         User GetUser( string email );
         User GetUser( string email, string password );
@@ -15,6 +15,6 @@ namespace Jumblist.Core.Service
         void RemoveAuthenticationCookie();
         string HashPassword( string password );
         bool Authenticate( string email, string password );
-        
+        void EnsureValid( string name, string email, string password, string confirmpassword );
     }
 }

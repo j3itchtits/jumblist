@@ -10,6 +10,7 @@ using StuartClode.Mvc.Service;
 using MvcContrib;
 using Jumblist.Website.ViewModel;
 using Jumblist.Website.Filter;
+using xVal.ServerSide;
 
 namespace Jumblist.Website.Controller
 {
@@ -139,7 +140,7 @@ namespace Jumblist.Website.Controller
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Register( string name, string email, string password, string confirmPassword )
+        public ActionResult Register( string name, string email, string postcode, string password, string confirmPassword, string returnUrl )
         {
             // Attempt to register the user
 
@@ -148,13 +149,25 @@ namespace Jumblist.Website.Controller
             //password = Server.HtmlEncode( password );
             //confirmPassword = Server.HtmlEncode( confirmPassword );
 
-            var user = userService.RegisterUser( name, email, password );
+            try
+            {
+                var user = userService.RegisterUser( name, email, postcode, password, confirmPassword );
+            }
+            catch (RulesException ex)
+            {
+                ex.AddModelStateErrors( ModelState, "user" );
+            }
 
-            if (user != null)
+
+            if (ModelState.IsValid)
             {
                 userService.SetAuthenticationCookie( email, true );
                 NotificationMessage = new NotificationMessage { Text = "Thank you for registering", StyleClass = "message" };
-                return this.RedirectToAction<PagesController>( c => c.Index() );
+
+                if (!string.IsNullOrEmpty( returnUrl ))
+                    return Redirect( returnUrl );
+                else
+                    return this.RedirectToAction<PagesController>( c => c.Index() );
             }
             else
             {
