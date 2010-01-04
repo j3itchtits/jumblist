@@ -86,12 +86,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\BasketController.cs" />
     <Compile Include="Controller\ControllerBase.cs" />
     <Compile Include="Controller\ViewModelController.cs" />
     <Compile Include="Controller\UsersController.cs" />
     <Compile Include="Controller\FeedsController.cs" />
     <Compile Include="Controller\PagesController.cs" />
     <Compile Include="Controller\PostsController.cs" />
+    <Compile Include="Extension\StringExtensions.cs" />
     <Compile Include="Filter\CopyTempDataToViewDataAttribute.cs" />
     <Compile Include="Extension\HtmlHelperExtensions.cs" />
     <Compile Include="Extension\UrlHelperExtensions.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="ViewModel\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Stylesheets\admin.css" />
     <Content Include="Assets\Stylesheets\jumblist.css" />
     <Content Include="Assets\Stylesheets\yui-base.css" />
     <Content Include="Assets\Stylesheets\yui-fonts-min.css" />
@@ -160,6 +163,13 @@
       <Project>{24F71C77-8733-4D9A-9B6C-9F3230529AD1}</Project>
       <Name>StuartClode.Mvc</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Basket\Completed.aspx" />
+    <Content Include="Views\Basket\Email.aspx" />
+    <Content Include="Views\Basket\Index.aspx" />
+    <Content Include="Views\Basket\Summary.ascx" />
+    <Content Include="Views\Shared\Admin.Master" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Images\" />

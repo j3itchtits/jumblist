@@ -21,12 +21,13 @@ namespace Jumblist.Website.Controller
             this.postService = postService;
         }
 
-        public ViewResult List()
+        public ViewResult List( int? id )
         {
             var list = postService.SelectList();
             var test = list.Alphabetical();
+            var paged = new PaginatedList<Post>( list.ToList(), (id ?? 1), 3 );
 
-            var model = BuildDefaultViewModel().With( list );
+            var model = BuildDefaultViewModel().With( paged );
             model.PageTitle = "All Posts";
 
             return View( model );

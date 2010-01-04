@@ -23,7 +23,7 @@ namespace Jumblist.Tests.Controllers
             var controller = new PostsController( postRepository );
 
             //Act
-            var result = controller.List();
+            var result = controller.List(null);
 
             // Assert
             Assert.IsNotNull(result);
@@ -38,7 +38,7 @@ namespace Jumblist.Tests.Controllers
             var controller = new PostsController( postRepository );
 
             //Act
-            var result = controller.List();
+            var result = controller.List( null );
             var posts = result.ViewData.Model as IList<Post>;
             
             // Assert
@@ -55,7 +55,7 @@ namespace Jumblist.Tests.Controllers
             //controller.PageSize = 3;
 
             //Act
-            var result = controller.List();
+            var result = controller.List( null );
 
             //Assert
             Assert.IsNotNull( result, "Didn't render the view" );
