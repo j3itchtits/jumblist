@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Data.Linq.Mapping;
 using System.Data.Linq;
+using System.ComponentModel.DataAnnotations;
+using StuartClode.Mvc.Helper;
 
 namespace Jumblist.Core.Model
 {
@@ -16,14 +18,24 @@ namespace Jumblist.Core.Model
         [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
         public int UserId { get; set; }
 
+        [Required, StringLength( 50 )]
         [Column( Name = "UserName" )]
         public string Name { get; set; }
 
+        [Required, DataType( DataType.EmailAddress ), StringLength( 250 )]
         [Column( Name = "UserEmail" )]
         public string Email { get; set; }
 
+        [Required, DataType( DataType.Password ), StringLength( 50 )]
         [Column( Name = "UserPassword" )]
         public string Password { get; set; }
+
+        [RegularExpression( RegularExpressionString.UKPostcode, ErrorMessage="You must supply a valid UK postcode" )]
+        [Column( Name = "UserPostcode" )]
+        public string Postcode { get; set; }
+
+        [Column( Name = "UserSearchRadiusMiles" )]
+        public int SearchRadiusMiles { get; set; }
 
         [Column( Name = "UserLink" )]
         public string Link { get; set; }

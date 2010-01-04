@@ -5,6 +5,7 @@ using System.Linq;
 using StuartClode.Mvc.Service;
 using System.Web;
 using System;
+using xVal.ServerSide;
 
 namespace Jumblist.Core.Service
 {
@@ -22,12 +23,15 @@ namespace Jumblist.Core.Service
 
         #region IUserService Members
 
-        public User RegisterUser( string name, string email, string password )
+        public User RegisterUser( string name, string email, string postcode, string password, string confirmpassword )
         {
+            EnsureValid( name, email, password, confirmpassword );
+
             var user = new User
             {
                 Name = name,
                 Email = email,
+                Postcode = postcode,
                 Password = HashPassword( password ),
                 IsActive = true,
                 DateCreated = DateTime.Now,
@@ -84,6 +88,22 @@ namespace Jumblist.Core.Service
             return GetUser( email, HashPassword( password ) ) != null;
         }
 
+        public void EnsureValid( string name, string email, string password, string confirmpassword )
+        {
+            //if (string.IsNullOrEmpty( password ))
+            //    throw new RulesException( "password", "You must enter a password", "user" );
+
+            //if (password != confirmpassword)
+            //    throw new RulesException( "confirmpassword", "The passwords must be the same", "user" );
+
+            //var list = SelectList();
+
+            //if (list.Any<User>( u => u.Name == name ))
+            //    throw new RulesException( "name", "Username already taken", "user" );
+
+            //if (list.Any<User>( u => u.Email == email ))
+            //    throw new RulesException( "email", "Email already taken", "user" );
+        }
 
         #endregion
     }
