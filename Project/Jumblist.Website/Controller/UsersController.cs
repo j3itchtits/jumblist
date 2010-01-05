@@ -60,8 +60,8 @@ namespace Jumblist.Website.Controller
         public ViewResult Edit( int? id )
         {
             var item = userService.Select( (id ?? 1) );
-            var model = BuildDataEditDefaultViewModel().With( item );
 
+            var model = BuildDataEditDefaultViewModel().With( item );
             model.PageTitle = string.Format( "Edit - {0}", item.Name );
 
             if (model == null)
@@ -71,18 +71,29 @@ namespace Jumblist.Website.Controller
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Save( User user )
+        public ActionResult Save( User item )
         {
+            try
+            {
+                userService.SaveUser( item );
+            }
+            catch (RulesException ex)
+            {
+                ex.AddModelStateErrors( ModelState, "Item" );
+            }
+
             if (ModelState.IsValid)
             {
-                userService.Save( user );
-                TempData["notificationmessage"] = user.Name + " has been saved.";
+                NotificationMessage = new NotificationMessage { Text = item.Name + " has been saved.", StyleClass = "message" };
                 return RedirectToAction( "list" );
             }
             else
             {
-                var model = BuildDataEditDefaultViewModel().With( user );
-                return View( "Edit", model );
+                var model = BuildDataEditDefaultViewModel().With( item );
+                model.PageTitle = string.Format( "Edit - {0}", item.Name );
+                model.NotificationMessage = new NotificationMessage { Text = "Something went wrong", StyleClass = "error" };
+                return View( "edit", model );
+
             }
         }
 
@@ -105,11 +116,11 @@ namespace Jumblist.Website.Controller
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Login( string email, string password, string returnUrl )
+        public ActionResult Login( string name, string password, string returnUrl )
         {
-            if ( userService.Authenticate( email, password ) )
+            if ( userService.Authenticate( name, password ) )
             {
-                userService.SetAuthenticationCookie( email, true );
+                userService.SetAuthenticationCookie( name, true );
 
                 if ( !string.IsNullOrEmpty( returnUrl ) )
                     return Redirect( returnUrl );
@@ -151,7 +162,7 @@ namespace Jumblist.Website.Controller
 
             try
             {
-                var user = userService.RegisterUser( name, email, postcode, password, confirmPassword );
+                userService.RegisterUser( name, email, postcode, password, confirmPassword );
             }
             catch (RulesException ex)
             {
@@ -161,7 +172,7 @@ namespace Jumblist.Website.Controller
 
             if (ModelState.IsValid)
             {
-                userService.SetAuthenticationCookie( email, true );
+                userService.SetAuthenticationCookie( name, true );
                 NotificationMessage = new NotificationMessage { Text = "Thank you for registering", StyleClass = "message" };
 
                 if (!string.IsNullOrEmpty( returnUrl ))

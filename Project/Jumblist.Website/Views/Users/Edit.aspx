@@ -2,50 +2,67 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
-    <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
+    <%= Html.PageTitle( Model, HtmlTextWriterTag.H2 )%>
     
-    <%= Html.MessageBox( ViewData.Model ) %>
+    <%= Html.MessageBox( Model ) %>
 
-    <%= Html.ValidationSummary("Edit was unsuccessful. Please correct the errors and try again.") %>
+    <%= Html.ClientSideValidation<User>( "Item" )%>
 
-    <% using (Html.BeginForm( "save", "users" )) {%>
+    <% using ( Html.BeginForm<UsersController>( u => u.Save(null) ) ) { %>
 
-        <%= Html.Hidden("UserId", Model.Item.UserId) %>
+        <%= Html.HiddenFor( m => m.Item.UserId )%>
+        <%= Html.HiddenFor( m => m.Item.Password )%>
+        
+        <p>
+            <label for="Item.Name">Name:</label>
+            <%= Html.TextBoxFor( m => m.Item.Name ) %>
+            <%= Html.ValidationMessageFor( m => m.Item.Name )%>
+        </p>
+        <p>
+            <label for="Item.Email">Email:</label>
+            <%= Html.TextBoxFor( m => m.Item.Email ) %>
+            <%= Html.ValidationMessageFor( m => m.Item.Email )%>
+        </p>
+        <p>
+            <label for="password">Password</label>
+            <%= Html.Password( "password" )%>
+            <%= Html.ValidationMessage( "user.password" )%>            
+        </p>
 
         <p>
-            <label for="Name">Name:</label>
-            <%= Html.TextBox( "Name", Model.Item.Name )%>
-            <%= Html.ValidationMessage("Name", "*") %>
+            <label for="confirmpassword">Confirm Password</label>
+            <%= Html.Password( "confirmpassword" )%>
+            <%= Html.ValidationMessage( "user.confirmpassword" )%>  
+        </p>        
+        <p>
+            <label for="Item.Postcode">Postcode:</label>
+            <%= Html.TextBoxFor( m => m.Item.Postcode ) %>
+            <%= Html.ValidationMessageFor( m => m.Item.Postcode )%>
+        </p>      
+        <p>
+            <label for="Item.SearchRadiusMiles">SearchRadiusMiles:</label>
+            <%= Html.TextBoxFor( m => m.Item.SearchRadiusMiles )%>
+            <%= Html.ValidationMessageFor( m => m.Item.SearchRadiusMiles )%>
+        </p> 
+        <p>
+            <label for="Item.Link">Link:</label>
+            <%= Html.TextBoxFor( m => m.Item.Link )%>
+            <%= Html.ValidationMessageFor( m => m.Item.Link )%>
         </p>
         <p>
-            <label for="EmailHttpLink">Email:</label>
-            <%= Html.TextBox( "Email", Model.Item.Email )%>
-            <%= Html.ValidationMessage( "Email", "*" )%>
+            <label for="Item.IsActive">IsActive:</label>
+            <%= Html.CheckBox( "Item.IsActive" )%>
+            <%= Html.ValidationMessageFor( m => m.Item.IsActive )%>
         </p>
         <p>
-            <label for="EmailHttpLink">Password:</label>
-            <%= Html.TextBox( "Password", Model.Item.Password )%>
-            <%= Html.ValidationMessage( "Password", "*" )%>
-        </p>            
-        <p>
-            <label for="Profile">Link:</label>
-            <%= Html.TextBox( "Link", Model.Item.Link )%>
-            <%= Html.ValidationMessage( "Link", "*" )%>
+            <label for="Item.DateCreated">DateCreated:</label>
+            <%= Html.TextBoxFor( m => m.Item.DateCreated, new { @readonly = "true" } )%>
+            <%= Html.ValidationMessageFor( m => m.Item.DateCreated )%>
         </p>
         <p>
-            <label for="Profile">IsActive:</label>
-            <%= Html.CheckBox( "IsActive", Model.Item.IsActive )%>
-            <%= Html.ValidationMessage( "IsActive", "*" )%>
-        </p>
-        <p>
-            <label for="Profile">DateCreated:</label>
-            <%= Html.TextBox( "DateCreated", Model.Item.DateCreated )%>
-            <%= Html.ValidationMessage( "DateCreated", "*" )%>
-        </p>
-        <p>
-            <label for="Profile">RoleId:</label>
-            <%= Html.DropDownList( "RoleId", new SelectList( Model.LookupList<Role>(), "RoleId", "Name", Model.Item.RoleId ), string.Empty )%>
-            <%= Html.ValidationMessage( "RoleId", "*" )%>
+            <label for="Item.RoleId">RoleId:</label>
+            <%= Html.DropDownListFor( m => m.Item.RoleId, new SelectList( Model.LookupList<Role>(), "RoleId", "Name", Model.Item.RoleId ) )%>
+            <%= Html.ValidationMessageFor( m => m.Item.RoleId )%>
         </p>
         <p>
             <input type="submit" value="Save" />
@@ -61,7 +78,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="HeadContentTitle" runat="server">
-    <%= Html.PageTitle( ViewData.Model )%>
+    <%= Html.PageTitle( Model )%>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContentJavascript" runat="server">

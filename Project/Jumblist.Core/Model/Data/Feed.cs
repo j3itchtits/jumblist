@@ -24,9 +24,6 @@ namespace Jumblist.Core.Model
         [Required(ErrorMessage="Whatever"), StringLength(25)]
         public string Title { get; set; }
 
-        [Column( Name = "FeedTitleUrlEncoded" )]
-        public string TitleUrlEncoded { get; set; }
-
         [Column( Name = "FeedUrl" )]
         [Required, DataType( DataType.Url )]
         public string Url { get; set; }

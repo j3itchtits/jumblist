@@ -6,15 +6,15 @@ namespace Jumblist.Core.Service
 {
     public interface IUserService : IDataService<User>
     {
-        User RegisterUser( string name, string email, string postcode, string password, string confirmpassword );
+        void SaveUser( User entity );
+        void RegisterUser( string name, string email, string postcode, string password, string confirmpassword );
         //User CurrentUser { get; }
-        User GetUser( string email );
-        User GetUser( string email, string password );
-        void SetAuthenticationCookie( string email, bool rememberMe );
+        User GetUser( string name );
+        User GetUser( string name, string password );
+        void SetAuthenticationCookie( string name, bool rememberMe );
         //void SetContextUserTo( User user );
         void RemoveAuthenticationCookie();
         string HashPassword( string password );
-        bool Authenticate( string email, string password );
-        void EnsureValid( string name, string email, string password, string confirmpassword );
+        bool Authenticate( string name, string password );
     }
 }

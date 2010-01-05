@@ -8,7 +8,7 @@ using System.Data.Linq;
 namespace Jumblist.Core.Model
 {
     [Table( Name = "FeedCategories" )]
-    public class FeedCategory
+    public partial class FeedCategory
     {
         private EntitySet<Feed> feeds = new EntitySet<Feed>();
 
