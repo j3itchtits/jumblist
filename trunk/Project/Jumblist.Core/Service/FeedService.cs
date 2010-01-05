@@ -28,7 +28,7 @@ namespace Jumblist.Core.Service
 
         public override void Save( Feed entity )
         {
-            EnsureValid( entity );
+            ValidateBusinessRules( entity );
             base.Save( entity );
         }
 
@@ -37,16 +37,16 @@ namespace Jumblist.Core.Service
             base.Delete( entity );
         }
 
-        public void EnsureValid( Feed entity )
+        public void ValidateBusinessRules( Feed entity )
         {
             IQueryable<Feed> list;
 
-            if ( entity.FeedId == 0 )
+            if (entity.FeedId == 0)
                 list = SelectList();
             else
                 list = SelectList().Where( f => f.FeedId != entity.FeedId );
 
-            if ( list.Any<Feed>( f => f.Url == entity.Url ) )
+            if (list.Any<Feed>( f => f.Url == entity.Url ))
                 throw new RulesException( "Url", "Duplicate Urls", entity );
         }
 

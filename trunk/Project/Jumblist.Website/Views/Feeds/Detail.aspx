@@ -16,10 +16,6 @@
         <%= Html.Encode( Model.Item.Title )%>
     </p>
     <p>
-        TitleUrlEncoded:
-        <%= Html.Encode( Model.Item.TitleUrlEncoded )%>
-    </p>
-    <p>
         Url:
         <%= Html.Encode( Model.Item.Url )%>
     </p>

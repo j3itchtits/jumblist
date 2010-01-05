@@ -18,20 +18,20 @@ namespace Jumblist.Core.Model
         [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
         public int UserId { get; set; }
 
-        [Required, StringLength( 50 )]
         [Column( Name = "UserName" )]
+        [Required, StringLength( 50 )]
         public string Name { get; set; }
 
-        [Required, DataType( DataType.EmailAddress ), StringLength( 250 )]
         [Column( Name = "UserEmail" )]
+        [Required, DataType( DataType.EmailAddress ), StringLength( 250 )]
         public string Email { get; set; }
 
-        [Required, DataType( DataType.Password ), StringLength( 50 )]
         [Column( Name = "UserPassword" )]
+        [Required, DataType( DataType.Password ), StringLength( 50 )]
         public string Password { get; set; }
 
-        [RegularExpression( RegularExpressionString.UKPostcode, ErrorMessage="You must supply a valid UK postcode" )]
         [Column( Name = "UserPostcode" )]
+        [RegularExpression( RegularExpressionString.UKPostcode, ErrorMessage = "You must supply a valid UK postcode" )]
         public string Postcode { get; set; }
 
         [Column( Name = "UserSearchRadiusMiles" )]
@@ -47,6 +47,7 @@ namespace Jumblist.Core.Model
         public DateTime DateCreated { get; set; }
 
         [Column( Name = "RoleId" )]
+        [Required]
         public int RoleId { get; set; }
 
         [Association( Name = "FK_Users_Roles", Storage = "role", ThisKey = "RoleId", OtherKey = "RoleId", IsForeignKey = true )]

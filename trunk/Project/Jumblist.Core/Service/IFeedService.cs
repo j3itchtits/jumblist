@@ -10,6 +10,6 @@ namespace Jumblist.Core.Service
         Feed Select( int id );
         void Save( Feed entity );
         void Delete( Feed entity );
-        void EnsureValid( Feed entity );
+        void ValidateBusinessRules( Feed entity );
     }
 }

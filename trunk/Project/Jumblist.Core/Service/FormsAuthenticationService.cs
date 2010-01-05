@@ -10,9 +10,9 @@ namespace Jumblist.Core.Service
             FormsAuthentication.SignOut();
         }
 
-        public void SetAuthCookie( string email, bool createPersistentCookie )
+        public void SetAuthCookie( string name, bool createPersistentCookie )
         {
-            FormsAuthentication.SetAuthCookie( email, createPersistentCookie );
+            FormsAuthentication.SetAuthCookie( name, createPersistentCookie );
         }
 
         public string HashPasswordForStoringInConfigFile( string password )

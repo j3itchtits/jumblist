@@ -8,15 +8,15 @@
 
     <h2>Log On</h2>
     
-    <p>Please enter your username and password. <%= Html.RegisterLink( "Register" )%> if you don't have an account.</p>
+    <p>Please enter your name and password. <%= Html.RegisterLink( "Register" )%> if you don't have an account.</p>
 
     <h1>Login</h1>
 
     <%= Html.MessageBox( ViewData.Model ) %>
 
 	<% using( Html.BeginForm() ) { %>
-        <p><label for="username">Email</label>
-        <%= Html.TextBox("email") %></p>
+        <p><label for="name">Name</label>
+        <%= Html.TextBox("name") %></p>
         
         <p><label for="password">Password</label>
         <%= Html.Password("password") %></p>

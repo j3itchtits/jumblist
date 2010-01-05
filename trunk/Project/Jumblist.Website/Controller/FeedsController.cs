@@ -23,7 +23,7 @@ namespace Jumblist.Website.Controller
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        [CustomAuthorization( RoleLevel = RoleLevels.Administrator )]
+        //[CustomAuthorization( RoleLevel = RoleLevels.Administrator )]
         public ViewResult List()
         {
             var list = feedService.SelectList();
@@ -81,28 +81,26 @@ namespace Jumblist.Website.Controller
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Save( Feed feed )
+        public ActionResult Save( Feed item )
         {
             try
             {
-                feed.TitleUrlEncoded = feed.Title.ToFriendlyUrl();
-                feedService.Save( feed );
+                feedService.Save( item );
             }
             catch (RulesException ex)
             {
-                ex.AddModelStateErrors( ModelState, "feed" );
+                ex.AddModelStateErrors( ModelState, "Item" );
             }
-            
 
             if (ModelState.IsValid)
             {
-                NotificationMessage = new NotificationMessage { Text = feed.Title + " has been saved.", StyleClass = "message" };
-                return RedirectToAction( "list", "feeds" );
+                NotificationMessage = new NotificationMessage { Text = item.Title + " has been saved.", StyleClass = "message" };
+                return RedirectToAction( "list" );
             }
             else
             {
-                var model = BuildDataEditDefaultViewModel().With( feed );
-                model.PageTitle = string.Format( "Edit - {0}", feed.Title );
+                var model = BuildDataEditDefaultViewModel().With( item );
+                model.PageTitle = string.Format( "Edit - {0}", item.Title );
                 model.NotificationMessage = new NotificationMessage { Text = "Something went wrong", StyleClass = "error" };
                 return View( "edit", model );
             }
