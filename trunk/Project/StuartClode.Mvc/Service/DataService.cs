@@ -6,8 +6,7 @@ using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Extension;
 using System.Linq.Expressions;
 using System.Collections;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+using StuartClode.Mvc.Validation;
 using xVal.ServerSide;
 
 namespace StuartClode.Mvc.Service
@@ -35,11 +34,6 @@ namespace StuartClode.Mvc.Service
 
         public virtual void Save( T entity )
         {
-            //Data Validation
-            var errors = GetErrors( entity );
-            if (errors.Any())
-                throw new RulesException( errors );
-
             var primaryKeyProperty = typeof( T ).GetPrimaryKey();
             var primaryKeyValue = (int)primaryKeyProperty.GetValue( entity, null );
 
@@ -83,12 +77,5 @@ namespace StuartClode.Mvc.Service
 
         #endregion
 
-        private IEnumerable<ErrorInfo> GetErrors( object instance )
-        {
-            return from prop in TypeDescriptor.GetProperties( instance ).Cast<PropertyDescriptor>()
-                   from attribute in prop.Attributes.OfType<ValidationAttribute>()
-                   where !attribute.IsValid( prop.GetValue( instance ) )
-                   select new ErrorInfo( prop.Name, attribute.FormatErrorMessage( string.Empty ), instance );
-        }
     }
 }

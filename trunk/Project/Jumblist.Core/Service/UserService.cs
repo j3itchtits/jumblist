@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using StuartClode.Mvc.Repository;
 using System.Linq;
 using StuartClode.Mvc.Service;
+using StuartClode.Mvc.Validation;
 using System.Web;
 using System;
 using xVal.ServerSide;
@@ -25,18 +26,31 @@ namespace Jumblist.Core.Service
 
         public void SaveUser( User entity )
         {
+            ValidateDataRules( entity );
             ValidateBusinessRules( entity );
-
-            var savedUser = Select( entity.UserId );
-            entity.Password = savedUser.Password;
-            
             base.Save( entity );
         }
 
-        public void RegisterUser( string name, string email, string postcode, string password, string confirmpassword )
+        public void CreateUser( string name, string email, string password, string confirmPassword, int roleId )
         {
-            ValidateBusinessRules( name, email, password, confirmpassword );
+            var user = new User
+            {
+                Name = name,
+                Email = email,
+                Password = HashPassword( password ),
+                IsActive = true,
+                DateCreated = DateTime.Now,
+                RoleId = roleId
+            };
 
+            ValidateDataRules( user );
+            ValidateBusinessRules( name, email, password, confirmPassword );
+
+            base.Save( user );
+        }
+
+        public void RegisterUser( string name, string email, string postcode, string password, string confirmPassword )
+        {
             var user = new User
             {
                 Name = name,
@@ -48,18 +62,11 @@ namespace Jumblist.Core.Service
                 RoleId = Role.AuthorId
             };
 
+            ValidateDataRules( user );
+            ValidateBusinessRules( name, email, password, confirmPassword );
+
             base.Save( user );
         }
-
-        //public virtual User CurrentUser
-        //{
-        //    get
-        //    {
-        //        var user = HttpContext.Current.User as User;
-        //        if (user == null) throw new ApplicationException( "HttpContext.User is not a Jumblist.Website.Model.User" );
-        //        return user;
-        //    }
-        //}
 
         public User GetUser( string name, string password )
         {
@@ -76,11 +83,6 @@ namespace Jumblist.Core.Service
             formsAuth.SetAuthCookie( name, rememberMe );
         }
 
-        //public virtual void SetContextUserTo( User user )
-        //{
-        //    System.Threading.Thread.CurrentPrincipal = HttpContext.Current.User = user;
-        //}
-
         public virtual void RemoveAuthenticationCookie()
         {
             formsAuth.SignOut();
@@ -96,14 +98,34 @@ namespace Jumblist.Core.Service
             return GetUser( name, HashPassword( password ) ) != null;
         }
 
-        
+        //public virtual User CurrentUser
+        //{
+        //    get
+        //    {
+        //        var user = HttpContext.Current.User as User;
+        //        if (user == null) throw new ApplicationException( "HttpContext.User is not a Jumblist.Website.Model.User" );
+        //        return user;
+        //    }
+        //}
+
+        //public virtual void SetContextUserTo( User user )
+        //{
+        //    System.Threading.Thread.CurrentPrincipal = HttpContext.Current.User = user;
+        //}
 
         #endregion
 
+        private void ValidateDataRules( object entity )
+        {
+            var errors = DataAnnotationsValidationRunner.GetErrors( entity );
+            if (errors.Any())
+                throw new RulesException( errors );
+        }
+
         private void ValidateBusinessRules( string name, string email, string password, string confirmpassword )
         {
-            ValidatePasswords( password, confirmpassword );
-            ValidateDuplicates( SelectList(), name, email );
+            CheckPasswords( password, confirmpassword );
+            CheckforDatabaseDuplicates( SelectList(), name, email );
         }
 
         private void ValidateBusinessRules( User entity )
@@ -115,10 +137,10 @@ namespace Jumblist.Core.Service
             else
                 list = SelectList().Where( u => u.UserId != entity.UserId );
 
-            ValidateDuplicates( list, entity.Name, entity.Email );
+            CheckforDatabaseDuplicates( list, entity.Name, entity.Email );
         }
 
-        private void ValidatePasswords( string password, string confirmpassword )
+        private void CheckPasswords( string password, string confirmpassword )
         {
             if (string.IsNullOrEmpty( password ))
                 throw new RulesException( "password", "You must enter a password", "user" );
@@ -130,13 +152,17 @@ namespace Jumblist.Core.Service
                 throw new RulesException( "confirmpassword", "The passwords must be the same", "user" );
         }
 
-        private void ValidateDuplicates( IQueryable<User> list, string name, string email )
+        private void CheckforDatabaseDuplicates( IQueryable<User> list, string name, string email )
         {
             if (list.Any<User>( u => u.Name == name ))
                 throw new RulesException( "name", "Username already taken", "user" );
+            
+            if (email != "user@yahoo.com")
+            {
+                if (list.Any<User>( u => u.Email == email ))
+                    throw new RulesException( "email", "Email already taken", "user" );
+            }
 
-            if (list.Any<User>( u => u.Email == email ))
-                throw new RulesException( "email", "Email already taken", "user" );
         }
     }
 }

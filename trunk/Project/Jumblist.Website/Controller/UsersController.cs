@@ -50,10 +50,36 @@ namespace Jumblist.Website.Controller
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Create()
         {
+            //var model = BuildDefaultViewModel();
             var model = BuildDataEditDefaultViewModel().With( new User() );
             model.PageTitle = "Create";
 
-            return View( "Edit", model );
+            return View( "Create", model );
+        }
+
+        [AcceptVerbs( HttpVerbs.Post )]
+        public ActionResult Create( User user, string confirmPassword )
+        {
+            try
+            {
+                userService.CreateUser( user.Name, user.Email, user.Password, confirmPassword, user.RoleId );
+            }
+            catch (RulesException ex)
+            {
+                ex.AddModelStateErrors( ModelState, "User" );
+            }
+
+            if (ModelState.IsValid)
+            {
+                NotificationMessage = new NotificationMessage { Text = "User created", StyleClass = "message" };
+                return RedirectToAction( "list" );
+            }
+            else
+            {
+                var model = BuildDataEditDefaultViewModel().With( new User() );
+                model.NotificationMessage = new NotificationMessage { Text = "Something went wrong", StyleClass = "error" };
+                return View( model );
+            }
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -153,13 +179,6 @@ namespace Jumblist.Website.Controller
         [AcceptVerbs( HttpVerbs.Post )]
         public ActionResult Register( string name, string email, string postcode, string password, string confirmPassword, string returnUrl )
         {
-            // Attempt to register the user
-
-            //name = Server.HtmlEncode( name );
-            //email = Server.HtmlEncode( email );
-            //password = Server.HtmlEncode( password );
-            //confirmPassword = Server.HtmlEncode( confirmPassword );
-
             try
             {
                 userService.RegisterUser( name, email, postcode, password, confirmPassword );

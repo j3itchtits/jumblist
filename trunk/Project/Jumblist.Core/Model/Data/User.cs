@@ -19,15 +19,21 @@ namespace Jumblist.Core.Model
         public int UserId { get; set; }
 
         [Column( Name = "UserName" )]
-        [Required, StringLength( 50 )]
+        [Required]
+        [StringLength( 50 )]
         public string Name { get; set; }
 
         [Column( Name = "UserEmail" )]
-        [Required, DataType( DataType.EmailAddress ), StringLength( 250 )]
+        [Required]
+        [RegularExpression( RegularExpressionString.Email, ErrorMessage = "You must supply a valid Email" )]
+        //[DataType( DataType.EmailAddress )]
+        [StringLength( 250 )]
         public string Email { get; set; }
 
         [Column( Name = "UserPassword" )]
-        [Required, DataType( DataType.Password ), StringLength( 50 )]
+        [Required]
+        [DataType( DataType.Password )]
+        [StringLength( 50 )]
         public string Password { get; set; }
 
         [Column( Name = "UserPostcode" )]

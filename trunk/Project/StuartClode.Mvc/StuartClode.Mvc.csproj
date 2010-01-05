@@ -91,6 +91,7 @@
     <Compile Include="Service\DataServiceResolver.cs" />
     <Compile Include="Service\IDataService.cs" />
     <Compile Include="Service\IDataServiceResolver.cs" />
+    <Compile Include="Validation\DataAnnotationsValidationRunner.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Filter\" />
