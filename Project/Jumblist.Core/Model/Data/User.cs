@@ -25,14 +25,15 @@ namespace Jumblist.Core.Model
 
         [Column( Name = "UserEmail" )]
         [Required]
-        [RegularExpression( RegularExpressionString.Email, ErrorMessage = "You must supply a valid Email" )]
+        [RegularExpression( RegularExpressionString.Email, ErrorMessage = "You must supply a valid email address" )]
         //[DataType( DataType.EmailAddress )]
         [StringLength( 250 )]
         public string Email { get; set; }
 
         [Column( Name = "UserPassword" )]
         [Required]
-        [DataType( DataType.Password )]
+        //[DataType( DataType.Password )]
+        [RegularExpression( RegularExpressionString.Password, ErrorMessage = "Your password must be between 6 and 15 characters in length and not contain any spaces" )]
         [StringLength( 50 )]
         public string Password { get; set; }
 
