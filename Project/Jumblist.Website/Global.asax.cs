@@ -92,6 +92,7 @@ namespace Jumblist.Website
             if (routes == null) throw new ArgumentNullException( "routes" );
 
             routes.IgnoreRoute( "{resource}.axd/{*pathInfo}" );
+            routes.IgnoreRoute( "{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" } );
 
             routes.MapRoute(
                 "Default",                                              // Route name

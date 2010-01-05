@@ -12,7 +12,7 @@
     <h2>Home</h2>
     
     <p><%= Html.ActionLink( "View All Posts", "list", "posts" ) %></p>
-    <p><%= Html.ActionLink( "View All Authors", "list", "users" ) %></p>
+    <p><%= Html.ActionLink( "View All Users", "list", "users" ) %></p>
     <p><%= Html.ActionLink( "View All Feeds", "list", "feeds" ) %></p>    
     
       

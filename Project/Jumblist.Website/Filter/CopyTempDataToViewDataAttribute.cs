@@ -19,9 +19,14 @@ namespace Jumblist.Website.Filter
                     model.SimpleMessage = filterContext.Controller.TempData["simplemessage"] as string;
 				}
 
-                if ( model != null && model.NotificationMessage == null && filterContext.Controller.TempData.ContainsKey( "message" ) )
+                if (model != null && model.NotificationMessage == null && filterContext.Controller.TempData.ContainsKey( "notificationmessage" ))
                 {
                     model.NotificationMessage = filterContext.Controller.TempData["notificationmessage"] as NotificationMessage;
+                }
+
+                if (model != null && model.Notification == null && filterContext.Controller.TempData.ContainsKey( "notification" ))
+                {
+                    model.Notification = filterContext.Controller.TempData["notification"] as Notification;
                 }
 			}
 		}

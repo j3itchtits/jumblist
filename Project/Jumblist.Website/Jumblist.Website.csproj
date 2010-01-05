@@ -170,6 +170,7 @@
     <Content Include="Views\Basket\Index.aspx" />
     <Content Include="Views\Basket\Summary.ascx" />
     <Content Include="Views\Shared\Admin.Master" />
+    <Content Include="Views\Users\Create.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Images\" />

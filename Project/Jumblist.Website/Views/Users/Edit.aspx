@@ -24,17 +24,6 @@
             <%= Html.ValidationMessageFor( m => m.Item.Email )%>
         </p>
         <p>
-            <label for="password">Password</label>
-            <%= Html.Password( "password" )%>
-            <%= Html.ValidationMessage( "user.password" )%>            
-        </p>
-
-        <p>
-            <label for="confirmpassword">Confirm Password</label>
-            <%= Html.Password( "confirmpassword" )%>
-            <%= Html.ValidationMessage( "user.confirmpassword" )%>  
-        </p>        
-        <p>
             <label for="Item.Postcode">Postcode:</label>
             <%= Html.TextBoxFor( m => m.Item.Postcode ) %>
             <%= Html.ValidationMessageFor( m => m.Item.Postcode )%>
