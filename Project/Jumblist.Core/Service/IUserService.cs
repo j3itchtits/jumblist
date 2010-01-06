@@ -7,6 +7,7 @@ namespace Jumblist.Core.Service
     public interface IUserService : IDataService<User>
     {
         void SaveUser( User entity );
+        void ResetUserPassword( User entity, string password, string confirmPassword );
         void CreateUser( string name, string email, string password, string confirmpassword, int roleId );
         void RegisterUser( string name, string email, string postcode, string password, string confirmpassword );
         //User CurrentUser { get; }

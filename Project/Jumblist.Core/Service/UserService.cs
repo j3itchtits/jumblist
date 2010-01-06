@@ -31,6 +31,13 @@ namespace Jumblist.Core.Service
             base.Save( entity );
         }
 
+        public void ResetUserPassword( User entity, string password, string confirmPassword )
+        {
+            ValidateBusinessRules( password, confirmPassword );
+            entity.Password = HashPassword( password );
+            base.Save( entity );
+        }
+
         public void CreateUser( string name, string email, string password, string confirmPassword, int roleId )
         {
             var user = new User
@@ -128,6 +135,11 @@ namespace Jumblist.Core.Service
             CheckforDatabaseDuplicates( SelectList(), name, email );
         }
 
+        private void ValidateBusinessRules( string password, string confirmpassword )
+        {
+            CheckPasswords( password, confirmpassword );
+        }
+
         private void ValidateBusinessRules( User entity )
         {
             IQueryable<User> list;
@@ -149,18 +161,18 @@ namespace Jumblist.Core.Service
                 throw new RulesException( "password", "Password must be at least 6 characters", "user" );
 
             if (password != confirmpassword)
-                throw new RulesException( "confirmpassword", "The passwords must be the same", "user" );
+                throw new RulesException( "ConfirmPassword", "The passwords must be the same", "User" );
         }
 
         private void CheckforDatabaseDuplicates( IQueryable<User> list, string name, string email )
         {
             if (list.Any<User>( u => u.Name == name ))
-                throw new RulesException( "name", "Username already taken", "user" );
+                throw new RulesException( "Name", "Username already taken", "User" );
             
             if (email != "user@yahoo.com")
             {
                 if (list.Any<User>( u => u.Email == email ))
-                    throw new RulesException( "email", "Email already taken", "user" );
+                    throw new RulesException( "Email", "Email already taken", "User" );
             }
 
         }

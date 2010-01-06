@@ -54,7 +54,7 @@
             <%= Html.ValidationMessageFor( m => m.Item.RoleId )%>
         </p>
         <p>
-            <input type="submit" value="Save" />
+            <%= Html.SubmitButton( "submit", "Save" ) %>
         </p>
 
 
@@ -74,5 +74,25 @@
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="BodyContentRight" runat="server">
+
+    <%= Html.ClientSideValidation<User>( "Reset" )%>
+    
+    <% using ( Html.BeginForm<UsersController>( u => u.ResetUserPassword( Model.Item.UserId, null, null ) ) ) { %>
+        <p>
+            <label for="Password">Password</label>
+            <%= Html.Password( "Password" )%>
+            <%= Html.ValidationMessage( "Reset.Password" )%>            
+        </p>
+
+        <p>
+            <label for="ConfirmPassword">Confirm Password</label>
+            <%= Html.Password( "ConfirmPassword" )%>
+            <%= Html.ValidationMessage( "Reset.ConfirmPassword" )%>  
+        </p>
+        <p>
+            <%= Html.SubmitButton( "submit", "Reset Password" ) %>
+        </p>        
+    <% } %>
+
 </asp:Content>
 

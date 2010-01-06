@@ -123,6 +123,34 @@ namespace Jumblist.Website.Controller
             }
         }
 
+        [AcceptVerbs( HttpVerbs.Post )]
+        public ActionResult ResetUserPassword( int userId, string password, string confirmPassword )
+        {
+            var user = userService.Select( userId );
+
+            try
+            {
+                userService.ResetUserPassword( user, password, confirmPassword );
+            }
+            catch (RulesException ex)
+            {
+                ex.AddModelStateErrors( ModelState, "Reset" );
+            }
+
+            if (ModelState.IsValid)
+            {
+                NotificationMessage = new NotificationMessage { Text = user.Name + " has changed their password.", StyleClass = "message" };
+                return RedirectToAction( "list" );
+            }
+            else
+            {
+                var model = BuildDataEditDefaultViewModel().With( user );
+                model.PageTitle = string.Format( "Edit - {0}", user.Name );
+                model.NotificationMessage = new NotificationMessage { Text = "Something went wrong", StyleClass = "error" };
+                return View( "edit", model );
+            }
+        }
+
         [AcceptVerbs( HttpVerbs.Delete )]
         public ActionResult Delete( int id )
         {
@@ -177,21 +205,20 @@ namespace Jumblist.Website.Controller
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Register( string name, string email, string postcode, string password, string confirmPassword, string returnUrl )
+        public ActionResult Register( User user, string confirmPassword, string returnUrl )
         {
             try
             {
-                userService.RegisterUser( name, email, postcode, password, confirmPassword );
+                userService.RegisterUser( user.Name, user.Email, user.Postcode, user.Password, confirmPassword );
             }
             catch (RulesException ex)
             {
-                ex.AddModelStateErrors( ModelState, "user" );
+                ex.AddModelStateErrors( ModelState, "User" );
             }
-
 
             if (ModelState.IsValid)
             {
-                userService.SetAuthenticationCookie( name, true );
+                userService.SetAuthenticationCookie( user.Name, true );
                 NotificationMessage = new NotificationMessage { Text = "Thank you for registering", StyleClass = "message" };
 
                 if (!string.IsNullOrEmpty( returnUrl ))

@@ -33,7 +33,7 @@ namespace Jumblist.Core.Model
         [Column( Name = "UserPassword" )]
         [Required]
         //[DataType( DataType.Password )]
-        [RegularExpression( RegularExpressionString.Password, ErrorMessage = "Your password must be between 6 and 15 characters in length and not contain any spaces" )]
+        [RegularExpression( RegularExpressionString.Password, ErrorMessage = "Your password must be between 6 and 50 characters in length and not contain any spaces" )]
         [StringLength( 50 )]
         public string Password { get; set; }
 
@@ -45,6 +45,7 @@ namespace Jumblist.Core.Model
         public int SearchRadiusMiles { get; set; }
 
         [Column( Name = "UserLink" )]
+        [RegularExpression( RegularExpressionString.Url, ErrorMessage = "You must supply a valid web link" )]
         public string Link { get; set; }
 
         [Column( Name = "UserIsActive" )]
