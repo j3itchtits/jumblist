@@ -10,40 +10,40 @@
 
     <%= Html.MessageBox( Model ) %>
 
-    <%= Html.ClientSideValidation<User>( "user" )%>
+    <%= Html.ClientSideValidation<User>( "User" )%>
         
     <p>Please submit your details. <%= Html.LoginLink( "Log In" )%> if you already have an account.</p>
 
 	<% using( Html.BeginForm() ) { %>
 	
         <p>
-            <label for="name">Name</label>
-            <%= Html.TextBox( "name" )%>
-            <%= Html.ValidationMessage( "user.name" )%>
+            <label for="User.Name">Name</label>
+            <%= Html.TextBox( "User.Name" )%>
+            <%= Html.ValidationMessage( "User.Name" )%>
         </p>
 
         <p>
-            <label for="email">Email</label>
-            <%= Html.TextBox( "email" )%>
-            <%= Html.ValidationMessage( "user.email" )%>
+            <label for="User.Email">Email</label>
+            <%= Html.TextBox( "User.Email" )%>
+            <%= Html.ValidationMessage( "User.Email" )%>
         </p>
 
         <p>
-            <label for="postcode">Postcode</label>
-            <%= Html.TextBox( "postcode" )%>
-            <%= Html.ValidationMessage( "user.postcode" )%>
+            <label for="User.Postcode">Postcode</label>
+            <%= Html.TextBox( "User.Postcode" )%>
+            <%= Html.ValidationMessage( "User.Postcode" )%>
         </p>
         
         <p>
-            <label for="password">Password</label>
-            <%= Html.Password( "password" )%>
-            <%= Html.ValidationMessage( "user.password" )%>            
+            <label for="User.Password">Password</label>
+            <%= Html.Password( "User.Password" )%>
+            <%= Html.ValidationMessage( "User.Password" )%>            
         </p>
 
         <p>
-            <label for="confirmpassword">Confirm Password</label>
-            <%= Html.Password( "confirmpassword" )%>
-            <%= Html.ValidationMessage( "user.confirmpassword" )%>  
+            <label for="ConfirmPassword">Confirm Password</label>
+            <%= Html.Password( "ConfirmPassword" )%>
+            <%= Html.ValidationMessage( "User.ConfirmPassword" )%>  
         </p>
 
         <%= Html.SubmitButton( "submit", "Register" ) %>

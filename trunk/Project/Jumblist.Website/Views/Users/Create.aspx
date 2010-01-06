@@ -25,17 +25,17 @@
             <%= Html.ValidationMessage( "User.Email" )%>
         </p>
         <p>
-            <label for="User.password">Password</label>
+            <label for="User.Password">Password</label>
             <%= Html.Password( "User.Password" )%>
             <%= Html.ValidationMessage( "User.Password" )%>            
         </p>
         <p>
-            <label for="confirmpassword">Confirm Password</label>
-            <%= Html.Password( "confirmpassword" )%>
-            <%= Html.ValidationMessage( "User.confirmpassword" )%>  
+            <label for="ConfirmPassword">Confirm Password</label>
+            <%= Html.Password( "ConfirmPassword" )%>
+            <%= Html.ValidationMessage( "User.ConfirmPassword" )%>  
         </p>
         <p>
-            <label for="User.roleid">RoleId</label>
+            <label for="User.RoleId">RoleId</label>
             <%= Html.DropDownList( "User.RoleId", new SelectList( Model.LookupList<Role>(), "RoleId", "Name", Model.Item.RoleId ) )%>
             <%= Html.ValidationMessage( "User.RoleId" )%>  
         </p>
