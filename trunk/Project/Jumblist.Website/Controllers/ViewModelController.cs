@@ -9,7 +9,7 @@ using StuartClode.Mvc.Service;
 
 namespace Jumblist.Website.Controllers
 {
-    public class ViewModelController<T> : JumblistControllerBase where T : class, new()
+    public class ViewModelController<T> : RootController where T : class, new()
     {
         public IDataServiceResolver DataServiceResolver { get; set; }
 

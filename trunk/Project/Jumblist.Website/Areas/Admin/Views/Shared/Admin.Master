@@ -8,7 +8,7 @@
     <link href="<%= Url.Stylesheet( "yui-reset.css" )%>" rel="stylesheet" type="text/css"/>
     <link href="<%= Url.Stylesheet( "yui-reset.css" )%>" rel="stylesheet" type="text/css"/>
     <link href="<%= Url.Stylesheet( "yui-fonts-min.css" )%>" rel="stylesheet" type="text/css"/>
-    <link href="<%= Url.Stylesheet( "admin.css" )%>" rel="stylesheet" type="text/css"/>
+    <link href="<%= Url.Stylesheet( "admin.css", "admin" )%>" rel="stylesheet" type="text/css"/>
 
     <script src="<%= Url.Script( "MicrosoftAjax.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "MicrosoftMvcAjax.js" )%>" type="text/javascript"></script>
@@ -25,13 +25,11 @@
     <div id="header">
         <div id="header-interior">
             <div id="logo">Jumblist Admin</div>
+            
+            <%= Html.ActionLink( "Back to site", "Index", new { area = "root", controller = "Home" } )%>
 
             <div id="menu">
-                <%= Html.HomepageLink( "Home" ) %> | 
-                <%= Html.ActionLink<PagesController>( p => p.About(), "About" )%> | 
-                <%= Html.ActionLink<PagesController>( p => p.Help(), "Help" )%> | 
-              
-                <% Html.RenderPartial( "LogOnUserControl" ); %>  
+                <%= Html.ActionLink( "Admin", "Index", "Home" ) %> | 
                 
                 <p style="color:Red">
                 <br />Debug: 
