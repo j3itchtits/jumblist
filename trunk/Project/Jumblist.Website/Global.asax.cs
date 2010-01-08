@@ -15,12 +15,11 @@ using System.Reflection;
 
 namespace Jumblist.Website
 {
-
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         private static object _lock = new object();
         private static IWindsorContainer container;
-        private static readonly string jumblistDbConnString = ConfigurationManager.ConnectionStrings["ApplicationServices"].ToString();
+        private readonly string jumblistDbConnString = ConfigurationManager.ConnectionStrings["ApplicationServices"].ToString();
 
         protected void Application_Start()
         {
@@ -95,10 +94,20 @@ namespace Jumblist.Website
             routes.IgnoreRoute( "{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" } );
 
             routes.MapRoute(
-                "Default",                                              // Route name
-                "{controller}/{action}/{id}",                           // URL with parameters
-                new { controller = "Pages", action = "Index", id = "" }  // Parameter defaults
-            );
+                 null,                                              // Route name
+                 "{controller}/{action}/{id}",                           // URL with parameters
+                 new { controller = "Pages", action = "Index", id = "" }  // Parameter defaults
+                 //new { id = @"\d{1,6}" }                            // Constraints
+             );
+
+            //routes.Add(
+            //    null, // Route name
+            //    new Route(
+            //        "Admin/{controller}/{action}/{id}", // URL with parameters
+            //        new RouteValueDictionary( new { controller = "AdminPages", action = "Index", id = "" } ),
+            //        new AdminRouteHandler()
+            //    )
+            //);    
         }
 
         public static void RegisterViewEngines( ViewEngineCollection engines )
@@ -118,7 +127,15 @@ namespace Jumblist.Website
         {
             container.Dispose();
         }
-
-
     }
+
+    public class AdminRouteHandler : IRouteHandler
+    {
+        public IHttpHandler GetHttpHandler( RequestContext requestContext )
+        {
+            RouteData routeData = requestContext.RouteData;
+            routeData.Values["controller"] = "Admin" + requestContext.RouteData.GetRequiredString( "controller" );
+            return new MvcHandler( requestContext );
+        }
+    }   
 }

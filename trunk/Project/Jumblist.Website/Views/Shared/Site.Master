@@ -35,7 +35,8 @@
                 <%= Html.HomepageLink( "Home" ) %> | 
                 <%= Html.ActionLink<PagesController>( p => p.About(), "About" )%> | 
                 <%= Html.ActionLink<PagesController>( p => p.Help(), "Help" )%> | 
-              
+                <%= Html.ActionLink( "Help", "Help", "Pages" )%> | 
+                
                 <% Html.RenderPartial( "LogOnUserControl" ); %>  
                
             </div>

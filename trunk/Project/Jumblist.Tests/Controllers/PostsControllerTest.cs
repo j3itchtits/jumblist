@@ -7,6 +7,7 @@ using Jumblist.Tests.Mocks;
 using Jumblist.Website.Controller;
 using System.Web.Mvc;
 using Jumblist.Core.Model;
+using Jumblist.Website.ViewModel;
 
 
 namespace Jumblist.Tests.Controllers
@@ -39,10 +40,11 @@ namespace Jumblist.Tests.Controllers
 
             //Act
             var result = controller.List( null );
-            var posts = result.ViewData.Model as IList<Post>;
+            var model = result.ViewData.Model as DefaultViewModel<Post>;
             
             // Assert
-            Assert.AreEqual(2, posts.Count, "Wrong number of posts");
+            Assert.IsNotNull( model.PaginatedList );
+            Assert.AreEqual( 3, model.PaginatedList.Count, "Wrong number of posts" );
         }
 
         [Test]
@@ -56,15 +58,12 @@ namespace Jumblist.Tests.Controllers
 
             //Act
             var result = controller.List( null );
+            var model = result.ViewData.Model as DefaultViewModel<Post>;
 
             //Assert
-            Assert.IsNotNull( result, "Didn't render the view" );
-
-            var posts = result.ViewData.Model as IList<Post>;
-            Assert.AreEqual( 2, posts.Count, "Wrong number of posts" );
-
-            Assert.AreEqual( "Wanted: Fridge", posts[0].Title );
-            Assert.AreEqual( "Taken: Socks", posts[1].Title );
+            Assert.IsNotNull( model.PaginatedList );
+            Assert.AreEqual( "Wanted: Socks", model.PaginatedList.ElementAt<Post>( 0 ).Title );
+            Assert.AreEqual( "Offered: Linen", model.PaginatedList.ElementAt<Post>( 1 ).Title );
         }
 
         [Test]

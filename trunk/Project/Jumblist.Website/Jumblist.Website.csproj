@@ -86,8 +86,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Admin\Controllers\FeedsController.cs" />
     <Compile Include="Controller\BasketController.cs" />
     <Compile Include="Controller\ControllerBase.cs" />
+    <Compile Include="Areas\Admin\Controllers\PagesController.cs" />
     <Compile Include="Controller\ViewModelController.cs" />
     <Compile Include="Controller\UsersController.cs" />
     <Compile Include="Controller\FeedsController.cs" />
@@ -165,14 +167,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\AdminFeeds\Index.aspx" />
     <Content Include="Views\Basket\Completed.aspx" />
     <Content Include="Views\Basket\Email.aspx" />
     <Content Include="Views\Basket\Index.aspx" />
     <Content Include="Views\Basket\Summary.ascx" />
+    <Content Include="Views\AdminPages\Index.aspx" />
     <Content Include="Views\Shared\Admin.Master" />
     <Content Include="Views\Users\Create.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Admin\Assets\Images\" />
+    <Folder Include="Areas\Admin\Assets\Scripts\" />
+    <Folder Include="Areas\Admin\Assets\Stylesheets\" />
+    <Folder Include="Areas\Admin\Views\" />
     <Folder Include="Assets\Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
