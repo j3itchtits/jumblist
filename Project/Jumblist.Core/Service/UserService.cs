@@ -35,7 +35,7 @@ namespace Jumblist.Core.Service
         {
             ValidateBusinessRules( password, confirmPassword );
             entity.Password = HashPassword( password );
-            base.Save( entity );
+            base.Update( entity );
         }
 
         public void CreateUser( string name, string email, string password, string confirmPassword, int roleId )

@@ -45,6 +45,11 @@ namespace StuartClode.Mvc.Service
             repository.SubmitChanges();
         }
 
+        public virtual void Update( T entity )
+        {
+            repository.SubmitChanges();
+        }
+
         public virtual void Delete( T entity )
         {
             repository.DeleteOnSubmit( entity );
@@ -68,6 +73,11 @@ namespace StuartClode.Mvc.Service
         public void Save( object entity )
         {
             Save( entity );
+        }
+
+        public void Update( object entity )
+        {
+            Update( entity );
         }
 
         public void Delete( object entity )

@@ -24,7 +24,7 @@ namespace Jumblist.Tests.Helpers
             HtmlHelper helper = null;
             string links = helper.PagingLinks( 2, 3, i => "Page" + i );
 
-            Assert.AreEqual( @"<a href=""Page1"">1</a> <a class=""selected"" href=""Page2"">2</a> <a href=""Page3"">3</a> ", links, "Html string is not right" );
+            Assert.AreEqual( @"<a href=""page1"">1</a> <a class=""selected"" href=""page2"">2</a> <a href=""page3"">3</a> ", links, "Html string is not right" );
         }
     }
 }

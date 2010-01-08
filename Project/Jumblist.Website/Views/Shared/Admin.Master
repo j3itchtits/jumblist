@@ -24,7 +24,7 @@
   
     <div id="header">
         <div id="header-interior">
-            <div id="logo">Jumblist</div>
+            <div id="logo">Jumblist Admin</div>
 
             <div id="menu">
                 <%= Html.HomepageLink( "Home" ) %> | 
