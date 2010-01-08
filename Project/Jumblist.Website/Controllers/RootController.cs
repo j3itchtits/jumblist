@@ -6,7 +6,7 @@ namespace Jumblist.Website.Controllers
 {
     //[CustomAuthentication]
     [CopyTempDataToViewData]
-    public abstract class JumblistControllerBase : Controller
+    public abstract class RootController : Controller
     {
         public NotificationMessage NotificationMessage
         {

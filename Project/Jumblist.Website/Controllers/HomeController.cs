@@ -8,7 +8,7 @@ using System.Web.Security;
 
 namespace Jumblist.Website.Controllers
 {
-    public class HomeController : JumblistControllerBase
+    public class HomeController : RootController
     {
         public ViewResult Index()
         {

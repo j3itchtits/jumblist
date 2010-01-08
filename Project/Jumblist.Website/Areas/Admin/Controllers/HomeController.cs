@@ -9,7 +9,7 @@ using Jumblist.Website.Controllers;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
 {
-    public class HomeController : JumblistControllerBase
+    public class HomeController : RootController
     {
         public ActionResult Index()
         {

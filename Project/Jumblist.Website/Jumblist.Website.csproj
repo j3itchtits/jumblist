@@ -91,8 +91,8 @@
     <Compile Include="Controllers\BasketController.cs" />
     <Compile Include="Controllers\FeedsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\JumblistControllerBase.cs" />
     <Compile Include="Controllers\PostsController.cs" />
+    <Compile Include="Controllers\RootController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ViewModelController.cs" />
     <Compile Include="Extension\StringExtensions.cs" />
@@ -115,7 +115,6 @@
     <Compile Include="ViewModel\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Stylesheets\admin.css" />
     <Content Include="Assets\Stylesheets\jumblist.css" />
     <Content Include="Assets\Stylesheets\yui-base.css" />
     <Content Include="Assets\Stylesheets\yui-fonts-min.css" />
@@ -173,13 +172,15 @@
     <Content Include="Views\Basket\Email.aspx" />
     <Content Include="Views\Basket\Index.aspx" />
     <Content Include="Views\Basket\Summary.ascx" />
-    <Content Include="Views\Shared\Admin.Master" />
     <Content Include="Views\Users\Create.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Assets\Stylesheets\admin.css" />
+    <Content Include="Areas\Admin\Views\Shared\Admin.Master" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Assets\Images\" />
     <Folder Include="Areas\Admin\Assets\Scripts\" />
-    <Folder Include="Areas\Admin\Assets\Stylesheets\" />
     <Folder Include="Assets\Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
