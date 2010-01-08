@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Jumblist.Tests.Mocks;
-using Jumblist.Website.Controller;
+using Jumblist.Website.Controllers;
 using System.Web.Mvc;
 using Jumblist.Core.Model;
 using Jumblist.Website.ViewModel;

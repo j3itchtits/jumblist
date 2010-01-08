@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using Jumblist.Core.Model;
-using Jumblist.Website.Controller;
+using Jumblist.Website.Controllers;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
 {

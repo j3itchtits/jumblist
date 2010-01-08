@@ -2,11 +2,11 @@
 using Jumblist.Website.Filter;
 using Jumblist.Core.Model;
 
-namespace Jumblist.Website.Controller
+namespace Jumblist.Website.Controllers
 {
     //[CustomAuthentication]
     [CopyTempDataToViewData]
-    public abstract class ControllerBase : System.Web.Mvc.Controller
+    public abstract class JumblistControllerBase : Controller
     {
         public NotificationMessage NotificationMessage
         {

@@ -9,9 +9,9 @@ using Jumblist.Core.Service;
 using Jumblist.Website.ViewModel;
 using StuartClode.Mvc.Service;
 
-namespace Jumblist.Website.Controller
+namespace Jumblist.Website.Controllers
 {
-    public class BasketController : ControllerBase
+    public class BasketController : JumblistControllerBase
     {
         private readonly IDataService<Post> postService;
         private readonly IBasketSubmitter basketSubmitter;

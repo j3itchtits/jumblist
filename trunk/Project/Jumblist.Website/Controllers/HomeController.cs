@@ -6,9 +6,9 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using System.Web.Security;
 
-namespace Jumblist.Website.Controller
+namespace Jumblist.Website.Controllers
 {
-    public class PagesController : ControllerBase
+    public class HomeController : JumblistControllerBase
     {
         public ViewResult Index()
         {

@@ -12,7 +12,7 @@ using Jumblist.Website.ViewModel;
 using Jumblist.Website.Filter;
 using xVal.ServerSide;
 
-namespace Jumblist.Website.Controller
+namespace Jumblist.Website.Controllers
 {
     public class UsersController : ViewModelController<User>
     {
@@ -179,7 +179,7 @@ namespace Jumblist.Website.Controller
                 if ( !string.IsNullOrEmpty( returnUrl ) )
                     return Redirect( returnUrl );
                 else
-                    return this.RedirectToAction<PagesController>( c => c.Index() );
+                    return this.RedirectToAction<HomeController>( c => c.Index() );
             }
             else
             {
@@ -194,7 +194,7 @@ namespace Jumblist.Website.Controller
         public RedirectToRouteResult Logout()
         {
             userService.RemoveAuthenticationCookie();
-            return this.RedirectToAction<PagesController>( c => c.Index() );
+            return this.RedirectToAction<HomeController>( c => c.Index() );
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -224,7 +224,7 @@ namespace Jumblist.Website.Controller
                 if (!string.IsNullOrEmpty( returnUrl ))
                     return Redirect( returnUrl );
                 else
-                    return this.RedirectToAction<PagesController>( c => c.Index() );
+                    return this.RedirectToAction<HomeController>( c => c.Index() );
             }
             else
             {

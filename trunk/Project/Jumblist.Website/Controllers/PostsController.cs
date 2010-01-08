@@ -10,7 +10,7 @@ using Jumblist.Core.Service;
 using Jumblist.Website.ViewModel;
 using StuartClode.Mvc.Service;
 
-namespace Jumblist.Website.Controller
+namespace Jumblist.Website.Controllers
 {
     public class PostsController : ViewModelController<Post>
     {
