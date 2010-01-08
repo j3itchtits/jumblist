@@ -87,14 +87,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Areas\Admin\Controllers\FeedsController.cs" />
-    <Compile Include="Controller\BasketController.cs" />
-    <Compile Include="Controller\ControllerBase.cs" />
-    <Compile Include="Areas\Admin\Controllers\PagesController.cs" />
-    <Compile Include="Controller\ViewModelController.cs" />
-    <Compile Include="Controller\UsersController.cs" />
-    <Compile Include="Controller\FeedsController.cs" />
-    <Compile Include="Controller\PagesController.cs" />
-    <Compile Include="Controller\PostsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Controllers\BasketController.cs" />
+    <Compile Include="Controllers\FeedsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JumblistControllerBase.cs" />
+    <Compile Include="Controllers\PostsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Controllers\ViewModelController.cs" />
     <Compile Include="Extension\StringExtensions.cs" />
     <Compile Include="Filter\CopyTempDataToViewDataAttribute.cs" />
     <Compile Include="Extension\HtmlHelperExtensions.cs" />
@@ -134,9 +134,9 @@
     <Content Include="Views\Feeds\Edit.aspx" />
     <Content Include="Views\Feeds\List.aspx" />
     <Content Include="Views\Feeds\ListPartial.ascx" />
-    <Content Include="Views\Pages\About.aspx" />
-    <Content Include="Views\Pages\Help.aspx" />
-    <Content Include="Views\Pages\Index.aspx" />
+    <Content Include="Views\Home\About.aspx" />
+    <Content Include="Views\Home\Help.aspx" />
+    <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Posts\Detail.aspx" />
     <Content Include="Views\Posts\Edit.aspx" />
     <Content Include="Views\Posts\List.aspx" />
@@ -167,12 +167,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\AdminFeeds\Index.aspx" />
+    <Content Include="Areas\Admin\Views\Feeds\Index.aspx" />
+    <Content Include="Areas\Admin\Views\Home\Index.aspx" />
     <Content Include="Views\Basket\Completed.aspx" />
     <Content Include="Views\Basket\Email.aspx" />
     <Content Include="Views\Basket\Index.aspx" />
     <Content Include="Views\Basket\Summary.ascx" />
-    <Content Include="Views\AdminPages\Index.aspx" />
     <Content Include="Views\Shared\Admin.Master" />
     <Content Include="Views\Users\Create.aspx" />
   </ItemGroup>
@@ -180,7 +180,6 @@
     <Folder Include="Areas\Admin\Assets\Images\" />
     <Folder Include="Areas\Admin\Assets\Scripts\" />
     <Folder Include="Areas\Admin\Assets\Stylesheets\" />
-    <Folder Include="Areas\Admin\Views\" />
     <Folder Include="Assets\Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

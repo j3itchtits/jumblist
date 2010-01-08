@@ -5,10 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using Jumblist.Core.Model;
+using Jumblist.Website.Controllers;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
 {
-    public class PagesController : Jumblist.Website.Controller.ControllerBase
+    public class HomeController : JumblistControllerBase
     {
         public ActionResult Index()
         {

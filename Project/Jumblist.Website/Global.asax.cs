@@ -9,9 +9,11 @@ using Castle.MicroKernel.Registration;
 using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Service;
 using StuartClode.Mvc.IoC;
+using StuartClode.Mvc.Extension;
 using Jumblist.Core.Service;
 using System.Configuration;
 using System.Reflection;
+using StuartClode.Mvc.Views;
 
 namespace Jumblist.Website
 {
@@ -24,7 +26,7 @@ namespace Jumblist.Website
         protected void Application_Start()
         {
             RegisterRoutes( RouteTable.Routes );
-            //RegisterViewEngines( ViewEngines.Engines );
+            RegisterViewEngines( ViewEngines.Engines );
             //RegisterModelBinders();
 
             if ( InitializeContainer() )
@@ -93,33 +95,42 @@ namespace Jumblist.Website
             routes.IgnoreRoute( "{resource}.axd/{*pathInfo}" );
             routes.IgnoreRoute( "{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" } );
 
-            routes.MapRoute(
-                 null,                                              // Route name
-                 "{controller}/{action}/{id}",                           // URL with parameters
-                 new { controller = "Pages", action = "Index", id = "" }  // Parameter defaults
-                 //new { id = @"\d{1,6}" }                            // Constraints
-             );
+            // Routing config for the admin area
+            routes.CreateArea( 
+                "admin", 
+                "Jumblist.Website.Areas.Admin.Controllers",
+                routes.MapRoute( 
+                    null, 
+                    "admin/{controller}/{action}/{id}", 
+                    new { controller = "Home", action = "Index", id = "" } 
+                )
+            );
 
-            //routes.Add(
-            //    null, // Route name
-            //    new Route(
-            //        "Admin/{controller}/{action}/{id}", // URL with parameters
-            //        new RouteValueDictionary( new { controller = "AdminPages", action = "Index", id = "" } ),
-            //        new AdminRouteHandler()
-            //    )
-            //);    
+            // Routing config for the root (public) area
+            routes.CreateArea( 
+                "root", 
+                "Jumblist.Website.Controllers",
+                routes.MapRoute( 
+                    null, 
+                    "{controller}/{action}/{id}",
+                    new { controller = "Home", action = "Index", id = "" } 
+                )
+            );
         }
 
         public static void RegisterViewEngines( ViewEngineCollection engines )
         {
             if (engines == null) throw new ArgumentNullException( "engines" );
 
+            engines.Clear();
+            engines.Add( new AreaViewEngine() );
+
             //SparkEngineStarter.RegisterViewEngine( engines );
         }
 
         public static void RegisterModelBinders()
         {
-            var binders = ModelBinders.Binders;
+            //var binders = ModelBinders.Binders;
 
         }
 

@@ -7,9 +7,9 @@ using Jumblist.Website.ViewModel;
 using StuartClode.Mvc.Extension;
 using StuartClode.Mvc.Service;
 
-namespace Jumblist.Website.Controller
+namespace Jumblist.Website.Controllers
 {
-    public class ViewModelController<T> : ControllerBase where T : class, new()
+    public class ViewModelController<T> : JumblistControllerBase where T : class, new()
     {
         public IDataServiceResolver DataServiceResolver { get; set; }
 

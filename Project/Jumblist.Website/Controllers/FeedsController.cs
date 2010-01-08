@@ -11,7 +11,7 @@ using xVal.ServerSide;
 using StuartClode.Mvc.Extension;
 using Jumblist.Website.Filter;
 
-namespace Jumblist.Website.Controller
+namespace Jumblist.Website.Controllers
 {
     public class FeedsController : ViewModelController<Feed>
     {

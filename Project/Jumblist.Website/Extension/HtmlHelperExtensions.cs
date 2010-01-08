@@ -7,7 +7,7 @@ using Microsoft.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.UI;
 using System.IO;
-using Jumblist.Website.Controller;
+using Jumblist.Website.Controllers;
 using Microsoft.Web.Mvc.Internal;
 using System.Globalization;
 using System.Linq.Expressions;
@@ -24,7 +24,7 @@ namespace Jumblist.Website.Extension
 
         public static string HomepageLink( this HtmlHelper helper, string linkText, object htmlAttributes )
         {
-            return helper.ActionLink<PagesController>( p => p.Index(), linkText, htmlAttributes );
+            return helper.ActionLink<HomeController>( p => p.Index(), linkText, htmlAttributes );
         }
 
         public static string RegisterLink( this HtmlHelper helper, string linkText )

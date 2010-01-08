@@ -54,6 +54,9 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Routing">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -69,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extension\PropertyInfoExtensions.cs" />
+    <Compile Include="Extension\RoutingExtension.cs" />
     <Compile Include="Extension\WindsorExtension.cs" />
     <Compile Include="Helper\RegularExpressionString.cs" />
     <Compile Include="Extension\StringExtensions.cs" />
@@ -92,6 +96,7 @@
     <Compile Include="Service\IDataService.cs" />
     <Compile Include="Service\IDataServiceResolver.cs" />
     <Compile Include="Validation\DataAnnotationsValidationRunner.cs" />
+    <Compile Include="Views\AreaViewEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Filter\" />

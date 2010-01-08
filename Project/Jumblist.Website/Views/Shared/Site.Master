@@ -33,8 +33,8 @@
             </div>
             <div id="menu">
                 <%= Html.HomepageLink( "Home" ) %> | 
-                <%= Html.ActionLink<PagesController>( p => p.About(), "About" )%> | 
-                <%= Html.ActionLink<PagesController>( p => p.Help(), "Help" )%> | 
+                <%= Html.ActionLink<HomeController>( p => p.About(), "About" )%> | 
+                <%= Html.ActionLink<HomeController>( p => p.Help(), "Help" )%> | 
                 <%= Html.ActionLink( "Help", "Help", "Pages" )%> | 
                 
                 <% Html.RenderPartial( "LogOnUserControl" ); %>  
