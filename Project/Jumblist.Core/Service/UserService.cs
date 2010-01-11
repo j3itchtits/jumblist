@@ -66,7 +66,7 @@ namespace Jumblist.Core.Service
                 Password = HashPassword( password ),
                 IsActive = true,
                 DateCreated = DateTime.Now,
-                RoleId = Role.AuthorId
+                RoleId = Role.Author.RoleId
             };
 
             ValidateDataRules( user );

@@ -107,13 +107,13 @@ namespace Jumblist.Website
             );
 
             // Routing config for the root (public) area
-            routes.CreateArea( 
-                "root", 
+            routes.CreateArea(
+                "root",
                 "Jumblist.Website.Controllers",
-                routes.MapRoute( 
-                    null, 
+                routes.MapRoute(
+                    null,
                     "{controller}/{action}/{id}",
-                    new { controller = "Home", action = "Index", id = "" } 
+                    new { controller = "Home", action = "Index", id = "" }
                 )
             );
         }

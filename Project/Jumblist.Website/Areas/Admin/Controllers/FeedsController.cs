@@ -6,9 +6,11 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using Jumblist.Core.Model;
 using Jumblist.Website.Controllers;
+using Jumblist.Website.Filter;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
 {
+    [CustomAuthorization( RoleLevelMinimum = RoleLevel.Editor )]
     public class FeedsController : ViewModelController<Feed>
     {
         //

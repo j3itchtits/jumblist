@@ -23,7 +23,7 @@ namespace Jumblist.Website.Controllers
             this.userService = userService;
         }
 
-        [LoadFeeds]
+        [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult List()
         {
             var list = userService.SelectList();
@@ -34,6 +34,7 @@ namespace Jumblist.Website.Controllers
             return View( model );
         }
 
+        [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Detail( int? id )
         {
             var item = userService.Select( (id ?? 1) );
@@ -81,6 +82,22 @@ namespace Jumblist.Website.Controllers
                 return View( model );
             }
         }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ViewResult LoginLinks( bool isAuthenticated, string name )
+        {
+            if ( !isAuthenticated )
+            {
+                return View( "LoginLinksUnauthenticated" );
+            }
+            else
+            {
+                var item = userService.GetUser( name );
+                var model = BuildDefaultViewModel().With( item );
+                return View( "LoginLinksAuthenticated", model );
+            }
+        }
+
 
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Edit( int? id )
