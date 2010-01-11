@@ -1,12 +1,15 @@
 ﻿using System.Web.Mvc;
 using Jumblist.Website.Filter;
 using Jumblist.Core.Model;
+using StuartClode.Mvc.Repository;
 
 namespace Jumblist.Website.Controllers
 {
     //[CustomAuthentication]
     [CopyTempDataToViewData]
-    public abstract class RootController : Controller
+    //[HandleError( ExceptionType = typeof( PrimaryKeyNotFoundException ), View = "NotFound" )]
+    [HandleError]
+    public abstract class RootControllerBase : Controller
     {
         public NotificationMessage NotificationMessage
         {

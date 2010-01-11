@@ -2,7 +2,7 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+<head id="Head1" runat="server">
     <title><asp:ContentPlaceHolder ID="HeadContentTitle" runat="server" /></title>
     
     <link href="<%= Url.Stylesheet( "yui-reset.css" )%>" rel="stylesheet" type="text/css"/>
@@ -35,8 +35,13 @@
                 <%= Html.HomepageLink( "Home" ) %> | 
                 <%= Html.ActionLink( "About", "About", "Home" )%> | 
                 <%= Html.ActionLink( "Help", "Help", "Home" )%> | 
-                
-                <% Html.RenderPartial( "LogOnUserControl" ); %>  
+
+                <% if (!(ViewContext.Controller is UsersController))
+                   {
+                       Html.RenderAction( "LoginLinks", "Users", new { isAuthenticated = Page.Request.IsAuthenticated, name = Page.User.Identity.Name } );  
+                   } %>
+                   
+<%--                <% Html.RenderPartial( "LogOnUserControl" ); %>  --%>
                
             </div>
         </div>

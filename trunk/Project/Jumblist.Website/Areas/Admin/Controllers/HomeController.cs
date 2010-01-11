@@ -6,11 +6,14 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using Jumblist.Core.Model;
 using Jumblist.Website.Controllers;
+using Jumblist.Website.Filter;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
 {
-    public class HomeController : RootController
+    [CustomAuthorization( RoleLevels = RoleLevel.Administrator | RoleLevel.Editor )]
+    public class HomeController : RootControllerBase
     {
+        [LoadFeeds]
         public ActionResult Index()
         {
             return View();

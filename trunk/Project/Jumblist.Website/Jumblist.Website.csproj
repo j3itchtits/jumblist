@@ -89,12 +89,14 @@
     <Compile Include="Areas\Admin\Controllers\FeedsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Controllers\BasketController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FeedsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
-    <Compile Include="Controllers\RootController.cs" />
+    <Compile Include="Controllers\RootControllerBase.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ViewModelController.cs" />
+    <Compile Include="Extension\EnumerationExtensions.cs" />
     <Compile Include="Extension\StringExtensions.cs" />
     <Compile Include="Filter\CopyTempDataToViewDataAttribute.cs" />
     <Compile Include="Extension\HtmlHelperExtensions.cs" />
@@ -150,7 +152,7 @@
     <Content Include="Assets\Scripts\MicrosoftAjax.debug.js" />
     <Content Include="Assets\Scripts\MicrosoftMvcAjax.js" />
     <Content Include="Assets\Scripts\MicrosoftMvcAjax.debug.js" />
-    <Content Include="Views\Shared\Error.aspx" />
+    <Content Include="Views\Error\Error.aspx" />
     <Content Include="Views\Shared\LogOnUserControl.ascx" />
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Web.config" />
@@ -177,6 +179,10 @@
   <ItemGroup>
     <Content Include="Areas\Admin\Assets\Stylesheets\admin.css" />
     <Content Include="Areas\Admin\Views\Shared\Admin.Master" />
+    <Content Include="Views\Error\NotFound.aspx" />
+    <Content Include="Views\Shared\Error.aspx" />
+    <Content Include="Views\Users\LoginLinksAuthenticated.ascx" />
+    <Content Include="Views\Users\LoginLinksUnauthenticated.ascx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Assets\Images\" />

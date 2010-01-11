@@ -21,3 +21,5 @@ A5 - Cross Site Request Forgery (CSRF)	A CSRF attack forces a logged-on victim's
 
 http://blog.codeville.net/2008/09/01/prevent-cross-site-request-forgery-csrf-using-aspnet-mvcs-antiforgerytoken-helper/#comment-2171
 
+
+http://www.robertschultz.org/2009/07/29/multiple-roles-with-authorize-attribute-using-enums-in-asp-net-mvc/

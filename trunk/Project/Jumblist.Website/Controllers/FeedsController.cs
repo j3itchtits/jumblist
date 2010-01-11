@@ -23,7 +23,6 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        //[CustomAuthorization( RoleLevel = RoleLevels.Administrator )]
         public ViewResult List()
         {
             var list = feedService.SelectList();
@@ -41,9 +40,9 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult Detail( int? id )
+        public ViewResult Detail( int id )
         {
-            var item = feedService.Select( (id ?? 1) );
+            var item = feedService.Select( ( id ) );
             var model = BuildDefaultViewModel().With( item );
 
             model.PageTitle = string.Format( "Detail - {0}", item.Title );
