@@ -47,6 +47,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ReferenceAssemblies\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="Elmah, Version=1.1.11517.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceAssemblies\Elmah.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Mvc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ReferenceAssemblies\Microsoft.Web.Mvc.dll</HintPath>
@@ -98,6 +102,7 @@
     <Compile Include="Controllers\ViewModelController.cs" />
     <Compile Include="Extension\EnumerationExtensions.cs" />
     <Compile Include="Extension\StringExtensions.cs" />
+    <Compile Include="Filter\CompressResponseAttribute.cs" />
     <Compile Include="Filter\CopyTempDataToViewDataAttribute.cs" />
     <Compile Include="Extension\HtmlHelperExtensions.cs" />
     <Compile Include="Extension\UrlHelperExtensions.cs" />
@@ -106,6 +111,7 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Filter\CustomAuthorizationAttribute.cs" />
+    <Compile Include="Filter\ElmahHandleErrorAttribute.cs" />
     <Compile Include="Filter\LoadFeedsAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -152,8 +158,6 @@
     <Content Include="Assets\Scripts\MicrosoftAjax.debug.js" />
     <Content Include="Assets\Scripts\MicrosoftMvcAjax.js" />
     <Content Include="Assets\Scripts\MicrosoftMvcAjax.debug.js" />
-    <Content Include="Views\Error\Error.aspx" />
-    <Content Include="Views\Shared\LogOnUserControl.ascx" />
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
@@ -179,8 +183,10 @@
   <ItemGroup>
     <Content Include="Areas\Admin\Assets\Stylesheets\admin.css" />
     <Content Include="Areas\Admin\Views\Shared\Admin.Master" />
+    <Content Include="favicon.ico" />
     <Content Include="Views\Error\NotFound.aspx" />
     <Content Include="Views\Shared\Error.aspx" />
+    <Content Include="Views\Shared\NotAuthorised.aspx" />
     <Content Include="Views\Users\LoginLinksAuthenticated.ascx" />
     <Content Include="Views\Users\LoginLinksUnauthenticated.ascx" />
   </ItemGroup>

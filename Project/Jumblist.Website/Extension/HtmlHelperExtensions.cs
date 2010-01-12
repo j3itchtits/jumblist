@@ -19,47 +19,47 @@ namespace Jumblist.Website.Extension
     {
         public static string HomepageLink( this HtmlHelper helper, string linkText )
         {
-            return HomepageLink( helper, linkText, null );
+            return HomepageLink( helper, linkText, new { area = "root", controller = "Home" }, null );
         }
 
-        public static string HomepageLink( this HtmlHelper helper, string linkText, object htmlAttributes )
+        public static string HomepageLink( this HtmlHelper helper, string linkText, object routeValues, object htmlAttributes )
         {
-            return helper.ActionLink<HomeController>( p => p.Index(), linkText, htmlAttributes );
+            return helper.ActionLink( linkText, "Index", routeValues, htmlAttributes );
         }
 
         public static string RegisterLink( this HtmlHelper helper, string linkText )
         {
-            return RegisterLink( helper, linkText, string.Empty, null );
+            return RegisterLink( helper, linkText, new { area = "root", controller = "Users" }, null );
         }
 
         public static string RegisterLink( this HtmlHelper helper, string linkText, string returnUrl )
         {
-            return RegisterLink( helper, linkText, returnUrl, null );
+            return RegisterLink( helper, linkText, new { area = "root", controller = "Users", returnUrl = returnUrl }, null );
         }
 
-        public static string RegisterLink( this HtmlHelper helper, string linkText, string returnUrl, object htmlAttributes )
+        public static string RegisterLink( this HtmlHelper helper, string linkText, object routeValues, object htmlAttributes )
         {
-            return helper.ActionLink( linkText, "register", "users", new { returnurl = returnUrl }, htmlAttributes );
+            return helper.ActionLink( linkText, "register", routeValues, htmlAttributes );
         }
 
         public static string LoginLink( this HtmlHelper helper, string linkText )
         {
-            return LoginLink( helper, linkText, string.Empty, null );
+            return LoginLink( helper, linkText, new { area = "root", controller = "Users" }, null );
         }
 
         public static string LoginLink( this HtmlHelper helper, string linkText, string returnUrl )
         {
-            return LoginLink( helper, linkText, returnUrl, null );
+            return LoginLink( helper, linkText, new { area = "root", controller = "Users", returnUrl = returnUrl }, null );
         }
 
-        public static string LoginLink( this HtmlHelper helper, string linkText, string returnUrl, object htmlAttributes )
+        public static string LoginLink( this HtmlHelper helper, string linkText, object routeValues, object htmlAttributes )
         {
-            return helper.ActionLink( linkText, "login", "users", new { returnurl = returnUrl }, htmlAttributes );
+            return helper.ActionLink( linkText, "login", routeValues, htmlAttributes );
         }
 
         public static string LogoutLink( this HtmlHelper helper, string linkText )
         {
-            return helper.ActionLink<UsersController>( c => c.Logout(), linkText );
+            return helper.ActionLink( linkText, "Logout", new { area = "root", controller = "Users" } );
         }
 
         public static string MessageBox( this HtmlHelper htmlHelper, IViewModelBase model )

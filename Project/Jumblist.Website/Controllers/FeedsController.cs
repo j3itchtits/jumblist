@@ -48,10 +48,7 @@ namespace Jumblist.Website.Controllers
             model.PageTitle = string.Format( "Detail - {0}", item.Title );
             model.NotificationMessage = new NotificationMessage { Text = "This is a message", StyleClass = "message" };
 
-            if (model == null)
-                return View( "NotFound" );
-            else
-                return View( model );
+            return View( model );
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -65,18 +62,15 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult Edit( int? id )
+        public ViewResult Edit( int id )
         {
-            var item = feedService.Select( (id ?? 1) );
+            var item = feedService.Select( id );
 
             var model = BuildDataEditDefaultViewModel().With( item );
             model.PageTitle = string.Format( "Edit - {0}", item.Title );
             model.NotificationMessage = new NotificationMessage { Text = "You are about to edit something", StyleClass = "message" };
 
-            if (model == null)
-                return View( "NotFound" );
-            else
-                return View( model );
+            return View( model );
         }
 
         [AcceptVerbs( HttpVerbs.Post )]

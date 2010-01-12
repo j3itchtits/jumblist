@@ -35,17 +35,14 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult Detail( int? id )
+        public ViewResult Detail( int id )
         {
-            var item = userService.Select( (id ?? 1) );
+            var item = userService.Select( id );
             var model = BuildDefaultViewModel().With( item );
 
             model.PageTitle = string.Format( "Detail - {0}", item.Name );
 
-            if (model == null)
-                return View( "NotFound" );
-            else
-                return View( model );
+            return View( model );
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -100,17 +97,14 @@ namespace Jumblist.Website.Controllers
 
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult Edit( int? id )
+        public ViewResult Edit( int id )
         {
-            var item = userService.Select( (id ?? 1) );
+            var item = userService.Select( id );
 
             var model = BuildDataEditDefaultViewModel().With( item );
             model.PageTitle = string.Format( "Edit - {0}", item.Name );
 
-            if (model == null)
-                return View( "NotFound" );
-            else
-                return View( model );
+            return View( model );
         }
 
         [AcceptVerbs( HttpVerbs.Post )]

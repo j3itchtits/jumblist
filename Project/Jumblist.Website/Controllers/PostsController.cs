@@ -33,19 +33,16 @@ namespace Jumblist.Website.Controllers
             return View( model );
         }
 
-        public ViewResult Detail( int? id )
+        public ViewResult Detail( int id )
         {
             //var test = postService.GetFirstPost();
 
-            var item = postService.Select( (id ?? 1) );
+            var item = postService.Select( id );
             var model = BuildDefaultViewModel().With( item );
 
             model.PageTitle = string.Format( "Detail - {0}", item.Title );
 
-            if (model == null)
-                return View( "NotFound" );
-            else
-                return View( model );
+            return View( model );
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -58,9 +55,9 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult Edit( int? id )
+        public ViewResult Edit( int id )
         {
-            var item = postService.Select( (id ?? 1) );
+            var item = postService.Select( id );
 
             //var authorList = authorService.SelectList();
             //var model = new PostEditViewModel( item, authorList );
@@ -71,10 +68,7 @@ namespace Jumblist.Website.Controllers
 
             model.PageTitle = string.Format( "Edit - {0}", item.Title );
 
-            if (model == null)
-                return View( "NotFound" );
-            else
-                return View( model );
+            return View( model );
         }
 
         [AcceptVerbs( HttpVerbs.Post )]

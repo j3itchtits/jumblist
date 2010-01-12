@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Castle.Windsor;
+using System.Web.Routing;
+using System.Globalization;
 
 namespace StuartClode.Mvc.IoC
 {
@@ -21,14 +23,53 @@ namespace StuartClode.Mvc.IoC
             if ( controllerType == null )
                 return base.GetControllerInstance( controllerType );
 
-            //var controller = container.Resolve( controllerType ) as IController;
+            //if ( controllerType == null )
+            //{
+            //    //throw new HttpException( 404, String.Format( CultureInfo.CurrentUICulture,
+            //    //        MvcResources.DefaultControllerFactory_NoControllerFound,
+            //    //        RequestContext.HttpContext.Request.Path ) );
+            //    throw new ResourceNotFoundException();
+            //}
 
-            var controller = container.Resolve( controllerType ) as System.Web.Mvc.Controller;
-            if (controller != null)
-                controller.ActionInvoker = container.Resolve<IActionInvoker>();
+            try
+            {
+                var controller = container.Resolve( controllerType ) as Controller;
+                if ( controller != null )
+                    controller.ActionInvoker = container.Resolve<IActionInvoker>();
+                return controller;
+            }
+            catch ( Exception ex )
+            {
+                throw new InvalidOperationException( String.Format( CultureInfo.CurrentUICulture, "Error Creating Controller - {0}", controllerType ), ex );
+            }
 
-            return controller;
+            
         }
+
+        //public override IController CreateController( RequestContext requestContext, string controllerName )
+        //{
+        //    if ( requestContext == null )
+        //    {
+        //        throw new ArgumentNullException( "requestContext" );
+        //    }
+        //    if ( String.IsNullOrEmpty( controllerName ) )
+        //    {
+        //        throw new ArgumentException( "Null or Empty", "controllerName" );
+        //    }
+        //    RequestContext = requestContext;
+        //    Type controllerType = GetControllerType( controllerName );
+
+        //    if (controllerType == null)
+        //    {
+        //        controllerName = "Error";
+        //        controllerType = GetControllerType(controllerName);
+        //        requestContext.RouteData.Values["Controller"] = "Error";
+        //        requestContext.RouteData.Values["action"] = "NotFound";
+        //    }
+
+        //    IController controller = GetControllerInstance( controllerType );
+        //    return controller;
+        //}
 
         public override void ReleaseController( IController controller )
         {
