@@ -10,12 +10,12 @@ namespace Jumblist.Website.Controllers
 {
     public class ErrorController : Controller
     {
-        [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult Error()
-        {
-            Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            return View( "Error" );
-        }
+        //[AcceptVerbs( HttpVerbs.Get )]
+        //public ViewResult Error()
+        //{
+        //    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        //    return View( "Error" );
+        //}
 
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult NotFound( string aspxerrorpath )

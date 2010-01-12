@@ -15,10 +15,10 @@ namespace Jumblist.Website.Filter
         public IUserService UserService { get; set; }
         public RoleLevel RoleLevelMinimum { get; set; }
         public RoleLevel RoleLevels { get; set; }
-        private bool failedRolesAuth = false;
 
         protected override bool AuthorizeCore( HttpContextBase httpContext )
         {
+            //Basic user authentication
             var userAuth = base.AuthorizeCore( httpContext );
 
             if ( !userAuth )
@@ -26,37 +26,57 @@ namespace Jumblist.Website.Filter
                 return false;
             }
 
+            //Custom user authorisation against assigned roles
             var user = UserService.GetUser( httpContext.User.Identity.Name );
 
             if ( ( RoleLevelMinimum > 0 ) && ( user.Role.Level > (int)RoleLevelMinimum ) )
             {
-                //throw new UnauthorizedAccessException( "You are not authorized to view this page" );
-                failedRolesAuth = true;
                 return false;
             }
 
             if ( ( RoleLevels > 0 ) && !( RoleLevels.Has( user.Role.Level ) ) )
             {
-                //throw new UnauthorizedAccessException( "You are not authorized to view this page" );
-                failedRolesAuth = true;
                 return false;
             }
 
+            //User is authenticated and authorised to view the requested controller/action
             return true;
 
         }
 
         public override void OnAuthorization( AuthorizationContext filterContext )
         {
-            base.OnAuthorization( filterContext );
-
-            if ( failedRolesAuth )
+            if ( filterContext == null )
             {
-                //throw new UnauthorizedAccessException( "You are not authorized to view this page" );
-                ViewDataDictionary viewData = new ViewDataDictionary();
-                viewData.Add( "Message", "You do not have sufficient privileges for this operation." );
-                filterContext.Result = new ViewResult { ViewName = "Error", ViewData = viewData };
+                throw new ArgumentNullException( "filterContext" );
             }
+
+            if ( AuthorizeCore( filterContext.HttpContext ) )
+            {
+                // ** IMPORTANT **
+                // Since we're performing authorization at the action level, the authorization code runs
+                // after the output caching module. In the worst case this could allow an authorized user
+                // to cause the page to be cached, then an unauthorized user would later be served the
+                // cached page. We work around this by telling proxies not to cache the sensitive page,
+                // then we hook our custom authorization code into the caching mechanism so that we have
+                // the final say on whether a page should be served from the cache.
+
+                HttpCachePolicyBase cachePolicy = filterContext.HttpContext.Response.Cache;
+                cachePolicy.SetProxyMaxAge( new TimeSpan( 0 ) );
+                cachePolicy.AddValidationCallback( CacheValidateHandler, null /* data */);
+            }
+            else
+            {
+                // auth failed, redirect to not authorized page
+                ViewDataDictionary viewData = new ViewDataDictionary();
+                viewData.Add( "Message", "Sorry, you do not have sufficient privileges for this operation." );
+                filterContext.Result = new ViewResult { ViewName = "NotAuthorised", ViewData = viewData };
+            }
+        }
+
+        private void CacheValidateHandler( HttpContext context, object data, ref HttpValidationStatus validationStatus )
+        {
+            validationStatus = OnCacheAuthorization( new HttpContextWrapper( context ) );
         }
     }
 }

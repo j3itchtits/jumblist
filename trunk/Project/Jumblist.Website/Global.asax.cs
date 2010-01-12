@@ -138,15 +138,5 @@ namespace Jumblist.Website
         {
             container.Dispose();
         }
-    }
-
-    public class AdminRouteHandler : IRouteHandler
-    {
-        public IHttpHandler GetHttpHandler( RequestContext requestContext )
-        {
-            RouteData routeData = requestContext.RouteData;
-            routeData.Values["controller"] = "Admin" + requestContext.RouteData.GetRequiredString( "controller" );
-            return new MvcHandler( requestContext );
-        }
-    }   
+    }  
 }
