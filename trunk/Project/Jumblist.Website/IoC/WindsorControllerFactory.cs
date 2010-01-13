@@ -5,8 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using Castle.Windsor;
 using System.Web.Routing;
+using System.Globalization;
 
-namespace JumblistTest.Website.IoC
+namespace Jumblist.Website.IoC
 {
     public class WindsorControllerFactory : DefaultControllerFactory
     {
@@ -19,13 +20,16 @@ namespace JumblistTest.Website.IoC
 
         protected override IController GetControllerInstance( Type controllerType )
         {
-            if ( controllerType == null )
-                return base.GetControllerInstance( controllerType );
+            throw new Exception();
+            //if ( controllerType == null )
+            //{
+            //    //return base.GetControllerInstance( controllerType );
+            //    throw new HttpException( 404, String.Format( CultureInfo.CurrentUICulture, "No Controller Found", RequestContext.HttpContext.Request.Path ) );
+            //}
 
-            //var controller = container.Resolve( controllerType ) as IController;
+            var controller = container.Resolve( controllerType ) as Controller;
 
-            var controller = container.Resolve( controllerType ) as System.Web.Mvc.Controller;
-            if (controller != null)
+            if ( controller != null )
                 controller.ActionInvoker = container.Resolve<IActionInvoker>();
 
             return controller;

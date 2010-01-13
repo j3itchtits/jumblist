@@ -21,29 +21,17 @@ namespace StuartClode.Mvc.IoC
         protected override IController GetControllerInstance( Type controllerType )
         {
             if ( controllerType == null )
+            {
                 return base.GetControllerInstance( controllerType );
-
-            //if ( controllerType == null )
-            //{
-            //    //throw new HttpException( 404, String.Format( CultureInfo.CurrentUICulture,
-            //    //        MvcResources.DefaultControllerFactory_NoControllerFound,
-            //    //        RequestContext.HttpContext.Request.Path ) );
-            //    throw new ResourceNotFoundException();
-            //}
-
-            try
-            {
-                var controller = container.Resolve( controllerType ) as Controller;
-                if ( controller != null )
-                    controller.ActionInvoker = container.Resolve<IActionInvoker>();
-                return controller;
-            }
-            catch ( Exception ex )
-            {
-                throw new InvalidOperationException( String.Format( CultureInfo.CurrentUICulture, "Error Creating Controller - {0}", controllerType ), ex );
+                //throw new Exception();
             }
 
-            
+            var controller = container.Resolve( controllerType ) as Controller;
+
+            if ( controller != null )
+                controller.ActionInvoker = container.Resolve<IActionInvoker>();
+
+            return controller;
         }
 
         //public override IController CreateController( RequestContext requestContext, string controllerName )

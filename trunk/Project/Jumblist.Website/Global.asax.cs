@@ -4,15 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Castle.Windsor;
-using Castle.MicroKernel.Registration;
-using StuartClode.Mvc.Repository;
-using StuartClode.Mvc.Service;
-using StuartClode.Mvc.IoC;
-using StuartClode.Mvc.Extension;
-using Jumblist.Core.Service;
 using System.Configuration;
 using System.Reflection;
+using Castle.Windsor;
+using Castle.MicroKernel.Registration;
+using Jumblist.Website.IoC;
+using Jumblist.Core.Service;
+using StuartClode.Mvc.Repository;
+using StuartClode.Mvc.Service;
+using StuartClode.Mvc.Extension;
 using StuartClode.Mvc.Views;
 
 namespace Jumblist.Website

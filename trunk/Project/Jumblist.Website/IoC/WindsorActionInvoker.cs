@@ -4,9 +4,9 @@ using System.Linq;
 using System.Web;
 using Castle.Windsor;
 using System.Web.Mvc;
-using JumblistTest.Website.Extension;
+using Jumblist.Website.Extension;
 
-namespace JumblistTest.Website.IoC
+namespace Jumblist.Website.IoC
 {
     public class WindsorActionInvoker : ControllerActionInvoker
     {
@@ -19,7 +19,7 @@ namespace JumblistTest.Website.IoC
 
         protected override ActionExecutedContext InvokeActionMethodWithFilters( ControllerContext controllerContext, IList<IActionFilter> filters, ActionDescriptor actionDescriptor, IDictionary<string, object> parameters )
         {
-            foreach (IActionFilter actionFilter in filters)
+            foreach ( IActionFilter actionFilter in filters )
             {
                 container.Kernel.InjectProperties( actionFilter );
             }
@@ -29,7 +29,7 @@ namespace JumblistTest.Website.IoC
 
         protected override AuthorizationContext InvokeAuthorizationFilters( ControllerContext controllerContext, IList<IAuthorizationFilter> filters, ActionDescriptor actionDescriptor )
         {
-            foreach (IAuthorizationFilter authFilter in filters)
+            foreach ( IAuthorizationFilter authFilter in filters )
             {
                 container.Kernel.InjectProperties( authFilter );
             }

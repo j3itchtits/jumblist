@@ -73,12 +73,9 @@
   <ItemGroup>
     <Compile Include="Extension\PropertyInfoExtensions.cs" />
     <Compile Include="Extension\RoutingExtension.cs" />
-    <Compile Include="Extension\WindsorExtension.cs" />
     <Compile Include="Helper\RegularExpressionString.cs" />
     <Compile Include="Extension\StringExtensions.cs" />
     <Compile Include="Extension\TypeExtensions.cs" />
-    <Compile Include="IoC\WindsorActionInvoker.cs" />
-    <Compile Include="IoC\WindsorControllerFactory.cs" />
     <Compile Include="Model\Entity.cs" />
     <Compile Include="Model\IEntity.cs" />
     <Compile Include="Model\Message.cs" />
@@ -100,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Filter\" />
+    <Folder Include="IoC\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
