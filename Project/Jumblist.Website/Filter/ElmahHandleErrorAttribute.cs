@@ -51,7 +51,7 @@ namespace Jumblist.Website.Filter
             };
             context.ExceptionHandled = true;
             context.HttpContext.Response.Clear();
-            context.HttpContext.Response.StatusCode = 500;
+            context.HttpContext.Response.StatusCode = new HttpException( null, exception ).GetHttpCode();
 
             // Certain versions of IIS will sometimes use their own error page when
             // they detect a server error. Setting this property indicates that we

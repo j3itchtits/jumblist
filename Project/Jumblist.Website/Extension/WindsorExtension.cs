@@ -7,7 +7,7 @@ using System.Reflection;
 using Castle.MicroKernel.ComponentActivator;
 using Castle.MicroKernel.Registration;
 
-namespace JumblistTest.Website.Extension
+namespace Jumblist.Website.Extension
 {
     public static class WindsorExtension
     {

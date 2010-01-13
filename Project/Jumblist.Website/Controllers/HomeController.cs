@@ -12,6 +12,7 @@ namespace Jumblist.Website.Controllers
     {
         public ViewResult Index()
         {
+            //throw new Exception();
             return View();
         }
 

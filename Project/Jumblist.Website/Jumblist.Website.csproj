@@ -102,6 +102,7 @@
     <Compile Include="Controllers\ViewModelController.cs" />
     <Compile Include="Extension\EnumerationExtensions.cs" />
     <Compile Include="Extension\StringExtensions.cs" />
+    <Compile Include="Extension\WindsorExtension.cs" />
     <Compile Include="Filter\CompressResponseAttribute.cs" />
     <Compile Include="Filter\CopyTempDataToViewDataAttribute.cs" />
     <Compile Include="Extension\HtmlHelperExtensions.cs" />
@@ -116,6 +117,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="IoC\WindsorActionInvoker.cs" />
+    <Compile Include="IoC\WindsorControllerFactory.cs" />
     <Compile Include="ViewModel\DefaultViewModel.cs" />
     <Compile Include="ViewModel\IViewModelBase.cs" />
     <Compile Include="ViewModel\PostViewModel.cs" />

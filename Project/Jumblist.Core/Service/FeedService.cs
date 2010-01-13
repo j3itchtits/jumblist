@@ -23,6 +23,7 @@ namespace Jumblist.Core.Service
 
         public override Feed Select( int id )
         {
+            //throw new System.Web.HttpException( 404, "Not found you fool" );
             return base.Select( id );
         }
 
