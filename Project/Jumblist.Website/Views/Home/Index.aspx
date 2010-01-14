@@ -25,7 +25,7 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <p><%= Html.ActionLink( "View Posts By Tag", "tagged", "posts", new { id = "Fridge".ToFriendlyUrl() } )%></p>
-    <p><%= Html.ActionLink( "View Posts By Location", "location", "posts", new { id = "TN38".ToFriendlyUrl() } )%></p>
+    <p><%= Html.ActionLink( "View Posts By Tag", "tagged", "posts", new { id = "Fridge".ToFriendlyUrl() } ) %></p>
+    <p><%= Html.ActionLink( "View Posts By Location", "location", "posts", new { id = "TN38".ToFriendlyUrl() } ) %></p>
  
 </asp:Content>
