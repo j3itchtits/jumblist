@@ -10,7 +10,7 @@ namespace Jumblist.Website.Controllers
     //[HandleError]
 
     [CopyTempDataToViewData]
-    [ElmahHandleError]
+    //[ElmahHandleError]
     public abstract class RootControllerBase : Controller
     {
         public NotificationMessage NotificationMessage
