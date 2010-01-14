@@ -10,13 +10,6 @@ namespace Jumblist.Website.Controllers
 {
     public class ErrorController : Controller
     {
-        //[AcceptVerbs( HttpVerbs.Get )]
-        //public ViewResult Error()
-        //{
-        //    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        //    return View( "Error" );
-        //}
-
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult NotFound( string aspxerrorpath )
         {
@@ -25,5 +18,36 @@ namespace Jumblist.Website.Controllers
             return View( "NotFound" );
         }
 
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ActionResult Index( string error )
+        {
+            ViewData["Title"] = "We have dropped the ball on this one.";
+            ViewData["Description"] = error;
+            return View( "Index" );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ActionResult HttpError404( string error )
+        {
+            ViewData["Title"] = "Sorry, an error occurred while processing your request. (404)";
+            ViewData["Description"] = error;
+            return View( "Index" );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ActionResult HttpError500( string error )
+        {
+            ViewData["Title"] = "Sorry, an error occurred while processing your request. (500)";
+            ViewData["Description"] = error;
+            return View( "Index" );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ActionResult General( string error )
+        {
+            ViewData["Title"] = "Sorry, an error occurred while processing your request.";
+            ViewData["Description"] = error;
+            return View( "Index" );
+        }
     }
 }

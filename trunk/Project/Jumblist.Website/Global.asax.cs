@@ -9,11 +9,13 @@ using System.Reflection;
 using Castle.Windsor;
 using Castle.MicroKernel.Registration;
 using Jumblist.Website.IoC;
+using Jumblist.Website.Filter;
 using Jumblist.Core.Service;
 using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Service;
 using StuartClode.Mvc.Extension;
 using StuartClode.Mvc.Views;
+using Jumblist.Website.Controllers;
 
 namespace Jumblist.Website
 {
@@ -56,9 +58,17 @@ namespace Jumblist.Website
 
         private void RegisterControllers()
         {
-            container.Register(
-                AllTypes.Of<IController>().FromAssembly( Assembly.GetExecutingAssembly() ).Configure( c => c.LifeStyle.Transient )
+            container.Register( AllTypes
+                .Of<IController>()
+                .FromAssembly( Assembly.GetExecutingAssembly() )
+                .Configure( c => c.LifeStyle.Transient )
             );
+
+            //container.Register( AllTypes
+            //    .Of<IController>()
+            //    .FromAssembly( Assembly.GetExecutingAssembly() )
+            //    .Configure( c => c.LifeStyle.Transient.ServiceOverrides( new { ActionInvoker = typeof( ErrorHandlingActionInvoker ).FullName } ) )
+            //);
         }
 
         private void RegisterComponents()
@@ -72,8 +82,9 @@ namespace Jumblist.Website
                 Component.For<IFormsAuthenticationService>().ImplementedBy<FormsAuthenticationService>().LifeStyle.Transient,
                 Component.For<IUserService>().ImplementedBy<UserService>().LifeStyle.Transient,
                 Component.For<IBasketSubmitter>().ImplementedBy<EmailBasketSubmitter>().LifeStyle.Transient.Parameters( Parameter.ForKey( "smtpServer" ).Eq( "127.0.0.1" ), Parameter.ForKey( "mailFrom" ).Eq( "stuartclode@idnet.com" ), Parameter.ForKey( "mailTo" ).Eq( "stuartclode@idnet.com" ) ),
-                Component.For<IActionInvoker>().ImplementedBy<WindsorActionInvoker>().LifeStyle.Transient,
-                Component.For<IFeedService>().ImplementedBy<FeedService>().LifeStyle.Transient
+                Component.For<IFeedService>().ImplementedBy<FeedService>().LifeStyle.Transient,
+                //Component.For<IExceptionFilter>().ImplementedBy<ElmahHandleErrorAttribute>().LifeStyle.Transient,
+                Component.For<IActionInvoker>().ImplementedBy<WindsorActionInvoker>().LifeStyle.Transient
             );
         }
 
@@ -132,6 +143,62 @@ namespace Jumblist.Website
         {
             //var binders = ModelBinders.Binders;
 
+        }
+
+        protected void Application_Error( object sender, EventArgs e )
+        {
+            Exception exception = Server.GetLastError();
+
+            Response.Clear();
+
+            int responseStatusCode; 
+
+            HttpException httpException = exception as HttpException;
+
+            RouteData routeData = new RouteData();
+            routeData.Values.Add( "controller", "Error" );
+
+            if (httpException == null)
+            {
+                responseStatusCode = 500;
+                routeData.Values.Add( "action", "Index" );
+            }
+            else //It's an Http Exception, Let's handle it.
+            {
+                responseStatusCode = httpException.GetHttpCode();
+
+                switch (responseStatusCode)
+                {
+                    case 404:
+                        // Page not found.
+                        routeData.Values.Add( "action", "HttpError404" );
+                        break;
+                    case 500:
+                        // Server error.
+                        routeData.Values.Add( "action", "HttpError500" );
+                        break;
+
+                    // Here you can handle Views to other error codes.
+                    // I choose a General error template  
+                    default:
+                        routeData.Values.Add( "action", "General" );
+                        break;
+                }
+                
+            }
+
+            // Pass exception details to the target error View.
+            routeData.Values.Add( "error", responseStatusCode.ToString() + ' ' + exception );
+
+            // Clear the error on server.
+            Server.ClearError();
+
+            // Call target Controller and pass the routeData.
+            IController errorController = new ErrorController();
+            HttpContextWrapper context = new HttpContextWrapper( Context );
+            context.Response.StatusCode = responseStatusCode;
+
+            errorController.Execute( new RequestContext( context, routeData ) );
         }
 
         protected void Application_End( object sender, EventArgs e )

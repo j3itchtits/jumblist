@@ -20,23 +20,36 @@ namespace Jumblist.Website.IoC
 
         protected override IController GetControllerInstance( Type controllerType )
         {
-            throw new Exception();
-            //if ( controllerType == null )
-            //{
-            //    //return base.GetControllerInstance( controllerType );
-            //    throw new HttpException( 404, String.Format( CultureInfo.CurrentUICulture, "No Controller Found", RequestContext.HttpContext.Request.Path ) );
-            //}
+            //throw new Exception();
+            if (controllerType == null)
+            {
+                //return base.GetControllerInstance( controllerType );
+                throw new HttpException( 404, string.Format( CultureInfo.CurrentUICulture, "The controller for path '{0}' could not be found or it does not implement IController.", RequestContext.HttpContext.Request.Path ) );
+            }
 
-            var controller = container.Resolve( controllerType ) as Controller;
-
-            if ( controller != null )
-                controller.ActionInvoker = container.Resolve<IActionInvoker>();
-
-            return controller;
+            try 
+            {
+                var controller = container.Resolve( controllerType ) as Controller;
+                if (controller != null)
+                    controller.ActionInvoker = container.Resolve<IActionInvoker>();
+                return (IController)controller;
+            }
+            catch ( Exception ex )
+            {
+                throw new InvalidOperationException( String.Format( CultureInfo.CurrentUICulture, "The controller type '{0}' could not resolve to a controller.", controllerType ), ex );
+            }
         }
+
 
         public override void ReleaseController( IController controller )
         {
+            var disposable = controller as IDisposable;
+
+            if (disposable != null)
+            {
+                disposable.Dispose();
+            }
+
             container.Release( controller );
         }
     }
