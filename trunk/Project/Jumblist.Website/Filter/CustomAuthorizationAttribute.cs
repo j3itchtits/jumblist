@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Jumblist.Core.Service;
 using System.Security.Principal;
 using Jumblist.Core.Model;
-using Jumblist.Website.Extension;
+using StuartClode.Mvc.Extension;
 
 namespace Jumblist.Website.Filter
 {

@@ -8,14 +8,14 @@ using System.Configuration;
 using System.Reflection;
 using Castle.Windsor;
 using Castle.MicroKernel.Registration;
-using Jumblist.Website.IoC;
 using Jumblist.Website.Filter;
 using Jumblist.Core.Service;
+using Jumblist.Website.Controllers;
 using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Service;
 using StuartClode.Mvc.Extension;
 using StuartClode.Mvc.Views;
-using Jumblist.Website.Controllers;
+using StuartClode.Mvc.IoC;
 
 namespace Jumblist.Website
 {
@@ -147,13 +147,15 @@ namespace Jumblist.Website
 
         protected void Application_Error( object sender, EventArgs e )
         {
-            Exception exception = Server.GetLastError();
-
-            Response.Clear();
+            //NEED TO HAVE A CHECK UP AT THE TOP AS TO WHAT IS SET IN THE customErrors mode PROPERTY IN WEB.CONFIG. 
+            //IF IT IS SET TO REMOTEONLY OR OFF THEN NEED TO SEE THE YSOD RATHER THAN THESE FRIENDLY MESSAGES
+            //Check HandleErrorAttribute.OnException to see how this can be done.
 
             int responseStatusCode; 
-
+            Exception exception = Server.GetLastError();
             HttpException httpException = exception as HttpException;
+
+            Response.Clear();
 
             RouteData routeData = new RouteData();
             routeData.Values.Add( "controller", "Error" );
@@ -163,7 +165,7 @@ namespace Jumblist.Website
                 responseStatusCode = 500;
                 routeData.Values.Add( "action", "Index" );
             }
-            else //It's an Http Exception, Let's handle it.
+            else
             {
                 responseStatusCode = httpException.GetHttpCode();
 
@@ -188,7 +190,7 @@ namespace Jumblist.Website
             }
 
             // Pass exception details to the target error View.
-            routeData.Values.Add( "error", responseStatusCode.ToString() + ' ' + exception );
+            routeData.Values.Add( "error", exception.Message );
 
             // Clear the error on server.
             Server.ClearError();

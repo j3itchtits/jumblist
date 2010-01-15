@@ -195,7 +195,7 @@ namespace Jumblist.Website.Controllers
             else
             {
                 var model = BuildDefaultViewModel();
-                model.NotificationMessage = new NotificationMessage { Text = "Unknown email or password", StyleClass = "error" };
+                model.NotificationMessage = new NotificationMessage { Text = "Unknown username or password", StyleClass = "error" };
 
                 return View( model );
             }
