@@ -29,7 +29,7 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult HttpError404( string error )
         {
-            ViewData["Title"] = "Sorry, an error occurred while processing your request. (404)";
+            ViewData["Title"] = "Page Not Found (404)";
             ViewData["Description"] = error;
             return View( "Index" );
         }
@@ -37,7 +37,7 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult HttpError500( string error )
         {
-            ViewData["Title"] = "Sorry, an error occurred while processing your request. (500)";
+            ViewData["Title"] = "Sorry, an error occurred while processing your request (500)";
             ViewData["Description"] = error;
             return View( "Index" );
         }
@@ -45,7 +45,7 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult General( string error )
         {
-            ViewData["Title"] = "Sorry, an error occurred while processing your request.";
+            ViewData["Title"] = "Sorry, an error occurred while processing your request";
             ViewData["Description"] = error;
             return View( "Index" );
         }

@@ -8,9 +8,10 @@ namespace Jumblist.Website.Controllers
     //[HandleError( ExceptionType = typeof( PrimaryKeyNotFoundException ), View = "NotFound" )]
     //[HandleError( ExceptionType = typeof( ResourceNotFoundException ), View = "NotFound" )]
     //[HandleError]
-
-    [CopyTempDataToViewData]
     //[ElmahHandleError]
+
+    //[CompressResponse]
+    [CopyTempDataToViewData]
     public abstract class RootControllerBase : Controller
     {
         public NotificationMessage NotificationMessage

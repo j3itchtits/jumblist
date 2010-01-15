@@ -7,19 +7,41 @@ using System.Web.Mvc.Ajax;
 using Jumblist.Core.Model;
 using Jumblist.Website.Controllers;
 using Jumblist.Website.Filter;
+using Jumblist.Core.Service;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
 {
     [CustomAuthorization( RoleLevelMinimum = RoleLevel.Editor )]
     public class FeedsController : ViewModelController<Feed>
     {
-        //
-        // GET: /AdminFeeds/
+        private IFeedService feedService;
 
-        public ActionResult Index()
+        public FeedsController( IFeedService feedService )
         {
-            return View();
+            this.feedService = feedService;
         }
 
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ActionResult Index()
+        {
+            return View( "List" );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ViewResult List()
+        {
+            var list = feedService.SelectList();
+
+            var model = BuildDefaultViewModel().With( list );
+            model.PageTitle = "All Feeds";
+
+            var notification = new Notification();
+            notification.RegisterMessage( "This is a message", "message" );
+            notification.RegisterMessage( "This is another message", "message" );
+
+            model.Notification = notification;
+
+            return View( model );
+        }
     }
 }

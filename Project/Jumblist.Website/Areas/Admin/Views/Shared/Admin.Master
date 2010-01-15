@@ -30,6 +30,7 @@
 
             <div id="menu">
                 <%= Html.ActionLink( "Admin", "Index", "Home" ) %> | 
+                <%= Html.ActionLink( "Feeds", "List", "Feeds" ) %> | 
                 
                 <p style="color:Red">
                 <br />Debug: 

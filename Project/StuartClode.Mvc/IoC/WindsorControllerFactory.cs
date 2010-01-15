@@ -20,47 +20,36 @@ namespace StuartClode.Mvc.IoC
 
         protected override IController GetControllerInstance( Type controllerType )
         {
-            if ( controllerType == null )
+            //throw new Exception();
+            if (controllerType == null)
             {
-                return base.GetControllerInstance( controllerType );
-                //throw new Exception();
+                //return base.GetControllerInstance( controllerType );
+                throw new HttpException( 404, string.Format( CultureInfo.CurrentUICulture, "The controller for path '{0}' could not be found or it does not implement IController.", RequestContext.HttpContext.Request.Path ) );
             }
 
-            var controller = container.Resolve( controllerType ) as Controller;
-
-            if ( controller != null )
-                controller.ActionInvoker = container.Resolve<IActionInvoker>();
-
-            return controller;
+            try
+            {
+                var controller = container.Resolve( controllerType ) as Controller;
+                if (controller != null)
+                    controller.ActionInvoker = container.Resolve<IActionInvoker>();
+                return (IController)controller;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException( String.Format( CultureInfo.CurrentUICulture, "The controller type '{0}' could not resolve to a controller.", controllerType ), ex );
+            }
         }
 
-        //public override IController CreateController( RequestContext requestContext, string controllerName )
-        //{
-        //    if ( requestContext == null )
-        //    {
-        //        throw new ArgumentNullException( "requestContext" );
-        //    }
-        //    if ( String.IsNullOrEmpty( controllerName ) )
-        //    {
-        //        throw new ArgumentException( "Null or Empty", "controllerName" );
-        //    }
-        //    RequestContext = requestContext;
-        //    Type controllerType = GetControllerType( controllerName );
-
-        //    if (controllerType == null)
-        //    {
-        //        controllerName = "Error";
-        //        controllerType = GetControllerType(controllerName);
-        //        requestContext.RouteData.Values["Controller"] = "Error";
-        //        requestContext.RouteData.Values["action"] = "NotFound";
-        //    }
-
-        //    IController controller = GetControllerInstance( controllerType );
-        //    return controller;
-        //}
 
         public override void ReleaseController( IController controller )
         {
+            var disposable = controller as IDisposable;
+
+            if (disposable != null)
+            {
+                disposable.Dispose();
+            }
+
             container.Release( controller );
         }
     }
