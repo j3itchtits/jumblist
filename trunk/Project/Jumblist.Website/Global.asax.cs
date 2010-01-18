@@ -147,11 +147,13 @@ namespace Jumblist.Website
 
         protected void Application_Error( object sender, EventArgs e )
         {
-            //NEED TO HAVE A CHECK UP AT THE TOP AS TO WHAT IS SET IN THE customErrors mode PROPERTY IN WEB.CONFIG. 
-            //IF IT IS SET TO REMOTEONLY OR OFF THEN NEED TO SEE THE YSOD RATHER THAN THESE FRIENDLY MESSAGES
-            //Check HandleErrorAttribute.OnException to see how this can be done.
+            // If custom errors are disabled, we need to let the normal ASP.NET exception handler
+            // execute so that the user can see useful debugging information.
+            if (!this.Context.IsCustomErrorEnabled)
+            {
+                return;
+            }
 
-            int responseStatusCode; 
             Exception exception = Server.GetLastError();
             HttpException httpException = exception as HttpException;
 
@@ -159,6 +161,8 @@ namespace Jumblist.Website
 
             RouteData routeData = new RouteData();
             routeData.Values.Add( "controller", "Error" );
+
+            int responseStatusCode; 
 
             if (httpException == null)
             {
