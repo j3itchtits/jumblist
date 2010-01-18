@@ -190,7 +190,7 @@ namespace Jumblist.Website
             }
 
             // Pass exception details to the target error View.
-            routeData.Values.Add( "error", exception.Message );
+            routeData.Values.Add( "error", exception );
 
             // Clear the error on server.
             Server.ClearError();

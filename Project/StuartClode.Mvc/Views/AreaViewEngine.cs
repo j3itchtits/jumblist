@@ -50,7 +50,6 @@ namespace StuartClode.Mvc.Views
                 }
 
                 // if not found,try to find the shared area-view
-
                 string sharedAreaPartialName = FormatSharedViewName( controllerContext, partialViewName );
                 areaResult = base.FindPartialView( controllerContext, sharedAreaPartialName, useCache );
                 if ( areaResult != null && areaResult.View != null )
@@ -58,6 +57,7 @@ namespace StuartClode.Mvc.Views
                     return areaResult;
                 }
             }
+
             // if area-view not found , call base method.
             return base.FindPartialView( controllerContext, partialViewName, useCache );
         }
@@ -72,12 +72,15 @@ namespace StuartClode.Mvc.Views
 
             if ( needToFindInAreas )
             {
+                //try to find the area-view
                 string areaViewName = FormatViewName( controllerContext, viewName );
                 areaResult = base.FindView( controllerContext, areaViewName, masterName, useCache );
                 if ( areaResult != null && areaResult.View != null )
                 {
                     return areaResult;
                 }
+                
+                // if not found,try to find the shared area-view
                 string sharedAreaViewName = FormatSharedViewName( controllerContext, viewName );
                 areaResult = base.FindView( controllerContext, sharedAreaViewName, masterName, useCache );
                 if ( areaResult != null && areaResult.View != null )
@@ -86,6 +89,7 @@ namespace StuartClode.Mvc.Views
                 }
             }
 
+            // if area-view not found , call base method.
             return base.FindView( controllerContext, viewName, masterName, useCache );
         }
 
