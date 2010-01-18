@@ -43,5 +43,12 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             return View( model );
         }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ViewResult Test()
+        {
+            var model = feedService.Select( 1 );
+            return View( model );
+        }
     }
 }

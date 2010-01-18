@@ -183,6 +183,7 @@
     <Content Include="Areas\Admin\Views\Shared\Admin.Master" />
     <Content Include="favicon.ico" />
     <Content Include="Views\Error\Index.aspx" />
+    <Content Include="Areas\Admin\Views\Feeds\Test.aspx" />
     <Content Include="Views\Shared\NotAuthorised.aspx" />
     <Content Include="Views\Users\LoginLinksAuthenticated.ascx" />
     <Content Include="Views\Users\LoginLinksUnauthenticated.ascx" />
