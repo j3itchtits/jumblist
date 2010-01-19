@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Jumblist.Core.Model;
-using StuartClode.Mvc.Service;
+using Jumblist.Core.Service;
 
-namespace Jumblist.Core.Service
+namespace Jumblist.Core.Extension
 {
-    public static class PostServiceExtensions
+    public static class PostExtensions
     {
-        public static Post GetFirstPost( this IDataService<Post> postService )
+        public static Post GetFirstPost( this IPostService postService )
         {
             return postService.Select(2);
         }

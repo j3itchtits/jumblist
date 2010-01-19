@@ -26,18 +26,16 @@
         <div id="header-interior">
             <div id="logo">Jumblist Admin</div>
             
-            <%= Html.ActionLink( "Back to site", "Index", new { area = "root", controller = "Home" } )%>
+            <%= Html.ActionLink( "Back to site", "Index", new { area = "", controller = "Home" } )%>
 
             <div id="menu">
                 <%= Html.ActionLink( "Admin", "Index", "Home" ) %> | 
+                <%= Html.ActionLink( "Posts", "List", "Posts" )%> | 
                 <%= Html.ActionLink( "Feeds", "List", "Feeds" ) %> | 
-                
-                <p style="color:Red">
-                <br />Debug: 
-                <br />Name: <%= Html.Encode( Page.User.Identity.Name ) %>
-                <br />IsAuthenticated?: <%= Html.Encode( Page.User.Identity.IsAuthenticated.ToString() ) %>
-                <br />IsAdministrator: <%= Html.Encode( Page.User.IsInRole( "Administrator" ).ToString() ) %>
-                </p>
+                <%= Html.ActionLink( "Tags", "List", "Tags" )%> | 
+                <%= Html.ActionLink( "Locations", "List", "Locations" )%> | 
+                <%= Html.ActionLink( "Users", "List", "Users" )%> | 
+                <%= Html.ActionLink( "Roles", "List", "Roles" ) %> | 
                 
             </div>
         </div>
@@ -56,7 +54,7 @@
     </div>     
        
     <div id="footer">
-        <div id="footer-interior"><span>Copyright notice etc</span></div>
+        <div id="footer-interior"><span></span></div>
     </div>                                
        
 

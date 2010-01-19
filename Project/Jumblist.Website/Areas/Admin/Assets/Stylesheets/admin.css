@@ -9,7 +9,7 @@
 	margin: 20px auto;
 }
 
-th, td 
+th, td, p
 { 
 	padding: 4px; 
 }
@@ -58,8 +58,23 @@ table.grid td, table.grid th
 	border-bottom: 1px dotted gray; 
 }
 
-div.Message { background: gray; color:White; padding: .2em; margin-top:.25em; }
+.message
+{
+	color: Green;
+	padding: 10px 0px;
+}
+
+.error
+{
+	color: red;
+	padding: 10px 0px;
+}
 
 .field-validation-error { color: red; }
 .input-validation-error { border: 1px solid red; background-color: #ffeeee; }
 .validation-summary-errors { font-weight: bold; color: red; }
+
+input[readonly]
+{
+    background-color: #eee;
+}

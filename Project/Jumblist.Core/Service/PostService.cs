@@ -1,46 +1,43 @@
-﻿using JumblistTest.Website.Model;
-using System.Collections.Generic;
-using JumblistTest.Common.Repositories;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Jumblist.Core.Model;
+using StuartClode.Mvc.Service;
+using StuartClode.Mvc.Repository;
 
-namespace JumblistTest.Website.Services
+namespace Jumblist.Core.Service
 {
-    public class PostService : IPostService
+    public class PostService : DataService<Post>, IPostService
     {
-        private readonly IRepository<Post> repository;
-
         public PostService( IRepository<Post> repository )
+            : base( repository )
         {
-            this.repository = repository;
         }
 
         #region IPostService Members
 
-
-        public IList<Post> SelectList()
+        public override IQueryable<Post> SelectList()
         {
-            return repository.SelectList().ToList();
+            return base.SelectList();
         }
 
-        public Post Select( int id )
+        public override Post Select( int id )
         {
-            return repository.Select( id );
+            return base.Select( id );
         }
 
-        public void Save( Post entity )
+        public override void Save( Post entity )
         {
-            if (entity.PostId == 0)
-                repository.InsertOnSubmit( entity );
-            else
-                repository.Save( entity );
-
-            repository.SubmitChanges();
+            ValidateBusinessRules( entity );
+            base.Save( entity );
         }
 
-        public void Delete( Post entity )
+        public override void Delete( Post entity )
         {
-            repository.DeleteOnSubmit( entity );
-            repository.SubmitChanges();
+            base.Delete( entity );
+        }
+
+        public void ValidateBusinessRules( Post entity )
+        {
         }
 
         #endregion

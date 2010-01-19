@@ -5,7 +5,7 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BC4A063C-BB13-49ED-9504-469DFE4E76FF}</ProjectGuid>
-    <ProjectTypeGuids>{603c0e0b-db56-11dc-be95-000d561079b0};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <ProjectTypeGuids>{F85E285D-A4E0-4152-9332-AB1D724D3325};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Jumblist.Website</RootNamespace>
@@ -51,7 +51,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ReferenceAssemblies\Elmah.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Web.Mvc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Web.Mvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ReferenceAssemblies\Microsoft.Web.Mvc.dll</HintPath>
     </Reference>
@@ -70,7 +70,7 @@
     <Reference Include="System.Data.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -90,6 +90,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\PostsController.cs" />
     <Compile Include="Areas\Admin\Controllers\FeedsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Controllers\BasketController.cs" />
@@ -136,7 +138,6 @@
     <Content Include="Views\Users\Edit.aspx" />
     <Content Include="Views\Users\List.aspx" />
     <Content Include="Views\Feeds\Detail.aspx" />
-    <Content Include="Views\Feeds\Edit.aspx" />
     <Content Include="Views\Feeds\List.aspx" />
     <Content Include="Views\Feeds\ListPartial.ascx" />
     <Content Include="Views\Home\About.aspx" />
@@ -183,10 +184,14 @@
     <Content Include="Areas\Admin\Views\Shared\Admin.Master" />
     <Content Include="favicon.ico" />
     <Content Include="Views\Error\Index.aspx" />
-    <Content Include="Areas\Admin\Views\Feeds\Test.aspx" />
     <Content Include="Views\Shared\NotAuthorised.aspx" />
     <Content Include="Views\Users\LoginLinksAuthenticated.ascx" />
     <Content Include="Views\Users\LoginLinksUnauthenticated.ascx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Feeds\Edit.aspx" />
+    <Content Include="Areas\Admin\Views\Feeds\ListPartial.ascx" />
+    <Content Include="Areas\Admin\Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Assets\Images\" />

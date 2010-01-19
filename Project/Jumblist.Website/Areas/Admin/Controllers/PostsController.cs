@@ -13,13 +13,13 @@ using xVal.ServerSide;
 namespace Jumblist.Website.Areas.Admin.Controllers
 {
     [CustomAuthorization( RoleLevelMinimum = RoleLevel.Editor )]
-    public class FeedsController : ViewModelController<Feed>
+    public class PostsController : ViewModelController<Post>
     {
-        private IFeedService feedService;
+        private IPostService postService;
 
-        public FeedsController( IFeedService feedService )
+        public PostsController( IPostService postService )
         {
-            this.feedService = feedService;
+            this.postService = postService;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -31,15 +31,10 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult List()
         {
-            var list = feedService.SelectList();
+            var list = postService.SelectList();
 
             var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Feeds";
-
-            var notification = new Notification();
-            notification.RegisterMessage( "This is a message", "message" );
-            notification.RegisterMessage( "This is another message", "message" );
-            model.Notification = notification;
 
             return View( model );
         }
@@ -47,7 +42,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Create()
         {
-            var model = BuildDataEditDefaultViewModel().With( new Feed() { LastUpdateDateTime = DateTime.Now } );
+            var model = BuildDataEditDefaultViewModel().With( new Post() { } );
             model.PageTitle = "Create a new feed";
             model.NotificationMessage = new NotificationMessage { Text = "You are about to create a feed", StyleClass = "message" };
 
@@ -57,7 +52,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Edit( int id )
         {
-            var item = feedService.Select( id );
+            var item = postService.Select( id );
 
             var model = BuildDataEditDefaultViewModel().With( item );
             model.PageTitle = string.Format( "Edit - {0}", item.Title );
@@ -67,11 +62,11 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Save( Feed item )
+        public ActionResult Save( Post item )
         {
             try
             {
-                feedService.Save( item );
+                postService.Save( item );
             }
             catch (RulesException ex)
             {
@@ -95,10 +90,10 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Delete )]
         public ActionResult Delete( int id )
         {
-            var feed = feedService.Select( id );
-            feedService.Delete( feed );
+            var feed = postService.Select( id );
+            postService.Delete( feed );
 
-            var list = feedService.SelectList();
+            var list = postService.SelectList();
             //var model = BuildDefaultViewModel().With( list );
             //model.Message = new Message { Text = feed.Title + " has been deleted", StyleClass = "message" };
             return PartialView( "ListPartial", list );

@@ -21,7 +21,7 @@ namespace Jumblist.Core.Model
         public int FeedId { get; set; }
 
         [Column( Name = "FeedTitle" )]
-        [Required(ErrorMessage="Whatever"), StringLength(25)]
+        [Required(ErrorMessage="Please enter a title"), StringLength(25)]
         public string Title { get; set; }
 
         [Column( Name = "FeedUrl" )]
