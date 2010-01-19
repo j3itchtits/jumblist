@@ -18,13 +18,13 @@ namespace StuartClode.Mvc.IoC
             this.container = container;
         }
 
-        protected override IController GetControllerInstance( Type controllerType )
+        protected override IController GetControllerInstance( RequestContext context, Type controllerType )
         {
             //throw new Exception();
             if (controllerType == null)
             {
                 //return base.GetControllerInstance( controllerType );
-                throw new HttpException( 404, string.Format( CultureInfo.CurrentUICulture, "The controller for path '{0}' could not be found or it does not implement IController.", RequestContext.HttpContext.Request.Path ) );
+                throw new HttpException( 404, string.Format( CultureInfo.CurrentUICulture, "The controller for path '{0}' could not be found or it does not implement IController.", context.HttpContext.Request.Path ) );
             }
 
             try

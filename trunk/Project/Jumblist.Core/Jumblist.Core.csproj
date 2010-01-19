@@ -86,9 +86,11 @@
     <Compile Include="Service\IBasketSubmitter.cs" />
     <Compile Include="Service\IFeedService.cs" />
     <Compile Include="Service\IFormsAuthenticationService.cs" />
+    <Compile Include="Service\IPostService.cs" />
     <Compile Include="Service\IUserService.cs" />
     <Compile Include="Service\PaginatedList.cs" />
-    <Compile Include="Service\PostServiceExtensions.cs" />
+    <Compile Include="Service\PostService.cs" />
+    <Compile Include="Extension\PostExtensions.cs" />
     <Compile Include="Service\UserService.cs" />
     <Compile Include="Model\Validation\PriceAttribute.cs" />
   </ItemGroup>

@@ -14,7 +14,6 @@ using Jumblist.Website.Controllers;
 using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Service;
 using StuartClode.Mvc.Extension;
-using StuartClode.Mvc.Views;
 using StuartClode.Mvc.IoC;
 
 namespace Jumblist.Website
@@ -28,7 +27,7 @@ namespace Jumblist.Website
         protected void Application_Start()
         {
             RegisterRoutes( RouteTable.Routes );
-            RegisterViewEngines( ViewEngines.Engines );
+            //RegisterViewEngines( ViewEngines.Engines );
             //RegisterModelBinders();
 
             if ( InitializeContainer() )
@@ -106,26 +105,35 @@ namespace Jumblist.Website
             routes.IgnoreRoute( "{resource}.axd/{*pathInfo}" );
             routes.IgnoreRoute( "{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" } );
 
-            // Routing config for the admin area
-            routes.CreateArea( 
-                "admin", 
-                "Jumblist.Website.Areas.Admin.Controllers",
-                routes.MapRoute( 
-                    null, 
-                    "admin/{controller}/{action}/{id}", 
-                    new { controller = "Home", action = "Index", id = "" } 
-                )
-            );
+            //// Routing config for the admin area
+            //routes.CreateArea( 
+            //    "admin", 
+            //    "Jumblist.Website.Areas.Admin.Controllers",
+            //    routes.MapRoute( 
+            //        null, 
+            //        "admin/{controller}/{action}/{id}", 
+            //        new { controller = "Home", action = "Index", id = "" } 
+            //    )
+            //);
 
-            // Routing config for the root (public) area
-            routes.CreateArea(
-                "root",
-                "Jumblist.Website.Controllers",
-                routes.MapRoute(
-                    null,
-                    "{controller}/{action}/{id}",
-                    new { controller = "Home", action = "Index", id = "" }
-                )
+            //// Routing config for the root (public) area
+            //routes.CreateArea(
+            //    "root",
+            //    "Jumblist.Website.Controllers",
+            //    routes.MapRoute(
+            //        null,
+            //        "{controller}/{action}/{id}",
+            //        new { controller = "Home", action = "Index", id = "" }
+            //    )
+            //);
+
+            AreaRegistration.RegisterAllAreas();
+
+            routes.MapRoute(
+                "Default",                                              // Route name
+                "{controller}/{action}/{id}",                           // URL with parameters
+                new { controller = "Home", action = "Index", id = "" },  // Parameter defaults
+                new string[] { "Jumblist.Website.Controllers" }
             );
         }
 
@@ -133,8 +141,8 @@ namespace Jumblist.Website
         {
             if (engines == null) throw new ArgumentNullException( "engines" );
 
-            engines.Clear();
-            engines.Add( new AreaViewEngine() );
+            //engines.Clear();
+            //engines.Add( new AreaViewEngine() );
 
             //SparkEngineStarter.RegisterViewEngine( engines );
         }

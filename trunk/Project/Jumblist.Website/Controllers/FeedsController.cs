@@ -42,77 +42,13 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Detail( int id )
         {
-            var item = feedService.Select( ( id ) );
+            var item = feedService.Select( (id) );
             var model = BuildDefaultViewModel().With( item );
 
             model.PageTitle = string.Format( "Detail - {0}", item.Title );
             model.NotificationMessage = new NotificationMessage { Text = "This is a message", StyleClass = "message" };
 
             return View( model );
-        }
-
-        [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult Create()
-        {
-            var model = BuildDataEditDefaultViewModel().With( new Feed() { LastUpdateDateTime = DateTime.Now } );
-            model.PageTitle = "Create a new feed";
-            model.NotificationMessage = new NotificationMessage { Text = "You are about to create a feed", StyleClass = "message" };
-
-            return View( "Edit", model );
-        }
-
-        [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult Edit( int id )
-        {
-            var item = feedService.Select( id );
-
-            var model = BuildDataEditDefaultViewModel().With( item );
-            model.PageTitle = string.Format( "Edit - {0}", item.Title );
-            model.NotificationMessage = new NotificationMessage { Text = "You are about to edit something", StyleClass = "message" };
-
-            return View( model );
-        }
-
-        [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Save( Feed item )
-        {
-            try
-            {
-                feedService.Save( item );
-            }
-            catch (RulesException ex)
-            {
-                ex.AddModelStateErrors( ModelState, "Item" );
-            }
-
-            if (ModelState.IsValid)
-            {
-                NotificationMessage = new NotificationMessage { Text = item.Title + " has been saved.", StyleClass = "message" };
-                return RedirectToAction( "list" );
-            }
-            else
-            {
-                var model = BuildDataEditDefaultViewModel().With( item );
-                model.PageTitle = string.Format( "Edit - {0}", item.Title );
-                model.NotificationMessage = new NotificationMessage { Text = "Something went wrong", StyleClass = "error" };
-                return View( "edit", model );
-            }
-        }
-
-        [AcceptVerbs( HttpVerbs.Delete )]
-        public ActionResult Delete( int id )
-        {
-            var feed = feedService.Select( id );
-            feedService.Delete( feed );
-
-            var list = feedService.SelectList();
-            //var model = BuildDefaultViewModel().With( list );
-            //model.Message = new Message { Text = feed.Title + " has been deleted", StyleClass = "message" };
-            return PartialView( "ListPartial", list );
-
-
-            //Message = new Message { Text = feed.Title + " has been deleted", StyleClass = "message" };
-            //return RedirectToAction( "list", "feeds" ); 
         }
     }
 }
