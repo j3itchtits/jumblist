@@ -73,8 +73,7 @@
     <Compile Include="Model\Data\Tag.cs" />
     <Compile Include="Model\Data\User.cs" />
     <Compile Include="Model\Location.cs" />
-    <Compile Include="Model\Notification.cs" />
-    <Compile Include="Model\NotificationMessage.cs" />
+    <Compile Include="Model\Message.cs" />
     <Compile Include="Model\Post.cs" />
     <Compile Include="Model\Role.cs" />
     <Compile Include="Model\Tag.cs" />

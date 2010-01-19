@@ -9,7 +9,6 @@
     <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
     
     <%= Html.MessageBox( ViewData.Model )%>
-    <%= Html.MessageBoxAlt( ViewData.Model )%>
     
     <div id="itemsList">
         <% Html.RenderPartial( "ListPartial", Model.List ); %>

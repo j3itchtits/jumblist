@@ -30,12 +30,6 @@ namespace Jumblist.Website.Controllers
             var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Feeds";
 
-            var notification = new Notification();
-            notification.RegisterMessage( "This is a message", "message" );
-            notification.RegisterMessage( "This is another message", "message" );
-
-            model.Notification = notification;
-
             return View( model );
         }
 
@@ -46,7 +40,7 @@ namespace Jumblist.Website.Controllers
             var model = BuildDefaultViewModel().With( item );
 
             model.PageTitle = string.Format( "Detail - {0}", item.Title );
-            model.NotificationMessage = new NotificationMessage { Text = "This is a message", StyleClass = "message" };
+            model.Message = new Message { Text = "This is a message", StyleClass = "message" };
 
             return View( model );
         }

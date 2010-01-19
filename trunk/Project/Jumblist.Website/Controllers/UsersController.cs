@@ -69,13 +69,13 @@ namespace Jumblist.Website.Controllers
 
             if (ModelState.IsValid)
             {
-                NotificationMessage = new NotificationMessage { Text = "User created", StyleClass = "message" };
+                Message = new Message { Text = "User created", StyleClass = "message" };
                 return RedirectToAction( "list" );
             }
             else
             {
                 var model = BuildDataEditDefaultViewModel().With( new User() );
-                model.NotificationMessage = new NotificationMessage { Text = "Something went wrong", StyleClass = "error" };
+                model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
                 return View( model );
             }
         }
@@ -121,14 +121,14 @@ namespace Jumblist.Website.Controllers
 
             if (ModelState.IsValid)
             {
-                NotificationMessage = new NotificationMessage { Text = item.Name + " has been saved.", StyleClass = "message" };
+                Message = new Message { Text = item.Name + " has been saved.", StyleClass = "message" };
                 return RedirectToAction( "list" );
             }
             else
             {
                 var model = BuildDataEditDefaultViewModel().With( item );
                 model.PageTitle = string.Format( "Edit - {0}", item.Name );
-                model.NotificationMessage = new NotificationMessage { Text = "Something went wrong", StyleClass = "error" };
+                model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
                 return View( "edit", model );
 
             }
@@ -150,14 +150,14 @@ namespace Jumblist.Website.Controllers
 
             if (ModelState.IsValid)
             {
-                NotificationMessage = new NotificationMessage { Text = user.Name + " has changed their password.", StyleClass = "message" };
+                Message = new Message { Text = user.Name + " has changed their password.", StyleClass = "message" };
                 return RedirectToAction( "list" );
             }
             else
             {
                 var model = BuildDataEditDefaultViewModel().With( user );
                 model.PageTitle = string.Format( "Edit - {0}", user.Name );
-                model.NotificationMessage = new NotificationMessage { Text = "Something went wrong", StyleClass = "error" };
+                model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
                 return View( "edit", model );
             }
         }
@@ -195,7 +195,7 @@ namespace Jumblist.Website.Controllers
             else
             {
                 var model = BuildDefaultViewModel();
-                model.NotificationMessage = new NotificationMessage { Text = "Unknown username or password", StyleClass = "error" };
+                model.Message = new Message { Text = "Unknown username or password", StyleClass = "error" };
 
                 return View( model );
             }
@@ -230,7 +230,7 @@ namespace Jumblist.Website.Controllers
             if (ModelState.IsValid)
             {
                 userService.SetAuthenticationCookie( user.Name, true );
-                NotificationMessage = new NotificationMessage { Text = "Thank you for registering", StyleClass = "message" };
+                Message = new Message { Text = "Thank you for registering", StyleClass = "message" };
 
                 if (!string.IsNullOrEmpty( returnUrl ))
                     return Redirect( returnUrl );
@@ -240,7 +240,7 @@ namespace Jumblist.Website.Controllers
             else
             {
                 var model = BuildDefaultViewModel();
-                model.NotificationMessage = new NotificationMessage { Text = "Something went wrong", StyleClass = "error" };
+                model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
                 return View( model );
             }
         }

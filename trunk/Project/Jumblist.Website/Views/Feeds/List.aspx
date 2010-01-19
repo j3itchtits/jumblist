@@ -6,10 +6,9 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
-    <%= Html.PageTitle( Model, HtmlTextWriterTag.H2 )%>
+    <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
     
-    <%= Html.MessageBox( Model ) %>
-    <%= Html.MessageBoxAlt( Model )%>
+    <%= Html.MessageBox( ViewData.Model )%>
     
     <div id="itemsList">
         <% Html.RenderPartial( "ListPartial", Model.List ); %>

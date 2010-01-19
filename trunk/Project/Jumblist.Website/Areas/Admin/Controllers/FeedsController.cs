@@ -36,10 +36,12 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Feeds";
 
-            var notification = new Notification();
-            notification.RegisterMessage( "This is a message", "message" );
-            notification.RegisterMessage( "This is another message", "message" );
-            model.Notification = notification;
+            var messages = new List<Message>();
+            messages.Add( new Message { Text = "New: This is the first message", StyleClass = "message" } );
+            messages.Add( new Message { Text = "New: This is the second message", StyleClass = "message" } );
+            model.MessageList = messages;
+
+            model.Message = new Message { Text = "This is just one message", StyleClass = "message" };
 
             return View( model );
         }
@@ -49,7 +51,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             var model = BuildDataEditDefaultViewModel().With( new Feed() { LastUpdateDateTime = DateTime.Now } );
             model.PageTitle = "Create a new feed";
-            model.NotificationMessage = new NotificationMessage { Text = "You are about to create a feed", StyleClass = "message" };
+            model.Message = new Message { Text = "You are about to create a feed", StyleClass = "message" };
 
             return View( "Edit", model );
         }
@@ -61,7 +63,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             var model = BuildDataEditDefaultViewModel().With( item );
             model.PageTitle = string.Format( "Edit - {0}", item.Title );
-            model.NotificationMessage = new NotificationMessage { Text = "You are about to edit something", StyleClass = "message" };
+            model.Message = new Message { Text = "You are about to edit something", StyleClass = "message" };
 
             return View( model );
         }
@@ -80,14 +82,14 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                NotificationMessage = new NotificationMessage { Text = item.Title + " has been saved.", StyleClass = "message" };
+                Message = new Message { Text = item.Title + " has been saved.", StyleClass = "message" };
                 return RedirectToAction( "list" );
             }
             else
             {
                 var model = BuildDataEditDefaultViewModel().With( item );
                 model.PageTitle = string.Format( "Edit - {0}", item.Title );
-                model.NotificationMessage = new NotificationMessage { Text = "Something went wrong", StyleClass = "error" };
+                model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
                 return View( "edit", model );
             }
         }
