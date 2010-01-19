@@ -48,19 +48,11 @@
             <td><label for="Item.LastUpdateDateTime">LastUpdateDateTime:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.LastUpdateDateTime, "{0:g}", new { @readonly = "true" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.LastUpdateDateTime )%></td>
-            
-<%--<%= Html.TextBox( "feed.LastUpdateDateTime", String.Format( "{0:g}", Model.Item.LastUpdateDateTime ), new { @readonly = "true" } )%>
-            <%= Html.ValidationMessage( "feed.LastUpdateDateTime" )%>--%>
         </tr>
-        
-                
         <tr>
             <td><label for="Item.FeedCategoryId">Feed Category:</label></td>
-            <td><%= Html.DropDownListFor( m => m.Item.FeedCategoryId, new SelectList( Model.LookupList<FeedCategory>(), "FeedCategoryId", "Name", Model.Item.FeedCategoryId ) ) %>
+            <td><%= Html.DropDownListFor( m => m.Item.FeedCategoryId, new SelectList( Model.LookupList<FeedCategory>(), "FeedCategoryId", "Name", Model.Item.FeedCategoryId ), "-- Select --" )%>
             <%= Html.ValidationMessageFor( m => m.Item.FeedCategoryId )%></td>
-            
-<%--            <%= Html.DropDownList( "feed.FeedCategoryId", new SelectList( Model.LookupList<FeedCategory>(), "FeedCategoryId", "Name", Model.Item.FeedCategoryId ), string.Empty )%>
-            <%= Html.ValidationMessage( "feed.FeedCategoryId" )%>--%>
         </tr>   
         </table>
                  

@@ -101,13 +101,8 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             feedService.Delete( feed );
 
             var list = feedService.SelectList();
-            //var model = BuildDefaultViewModel().With( list );
-            //model.Message = new Message { Text = feed.Title + " has been deleted", StyleClass = "message" };
+
             return PartialView( "ListPartial", list );
-
-
-            //Message = new Message { Text = feed.Title + " has been deleted", StyleClass = "message" };
-            //return RedirectToAction( "list", "feeds" ); 
         }
     }
 }

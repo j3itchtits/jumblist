@@ -62,12 +62,6 @@ namespace Jumblist.Website
                 .FromAssembly( Assembly.GetExecutingAssembly() )
                 .Configure( c => c.LifeStyle.Transient )
             );
-
-            //container.Register( AllTypes
-            //    .Of<IController>()
-            //    .FromAssembly( Assembly.GetExecutingAssembly() )
-            //    .Configure( c => c.LifeStyle.Transient.ServiceOverrides( new { ActionInvoker = typeof( ErrorHandlingActionInvoker ).FullName } ) )
-            //);
         }
 
         private void RegisterComponents()
@@ -82,6 +76,7 @@ namespace Jumblist.Website
                 Component.For<IUserService>().ImplementedBy<UserService>().LifeStyle.Transient,
                 Component.For<IBasketSubmitter>().ImplementedBy<EmailBasketSubmitter>().LifeStyle.Transient.Parameters( Parameter.ForKey( "smtpServer" ).Eq( "127.0.0.1" ), Parameter.ForKey( "mailFrom" ).Eq( "stuartclode@idnet.com" ), Parameter.ForKey( "mailTo" ).Eq( "stuartclode@idnet.com" ) ),
                 Component.For<IFeedService>().ImplementedBy<FeedService>().LifeStyle.Transient,
+                Component.For<IPostService>().ImplementedBy<PostService>().LifeStyle.Transient,
                 //Component.For<IExceptionFilter>().ImplementedBy<ElmahHandleErrorAttribute>().LifeStyle.Transient,
                 Component.For<IActionInvoker>().ImplementedBy<WindsorActionInvoker>().LifeStyle.Transient
             );

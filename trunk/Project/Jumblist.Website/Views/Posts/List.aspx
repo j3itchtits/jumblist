@@ -11,7 +11,7 @@
     <%= Html.MessageBox( ViewData.Model ) %>
     
     <div id="itemsList">
-        <% Html.RenderPartial( "ListPosts", Model.PaginatedList ); %>
+        <% Html.RenderPartial( "ListPartial", Model.PaginatedList ); %>
     </div>
     
     <p>

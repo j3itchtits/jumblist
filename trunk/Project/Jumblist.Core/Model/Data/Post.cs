@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data.Linq.Mapping;
 using System.Data.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace Jumblist.Core.Model
 {
@@ -23,15 +24,19 @@ namespace Jumblist.Core.Model
         public int ParentId { get; set; }
 
         [Column( Name = "PostUrl" )]
+        [Required, DataType( DataType.Url )]
         public string Url { get; set; }
 
         [Column( Name = "PostTitle" )]
+        [Required, StringLength( 250 )]
         public string Title { get; set; }
 
         [Column( Name = "PostBody" )]
+        [Required]
         public string Body { get; set; }
 
         [Column( Name = "PostDateTime" )]
+        [Required, DataType( DataType.DateTime )]
         public DateTime DateTime { get; set; }
 
         [Column( Name = "PostLatitude" )]
@@ -44,6 +49,7 @@ namespace Jumblist.Core.Model
         public bool Display { get; set; }
 
         [Column( Name = "PostCategoryId" )]
+        [Required]
         public int PostCategoryId { get; set; }
 
         [Association( Name = "FK_Posts_PostCategories", Storage = "postCategory", ThisKey = "PostCategoryId", OtherKey = "PostCategoryId", IsForeignKey = true )]
@@ -54,6 +60,7 @@ namespace Jumblist.Core.Model
         }
 
         [Column( Name = "UserId" )]
+        [Required]
         public int UserId { get; set; }
 
         [Association( Name = "FK_Posts_Users", Storage = "user", ThisKey = "UserId", OtherKey = "UserId", IsForeignKey = true )]
@@ -64,6 +71,7 @@ namespace Jumblist.Core.Model
         }
 
         [Column( Name = "FeedId" )]
+        [Required]
         public int FeedId { get; set; }
 
         [Association( Name = "FK_Posts_Feed", Storage = "feed", ThisKey = "FeedId", OtherKey = "FeedId", IsForeignKey = true )]

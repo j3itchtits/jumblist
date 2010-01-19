@@ -34,7 +34,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             var list = postService.SelectList();
 
             var model = BuildDefaultViewModel().With( list );
-            model.PageTitle = "All Feeds";
+            model.PageTitle = "All Posts";
 
             return View( model );
         }
@@ -42,9 +42,9 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Create()
         {
-            var model = BuildDataEditDefaultViewModel().With( new Post() { } );
-            model.PageTitle = "Create a new feed";
-            model.Message = new Message { Text = "You are about to create a feed", StyleClass = "message" };
+            var model = BuildDataEditDefaultViewModel().With( new Post() { DateTime = DateTime.Now } );
+            model.PageTitle = "Create a new post";
+            model.Message = new Message { Text = "You are about to create a post", StyleClass = "message" };
 
             return View( "Edit", model );
         }
@@ -94,13 +94,8 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             postService.Delete( feed );
 
             var list = postService.SelectList();
-            //var model = BuildDefaultViewModel().With( list );
-            //model.Message = new Message { Text = feed.Title + " has been deleted", StyleClass = "message" };
+
             return PartialView( "ListPartial", list );
-
-
-            //Message = new Message { Text = feed.Title + " has been deleted", StyleClass = "message" };
-            //return RedirectToAction( "list", "feeds" ); 
         }
     }
 }

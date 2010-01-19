@@ -48,9 +48,8 @@ namespace Jumblist.Website.ViewModel
         private IEnumerable GetLookupList( Type lookupType )
         {
             if ( !lookupLists.ContainsKey( lookupType ) )
-            {
                 throw new ApplicationException( string.Format( "List of type {0} does not exist in lookup list", lookupType.Name ) );
-            }
+
             return lookupLists[lookupType] as IEnumerable;
         }
 
