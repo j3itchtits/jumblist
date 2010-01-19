@@ -144,9 +144,7 @@
     <Content Include="Views\Home\Help.aspx" />
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Posts\Detail.aspx" />
-    <Content Include="Views\Posts\Edit.aspx" />
     <Content Include="Views\Posts\List.aspx" />
-    <Content Include="Views\Posts\ListPosts.ascx" />
     <Content Include="Views\Users\Login.aspx" />
     <Content Include="Web.config" />
     <Content Include="Assets\Scripts\jquery-1.3.2.js" />
@@ -191,7 +189,11 @@
   <ItemGroup>
     <Content Include="Areas\Admin\Views\Feeds\Edit.aspx" />
     <Content Include="Areas\Admin\Views\Feeds\ListPartial.ascx" />
+    <Content Include="Areas\Admin\Views\Posts\Edit.aspx" />
+    <Content Include="Areas\Admin\Views\Posts\List.aspx" />
+    <Content Include="Areas\Admin\Views\Posts\ListPartial.ascx" />
     <Content Include="Areas\Admin\Views\Web.config" />
+    <Content Include="Views\Posts\ListPartial.ascx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Assets\Images\" />

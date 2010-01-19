@@ -45,57 +45,5 @@ namespace Jumblist.Website.Controllers
 
             return View( model );
         }
-
-        [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult Create()
-        {
-            var model = BuildDataEditDefaultViewModel().With( new Post() );
-            model.PageTitle = "Create";
-
-            return View( "Edit", model );
-        }
-
-        [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult Edit( int id )
-        {
-            var item = postService.Select( id );
-
-            //var authorList = authorService.SelectList();
-            //var model = new PostEditViewModel( item, authorList );
-            //var model = PostView.Data.WithPost( item );
-
-            var model = BuildDataEditDefaultViewModel().With( item );
-            //var model = DefaultView.Model<Post>().With( item );
-
-            model.PageTitle = string.Format( "Edit - {0}", item.Title );
-
-            return View( model );
-        }
-
-        [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Save( Post post )
-        {
-            if (ModelState.IsValid)
-            {
-                postService.Save( post );
-                TempData["notificationmessage"] = post.Title + " has been saved.";
-                return RedirectToAction( "list" );
-            }
-            else
-            {
-                return View( "Edit", post );
-            }
-        }
-
-        [AcceptVerbs( HttpVerbs.Delete )]
-        public ActionResult Delete( int id )
-        {
-            var post = postService.Select( id );
-            postService.Delete( post );
-            TempData["notificationmessage"] = post.Title + " has been deleted";
-
-            var model = postService.SelectList();
-            return PartialView( "ListPosts", model );
-        }
     }
 }
