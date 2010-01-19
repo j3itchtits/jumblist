@@ -1,6 +1,7 @@
 using System.Web.Mvc;
 using Jumblist.Website.ViewModel;
 using Jumblist.Core.Model;
+using System.Collections.Generic;
 
 namespace Jumblist.Website.Filter
 {
@@ -19,14 +20,14 @@ namespace Jumblist.Website.Filter
                     model.SimpleMessage = filterContext.Controller.TempData["simplemessage"] as string;
 				}
 
-                if (model != null && model.NotificationMessage == null && filterContext.Controller.TempData.ContainsKey( "notificationmessage" ))
+                if (model != null && filterContext.Controller.TempData.ContainsKey( "message" ))
                 {
-                    model.NotificationMessage = filterContext.Controller.TempData["notificationmessage"] as NotificationMessage;
+                    model.Message = filterContext.Controller.TempData["message"] as Message;
                 }
 
-                if (model != null && model.Notification == null && filterContext.Controller.TempData.ContainsKey( "notification" ))
+                if (model != null && filterContext.Controller.TempData.ContainsKey( "messagelist" ))
                 {
-                    model.Notification = filterContext.Controller.TempData["notification"] as Notification;
+                    model.MessageList = filterContext.Controller.TempData["messagelist"] as List<Message>;
                 }
 			}
 		}

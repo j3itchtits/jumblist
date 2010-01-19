@@ -63,30 +63,25 @@ namespace Jumblist.Website.Extension
 
         public static string MessageBox( this HtmlHelper htmlHelper, IViewModelBase model )
         {
-            if (model.NotificationMessage == null) return string.Empty;
-
             HtmlTextWriter writer = new HtmlTextWriter( new StringWriter() );
 
-            writer.AddAttribute( "class", model.NotificationMessage.StyleClass );
-            writer.RenderBeginTag( HtmlTextWriterTag.Div );
-            writer.Write( model.NotificationMessage.Text );
-            writer.RenderEndTag();
-
-            return writer.InnerWriter.ToString();
-        }
-
-        public static string MessageBoxAlt( this HtmlHelper htmlHelper, IViewModelBase model )
-        {
-            if (!model.Notification.IsValid() ) return string.Empty;
-
-            HtmlTextWriter writer = new HtmlTextWriter( new StringWriter() );
-
-            foreach ( var message in model.Notification.AllMessages() )
+            if (model.Message != null)
             {
-                writer.AddAttribute( "class", message.StyleClass );
+                writer.AddAttribute( "class", model.Message.StyleClass );
                 writer.RenderBeginTag( HtmlTextWriterTag.Div );
-                writer.Write( message.Text );
+                writer.Write( model.Message.Text );
                 writer.RenderEndTag();
+            }
+
+            if ((model.MessageList != null) && (model.MessageList.Count > 0))
+            {
+                foreach (var message in model.MessageList)
+                {
+                    writer.AddAttribute( "class", message.StyleClass );
+                    writer.RenderBeginTag( HtmlTextWriterTag.Div );
+                    writer.Write( message.Text );
+                    writer.RenderEndTag();
+                }    
             }
 
             return writer.InnerWriter.ToString();

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Jumblist.Core.Model
 {
-    public class NotificationMessage
+    public class Message
     {
         public string Text { get; set; }
         public string StyleClass { get; set; }
