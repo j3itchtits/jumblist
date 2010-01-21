@@ -2,7 +2,7 @@
 using System.Linq;
 using Jumblist.Core.Model;
 
-namespace Jumblist.Core.Service
+namespace Jumblist.Core.Service.Data
 {
     public interface IPostService
     {

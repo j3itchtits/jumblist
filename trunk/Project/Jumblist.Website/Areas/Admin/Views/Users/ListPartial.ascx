@@ -5,9 +5,8 @@
    { %>
         <tr class="item">
             <td><%= user.Name%></td>  
-            <td><%= Html.ActionLink( "Detail", "detail", new { id = user.UserId } )%></td>  
             <td><%= Html.ActionLink( "Edit", "edit", new { id = user.UserId } )%></td>  
-            <td><%= Ajax.ActionLink( "Delete", "delete", new { id = user.UserId }, new AjaxOptions { Confirm = "Delete?", HttpMethod = "Delete", UpdateTargetId = "itemsList" } )%></td>  
+            <td><%= Ajax.ActionLink( "Delete", "delete", new { id = user.UserId }, new AjaxOptions { Confirm = "Delete '" + user.Name + "' User?", HttpMethod = "Delete", UpdateTargetId = "itemsList" } )%></td>  
         </tr> 
 <% } %>
 </table>         

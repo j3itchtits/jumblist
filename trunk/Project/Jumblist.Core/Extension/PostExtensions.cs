@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Jumblist.Core.Model;
-using Jumblist.Core.Service;
+using Jumblist.Core.Service.Data;
 
 namespace Jumblist.Core.Extension
 {
