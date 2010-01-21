@@ -7,7 +7,7 @@ using System.Web.Mvc.Ajax;
 using Jumblist.Core.Model;
 using Jumblist.Website.Controllers;
 using Jumblist.Website.Filter;
-using Jumblist.Core.Service;
+using Jumblist.Core.Service.Data;
 using xVal.ServerSide;
 
 namespace Jumblist.Website.Areas.Admin.Controllers

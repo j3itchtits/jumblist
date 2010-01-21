@@ -94,6 +94,8 @@
     <Compile Include="Areas\Admin\Controllers\PostsController.cs" />
     <Compile Include="Areas\Admin\Controllers\FeedsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TagsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Controllers\BasketController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FeedsController.cs" />
@@ -133,10 +135,7 @@
     <Content Include="Assets\Scripts\jumblist.jquery.js" />
     <Content Include="Assets\Scripts\xVal.jquery.validate.js" />
     <Content Include="Views\Users\Register.aspx" />
-    <Content Include="Views\Users\ListPartial.ascx" />
     <Content Include="Views\Users\Detail.aspx" />
-    <Content Include="Views\Users\Edit.aspx" />
-    <Content Include="Views\Users\List.aspx" />
     <Content Include="Views\Feeds\Detail.aspx" />
     <Content Include="Views\Feeds\List.aspx" />
     <Content Include="Views\Feeds\ListPartial.ascx" />
@@ -174,7 +173,6 @@
     <Content Include="Views\Basket\Email.aspx" />
     <Content Include="Views\Basket\Index.aspx" />
     <Content Include="Views\Basket\Summary.ascx" />
-    <Content Include="Views\Users\Create.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Assets\Stylesheets\admin.css" />
@@ -192,6 +190,13 @@
     <Content Include="Areas\Admin\Views\Posts\Edit.aspx" />
     <Content Include="Areas\Admin\Views\Posts\List.aspx" />
     <Content Include="Areas\Admin\Views\Posts\ListPartial.ascx" />
+    <Content Include="Areas\Admin\Views\Tags\Edit.aspx" />
+    <Content Include="Areas\Admin\Views\Tags\List.aspx" />
+    <Content Include="Areas\Admin\Views\Tags\ListPartial.ascx" />
+    <Content Include="Areas\Admin\Views\Users\Create.aspx" />
+    <Content Include="Areas\Admin\Views\Users\Edit.aspx" />
+    <Content Include="Areas\Admin\Views\Users\List.aspx" />
+    <Content Include="Areas\Admin\Views\Users\ListPartial.ascx" />
     <Content Include="Areas\Admin\Views\Web.config" />
     <Content Include="Views\Posts\ListPartial.ascx" />
   </ItemGroup>

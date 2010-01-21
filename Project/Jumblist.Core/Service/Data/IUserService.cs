@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using StuartClode.Mvc.Service;
 
-namespace Jumblist.Core.Service
+namespace Jumblist.Core.Service.Data
 {
     public interface IUserService : IDataService<User>
     {

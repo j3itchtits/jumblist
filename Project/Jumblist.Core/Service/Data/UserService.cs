@@ -8,7 +8,7 @@ using System.Web;
 using System;
 using xVal.ServerSide;
 
-namespace Jumblist.Core.Service
+namespace Jumblist.Core.Service.Data
 {
     public class UserService : DataService<User>, IUserService
     {

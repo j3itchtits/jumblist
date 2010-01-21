@@ -34,8 +34,36 @@ namespace Jumblist.Website
             {
                 RegisterControllers();
                 RegisterControllerFactory();
+                RegisterDataServices();
                 RegisterComponents();
             }
+        }
+
+        private void RegisterDataServices()
+        {
+            container.Register( AllTypes
+                .FromAssembly( Assembly.Load( "Jumblist.Core" ) )
+                .Where( t => t.Namespace.Equals( "Jumblist.Core.Service.Data" ) )
+                .WithService.FirstNonGenericCoreInterface( "Jumblist.Core.Service.Data" )
+                .Configure( c => c.LifeStyle.Transient )
+            );
+
+            //Assembly.GetAssembly( typeof( UserService ) )
+            //Assembly.LoadFrom( "Jumblist.Core" )
+
+            //container.Register( AllTypes
+            //    .FromAssembly( Assembly.GetAssembly( typeof( UserService ) ) )
+            //    .Where( type => type.Namespace.StartsWith( "Jumblist.Core.Service" ) )
+            //    .WithService.FirstInterface()
+            //    .Configure( c => c.LifeStyle.Transient )
+            //);
+
+            //container.Register( AllTypes.Pick()
+            //    .FromAssembly( Assembly.GetExecutingAssembly() )
+            //    .WithService
+            //    .FirstInterface()
+            //    .Configure( c => c.LifeStyle.Transient )
+            //);
         }
 
         private bool InitializeContainer()
@@ -66,6 +94,7 @@ namespace Jumblist.Website
 
         private void RegisterComponents()
         {
+
             container.Register(
                 Component.For<IDataContextProvider>().ImplementedBy<DataContextProvider>().LifeStyle.PerWebRequest,
                 Component.For<IConnectionStringProvider>().ImplementedBy<ConnectionStringProvider>().LifeStyle.Transient.Parameters( Parameter.ForKey( "connectionString" ).Eq( jumblistDbConnString ) ),
@@ -73,11 +102,10 @@ namespace Jumblist.Website
                 Component.For( typeof( IDataService<> ) ).ImplementedBy( typeof( DataService<> ) ).LifeStyle.Transient,
                 Component.For<IDataServiceResolver>().ImplementedBy<DataServiceResolver>().LifeStyle.Transient,
                 Component.For<IFormsAuthenticationService>().ImplementedBy<FormsAuthenticationService>().LifeStyle.Transient,
-                Component.For<IUserService>().ImplementedBy<UserService>().LifeStyle.Transient,
+                //Component.For<IUserService>().ImplementedBy<UserService>().LifeStyle.Transient,
                 Component.For<IBasketSubmitter>().ImplementedBy<EmailBasketSubmitter>().LifeStyle.Transient.Parameters( Parameter.ForKey( "smtpServer" ).Eq( "127.0.0.1" ), Parameter.ForKey( "mailFrom" ).Eq( "stuartclode@idnet.com" ), Parameter.ForKey( "mailTo" ).Eq( "stuartclode@idnet.com" ) ),
-                Component.For<IFeedService>().ImplementedBy<FeedService>().LifeStyle.Transient,
-                Component.For<IPostService>().ImplementedBy<PostService>().LifeStyle.Transient,
-                //Component.For<IExceptionFilter>().ImplementedBy<ElmahHandleErrorAttribute>().LifeStyle.Transient,
+                //Component.For<IFeedService>().ImplementedBy<FeedService>().LifeStyle.Transient,
+                //Component.For<IPostService>().ImplementedBy<PostService>().LifeStyle.Transient,
                 Component.For<IActionInvoker>().ImplementedBy<WindsorActionInvoker>().LifeStyle.Transient
             );
         }

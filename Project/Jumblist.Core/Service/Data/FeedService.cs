@@ -5,7 +5,7 @@ using StuartClode.Mvc.Service;
 using StuartClode.Mvc.Repository;
 using xVal.ServerSide;
 
-namespace Jumblist.Core.Service
+namespace Jumblist.Core.Service.Data
 {
     public class FeedService : DataService<Feed>, IFeedService
     {
