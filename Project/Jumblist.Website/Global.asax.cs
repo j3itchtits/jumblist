@@ -9,14 +9,14 @@ using System.Reflection;
 using Castle.Windsor;
 using Castle.MicroKernel.Registration;
 using Jumblist.Website.Filter;
-using Jumblist.Core.Service;
 using Jumblist.Website.Controllers;
+using Jumblist.Core.Service;
+using Jumblist.Core.Module;
 using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Service;
 using StuartClode.Mvc.Extension;
 using StuartClode.Mvc.IoC;
 using Microsoft.Practices.ServiceLocation;
-using Jumblist.Core.BackgroundService;
 
 namespace Jumblist.Website
 {
@@ -111,9 +111,9 @@ namespace Jumblist.Website
                 Component.For<IActionInvoker>().ImplementedBy<WindsorActionInvoker>().LifeStyle.Transient
             );
 
-            container.Register( Component.For<IHttpModule>()
-                       .ImplementedBy<PollingService>()
-                       .LifeStyle.Custom<PerHttpApplicationLifestyleManager>() );
+            container.Register(
+                Component.For<IHttpModule>().ImplementedBy<FeedProcessingHttpModule>().LifeStyle.Custom<PerHttpApplicationLifestyleManager>()
+            );
         }
 
         private void RegisterControllerFactory()
