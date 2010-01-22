@@ -9,22 +9,25 @@ using Jumblist.Core.Model;
 using System.ServiceModel.Syndication;
 using Jumblist.Core.Service.Data;
 using StuartClode.Mvc.Service;
+using Microsoft.Practices.ServiceLocation;
+using Jumblist.Core.BackgroundService;
 
-namespace Jumblist.Core.BackgroundService
+namespace Jumblist.Core.Module
 {
-    public class PollingService : IHttpModule
+    public class FeedProcessingHttpModule : IHttpModule
     {
         protected static Timer _timer;
-        protected static object _semaphore;
+        protected static object _semaphore = new object();
         protected static string _value;
 
-        private readonly IPostService postService;
+        //private readonly IPostService postService;
 
-        public PollingService( IPostService postService ) 
-        {
-            this.postService = postService;
-            _semaphore = new object();
-        }
+        //public FeedProcessingHttpModule( IPostService postService )
+        //{
+        //    this.postService = postService;
+        //}
+
+
 
         protected void DoWork( object state )
         {
@@ -38,10 +41,19 @@ namespace Jumblist.Core.BackgroundService
                 _value = String.Format( "{0} {1} degrees {2}", description, temperature, unit );
 
 
+                //http://bugsquash.blogspot.com/2009/11/windsor-managed-httpmodules.html
+                //http://stackoverflow.com/questions/1657473/ioc-dependancy-injection-into-custom-http-module-how-asp-net
+
                 //var postService = ServiceLocator.Current.GetInstance<IPostService>();
 
                 XmlReader reader = XmlReader.Create( "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml" );
                 SyndicationFeed feed = SyndicationFeed.Load( reader );
+
+                var postService = new StaticDatabaseAccess().GetService();
+
+                var list = postService.SelectList();
+
+
 
                 foreach (var item in feed.Items)
                 {
@@ -57,12 +69,12 @@ namespace Jumblist.Core.BackgroundService
                     post.UserId = 1;
                     post.FeedId = 1;
 
-                    postService.Save( post );
+                    if (!list.Any<Post>( p => p.Guid == item.Id ))
+                        postService.Save( post );
 
                 }
 
                 reader.Close();
-
             }
         }
 
@@ -98,5 +110,6 @@ namespace Jumblist.Core.BackgroundService
         }
 
         #endregion
+
     }
 }
