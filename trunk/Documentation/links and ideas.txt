@@ -2,6 +2,9 @@ Blogs with ideas
 http://www.timandkathy.co.uk/journal/2008/10/13/improving-freecycle/
 http://freecycling.wordpress.com/
 
+Finding recycling groups on the web
+http://recyclinggroupfinder.com
+
 Open Freecycle (a hack by dharmafly)
 http://dharmafly.com/openfreecycle
 http://dharmafly.com/openfreecycle-at-openhacklondon (hwo they did it)

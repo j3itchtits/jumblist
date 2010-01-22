@@ -37,7 +37,9 @@ namespace Jumblist.Core.Service.Data
             base.Delete( entity );
         }
 
-        public void ValidateBusinessRules( Tag entity )
+        #endregion
+
+        private void ValidateBusinessRules( Tag entity )
         {
             IQueryable<Tag> list;
 
@@ -49,7 +51,5 @@ namespace Jumblist.Core.Service.Data
             if (list.Any<Tag>( p => p.Name == entity.Name ))
                 throw new RulesException( "Name", "Duplicate Tag Name", entity );
         }
-
-        #endregion
     }
 }

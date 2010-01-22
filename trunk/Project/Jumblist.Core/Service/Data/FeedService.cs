@@ -37,7 +37,9 @@ namespace Jumblist.Core.Service.Data
             base.Delete( entity );
         }
 
-        public void ValidateBusinessRules( Feed entity )
+        #endregion
+
+        private void ValidateBusinessRules( Feed entity )
         {
             IQueryable<Feed> list;
 
@@ -49,7 +51,5 @@ namespace Jumblist.Core.Service.Data
             if (list.Any<Feed>( f => f.Url == entity.Url ))
                 throw new RulesException( "Url", "Duplicate Urls", entity );
         }
-
-        #endregion
     }
 }

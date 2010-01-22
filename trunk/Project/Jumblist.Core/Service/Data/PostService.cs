@@ -37,7 +37,9 @@ namespace Jumblist.Core.Service.Data
             base.Delete( entity );
         }
 
-        public void ValidateBusinessRules( Post entity )
+        #endregion
+
+        private void ValidateBusinessRules( Post entity )
         {
             IQueryable<Post> list;
 
@@ -46,10 +48,8 @@ namespace Jumblist.Core.Service.Data
             else
                 list = SelectList().Where( p => p.PostId != entity.PostId );
 
-            if (list.Any<Post>( p => p.Url == entity.Url ))
-                throw new RulesException( "Url", "Duplicate Urls", entity );
+            if (list.Any<Post>( p => p.Guid == entity.Guid ))
+                throw new RulesException( "Post", "Duplicate Post", entity );
         }
-
-        #endregion
     }
 }

@@ -7,12 +7,13 @@ using Jumblist.Core.Service.Data;
 using System.Security.Principal;
 using Jumblist.Core.Model;
 using StuartClode.Mvc.Extension;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Jumblist.Website.Filter
 {
     public class CustomAuthorizationAttribute : AuthorizeAttribute
     {
-        public IUserService UserService { get; set; }
+        //public IUserService UserService { get; set; }
         public RoleLevel RoleLevelMinimum { get; set; }
         public RoleLevel RoleLevels { get; set; }
 
@@ -26,8 +27,10 @@ namespace Jumblist.Website.Filter
                 return false;
             }
 
+            var userService = ServiceLocator.Current.GetInstance<IUserService>();
+
             //Custom user authorisation against assigned roles
-            var user = UserService.GetUser( httpContext.User.Identity.Name );
+            var user = userService.GetUser( httpContext.User.Identity.Name );
 
             if ( ( RoleLevelMinimum > 0 ) && ( user.Role.Level > (int)RoleLevelMinimum ) )
             {

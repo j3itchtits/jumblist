@@ -10,6 +10,5 @@ namespace Jumblist.Core.Service.Data
         Tag Select( int id );
         void Save( Tag entity );
         void Delete( Tag entity );
-        void ValidateBusinessRules( Tag entity );
     }
 }
