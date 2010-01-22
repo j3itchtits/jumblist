@@ -15,10 +15,12 @@ using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Service;
 using StuartClode.Mvc.Extension;
 using StuartClode.Mvc.IoC;
+using Microsoft.Practices.ServiceLocation;
+using Jumblist.Core.BackgroundService;
 
 namespace Jumblist.Website
 {
-    public class MvcApplication : HttpApplication
+    public class MvcApplication : HttpApplication, IContainerAccessor
     {
         private static object _lock = new object();
         private static IWindsorContainer container;
@@ -78,6 +80,9 @@ namespace Jumblist.Website
                 container.Register(
                     Component.For<IWindsorContainer>().Instance( container ).LifeStyle.Singleton
                 );
+
+                //setup the common service locator
+                ServiceLocator.SetLocatorProvider( () => new WindsorServiceLocator( container ) );
             }
 
             return true;
@@ -102,12 +107,13 @@ namespace Jumblist.Website
                 Component.For( typeof( IDataService<> ) ).ImplementedBy( typeof( DataService<> ) ).LifeStyle.Transient,
                 Component.For<IDataServiceResolver>().ImplementedBy<DataServiceResolver>().LifeStyle.Transient,
                 Component.For<IFormsAuthenticationService>().ImplementedBy<FormsAuthenticationService>().LifeStyle.Transient,
-                //Component.For<IUserService>().ImplementedBy<UserService>().LifeStyle.Transient,
                 Component.For<IBasketSubmitter>().ImplementedBy<EmailBasketSubmitter>().LifeStyle.Transient.Parameters( Parameter.ForKey( "smtpServer" ).Eq( "127.0.0.1" ), Parameter.ForKey( "mailFrom" ).Eq( "stuartclode@idnet.com" ), Parameter.ForKey( "mailTo" ).Eq( "stuartclode@idnet.com" ) ),
-                //Component.For<IFeedService>().ImplementedBy<FeedService>().LifeStyle.Transient,
-                //Component.For<IPostService>().ImplementedBy<PostService>().LifeStyle.Transient,
                 Component.For<IActionInvoker>().ImplementedBy<WindsorActionInvoker>().LifeStyle.Transient
             );
+
+            container.Register( Component.For<IHttpModule>()
+                       .ImplementedBy<PollingService>()
+                       .LifeStyle.Custom<PerHttpApplicationLifestyleManager>() );
         }
 
         private void RegisterControllerFactory()
@@ -242,5 +248,14 @@ namespace Jumblist.Website
         {
             container.Dispose();
         }
+
+        #region IContainerAccessor Members
+
+        public IWindsorContainer Container
+        {
+            get { return container; }
+        }
+
+        #endregion
     }  
 }

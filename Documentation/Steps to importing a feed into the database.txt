@@ -1,0 +1,71 @@
+Steps need to import a feed into a database
+===========================================
+
+1. Need a class which inherits from IHttpModule. This class is then registered in web.config
+
+2. This service will start up when the site is viewed and keep going. 
+
+3. Every set amount of time, a method is fired which will ...
+
+a. Fetch the feed
+b. Convert each item into a database insert command
+c. As each command is fired, it needs to figure out whether a copy already exists in the database
+d. if no copy exists then the command goes through and a new record is created 
+
+
+RSS Field                   Database Field
+
+title                       PostTitle
+link                        PostUrl
+description                 PostBody
+pubdate                     PostDateTime
+guid                        PostGuid
+
+This is useful
+http://msdn.microsoft.com/en-us/library/system.servicemodel.syndication.syndicationitem.aspx
+
+==========
+
+RSS Feeds
+
+http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml
+http://www.techmeme.com/firehose.xml
+http://search.twitter.com/search.rss?q=haiti
+
+==========
+
+Yahoo Freecycle pages
+
+
+example from below
+
+title = WANTED childrens puzzles                      
+link = http://groups.yahoo.com/group/hastings-freecycle/message/39580
+description = hello there does anyone have any childrens puzzles? my 2 daughters are loving puzzles at the moment. i have searched the charity shops and not found any.
+pubdate = Jan&nbsp;21,&nbsp;2010 1:20&nbsp;pm
+guid = 39580
+
+URL:
+http://groups.yahoo.com/group/hastings-freecycle/
+noostu
+edinburgh
+
+
+SOURCE CODE:
+<table class="ygrp-msgs" cellspacing="0" cellpadding="0">
+
+<tr class="firstrow"> <td>
+<div class="ygrp-msg"><a href="/group/hastings-freecycle/message/39580" class="ygrp-subj"><em>WANTED childrens puzzles</em></a>
+<div class="ygrp-msgsum">hello there does anyone have any childrens puzzles? my 2 daughters are loving puzzles at the moment. i have searched the charity shops and not found any.</div>
+</div>
+<div class="ygrp-date smalltype">Posted - Thu Jan&nbsp;21,&nbsp;2010 1:20&nbsp;pm</div>
+</td>
+<td class="ygrp-author">
+<span class="name">
+<a href="http://profiles.yahoo.com/mummyb31">mummyb31</a> </span>
+<br> <a href="ymsgr:sendIM?mummyb31" class="smalltype ygrp-nowrap" title="Offline"><img src="http://us.i1.yimg.com/us.yimg.com/i/mesg/notonline.gif" width="12" height="12" alt="Offline"> Offline</a>
+<br> <a href="/group/hastings-freecycle/post?postID=M6k4sjKzm8zZ4qHgtkTxqUWHfrQ-sqHH5tZLQ2c45ZxrUl5PhvG0LpPU2EO1OEwFa0lriqpA9QOHSzWggPVS" class="smalltype ygrp-nowrap" title="Send Email"><img src="http://us.i1.yimg.com/us.yimg.com/i/yg/img/ui/sendemail.gif" width="12" height="12" alt="Send Email"> Send Email</a>
+</td>
+</tr>
+
+</table>

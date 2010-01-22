@@ -23,6 +23,10 @@ namespace Jumblist.Core.Model
         [Column( Name = "PostParentId" )]
         public int ParentId { get; set; }
 
+        [Column( Name = "PostGuid" )]
+        [Required]
+        public string Guid { get; set; }
+
         [Column( Name = "PostUrl" )]
         [Required, DataType( DataType.Url )]
         public string Url { get; set; }

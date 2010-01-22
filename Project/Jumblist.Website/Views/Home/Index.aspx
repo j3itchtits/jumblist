@@ -11,6 +11,8 @@
 
     <h2>Home</h2>
     
+    <p>London weather: <%= HttpContext.Current.Items["Temp"] %></p>
+    
     <p><%= Html.ActionLink( "View All Posts", "list", "posts" ) %></p>
     
     <p><%= Html.ActionLink( "View All Tags", "list", "tags" ) %></p>
