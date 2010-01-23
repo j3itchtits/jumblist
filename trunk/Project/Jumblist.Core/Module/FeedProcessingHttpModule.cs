@@ -17,7 +17,7 @@ namespace Jumblist.Core.Module
     public class FeedProcessingHttpModule : IHttpModule
     {
         protected static Timer _timer;
-        protected static object _semaphore = new object();
+        protected static object _semaphore;
         protected static string _value;
 
         //private readonly IPostService postService;
@@ -27,18 +27,29 @@ namespace Jumblist.Core.Module
         //    this.postService = postService;
         //}
 
-
+        static FeedProcessingHttpModule()
+        {
+            _semaphore = new object();
+        }
 
         protected void DoWork( object state )
         {
             lock (_semaphore)
             {
-                var results = new DataSet();
-                results.ReadXml( @"http://weather.yahooapis.com/forecastrss?p=UKXX0085", XmlReadMode.Auto );
-                var description = (results.Tables["condition"].Rows[0]["text"]).ToString();
-                var temperature = (results.Tables["condition"].Rows[0]["temp"]).ToString();
-                var unit = (results.Tables["units"].Rows[0]["temperature"]).ToString();
-                _value = String.Format( "{0} {1} degrees {2}", description, temperature, unit );
+                try
+                {
+                    var results = new DataSet();
+                    results.ReadXml( @"http://weather.yahooapis.com/forecastrss?p=UKXX0085", XmlReadMode.Auto );
+                    var description = (results.Tables["condition"].Rows[0]["text"]).ToString();
+                    var temperature = (results.Tables["condition"].Rows[0]["temp"]).ToString();
+                    var unit = (results.Tables["units"].Rows[0]["temperature"]).ToString();
+                    _value = String.Format( "{0} {1} degrees {2}", description, temperature, unit );
+                }
+                catch
+                {
+                    return;
+                }
+
 
 
                 //http://bugsquash.blogspot.com/2009/11/windsor-managed-httpmodules.html
@@ -48,33 +59,32 @@ namespace Jumblist.Core.Module
 
                 XmlReader reader = XmlReader.Create( "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml" );
                 SyndicationFeed feed = SyndicationFeed.Load( reader );
+                reader.Close();
 
                 var postService = new StaticDatabaseAccess().GetService();
 
                 var list = postService.SelectList();
 
-
-
                 foreach (var item in feed.Items)
                 {
-                    var post = new Post();
-                    post.ParentId = 0;
-                    post.Guid = item.Id;
-                    post.Url = item.Links[0].Uri.ToString();
-                    post.Title = item.Title.Text;
-                    post.Body = item.Summary.Text;
-                    post.DateTime = item.PublishDate.LocalDateTime;
-                    post.PostCategoryId = 1;
-                    post.Display = false;
-                    post.UserId = 1;
-                    post.FeedId = 1;
-
                     if (!list.Any<Post>( p => p.Guid == item.Id ))
+                    {
+                        var post = new Post();
+                        post.ParentId = 0;
+                        post.Guid = item.Id;
+                        post.Url = item.Links[0].Uri.ToString();
+                        post.Title = item.Title.Text;
+                        post.Body = item.Summary.Text;
+                        post.DateTime = item.PublishDate.LocalDateTime;
+                        post.PostCategoryId = 1;
+                        post.Display = false;
+                        post.UserId = 1;
+                        post.FeedId = 1;
+                        post.PostTags = null;
+                        post.PostLocations = null;
                         postService.Save( post );
-
+                    }
                 }
-
-                reader.Close();
             }
         }
 

@@ -7,10 +7,22 @@ Steps need to import a feed into a database
 
 3. Every set amount of time, a method is fired which will ...
 
-a. Fetch the feed
-b. Convert each item into a database insert command
-c. As each command is fired, it needs to figure out whether a copy already exists in the database
-d. if no copy exists then the command goes through and a new record is created 
+a. Loop through all the feeds
+b. Fetch and process each feed - there has to be some kind of feed type that dictates how this step will happen - for each feed we need some kind of SyndicationFeed object which contains a list of items
+c. Foreach item in list - we need to figure out whether a copy already exists in the database
+d. If there is no copy then we need to create a Post object and map the item to the Post
+
+Fields that need some more thought
+- ParentId - how do we recognise an item that has already been posted (ie. a follow-up post indicating an item has been taken)
+- PostCategoryId - we need a method which scans each word in the Title field and returns a PostCategory depending on whether it finds "Wanted", "Offered" or "Taken". (if it is "Taken" then we can find the original item and assign a ParentId
+- Display - if there are any issues that need processing in the Admin section then Display needs to be set to false and an email sent out
+- UserId - we need to take the item.Author field and use it to either find an existing user or add a new user
+- FeedId - fairly straitforward
+- Tags - a list of tags created by scanning the title and body fields and comparing each word to a list from the Tags table - if no tags are found then Display needs to be set to false
+- Locations - a list of locations (hopefully only one - the nearest possible) created by scanning the title and body? fields and comparing each word to a list from the Locations table - if no locations are found then Display needs to be set to false (NOTE - each location in the locations table needs an associated feedid in order to narrow down the search)
+
+e. Save each (new) item to the database
+
 
 
 RSS Field                   Database Field
