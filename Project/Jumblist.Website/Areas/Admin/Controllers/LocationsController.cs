@@ -1,25 +1,22 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Mvc.Ajax;
 using Jumblist.Core.Model;
 using Jumblist.Website.Controllers;
-using Jumblist.Website.Filter;
 using Jumblist.Core.Service.Data;
 using xVal.ServerSide;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
 {
-    [CustomAuthorization( RoleLevelMinimum = RoleLevel.Editor )]
-    public class PostsController : ViewModelController<Post>
+    public class LocationsController : ViewModelController<Location>
     {
-        private IPostService postService;
+        private ILocationService locationService;
 
-        public PostsController( IPostService postService )
+        public LocationsController( ILocationService tagService )
         {
-            this.postService = postService;
+            this.locationService = tagService;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -31,10 +28,10 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult List()
         {
-            var list = postService.SelectList();
+            var list = locationService.SelectList();
 
             var model = BuildDefaultViewModel().With( list );
-            model.PageTitle = "All Posts";
+            model.PageTitle = "All Locations";
 
             return View( model );
         }
@@ -42,9 +39,9 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Create()
         {
-            var model = BuildDataEditDefaultViewModel().With( new Post() { DateTime = DateTime.Now } );
-            model.PageTitle = "Create a new post";
-            model.Message = new Message { Text = "You are about to create a post", StyleClass = "message" };
+            var model = BuildDataEditDefaultViewModel().With( new Location() );
+            model.PageTitle = "Create a new location";
+            model.Message = new Message { Text = "You are about to create a location", StyleClass = "message" };
 
             return View( "Edit", model );
         }
@@ -52,10 +49,10 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Edit( int id )
         {
-            var item = postService.Select( id );
+            var item = locationService.Select( id );
 
             var model = BuildDataEditDefaultViewModel().With( item );
-            model.PageTitle = string.Format( "Edit - {0}", item.Title );
+            model.PageTitle = string.Format( "Edit - {0}", item.Name );
             model.Message = new Message { Text = "You are about to edit something", StyleClass = "message" };
 
             return View( model );
@@ -63,11 +60,11 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
         [AcceptVerbs( HttpVerbs.Post )]
         [ValidateInput( false )]
-        public ActionResult Save( Post item )
+        public ActionResult Save( Location item )
         {
             try
             {
-                postService.Save( item );
+                locationService.Save( item );
             }
             catch (RulesException ex)
             {
@@ -76,13 +73,13 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                Message = new Message { Text = item.Title + " has been saved.", StyleClass = "message" };
+                Message = new Message { Text = item.Name + " has been saved.", StyleClass = "message" };
                 return RedirectToAction( "list" );
             }
             else
             {
                 var model = BuildDataEditDefaultViewModel().With( item );
-                model.PageTitle = string.Format( "Edit - {0}", item.Title );
+                model.PageTitle = string.Format( "Edit - {0}", item.Name );
                 model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
                 return View( "edit", model );
             }
@@ -91,10 +88,10 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Delete )]
         public ActionResult Delete( int id )
         {
-            var feed = postService.Select( id );
-            postService.Delete( feed );
+            var feed = locationService.Select( id );
+            locationService.Delete( feed );
 
-            var list = postService.SelectList();
+            var list = locationService.SelectList();
 
             return PartialView( "ListPartial", list );
         }

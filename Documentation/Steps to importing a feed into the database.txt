@@ -8,7 +8,7 @@ Steps need to import a feed into a database
 3. Every set amount of time, a method is fired which will ...
 
 a. Loop through all the feeds
-b. Fetch and process each feed - there has to be some kind of feed type that dictates how this step will happen - for each feed we need some kind of SyndicationFeed object which contains a list of items
+b. Fetch and process each feed - there has to be some kind of feed type that dictates how this step will happen - for each feed we need some kind of SyndicationFeed object which contains a list of items - type discovery (from a type "string" in a db) can be done via .net reflection
 c. Foreach item in list - we need to figure out whether a copy already exists in the database
 d. If there is no copy then we need to create a Post object and map the item to the Post
 

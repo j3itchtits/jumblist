@@ -10,5 +10,6 @@ namespace Jumblist.Core.Service.Data
         Post Select( int id );
         void Save( Post entity );
         void Delete( Post entity );
+        bool IsDuplicate( IQueryable<Post> list, string id );
     }
 }

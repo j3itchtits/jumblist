@@ -74,6 +74,9 @@
     <Reference Include="System.Data.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.ServiceModel.Web">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -95,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\LocationsController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostsController.cs" />
     <Compile Include="Areas\Admin\Controllers\FeedsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
@@ -122,6 +126,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Module\FeedProcessingHttpModule.cs" />
     <Compile Include="ViewModel\DefaultViewModel.cs" />
     <Compile Include="ViewModel\IViewModelBase.cs" />
     <Compile Include="ViewModel\PostViewModel.cs" />
@@ -191,6 +196,9 @@
   <ItemGroup>
     <Content Include="Areas\Admin\Views\Feeds\Edit.aspx" />
     <Content Include="Areas\Admin\Views\Feeds\ListPartial.ascx" />
+    <Content Include="Areas\Admin\Views\Locations\Edit.aspx" />
+    <Content Include="Areas\Admin\Views\Locations\List.aspx" />
+    <Content Include="Areas\Admin\Views\Locations\ListPartial.ascx" />
     <Content Include="Areas\Admin\Views\Posts\Edit.aspx" />
     <Content Include="Areas\Admin\Views\Posts\List.aspx" />
     <Content Include="Areas\Admin\Views\Posts\ListPartial.ascx" />
