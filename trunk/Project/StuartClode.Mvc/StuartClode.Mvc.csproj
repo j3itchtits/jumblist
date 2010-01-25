@@ -86,11 +86,8 @@
     <Compile Include="Helper\RegularExpressionString.cs" />
     <Compile Include="Extension\StringExtensions.cs" />
     <Compile Include="Extension\TypeExtensions.cs" />
-    <Compile Include="IoC\PerHttpApplicationLifestyleManager.cs" />
-    <Compile Include="IoC\PerHttpApplicationLifestyleModule.cs" />
     <Compile Include="IoC\WindsorActionInvoker.cs" />
     <Compile Include="IoC\WindsorControllerFactory.cs" />
-    <Compile Include="IoC\WindsorHttpModule.cs" />
     <Compile Include="IoC\WindsorServiceLocator.cs" />
     <Compile Include="Model\Entity.cs" />
     <Compile Include="Model\IEntity.cs" />

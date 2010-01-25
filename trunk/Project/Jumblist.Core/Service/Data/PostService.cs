@@ -48,8 +48,13 @@ namespace Jumblist.Core.Service.Data
             else
                 list = SelectList().Where( p => p.PostId != entity.PostId );
 
-            if (list.Any<Post>( p => p.Guid == entity.Guid ))
+            if ( IsDuplicate( list, entity.Guid ) )
                 throw new RulesException( "Post", "Duplicate Post", entity );
+        }
+
+        public bool IsDuplicate( IQueryable<Post> list, string id )
+        {
+            return list.Any<Post>( p => p.Guid == id );
         }
     }
 }

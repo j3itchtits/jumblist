@@ -10,8 +10,8 @@ using Castle.Windsor;
 using Castle.MicroKernel.Registration;
 using Jumblist.Website.Filter;
 using Jumblist.Website.Controllers;
+using Jumblist.Website.Module;
 using Jumblist.Core.Service;
-using Jumblist.Core.Module;
 using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Service;
 using StuartClode.Mvc.Extension;
@@ -20,7 +20,7 @@ using Microsoft.Practices.ServiceLocation;
 
 namespace Jumblist.Website
 {
-    public class MvcApplication : HttpApplication, IContainerAccessor
+    public class MvcApplication : HttpApplication
     {
         private static object _lock = new object();
         private static IWindsorContainer container;
@@ -101,7 +101,7 @@ namespace Jumblist.Website
         {
 
             container.Register(
-                Component.For<IDataContextProvider>().ImplementedBy<DataContextProvider>().LifeStyle.PerWebRequest,
+                Component.For<IDataContextProvider>().ImplementedBy<DataContextProvider>().LifeStyle.Transient,
                 Component.For<IConnectionStringProvider>().ImplementedBy<ConnectionStringProvider>().LifeStyle.Transient.Parameters( Parameter.ForKey( "connectionString" ).Eq( jumblistDbConnString ) ),
                 Component.For( typeof( IRepository<> ) ).ImplementedBy( typeof( Repository<> ) ).LifeStyle.Transient,
                 Component.For( typeof( IDataService<> ) ).ImplementedBy( typeof( DataService<> ) ).LifeStyle.Transient,
@@ -111,9 +111,9 @@ namespace Jumblist.Website
                 Component.For<IActionInvoker>().ImplementedBy<WindsorActionInvoker>().LifeStyle.Transient
             );
 
-            container.Register(
-                Component.For<IHttpModule>().ImplementedBy<FeedProcessingHttpModule>().LifeStyle.Custom<PerHttpApplicationLifestyleManager>()
-            );
+            //container.Register(
+            //    Component.For<IHttpModule>().ImplementedBy<FeedProcessingHttpModule>().LifeStyle.Custom<PerHttpApplicationLifestyleManager>()
+            //);
         }
 
         private void RegisterControllerFactory()
@@ -248,14 +248,5 @@ namespace Jumblist.Website
         {
             container.Dispose();
         }
-
-        #region IContainerAccessor Members
-
-        public IWindsorContainer Container
-        {
-            get { return container; }
-        }
-
-        #endregion
     }  
 }

@@ -69,6 +69,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
+        [ValidateInput( false )]
         public ActionResult Save( Feed item )
         {
             try

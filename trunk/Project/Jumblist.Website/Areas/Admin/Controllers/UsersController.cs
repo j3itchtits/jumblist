@@ -82,6 +82,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
+        [ValidateInput( false )]
         public ActionResult Save( User item )
         {
             try

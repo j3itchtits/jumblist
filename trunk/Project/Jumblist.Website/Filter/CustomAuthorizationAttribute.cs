@@ -27,8 +27,6 @@ namespace Jumblist.Website.Filter
                 return false;
             }
 
-            //var userService = ServiceLocator.Current.GetInstance<IUserService>();
-
             //Custom user authorisation against assigned roles
             var user = UserService.GetUser( httpContext.User.Identity.Name );
 
