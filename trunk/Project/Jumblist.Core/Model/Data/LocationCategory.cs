@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data.Linq.Mapping;
 using System.Data.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace Jumblist.Core.Model
 {
@@ -16,9 +17,11 @@ namespace Jumblist.Core.Model
         public int LocationCategoryId { get; set; }
 
         [Column( Name = "LocationCategoryName" )]
+        [Required( ErrorMessage = "Please enter a name" )]
+        [StringLength( 250 )]
         public string Name { get; set; }
 
-        [Association( Name = "FK_Locations_LocationCategories", Storage = "feeds", ThisKey = "LocationCategoryId", OtherKey = "LocationCategoryId", IsForeignKey = true )]
+        [Association( Name = "FK_Locations_LocationCategories", Storage = "locations", ThisKey = "LocationCategoryId", OtherKey = "LocationCategoryId", IsForeignKey = true )]
         public EntitySet<Location> Locations
         {
             get { return locations; }

@@ -81,6 +81,8 @@
     <Compile Include="Model\Tag.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\Data\IRoleService.cs" />
+    <Compile Include="Service\Data\RoleService.cs" />
     <Compile Include="Service\Data\ILocationService.cs" />
     <Compile Include="Service\Data\LocationService.cs" />
     <Compile Include="Service\Data\FeedService.cs" />
