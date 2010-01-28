@@ -60,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\BasicHttpRequestResponse.cs" />
     <Compile Include="Model\Basket.cs" />
     <Compile Include="Model\BasketUser.cs" />
     <Compile Include="Model\Data\LocationCategory.cs" />

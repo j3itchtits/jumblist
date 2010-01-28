@@ -16,7 +16,7 @@ namespace Jumblist.Website.Controllers
         [NonAction]
         public virtual DefaultViewModel<T> BuildDefaultViewModel()
         {
-            return DefaultView.Model<T>(); ;
+            return DefaultView.Model<T>();
         }
 
         [NonAction]
@@ -25,6 +25,12 @@ namespace Jumblist.Website.Controllers
             var viewModel = DefaultView.Model<T>();
             AddLookupListsToModel( viewModel );
             return viewModel;
+        }
+
+        [NonAction]
+        public virtual DefaultViewModel<T> BuildTestViewModel()
+        {
+            return DefaultView.Model<T>();
         }
 
         /// <summary>
