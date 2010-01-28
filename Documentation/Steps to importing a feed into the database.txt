@@ -7,8 +7,23 @@ Steps need to import a feed into a database
 
 3. Every set amount of time, a method is fired which will ...
 
-a. Loop through all the feeds
+a. Loop through all the feeds in the database table - feeds
+
 b. Fetch and process each feed - there has to be some kind of feed type that dictates how this step will happen - for each feed we need some kind of SyndicationFeed object which contains a list of items - type discovery (from a type "string" in a db) can be done via .net reflection
+
+This is a 2 step process
+- we need the source - this could be HTML, RSS, Atom (or something else?) - it also might need security credentials - a combination of reflection (based on feed type), the feed url and/or the feed username/password should tell us the class we need to use within our FeedSource generic
+- we need to process the source to produce a feed (basically a list of feed items) - note both the source and the feed object will be different types depending on the feed type read from the database - reflection based on feed type should tell us the class we need within our FeedOutput generic
+
+eg. 
+xml -> source = XmlReader object (eg. FeedSource<XmlReader>)
+html -> source = WebRequest object (actually a custom object based on WebRequest which i need to build - eg. FeedSource<HttpRequestResponse>)
+
+xml -> feed = SyndicationFeed (eg. FeedOutput<SyndicationFeed>)
+html -> feed = Custom object (broadly similar to SyndicationFeed - ie. a list with items that have certain properties such as id, title, body etc -  eg. FeedOutput<FreecycleYahooGroupFeed>)
+
+We then need a container class (eg. FeedContainer) with 2 properties - Source and Feed
+
 c. Foreach item in list - we need to figure out whether a copy already exists in the database
 d. If there is no copy then we need to create a Post object and map the item to the Post
 

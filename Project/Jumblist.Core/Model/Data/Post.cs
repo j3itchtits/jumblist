@@ -5,6 +5,7 @@ using System.Text;
 using System.Data.Linq.Mapping;
 using System.Data.Linq;
 using System.ComponentModel.DataAnnotations;
+using StuartClode.Mvc.Helper;
 
 namespace Jumblist.Core.Model
 {
@@ -21,6 +22,7 @@ namespace Jumblist.Core.Model
         public int PostId { get; set; }
 
         [Column( Name = "PostParentId" )]
+        [Required]
         public int ParentId { get; set; }
 
         [Column( Name = "PostGuid" )]
@@ -28,11 +30,14 @@ namespace Jumblist.Core.Model
         public string Guid { get; set; }
 
         [Column( Name = "PostUrl" )]
-        [Required, DataType( DataType.Url )]
+        [Required]
+        [StringLength( 500 )]
+        [RegularExpression( RegularExpressionString.Url, ErrorMessage = "You must supply a valid web link" )]
         public string Url { get; set; }
 
         [Column( Name = "PostTitle" )]
-        [Required, StringLength( 250 )]
+        [Required]
+        [StringLength( 250 )]
         public string Title { get; set; }
 
         [Column( Name = "PostBody" )]
@@ -40,7 +45,8 @@ namespace Jumblist.Core.Model
         public string Body { get; set; }
 
         [Column( Name = "PostDateTime" )]
-        [Required, DataType( DataType.DateTime )]
+        [Required]
+        [DataType( DataType.DateTime )]
         public DateTime DateTime { get; set; }
 
         [Column( Name = "PostLatitude" )]

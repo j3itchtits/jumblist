@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data.Linq.Mapping;
 using System.Data.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace Jumblist.Core.Model
 {
@@ -16,9 +17,12 @@ namespace Jumblist.Core.Model
         public int RoleId { get; set; }
 
         [Column( Name = "RoleLevel" )]
+        [Required]
         public int Level { get; set; }
 
         [Column( Name = "RoleName" )]
+        [Required( ErrorMessage = "Please enter a name" )]
+        [StringLength( 250 )]
         public string Name { get; set; }
 
         [Association( Name = "FK_Users_Roles", Storage = "users", ThisKey = "RoleId", OtherKey = "RoleId", IsForeignKey = true )]

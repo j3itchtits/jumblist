@@ -21,25 +21,32 @@ namespace Jumblist.Core.Model
         public int FeedId { get; set; }
 
         [Column( Name = "FeedTitle" )]
-        [Required(ErrorMessage="Please enter a title"), StringLength(250)]
+        [Required(ErrorMessage="Please enter a title")]
+        [StringLength(250)]
         public string Title { get; set; }
 
         [Column( Name = "FeedUrl" )]
-        [Required, DataType( DataType.Url )]
+        [Required( ErrorMessage = "Please enter a url" )]
+        [StringLength( 500 )]
+        [RegularExpression( RegularExpressionString.Url, ErrorMessage = "You must supply a valid url" )]
         public string Url { get; set; }
 
         [Column( Name = "FeedUsername" )]
+        [StringLength( 250 )]
         //[Price( MinPrice = 1.99 )]
         public string Username { get; set; }
 
         [Column( Name = "FeedPassword" )]
+        [StringLength( 250 )]
         public string Password { get; set; }
 
         [Column( Name = "FeedCheckIntervalTicks" )]
-        [Required, Range(5000,100000)]
+        [Required]
+        [Range(5000,100000)]
         public int CheckIntervalTicks { get; set; }
 
         [Column( Name = "FeedLastUpdateHttpStatus" )]
+        [StringLength( 3 )]
         public string LastUpdateHttpStatus { get; set; }
 
         [Column( Name = "FeedLastUpdateDateTime" )]

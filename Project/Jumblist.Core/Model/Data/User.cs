@@ -26,15 +26,13 @@ namespace Jumblist.Core.Model
         [Column( Name = "UserEmail" )]
         [Required]
         [RegularExpression( RegularExpressionString.Email, ErrorMessage = "You must supply a valid email address" )]
-        //[DataType( DataType.EmailAddress )]
         [StringLength( 250 )]
         public string Email { get; set; }
 
         [Column( Name = "UserPassword" )]
         [Required]
-        //[DataType( DataType.Password )]
-        [RegularExpression( RegularExpressionString.Password, ErrorMessage = "Your password must be between 6 and 50 characters in length and not contain any spaces" )]
         [StringLength( 50 )]
+        [RegularExpression( RegularExpressionString.Password, ErrorMessage = "Your password must be between 6 and 50 characters in length and not contain any spaces" )]
         public string Password { get; set; }
 
         [Column( Name = "UserPostcode" )]
@@ -42,9 +40,11 @@ namespace Jumblist.Core.Model
         public string Postcode { get; set; }
 
         [Column( Name = "UserSearchRadiusMiles" )]
+        [Required]
         public int SearchRadiusMiles { get; set; }
 
         [Column( Name = "UserLink" )]
+        [StringLength( 500 )]
         [RegularExpression( RegularExpressionString.Url, ErrorMessage = "You must supply a valid web link" )]
         public string Link { get; set; }
 
@@ -52,6 +52,8 @@ namespace Jumblist.Core.Model
         public bool IsActive { get; set; }
 
         [Column( Name = "UserDateCreated" )]
+        [Required]
+        [DataType( DataType.DateTime )]
         public DateTime DateCreated { get; set; }
 
         [Column( Name = "RoleId" )]

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data.Linq.Mapping;
 using System.Data.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace Jumblist.Core.Model
 {
@@ -16,6 +17,8 @@ namespace Jumblist.Core.Model
         public int FeedCategoryId { get; set; }
 
         [Column( Name = "FeedCategoryName" )]
+        [Required( ErrorMessage = "Please enter a name" )]
+        [StringLength( 250 )]
         public string Name { get; set; }
 
         [Association( Name = "FK_Feeds_FeedCategories", Storage = "feeds", ThisKey = "FeedCategoryId", OtherKey = "FeedCategoryId", IsForeignKey = true )]
