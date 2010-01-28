@@ -50,9 +50,6 @@ namespace Jumblist.Website
                 .Configure( c => c.LifeStyle.Transient )
             );
 
-            //Assembly.GetAssembly( typeof( UserService ) )
-            //Assembly.LoadFrom( "Jumblist.Core" )
-
             //container.Register( AllTypes
             //    .FromAssembly( Assembly.GetAssembly( typeof( UserService ) ) )
             //    .Where( type => type.Namespace.StartsWith( "Jumblist.Core.Service" ) )
