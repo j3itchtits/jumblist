@@ -17,11 +17,6 @@ namespace Jumblist.Core.Model
         private string _password;
         private Dictionary<string, string> _postParameters;
 
-        public BasicHttpRequestResponse( string url )
-        {
-            _url = url;
-        }
-
         public string UserName
         {
             get { return _userName; }
@@ -40,7 +35,7 @@ namespace Jumblist.Core.Model
             set { _postParameters = value; }
         }
 
-        public string SendGetRequest()
+        public string SecureGetRequest( string url )
         {
             string responseString;
             string eTag = "arse";
@@ -51,10 +46,10 @@ namespace Jumblist.Core.Model
             CredentialCache credCache = new CredentialCache();
             // Cached credentials can only be used when requested by
             // specific URLs and authorization schemes
-            credCache.Add( new Uri( _url ), "Basic", creds );
+            credCache.Add( new Uri( url ), "Basic", creds );
 
 
-            var request = WebRequest.Create( _url ) as HttpWebRequest;
+            var request = WebRequest.Create( url ) as HttpWebRequest;
 
             //request.Timeout = 1000;
             //request.Headers[HttpRequestHeader.IfNoneMatch] = eTag;
@@ -67,7 +62,7 @@ namespace Jumblist.Core.Model
 
             try
             {
-                var response = request.GetResponse();
+                var response = request.GetResponse() as HttpWebResponse;
                 var stream = new StreamReader( response.GetResponseStream() );
                 responseString = stream.ReadToEnd();
                 stream.Close();
@@ -88,11 +83,33 @@ namespace Jumblist.Core.Model
                 "Response : " + Environment.NewLine + responseString;
         }
 
-        public string SendPostRequest()
+        public static string BasicGetRequest( string url )
         {
             string responseString;
 
-            var address = new Uri( _url );
+            var request = WebRequest.Create( url ) as HttpWebRequest;
+            request.Method = "GET";
+
+            try
+            {
+                var response = request.GetResponse() as HttpWebResponse;
+                var stream = new StreamReader( response.GetResponseStream() );
+                responseString = stream.ReadToEnd();
+                stream.Close();
+            }
+            catch (WebException ex)
+            {
+                responseString = ex.Status + " - " + ex.Message;
+            }
+
+            return responseString;
+        }
+
+        public string SendPostRequest( string url )
+        {
+            string responseString;
+
+            var address = new Uri( url );
 
             var request = WebRequest.Create( address ) as HttpWebRequest;
             request.Method = "POST";  

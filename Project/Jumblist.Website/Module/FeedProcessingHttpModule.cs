@@ -20,61 +20,75 @@ namespace Jumblist.Website.Module
         protected static Timer _timer;
         private static object _lock = new object();
         protected static string _value;
-        protected static bool _start = true;
+        protected static bool _start = false;
 
         protected void DoWork( object state )
         {
+            
+
+
             lock (_lock)
             {
                 try
                 {
-                    var results = new DataSet();
-                    results.ReadXml( @"http://weather.yahooapis.com/forecastrss?p=UKXX0085", XmlReadMode.Auto );
-                    var description = (results.Tables["condition"].Rows[0]["text"]).ToString();
-                    var temperature = (results.Tables["condition"].Rows[0]["temp"]).ToString();
-                    var unit = (results.Tables["units"].Rows[0]["temperature"]).ToString();
-                    _value = String.Format( "{0} {1} degrees {2}", description, temperature, unit );
-
-                    //http://bugsquash.blogspot.com/2009/11/windsor-managed-httpmodules.html
-                    //http://stackoverflow.com/questions/1657473/ioc-dependancy-injection-into-custom-http-module-how-asp-net
+                    CopyRssToHttpContext();
+                    SaveRssToDatabase();
 
 
-                    XmlReader reader = XmlReader.Create( "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml" );
-                    //XmlReader reader = XmlReader.Create( "http://search.twitter.com/search.rss?q=haiti" );
-                    SyndicationFeed feed = SyndicationFeed.Load( reader );
-                    reader.Close();
-
-                    var postService = ServiceLocator.Current.GetInstance<IPostService>();
-
-                    var list = postService.SelectList();
-
-                    foreach (var item in feed.Items)
-                    {
-                        if (!(postService.IsDuplicate( list, item.Id )))
-                        {
-                            var post = new Post();
-                            post.ParentId = 0;
-                            post.Guid = item.Id;
-                            post.Url = item.Links[0].Uri.ToString();
-                            post.Title = item.Title.Text;
-                            post.Body = item.Summary.Text;
-                            post.DateTime = item.PublishDate.LocalDateTime;
-                            post.PostCategoryId = 1;
-                            post.Display = false;
-                            post.UserId = 1;
-                            post.FeedId = 1;
-                            //post.PostTags = null;
-                            //post.PostLocations = null;
-
-                            postService.Save( post );
-                        }
-                    }
                 }
                 catch (Exception ex)
                 {
                     //need to throw an error that can be caught by Elmah - by default the error gets handled by the web server which then crashes
                     //throw ex;
                     return;
+                }
+            }
+        }
+
+        private void CopyRssToHttpContext()
+        {
+            var results = new DataSet();
+            results.ReadXml( @"http://weather.yahooapis.com/forecastrss?p=UKXX0085", XmlReadMode.Auto );
+            var description = (results.Tables["condition"].Rows[0]["text"]).ToString();
+            var temperature = (results.Tables["condition"].Rows[0]["temp"]).ToString();
+            var unit = (results.Tables["units"].Rows[0]["temperature"]).ToString();
+            _value = String.Format( "{0} {1} degrees {2}", description, temperature, unit );
+        }
+
+        private void SaveRssToDatabase()
+        {
+            //http://bugsquash.blogspot.com/2009/11/windsor-managed-httpmodules.html
+            //http://stackoverflow.com/questions/1657473/ioc-dependancy-injection-into-custom-http-module-how-asp-net
+
+            XmlReader reader = XmlReader.Create( "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml" );
+            //XmlReader reader = XmlReader.Create( "http://search.twitter.com/search.rss?q=haiti" );
+
+            SyndicationFeed feed = SyndicationFeed.Load( reader );
+            reader.Close();
+
+            var postService = ServiceLocator.Current.GetInstance<IPostService>();
+
+            var list = postService.SelectList();
+
+            foreach (var item in feed.Items)
+            {
+                if (!(postService.IsDuplicate( list, item.Id )))
+                {
+                    var post = new Post();
+                    post.ParentId = 0;
+                    post.Guid = item.Id;
+                    post.Url = item.Links[0].Uri.ToString();
+                    post.Title = item.Title.Text;
+                    post.Body = item.Summary.Text;
+                    post.DateTime = item.PublishDate.LocalDateTime;
+                    post.PostCategoryId = 1;
+                    post.Display = false;
+                    post.UserId = 1;
+                    post.FeedId = 1;
+                    //post.PostTags = null;
+                    //post.PostLocations = null;
+
+                    postService.Save( post );
                 }
             }
         }
