@@ -7,14 +7,12 @@ using System.Web.Mvc.Ajax;
 using System.Web.Security;
 using Microsoft.Practices.ServiceLocation;
 using Jumblist.Core.Service.Data;
-using Jumblist.Core.Model;
+using Jumblist.Website.Module;
 using System.Xml;
 using System.ServiceModel.Syndication;
 using Jumblist.Website.ViewModel;
-using System.Net;
-using System.IO;
-using Microsoft.Web.Testing.Light;
-using System.Text.RegularExpressions;
+using System.Reflection;
+
 
 namespace Jumblist.Website.Controllers
 {
@@ -39,45 +37,31 @@ namespace Jumblist.Website.Controllers
         {
 
             //XmlReader reader = XmlReader.Create( "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml" );
-            XmlReader feedSource = XmlReader.Create( "http://search.twitter.com/search.rss?q=haiti" );
-            SyndicationFeed feedOutput = SyndicationFeed.Load( feedSource );
+            //XmlReader feedSource = XmlReader.Create( "http://search.twitter.com/search.rss?q=haiti" );
+            //SyndicationFeed feedOutput = SyndicationFeed.Load( feedSource );
 
-            //HttpWebRequest request = WebRequest.Create( "http://news.bbc.co.uk/" ) as HttpWebRequest;
-            //request.Method = "GET";
-            //HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-            //var stream = new StreamReader( response.GetResponseStream() );
-            //string feedSource1 = stream.ReadToEnd();
+            var feedOutput = (SyndicationFeed)Type.GetType( "Jumblist.Website.Module.CustomSyndicationFeed" )
+                .GetMethod( "Load" )
+                .Invoke( null, new object[] { "http://search.twitter.com/search.rss?q=haiti" } );
 
-            string feedSource1 = BasicHttpRequestResponse.BasicGetRequest( "http://news.bbc.co.uk/" );
-            feedSource1 = Regex.Replace( feedSource1, @"\<\!DOCTYPE.*?\>", String.Empty );
+            var feedOutput1 = (SyndicationFeed)Type.GetType( "Jumblist.Website.Module.BbcCustomHttpFeed" )
+                .GetMethod( "Load" )
+                .Invoke( null, new object[] { "http://news.bbc.co.uk" } );
 
-            HtmlElement rootElement = HtmlElement.Create( feedSource1 );
+            //string feedSource = HttpReader.Create( "http://www.google.co.uk/ig?hl=en&source=iglk" );
+            //string feedSource = HttpReader.Create( "http://www.google.com/calendar/feeds/default/private/full?q=null+item" );
 
-            // identify the div rows
-            HtmlElementFindParams findParams1 = new HtmlElementFindParams();
-            findParams1.TagName = "div";
-            findParams1.Attributes.Add( "class", "wgreylinebottom" );
-            findParams1.Index = 0;
+            string feedSource = HttpReader.GoogleAuthManagerExample( "http://www.google.com/calendar/feeds/default/private/full?q=null+item", "theclodes", "Edinb8rgh" );
+            //string feedSource = HttpReader.GoogleAuthManagerExample( "https://mail.google.com/mail", "theclodes", "Edinb8rgh" );
 
-            //HtmlElement divModule = rootElement.ChildElements.FindAll( findParams1 )[0];
-            HtmlElement divModule = rootElement.ChildElements.Find( findParams1 );
-
-            //// identify the div rows
-            HtmlElementFindParams findParams2 = new HtmlElementFindParams();
-            findParams2.TagName = "div";
-            findParams2.Attributes.Add( "class", "arr" );
-
-            //string feedOutput1 = divModule.CachedInnerTextRecursive;
-            string feedOutput1 = string.Empty;
-
-            //find all the post rows
-            foreach (HtmlElement div in divModule.ChildElements.FindAll( findParams2 ))
-            {
-                feedOutput1 += div.CachedInnerTextRecursive + "<br>";
-            }
+            //SyndicationFeed feedOutput = CustomSyndicationFeed.Load( "http://search.twitter.com/search.rss?q=haiti" );
+            //SyndicationFeed feedOutput1 = BbcCustomHttpFeed.Load( "http://news.bbc.co.uk/" );
 
             //var model = DefaultView.Model<SyndicationFeed>().With( feed ).WithPageTitle( "Testing" );
-            var model = TestView.Model<SyndicationFeed>().With( feedOutput ).WithPageTitle( feedOutput1 );
+            //var model = TestView.Model().With( feedOutput ).With( feedOutput1 ).WithPageTitle( "Testing testing" );
+
+            //var model = TestView.Model().With( feedOutput ).WithPageTitle( "Testing testing" );
+            var model = TestView.Model().With( feedOutput1 ).With( feedSource ).WithPageTitle( "Testing with custom synd feed" );
 
             return View( model );
         }

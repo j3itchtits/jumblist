@@ -5,13 +5,13 @@ using System.Web;
 using System.Threading;
 using System.Data;
 using System.Xml;
-using Jumblist.Core.Model;
+using Jumblist.Website.Module;
 using System.ServiceModel.Syndication;
 using Jumblist.Core.Service.Data;
 using StuartClode.Mvc.Service;
 using StuartClode.Mvc.Repository;
 using Microsoft.Practices.ServiceLocation;
-using Jumblist.Core;
+using Jumblist.Core.Model;
 
 namespace Jumblist.Website.Module
 {
@@ -24,8 +24,6 @@ namespace Jumblist.Website.Module
 
         protected void DoWork( object state )
         {
-            
-
 
             lock (_lock)
             {
@@ -57,6 +55,8 @@ namespace Jumblist.Website.Module
 
         private void SaveRssToDatabase()
         {
+            //See notes at Steps to importing a feed into the database.txt for further explanation
+
             //http://bugsquash.blogspot.com/2009/11/windsor-managed-httpmodules.html
             //http://stackoverflow.com/questions/1657473/ioc-dependancy-injection-into-custom-http-module-how-asp-net
 

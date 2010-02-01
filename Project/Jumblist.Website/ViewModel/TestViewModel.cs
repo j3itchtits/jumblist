@@ -18,13 +18,20 @@ namespace Jumblist.Website.ViewModel
         }
     }
 
-    public class TestViewModel
+    public class TestViewModel : ViewModelBase
     {
         public SyndicationFeed Feed { get; set; }
+        public string HttpResponse { get; set; }
 
         public TestViewModel With( SyndicationFeed feed )
         {
             Feed = feed;
+            return this;
+        }
+
+        public TestViewModel With( string httpResponse )
+        {
+            HttpResponse = httpResponse;
             return this;
         }
     }
