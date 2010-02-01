@@ -8,7 +8,7 @@ using System.Text;
 using System.Collections.Specialized;
 using System.Collections;
 
-namespace Jumblist.Core.Model
+namespace Jumblist.Website.Module
 {
     public class BasicHttpRequestResponse
     {
