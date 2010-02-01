@@ -5,6 +5,7 @@
    { %>
         <tr class="item">
             <td><%= Html.Encode( post.Title ) %></td>  
+            <td><%= Html.Encode( post.PostCategory.Name ) %></td>  
             <td><%= Html.ActionLink( "Edit", "edit", new { id = post.PostId } )%></td>  
             <td><%= Ajax.ActionLink( "Delete", "delete", new { id = post.PostId }, new AjaxOptions { Confirm = "Delete '" + post.Title + "' Post?", HttpMethod = "Delete", UpdateTargetId = "itemsList" } )%></td> 
         </tr> 

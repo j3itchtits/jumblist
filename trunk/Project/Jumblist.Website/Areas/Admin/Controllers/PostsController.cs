@@ -9,6 +9,8 @@ using Jumblist.Website.Controllers;
 using Jumblist.Website.Filter;
 using Jumblist.Core.Service.Data;
 using xVal.ServerSide;
+using StuartClode.Mvc.Service;
+using Jumblist.Website.ViewModel;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
 {
@@ -16,10 +18,12 @@ namespace Jumblist.Website.Areas.Admin.Controllers
     public class PostsController : ViewModelController<Post>
     {
         private IPostService postService;
+        private IDataService<PostCategory> postCategoryService;
 
-        public PostsController( IPostService postService )
+        public PostsController(IPostService postService, IDataService<PostCategory> postCategoryService)
         {
             this.postService = postService;
+            this.postCategoryService = postCategoryService;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -94,9 +98,68 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             var feed = postService.Select( id );
             postService.Delete( feed );
 
-            var list = postService.SelectList();
+            var model = postService.SelectList();
 
-            return PartialView( "ListPartial", list );
+            return PartialView("ListPartial", model);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ViewResult CategoryList()
+        {
+            var list = postCategoryService.SelectList();
+
+            var model = DefaultView.Model<PostCategory>().With(list);
+            model.PageTitle = "Post Categories";
+
+            return View("CategoryList", model);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ViewResult CategoryEdit(int id)
+        {
+            var item = postCategoryService.Select(id);
+
+            var model = DefaultView.Model<PostCategory>().With(item);
+            model.PageTitle = string.Format("Edit - {0}", item.Name);
+            model.Message = new Message { Text = "You are about to edit something", StyleClass = "message" };
+
+            return View(model);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ViewResult CategoryCreate()
+        {
+            var model = DefaultView.Model<PostCategory>().With(new PostCategory());
+            model.PageTitle = "Create a new category";
+            model.Message = new Message { Text = "You are about to create a post category", StyleClass = "message" };
+
+            return View("CategoryEdit", model);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CategorySave(PostCategory item)
+        {
+            try
+            {
+                postCategoryService.Save(item);
+            }
+            catch (RulesException ex)
+            {
+                ex.AddModelStateErrors(ModelState, "Item");
+            }
+
+            if (ModelState.IsValid)
+            {
+                Message = new Message { Text = item.Name + " has been saved.", StyleClass = "message" };
+                return RedirectToAction("categorylist");
+            }
+            else
+            {
+                var model = DefaultView.Model<PostCategory>().With(item);
+                model.PageTitle = string.Format("Edit - {0}", item.Name);
+                model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+                return View("categoryedit", model);
+            }
         }
     }
 }
