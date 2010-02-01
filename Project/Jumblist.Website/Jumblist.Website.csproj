@@ -200,6 +200,8 @@
     <Content Include="Views\Users\LoginLinksUnauthenticated.ascx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Views\Posts\CategoryList.aspx" />
+    <Content Include="Areas\Admin\Views\Posts\CategoryEdit.aspx" />
     <Content Include="Areas\Admin\Views\Roles\Edit.aspx" />
     <Content Include="Areas\Admin\Views\Roles\List.aspx" />
     <Content Include="Areas\Admin\Views\Roles\ListPartial.ascx" />
