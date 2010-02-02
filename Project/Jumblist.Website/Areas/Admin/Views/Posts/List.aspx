@@ -27,6 +27,6 @@
 
 <asp:Content ID="Content4" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <%= Html.ActionLink( "Post Categories", "categorylist" )%>
+    <%= Html.ActionLink( "Categories", "categorylist" )%>
 
 </asp:Content>
