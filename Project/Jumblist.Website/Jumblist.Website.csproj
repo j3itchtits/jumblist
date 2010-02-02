@@ -205,6 +205,8 @@
   <ItemGroup>
     <Content Include="Areas\Admin\Views\Feeds\CategoryEdit.aspx" />
     <Content Include="Areas\Admin\Views\Feeds\CategoryList.aspx" />
+    <Content Include="Areas\Admin\Views\Locations\CategoryEdit.aspx" />
+    <Content Include="Areas\Admin\Views\Locations\CategoryList.aspx" />
     <Content Include="Areas\Admin\Views\Posts\CategoryList.aspx" />
     <Content Include="Areas\Admin\Views\Posts\CategoryEdit.aspx" />
     <Content Include="Areas\Admin\Views\Roles\Edit.aspx" />

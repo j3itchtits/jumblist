@@ -1,0 +1,35 @@
+Search
+ 
+Options
+ 
+1. 
+One text box for inputting search terms
+Phrases (ie. more than one word) need to entered with quotes (eg. "broad oak" becomes broak-oak and "bath rug" becomes bath-rug)
+User is not logged in
+ 
+a. If user does not type anything then display a full paginated list of posts
+ 
+b. User types in one word (or phrases)
+ - see if quotes are used and separate words/phrases into an array of search terms
+ - this word is first checked to see if it is a postcode - if it is a postcode (either full or partial) then check through locations -> postlocations using the first portion of the postcode and return a paginated list of posts (/posts/location/tn31)
+ - if it is not a postcode then check word against tags -> posttags and return a paginated list of posts (/posts/tag/sofa)
+ - if there is no match to a tag then check word against locations -> postlocations and return a paginated list of posts (/posts/location/hastings)
+ - if there is still no match then perform a regular search (/search?q=wii)
+ 
+c. User types in two words (or phrases)
+ - see if quotes are used and separate words/phrases into an array of search terms
+ - if both words match postcodes then both words are added to a location string array then check through locations -> postlocations using the first portion of the postcode and return a paginated list of posts (/posts/location/tn31+tn32)
+ - if one word is postcode then that word is added to a location string array and the second word is checked against tags and then against locations if not tag match (either /posts/location/tn31+brede or /posts/taglocation/sofa+tn31
+ - if there is no postcode then check each word against first tags and then locations adding each word to the approriate string array (either /posts/tag/sofa+bath-rug or /posts/taglocation/sofa+brede or posts/location/brede+broad-oak)
+ - if one word matches a tag or location and the other matches nothing then we display a paginated list of posts with the a search filter (either posts/tag/sofa?q=wii or posts/location/brede?q=wii)
+ - if both words match nothing then perform a regular search (posts/search?q=wii+melbourne)
+ 
+d. User types in more than two words (or phrases)
+ - see if quotes are used and separate words/phrases into an array of search terms
+ - either all locations (posts/location/tn31+brede+broad-oak) or tags (posts/tag/sofa+apron+chair)
+ - if they are a mix then (posts/search?tag=sofa&location=brede+broad-oak)
+ - some are found in tags and/or locations and some are not (posts/search/?tag=sofa&location=brede&q=wii)
+ 
+
+2.
+User is logged in and so they get an extra check box that asks "Search near where i live?". If ticked then we use their postcode in the search.

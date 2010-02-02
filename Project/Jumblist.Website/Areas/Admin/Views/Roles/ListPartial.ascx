@@ -4,7 +4,7 @@
 <% foreach ( var entity in Model )
    { %>
         <tr class="item">
-            <td><%= Html.Encode( entity.Name )%></td>  
+            <td class="bold"><%= Html.Encode( entity.Name )%></td>  
             <td><%= Html.ActionLink( "Edit", "edit", new { id = entity.RoleId } )%></td>  
             <td><%= Ajax.ActionLink( "Delete", "delete", new { id = entity.RoleId }, new AjaxOptions { Confirm = "Delete '" + entity.Name + "' Post?", HttpMethod = "Delete", UpdateTargetId = "itemsList" } )%></td> 
         </tr> 

@@ -12,6 +12,7 @@
 th, td, p
 { 
 	padding: 4px; 
+	vertical-align: top;
 }
 
 h2 
@@ -78,6 +79,11 @@ table.grid td, table.grid th
 .text-lower 
 {
         text-transform: lowercase;
+}
+
+.bold
+{
+	font-weight: bold;
 }
 
 .field-validation-error { color: red; }

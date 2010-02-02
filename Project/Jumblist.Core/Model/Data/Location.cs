@@ -18,8 +18,7 @@ namespace Jumblist.Core.Model
         public int LocationId { get; set; }
 
         [Column( Name = "LocationParentId" )]
-        [Required]
-        public int ParentId { get; set; }
+        public int? ParentId { get; set; }
 
         [Column( Name = "LocationName" )]
         [Required]
