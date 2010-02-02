@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Areas/Admin/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel<PostCategory>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Areas/Admin/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel<LocationCategory>>" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="HeadContentTitle" runat="server">
     <%= Model.PageTitle %>
@@ -17,8 +17,7 @@
         <% foreach ( var category in Model.List ) { %>
                 <tr class="item">
                     <td><%= category.Name%></td> 
-                    <td><%= Html.ActionLink( "Edit", "categoryedit", new { id = category.PostCategoryId } )%></td> 
-                    <td><%= Html.ActionLink( "List Posts", "listbycategory", new { id = category.PostCategoryId } )%></td> 
+                    <td><%= Html.ActionLink( "Edit", "categoryedit", new { id = category.LocationCategoryId } )%></td> 
                 </tr>            
         <% } %>
         </table>

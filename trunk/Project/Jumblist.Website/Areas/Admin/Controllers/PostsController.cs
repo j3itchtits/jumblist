@@ -19,11 +19,13 @@ namespace Jumblist.Website.Areas.Admin.Controllers
     {
         private IPostService postService;
         private IDataService<PostCategory> postCategoryService;
+        private IDataService<Feed> feedService;
 
-        public PostsController(IPostService postService, IDataService<PostCategory> postCategoryService)
+        public PostsController( IPostService postService, IDataService<PostCategory> postCategoryService, IDataService<Feed> feedService )
         {
             this.postService = postService;
             this.postCategoryService = postCategoryService;
+            this.feedService = feedService;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -160,6 +162,30 @@ namespace Jumblist.Website.Areas.Admin.Controllers
                 model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
                 return View("categoryedit", model);
             }
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ViewResult ListByCategory( int id )
+        {
+            var item = postCategoryService.Select( id );
+            var list = postService.SelectList().Where( x => x.PostCategoryId == id );
+
+            var model = BuildDefaultViewModel().With( list );
+            model.PageTitle = "All Posts by Category - " + item.Name;
+
+            return View( "list", model );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ViewResult ListByFeed( int id )
+        {
+            var item = feedService.Select( id );
+            var list = postService.SelectList().Where( x => x.FeedId == id );
+
+            var model = BuildDefaultViewModel().With( list );
+            model.PageTitle = "All Posts by Feed - " + item.Title;
+
+            return View( "list", model );
         }
     }
 }

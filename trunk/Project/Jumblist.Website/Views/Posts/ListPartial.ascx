@@ -5,7 +5,7 @@
    { %>
         <tr class="item">
             <td><%= post.Title %></td>  
-            <td><%= post.PostCategory.Name %></td>
+            <td><%= post.Category.Name %></td>
             <td><%= Html.ActionLink( "Detail", "detail", new { id = post.PostId } )%></td>  
             <td><%= Html.ActionLink( "Edit", "edit", new { id = post.PostId } )%></td>  
             <td><%= Html.ActionLink( "Delete", "delete", new { id = post.PostId } )%></td>  

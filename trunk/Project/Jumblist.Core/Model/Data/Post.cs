@@ -63,7 +63,7 @@ namespace Jumblist.Core.Model
         public int PostCategoryId { get; set; }
 
         [Association( Name = "FK_Posts_PostCategories", Storage = "postCategory", ThisKey = "PostCategoryId", OtherKey = "PostCategoryId", IsForeignKey = true )]
-        public PostCategory PostCategory
+        public PostCategory Category
         {
             get { return postCategory.Entity; }
             set { postCategory.Entity = value; PostCategoryId = value.PostCategoryId; }

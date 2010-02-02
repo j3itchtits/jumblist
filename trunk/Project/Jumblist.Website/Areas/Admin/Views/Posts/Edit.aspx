@@ -27,7 +27,7 @@
         </tr>
         <tr>
             <td><label for="Item.Body">Body:</label></td>
-            <td><%= Html.TextAreaFor( m => m.Item.Body, new { @rows = "10", @cols = "120" } )%>
+            <td><%= Html.TextAreaFor( m => m.Item.Body, new { @rows = "10", @cols = "100" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.Body )%></td>
         </tr>
         <tr>
@@ -67,7 +67,9 @@
         </tr> 
         
         </table>
-                 
+
+
+                     
         <p>
             <%= Html.SubmitButton( "submit", "Save" ) %>
         </p>
@@ -88,5 +90,35 @@
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="BodyContentRight" runat="server">
+
+    <div class="post-locations">
+        <table>
+        <tr><td colspan="2"><b>Locations: </b></td></tr>
+        <%  foreach ( var postLocation in Model.Item.PostLocations )
+            { %>
+                <tr>
+                <td><%= postLocation.Location.Name %></td>  
+                <td><%= Html.ActionLink( "Delete", "locationdelete", new { id = postLocation.Id } )%></td> 
+                </tr>
+        <%  } %>
+        <tr><td colspan="2"><%= Html.ActionLink( "Create", "locationcreate" )%></td></tr>   
+        </table>
+    </div>
+    
+    <br /><br />
+    <div class="post-tags">
+        <table>
+        <tr><td colspan="2"><b>Tags: </b></td></tr>
+        <%  foreach ( var postTag in Model.Item.PostTags )
+            { %>
+                <tr>
+                <td><%= postTag.Tag.Name%></td>  
+                <td><%= Html.ActionLink( "Delete", "tagdelete", new { id = postTag.Id } )%></td> 
+                </tr>
+        <%  } %>
+        <tr><td colspan="2"><%= Html.ActionLink( "Create", "tagcreate" )%></td></tr>   
+        </table>
+    </div>
+        
 </asp:Content>
 

@@ -11,7 +11,7 @@
         <div>Url: <a href="<%= Model.Item.Url %>" target="_blank">Linkback</a></div>     
         <div>Body: <%= Model.Item.Body %></div> 
         <div>Date: <%= Model.Item.DateTime.ToShortDateString() %></div> 
-        <div>Category: <%= Model.Item.PostCategory.Name %></div> 
+        <div>Category: <%= Model.Item.Category.Name %></div> 
         <div>Lat: <%= Model.Item.Latitude.ToString() %></div> 
         <div>Long: <%= Model.Item.Longitude.ToString() %></div> 
         <div>Display?: <%= Model.Item.Display.ToString() %></div> 

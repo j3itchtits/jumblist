@@ -1,12 +1,13 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<IEnumerable<Location>>" %>
 
 <table class="list">
-<% foreach ( var entity in Model )
+<% foreach ( var location in Model )
    { %>
         <tr class="item">
-            <td><%= Html.Encode( entity.Name )%></td>  
-            <td><%= Html.ActionLink( "Edit", "edit", new { id = entity.LocationId } )%></td>  
-            <td><%= Ajax.ActionLink( "Delete", "delete", new { id = entity.LocationId }, new AjaxOptions { Confirm = "Delete '" + entity.Name + "' Post?", HttpMethod = "Delete", UpdateTargetId = "itemsList" } )%></td> 
+            <td class="bold"><%= Html.Encode( location.Name )%></td>  
+            <td><%= Html.Encode( location.Category.Name )%></td>  
+            <td><%= Html.ActionLink( "Edit", "edit", new { id = location.LocationId } )%></td>  
+            <td><%= Ajax.ActionLink( "Delete", "delete", new { id = location.LocationId }, new AjaxOptions { Confirm = "Delete '" + location.Name + "' Post?", HttpMethod = "Delete", UpdateTargetId = "itemsList" } )%></td> 
         </tr> 
 <% } %>
 </table>         

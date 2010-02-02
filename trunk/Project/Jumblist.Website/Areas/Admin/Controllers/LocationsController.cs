@@ -7,16 +7,20 @@ using Jumblist.Core.Model;
 using Jumblist.Website.Controllers;
 using Jumblist.Core.Service.Data;
 using xVal.ServerSide;
+using StuartClode.Mvc.Service;
+using Jumblist.Website.ViewModel;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
 {
     public class LocationsController : ViewModelController<Location>
     {
         private ILocationService locationService;
+        private IDataService<LocationCategory> locationCategoryService;
 
-        public LocationsController( ILocationService tagService )
+        public LocationsController( ILocationService tagService, IDataService<LocationCategory> locationCategoryService )
         {
             this.locationService = tagService;
+            this.locationCategoryService = locationCategoryService;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -94,6 +98,65 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             var list = locationService.SelectList();
 
             return PartialView( "ListPartial", list );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ViewResult CategoryList()
+        {
+            var list = locationCategoryService.SelectList();
+
+            var model = DefaultView.Model<LocationCategory>().With( list );
+            model.PageTitle = "Location Categories";
+
+            return View( "CategoryList", model );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ViewResult CategoryEdit( int id )
+        {
+            var item = locationCategoryService.Select( id );
+
+            var model = DefaultView.Model<LocationCategory>().With( item );
+            model.PageTitle = string.Format( "Edit - {0}", item.Name );
+            model.Message = new Message { Text = "You are about to edit something", StyleClass = "message" };
+
+            return View( model );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ViewResult CategoryCreate()
+        {
+            var model = DefaultView.Model<LocationCategory>().With( new LocationCategory() );
+            model.PageTitle = "Create a new category";
+            model.Message = new Message { Text = "You are about to create a category", StyleClass = "message" };
+
+            return View( "CategoryEdit", model );
+        }
+
+        [AcceptVerbs( HttpVerbs.Post )]
+        public ActionResult CategorySave( LocationCategory item )
+        {
+            try
+            {
+                locationCategoryService.Save( item );
+            }
+            catch ( RulesException ex )
+            {
+                ex.AddModelStateErrors( ModelState, "Item" );
+            }
+
+            if ( ModelState.IsValid )
+            {
+                Message = new Message { Text = item.Name + " has been saved.", StyleClass = "message" };
+                return RedirectToAction( "categorylist" );
+            }
+            else
+            {
+                var model = DefaultView.Model<LocationCategory>().With( item );
+                model.PageTitle = string.Format( "Edit - {0}", item.Name );
+                model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+                return View( "categoryedit", model );
+            }
         }
     }
 }
