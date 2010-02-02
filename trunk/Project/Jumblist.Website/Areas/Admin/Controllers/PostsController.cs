@@ -131,7 +131,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             var model = DefaultView.Model<PostCategory>().With(new PostCategory());
             model.PageTitle = "Create a new category";
-            model.Message = new Message { Text = "You are about to create a post category", StyleClass = "message" };
+            model.Message = new Message { Text = "You are about to create a category", StyleClass = "message" };
 
             return View("CategoryEdit", model);
         }
