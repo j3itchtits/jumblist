@@ -7,7 +7,7 @@
             <td class="bold"><a href="<%= Html.Encode( post.Url ) %>"><%= Html.Encode( post.Title ) %></a></td>  
             <td><%= Html.ActionLink( Html.Encode( post.Category.Name ), "listbycategory", new { id = post.PostCategoryId } )%></td>  
             <td><%= Html.ActionLink( Html.Encode( post.User.Name ), "listbyuser", new { id = post.UserId } )%></td>  
-            <td><%= Html.ActionLink( Html.Encode( post.Feed.Title ), "listbyfeed", new { id = post.FeedId, name = post.Feed.Title } )%></td>  
+            <td><%= Html.ActionLink( Html.Encode( post.Feed.Name ), "listbyfeed", new { id = post.FeedId, name = post.Feed.Name } )%></td>  
             <td><%= Html.Encode( post.Display.ToString() ) %></td> 
             <td><%= Html.Encode( post.DateTime.ToString() ) %></td> 
             <td><%= Html.ActionLink( "Edit", "edit", new { id = post.PostId } )%></td>  

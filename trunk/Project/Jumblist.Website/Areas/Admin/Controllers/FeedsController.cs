@@ -66,7 +66,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             var item = feedService.Select( id );
 
             var model = BuildDataEditDefaultViewModel().With( item );
-            model.PageTitle = string.Format( "Edit - {0}", item.Title );
+            model.PageTitle = string.Format( "Edit - {0}", item.Name );
             model.Message = new Message { Text = "You are about to edit something", StyleClass = "message" };
 
             return View( model );
@@ -87,13 +87,13 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                Message = new Message { Text = item.Title + " has been saved.", StyleClass = "message" };
+                Message = new Message { Text = item.Name + " has been saved.", StyleClass = "message" };
                 return RedirectToAction( "list" );
             }
             else
             {
                 var model = BuildDataEditDefaultViewModel().With( item );
-                model.PageTitle = string.Format( "Edit - {0}", item.Title );
+                model.PageTitle = string.Format( "Edit - {0}", item.Name );
                 model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
                 return View( "edit", model );
             }

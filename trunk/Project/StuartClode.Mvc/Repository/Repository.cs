@@ -38,6 +38,28 @@ namespace StuartClode.Mvc.Repository
             return item;
         }
 
+        public virtual T Select( string name )
+        {
+            var entityParameter = Expression.Parameter( typeof( T ), "entity" );
+            var nameProperty = typeof( T ).GetProperty( "Name" ).Name;
+
+            if (nameProperty == null)
+                throw new ApplicationException( string.Format( "This type {0} does not have a name property", typeof( T ).FullName ) );
+
+            var whereExpression =
+                Expression.Lambda<Func<T, bool>>(
+                    Expression.Equal( Expression.Property( entityParameter, nameProperty ), Expression.Constant( name ) ),
+                    new[] { entityParameter }
+                );
+
+            var item = SelectList().SingleOrDefault( whereExpression );
+
+            if (item == null)
+                throw new ArgumentException( string.Format( "No name property with value {0} found", name ) );
+
+            return item;
+        }
+
         public virtual IQueryable<T> SelectList()
         {
             return dataContext.GetTable<T>();
@@ -73,6 +95,11 @@ namespace StuartClode.Mvc.Repository
         object IRepository.Select( int id )
         {
             return Select( id );
+        }
+
+        object IRepository.Select( string name )
+        {
+            return Select( name );
         }
 
         IQueryable IRepository.SelectList()

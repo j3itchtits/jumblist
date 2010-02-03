@@ -9,22 +9,20 @@ namespace StuartClode.Mvc.Extension
 {
     public static class TypeExtensions
     {
-        public static PropertyInfo GetPrimaryKey(this Type entityType)
+        public static PropertyInfo GetPrimaryKey(this Type type)
         {
-            foreach (PropertyInfo property in entityType.GetProperties())
+            foreach (PropertyInfo property in type.GetProperties())
             {
                 if (property.IsPrimaryKey())
                 {
                     if (property.PropertyType != typeof(int))
-                    {
-                        throw new ApplicationException(string.Format("Primary key, '{0}', of type '{1}' is not int",
-                                                                     property.Name, entityType));
-                    }
+                        throw new ApplicationException( string.Format( "Primary key, '{0}', of type '{1}' is not int", property.Name, type ) );
+
                     return property;
                 }
             }
 
-            throw new ApplicationException(string.Format("No primary key defined for type {0}", entityType.Name));
+            throw new ApplicationException(string.Format("No primary key defined for type {0}", type.Name));
         }
 
         public static bool IsLinqEntity(this Type type)

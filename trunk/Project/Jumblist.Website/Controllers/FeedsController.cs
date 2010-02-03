@@ -39,7 +39,7 @@ namespace Jumblist.Website.Controllers
             var item = feedService.Select( (id) );
             var model = BuildDefaultViewModel().With( item );
 
-            model.PageTitle = string.Format( "Detail - {0}", item.Title );
+            model.PageTitle = string.Format( "Detail - {0}", item.Name );
             model.Message = new Message { Text = "This is a message", StyleClass = "message" };
 
             return View( model );
