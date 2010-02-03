@@ -91,34 +91,40 @@
 
 <asp:Content ID="Content4" ContentPlaceHolderID="BodyContentRight" runat="server">
 
+    <p>
+        <b>Locations: </b>
+    </p>
+    
     <div class="post-locations">
-        <table>
-        <tr><td colspan="2"><b>Locations: </b></td></tr>
-        <%  foreach ( var postLocation in Model.Item.PostLocations )
-            { %>
-                <tr>
-                <td><%= postLocation.Location.Name %></td>  
-                <td><%= Html.ActionLink( "Delete", "locationdelete", new { id = postLocation.Id } )%></td> 
-                </tr>
-        <%  } %>
-        <tr><td colspan="2"><%= Html.ActionLink( "Create", "locationcreate" )%></td></tr>   
-        </table>
+        <% Html.RenderPartial("PostLocationList", Model.Item.PostLocations); %>
+    </div>   
+
+    <% using (Ajax.BeginForm("postlocationcreate", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "post-locations" }))
+       { %>    
+        <p>
+            <%= Html.HiddenFor(m => m.Item.PostId)%>
+            <%= Html.TextBox("location", null, new { size = 10 })%>
+            <%= Html.SubmitButton("postlocationcreatebutton", "Create")%>
+        </p> 
+    <% } %>
+    
+    <p>
+        <b>Tags: </b>
+    </p>
+        
+    <div class="post-tags">
+        <% Html.RenderPartial("PostTagList", Model.Item.PostTags); %>
     </div>
     
-    <br /><br />
-    <div class="post-tags">
-        <table>
-        <tr><td colspan="2"><b>Tags: </b></td></tr>
-        <%  foreach ( var postTag in Model.Item.PostTags )
-            { %>
-                <tr>
-                <td><%= postTag.Tag.Name%></td>  
-                <td><%= Html.ActionLink( "Delete", "tagdelete", new { id = postTag.Id } )%></td> 
-                </tr>
-        <%  } %>
-        <tr><td colspan="2"><%= Html.ActionLink( "Create", "tagcreate" )%></td></tr>   
-        </table>
-    </div>
+    <% using (Html.BeginForm("posttagcreate", "posts"))
+       { %>    
+        <p>
+            <%= Html.HiddenFor( m => m.Item.PostId )%>
+            <%= Html.TextBox("tag", null, new { size = 10 } )%>
+            <%= Html.SubmitButton("posttagcreatebutton", "Create")%>
+        </p> 
+    <% } %>  
+        
         
 </asp:Content>
 

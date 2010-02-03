@@ -20,12 +20,25 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         private IPostService postService;
         private IDataService<PostCategory> postCategoryService;
         private IDataService<Feed> feedService;
+        private IDataService<User> userService;
+        private IDataService<PostLocation> postLocationService;
+        private IDataService<PostTag> postTagService;
 
-        public PostsController( IPostService postService, IDataService<PostCategory> postCategoryService, IDataService<Feed> feedService )
+        public PostsController(
+            IPostService postService, 
+            IDataService<PostCategory> postCategoryService, 
+            IDataService<Feed> feedService, 
+            IDataService<User> userService,
+            IDataService<PostLocation> postLocationService,
+            IDataService<PostTag> postTagService
+            )
         {
             this.postService = postService;
             this.postCategoryService = postCategoryService;
             this.feedService = feedService;
+            this.userService = userService;
+            this.postLocationService = postLocationService;
+            this.postTagService = postTagService;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -97,12 +110,12 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Delete )]
         public ActionResult Delete( int id )
         {
-            var feed = postService.Select( id );
-            postService.Delete( feed );
+            var item = postService.Select( id );
+            postService.Delete( item );
 
             var model = postService.SelectList();
 
-            return PartialView("ListPartial", model);
+            return PartialView("PostList", model);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -186,6 +199,40 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             model.PageTitle = "All Posts by Feed - " + item.Title;
 
             return View( "list", model );
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ViewResult ListByUser(int id)
+        {
+            var item = userService.Select(id);
+            var list = postService.SelectList().Where(x => x.UserId == id);
+
+            var model = BuildDefaultViewModel().With(list);
+            model.PageTitle = "All Posts by User - " + item.Name;
+
+            return View("list", model);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult PostLocationCreate( int postId, string location )
+        {
+            var item = new PostLocation { PostId = postId, LocationId = 99 };
+            postLocationService.Save(item);
+
+            var model = postLocationService.SelectList();
+
+            return PartialView("PostLocationList", model);
+        }
+
+        [AcceptVerbs(HttpVerbs.Delete)]
+        public ActionResult PostLocationDelete(int id)
+        {
+            var item = postLocationService.Select(id);
+            postLocationService.Delete(item);
+
+            var model = postLocationService.SelectList();
+
+            return PartialView("PostLocationList", model);
         }
     }
 }

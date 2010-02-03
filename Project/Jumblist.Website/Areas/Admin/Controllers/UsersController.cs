@@ -145,7 +145,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             TempData["notificationmessage"] = post.Name + " has been deleted";
 
             var model = userService.SelectList();
-            return PartialView( "ListPartial", model );
+            return PartialView( "UserList", model );
         }
 
     }

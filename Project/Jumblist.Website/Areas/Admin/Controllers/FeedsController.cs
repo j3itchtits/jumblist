@@ -107,7 +107,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             var list = feedService.SelectList();
 
-            return PartialView( "ListPartial", list );
+            return PartialView( "FeedList", list );
         }
 
         [AcceptVerbs(HttpVerbs.Get)]

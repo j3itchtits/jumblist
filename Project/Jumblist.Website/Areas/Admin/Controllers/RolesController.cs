@@ -93,7 +93,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             var list = roleService.SelectList();
 
-            return PartialView( "ListPartial", list );
+            return PartialView( "RoleList", list );
         }
     }
 }

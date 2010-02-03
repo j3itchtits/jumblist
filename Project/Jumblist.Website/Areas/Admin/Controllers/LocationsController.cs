@@ -97,7 +97,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             var list = locationService.SelectList();
 
-            return PartialView( "ListPartial", list );
+            return PartialView( "LocationList", list );
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
