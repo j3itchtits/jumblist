@@ -5,7 +5,7 @@
     { %>
         <tr>
         <td><%= postLocation.Location.Name %></td>  
-        <td><%= Ajax.ActionLink("Delete", "postlocationdelete", new { id = postLocation.Id }, new AjaxOptions { Confirm = "Delete '" + postLocation.Location.Name + "'?", HttpMethod = "Delete", UpdateTargetId = "post-locations" })%></td> 
+        <td><%= Ajax.ActionLink( "Delete", "postlocationdelete", new { postId = postLocation.Post.PostId, postLocationId = postLocation.Id }, new AjaxOptions { HttpMethod = "Delete", UpdateTargetId = "post-locations" } ) %></td> 
         </tr>
 <%  } %>
 </table>

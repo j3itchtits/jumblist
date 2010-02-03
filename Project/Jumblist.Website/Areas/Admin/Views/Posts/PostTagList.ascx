@@ -5,7 +5,7 @@
     { %>
         <tr>
         <td><%= postTag.Tag.Name%></td>  
-        <td><%= Ajax.ActionLink("Delete", "posttagdelete", new { id = postTag.Id }, new AjaxOptions { Confirm = "Delete '" + postTag.Tag.Name + "'?", HttpMethod = "Delete", UpdateTargetId = "post-tags" })%></td> 
+        <td><%= Ajax.ActionLink( "Delete", "posttagdelete", new { postId = postTag.Post.PostId, postTagId = postTag.Id }, new AjaxOptions { HttpMethod = "Delete", UpdateTargetId = "post-tags" } )%></td> 
         </tr>
 <%  } %>
 </table>

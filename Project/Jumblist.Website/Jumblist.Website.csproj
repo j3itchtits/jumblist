@@ -230,6 +230,8 @@
     <Content Include="Areas\Admin\Views\Users\List.aspx" />
     <Content Include="Areas\Admin\Views\Users\UserList.ascx" />
     <Content Include="Areas\Admin\Views\Web.config" />
+    <Content Include="Assets\Scripts\jquery.autocomplete.min.js" />
+    <Content Include="Assets\Stylesheets\jquery.autocomplete.css" />
     <Content Include="Views\Home\Test.aspx" />
     <Content Include="Views\Posts\ListPartial.ascx" />
   </ItemGroup>

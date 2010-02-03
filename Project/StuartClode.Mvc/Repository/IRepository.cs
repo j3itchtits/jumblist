@@ -7,6 +7,7 @@ namespace StuartClode.Mvc.Repository
     public interface IRepository<T> where T : class
     {
         T Select( int id );
+        T Select( string name );
         IQueryable<T> SelectList();
         void InsertOnSubmit( T entity );
         void DeleteOnSubmit( T entity );
@@ -17,6 +18,7 @@ namespace StuartClode.Mvc.Repository
     public interface IRepository
     {
         object Select( int id );
+        object Select( string name );
         IQueryable SelectList();
         void InsertOnSubmit( object entity );
         void DeleteOnSubmit( object entity );

@@ -23,6 +23,8 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         private IDataService<User> userService;
         private IDataService<PostLocation> postLocationService;
         private IDataService<PostTag> postTagService;
+        private IDataService<Location> locationService;
+        private IDataService<Tag> tagService;
 
         public PostsController(
             IPostService postService, 
@@ -30,7 +32,9 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             IDataService<Feed> feedService, 
             IDataService<User> userService,
             IDataService<PostLocation> postLocationService,
-            IDataService<PostTag> postTagService
+            IDataService<PostTag> postTagService,
+            IDataService<Location> locationService,
+            IDataService<Tag> tagService
             )
         {
             this.postService = postService;
@@ -39,6 +43,8 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             this.userService = userService;
             this.postLocationService = postLocationService;
             this.postTagService = postTagService;
+            this.locationService = locationService;
+            this.tagService = tagService;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -196,7 +202,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             var list = postService.SelectList().Where( x => x.FeedId == id );
 
             var model = BuildDefaultViewModel().With( list );
-            model.PageTitle = "All Posts by Feed - " + item.Title;
+            model.PageTitle = "All Posts by Feed - " + item.Name;
 
             return View( "list", model );
         }
@@ -216,23 +222,79 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult PostLocationCreate( int postId, string location )
         {
-            var item = new PostLocation { PostId = postId, LocationId = 99 };
-            postLocationService.Save(item);
+            var locationItem = locationService.Select( location );
 
-            var model = postLocationService.SelectList();
+            if (locationItem != null)
+            {
+                var item = new PostLocation { PostId = postId, LocationId = locationItem.LocationId };
+                postLocationService.Save( item );
+            }
 
-            return PartialView("PostLocationList", model);
+            var model = postLocationService.SelectList().Where( x => x.PostId == postId );
+
+            return PartialView( "PostLocationList", model );
         }
 
         [AcceptVerbs(HttpVerbs.Delete)]
-        public ActionResult PostLocationDelete(int id)
+        public ActionResult PostLocationDelete( int postId, int postLocationId )
         {
-            var item = postLocationService.Select(id);
-            postLocationService.Delete(item);
+            var item = postLocationService.Select( postLocationId );
+            postLocationService.Delete( item );
 
-            var model = postLocationService.SelectList();
+            var model = postLocationService.SelectList().Where( x => x.PostId == postId );
 
-            return PartialView("PostLocationList", model);
+            return PartialView( "PostLocationList", model );
         }
+
+        [AcceptVerbs( HttpVerbs.Post )]
+        public ActionResult PostTagCreate( int postId, string tag )
+        {
+            var tagItem = tagService.Select( tag );
+
+            if (tagItem != null)
+            {
+                var item = new PostTag { PostId = postId, TagId = tagItem.TagId };
+                postTagService.Save( item );
+            }
+
+            var model = postTagService.SelectList().Where( x => x.PostId == postId );
+
+            return PartialView( "PostTagList", model );
+        }
+
+        [AcceptVerbs( HttpVerbs.Delete )]
+        public ActionResult PostTagDelete( int postId, int postTagId )
+        {
+            var item = postTagService.Select( postTagId );
+            postTagService.Delete( item );
+
+            var model = postTagService.SelectList().Where( x => x.PostId == postId );
+
+            return PartialView( "PostTagList", model );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ActionResult FindLocations( string q )
+        {
+            var locations = locationService.SelectList()
+                .Where( r => r.Name.StartsWith( q ) )
+                .Select( r => r.Name )
+                .ToArray();
+
+            //return raw text, one result on each line
+            return Content( string.Join( "\n", locations ) );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ActionResult FindTags( string q )
+        {
+            var tags = tagService.SelectList()
+                .Where( r => r.Name.StartsWith( q ) )
+                .Select( r => r.Name )
+                .ToArray();
+
+            //return raw text, one result on each line
+            return Content( string.Join( "\n", tags ) );
+        } 
     }
 }

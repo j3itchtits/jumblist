@@ -62,7 +62,7 @@
         </tr> 
         <tr>
             <td><label for="Item.FeedId">Feed:</label></td>
-            <td><%= Html.DropDownListFor( m => m.Item.FeedId, new SelectList( Model.LookupList<Feed>(), "FeedId", "Title", Model.Item.FeedId ), "-- Select --" )%>
+            <td><%= Html.DropDownListFor( m => m.Item.FeedId, new SelectList( Model.LookupList<Feed>(), "FeedId", "Name", Model.Item.FeedId ), "-- Select --" )%>
             <%= Html.ValidationMessageFor( m => m.Item.FeedId )%></td>
         </tr> 
         
@@ -83,10 +83,34 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="HeadContentTitle" runat="server">
+
     <%= Html.PageTitle( ViewData.Model )%>
+
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContentJavascript" runat="server">
+
+    <link href="<%= Url.Stylesheet( "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
+    <script src="<%= Url.Script( "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $("input#location").autocomplete('<%= Url.Action("findlocations", "posts") %>', 
+                {
+                    minChars: 2
+                }
+            );
+
+            $("input#tag").autocomplete('<%= Url.Action("findtags", "posts") %>',
+                {
+                    minChars: 2
+                }
+            );
+
+        });
+    </script> 
+        
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="BodyContentRight" runat="server">
@@ -95,14 +119,14 @@
         <b>Locations: </b>
     </p>
     
-    <div class="post-locations">
+    <div id="post-locations">
         <% Html.RenderPartial("PostLocationList", Model.Item.PostLocations); %>
     </div>   
 
     <% using (Ajax.BeginForm("postlocationcreate", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "post-locations" }))
        { %>    
         <p>
-            <%= Html.HiddenFor(m => m.Item.PostId)%>
+            <%= Html.Hidden( "postId", Model.Item.PostId)%>
             <%= Html.TextBox("location", null, new { size = 10 })%>
             <%= Html.SubmitButton("postlocationcreatebutton", "Create")%>
         </p> 
@@ -112,14 +136,14 @@
         <b>Tags: </b>
     </p>
         
-    <div class="post-tags">
+    <div id="post-tags">
         <% Html.RenderPartial("PostTagList", Model.Item.PostTags); %>
     </div>
     
-    <% using (Html.BeginForm("posttagcreate", "posts"))
+    <% using (Ajax.BeginForm("posttagcreate", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "post-tags" }))
        { %>    
         <p>
-            <%= Html.HiddenFor( m => m.Item.PostId )%>
+            <%= Html.Hidden( "postId", Model.Item.PostId)%>
             <%= Html.TextBox("tag", null, new { size = 10 } )%>
             <%= Html.SubmitButton("posttagcreatebutton", "Create")%>
         </p> 

@@ -20,10 +20,10 @@ namespace Jumblist.Core.Model
         [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
         public int FeedId { get; set; }
 
-        [Column( Name = "FeedTitle" )]
+        [Column( Name = "FeedName" )]
         [Required(ErrorMessage="Please enter a title")]
         [StringLength(250)]
-        public string Title { get; set; }
+        public string Name { get; set; }
 
         [Column( Name = "FeedUrl" )]
         [Required( ErrorMessage = "Please enter a url" )]

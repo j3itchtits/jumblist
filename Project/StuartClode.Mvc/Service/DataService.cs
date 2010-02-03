@@ -32,6 +32,11 @@ namespace StuartClode.Mvc.Service
             return repository.Select( id );
         }
 
+        public virtual T Select( string name )
+        {
+            return repository.Select( name );
+        }
+
         public virtual void Save( T entity )
         {
             var primaryKeyProperty = typeof( T ).GetPrimaryKey();
@@ -68,6 +73,11 @@ namespace StuartClode.Mvc.Service
         object IDataService.Select( int id )
         {
             return Select( id );
+        }
+
+        object IDataService.Select( string name )
+        {
+            return Select( name );
         }
 
         public void Save( object entity )
