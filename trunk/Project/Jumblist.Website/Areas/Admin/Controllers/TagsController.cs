@@ -93,7 +93,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             var list = tagService.SelectList();
 
-            return PartialView( "ListPartial", list );
+            return PartialView( "TagList", list );
         }
     }
 }
