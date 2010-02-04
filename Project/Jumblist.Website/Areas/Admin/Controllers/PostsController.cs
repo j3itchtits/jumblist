@@ -219,6 +219,39 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             return View("list", model);
         }
 
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ViewResult ListByLocationId(int id)
+        {
+            var item = locationService.Select(id);
+
+            //Need to have a list that joins the posts table with the posttags table
+            //var list = postService.SelectPostsByLocation(id);
+
+            var list = from p in postService.SelectList()
+                       join pl in postLocationService.SelectList() on p.PostId equals pl.PostId
+                       where pl.LocationId == id
+                       select p;
+
+            //var list = postService.SelectList().Where( x => x
+
+            var model = BuildDefaultViewModel().With(list);
+            model.PageTitle = "All Posts by Location - " + item.Name;
+
+            return View("list", model);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ViewResult ListByLocationName(string locationName)
+        {
+            //Need to have a list that joins the posts table with the posttags table
+            var list = postService.SelectPostsByLocation(locationName);
+
+            var model = BuildDefaultViewModel().With(list);
+            model.PageTitle = "All Posts by Location - " + locationName;
+
+            return View("list", model);
+        }
+
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult PostLocationCreate( int postId, string location )
         {
@@ -226,11 +259,22 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             if (locationItem != null)
             {
-                var item = new PostLocation { PostId = postId, LocationId = locationItem.LocationId };
-                postLocationService.Save( item );
+                var postLocationItem = new PostLocation { PostId = postId, LocationId = locationItem.LocationId };
+                postLocationService.Save(postLocationItem);
+            }
+            else
+            {
+                var newLocationItem = new Location { Name = location, LocationCategoryId = 3 };
+                locationService.Save(newLocationItem);
+
+                var postLocationItem = new PostLocation { PostId = postId, LocationId = newLocationItem.LocationId };
+                postLocationService.Save(postLocationItem);
             }
 
             var model = postLocationService.SelectList().Where( x => x.PostId == postId );
+            
+            //ModelState["location"].Value = new ValueProviderResult(null, string.Empty,null);
+            //ModelState.Clear();
 
             return PartialView( "PostLocationList", model );
         }
@@ -253,8 +297,16 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             if (tagItem != null)
             {
-                var item = new PostTag { PostId = postId, TagId = tagItem.TagId };
-                postTagService.Save( item );
+                var postTagItem = new PostTag { PostId = postId, TagId = tagItem.TagId };
+                postTagService.Save(postTagItem);
+            }
+            else
+            {
+                var newTagItem = new Tag { Name = tag };
+                tagService.Save(newTagItem);
+
+                var postTagItem = new PostTag { PostId = postId, TagId = newTagItem.TagId };
+                postTagService.Save(postTagItem);
             }
 
             var model = postTagService.SelectList().Where( x => x.PostId == postId );

@@ -9,9 +9,14 @@ namespace Jumblist.Core.Service.Data
 {
     public class PostService : DataService<Post>, IPostService
     {
-        public PostService( IRepository<Post> repository )
+        public IRepository<PostLocation> postLocations;
+        public IRepository<Location> locations;
+
+        public PostService(IRepository<Post> repository, IRepository<PostLocation> postLocations, IRepository<Location> locations)
             : base( repository )
         {
+            this.postLocations = postLocations;
+            this.locations = locations;
         }
 
         #region IPostService Members
@@ -19,6 +24,23 @@ namespace Jumblist.Core.Service.Data
         public override IQueryable<Post> SelectList()
         {
             return base.SelectList();
+        }
+
+        public virtual IQueryable<Post> SelectPostsByLocation(int locationId)
+        {
+            return from p in SelectList()
+                   join pl in postLocations.SelectList() on p.PostId equals pl.PostId
+                   where pl.LocationId == locationId
+                   select p;
+        }
+
+        public virtual IQueryable<Post> SelectPostsByLocation(string locationName)
+        {
+            return from p in SelectList()
+                   join pl in postLocations.SelectList() on p.PostId equals pl.PostId
+                   join l in locations.SelectList() on pl.LocationId equals l.LocationId
+                   where l.Name == locationName
+                   select p;
         }
 
         public override Post Select( int id )

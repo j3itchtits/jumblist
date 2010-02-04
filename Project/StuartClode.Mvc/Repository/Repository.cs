@@ -54,8 +54,8 @@ namespace StuartClode.Mvc.Repository
 
             var item = SelectList().SingleOrDefault( whereExpression );
 
-            if (item == null)
-                throw new ArgumentException( string.Format( "No name property with value {0} found", name ) );
+            //if (item == null)
+            //    throw new ArgumentException(string.Format("No name property with value {0} found", name));
 
             return item;
         }

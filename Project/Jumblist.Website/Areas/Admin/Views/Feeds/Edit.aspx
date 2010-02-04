@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Areas/Admin/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel<Feed>>" %>
+<%@ Page Language="C#" MasterPageFile="~/Areas/Admin/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel<Feed>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
@@ -14,9 +14,9 @@
         
         <table>
         <tr>
-            <td><label for="Item.Title">Title:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Title ) %>
-            <%= Html.ValidationMessageFor( m => m.Item.Title )%></td>
+            <td><label for="Item.Name">Name:</label></td>
+            <td><%= Html.TextBoxFor(m => m.Item.Name)%>
+            <%= Html.ValidationMessageFor(m => m.Item.Name)%></td>
         </tr>
         <tr>
             <td><label for="Item.Url">Url:</label></td>

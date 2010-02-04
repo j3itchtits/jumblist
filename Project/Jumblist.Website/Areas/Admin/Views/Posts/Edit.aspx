@@ -96,7 +96,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            $("input#location").autocomplete('<%= Url.Action("findlocations", "posts") %>', 
+            $("input#location").autocomplete('<%= Url.Action("findlocations", "posts") %>',
                 {
                     minChars: 2
                 }
