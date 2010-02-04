@@ -25,6 +25,11 @@ namespace Jumblist.Core.Model
         [StringLength( 250 )]
         public string Name { get; set; }
 
+        [Column( Name = "LocationFriendlyUrl" )]
+        [Required]
+        [StringLength( 250 )]
+        public string FriendlyUrl { get; set; }
+
         [Column( Name = "LocationCategoryId" )]
         [Required]
         public int LocationCategoryId { get; set; }

@@ -22,6 +22,12 @@ namespace Jumblist.Website.Controllers
             this.postService = postService;
         }
 
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ActionResult Index()
+        {
+            return RedirectToAction( "list" );
+        }
+
         public ViewResult List( int? id )
         {
             var list = postService.SelectList();

@@ -11,12 +11,9 @@
     <%= Html.MessageBox( ViewData.Model ) %>
     
     <div id="itemsList">
-        <% Html.RenderPartial( "ListPartial", Model.PaginatedList ); %>
+        <% Html.RenderPartial( "PostList", Model.PaginatedList ); %>
     </div>
-    
-    <p>
-        <%= Html.ActionLink( "Create", "create" )%>
-    </p> 
+   
    
     <p><%= Html.PagingLinks( Model.PaginatedList.CurrentPage, Model.PaginatedList.TotalPages, x => Url.Action( "List", new { id = x } ) )%></p>
     

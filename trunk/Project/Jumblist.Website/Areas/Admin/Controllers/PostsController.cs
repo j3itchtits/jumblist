@@ -10,6 +10,7 @@ using Jumblist.Website.Filter;
 using Jumblist.Core.Service.Data;
 using xVal.ServerSide;
 using StuartClode.Mvc.Service;
+using StuartClode.Mvc.Extension;
 using Jumblist.Website.ViewModel;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
@@ -220,19 +221,24 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ViewResult ListByLocationId(int id)
+        public ViewResult Location( string id )
         {
-            var item = locationService.Select(id);
+            int number;
+            Location item;
+            IEnumerable<Post> list;
 
-            //Need to have a list that joins the posts table with the posttags table
-            //var list = postService.SelectPostsByLocation(id);
-
-            var list = from p in postService.SelectList()
-                       join pl in postLocationService.SelectList() on p.PostId equals pl.PostId
-                       where pl.LocationId == id
-                       select p;
-
-            //var list = postService.SelectList().Where( x => x
+            bool result = Int32.TryParse( id, out number );
+            
+            if (result)
+            {
+                item = locationService.Select( number );
+                list = postService.SelectPostsByLocation( number );
+            }
+            else
+            {
+                item = locationService.SelectList().Single( x => x.FriendlyUrl == id );
+                list = postService.SelectPostsByLocation( id );
+            }
 
             var model = BuildDefaultViewModel().With(list);
             model.PageTitle = "All Posts by Location - " + item.Name;
@@ -240,16 +246,30 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             return View("list", model);
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
-        public ViewResult ListByLocationName(string locationName)
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ViewResult Tagged( string id )
         {
-            //Need to have a list that joins the posts table with the posttags table
-            var list = postService.SelectPostsByLocation(locationName);
+            int number;
+            Tag item;
+            IEnumerable<Post> list;
 
-            var model = BuildDefaultViewModel().With(list);
-            model.PageTitle = "All Posts by Location - " + locationName;
+            bool result = Int32.TryParse( id, out number );
 
-            return View("list", model);
+            if (result)
+            {
+                item = tagService.Select( number );
+                list = postService.SelectPostsByTag( number );
+            }
+            else
+            {
+                item = tagService.SelectList().Single( x => x.FriendlyUrl == id );
+                list = postService.SelectPostsByTag( id );
+            }
+
+            var model = BuildDefaultViewModel().With( list );
+            model.PageTitle = "All Posts by Tag - " + item.Name;
+
+            return View( "list", model );
         }
 
         [AcceptVerbs(HttpVerbs.Post)]

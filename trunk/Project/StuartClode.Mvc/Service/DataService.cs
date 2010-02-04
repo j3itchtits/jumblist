@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Collections;
 using StuartClode.Mvc.Validation;
 using xVal.ServerSide;
+using System.Data.Linq;
 
 namespace StuartClode.Mvc.Service
 {

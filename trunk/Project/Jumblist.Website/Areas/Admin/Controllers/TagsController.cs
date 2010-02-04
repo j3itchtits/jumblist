@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Jumblist.Core.Model;
 using Jumblist.Website.Controllers;
 using Jumblist.Core.Service.Data;
+using StuartClode.Mvc.Extension;
 using xVal.ServerSide;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
@@ -64,6 +65,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             try
             {
+                item.FriendlyUrl = item.Name.ToFriendlyUrl();
                 tagService.Save( item );
             }
             catch (RulesException ex)
