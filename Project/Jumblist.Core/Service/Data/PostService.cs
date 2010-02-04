@@ -3,6 +3,7 @@ using System.Linq;
 using Jumblist.Core.Model;
 using StuartClode.Mvc.Service;
 using StuartClode.Mvc.Repository;
+using StuartClode.Mvc.Extension;
 using xVal.ServerSide;
 
 namespace Jumblist.Core.Service.Data
@@ -11,12 +12,16 @@ namespace Jumblist.Core.Service.Data
     {
         public IRepository<PostLocation> postLocations;
         public IRepository<Location> locations;
+        public IRepository<PostTag> postTags;
+        public IRepository<Tag> tags;
 
-        public PostService(IRepository<Post> repository, IRepository<PostLocation> postLocations, IRepository<Location> locations)
+        public PostService( IRepository<Post> repository, IRepository<PostLocation> postLocations, IRepository<Location> locations, IRepository<PostTag> postTags, IRepository<Tag> tags )
             : base( repository )
         {
             this.postLocations = postLocations;
             this.locations = locations;
+            this.postTags = postTags;
+            this.tags = tags;
         }
 
         #region IPostService Members
@@ -26,20 +31,37 @@ namespace Jumblist.Core.Service.Data
             return base.SelectList();
         }
 
-        public virtual IQueryable<Post> SelectPostsByLocation(int locationId)
+        public IEnumerable<Post> SelectPostsByLocation( int locationId )
         {
-            return from p in SelectList()
-                   join pl in postLocations.SelectList() on p.PostId equals pl.PostId
+            return from p in SelectList().AsEnumerable()
+                   join pl in postLocations.SelectList().AsEnumerable() on p.PostId equals pl.PostId
                    where pl.LocationId == locationId
                    select p;
         }
 
-        public virtual IQueryable<Post> SelectPostsByLocation(string locationName)
+        public IEnumerable<Post> SelectPostsByLocation( string locationName )
         {
-            return from p in SelectList()
-                   join pl in postLocations.SelectList() on p.PostId equals pl.PostId
-                   join l in locations.SelectList() on pl.LocationId equals l.LocationId
-                   where l.Name == locationName
+            return from p in SelectList().AsEnumerable()
+                   join pl in postLocations.SelectList().AsEnumerable() on p.PostId equals pl.PostId
+                   join l in locations.SelectList().AsEnumerable() on pl.LocationId equals l.LocationId
+                   where l.Name.ToFriendlyUrl() == locationName
+                   select p;
+        }
+
+        public IEnumerable<Post> SelectPostsByTag( int tagId )
+        {
+            return from p in SelectList().AsEnumerable()
+                   join pt in postTags.SelectList().AsEnumerable() on p.PostId equals pt.PostId
+                   where pt.TagId == tagId
+                   select p;
+        }
+
+        public IEnumerable<Post> SelectPostsByTag( string tagName )
+        {
+            return from p in SelectList().AsEnumerable()
+                   join pt in postTags.SelectList().AsEnumerable() on p.PostId equals pt.PostId
+                   join t in tags.SelectList().AsEnumerable() on pt.TagId equals t.TagId
+                   where t.Name.ToFriendlyUrl() == tagName
                    select p;
         }
 

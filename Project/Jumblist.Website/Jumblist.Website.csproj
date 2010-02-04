@@ -156,7 +156,6 @@
     <Content Include="Views\Users\Detail.aspx" />
     <Content Include="Views\Feeds\Detail.aspx" />
     <Content Include="Views\Feeds\List.aspx" />
-    <Content Include="Views\Feeds\ListPartial.ascx" />
     <Content Include="Views\Home\About.aspx" />
     <Content Include="Views\Home\Help.aspx" />
     <Content Include="Views\Home\Index.aspx" />
@@ -232,8 +231,9 @@
     <Content Include="Areas\Admin\Views\Web.config" />
     <Content Include="Assets\Scripts\jquery.autocomplete.min.js" />
     <Content Include="Assets\Stylesheets\jquery.autocomplete.css" />
+    <Content Include="Views\Feeds\FeedList.ascx" />
     <Content Include="Views\Home\Test.aspx" />
-    <Content Include="Views\Posts\ListPartial.ascx" />
+    <Content Include="Views\Posts\PostList.ascx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Assets\Images\" />

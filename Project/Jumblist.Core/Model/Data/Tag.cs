@@ -21,6 +21,11 @@ namespace Jumblist.Core.Model
         [StringLength( 250 )]
         public string Name { get; set; }
 
+        [Column( Name = "TagFriendlyUrl" )]
+        [Required]
+        [StringLength( 250 )]
+        public string FriendlyUrl { get; set; }
+
         [Association( Name = "FK_PostTags_Tags", Storage = "postTags", ThisKey = "TagId", OtherKey = "TagId", IsForeignKey = true )]
         public EntitySet<PostTag> PostTags
         {
