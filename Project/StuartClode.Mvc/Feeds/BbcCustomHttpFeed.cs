@@ -11,15 +11,16 @@ using System.Text.RegularExpressions;
 using Microsoft.Web.Testing.Light;
 using System.ServiceModel.Syndication;
 
-namespace Jumblist.Website.Module
+namespace StuartClode.Mvc.Feeds
 {
     public class BbcCustomHttpFeed
     {
         public static SyndicationFeed Load( string uri )
         {
-            string feedSource = HttpReader.Create( "http://news.bbc.co.uk/" );
+            string feedSource = HttpReader.Create( uri );
+            feedSource = Regex.Replace( feedSource, @"\<\!DOCTYPE.*?\>", String.Empty );
 
-            HtmlElement rootElement = HtmlElement.Create( Regex.Replace( feedSource, @"\<\!DOCTYPE.*?\>", String.Empty ) );
+            HtmlElement rootElement = HtmlElement.Create( feedSource );
 
             // identify the div rows
             HtmlElementFindParams findParams1 = new HtmlElementFindParams();

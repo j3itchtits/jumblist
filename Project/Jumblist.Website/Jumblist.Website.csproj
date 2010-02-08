@@ -59,10 +59,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ReferenceAssemblies\Microsoft.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Web.Testing.Lightweight, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceAssemblies\Microsoft.Web.Testing.Lightweight.dll</HintPath>
-    </Reference>
     <Reference Include="MvcContrib, Version=1.5.996.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ReferenceAssemblies\MvcContrib.dll</HintPath>
@@ -134,10 +130,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ModelBinder\BasketModelBinder.cs" />
-    <Compile Include="Module\BbcCustomHttpFeed.cs" />
-    <Compile Include="Module\CustomSyndicationFeed.cs" />
     <Compile Include="Module\FeedProcessingHttpModule.cs" />
-    <Compile Include="Module\HttpReader.cs" />
     <Compile Include="ViewModel\DefaultViewModel.cs" />
     <Compile Include="ViewModel\IViewModelBase.cs" />
     <Compile Include="ViewModel\PostViewModel.cs" />

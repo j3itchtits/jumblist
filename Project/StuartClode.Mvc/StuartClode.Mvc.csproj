@@ -47,6 +47,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ReferenceAssemblies\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Web.Testing.Lightweight, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceAssemblies\Microsoft.Web.Testing.Lightweight.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -55,6 +59,9 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel.Web">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Web" />
@@ -83,6 +90,10 @@
     <Compile Include="Extension\PropertyInfoExtensions.cs" />
     <Compile Include="Extension\RoutingExtension.cs" />
     <Compile Include="Extension\WindsorExtension.cs" />
+    <Compile Include="Feeds\BbcCustomHttpFeed.cs" />
+    <Compile Include="Feeds\YahooGroupsCustomHttpFeed.cs" />
+    <Compile Include="Feeds\CustomSyndicationFeed.cs" />
+    <Compile Include="Feeds\HttpReader.cs" />
     <Compile Include="Helper\RegularExpressionString.cs" />
     <Compile Include="Extension\StringExtensions.cs" />
     <Compile Include="Extension\TypeExtensions.cs" />

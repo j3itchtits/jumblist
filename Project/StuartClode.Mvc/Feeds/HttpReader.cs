@@ -9,7 +9,7 @@ using System.Collections.Specialized;
 using System.Collections;
 using System.Text.RegularExpressions;
 
-namespace Jumblist.Website.Module
+namespace StuartClode.Mvc.Feeds
 {
     public class HttpReader
     {

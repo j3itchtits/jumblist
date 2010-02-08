@@ -8,7 +8,7 @@ using System.Text;
 using System.Collections.Specialized;
 using System.Collections;
 
-namespace Jumblist.Website.Module
+namespace StuartClode.Mvc.Feeds
 {
     public class BasicHttpRequestResponse
     {
