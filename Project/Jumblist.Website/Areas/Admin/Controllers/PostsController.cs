@@ -279,8 +279,13 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             if (locationItem != null)
             {
-                var postLocationItem = new PostLocation { PostId = postId, LocationId = locationItem.LocationId };
-                postLocationService.Save(postLocationItem);
+                var existingPostLocations = postLocationService.SelectList().Where(x => x.PostId == postId && x.LocationId == locationItem.LocationId);
+
+                if (existingPostLocations.Count() == 0)
+                {
+                    var postLocationItem = new PostLocation { PostId = postId, LocationId = locationItem.LocationId };
+                    postLocationService.Save(postLocationItem);
+                }
             }
             else
             {
@@ -317,8 +322,13 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             if (tagItem != null)
             {
-                var postTagItem = new PostTag { PostId = postId, TagId = tagItem.TagId };
-                postTagService.Save(postTagItem);
+                var existingPostTags = postTagService.SelectList().Where(x => x.PostId == postId && x.TagId == tagItem.TagId);
+
+                if (existingPostTags.Count() == 0)
+                {
+                    var postTagItem = new PostTag { PostId = postId, TagId = tagItem.TagId };
+                    postTagService.Save(postTagItem);
+                }
             }
             else
             {
@@ -348,10 +358,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult FindLocations( string q )
         {
-            var locations = locationService.SelectList()
-                .Where( r => r.Name.StartsWith( q ) )
-                .Select( r => r.Name )
-                .ToArray();
+            var locations = postService.FindLocations(q);
 
             //return raw text, one result on each line
             return Content( string.Join( "\n", locations ) );
@@ -360,10 +367,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult FindTags( string q )
         {
-            var tags = tagService.SelectList()
-                .Where( r => r.Name.StartsWith( q ) )
-                .Select( r => r.Name )
-                .ToArray();
+            var tags = postService.FindTags(q);
 
             //return raw text, one result on each line
             return Content( string.Join( "\n", tags ) );

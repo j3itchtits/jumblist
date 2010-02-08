@@ -113,8 +113,10 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FeedsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\RootControllerBase.cs" />
+    <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ViewModelController.cs" />
     <Compile Include="Filter\CompressResponseAttribute.cs" />
@@ -131,6 +133,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ModelBinder\BasketModelBinder.cs" />
     <Compile Include="Module\BbcCustomHttpFeed.cs" />
     <Compile Include="Module\CustomSyndicationFeed.cs" />
     <Compile Include="Module\FeedProcessingHttpModule.cs" />
@@ -233,7 +236,11 @@
     <Content Include="Assets\Stylesheets\jquery.autocomplete.css" />
     <Content Include="Views\Feeds\FeedList.ascx" />
     <Content Include="Views\Home\Test.aspx" />
+    <Content Include="Views\Locations\List.aspx" />
+    <Content Include="Views\Locations\LocationList.ascx" />
     <Content Include="Views\Posts\PostList.ascx" />
+    <Content Include="Views\Tags\List.aspx" />
+    <Content Include="Views\Tags\TagList.ascx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Assets\Images\" />

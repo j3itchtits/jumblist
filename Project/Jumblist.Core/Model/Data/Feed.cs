@@ -61,7 +61,7 @@ namespace Jumblist.Core.Model
         public FeedCategory Category
         {
             get { return feedCategory.Entity; }
-            set { feedCategory.Entity = value; FeedCategoryId = value.FeedCategoryId; }
+            set { feedCategory.Entity = value; } //FeedCategoryId = value.FeedCategoryId; }
         }
 
         [Association( Name = "FK_Posts_Feeds", Storage = "posts", ThisKey = "FeedId", OtherKey = "FeedId", IsForeignKey = true )]

@@ -11,7 +11,9 @@ using Castle.MicroKernel.Registration;
 using Jumblist.Website.Filter;
 using Jumblist.Website.Controllers;
 using Jumblist.Website.Module;
+using Jumblist.Website.ModelBinder;
 using Jumblist.Core.Service;
+using Jumblist.Core.Model;
 using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Service;
 using StuartClode.Mvc.Extension;
@@ -30,7 +32,7 @@ namespace Jumblist.Website
         {
             RegisterRoutes( RouteTable.Routes );
             //RegisterViewEngines( ViewEngines.Engines );
-            //RegisterModelBinders();
+            RegisterModelBinders();
 
             if ( InitializeContainer() )
             {
@@ -39,30 +41,6 @@ namespace Jumblist.Website
                 RegisterDataServices();
                 RegisterComponents();
             }
-        }
-
-        private void RegisterDataServices()
-        {
-            container.Register( AllTypes
-                .FromAssembly( Assembly.Load( "Jumblist.Core" ) )
-                .Where( t => t.Namespace.Equals( "Jumblist.Core.Service.Data" ) )
-                .WithService.FirstNonGenericCoreInterface( "Jumblist.Core.Service.Data" )
-                .Configure( c => c.LifeStyle.Transient )
-            );
-
-            //container.Register( AllTypes
-            //    .FromAssembly( Assembly.GetAssembly( typeof( UserService ) ) )
-            //    .Where( type => type.Namespace.StartsWith( "Jumblist.Core.Service" ) )
-            //    .WithService.FirstInterface()
-            //    .Configure( c => c.LifeStyle.Transient )
-            //);
-
-            //container.Register( AllTypes.Pick()
-            //    .FromAssembly( Assembly.GetExecutingAssembly() )
-            //    .WithService
-            //    .FirstInterface()
-            //    .Configure( c => c.LifeStyle.Transient )
-            //);
         }
 
         private bool InitializeContainer()
@@ -124,6 +102,30 @@ namespace Jumblist.Website
             ControllerBuilder.Current.SetControllerFactory( controllerFactory );
         }
 
+        private void RegisterDataServices()
+        {
+            container.Register(AllTypes
+                .FromAssembly(Assembly.Load("Jumblist.Core"))
+                .Where(t => t.Namespace.Equals("Jumblist.Core.Service.Data"))
+                .WithService.FirstNonGenericCoreInterface("Jumblist.Core.Service.Data")
+                .Configure(c => c.LifeStyle.Transient)
+            );
+
+            //container.Register( AllTypes
+            //    .FromAssembly( Assembly.GetAssembly( typeof( UserService ) ) )
+            //    .Where( type => type.Namespace.StartsWith( "Jumblist.Core.Service" ) )
+            //    .WithService.FirstInterface()
+            //    .Configure( c => c.LifeStyle.Transient )
+            //);
+
+            //container.Register( AllTypes.Pick()
+            //    .FromAssembly( Assembly.GetExecutingAssembly() )
+            //    .WithService
+            //    .FirstInterface()
+            //    .Configure( c => c.LifeStyle.Transient )
+            //);
+        }
+
         public static void RegisterRoutes( RouteCollection routes )
         {
             if (routes == null) throw new ArgumentNullException( "routes" );
@@ -175,7 +177,9 @@ namespace Jumblist.Website
 
         public static void RegisterModelBinders()
         {
-            //var binders = ModelBinders.Binders;
+            var binders = ModelBinders.Binders;
+
+            binders[typeof(Basket)] = new BasketModelBinder();
 
         }
 

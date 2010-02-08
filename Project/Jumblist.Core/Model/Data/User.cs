@@ -64,7 +64,7 @@ namespace Jumblist.Core.Model
         public Role Role
         {
             get { return role.Entity; }
-            set { role.Entity = value; RoleId = value.RoleId; }
+            set { role.Entity = value; } //RoleId = value.RoleId; }
         }
 
         [Association( Name = "FK_Posts_Authors", Storage = "posts", ThisKey = "UserId", OtherKey = "UserId", IsForeignKey = true )]

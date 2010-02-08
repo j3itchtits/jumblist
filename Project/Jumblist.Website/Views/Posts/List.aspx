@@ -15,9 +15,9 @@
     </div>
    
    
-    <p><%= Html.PagingLinks( Model.PaginatedList.CurrentPage, Model.PaginatedList.TotalPages, x => Url.Action( "List", new { id = x } ) )%></p>
+    <p><%= Html.PagingLinks(Model.PaginatedList.CurrentPage, Model.PaginatedList.TotalPages, x => Url.Action(ViewData["Action"].ToString(), new { id = ViewData["Id"].ToString(), page = x }))%></p>
     
-    <p><%= Html.NextPreviousPageLinks( Model.PaginatedList.CurrentPage, Model.PaginatedList.HasPreviousPage, Model.PaginatedList.HasNextPage, x => Url.Action( "List", new { id = x } ) )%></p>
+    <p><%= Html.NextPreviousPageLinks(Model.PaginatedList.CurrentPage, Model.PaginatedList.HasPreviousPage, Model.PaginatedList.HasNextPage, x => Url.Action(ViewData["Action"].ToString(), new { id = ViewData["Id"].ToString(), page = x }))%></p>
     
 
 </asp:Content>
