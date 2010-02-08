@@ -38,7 +38,7 @@ namespace Jumblist.Core.Model
         public LocationCategory Category
         {
             get { return locationCategory.Entity; }
-            set { locationCategory.Entity = value; LocationCategoryId = value.LocationCategoryId; }
+            set { locationCategory.Entity = value; } //LocationCategoryId = value.LocationCategoryId; }
         }
 
         [Association(Name = "FK_PostLocations_Locations", Storage = "postLocations", ThisKey = "LocationId", OtherKey = "LocationId", IsForeignKey = true)]

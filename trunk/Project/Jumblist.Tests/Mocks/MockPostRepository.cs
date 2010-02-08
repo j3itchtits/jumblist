@@ -6,13 +6,14 @@ using Moq;
 using Jumblist.Core.Model;
 using Jumblist.Core.Service;
 using StuartClode.Mvc.Service;
+using Jumblist.Core.Service.Data;
 
 namespace Jumblist.Tests.Mocks
 {
     public class MockPostRepository
     {
         private List<Post> postList;
-        private IDataService<Post> postRepository;
+        private IPostService postRepository;
 
         public MockPostRepository()
         {
@@ -25,7 +26,7 @@ namespace Jumblist.Tests.Mocks
             postRepository = GenerateMockPostRepository( postList );
         }
 
-        public IDataService<Post> Repository
+        public IPostService Repository
         {
             get { return postRepository; }
         }
@@ -41,9 +42,9 @@ namespace Jumblist.Tests.Mocks
             };
         }
 
-        private IDataService<Post> GenerateMockPostRepository( List<Post> posts )
+        private IPostService GenerateMockPostRepository( List<Post> posts )
         {
-            var mockRepository = new Mock<IDataService<Post>>();
+            var mockRepository = new Mock<IPostService>();
             mockRepository.Setup( x => x.SelectList() ).Returns( posts.AsQueryable() );
             return mockRepository.Object;
         }

@@ -99,7 +99,7 @@ p
 
 #header
 {
-	/* background: #927B51;*/
+	background: #927B51;
 	color: #000;
 }
 
@@ -155,8 +155,8 @@ p
 #footer
 {
 	clear: left;
-	/*background: #BCDD5A;*/
-	height: 130px;
+	background: #BCDD5A;
+	height: 430px;
 }
 
 #footer #footer-interior

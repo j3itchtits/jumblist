@@ -51,5 +51,6 @@ namespace Jumblist.Core.Service.Data
             if (list.Any<Location>( p => p.Name == entity.Name ))
                 throw new RulesException( "Name", "Duplicate Location Name", entity );
         }
+
     }
 }

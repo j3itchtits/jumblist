@@ -7,6 +7,13 @@
             <td><%= post.Title %></td>  
             <td><%= post.Category.Name %></td>
             <td><%= Html.ActionLink( "Detail", "detail", new { id = post.PostId } )%></td>  
+            <td>
+            <% using(Html.BeginForm("additem", "basket")) { %>
+                <%= Html.Hidden("postId", post.PostId) %>
+                <%= Html.Hidden("returnUrl", ViewContext.HttpContext.Request.Url.PathAndQuery) %>
+                <input type="submit" value="+ Add to cart" />
+            <% } %>
+            </td>            
         </tr>            
 <% } %>
 </table>

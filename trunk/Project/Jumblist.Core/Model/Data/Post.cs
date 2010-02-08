@@ -26,7 +26,7 @@ namespace Jumblist.Core.Model
         public int ParentId { get; set; }
 
         [Column( Name = "PostGuid" )]
-        [Required]
+        //[Required]
         public string Guid { get; set; }
 
         [Column( Name = "PostUrl" )]
@@ -62,33 +62,33 @@ namespace Jumblist.Core.Model
         [Required]
         public int PostCategoryId { get; set; }
 
-        [Association( Name = "FK_Posts_PostCategories", Storage = "postCategory", ThisKey = "PostCategoryId", OtherKey = "PostCategoryId", IsForeignKey = true )]
-        public PostCategory Category
-        {
-            get { return postCategory.Entity; }
-            set { postCategory.Entity = value; PostCategoryId = value.PostCategoryId; }
-        }
-
         [Column( Name = "UserId" )]
         [Required]
         public int UserId { get; set; }
+
+        [Column(Name = "FeedId")]
+        [Required]
+        public int FeedId { get; set; }
+
+        [Association(Name = "FK_Posts_PostCategories", Storage = "postCategory", ThisKey = "PostCategoryId", OtherKey = "PostCategoryId", IsForeignKey = true)]
+        public PostCategory Category
+        {
+            get { return postCategory.Entity; }
+            set { postCategory.Entity = value; } //PostCategoryId = value.PostCategoryId; }
+        }
 
         [Association( Name = "FK_Posts_Users", Storage = "user", ThisKey = "UserId", OtherKey = "UserId", IsForeignKey = true )]
         public User User
         {
             get { return user.Entity; }
-            set { user.Entity = value; UserId = value.UserId; }
+            set { user.Entity = value; }//UserId = value.UserId; 
         }
-
-        [Column( Name = "FeedId" )]
-        [Required]
-        public int FeedId { get; set; }
 
         [Association( Name = "FK_Posts_Feed", Storage = "feed", ThisKey = "FeedId", OtherKey = "FeedId", IsForeignKey = true )]
         public Feed Feed
         {
             get { return feed.Entity; }
-            set { feed.Entity = value; FeedId = value.FeedId; }
+            set { feed.Entity = value; }//FeedId = value.FeedId; 
         }
 
         [Association( Name = "FK_PostLocations_Posts", Storage = "postLocations", ThisKey = "PostId", OtherKey = "PostId", IsForeignKey = true )]

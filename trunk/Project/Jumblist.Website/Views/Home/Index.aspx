@@ -11,23 +11,18 @@
 
     <h2>Home</h2>
     
-    <p>London weather: <%= HttpContext.Current.Items["Temp"] %></p>
     
-    <p><%= Html.ActionLink( "View All Posts", "list", "posts" ) %></p>
+    <p><%= Html.ActionLink("View All Posts", "index", "posts")%></p>
     
-    <p><%= Html.ActionLink( "View All Tags", "list", "tags" ) %></p>
+    <p><%= Html.ActionLink( "Tags", "index", "tags" ) %></p>
     
-    <p><%= Html.ActionLink( "View All Locations", "list", "locations" ) %></p>
+    <p><%= Html.ActionLink("Locations", "index", "locations")%></p>
     
-    <p><%= Html.ActionLink( "View All Authors", "list", "authors" ) %></p>
-    
-    <p><%= Html.ActionLink( "View All Feeds", "list", "feeds" ) %></p>
       
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <p><%= Html.ActionLink( "View Posts By Tag", "tagged", "posts", new { id = "Fridge".ToFriendlyUrl() } ) %></p>
-    <p><%= Html.ActionLink( "View Posts By Location", "location", "posts", new { id = "TN38".ToFriendlyUrl() } ) %></p>
- 
+     <p>London weather: <%= HttpContext.Current.Items["Temp"] %></p>
+
 </asp:Content>
