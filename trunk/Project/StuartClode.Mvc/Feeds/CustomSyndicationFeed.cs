@@ -12,7 +12,7 @@ using Microsoft.Web.Testing.Light;
 using System.ServiceModel.Syndication;
 using System.Xml;
 
-namespace Jumblist.Website.Module
+namespace StuartClode.Mvc.Feeds
 {
     public class CustomSyndicationFeed
     {
