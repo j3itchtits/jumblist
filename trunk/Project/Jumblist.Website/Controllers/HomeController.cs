@@ -12,6 +12,7 @@ using System.Xml;
 using System.ServiceModel.Syndication;
 using Jumblist.Website.ViewModel;
 using System.Reflection;
+using System.Net;
 
 
 namespace Jumblist.Website.Controllers
@@ -30,6 +31,7 @@ namespace Jumblist.Website.Controllers
 
         public ViewResult Help()
         {
+            ViewData["Content"] = HttpReader.YahooGroup( "http://groups.yahoo.com/group/hastings-freecycle/messages?xm=1&o=1&l=1", "noostu", "edinburgh" );
             return View();
         }
 
@@ -65,5 +67,7 @@ namespace Jumblist.Website.Controllers
 
             return View( model );
         }
+
     }
+
 }

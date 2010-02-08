@@ -8,4 +8,6 @@
 
     <h2>Help</h2>
 
+    <%= ViewData["Content"] %>
+
 </asp:Content>
