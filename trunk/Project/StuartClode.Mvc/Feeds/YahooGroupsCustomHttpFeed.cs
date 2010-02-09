@@ -10,6 +10,7 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using Microsoft.Web.Testing.Light;
 using System.ServiceModel.Syndication;
+using System.Collections.ObjectModel;
 
 namespace StuartClode.Mvc.Feeds
 {
@@ -18,38 +19,48 @@ namespace StuartClode.Mvc.Feeds
         public static SyndicationFeed Load( string uri, string username, string password )
         {
             string feedSource = HttpReader.YahooGroup( uri, username, password );
+
             feedSource = Regex.Replace( feedSource, @"\<\!DOCTYPE.*?\>", String.Empty );
-            feedSource = Regex.Replace(feedSource, "</html>(.|\n)*", "</html>");
+            feedSource = Regex.Replace( feedSource, "</html>(.|\n)*", "</html>" );
+            feedSource = Regex.Replace( feedSource, "</tr>\n</tr>", "</tr>" );
 
             HtmlElement rootElement = HtmlElement.Create( feedSource );
 
-            // identify the div rows
+            // identify the table of content
             HtmlElementFindParams findParams1 = new HtmlElementFindParams();
             findParams1.TagName = "table";
             findParams1.Attributes.Add( "class", "wide" );
-            findParams1.Index = 0;
-
-            //HtmlElement divModule = rootElement.ChildElements.FindAll( findParams1 )[0];
+            //findParams1.Index = 0;
             HtmlElement table = rootElement.ChildElements.Find( findParams1 );
 
-            // identify the sub div rows
-            HtmlElementFindParams findParams2 = new HtmlElementFindParams();
-            findParams2.TagName = "tr";
+            // identify the tr rows within table
+            //HtmlElementFindParams findParams2 = new HtmlElementFindParams();
+            //findParams2.TagName = "tr";
+            //findParams2.Attributes.Add( "class", "" );
 
-            List<SyndicationItem> items = new List<SyndicationItem>();
+            //ReadOnlyCollection<HtmlElement> trList = table.ChildElements.FindAll( findParams2 );
+            IList<HtmlElement> trList = table.ChildElements.ToList();
+            trList.RemoveAt( 0 );
+
+            IList<SyndicationItem> items = new List<SyndicationItem>();
 
             int i = 0;
-            //find all the headlines
-            foreach (HtmlElement tr in table.ChildElements.FindAll( findParams2 ))
+
+            foreach (HtmlElement tr in trList)
             {
-                //if i is even then get the title/href from the tr row
-                //if i is odd then get the body from the tr row
+                //odd
+                if ((i % 2) != 0)
+                {
+                    HtmlAnchorElement link = (HtmlAnchorElement)tr.PreviousSibling.ChildElements.Find( "a", 0 );
+                    string title = link.CachedInnerText;
+                    string hRef = "http://groups.yahoo.com" + link.CachedAttributes.HRef;
 
-                //find the first link within the div
-                HtmlAnchorElement link = (HtmlAnchorElement)tr.ChildElements.Find( "a", 0 );
-                string hRef = "http://groups.yahoo.com" + link.CachedAttributes.HRef;
+                    HtmlElement pre = tr.ChildElements.Find( "pre", 0 );
+                    string body = pre.CachedInnerText;
 
-                items.Add( new SyndicationItem( link.CachedInnerText, link.CachedInnerText, new Uri( hRef ), hRef, DateTime.Now ) );
+                    items.Add( new SyndicationItem( title, new TextSyndicationContent( body ), new Uri( hRef ), hRef, DateTime.Now ) );
+                }
+                
                 i++;
             }
 
