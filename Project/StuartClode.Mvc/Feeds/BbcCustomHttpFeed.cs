@@ -10,6 +10,7 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using Microsoft.Web.Testing.Light;
 using System.ServiceModel.Syndication;
+using System.Collections.ObjectModel;
 
 namespace StuartClode.Mvc.Feeds
 {
@@ -18,6 +19,7 @@ namespace StuartClode.Mvc.Feeds
         public static SyndicationFeed Load(string uri, string username, string password)
         {
             string feedSource = HttpReader.Create( uri );
+
             feedSource = Regex.Replace( feedSource, @"\<\!DOCTYPE.*?\>", String.Empty );
             feedSource = Regex.Replace(feedSource, "</html>(.|\n)*", "</html>");
 
@@ -28,19 +30,18 @@ namespace StuartClode.Mvc.Feeds
             findParams1.TagName = "div";
             findParams1.Attributes.Add( "class", "wgreylinebottom" );
             findParams1.Index = 0;
-
-            //HtmlElement divModule = rootElement.ChildElements.FindAll( findParams1 )[0];
-            HtmlElement divModule = rootElement.ChildElements.Find( findParams1 );
+            HtmlElement divParent = rootElement.ChildElements.Find( findParams1 );
 
             // identify the sub div rows
             HtmlElementFindParams findParams2 = new HtmlElementFindParams();
             findParams2.TagName = "div";
             findParams2.Attributes.Add( "class", "arr" );
+            ReadOnlyCollection<HtmlElement> divList = divParent.ChildElements.FindAll( findParams2 );
 
             List<SyndicationItem> items = new List<SyndicationItem>();
 
             //find all the headlines
-            foreach (HtmlElement div in divModule.ChildElements.FindAll( findParams2 ))
+            foreach (HtmlElement div in divList)
             {
                 //find the first link within the div
                 HtmlAnchorElement link = (HtmlAnchorElement)div.ChildElements.Find( "a", 0 );
