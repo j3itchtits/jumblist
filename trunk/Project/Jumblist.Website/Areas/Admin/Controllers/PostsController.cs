@@ -221,7 +221,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ViewResult Location( string id )
+        public ViewResult ListByLocation( string id )
         {
             int number;
             Location item;
@@ -247,7 +247,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult Tagged( string id )
+        public ViewResult ListByTag(string id)
         {
             int number;
             Tag item;

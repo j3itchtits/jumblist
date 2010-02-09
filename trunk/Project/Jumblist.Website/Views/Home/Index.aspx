@@ -9,8 +9,6 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
-    <h2>Home</h2>
-    
     
     <p><%= Html.ActionLink("View All Posts", "index", "posts")%></p>
     
@@ -18,11 +16,14 @@
     
     <p><%= Html.ActionLink("Locations", "index", "locations")%></p>
     
+    <p><%= Html.ActionLink("Groups", "index", "feeds")%></p>
       
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
      <p>London weather: <%= HttpContext.Current.Items["Temp"] %></p>
+     
+     <% Html.RenderAction("basiclist", "posts", new { top = 5 } ); %>
 
 </asp:Content>

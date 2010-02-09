@@ -34,7 +34,6 @@ namespace Jumblist.Website.Controllers
             return View( "Summary", basket );
         }
 
-
         public RedirectToRouteResult AddItem( Basket basket, int postId, string returnUrl )
         {
             Post post = postService.Select( postId );

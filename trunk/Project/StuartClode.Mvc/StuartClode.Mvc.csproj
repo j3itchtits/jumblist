@@ -91,6 +91,7 @@
     <Compile Include="Extension\RoutingExtension.cs" />
     <Compile Include="Extension\WindsorExtension.cs" />
     <Compile Include="Feeds\BbcCustomHttpFeed.cs" />
+    <Compile Include="Feeds\ISyndicationFeed.cs" />
     <Compile Include="Feeds\YahooGroupsCustomHttpFeed.cs" />
     <Compile Include="Feeds\CustomSyndicationFeed.cs" />
     <Compile Include="Feeds\HttpReader.cs" />

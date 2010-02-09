@@ -8,8 +8,8 @@
             <td><%= Html.Encode( location.Category.Name )%></td>  
             <td><%= Html.ActionLink( "Edit", "edit", new { id = location.LocationId } )%></td>  
             <td><%= Ajax.ActionLink( "Delete", "delete", new { id = location.LocationId }, new AjaxOptions { Confirm = "Delete '" + location.Name + "' Post?", HttpMethod = "Delete", UpdateTargetId = "itemsList" } )%></td> 
-            <td>[ <%= Html.ActionLink( "List Posts", "location", "posts", new { id = location.LocationId }, null )%> ]</td> 
-            <td>[ <%= Html.ActionLink( "List Posts", "location", "posts", new { id = location.Name.ToFriendlyUrl() }, null )%> ]</td> 
+            <td>[ <%= Html.ActionLink( "List Posts", "listbylocation", "posts", new { id = location.LocationId }, null )%> ]</td> 
+            <td>[ <%= Html.ActionLink( "List Posts", "listbylocation", "posts", new { id = location.Name.ToFriendlyUrl() }, null )%> ]</td> 
         </tr> 
 <% } %>
 </table>         

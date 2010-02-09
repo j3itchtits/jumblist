@@ -19,12 +19,14 @@ namespace Jumblist.Website.Controllers
         private readonly IPostService postService;
         private readonly IDataService<Location> locationService;
         private readonly IDataService<Tag> tagService;
+        private readonly IDataService<Feed> feedService;
 
-        public PostsController(IPostService postService, IDataService<Location> locationService, IDataService<Tag> tagService)
+        public PostsController(IPostService postService, IDataService<Location> locationService, IDataService<Tag> tagService, IDataService<Feed> feedService)
         {
             this.postService = postService;
             this.locationService = locationService;
             this.tagService = tagService;
+            this.feedService = feedService;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -37,7 +39,7 @@ namespace Jumblist.Website.Controllers
         public ViewResult List( int? page )
         {
             var list = postService.SelectList();
-            var test = list.Alphabetical();
+            //var test = list.Alphabetical();
             var paged = new PaginatedList<Post>( list.ToList(), (page ?? 1), 3 );
 
             var model = BuildDefaultViewModel().With( paged );
@@ -50,7 +52,15 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ViewResult Detail( int id )
+        public ActionResult BasicList( int top )
+        {
+            var model = postService.SelectList().OrderByDescending( t => t.DateTime ).Take(top);
+
+            return PartialView("basiclist", model);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ViewResult Detail(int id, string name)
         {
             var item = postService.Select( id );
             var model = BuildDefaultViewModel().With( item );
@@ -87,6 +97,22 @@ namespace Jumblist.Website.Controllers
             model.PageTitle = "All Posts by Tag - " + item.Name;
 
             ViewData["Action"] = "tagged";
+            ViewData["Id"] = id;
+
+            return View("list", model);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ViewResult Feed(string id, int? page)
+        {
+            var item = feedService.SelectList().Single(x => x.FriendlyUrl == id);
+            var list = postService.SelectList().Where(x => x.FeedId == item.FeedId);
+            var paged = new PaginatedList<Post>(list.ToList(), (page ?? 1), 3);
+
+            var model = BuildDefaultViewModel().With(paged);
+            model.PageTitle = "All Posts by Feed - " + item.Name;
+
+            ViewData["Action"] = "feed";
             ViewData["Id"] = id;
 
             return View("list", model);
