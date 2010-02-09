@@ -22,6 +22,12 @@ namespace Jumblist.Website.Controllers
             this.feedService = feedService;
         }
 
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult Index()
+        {
+            return RedirectToAction("list");
+        }
+
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult List()
         {

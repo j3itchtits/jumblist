@@ -13,12 +13,13 @@ using System.ServiceModel.Syndication;
 
 namespace StuartClode.Mvc.Feeds
 {
-    public class BbcCustomHttpFeed
+    public class BbcCustomHttpFeed// : ISyndicationFeed
     {
-        public static SyndicationFeed Load( string uri )
+        public static SyndicationFeed Load(string uri, string username, string password)
         {
             string feedSource = HttpReader.Create( uri );
             feedSource = Regex.Replace( feedSource, @"\<\!DOCTYPE.*?\>", String.Empty );
+            feedSource = Regex.Replace(feedSource, "</html>(.|\n)*", "</html>");
 
             HtmlElement rootElement = HtmlElement.Create( feedSource );
 

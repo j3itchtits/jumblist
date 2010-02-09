@@ -25,6 +25,11 @@ namespace Jumblist.Core.Model
         [StringLength(250)]
         public string Name { get; set; }
 
+        [Column(Name = "FeedFriendlyUrl")]
+        [Required]
+        [StringLength(250)]
+        public string FriendlyUrl { get; set; }
+
         [Column( Name = "FeedUrl" )]
         [Required( ErrorMessage = "Please enter a url" )]
         [StringLength( 500 )]

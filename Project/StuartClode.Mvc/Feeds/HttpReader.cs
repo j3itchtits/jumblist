@@ -94,73 +94,70 @@ namespace StuartClode.Mvc.Feeds
             return responseString;
         }
 
-        public static string YahooGroup( string url, string username, string password )
+        public static string YahooGroup( string groupUrl, string username, string password )
         {
-            string _authUrl = "https://login.yahoo.com/config/login?";
-            string _loginPage = "https://login.yahoo.com/config/login";
-            string _userAgent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.3) Gecko/20070309 Firefox/2.0.0.3";
+            string authUrl = "https://login.yahoo.com/config/login?";
+            string loginUrl = "https://login.yahoo.com/config/login";
+            string userAgent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.3) Gecko/20070309 Firefox/2.0.0.3";
 
-            string result = "";
+            WebClient webClient = new WebClient();
 
-            try
+            //begin first request (get) by setting Headers (UserAgent) and Encoding (UTF8)
+            webClient.Headers[HttpRequestHeader.UserAgent] = userAgent;
+            webClient.Encoding = Encoding.UTF8;
+
+            //fetch response to get request (1)
+            byte[] firstResponse = webClient.DownloadData( loginUrl );
+            string firstRes = Encoding.UTF8.GetString( firstResponse );
+
+            // begin second (post) request by setting hidden form values, then setting Headers (UserAgent,Referer and Cookie) and Encoding (UTF8)
+            NameValueCollection postToLogin = new NameValueCollection();
+            Regex regex = new Regex( "type=\"hidden\" name=\"(.*?)\" value=\"(.*?)\"", RegexOptions.IgnoreCase );
+            Match match = regex.Match( firstRes );
+            while (match.Success)
             {
-                WebClient webClient = new WebClient();
-                webClient.Headers[HttpRequestHeader.UserAgent] = _userAgent;
-                webClient.Encoding = Encoding.UTF8;
-
-                byte[] firstResponse = webClient.DownloadData( _loginPage );
-                string firstRes = Encoding.UTF8.GetString( firstResponse );
-
-                NameValueCollection postToLogin = new NameValueCollection();
-                Regex regex = new Regex( "type=\"hidden\" name=\"(.*?)\" value=\"(.*?)\"", RegexOptions.IgnoreCase );
-                Match match = regex.Match( firstRes );
-                while (match.Success)
+                if (match.Groups[0].Value.Length > 0)
                 {
-                    if (match.Groups[0].Value.Length > 0)
-                    {
-                        postToLogin.Add( match.Groups[1].Value, match.Groups[2].Value );
-                    }
-                    match = regex.Match( firstRes, match.Index + match.Length );
+                    postToLogin.Add( match.Groups[1].Value, match.Groups[2].Value );
                 }
-
-                postToLogin.Add( ".save", "Sign In" );
-                postToLogin.Add( ".persistent", "y" );
-                postToLogin.Add( "login", username );
-                postToLogin.Add( "passwd", password );
-
-                webClient.Headers[HttpRequestHeader.UserAgent] = _userAgent;
-                webClient.Headers[HttpRequestHeader.Referer] = _loginPage;
-                webClient.Encoding = Encoding.UTF8;
-                webClient.Headers[HttpRequestHeader.Cookie] = webClient.ResponseHeaders[HttpResponseHeader.SetCookie];
-
-                webClient.UploadValues( _authUrl, postToLogin );
-                string cookie = webClient.ResponseHeaders[HttpResponseHeader.SetCookie];
-
-                if (string.IsNullOrEmpty( cookie ))
-                {
-                    return "Cookie is Null or Empty";
-                }
-
-                string newCookie = string.Empty;
-                string[] tmp1 = cookie.Split( ',' );
-                foreach (string var in tmp1)
-                {
-                    string[] tmp2 = var.Split( ';' );
-                    newCookie = String.IsNullOrEmpty( newCookie ) ? tmp2[0] : newCookie + ";" + tmp2[0];
-                }
-
-                // set login cookie 
-                webClient.Headers[HttpRequestHeader.Cookie] = newCookie;
-                byte[] thirdResponse = webClient.DownloadData( url );
-                string thirdRes = Encoding.UTF8.GetString( thirdResponse );
-
-                result = thirdRes;
-            }
-            catch
-            {
+                match = regex.Match( firstRes, match.Index + match.Length );
             }
 
-            return result;
+            postToLogin.Add( ".save", "Sign In" );
+            postToLogin.Add( ".persistent", "y" );
+            postToLogin.Add( "login", username );
+            postToLogin.Add( "passwd", password );
+
+            webClient.Headers[HttpRequestHeader.UserAgent] = userAgent;
+            webClient.Headers[HttpRequestHeader.Referer] = loginUrl;
+            webClient.Encoding = Encoding.UTF8;
+            webClient.Headers[HttpRequestHeader.Cookie] = webClient.ResponseHeaders[HttpResponseHeader.SetCookie];
+
+            //fetch response to post request (2)
+            webClient.UploadValues( authUrl, postToLogin );
+            string cookie = webClient.ResponseHeaders[HttpResponseHeader.SetCookie];
+
+            if (string.IsNullOrEmpty( cookie ))
+            {
+                return "Cookie is Null or Empty";
+            }
+
+            string newCookie = string.Empty;
+            string[] tmp1 = cookie.Split( ',' );
+            foreach (string var in tmp1)
+            {
+                string[] tmp2 = var.Split( ';' );
+                newCookie = String.IsNullOrEmpty( newCookie ) ? tmp2[0] : newCookie + ";" + tmp2[0];
+            }
+
+            // begin third request by setting login cookie 
+            webClient.Headers[HttpRequestHeader.Cookie] = newCookie;
+
+            //fetch response to get request (3)
+            byte[] thirdResponse = webClient.DownloadData( groupUrl );
+            string thirdRes = Encoding.UTF8.GetString( thirdResponse );
+
+            return thirdRes;
         } 
     }
 

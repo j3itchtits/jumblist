@@ -158,6 +158,13 @@ namespace Jumblist.Website
             AreaRegistration.RegisterAllAreas();
 
             routes.MapRoute(
+                "Post-Detail",                                              // Route name
+                "post/{id}/{name}",                           // URL with parameters
+                new { controller = "posts", action = "detail", id = "", name = "" },  // Parameter defaults
+                new string[] { "Jumblist.Website.Controllers" }
+            );
+
+            routes.MapRoute(
                 "Default",                                              // Route name
                 "{controller}/{action}/{id}",                           // URL with parameters
                 new { controller = "Home", action = "Index", id = "" },  // Parameter defaults

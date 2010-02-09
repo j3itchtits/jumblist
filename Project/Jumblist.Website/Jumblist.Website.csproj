@@ -231,6 +231,8 @@
     <Content Include="Views\Home\Test.aspx" />
     <Content Include="Views\Locations\List.aspx" />
     <Content Include="Views\Locations\LocationList.ascx" />
+    <Content Include="Views\Posts\AddToBasket.ascx" />
+    <Content Include="Views\Posts\BasicList.ascx" />
     <Content Include="Views\Posts\PostList.ascx" />
     <Content Include="Views\Tags\List.aspx" />
     <Content Include="Views\Tags\TagList.ascx" />

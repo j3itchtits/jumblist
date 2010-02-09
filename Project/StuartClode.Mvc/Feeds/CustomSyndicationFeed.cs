@@ -14,9 +14,9 @@ using System.Xml;
 
 namespace StuartClode.Mvc.Feeds
 {
-    public class CustomSyndicationFeed
+    public class CustomSyndicationFeed// : ISyndicationFeed
     {
-        public static SyndicationFeed Load( string uri )
+        public static SyndicationFeed Load( string uri, string username, string password )
         {
             XmlReader feedSource = XmlReader.Create( uri );
 
