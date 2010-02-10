@@ -38,6 +38,11 @@ namespace Jumblist.Core.Service.Data
             return base.SelectList();
         }
 
+        public virtual IQueryable<Post> SelectActiveList()
+        {
+            return SelectList().Where( x => x.Display == true );
+        }
+
         public override Post Select( int id )
         {
             return base.Select( id );
@@ -104,22 +109,6 @@ namespace Jumblist.Core.Service.Data
         public bool IsDuplicate(IQueryable<Post> list, string id)
         {
             return list.Any<Post>(p => p.Guid == id);
-        }
-
-        public string[] FindLocations(string q)
-        {
-            return locationDataService.SelectList()
-                .Where(r => r.Name.StartsWith(q))
-                .Select(r => r.Name)
-                .ToArray();
-        }
-
-        public string[] FindTags(string q)
-        {
-            return tagDataService.SelectList()
-                .Where(r => r.Name.StartsWith(q))
-                .Select(r => r.Name)
-                .ToArray();
         }
 
         #endregion

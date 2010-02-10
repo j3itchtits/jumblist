@@ -58,7 +58,11 @@ namespace StuartClode.Mvc.Feeds
                     HtmlElement pre = tr.ChildElements.Find( "pre", 0 );
                     string body = pre.CachedInnerText;
 
-                    items.Add( new SyndicationItem( title, new TextSyndicationContent( body ), new Uri( hRef ), hRef, DateTime.Now ) );
+                    var syndicationItem = new SyndicationItem( title, string.Empty, new Uri( hRef ), hRef, DateTime.Now );
+                    syndicationItem.Summary = new TextSyndicationContent( body );
+                    syndicationItem.PublishDate = DateTime.Now;
+
+                    items.Add( syndicationItem );
                 }
                 
                 i++;

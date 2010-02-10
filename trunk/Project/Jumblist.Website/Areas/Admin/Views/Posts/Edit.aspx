@@ -96,13 +96,13 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            $("input#location").autocomplete('<%= Url.Action("findlocations", "posts") %>',
+            $("input#location").autocomplete('<%= Url.Action("findlocations", "locations") %>',
                 {
                     minChars: 2
                 }
             );
 
-            $("input#tag").autocomplete('<%= Url.Action("findtags", "posts") %>',
+            $("input#tag").autocomplete('<%= Url.Action("findtags", "tags") %>',
                 {
                     minChars: 2
                 }

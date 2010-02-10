@@ -14,7 +14,7 @@ namespace Jumblist.Core.Service.Data
         {
         }
 
-        #region IPostService Members
+        #region ITagService Members
 
         public override IQueryable<Tag> SelectList()
         {
@@ -26,6 +26,11 @@ namespace Jumblist.Core.Service.Data
             return base.Select( id );
         }
 
+        public override Tag Select(string name)
+        {
+            return base.Select(name);
+        }
+
         public override void Save( Tag entity )
         {
             ValidateBusinessRules( entity );
@@ -35,6 +40,14 @@ namespace Jumblist.Core.Service.Data
         public override void Delete( Tag entity )
         {
             base.Delete( entity );
+        }
+
+        public string[] FindTags(string q)
+        {
+            return SelectList()
+                .Where(r => r.Name.StartsWith(q))
+                .Select(r => r.Name)
+                .ToArray();
         }
 
         #endregion

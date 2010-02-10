@@ -7,6 +7,7 @@ namespace Jumblist.Core.Service.Data
     public interface IPostService
     {
         IQueryable<Post> SelectList();
+        IQueryable<Post> SelectActiveList();
         Post Select(int id);
         void Save( Post entity );
         void Delete( Post entity );
@@ -15,7 +16,5 @@ namespace Jumblist.Core.Service.Data
         IEnumerable<Post> SelectPostsByTag(int tagId);
         IEnumerable<Post> SelectPostsByTag(string tagName); 
         bool IsDuplicate(IQueryable<Post> list, string id);
-        string[] FindLocations(string q);
-        string[] FindTags(string q);
     }
 }

@@ -97,5 +97,14 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             return PartialView( "TagList", list );
         }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult FindTags(string q)
+        {
+            var tags = tagService.FindTags(q);
+
+            //return raw text, one result on each line
+            return Content(string.Join("\n", tags));
+        } 
     }
 }
