@@ -1,35 +1,36 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Ajax;
 using Jumblist.Core.Model;
-using Jumblist.Website.Controllers;
 using Jumblist.Core.Service.Data;
-using StuartClode.Mvc.Extension;
+using StuartClode.Mvc.Service;
 using xVal.ServerSide;
+using StuartClode.Mvc.Extension;
+using Jumblist.Website.Filter;
 
 namespace Jumblist.Website.Controllers
 {
-    public class TagsController : ViewModelController<Tag>
+    public class GroupsController : ViewModelController<Feed>
     {
-        private readonly ITagService tagService;
+        private IFeedService feedService;
 
-        public TagsController( ITagService tagService )
+        public GroupsController( IFeedService feedService )
         {
-            this.tagService = tagService;
+            this.feedService = feedService;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Index()
         {
-            var list = tagService.SelectList();
+            var list = feedService.SelectList();
 
             var model = BuildDefaultViewModel().With( list );
-            model.PageTitle = "All Tags";
+            model.PageTitle = "All Groups";
 
             return View( model );
         }
-
     }
 }

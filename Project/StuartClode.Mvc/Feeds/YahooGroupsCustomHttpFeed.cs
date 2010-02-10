@@ -48,19 +48,23 @@ namespace StuartClode.Mvc.Feeds
 
             foreach (HtmlElement tr in trList)
             {
-                //odd
+                //each feed item spans two rows so we want to add the item on every odd numbered tr element
                 if ((i % 2) != 0)
                 {
                     HtmlAnchorElement link = (HtmlAnchorElement)tr.PreviousSibling.ChildElements.Find( "a", 0 );
                     string title = link.CachedInnerText;
                     string hRef = "http://groups.yahoo.com" + link.CachedAttributes.HRef;
 
+                    HtmlElement td = tr.PreviousSibling.ChildElements.Find( "td", 1 );
+                    string dateString = Regex.Replace( td.CachedInnerText, "(.*)&gt;", String.Empty );
+                    DateTime datePublished = DateTime.Parse( HttpUtility.HtmlDecode( dateString ) );
+
                     HtmlElement pre = tr.ChildElements.Find( "pre", 0 );
-                    string body = pre.CachedInnerText;
+                    string summary = pre.CachedInnerText;
 
                     var syndicationItem = new SyndicationItem( title, string.Empty, new Uri( hRef ), hRef, DateTime.Now );
-                    syndicationItem.Summary = new TextSyndicationContent( body );
-                    syndicationItem.PublishDate = DateTime.Now;
+                    syndicationItem.Summary = new TextSyndicationContent( summary );
+                    syndicationItem.PublishDate = datePublished;
 
                     items.Add( syndicationItem );
                 }

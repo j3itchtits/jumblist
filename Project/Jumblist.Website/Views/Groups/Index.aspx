@@ -11,8 +11,17 @@
     <%= Html.MessageBox( ViewData.Model )%>
     
     <div id="itemsList">
-        <% Html.RenderPartial( "FeedList", Model.List ); %>
+        <% Html.RenderPartial( "GroupList", Model.List ); %>
     </div>
     
     
+</asp:Content>
+
+<asp:Content ID="Content3" ContentPlaceHolderID="HeadContentJavascript" runat="server">
+</asp:Content>
+
+<asp:Content ID="Content4" ContentPlaceHolderID="BodyContentRight" runat="server">
+
+    <% Html.RenderPartial( "RightNavListBy" ); %>    
+
 </asp:Content>

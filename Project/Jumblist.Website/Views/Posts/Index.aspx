@@ -15,14 +15,17 @@
     </div>
    
    
-    <p><%= Html.PagingLinks(Model.PaginatedList.CurrentPage, Model.PaginatedList.TotalPages, x => Url.Action(ViewData["Action"].ToString(), new { id = ViewData["Id"].ToString(), page = x }))%></p>
+    <p><%= Html.PagingLinks( Model.PaginatedList.CurrentPage, Model.PaginatedList.TotalPages, x => Url.Action( ViewContext.RouteData.Values["action"].ToString(), new { id = ViewContext.RouteData.Values["id"].ToString(), page = x } ) )%></p>
     
-    <p><%= Html.NextPreviousPageLinks(Model.PaginatedList.CurrentPage, Model.PaginatedList.HasPreviousPage, Model.PaginatedList.HasNextPage, x => Url.Action(ViewData["Action"].ToString(), new { id = ViewData["Id"].ToString(), page = x }))%></p>
+    <p><%= Html.NextPreviousPageLinks( Model.PaginatedList.CurrentPage, Model.PaginatedList.HasPreviousPage, Model.PaginatedList.HasNextPage, x => Url.Action( ViewContext.RouteData.Values["action"].ToString(), new { id = ViewContext.RouteData.Values["id"].ToString(), page = x } ) )%></p>
     
 
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    
+    <% Html.RenderAction( "categorylist", "posts", new { highlightedCategory = ViewContext.RouteData.Values["id"].ToString() } ); %>
+
+    <% Html.RenderPartial( "RightNavListBy" ); %>
+        
 </asp:Content>

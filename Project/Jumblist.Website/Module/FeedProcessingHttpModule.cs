@@ -21,7 +21,7 @@ namespace Jumblist.Website.Module
         protected static Timer _timer;
         private static object _lock = new object();
         protected static string _value;
-        protected static bool _start = true;
+        protected static bool _start = false;
 
         protected void DoWork( object state )
         {
@@ -70,11 +70,11 @@ namespace Jumblist.Website.Module
 
             var postService = ServiceLocator.Current.GetInstance<IPostService>();
 
-            var list = postService.SelectList();
+            var posts = postService.SelectList();
 
             foreach (var item in feed.Items)
             {
-                if (!(postService.IsDuplicate( list, item.Id )))
+                if (!(postService.IsDuplicate( posts, item.Id )))
                 {
                     var post = new Post();
                     post.ParentId = 0;
@@ -83,7 +83,7 @@ namespace Jumblist.Website.Module
                     post.Title = item.Title.Text;
                     post.Body = item.Summary.Text;
                     post.DateTime = item.PublishDate.LocalDateTime;
-                    post.PostCategoryId = 1;
+                    post.PostCategoryId = 0;
                     post.Display = false;
                     post.UserId = 1;
                     post.FeedId = 1;
