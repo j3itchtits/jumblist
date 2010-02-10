@@ -21,7 +21,7 @@ namespace Jumblist.Website.Module
         protected static Timer _timer;
         private static object _lock = new object();
         protected static string _value;
-        protected static bool _start = false;
+        protected static bool _start = true;
 
         protected void DoWork( object state )
         {
@@ -119,7 +119,7 @@ namespace Jumblist.Website.Module
                 var timerCallback = new TimerCallback( DoWork );
                 var startTime = 0;
                 //1 second = 1000 ticks
-                var tickDuration = 30000;
+                var tickDuration = 300000;
                 _timer = new Timer( timerCallback, null, startTime, tickDuration );
             }
         }

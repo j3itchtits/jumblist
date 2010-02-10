@@ -71,7 +71,7 @@ namespace Jumblist.Core.Service.Data
                 bool locations = SavePostLocations( entity );
                 bool tags = SavePostTags( entity );
 
-                if ( locations && tags && ( entity.Display == false ) )
+                if ( ( locations || tags ) && ( entity.Display == false ) )
                 {
                     entity.Display = true;
                     base.Save( entity );
