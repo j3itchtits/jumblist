@@ -14,6 +14,7 @@
                     <td><%= post.Title.Text%></td>  
                     <td><a href="<%= post.Links[0].Uri.ToString() %>">Link</a></td>
                     <td><%= post.PublishDate.LocalDateTime%></td>
+                    <td><pre><%= post.Summary.Text %></pre></td>
                 </tr>            
         <% } %>
         </table>

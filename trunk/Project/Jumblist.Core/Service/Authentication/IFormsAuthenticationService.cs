@@ -1,7 +1,7 @@
 using System;
 using System.Web.Security;
 
-namespace Jumblist.Core.Service
+namespace Jumblist.Core.Service.Authentication
 {
     public interface IFormsAuthenticationService
 	{

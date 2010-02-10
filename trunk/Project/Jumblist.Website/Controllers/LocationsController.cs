@@ -17,19 +17,13 @@ namespace Jumblist.Website.Controllers
     {
         private readonly ILocationService locationService;
 
-        public LocationsController( ILocationService tagService, IDataService<LocationCategory> locationCategoryService )
+        public LocationsController( ILocationService locationService )
         {
-            this.locationService = tagService;
+            this.locationService = locationService;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ActionResult Index()
-        {
-            return RedirectToAction( "list" );
-        }
-
-        [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult List()
+        public ViewResult Index()
         {
             var list = locationService.SelectList();
 

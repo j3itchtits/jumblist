@@ -5,7 +5,7 @@ using System.Text;
 using System.Net.Mail;
 using Jumblist.Core.Model;
 
-namespace Jumblist.Core.Service
+namespace Jumblist.Core.Service.Basket
 {
     public class EmailBasketSubmitter : IBasketSubmitter
     {
@@ -24,7 +24,7 @@ namespace Jumblist.Core.Service
 
         #region IBasketSubmitter Members
 
-        public void SubmitBasket( Basket basket )
+        public void SubmitBasket( Jumblist.Core.Model.Basket basket )
         {
             // Prepare the message body
             StringBuilder body = new StringBuilder();

@@ -107,7 +107,7 @@
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Controllers\BasketController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
-    <Compile Include="Controllers\FeedsController.cs" />
+    <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
@@ -150,13 +150,10 @@
     <Content Include="Assets\Scripts\xVal.jquery.validate.js" />
     <Content Include="Views\Users\Register.aspx" />
     <Content Include="Views\Users\Detail.aspx" />
-    <Content Include="Views\Feeds\Detail.aspx" />
-    <Content Include="Views\Feeds\List.aspx" />
     <Content Include="Views\Home\About.aspx" />
     <Content Include="Views\Home\Help.aspx" />
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Posts\Detail.aspx" />
-    <Content Include="Views\Posts\List.aspx" />
     <Content Include="Views\Users\Login.aspx" />
     <Content Include="Web.config" />
     <Content Include="Assets\Scripts\jquery-1.3.2.js" />
@@ -227,14 +224,18 @@
     <Content Include="Areas\Admin\Views\Web.config" />
     <Content Include="Assets\Scripts\jquery.autocomplete.min.js" />
     <Content Include="Assets\Stylesheets\jquery.autocomplete.css" />
-    <Content Include="Views\Feeds\FeedList.ascx" />
+    <Content Include="Views\Groups\GroupList.ascx" />
+    <Content Include="Views\Groups\Index.aspx" />
     <Content Include="Views\Home\Test.aspx" />
-    <Content Include="Views\Locations\List.aspx" />
+    <Content Include="Views\Locations\Index.aspx" />
     <Content Include="Views\Locations\LocationList.ascx" />
     <Content Include="Views\Posts\AddToBasket.ascx" />
     <Content Include="Views\Posts\BasicList.ascx" />
+    <Content Include="Views\Posts\CategoryList.ascx" />
+    <Content Include="Views\Posts\Index.aspx" />
     <Content Include="Views\Posts\PostList.ascx" />
-    <Content Include="Views\Tags\List.aspx" />
+    <Content Include="Views\Shared\RightNavListBy.ascx" />
+    <Content Include="Views\Tags\Index.aspx" />
     <Content Include="Views\Tags\TagList.ascx" />
   </ItemGroup>
   <ItemGroup>

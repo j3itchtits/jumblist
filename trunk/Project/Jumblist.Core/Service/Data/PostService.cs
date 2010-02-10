@@ -15,13 +15,15 @@ namespace Jumblist.Core.Service.Data
         public IDataService<Location> locationDataService;
         public IDataService<PostTag> postTagDataService;
         public IDataService<Tag> tagDataService;
+        public IDataService<PostCategory> postCategoryDataService;
 
         public PostService(
             IRepository<Post> repository, 
             IDataService<PostLocation> postLocationDataService,
             IDataService<Location> locationDataService,
             IDataService<PostTag> postTagDataService,
-            IDataService<Tag> tagDataService
+            IDataService<Tag> tagDataService,
+            IDataService<PostCategory> postCategoryDataService
             )
             : base( repository )
         {
@@ -29,6 +31,7 @@ namespace Jumblist.Core.Service.Data
             this.locationDataService = locationDataService;
             this.postTagDataService = postTagDataService;
             this.tagDataService = tagDataService;
+            this.postCategoryDataService = postCategoryDataService;
         }
 
         #region IPostService Members
@@ -38,9 +41,9 @@ namespace Jumblist.Core.Service.Data
             return base.SelectList();
         }
 
-        public virtual IQueryable<Post> SelectActiveList()
+        public virtual IQueryable<Post> SelectList( bool IsActive )
         {
-            return SelectList().Where( x => x.Display == true );
+            return SelectList().Where( x => x.Display == IsActive );
         }
 
         public override Post Select( int id )
@@ -50,21 +53,30 @@ namespace Jumblist.Core.Service.Data
 
         public override void Save( Post entity )
         {
+            bool newEntity = ( entity.PostId == 0 );
+
             if (string.IsNullOrEmpty(entity.Guid))
                 entity.Guid = entity.Url;
 
-            bool newEntity = (entity.PostId == 0);
+            if ( entity.PostCategoryId == 0 )
+                entity.PostCategoryId = GetPostCategoryId( entity );
 
             ValidateBusinessRules( entity );
 
+            // we need to save at this point in order to get the new postid for the next section
             base.Save( entity );
 
             if (newEntity)
             {
-                SavePostLocations(entity);
-                SavePostTags(entity);  
-            }
+                bool locations = SavePostLocations( entity );
+                bool tags = SavePostTags( entity );
 
+                if ( locations && tags && ( entity.Display == false ) )
+                {
+                    entity.Display = true;
+                    base.Save( entity );
+                }
+            }
         }
 
         public override void Delete( Post entity )
@@ -80,6 +92,11 @@ namespace Jumblist.Core.Service.Data
                    select p;
         }
 
+        public IEnumerable<Post> SelectPostsByLocation( int locationId, bool isActive )
+        {
+            return SelectPostsByLocation( locationId ).Where( x => x.Display == isActive );
+        }
+
         public IEnumerable<Post> SelectPostsByLocation(string locationName)
         {
             return from p in SelectList().AsEnumerable()
@@ -89,12 +106,22 @@ namespace Jumblist.Core.Service.Data
                    select p;
         }
 
+        public IEnumerable<Post> SelectPostsByLocation( string locationName, bool isActive )
+        {
+            return SelectPostsByLocation( locationName ).Where( x => x.Display == isActive );
+        }
+
         public IEnumerable<Post> SelectPostsByTag(int tagId)
         {
             return from p in SelectList().AsEnumerable()
                    join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
                    where pt.TagId == tagId
                    select p;
+        }
+
+        public IEnumerable<Post> SelectPostsByTag( int tagId, bool isActive )
+        {
+            return SelectPostsByTag( tagId ).Where( x => x.Display == isActive );
         }
 
         public IEnumerable<Post> SelectPostsByTag(string tagName)
@@ -106,9 +133,62 @@ namespace Jumblist.Core.Service.Data
                    select p;
         }
 
-        public bool IsDuplicate(IQueryable<Post> list, string id)
+        public IEnumerable<Post> SelectPostsByTag( string tagName, bool isActive )
         {
-            return list.Any<Post>(p => p.Guid == id);
+            return SelectPostsByTag( tagName ).Where( x => x.Display == isActive );
+        }
+
+        public IEnumerable<Post> SelectPostsByCategory( int categoryId )
+        {
+            return from p in SelectList().AsEnumerable()
+                   where p.PostCategoryId == categoryId
+                   select p;
+        }
+
+        public IEnumerable<Post> SelectPostsByCategory( int categoryId, bool isActive )
+        {
+            return SelectPostsByCategory( categoryId ).Where( x => x.Display == isActive );
+        }
+
+        public IEnumerable<Post> SelectPostsByCategory( string categoryName )
+        {
+            return from p in SelectList().AsEnumerable()
+                   where p.Category.Name.Equals( categoryName, System.StringComparison.OrdinalIgnoreCase )
+                   select p;
+        }
+
+        public IEnumerable<Post> SelectPostsByCategory( string categoryName, bool isActive )
+        {
+            return SelectPostsByCategory( categoryName ).Where( x => x.Display == isActive );
+        }
+
+        public bool IsDuplicate( IQueryable<Post> list, string guid )
+        {
+            return list.Any<Post>( p => p.Guid == guid );
+        }
+
+        public IEnumerable<Post> SelectPostsByFeed( int feedId )
+        {
+            return from p in SelectList().AsEnumerable()
+                   where p.FeedId == feedId
+                   select p;
+        }
+
+        public IEnumerable<Post> SelectPostsByFeed( int feedId, bool isActive )
+        {
+            return SelectPostsByFeed( feedId ).Where( x => x.Display == isActive );
+        }
+
+        public IEnumerable<Post> SelectPostsByFeed( string feedName )
+        {
+            return from p in SelectList().AsEnumerable()
+                   where p.Category.Name.Equals( feedName, System.StringComparison.OrdinalIgnoreCase )
+                   select p;
+        }
+
+        public IEnumerable<Post> SelectPostsByFeed( string feedName, bool isActive )
+        {
+            return SelectPostsByFeed( feedName ).Where( x => x.Display == isActive );
         }
 
         #endregion
@@ -126,8 +206,9 @@ namespace Jumblist.Core.Service.Data
                 throw new RulesException( "Post", "Duplicate Post", entity );
         }
 
-        private void SavePostLocations(Post entity)
+        private bool SavePostLocations(Post entity)
         {
+            bool success = false;
             string search = entity.Title + " " + entity.Body;
 
             foreach (string l in Locations())
@@ -137,12 +218,15 @@ namespace Jumblist.Core.Service.Data
                     var locationItem = locationDataService.Select(l);
                     var postLocationItem = new PostLocation { PostId = entity.PostId, LocationId = locationItem.LocationId };
                     postLocationDataService.Save(postLocationItem);
+                    success = true;
                 }
             }
+            return success;
         }
 
-        private void SavePostTags(Post entity)
+        private bool SavePostTags( Post entity )
         {
+            bool success = false;
             string search = entity.Title + " " + entity.Body;
 
             foreach (string t in Tags())
@@ -152,8 +236,24 @@ namespace Jumblist.Core.Service.Data
                     var tagItem = tagDataService.Select(t);
                     var postTagItem = new PostTag { PostId = entity.PostId, TagId = tagItem.TagId };
                     postTagDataService.Save(postTagItem);
+                    success = true;
                 }
             }
+            return success;
+        }
+
+        private int GetPostCategoryId( Post entity )
+        {
+            string search = entity.Title;
+
+            foreach ( PostCategory c in postCategoryDataService.SelectList() )
+            {
+                if ( Regex.IsMatch( search, c.Name, RegexOptions.IgnoreCase ) )
+                {
+                    return c.PostCategoryId;
+                }
+            }
+            return 0;
         }
 
         private string[] Locations()
@@ -169,7 +269,5 @@ namespace Jumblist.Core.Service.Data
                 .Select(r => r.Name)
                 .ToArray();
         }
-
-        
     }
 }
