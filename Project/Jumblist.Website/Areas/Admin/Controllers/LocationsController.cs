@@ -160,5 +160,14 @@ namespace Jumblist.Website.Areas.Admin.Controllers
                 return View( "categoryedit", model );
             }
         }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult FindLocations(string q)
+        {
+            var locations = locationService.FindLocations(q);
+
+            //return raw text, one result on each line
+            return Content(string.Join("\n", locations));
+        }
     }
 }

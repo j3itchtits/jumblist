@@ -26,6 +26,11 @@ namespace Jumblist.Core.Service.Data
             return base.Select( id );
         }
 
+        public override Location Select(string name)
+        {
+            return base.Select(name);
+        }
+
         public override void Save( Location entity )
         {
             ValidateBusinessRules( entity );
@@ -35,6 +40,14 @@ namespace Jumblist.Core.Service.Data
         public override void Delete( Location entity )
         {
             base.Delete( entity );
+        }
+
+        public string[] FindLocations(string q)
+        {
+            return SelectList()
+                .Where(r => r.Name.StartsWith(q))
+                .Select(r => r.Name)
+                .ToArray();
         }
 
         #endregion

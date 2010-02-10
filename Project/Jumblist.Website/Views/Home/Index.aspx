@@ -10,7 +10,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
     
-    <p><%= Html.ActionLink("View All Posts", "index", "posts")%></p>
+    <p><%= Html.ActionLink("View All Posts", "index", "posts")%> - <%= Html.ActionLink("Wanted", "wanted", "posts")%> - <%= Html.ActionLink("Offered", "offered", "posts")%></p>
     
     <p><%= Html.ActionLink( "Tags", "index", "tags" ) %></p>
     

@@ -8,7 +8,9 @@ namespace Jumblist.Core.Service.Data
     {
         IQueryable<Location> SelectList();
         Location Select( int id );
+        Location Select(string name);
         void Save( Location entity );
         void Delete( Location entity );
+        string[] FindLocations(string q);
     }
 }

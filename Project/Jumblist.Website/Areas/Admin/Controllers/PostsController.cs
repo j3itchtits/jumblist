@@ -24,8 +24,8 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         private IDataService<User> userService;
         private IDataService<PostLocation> postLocationService;
         private IDataService<PostTag> postTagService;
-        private IDataService<Location> locationService;
-        private IDataService<Tag> tagService;
+        private ILocationService locationService;
+        private ITagService tagService;
 
         public PostsController(
             IPostService postService, 
@@ -34,8 +34,8 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             IDataService<User> userService,
             IDataService<PostLocation> postLocationService,
             IDataService<PostTag> postTagService,
-            IDataService<Location> locationService,
-            IDataService<Tag> tagService
+            ILocationService locationService,
+            ITagService tagService
             )
         {
             this.postService = postService;
@@ -57,7 +57,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult List()
         {
-            var list = postService.SelectList();
+            var list = postService.SelectList().OrderByDescending(t => t.DateTime);
 
             var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Posts";
@@ -188,7 +188,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         public ViewResult ListByCategory( int id )
         {
             var item = postCategoryService.Select( id );
-            var list = postService.SelectList().Where( x => x.PostCategoryId == id );
+            var list = postService.SelectList().Where(x => x.PostCategoryId == id).OrderByDescending(t => t.DateTime);
 
             var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Posts by Category - " + item.Name;
@@ -200,7 +200,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         public ViewResult ListByFeed( int id )
         {
             var item = feedService.Select( id );
-            var list = postService.SelectList().Where( x => x.FeedId == id );
+            var list = postService.SelectList().Where(x => x.FeedId == id).OrderByDescending(t => t.DateTime);
 
             var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Posts by Feed - " + item.Name;
@@ -212,7 +212,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         public ViewResult ListByUser(int id)
         {
             var item = userService.Select(id);
-            var list = postService.SelectList().Where(x => x.UserId == id);
+            var list = postService.SelectList().Where(x => x.UserId == id).OrderByDescending(t => t.DateTime);
 
             var model = BuildDefaultViewModel().With(list);
             model.PageTitle = "All Posts by User - " + item.Name;
@@ -232,12 +232,12 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             if (result)
             {
                 item = locationService.Select( number );
-                list = postService.SelectPostsByLocation( number );
+                list = postService.SelectPostsByLocation(number).OrderByDescending(t => t.DateTime);
             }
             else
             {
                 item = locationService.SelectList().Single( x => x.FriendlyUrl == id );
-                list = postService.SelectPostsByLocation( id );
+                list = postService.SelectPostsByLocation(id).OrderByDescending(t => t.DateTime);
             }
 
             var model = BuildDefaultViewModel().With(list);
@@ -258,12 +258,12 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             if (result)
             {
                 item = tagService.Select( number );
-                list = postService.SelectPostsByTag( number );
+                list = postService.SelectPostsByTag(number).OrderByDescending(t => t.DateTime);
             }
             else
             {
                 item = tagService.SelectList().Single( x => x.FriendlyUrl == id );
-                list = postService.SelectPostsByTag( id );
+                list = postService.SelectPostsByTag(id).OrderByDescending(t => t.DateTime);
             }
 
             var model = BuildDefaultViewModel().With( list );
@@ -355,22 +355,5 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             return PartialView( "PostTagList", model );
         }
 
-        [AcceptVerbs( HttpVerbs.Get )]
-        public ActionResult FindLocations( string q )
-        {
-            var locations = postService.FindLocations(q);
-
-            //return raw text, one result on each line
-            return Content( string.Join( "\n", locations ) );
-        }
-
-        [AcceptVerbs( HttpVerbs.Get )]
-        public ActionResult FindTags( string q )
-        {
-            var tags = postService.FindTags(q);
-
-            //return raw text, one result on each line
-            return Content( string.Join( "\n", tags ) );
-        } 
     }
 }

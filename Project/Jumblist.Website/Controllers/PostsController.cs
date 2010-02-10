@@ -38,7 +38,7 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ViewResult List( int? page )
         {
-            var list = postService.SelectList();
+            var list = postService.SelectActiveList().OrderByDescending(t => t.DateTime);
             //var test = list.Alphabetical();
             var paged = new PaginatedList<Post>( list.ToList(), (page ?? 1), 3 );
 
@@ -54,7 +54,7 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult BasicList( int top )
         {
-            var model = postService.SelectList().OrderByDescending( t => t.DateTime ).Take(top);
+            var model = postService.SelectActiveList().OrderByDescending(t => t.DateTime).Take(top);
 
             return PartialView("basiclist", model);
         }
@@ -74,7 +74,7 @@ namespace Jumblist.Website.Controllers
         public ViewResult Location(string id, int? page)
         {
             var item = locationService.SelectList().Single(x => x.FriendlyUrl == id);
-            var list = postService.SelectPostsByLocation(id);
+            var list = postService.SelectPostsByLocation(id).Where(t => t.Display == true).OrderByDescending(t => t.DateTime);
             var paged = new PaginatedList<Post>(list.ToList(), (page ?? 1), 3);
 
             var model = BuildDefaultViewModel().With(paged);
@@ -90,7 +90,7 @@ namespace Jumblist.Website.Controllers
         public ViewResult Tagged(string id, int? page)
         {
             var item = tagService.SelectList().Single(x => x.FriendlyUrl == id);
-            var list = postService.SelectPostsByTag(id);
+            var list = postService.SelectPostsByTag(id).Where(t => t.Display == true).OrderByDescending(t => t.DateTime);
             var paged = new PaginatedList<Post>(list.ToList(), (page ?? 1), 3);
 
             var model = BuildDefaultViewModel().With(paged);
@@ -106,7 +106,7 @@ namespace Jumblist.Website.Controllers
         public ViewResult Feed(string id, int? page)
         {
             var item = feedService.SelectList().Single(x => x.FriendlyUrl == id);
-            var list = postService.SelectList().Where(x => x.FeedId == item.FeedId);
+            var list = postService.SelectActiveList().Where(x => x.FeedId == item.FeedId).OrderByDescending(t => t.DateTime);
             var paged = new PaginatedList<Post>(list.ToList(), (page ?? 1), 3);
 
             var model = BuildDefaultViewModel().With(paged);
