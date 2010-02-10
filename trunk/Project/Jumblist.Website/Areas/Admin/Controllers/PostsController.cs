@@ -289,7 +289,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             }
             else
             {
-                var newLocationItem = new Location { Name = location, LocationCategoryId = 3 };
+                var newLocationItem = new Location { Name = location, FriendlyUrl = location.ToFriendlyUrl(), LocationCategoryId = 3 };
                 locationService.Save(newLocationItem);
 
                 var postLocationItem = new PostLocation { PostId = postId, LocationId = newLocationItem.LocationId };
@@ -332,7 +332,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             }
             else
             {
-                var newTagItem = new Tag { Name = tag };
+                var newTagItem = new Tag { Name = tag, FriendlyUrl = tag.ToFriendlyUrl() };
                 tagService.Save(newTagItem);
 
                 var postTagItem = new PostTag { PostId = postId, TagId = newTagItem.TagId };
