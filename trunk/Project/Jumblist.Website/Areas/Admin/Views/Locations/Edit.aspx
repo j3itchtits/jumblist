@@ -11,7 +11,6 @@
         <% using ( Html.BeginForm( "save", "locations" ) ) { %>
 
         <%= Html.HiddenFor( m => m.Item.LocationId )%>
-        <%= Html.HiddenFor( m => m.Item.ParentId )%>
         
         <table>
         <tr>
@@ -19,11 +18,6 @@
             <td><%= Html.TextBoxFor( m => m.Item.Name, new { @size = "100" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.Name )%></td>
         </tr>
-        <tr>
-            <td><label for="Item.LocationCategoryId">Location Category:</label></td>
-            <td><%= Html.DropDownListFor( m => m.Item.LocationCategoryId, new SelectList( Model.LookupList<LocationCategory>(), "LocationCategoryId", "Name", Model.Item.LocationCategoryId ), "-- Select --" )%>
-            <%= Html.ValidationMessageFor( m => m.Item.LocationCategoryId )%></td>
-        </tr>   
         </table>
                  
         <p>

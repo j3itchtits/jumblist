@@ -62,7 +62,6 @@
   <ItemGroup>
     <Compile Include="Model\Basket.cs" />
     <Compile Include="Model\BasketUser.cs" />
-    <Compile Include="Model\Data\LocationCategory.cs" />
     <Compile Include="Model\Feed.cs" />
     <Compile Include="Model\Data\Feed.cs" />
     <Compile Include="Model\Data\FeedCategory.cs" />

@@ -10,6 +10,10 @@
     
     <%= Html.MessageBox( ViewData.Model )%>
     
+    <p>
+        <%= Html.ActionLink( "Create", "create" )%>
+    </p> 
+    
     <div id="itemsList">
         <% Html.RenderPartial( "PostList", Model.List ); %>
     </div>

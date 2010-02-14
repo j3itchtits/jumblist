@@ -6,6 +6,7 @@ using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Extension;
 using xVal.ServerSide;
 using System.Text.RegularExpressions;
+using System;
 
 namespace Jumblist.Core.Service.Data
 {
@@ -54,27 +55,33 @@ namespace Jumblist.Core.Service.Data
         public override void Save( Post entity )
         {
             bool newEntity = ( entity.PostId == 0 );
+            bool createdFromAdminArea = true;
 
             if (string.IsNullOrEmpty(entity.Guid))
                 entity.Guid = entity.Url;
 
             if ( entity.PostCategoryId == 0 )
+            {
                 entity.PostCategoryId = GetPostCategoryId( entity );
+                createdFromAdminArea = false;
+            }
+
+            entity.LastUpdatedDateTime = DateTime.Now;
 
             ValidateBusinessRules( entity );
 
             // we need to save at this point in order to get the new postid for the next section
             base.Save( entity );
 
-            if (newEntity)
+            if ( newEntity )
             {
                 bool locations = SavePostLocations( entity );
                 bool tags = SavePostTags( entity );
 
-                if ( ( locations || tags ) && ( entity.Display == false ) )
+                if ( ( locations || tags ) && ( !entity.Display ) && ( !createdFromAdminArea ) )
                 {
                     entity.Display = true;
-                    base.Save( entity );
+                    base.Update( entity );
                 }
             }
         }
@@ -193,6 +200,7 @@ namespace Jumblist.Core.Service.Data
 
         #endregion
 
+
         private void ValidateBusinessRules( Post entity )
         {
             IQueryable<Post> list;
@@ -206,14 +214,15 @@ namespace Jumblist.Core.Service.Data
                 throw new RulesException( "Post", "Duplicate Post", entity );
         }
 
-        private bool SavePostLocations(Post entity)
+        private bool SavePostLocations( Post entity )
         {
             bool success = false;
-            string search = entity.Title + " " + entity.Body;
+            string input = entity.Title + " " + entity.Body;
+            string[] locations = Locations();
 
-            foreach (string l in Locations())
+            foreach ( string l in locations )
             {
-                if (Regex.IsMatch(search, l, RegexOptions.IgnoreCase))
+                if ( Regex.IsMatch( input, @"\b" + l + @"\b", RegexOptions.IgnoreCase ) )
                 {
                     var locationItem = locationDataService.Select(l);
                     var postLocationItem = new PostLocation { PostId = entity.PostId, LocationId = locationItem.LocationId };
@@ -227,11 +236,12 @@ namespace Jumblist.Core.Service.Data
         private bool SavePostTags( Post entity )
         {
             bool success = false;
-            string search = entity.Title + " " + entity.Body;
+            string input = entity.Title + " " + entity.Body;
+            string[] tags = Tags();
 
-            foreach (string t in Tags())
+            foreach ( string t in tags )
             {
-                if (Regex.IsMatch(search, t, RegexOptions.IgnoreCase))
+                if ( Regex.IsMatch( input, @"\b" + t + @"\b", RegexOptions.IgnoreCase ) )
                 {
                     var tagItem = tagDataService.Select(t);
                     var postTagItem = new PostTag { PostId = entity.PostId, TagId = tagItem.TagId };
@@ -253,7 +263,7 @@ namespace Jumblist.Core.Service.Data
                     return c.PostCategoryId;
                 }
             }
-            return 0;
+            return postCategoryDataService.Select("Unclassified").PostCategoryId;
         }
 
         private string[] Locations()

@@ -31,10 +31,15 @@
             <%= Html.ValidationMessageFor( m => m.Item.Body )%></td>
         </tr>
         <tr>
-            <td><label for="Item.DateTime">DateTime:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.DateTime, "{0:g}", new { @readonly = "true" } )%>
-            <%= Html.ValidationMessageFor( m => m.Item.DateTime )%></td>
+            <td><label for="Item.PublishDateTime">Published:</label></td>
+            <td><%= Html.TextBoxFor( m => m.Item.PublishDateTime, "{0:g}", new { @readonly = "true" } )%>
+            <%= Html.ValidationMessageFor( m => m.Item.PublishDateTime )%></td>
         </tr>
+        <tr>
+            <td><label for="Item.LastUpdatedDateTime">Last Updated:</label></td>
+            <td><%= Html.TextBoxFor( m => m.Item.LastUpdatedDateTime, "{0:g}", new { @readonly = "true" } )%>
+            <%= Html.ValidationMessageFor( m => m.Item.LastUpdatedDateTime )%></td>
+        </tr>        
         <tr>
             <td><label for="Item.Latitude">Latitude:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Latitude )%>

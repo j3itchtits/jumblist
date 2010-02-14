@@ -23,9 +23,9 @@
         myString = Regex.Replace( myString, "(.*)&gt;", String.Empty );
 
         var dt = DateTime.Parse( HttpUtility.HtmlDecode( myString ) );
-        Response.Write( dt.ToString() );
-        
-        
+        Response.Write( dt.ToString() + "<br/><br/>" );
+
+        Response.Write( Regex.IsMatch( "Availabl rye in st leonards", @"\bSt Leonards\b", RegexOptions.IgnoreCase ).ToString() );
          %>
       
 </asp:Content>

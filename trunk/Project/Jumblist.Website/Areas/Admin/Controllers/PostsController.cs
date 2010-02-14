@@ -57,7 +57,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult List()
         {
-            var list = postService.SelectList().OrderByDescending(t => t.DateTime);
+            var list = postService.SelectList().OrderByDescending(t => t.PublishDateTime);
 
             var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Posts";
@@ -68,7 +68,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Create()
         {
-            var model = BuildDataEditDefaultViewModel().With( new Post() { DateTime = DateTime.Now } );
+            var model = BuildDataEditDefaultViewModel().With( new Post() { PublishDateTime = DateTime.Now, LastUpdatedDateTime = DateTime.Now } );
             model.PageTitle = "Create a new post";
             model.Message = new Message { Text = "You are about to create a post", StyleClass = "message" };
 
@@ -109,6 +109,9 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             {
                 var model = BuildDataEditDefaultViewModel().With( item );
                 model.PageTitle = string.Format( "Edit - {0}", item.Title );
+
+                
+
                 model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
                 return View( "edit", model );
             }
@@ -120,7 +123,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             var item = postService.Select( id );
             postService.Delete( item );
 
-            var model = postService.SelectList();
+            var model = postService.SelectList().OrderByDescending( t => t.PublishDateTime );
 
             return PartialView("PostList", model);
         }
@@ -188,7 +191,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         public ViewResult ListByCategory( int id )
         {
             var item = postCategoryService.Select( id );
-            var list = postService.SelectList().Where(x => x.PostCategoryId == id).OrderByDescending(t => t.DateTime);
+            var list = postService.SelectList().Where(x => x.PostCategoryId == id).OrderByDescending(t => t.PublishDateTime);
 
             var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Posts by Category - " + item.Name;
@@ -200,7 +203,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         public ViewResult ListByFeed( int id )
         {
             var item = feedService.Select( id );
-            var list = postService.SelectList().Where(x => x.FeedId == id).OrderByDescending(t => t.DateTime);
+            var list = postService.SelectList().Where(x => x.FeedId == id).OrderByDescending(t => t.PublishDateTime);
 
             var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Posts by Feed - " + item.Name;
@@ -212,7 +215,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         public ViewResult ListByUser(int id)
         {
             var item = userService.Select(id);
-            var list = postService.SelectList().Where(x => x.UserId == id).OrderByDescending(t => t.DateTime);
+            var list = postService.SelectList().Where(x => x.UserId == id).OrderByDescending(t => t.PublishDateTime);
 
             var model = BuildDefaultViewModel().With(list);
             model.PageTitle = "All Posts by User - " + item.Name;
@@ -232,12 +235,12 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             if (result)
             {
                 item = locationService.Select( number );
-                list = postService.SelectPostsByLocation(number).OrderByDescending(t => t.DateTime);
+                list = postService.SelectPostsByLocation(number).OrderByDescending(t => t.PublishDateTime);
             }
             else
             {
                 item = locationService.SelectList().Single( x => x.FriendlyUrl == id );
-                list = postService.SelectPostsByLocation(id).OrderByDescending(t => t.DateTime);
+                list = postService.SelectPostsByLocation(id).OrderByDescending(t => t.PublishDateTime);
             }
 
             var model = BuildDefaultViewModel().With(list);
@@ -258,12 +261,12 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             if (result)
             {
                 item = tagService.Select( number );
-                list = postService.SelectPostsByTag(number).OrderByDescending(t => t.DateTime);
+                list = postService.SelectPostsByTag(number).OrderByDescending(t => t.PublishDateTime);
             }
             else
             {
                 item = tagService.SelectList().Single( x => x.FriendlyUrl == id );
-                list = postService.SelectPostsByTag(id).OrderByDescending(t => t.DateTime);
+                list = postService.SelectPostsByTag(id).OrderByDescending(t => t.PublishDateTime);
             }
 
             var model = BuildDefaultViewModel().With( list );
@@ -289,7 +292,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             }
             else
             {
-                var newLocationItem = new Location { Name = location, FriendlyUrl = location.ToFriendlyUrl(), LocationCategoryId = 3 };
+                var newLocationItem = new Location { Name = location, FriendlyUrl = location.ToFriendlyUrl() };
                 locationService.Save(newLocationItem);
 
                 var postLocationItem = new PostLocation { PostId = postId, LocationId = newLocationItem.LocationId };
