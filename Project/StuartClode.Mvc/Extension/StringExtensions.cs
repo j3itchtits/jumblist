@@ -17,6 +17,16 @@ namespace StuartClode.Mvc.Extension
             return helper;
         }
 
+        public static string ReplaceLineBreaks( this string lines, string replacement )
+        {
+            return lines.Replace( "\r\n", replacement )
+                        .Replace( "\r", replacement )
+                        .Replace( "\n", replacement );
+        }
 
+        public static string ReplaceParagraphBreaks( this string lines )
+        {
+            return lines.Replace( "\r\n\r\n", "<br/><br/>" ).Replace( "\n\n", "<br/><br/>" );
+        }
     }
 }

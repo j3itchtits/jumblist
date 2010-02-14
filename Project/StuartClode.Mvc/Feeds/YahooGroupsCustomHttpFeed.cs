@@ -63,7 +63,7 @@ namespace StuartClode.Mvc.Feeds
                     string summary = pre.CachedInnerText;
 
                     var syndicationItem = new SyndicationItem( title, string.Empty, new Uri( hRef ), hRef, DateTime.Now );
-                    syndicationItem.Summary = new TextSyndicationContent( summary );
+                    syndicationItem.Summary = new TextSyndicationContent( summary, TextSyndicationContentKind.XHtml );
                     syndicationItem.PublishDate = datePublished;
 
                     items.Add( syndicationItem );

@@ -36,7 +36,7 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ViewResult Index( int? page )
         {
-            var postList = postService.SelectList( true ).OrderByDescending(t => t.DateTime);
+            var postList = postService.SelectList( true ).OrderByDescending(t => t.PublishDateTime);
             var pagedPostList = new PaginatedList<Post>( postList.ToList(), ( page ?? 1 ), frontEndPageSize );
 
             var model = BuildDefaultViewModel().With( pagedPostList );
@@ -49,7 +49,7 @@ namespace Jumblist.Website.Controllers
         public ViewResult Category( string id, int? page )
         {
             var postCategory = postCategoryService.Select( id );
-            var postList = postService.SelectPostsByCategory( postCategory.PostCategoryId, true ).OrderByDescending( t => t.DateTime );
+            var postList = postService.SelectPostsByCategory( postCategory.PostCategoryId, true ).OrderByDescending( t => t.PublishDateTime );
             var pagedPostList = new PaginatedList<Post>( postList.ToList(), ( page ?? 1 ), frontEndPageSize );
 
             var model = BuildDefaultViewModel().With( pagedPostList );
@@ -76,7 +76,7 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult BasicList( int top )
         {
-            var model = postService.SelectList( true ).OrderByDescending( t => t.DateTime ).Take( top );
+            var model = postService.SelectList( true ).OrderByDescending( t => t.PublishDateTime ).Take( top );
 
             return PartialView("basiclist", model);
         }
@@ -96,7 +96,7 @@ namespace Jumblist.Website.Controllers
         public ViewResult Location(string id, int? page)
         {
             var location = locationService.SelectList().Single(x => x.FriendlyUrl == id);
-            var postList = postService.SelectPostsByLocation( location.LocationId, true ).OrderByDescending( t => t.DateTime );
+            var postList = postService.SelectPostsByLocation( location.LocationId, true ).OrderByDescending( t => t.PublishDateTime );
             var pagedPostList = new PaginatedList<Post>( postList.ToList(), ( page ?? 1 ), frontEndPageSize );
 
             var model = BuildDefaultViewModel().With(pagedPostList);
@@ -109,7 +109,7 @@ namespace Jumblist.Website.Controllers
         public ViewResult Tagged(string id, int? page)
         {
             var tag = tagService.SelectList().Single(x => x.FriendlyUrl == id);
-            var postList = postService.SelectPostsByTag( tag.TagId, true ).OrderByDescending( t => t.DateTime );
+            var postList = postService.SelectPostsByTag( tag.TagId, true ).OrderByDescending( t => t.PublishDateTime );
             var pagedPostList = new PaginatedList<Post>( postList.ToList(), ( page ?? 1 ), frontEndPageSize );
 
             var model = BuildDefaultViewModel().With( pagedPostList );
@@ -122,7 +122,7 @@ namespace Jumblist.Website.Controllers
         public ViewResult Group(string id, int? page)
         {
             var feed = feedService.SelectList().Single(x => x.FriendlyUrl == id);
-            var postList = postService.SelectPostsByFeed( feed.FeedId, true ).OrderByDescending( t => t.DateTime );
+            var postList = postService.SelectPostsByFeed( feed.FeedId, true ).OrderByDescending( t => t.PublishDateTime );
             var pagedPostList = new PaginatedList<Post>( postList.ToList(), ( page ?? 1 ), frontEndPageSize );
 
             var model = BuildDefaultViewModel().With(pagedPostList);

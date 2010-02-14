@@ -10,8 +10,9 @@
     <div class="post-item">
         <div>Url: <a href="<%= Model.Item.Url %>" target="_blank">Linkback</a></div>     
         <div style="padding: 20px 0px;"><pre><%= Model.Item.Body %></pre></div> 
-        <div style="padding: 20px 0px; width: 400px;"><%= Model.Item.Body.Replace( "\n", "" )%></div> 
-        <div>Date: <%= Model.Item.DateTime.ToShortDateString() %></div> 
+        <div style="padding: 20px 0px;"><%= Model.Item.Body.ReplaceParagraphBreaks() %></div>
+        <div>Publish Date: <%= Model.Item.PublishDateTime.ToShortDateString() %></div> 
+        <div>Last Updated: <%= Model.Item.LastUpdatedDateTime.ToShortDateString()%></div> 
         <div>Category: <%= Model.Item.Category.Name %></div> 
         <div>Lat: <%= Model.Item.Latitude.ToString() %></div> 
         <div>Long: <%= Model.Item.Longitude.ToString() %></div> 

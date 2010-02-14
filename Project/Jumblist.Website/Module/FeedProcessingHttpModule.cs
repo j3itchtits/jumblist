@@ -82,7 +82,8 @@ namespace Jumblist.Website.Module
                     post.Url = item.Links[0].Uri.ToString();
                     post.Title = item.Title.Text;
                     post.Body = item.Summary.Text;
-                    post.DateTime = item.PublishDate.LocalDateTime;
+                    post.PublishDateTime = item.PublishDate.LocalDateTime;
+                    post.LastUpdatedDateTime = item.LastUpdatedTime.LocalDateTime;
                     post.PostCategoryId = 0;
                     post.Display = false;
                     post.UserId = 1;

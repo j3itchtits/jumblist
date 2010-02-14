@@ -44,10 +44,15 @@ namespace Jumblist.Core.Model
         [Required]
         public string Body { get; set; }
 
-        [Column( Name = "PostDateTime" )]
+        [Column( Name = "PostPublishDateTime" )]
         [Required]
         [DataType( DataType.DateTime )]
-        public DateTime DateTime { get; set; }
+        public DateTime PublishDateTime { get; set; }
+
+        [Column( Name = "PostLastUpdatedDateTime" )]
+        [Required]
+        [DataType( DataType.DateTime )]
+        public DateTime LastUpdatedDateTime { get; set; }
 
         [Column( Name = "PostLatitude" )]
         public double Latitude { get; set; }
