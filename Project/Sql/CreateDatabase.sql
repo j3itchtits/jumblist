@@ -68,6 +68,3 @@ ALTER DATABASE [JumblistDatabase] SET PAGE_VERIFY CHECKSUM
 GO
 ALTER DATABASE [JumblistDatabase] SET DB_CHAINING OFF
 GO
-
-USE [JumblistDatabase]
-GO
