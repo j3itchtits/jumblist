@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<TestViewModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Areas/Admin/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage<TestViewModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
@@ -13,14 +13,15 @@
                 <tr class="item">
                     <td><%= post.Title.Text%></td>  
                     <td><a href="<%= post.Links[0].Uri.ToString() %>">Link</a></td>
-                    <td><%= post.PublishDate.LocalDateTime%></td>
+                    <td><%= post.PublishDate.LocalDateTime %></td>
+                    <td><%= post.LastUpdatedTime.LocalDateTime %></td>
                     <td><pre><%= post.Summary.Text %></pre></td>
                 </tr>            
         <% } %>
         </table>
     </div>
 
-</asp:Content>
+</asp:Content>  
 
 <asp:Content ID="Content2" ContentPlaceHolderID="HeadContentTitle" runat="server">
     tESTING

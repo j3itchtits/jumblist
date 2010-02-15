@@ -198,6 +198,7 @@
     <Content Include="Areas\Admin\Views\Feeds\CategoryEdit.aspx" />
     <Content Include="Areas\Admin\Views\Feeds\CategoryList.aspx" />
     <Content Include="Areas\Admin\Views\Feeds\FeedList.ascx" />
+    <Content Include="Areas\Admin\Views\Home\Test.aspx" />
     <Content Include="Areas\Admin\Views\Locations\LocationList.ascx" />
     <Content Include="Areas\Admin\Views\Posts\CategoryList.aspx" />
     <Content Include="Areas\Admin\Views\Posts\CategoryEdit.aspx" />
@@ -224,7 +225,6 @@
     <Content Include="Assets\Stylesheets\jquery.autocomplete.css" />
     <Content Include="Views\Groups\GroupList.ascx" />
     <Content Include="Views\Groups\Index.aspx" />
-    <Content Include="Views\Home\Test.aspx" />
     <Content Include="Views\Locations\Index.aspx" />
     <Content Include="Views\Locations\LocationList.ascx" />
     <Content Include="Views\Posts\AddToBasket.ascx" />
