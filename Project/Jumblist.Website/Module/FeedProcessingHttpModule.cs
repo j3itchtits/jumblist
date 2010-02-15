@@ -21,7 +21,7 @@ namespace Jumblist.Website.Module
         protected static Timer _timer;
         private static object _lock = new object();
         protected static string _value;
-        protected static bool _start = true;
+        protected static bool _start = false;
 
         protected void DoWork( object state )
         {
@@ -60,11 +60,6 @@ namespace Jumblist.Website.Module
 
             //http://bugsquash.blogspot.com/2009/11/windsor-managed-httpmodules.html
             //http://stackoverflow.com/questions/1657473/ioc-dependancy-injection-into-custom-http-module-how-asp-net
-
-            //XmlReader reader = XmlReader.Create( "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml" );
-            //XmlReader reader = XmlReader.Create( "http://search.twitter.com/search.rss?q=haiti" );
-            //var feed = SyndicationFeed.Load( reader );
-            //reader.Close();
 
             var feed = YahooGroupsCustomHttpFeed.Load( "http://groups.yahoo.com/group/hastings-freecycle/messages/?xm=1&o=1&m=e&l=1", "noostu", "edinburgh" );
 

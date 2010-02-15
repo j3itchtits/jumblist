@@ -222,7 +222,7 @@ namespace Jumblist.Core.Service.Data
 
             foreach ( string l in locations )
             {
-                if ( Regex.IsMatch( input, @"\b" + l + @"\b", RegexOptions.IgnoreCase ) )
+                if (RegexExtensions.IsWordMatch(input, l, RegexOptions.IgnoreCase))
                 {
                     var locationItem = locationDataService.Select(l);
                     var postLocationItem = new PostLocation { PostId = entity.PostId, LocationId = locationItem.LocationId };
@@ -241,7 +241,7 @@ namespace Jumblist.Core.Service.Data
 
             foreach ( string t in tags )
             {
-                if ( Regex.IsMatch( input, @"\b" + t + @"\b", RegexOptions.IgnoreCase ) )
+                if (RegexExtensions.IsSingularOrPluralWordMatch(input, t, RegexOptions.IgnoreCase))
                 {
                     var tagItem = tagDataService.Select(t);
                     var postTagItem = new PostTag { PostId = entity.PostId, TagId = tagItem.TagId };
