@@ -88,6 +88,7 @@
   <ItemGroup>
     <Compile Include="Extension\EnumerationExtensions.cs" />
     <Compile Include="Extension\PropertyInfoExtensions.cs" />
+    <Compile Include="Extension\RegexExtensions.cs" />
     <Compile Include="Extension\RoutingExtension.cs" />
     <Compile Include="Extension\WindsorExtension.cs" />
     <Compile Include="Feeds\BbcCustomHttpFeed.cs" />
