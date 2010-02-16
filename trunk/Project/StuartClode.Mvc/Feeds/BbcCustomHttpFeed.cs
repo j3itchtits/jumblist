@@ -16,21 +16,27 @@ namespace StuartClode.Mvc.Feeds
 {
     public class BbcCustomHttpFeed// : ISyndicationFeed
     {
-        public static SyndicationFeed Load(string uri, string username, string password)
+        public static SyndicationFeed Load( string uri, string username, string password )
+        {
+            string feedSource = GetFeedSource( uri, username, password );
+            return ProcessFeedSource( feedSource );
+        }
+
+        public static string GetFeedSource( string uri, string username, string password )
         {
             string feedSource = HttpReader.Create( uri );
-            feedSource = CleanFeedSource( feedSource );
+            return CleanFeedSource( feedSource );
+        }
 
+        public static SyndicationFeed ProcessFeedSource( string feedSource )
+        {
             HtmlElement rootElement = HtmlElement.Create( feedSource );
 
             // identify the row container
             HtmlElement container = GetRowContainer( rootElement );
 
             // identify the rows and pass them into a list
-            HtmlElementFindParams findParams2 = new HtmlElementFindParams();
-            findParams2.TagName = "div";
-            findParams2.Attributes.Add( "class", "arr" );
-            ReadOnlyCollection<HtmlElement> elementList = container.ChildElements.FindAll( findParams2 );
+            IList<HtmlElement> elementList = GetElementList( container );
 
             var items = new List<SyndicationItem>();
 
@@ -40,8 +46,19 @@ namespace StuartClode.Mvc.Feeds
                 //find the first link within the div
                 HtmlAnchorElement link = (HtmlAnchorElement)element.ChildElements.Find( "a", 0 );
 
-                var hRef = "http://news.bbc.co.uk" + link.CachedAttributes.HRef;
-                items.Add( new SyndicationItem( link.CachedInnerText, link.CachedInnerText, new Uri( hRef ), hRef, DateTime.Now ) );
+                string title = GetFeedItemTitle( link );
+                string hRef = GetFeedItemLink( link );
+                DateTime publishedTime = GetFeedItemPublishedTime();
+                string summary = GetFeedItemSummary();
+                DateTime lastUpdatedTime = GetFeedItemLastUpdatedTime();
+
+                var syndicationItem = new SyndicationItem( title, string.Empty, new Uri( hRef ), hRef, lastUpdatedTime );
+                syndicationItem.Summary = new TextSyndicationContent( summary, TextSyndicationContentKind.XHtml );
+                syndicationItem.PublishDate = publishedTime;
+
+                items.Add( syndicationItem );
+
+
             }
 
             return new SyndicationFeed( items );
@@ -51,6 +68,7 @@ namespace StuartClode.Mvc.Feeds
         {
             feedSource = Regex.Replace( feedSource, @"\<\!DOCTYPE.*?\>", String.Empty );
             feedSource = Regex.Replace( feedSource, "</html>(.|\n)*", "</html>" );
+            
             return feedSource;
         }
 
@@ -60,7 +78,45 @@ namespace StuartClode.Mvc.Feeds
             findParams1.TagName = "div";
             findParams1.Attributes.Add( "class", "wgreylinebottom" );
             findParams1.Index = 0;
+            
             return rootElement.ChildElements.Find( findParams1 );
+        }
+
+        private static IList<HtmlElement> GetElementList( HtmlElement container )
+        {
+            HtmlElementFindParams findParams2 = new HtmlElementFindParams();
+            findParams2.TagName = "div";
+            findParams2.Attributes.Add( "class", "arr" );
+
+            IList<HtmlElement> elementList = container.ChildElements.FindAll( findParams2 ).ToList();
+
+            return elementList;
+        }
+
+        private static string GetFeedItemTitle( HtmlElement element )
+        {
+            return element.CachedInnerText;
+        }
+
+        private static string GetFeedItemLink( HtmlElement element )
+        {
+            HtmlAnchorElement a = element as HtmlAnchorElement;
+            return "http://news.bbc.co.uk" + a.CachedAttributes.HRef;
+        }
+
+        private static DateTime GetFeedItemPublishedTime()
+        {
+            return DateTime.Now;
+        }
+
+        private static string GetFeedItemSummary()
+        {
+            return string.Empty;
+        }
+
+        private static DateTime GetFeedItemLastUpdatedTime()
+        {
+            return DateTime.Now;
         }
     }
 }

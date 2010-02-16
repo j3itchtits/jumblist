@@ -115,7 +115,7 @@ namespace Jumblist.Website.Controllers
             var model = BuildDefaultViewModel().With( pagedPostList );
             model.PageTitle = "All Posts by Tag - " + tag.Name;
 
-            return View("list", model);
+            return View("index", model);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -128,7 +128,7 @@ namespace Jumblist.Website.Controllers
             var model = BuildDefaultViewModel().With(pagedPostList);
             model.PageTitle = "All Posts by Group - " + feed.Name;
 
-            return View("list", model);
+            return View("index", model);
         }
     }
 

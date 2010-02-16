@@ -13,6 +13,7 @@
 
         //Response.Write( Regex.IsMatch( "Availabl rye in st leonards", @"\bSt Leonards\b", RegexOptions.IgnoreCase ).ToString() );
         Response.Write(RegexExtensions.IsSingularOrPluralPhraseMatch("I have some nappies-buckets to give aways ", "Nappy", RegexOptions.IgnoreCase).ToString());
+        Response.Write( ("i am based in St Leonard's").Replace( "'", string.Empty ) );
          %>
              
     <p>London weather: <%= HttpContext.Current.Items["Temp"] %></p>

@@ -1,5 +1,7 @@
 Search
  
+Note - Routing (url) options are available in the file - mvc routing.txt
+
 Options
  
 1. 

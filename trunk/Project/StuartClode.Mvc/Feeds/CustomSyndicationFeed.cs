@@ -18,8 +18,17 @@ namespace StuartClode.Mvc.Feeds
     {
         public static SyndicationFeed Load( string uri, string username, string password )
         {
-            XmlReader feedSource = XmlReader.Create( uri );
+            XmlReader feedSource = GetFeedSource( uri, username, password );
+            return ProcessFeedSource( feedSource );
+        }
 
+        public static XmlReader GetFeedSource( string uri, string username, string password )
+        {
+            return XmlReader.Create( uri );
+        }
+
+        public static SyndicationFeed ProcessFeedSource( XmlReader feedSource )
+        {
             return SyndicationFeed.Load( feedSource );
         }
     }

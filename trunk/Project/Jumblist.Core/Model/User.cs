@@ -5,7 +5,8 @@ namespace Jumblist.Core.Model
 {
     public partial class User
     {
-
+        public static User Anonymous { get { return new User() { UserId = (int)UserUniqueId.Anonymous, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Anonymous, "g" ) }; } }
+        public static User Administrator { get { return new User() { UserId = (int)UserUniqueId.Administrator, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Administrator, "g" ) }; } }
     }
 
     //public partial class User : IPrincipal
@@ -58,4 +59,12 @@ namespace Jumblist.Core.Model
     //        get { return name; }
     //    }
     //}
+
+    [Serializable]
+    [Flags]
+    public enum UserUniqueId
+    {
+        Anonymous = 15,
+        Administrator = 10
+    }
 }

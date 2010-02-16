@@ -4,7 +4,10 @@ http://gettingreal.37signals.com
 
 1. 1 point plan
 
-Jumblist: Easy freecycling
+Jumblist: 
+
+Easy freecycling
+All free. All in one place.
 
 2. Features
 

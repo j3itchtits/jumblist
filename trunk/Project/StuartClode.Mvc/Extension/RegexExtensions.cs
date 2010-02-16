@@ -48,6 +48,12 @@ namespace StuartClode.Mvc.Extension
                 isMatch = IsPhraseMatch(input, newPattern, options);
             }
 
+            if (!isMatch && pattern.EndsWith( "fe", StringComparison.OrdinalIgnoreCase ))
+            {
+                string newPattern = Regex.Replace( pattern, @"fe$", "ves" );
+                isMatch = IsPhraseMatch( input, newPattern, options );
+            }
+
             return isMatch;
         }
     }
