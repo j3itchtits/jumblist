@@ -29,7 +29,7 @@
             <%= Html.ActionLink( "Back to site", "Index", new { area = "", controller = "Home" } )%>
 
             <div id="menu">
-                <%= Html.ActionLink( "Admin", "Index", "Home" ) %> | 
+                <%= Html.ActionLink( "Admin", "Index", "Home" ) %> [ <%= Html.ActionLink( "Feed Source", "FeedSource", "Home" )%> ] [ <%= Html.ActionLink("Feed Output", "FeedOutput", "Home")%> ]
                 <%= Html.ActionLink( "Posts", "List", "Posts" )%> | 
                 <%= Html.ActionLink( "Feeds", "List", "Feeds" ) %> | 
                 <%= Html.ActionLink( "Tags", "List", "Tags" )%> | 

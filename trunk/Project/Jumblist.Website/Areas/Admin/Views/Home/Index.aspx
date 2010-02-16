@@ -4,6 +4,19 @@
 
     <h2>Hello AdminPage</h2>
 
+    <%
+        var myString = "&quot;Steven&quot; &lt;stevenpaul_uk2000@...&gt;Mon Feb&nbsp;8,&nbsp;2010 8:16&nbsp;pm";
+        myString = Regex.Replace( myString, "(.*)&gt;", String.Empty );
+
+        var dt = DateTime.Parse( HttpUtility.HtmlDecode( myString ) );
+        Response.Write( dt.ToString() + "<br/><br/>" );
+
+        //Response.Write( Regex.IsMatch( "Availabl rye in st leonards", @"\bSt Leonards\b", RegexOptions.IgnoreCase ).ToString() );
+        Response.Write(RegexExtensions.IsSingularOrPluralPhraseMatch("I have some nappies-buckets to give aways ", "Nappy", RegexOptions.IgnoreCase).ToString());
+         %>
+             
+    <p>London weather: <%= HttpContext.Current.Items["Temp"] %></p>
+    
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="HeadContentTitle" runat="server">

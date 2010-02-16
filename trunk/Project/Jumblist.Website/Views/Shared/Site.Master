@@ -38,7 +38,6 @@
                 <%= Html.HomepageLink( "Home" ) %> | 
                 <%= Html.ActionLink( "About", "About", "Home" )%> | 
                 <%= Html.ActionLink( "Help", "Help", "Home" )%> | 
-                <%= Html.ActionLink( "Test", "Test", "Home" )%> | 
                 
                 <% if (!(ViewContext.Controller is UsersController))
                    {

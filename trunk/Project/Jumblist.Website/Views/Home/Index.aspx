@@ -18,21 +18,13 @@
     
     <p><%= Html.ActionLink("Groups", "index", "groups")%></p>
     
-    <%
-        var myString = "&quot;Steven&quot; &lt;stevenpaul_uk2000@...&gt;Mon Feb&nbsp;8,&nbsp;2010 8:16&nbsp;pm";
-        myString = Regex.Replace( myString, "(.*)&gt;", String.Empty );
 
-        var dt = DateTime.Parse( HttpUtility.HtmlDecode( myString ) );
-        Response.Write( dt.ToString() + "<br/><br/>" );
-
-        Response.Write( Regex.IsMatch( "Availabl rye in st leonards", @"\bSt Leonards\b", RegexOptions.IgnoreCase ).ToString() );
-         %>
       
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-     <p>London weather: <%= HttpContext.Current.Items["Temp"] %></p>
+
      
      <p>Latest Items</p>
      <% Html.RenderAction("basiclist", "posts", new { top = 5 } ); %>
