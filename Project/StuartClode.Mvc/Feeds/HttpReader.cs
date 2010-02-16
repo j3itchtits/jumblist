@@ -23,7 +23,7 @@ namespace StuartClode.Mvc.Feeds
 
                 // Process response  
                 var response = request.GetResponse() as HttpWebResponse;
-                var stream = new StreamReader(response.GetResponseStream());
+                var stream = new StreamReader( response.GetResponseStream(), Encoding.Default );
                 var responseString = stream.ReadToEnd();
                 stream.Close();
 
@@ -51,7 +51,7 @@ namespace StuartClode.Mvc.Feeds
             }
 
             // Create a byte array of the data we want to send  
-            byte[] byteData = UTF8Encoding.UTF8.GetBytes( postData.ToString() );
+            byte[] byteData = Encoding.Default.GetBytes( postData.ToString() );
 
             // Set the content length in the request headers  
             request.ContentLength = byteData.Length;
@@ -64,7 +64,8 @@ namespace StuartClode.Mvc.Feeds
 
             // Process response  
             var response = request.GetResponse() as HttpWebResponse;
-            var stream = new StreamReader( response.GetResponseStream() );
+            var stream = new StreamReader( response.GetResponseStream(), Encoding.Default );
+
             var responseString = stream.ReadToEnd();
             stream.Close();
 
@@ -92,7 +93,7 @@ namespace StuartClode.Mvc.Feeds
 
             // Process response  
             var response = request.GetResponse() as HttpWebResponse;
-            var stream = new StreamReader( response.GetResponseStream() );
+            var stream = new StreamReader( response.GetResponseStream(), Encoding.Default );
             var responseString = stream.ReadToEnd();
             stream.Close();
 
@@ -110,15 +111,15 @@ namespace StuartClode.Mvc.Feeds
 
             WebClient webClient = new WebClient();
 
-            //begin first request (get) by setting Headers (UserAgent) and Encoding (UTF8)
+            //begin first request (get) by setting Headers (UserAgent) and Encoding (Default)
             webClient.Headers[HttpRequestHeader.UserAgent] = userAgent;
-            webClient.Encoding = Encoding.UTF8;
+            webClient.Encoding = Encoding.Default;
 
             //fetch response to get request (1)
             byte[] firstResponse = webClient.DownloadData( loginUrl );
-            string firstRes = Encoding.UTF8.GetString( firstResponse );
+            string firstRes = Encoding.Default.GetString( firstResponse );
 
-            // begin second (post) request by setting hidden form values, then setting Headers (UserAgent,Referer and Cookie) and Encoding (UTF8)
+            // begin second (post) request by setting hidden form values, then setting Headers (UserAgent,Referer and Cookie) and Encoding (Default)
             NameValueCollection postToLogin = new NameValueCollection();
             Regex regex = new Regex( "type=\"hidden\" name=\"(.*?)\" value=\"(.*?)\"", RegexOptions.IgnoreCase );
             Match match = regex.Match( firstRes );
@@ -138,7 +139,7 @@ namespace StuartClode.Mvc.Feeds
 
             webClient.Headers[HttpRequestHeader.UserAgent] = userAgent;
             webClient.Headers[HttpRequestHeader.Referer] = loginUrl;
-            webClient.Encoding = Encoding.UTF8;
+            webClient.Encoding = Encoding.Default;
             webClient.Headers[HttpRequestHeader.Cookie] = webClient.ResponseHeaders[HttpResponseHeader.SetCookie];
 
             //fetch response to post request (2)
@@ -163,7 +164,7 @@ namespace StuartClode.Mvc.Feeds
 
             //fetch response to get request (3)
             byte[] thirdResponse = webClient.DownloadData( groupUrl );
-            string thirdRes = Encoding.UTF8.GetString( thirdResponse );
+            string thirdRes = Encoding.Default.GetString( thirdResponse );
 
             return thirdRes;
         } 
@@ -212,7 +213,7 @@ namespace StuartClode.Mvc.Feeds
             // Google's API says that the custom authentication string goes in the body of this request.  This is unusual.
             // http://code.google.com/apis/accounts/docs/AuthForInstalledApps.html
             String requestParams = "accountType=" + googleCredentials.AccountType + "&Email=" + googleCredentials.UserName + "&Passwd=" + googleCredentials.Password + "&service=" + serviceString + "&source=" + source;
-            byte[] bytes = Encoding.UTF8.GetBytes( requestParams );
+            byte[] bytes = Encoding.Default.GetBytes( requestParams );
             Stream requestStream = client.GetRequestStream();
             requestStream.Write( bytes, 0, bytes.Length );
             requestStream.Close();

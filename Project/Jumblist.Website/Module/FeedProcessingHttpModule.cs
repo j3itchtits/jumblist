@@ -21,7 +21,7 @@ namespace Jumblist.Website.Module
         protected static Timer _timer;
         private static object _lock = new object();
         protected static string _value;
-        protected static bool _start = false;
+        protected static bool _start = true;
 
         protected void DoWork( object state )
         {
@@ -96,7 +96,7 @@ namespace Jumblist.Website.Module
                     post.LastUpdatedDateTime = item.LastUpdatedTime.LocalDateTime;
                     post.PostCategoryId = 0;
                     post.Display = false;
-                    post.UserId = 1;
+                    post.UserId = User.Anonymous.UserId;
                     post.FeedId = 1;
 
                     postService.Save( post );

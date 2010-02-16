@@ -18,17 +18,25 @@ namespace StuartClode.Mvc.Feeds
     {
         public static SyndicationFeed Load( string uri, string username, string password )
         {
-            string feedSource = HttpReader.YahooGroup( uri, username, password );
-            feedSource = CleanFeedSource( feedSource );
+            string feedSource = GetFeedSource( uri, username, password );
+            return ProcessFeedSource( feedSource );
+        }
 
+        public static string GetFeedSource( string uri, string username, string password )
+        {
+            string feedSource = HttpReader.YahooGroup( uri, username, password );
+            return CleanFeedSource( feedSource );
+        }
+
+        public static SyndicationFeed ProcessFeedSource( string feedSource )
+        {
             HtmlElement rootElement = HtmlElement.Create( feedSource );
 
             // identify the row container
             HtmlElement container = GetRowContainer( rootElement );
 
             // identify the rows and pass them into a list
-            IList<HtmlElement> elementList = container.ChildElements.ToList();
-            elementList.RemoveAt( 0 );
+            IList<HtmlElement> elementList = GetElementList( container );
 
             var items = new List<SyndicationItem>();
 
@@ -39,20 +47,19 @@ namespace StuartClode.Mvc.Feeds
                 //each feed item spans two rows so we want to add the item on every odd numbered tr element
                 if ((i % 2) != 0)
                 {
-                    HtmlAnchorElement link = (HtmlAnchorElement)element.PreviousSibling.ChildElements.Find( "a", 0 );
-                    string title = link.CachedInnerText;
-                    string hRef = "http://groups.yahoo.com" + link.CachedAttributes.HRef;
-
+                    HtmlElement link = element.PreviousSibling.ChildElements.Find( "a", 0 );
                     HtmlElement td = element.PreviousSibling.ChildElements.Find( "td", 1 );
-                    string dateString = Regex.Replace( td.CachedInnerText, "(.*)&gt;", String.Empty );
-                    DateTime datePublished = DateTime.Parse( HttpUtility.HtmlDecode( dateString ) );
-
                     HtmlElement pre = element.ChildElements.Find( "pre", 0 );
-                    string summary = pre.CachedInnerText;
 
-                    var syndicationItem = new SyndicationItem( title, string.Empty, new Uri( hRef ), hRef, DateTime.Now );
+                    string title = GetFeedItemTitle( link );
+                    string hRef = GetFeedItemLink( link );
+                    DateTime publishedTime = GetFeedItemPublishedTime( td );
+                    string summary = GetFeedItemSummary( pre );
+                    DateTime lastUpdatedTime = GetFeedItemLastUpdatedTime();
+
+                    var syndicationItem = new SyndicationItem( title, string.Empty, new Uri( hRef ), hRef, lastUpdatedTime );
                     syndicationItem.Summary = new TextSyndicationContent( summary, TextSyndicationContentKind.XHtml );
-                    syndicationItem.PublishDate = datePublished;
+                    syndicationItem.PublishDate = publishedTime;
 
                     items.Add( syndicationItem );
                 }
@@ -68,6 +75,7 @@ namespace StuartClode.Mvc.Feeds
             feedSource = Regex.Replace( feedSource, @"\<\!DOCTYPE.*?\>", String.Empty );
             feedSource = Regex.Replace( feedSource, "</html>(.|\n)*", "</html>" );
             feedSource = Regex.Replace( feedSource, "</tr>\n</tr>", "</tr>" );
+            
             return feedSource;
         }
 
@@ -77,7 +85,43 @@ namespace StuartClode.Mvc.Feeds
             findParams1.TagName = "table";
             findParams1.Attributes.Add( "class", "wide" );
             //findParams1.Index = 0;
+            
             return rootElement.ChildElements.Find( findParams1 );
+        }
+
+        private static IList<HtmlElement> GetElementList( HtmlElement container )
+        {
+            IList<HtmlElement> elementList = container.ChildElements.ToList();
+            elementList.RemoveAt( 0 );
+
+            return elementList;
+        }
+
+        private static string GetFeedItemTitle( HtmlElement element )
+        {
+            return element.CachedInnerText;
+        }
+
+        private static string GetFeedItemLink( HtmlElement element )
+        {
+            HtmlAnchorElement a = element as HtmlAnchorElement;
+            return "http://groups.yahoo.com" + a.CachedAttributes.HRef;
+        }
+
+        private static DateTime GetFeedItemPublishedTime( HtmlElement element )
+        {
+            string dateString = Regex.Replace( element.CachedInnerText, "(.*)&gt;", String.Empty );
+            return DateTime.Parse( HttpUtility.HtmlDecode( dateString ) );
+        }
+
+        private static string GetFeedItemSummary( HtmlElement element )
+        {
+            return element.CachedInnerText;
+        }
+
+        private static DateTime GetFeedItemLastUpdatedTime()
+        {
+            return DateTime.Now;
         }
     }
 }
