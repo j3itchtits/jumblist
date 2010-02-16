@@ -3,9 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
     <h2><%= Html.Encode( Model.PageTitle ) %></h2>
-    
-    <p><%= Model.HttpResponse %></p>
-    
+
     <div id="itemsList">
         <table class="list">
         <% foreach (var post in Model.Feed.Items)

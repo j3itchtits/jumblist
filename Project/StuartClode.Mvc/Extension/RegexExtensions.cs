@@ -9,14 +9,46 @@ namespace StuartClode.Mvc.Extension
 {
     public static class RegexExtensions
     {
-        public static bool IsWordMatch(string input, string pattern, RegexOptions options)
+        public static bool IsPhraseMatch(string input, string pattern, RegexOptions options)
         {
-            return Regex.IsMatch(input, @"\b" + pattern + @"\b", options);
+            bool isMatch = false;
+
+            isMatch = Regex.IsMatch(input, @"\b" + pattern + @"\b", options);
+
+            if (!isMatch)
+            {
+                string newPattern = Regex.Replace(pattern, @"\s", "-");
+                isMatch = Regex.IsMatch(input, @"\b" + newPattern + @"\b", options);
+            }
+
+            if (!isMatch)
+            {
+                string newPattern = Regex.Replace(pattern, @"\s", string.Empty);
+                isMatch = Regex.IsMatch(input, @"\b" + newPattern + @"\b", options);
+            }
+
+            return isMatch;
         }
 
-        public static bool IsSingularOrPluralWordMatch(string input, string pattern, RegexOptions options)
+        public static bool IsSingularOrPluralPhraseMatch(string input, string pattern, RegexOptions options)
         {
-            return Regex.IsMatch(input, @"\b" + pattern + @"(\b|s\b|es\b)", options);
+            bool isMatch = false;
+
+            isMatch = IsPhraseMatch(input, pattern, options);
+
+            if (!isMatch)
+            {
+                string newPattern = pattern + "(s|es)";
+                isMatch = IsPhraseMatch(input, newPattern, options);
+            }
+
+            if (!isMatch && pattern.EndsWith("y", StringComparison.OrdinalIgnoreCase))
+            {
+                string newPattern = Regex.Replace(pattern, @"y$", "ies");
+                isMatch = IsPhraseMatch(input, newPattern, options);
+            }
+
+            return isMatch;
         }
     }
 }

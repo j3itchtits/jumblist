@@ -198,7 +198,8 @@
     <Content Include="Areas\Admin\Views\Feeds\CategoryEdit.aspx" />
     <Content Include="Areas\Admin\Views\Feeds\CategoryList.aspx" />
     <Content Include="Areas\Admin\Views\Feeds\FeedList.ascx" />
-    <Content Include="Areas\Admin\Views\Home\Test.aspx" />
+    <Content Include="Areas\Admin\Views\Home\FeedOutput.aspx" />
+    <Content Include="Areas\Admin\Views\Home\FeedSource.aspx" />
     <Content Include="Areas\Admin\Views\Locations\LocationList.ascx" />
     <Content Include="Areas\Admin\Views\Posts\CategoryList.aspx" />
     <Content Include="Areas\Admin\Views\Posts\CategoryEdit.aspx" />

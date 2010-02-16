@@ -25,23 +25,31 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult Test()
+        public ViewResult FeedSource()
         {
-            string feedSource = XmlReader.Create( "http://search.twitter.com/search.rss?q=haiti" ).ReadOuterXml();
+            //string feedSource = XmlReader.Create( "http://search.twitter.com/search.rss?q=haiti" ).ReadOuterXml();
             string feedSource1 = HttpReader.Create( "http://news.bbc.co.uk" );
-            string feedSource2 = HttpReader.YahooGroup( "http://groups.yahoo.com/group/hastings-freecycle/messages?xm=1&m=e&l=1", "noostu", "edinburgh" );
+            //string feedSource2 = HttpReader.YahooGroup( "http://groups.yahoo.com/group/hastings-freecycle/messages?xm=1&m=e&l=1", "noostu", "edinburgh" );
 
-            var feedOutput = (SyndicationFeed)Type.GetType( "StuartClode.Mvc.Feeds.CustomSyndicationFeed, StuartClode.Mvc" )
-                .GetMethod( "Load" )
-                .Invoke( null, new object[] { "http://search.twitter.com/search.rss?q=haiti", null, null } );
+            var model = TestView.Model().With( feedSource1 ).WithPageTitle( "Testing with custom Yahoo Groups page" );
 
-            var feedOutput1 = (SyndicationFeed)Type.GetType( "StuartClode.Mvc.Feeds.BbcCustomHttpFeed, StuartClode.Mvc" )
-                .GetMethod( "Load" )
-                .Invoke( null, new object[] { "http://news.bbc.co.uk", null, null } );
+            return View( model );
+        }
 
-            var feedOutput2 = (SyndicationFeed)Type.GetType( "StuartClode.Mvc.Feeds.YahooGroupsCustomHttpFeed, StuartClode.Mvc" )
-                .GetMethod( "Load" )
-                .Invoke( null, new object[] { "http://groups.yahoo.com/group/hastings-freecycle/messages?xm=1&m=e&l=1", "noostu", "edinburgh" } );
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ViewResult FeedOutput()
+        {
+            var feedOutput = (SyndicationFeed)Type.GetType("StuartClode.Mvc.Feeds.CustomSyndicationFeed, StuartClode.Mvc")
+                .GetMethod("Load")
+                .Invoke(null, new object[] { "http://search.twitter.com/search.rss?q=haiti", null, null });
+
+            var feedOutput1 = (SyndicationFeed)Type.GetType("StuartClode.Mvc.Feeds.BbcCustomHttpFeed, StuartClode.Mvc")
+                .GetMethod("Load")
+                .Invoke(null, new object[] { "http://news.bbc.co.uk", null, null });
+
+            var feedOutput2 = (SyndicationFeed)Type.GetType("StuartClode.Mvc.Feeds.YahooGroupsCustomHttpFeed, StuartClode.Mvc")
+                .GetMethod("Load")
+                .Invoke(null, new object[] { "http://groups.yahoo.com/group/hastings-freecycle/messages?xm=1&m=e&l=1", "noostu", "edinburgh" });
 
 
             //var feedOutput2 = YahooGroupsCustomHttpFeed.Load( "http://groups.yahoo.com/group/hastings-freecycle/messages/?xm=1&o=1&m=e&l=1", "noostu", "edinburgh" );
@@ -61,9 +69,9 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             //var model = TestView.Model().With( feedOutput ).WithPageTitle( "Testing testing" );
             //var model = TestView.Model().With( feedOutput1 ).With( feedSource ).WithPageTitle( "Testing with custom BBC page" );
 
-            var model = TestView.Model().With( feedOutput2 ).With( feedSource2 ).WithPageTitle( "Testing with custom Yahoo Groups page" );
+            var model = TestView.Model().With(feedOutput2).WithPageTitle("Testing with custom Yahoo Groups page");
 
-            return View( model );
+            return View(model);
         }
     }
 }

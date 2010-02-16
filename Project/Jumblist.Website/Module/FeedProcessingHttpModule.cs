@@ -61,7 +61,22 @@ namespace Jumblist.Website.Module
             //http://bugsquash.blogspot.com/2009/11/windsor-managed-httpmodules.html
             //http://stackoverflow.com/questions/1657473/ioc-dependancy-injection-into-custom-http-module-how-asp-net
 
+            //for each feed in the feed table 
+            //we need to loop through setting up a new class each time - FeedContainer
+            //this class has many properties that need to be set
+            //eg. feedtype, feedurl, feedusername, feedpassword
+            //after all properties have been set then we need to have a run method which creates the SyndicationFeed object (using reflection)
+            //and then loops through all the items
+            //adding a post to the post table for each unique item found
+
+
+
             var feed = YahooGroupsCustomHttpFeed.Load( "http://groups.yahoo.com/group/hastings-freecycle/messages/?xm=1&o=1&m=e&l=1", "noostu", "edinburgh" );
+
+            //var feed = (SyndicationFeed)Type.GetType("StuartClode.Mvc.Feeds.YahooGroupsCustomHttpFeed, StuartClode.Mvc")
+            //    .GetMethod("Load")
+            //    .Invoke(null, new object[] { "http://groups.yahoo.com/group/hastings-freecycle/messages?xm=1&m=e&l=1", "noostu", "edinburgh" });
+
 
             var postService = ServiceLocator.Current.GetInstance<IPostService>();
 

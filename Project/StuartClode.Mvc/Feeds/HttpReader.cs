@@ -16,16 +16,24 @@ namespace StuartClode.Mvc.Feeds
         //This is a get request
         public static string Create( string uri )
         {
-            var request = WebRequest.Create( uri ) as HttpWebRequest;
-            request.Method = "GET";
+            try
+            {
+                var request = WebRequest.Create(uri) as HttpWebRequest;
+                request.Method = "GET";
 
-            // Process response  
-            var response = request.GetResponse() as HttpWebResponse;
-            var stream = new StreamReader( response.GetResponseStream() );
-            var responseString = stream.ReadToEnd();
-            stream.Close();
+                // Process response  
+                var response = request.GetResponse() as HttpWebResponse;
+                var stream = new StreamReader(response.GetResponseStream());
+                var responseString = stream.ReadToEnd();
+                stream.Close();
 
-            return responseString;
+                return responseString;
+            }
+            catch (Exception)
+            {
+                return "<b>hello</b>";
+            }
+
         }
 
         //This is post request
