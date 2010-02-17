@@ -254,11 +254,13 @@ namespace Jumblist.Core.Service.Data
 
         private int GetPostCategoryId( Post entity )
         {
-            string search = entity.Title;
+            string input = entity.Title;
 
             foreach ( PostCategory c in postCategoryDataService.SelectList() )
             {
-                if ( Regex.IsMatch( search, c.Name, RegexOptions.IgnoreCase ) )
+                //string pattern = "(" + c.Search.Replace( " ", "|" ) + ")";
+                string pattern = c.Name;
+                if ( Regex.IsMatch( input, pattern, RegexOptions.IgnoreCase ) )
                 {
                     return c.PostCategoryId;
                 }

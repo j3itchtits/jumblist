@@ -18,6 +18,11 @@
             <td><%= Html.TextBoxFor( m => m.Item.Name, new { @size = "100" } )%>
             <%= Html.ValidationMessageFor(m => m.Item.Name)%></td>
         </tr>
+        <tr>
+            <td><label for="Item.Type">Type:</label></td>
+            <td><%= Html.TextBoxFor( m => m.Item.Type, new { @size = "100" } )%>
+            <%= Html.ValidationMessageFor( m => m.Item.Type )%></td>
+        </tr>
         </table>
                  
         <p>

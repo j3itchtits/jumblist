@@ -99,7 +99,7 @@ namespace StuartClode.Mvc.Feeds
 
         private static string GetFeedItemTitle( HtmlElement element )
         {
-            return element.CachedInnerText;
+            return HttpUtility.HtmlDecode( element.CachedInnerText );
         }
 
         private static string GetFeedItemLink( HtmlElement element )
@@ -116,7 +116,7 @@ namespace StuartClode.Mvc.Feeds
 
         private static string GetFeedItemSummary( HtmlElement element )
         {
-            return element.CachedInnerText;
+            return HttpUtility.HtmlDecode( element.CachedInnerText );
         }
 
         private static DateTime GetFeedItemLastUpdatedTime()
