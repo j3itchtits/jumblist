@@ -217,7 +217,7 @@ namespace Jumblist.Core.Service.Data
         private bool SavePostLocations( Post entity )
         {
             bool success = false;
-            string input = (entity.Title + " " + entity.Body).Replace( "'", string.Empty );
+            string input = (entity.Title + " " + entity.Body).Replace( "'", string.Empty ).Replace( ".", string.Empty );
             string[] locations = Locations();
 
             foreach ( string l in locations )
