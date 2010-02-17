@@ -69,39 +69,51 @@ namespace Jumblist.Website.Module
             //and then loops through all the items
             //adding a post to the post table for each unique item found
 
+            var feedService = ServiceLocator.Current.GetInstance<IFeedService>();
+            var postService = ServiceLocator.Current.GetInstance<IPostService>();
+            var posts = postService.SelectList();
+            var feeds = feedService.SelectList();
 
+            foreach ( var feed in feeds )
+            {
+                var feedOutput = (SyndicationFeed)Type.GetType( "StuartClode.Mvc.Feeds." + feed.Category.Type + ", StuartClode.Mvc" )
+                    .GetMethod( "Load" )
+                    .Invoke( null, new object[] { feed.Url, feed.Username, feed.Password } );
 
-            var feed = YahooGroupsCustomHttpFeed.Load( "http://groups.yahoo.com/group/hastings-freecycle/messages/?xm=1&o=1&m=e&l=1", "noostu", "edinburgh" );
+                foreach ( var item in feedOutput.Items )
+                {
+                    if ( !( postService.IsDuplicate( posts, item.Id ) ) )
+                    {
+                        var post = new Post();
+                        post.ParentId = 0;
+                        post.Guid = item.Id;
+                        post.Url = item.Links[0].Uri.ToString();
+                        post.Title = item.Title.Text;
+                        post.Body = item.Summary.Text;
+                        post.PublishDateTime = item.PublishDate.LocalDateTime;
+                        post.LastUpdatedDateTime = item.LastUpdatedTime.LocalDateTime;
+                        post.PostCategoryId = 0;
+                        post.Display = false;
+                        post.UserId = User.Anonymous.UserId;
+                        post.FeedId = feed.FeedId;
 
-            //var feed = (SyndicationFeed)Type.GetType("StuartClode.Mvc.Feeds.YahooGroupsCustomHttpFeed, StuartClode.Mvc")
+                        postService.Save( post );
+                    }
+                }
+
+            }
+
+            //var feedOutput = YahooGroupsCustomHttpFeed.Load( "http://groups.yahoo.com/group/hastings-freecycle/messages/?xm=1&o=1&m=e&l=1", "noostu", "edinburgh" );
+
+            //var feedOutput = (SyndicationFeed)Type.GetType("StuartClode.Mvc.Feeds.YahooGroupsCustomHttpFeed, StuartClode.Mvc")
             //    .GetMethod("Load")
             //    .Invoke(null, new object[] { "http://groups.yahoo.com/group/hastings-freecycle/messages?xm=1&m=e&l=1", "noostu", "edinburgh" });
 
 
-            var postService = ServiceLocator.Current.GetInstance<IPostService>();
 
-            var posts = postService.SelectList();
+            
 
-            foreach (var item in feed.Items)
-            {
-                if (!(postService.IsDuplicate( posts, item.Id )))
-                {
-                    var post = new Post();
-                    post.ParentId = 0;
-                    post.Guid = item.Id;
-                    post.Url = item.Links[0].Uri.ToString();
-                    post.Title = item.Title.Text;
-                    post.Body = item.Summary.Text;
-                    post.PublishDateTime = item.PublishDate.LocalDateTime;
-                    post.LastUpdatedDateTime = item.LastUpdatedTime.LocalDateTime;
-                    post.PostCategoryId = 0;
-                    post.Display = false;
-                    post.UserId = User.Anonymous.UserId;
-                    post.FeedId = 1;
 
-                    postService.Save( post );
-                }
-            }
         }
 
         protected void OnBeginRequest( object sender, EventArgs e )

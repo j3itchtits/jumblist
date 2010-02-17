@@ -21,6 +21,11 @@ namespace Jumblist.Core.Model
         [StringLength( 250 )]
         public string Name { get; set; }
 
+        [Column( Name = "PostCategorySearch" )]
+        [Required( ErrorMessage = "Please enter a search string" )]
+        [StringLength( 250 )]
+        public string Search { get; set; }
+
         [Association( Name = "FK_Posts_PostCategories", Storage = "posts", ThisKey = "PostCategoryId", OtherKey = "PostCategoryId", IsForeignKey = true )]
         public EntitySet<Post> Posts
         {

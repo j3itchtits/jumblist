@@ -21,6 +21,11 @@ namespace Jumblist.Core.Model
         [StringLength( 250 )]
         public string Name { get; set; }
 
+        [Column( Name = "FeedCategoryType" )]
+        [Required( ErrorMessage = "Please enter a type" )]
+        [StringLength( 50 )]
+        public string Type { get; set; }
+
         [Association( Name = "FK_Feeds_FeedCategories", Storage = "feeds", ThisKey = "FeedCategoryId", OtherKey = "FeedCategoryId", IsForeignKey = true )]
         public EntitySet<Feed> Feeds
         {
