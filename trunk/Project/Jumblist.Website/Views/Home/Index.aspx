@@ -9,16 +9,15 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
+
+    <% using (Html.BeginForm("homepagesearch", "search"))
+       { %>
+            <p><%= Html.TextBox( "searchstring" ) %> <%= Html.SubmitButton( "submit", "Search" ) %></p>
+<%--            <p><%= Html.RadioButtonList("searchoptions", new[] { "All", "Offered", "Wanted" }, "All" )%></p>
+--%>    <% } %>
     
     <p><%= Html.ActionLink("View All Posts", "index", "posts")%> - <%= Html.ActionLink("Wanted", "category", "posts", new { id = "Wanted" }, null ) %> - <%= Html.ActionLink( "Offered", "category", "posts", new { id = "Offered" }, null )%></p>
     
-    <p><%= Html.ActionLink( "Tags", "index", "tags" ) %></p>
-    
-    <p><%= Html.ActionLink("Locations", "index", "locations")%></p>
-    
-    <p><%= Html.ActionLink("Groups", "index", "groups")%></p>
-    
-
       
 </asp:Content>
 

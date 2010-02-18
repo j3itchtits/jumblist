@@ -233,6 +233,8 @@
     <Content Include="Views\Posts\CategoryList.ascx" />
     <Content Include="Views\Posts\Index.aspx" />
     <Content Include="Views\Posts\PostList.ascx" />
+    <Content Include="Views\Shared\BasketUserControl.ascx" />
+    <Content Include="Views\Shared\LogOnUserControl.ascx" />
     <Content Include="Views\Shared\RightNavListBy.ascx" />
     <Content Include="Views\Tags\Index.aspx" />
     <Content Include="Views\Tags\TagList.ascx" />

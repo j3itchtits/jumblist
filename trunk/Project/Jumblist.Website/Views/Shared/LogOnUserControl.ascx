@@ -1,6 +1,14 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 
 <%
+    if (!(ViewContext.Controller is UsersController))
+    {
+       Html.RenderAction( "LoginLinks", "Users", new { isAuthenticated = Page.Request.IsAuthenticated, name = Page.User.Identity.Name } );  
+    } 
+%>
+
+<%--
+<%
     if ( Page.Request.IsAuthenticated )
     {
 %>
@@ -14,5 +22,5 @@
 <%
     }
 %>
-
+--%>
 

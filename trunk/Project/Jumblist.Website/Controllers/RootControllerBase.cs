@@ -15,7 +15,7 @@ namespace Jumblist.Website.Controllers
     [CopyTempDataToViewData]
     public abstract class RootControllerBase : Controller
     {
-        internal const int frontEndPageSize = 5;
+        internal const int frontEndPageSize = 15;
 
         public virtual string SimpleMessage
         {

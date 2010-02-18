@@ -12,8 +12,9 @@
         Response.Write( dt.ToString() + "<br/><br/>" );
 
         //Response.Write( Regex.IsMatch( "Availabl rye in st leonards", @"\bSt Leonards\b", RegexOptions.IgnoreCase ).ToString() );
-        Response.Write(RegexExtensions.IsSingularOrPluralPhraseMatch("I have some nappies-buckets to give aways ", "Nappy", RegexOptions.IgnoreCase).ToString());
-        Response.Write( ("i am based in St Leonard's").Replace( "'", string.Empty ) );
+        Response.Write(RegexExtensions.IsSingularOrPluralPhraseMatch("I have some nappies-buckets to give aways ", "Nappy", RegexOptions.IgnoreCase).ToString() + "<br/><br/>");
+        Response.Write( ("i am based in St Leonard's").Replace( "'", string.Empty ) + "<br/><br/>" );
+        Response.Write(Regex.IsMatch("Received: a bit nappy", "(Recieved|Received)", RegexOptions.IgnoreCase) + "<br/><br/>");
          %>
              
     <p>London weather: <%= HttpContext.Current.Items["Temp"] %></p>

@@ -258,8 +258,8 @@ namespace Jumblist.Core.Service.Data
 
             foreach ( PostCategory c in postCategoryDataService.SelectList() )
             {
-                //string pattern = "(" + c.Search.Replace( " ", "|" ) + ")";
-                string pattern = c.Name;
+                string pattern = "(" + c.Search.Replace( ", ", "|" ) + ")";
+                //string pattern = c.Name;
                 if ( Regex.IsMatch( input, pattern, RegexOptions.IgnoreCase ) )
                 {
                     return c.PostCategoryId;

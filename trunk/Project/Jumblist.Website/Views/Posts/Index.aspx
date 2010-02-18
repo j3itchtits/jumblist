@@ -26,6 +26,4 @@
 
     <% Html.RenderAction( "categorylist", "posts", new { highlightedCategory = ViewContext.RouteData.Values["id"].ToString() } ); %>
 
-    <% Html.RenderPartial( "RightNavListBy" ); %>
-        
 </asp:Content>
