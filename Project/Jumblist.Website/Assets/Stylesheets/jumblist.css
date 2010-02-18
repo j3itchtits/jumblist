@@ -117,12 +117,17 @@ p
 
 #header-interior #basket
 {
-	float: right;
+    
 }
 
 #header-interior #menu
 {
-	padding-top: 10px;
+	
+}
+
+#header-interior #login
+{
+    float: right;
 }
 
 #header-interior a

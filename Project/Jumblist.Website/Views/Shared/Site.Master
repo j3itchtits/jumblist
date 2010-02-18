@@ -27,26 +27,25 @@
   
     <div id="header">
         <div id="header-interior">
-            <div id="logo">Jumblist</div>
-            <div id="basket">
-                <% if (!(ViewContext.Controller is BasketController))
-                   {
-                       Html.RenderAction( "Summary", "Basket" );  
-                   } %>
+            <div id="login">
+                <% Html.RenderPartial( "LogOnUserControl" ); %>
             </div>
+            <div id="basket">
+                <% Html.RenderPartial( "BasketUserControl" ); %>
+            </div>
+
+            <div id="logo">Jumblist</div>
+
             <div id="menu">
                 <%= Html.HomepageLink( "Home" ) %> | 
+                <%= Html.ActionLink( "Posts", "index", "posts" ) %> | 
+                <%= Html.ActionLink( "Tags", "index", "tags" ) %> | 
+                <%= Html.ActionLink("Locations", "index", "locations")%> | 
+                <%= Html.ActionLink("Groups", "index", "groups")%> | 
                 <%= Html.ActionLink( "About", "About", "Home" )%> | 
                 <%= Html.ActionLink( "Help", "Help", "Home" )%> | 
-                
-                <% if (!(ViewContext.Controller is UsersController))
-                   {
-                       Html.RenderAction( "LoginLinks", "Users", new { isAuthenticated = Page.Request.IsAuthenticated, name = Page.User.Identity.Name } );  
-                   } %>
-                   
-<%--                <% Html.RenderPartial( "LogOnUserControl" ); %>  --%>
-               
             </div>
+
         </div>
     </div>
 
