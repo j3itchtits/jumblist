@@ -5,18 +5,13 @@
     <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
     
     <%= Html.MessageBox( ViewData.Model ) %>
-    
 
     <div class="post-item">
-        <div>Url: <a href="<%= Model.Item.Url %>" target="_blank">Linkback</a></div>     
-        <div style="padding: 20px 0px;"><pre><%= Model.Item.Body %></pre></div> 
-        <div style="padding: 20px 0px;"><%= Model.Item.Body.ReplaceParagraphBreaks() %></div>
-        <div>Publish Date: <%= Model.Item.PublishDateTime.ToShortDateString() %></div> 
-        <div>Last Updated: <%= Model.Item.LastUpdatedDateTime.ToShortDateString()%></div> 
+        <div><a href="<%= Model.Item.Url %>" target="_blank">Original Post</a></div>     
+        <div style="padding: 20px 0px;"><%= Html.Encode( Model.Item.Body ).ReplaceParagraphBreaks()%></div>
+        <div>Publish Date: <%= Model.Item.PublishDateTime %></div> 
         <div>Category: <%= Model.Item.Category.Name %></div> 
-        <div>Lat: <%= Model.Item.Latitude.ToString() %></div> 
-        <div>Long: <%= Model.Item.Longitude.ToString() %></div> 
-        <div>Display?: <%= Model.Item.Display.ToString() %></div> 
+
     </div>
     
     <div class="post-locations">

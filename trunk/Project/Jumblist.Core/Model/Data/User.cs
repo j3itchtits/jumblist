@@ -49,6 +49,7 @@ namespace Jumblist.Core.Model
         public string Link { get; set; }
 
         [Column( Name = "UserIsActive" )]
+        [Required]
         public bool IsActive { get; set; }
 
         [Column( Name = "UserDateCreated" )]

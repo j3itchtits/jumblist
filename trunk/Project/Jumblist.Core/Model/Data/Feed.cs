@@ -58,6 +58,11 @@ namespace Jumblist.Core.Model
         [DataType( DataType.DateTime )]
         public DateTime LastUpdateDateTime { get; set; }
 
+        [Column( Name = "FeedLocationArea" )]
+        [Required]
+        [StringLength( 250 )]
+        public string LocationArea { get; set; }
+
         [Column( Name = "FeedCategoryId" )]
         [Required]
         public int FeedCategoryId { get; set; }
