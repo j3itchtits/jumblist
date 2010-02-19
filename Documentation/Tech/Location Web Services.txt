@@ -13,3 +13,12 @@ http://www.postcoder.com/handy_tools/postcode_area_locator
 
 Download UK Postcodes with Latitude and Longitude (useful links at bottom of page)
 http://www.freemaptools.com/download-uk-postcode-lat-lng.htm
+
+Free Web Services (Very good site with plenty of options)
+http://www.geonames.org
+
+Example
+http://ws.geonames.org/postalCodeSearch?postalcode=tn31&maxRows=10&country=uk
+
+More sophisticated web service
+http://www.nearby.org.uk/

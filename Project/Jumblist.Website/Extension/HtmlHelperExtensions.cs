@@ -69,7 +69,7 @@ namespace Jumblist.Website.Extension
             {
                 writer.AddAttribute( "class", model.Message.StyleClass );
                 writer.RenderBeginTag( HtmlTextWriterTag.Div );
-                writer.Write( model.Message.Text );
+                writer.WriteEncodedText( model.Message.Text );
                 writer.RenderEndTag();
             }
 
@@ -79,7 +79,7 @@ namespace Jumblist.Website.Extension
                 {
                     writer.AddAttribute( "class", message.StyleClass );
                     writer.RenderBeginTag( HtmlTextWriterTag.Div );
-                    writer.Write( message.Text );
+                    writer.WriteEncodedText( message.Text );
                     writer.RenderEndTag();
                 }    
             }
@@ -93,7 +93,7 @@ namespace Jumblist.Website.Extension
 
             HtmlTextWriter writer = new HtmlTextWriter( new StringWriter() );
 
-            writer.Write( model.PageTitle );
+            writer.WriteEncodedText( model.PageTitle );
 
             return writer.InnerWriter.ToString();
         }
@@ -105,7 +105,7 @@ namespace Jumblist.Website.Extension
             HtmlTextWriter writer = new HtmlTextWriter( new StringWriter() );
 
             writer.RenderBeginTag( tag );
-            writer.Write( model.PageTitle );
+            writer.WriteEncodedText( model.PageTitle );
             writer.RenderEndTag();
 
             return writer.InnerWriter.ToString();
@@ -166,6 +166,58 @@ namespace Jumblist.Website.Extension
 
             var func = expression.Compile();
             return func( model );
+        }
+
+        public static MvcHtmlString Fud( this HtmlHelper helper )
+        {
+            return MvcHtmlString.Create( "<acronym title=\"Fear, Uncertainty, and Doubt\">FUD</acronym>" );
+        }
+
+        public static MvcHtmlString RadioButtonList( this HtmlHelper helper, string name, IEnumerable<SelectListItem> items )
+        {
+            TagBuilder tableTag = new TagBuilder( "table" );
+            tableTag.AddCssClass( "radio-main" );
+
+            var trTag = new TagBuilder( "tr" );
+            foreach (var item in items)
+            {
+                var tdTag = new TagBuilder( "td" );
+                var rbValue = item.Value ?? item.Text;
+                var rbName = name + "_" + rbValue;
+                var radioTag = helper.RadioButton( rbName, rbValue, item.Selected, new { name = name } );
+
+                var labelTag = new TagBuilder( "label" );
+                labelTag.MergeAttribute( "for", rbName );
+                labelTag.MergeAttribute( "id", rbName + "_label" );
+                labelTag.InnerHtml = rbValue;
+
+                tdTag.InnerHtml = radioTag.ToString() + labelTag.ToString();
+
+                trTag.InnerHtml += tdTag.ToString();
+            }
+            tableTag.InnerHtml = trTag.ToString();
+
+            return MvcHtmlString.Create( tableTag.ToString() );
+        }
+
+        public static MvcHtmlString RadioButtonList<T>( this HtmlHelper helper, IEnumerable<T> list, string name, string value, string text )
+        {
+            if (string.IsNullOrEmpty( name )) throw new ArgumentException( "name cannot be null or empty" );
+
+            var sb = new StringBuilder();
+            var enumerator = list.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                var obj = enumerator.Current;
+                var v = obj.GetType().GetProperty( value );
+                var t = obj.GetType().GetProperty( text );
+
+                //sb.Append( InputExtensions.RadioButton( helper, name, v.GetValue( obj, null ) ) );
+                sb.Append( helper.RadioButton( name, v.GetValue( obj, null ) ) );
+                sb.Append( t.GetValue( obj, null ) );
+            }
+
+            return MvcHtmlString.Create( sb.ToString() );
         }
     }
 }

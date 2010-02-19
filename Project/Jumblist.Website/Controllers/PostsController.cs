@@ -87,7 +87,7 @@ namespace Jumblist.Website.Controllers
             var item = postService.Select( id );
             var model = BuildDefaultViewModel().With( item );
 
-            model.PageTitle = string.Format( "Detail - {0}", item.Title );
+            model.PageTitle = item.Title;
 
             return View( model );
         }
