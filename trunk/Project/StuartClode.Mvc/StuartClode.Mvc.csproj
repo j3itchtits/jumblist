@@ -61,6 +61,12 @@
     <Reference Include="System.Data.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.ServiceModel.Web">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -92,11 +98,6 @@
     <Compile Include="Extension\RegexExtensions.cs" />
     <Compile Include="Extension\RoutingExtension.cs" />
     <Compile Include="Extension\WindsorExtension.cs" />
-    <Compile Include="Feeds\BbcCustomHttpFeed.cs" />
-    <Compile Include="Feeds\ISyndicationFeed.cs" />
-    <Compile Include="Feeds\YahooGroupsCustomHttpFeed.cs" />
-    <Compile Include="Feeds\CustomSyndicationFeed.cs" />
-    <Compile Include="Feeds\HttpReader.cs" />
     <Compile Include="Helper\RegularExpressionString.cs" />
     <Compile Include="Extension\StringExtensions.cs" />
     <Compile Include="Extension\TypeExtensions.cs" />
@@ -114,11 +115,52 @@
     <Compile Include="Repository\IRepositoryResolver.cs" />
     <Compile Include="Repository\Repository.cs" />
     <Compile Include="Repository\RepositoryResolver.cs" />
-    <Compile Include="Service\DataService.cs" />
-    <Compile Include="Service\DataServiceResolver.cs" />
-    <Compile Include="Service\IDataService.cs" />
-    <Compile Include="Service\IDataServiceResolver.cs" />
+    <Compile Include="Service References\GeocodeService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Bing\BingLocationService.cs" />
+    <Compile Include="Service\Data\DataService.cs" />
+    <Compile Include="Service\Data\DataServiceResolver.cs" />
+    <Compile Include="Service\Data\IDataService.cs" />
+    <Compile Include="Service\Data\IDataServiceResolver.cs" />
+    <Compile Include="Service\Feed\BbcCustomHttpFeed.cs" />
+    <Compile Include="Service\Feed\CustomSyndicationFeed.cs" />
+    <Compile Include="Service\Feed\HttpReader.cs" />
+    <Compile Include="Service\Feed\YahooGroupsCustomHttpFeed.cs" />
     <Compile Include="Validation\DataAnnotationsValidationRunner.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Service References\GeocodeService\GeocodeService.wsdl" />
+    <None Include="Service References\GeocodeService\GeocodeService.xsd" />
+    <None Include="Service References\GeocodeService\GeocodeService1.wsdl" />
+    <None Include="Service References\GeocodeService\GeocodeService1.xsd" />
+    <None Include="Service References\GeocodeService\GeocodeService2.xsd" />
+    <None Include="Service References\GeocodeService\GeocodeService3.xsd" />
+    <None Include="Service References\GeocodeService\GeocodeService4.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\GeocodeService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GeocodeService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GeocodeService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GeocodeService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\GeocodeService\StuartClode.Mvc.GeocodeService.GeocodeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Filter\" />

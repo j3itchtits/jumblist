@@ -8,19 +8,29 @@ using Jumblist.Core.Model;
 using Jumblist.Website.Controllers;
 using Jumblist.Website.Filter;
 using System.ServiceModel.Syndication;
-using StuartClode.Mvc.Feeds;
+using StuartClode.Mvc.Service.Feed;
 using Jumblist.Website.ViewModel;
 using System.Xml;
+using StuartClode.Mvc.Service.Bing;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
 {
     [CustomAuthorization( RoleLevels = RoleLevel.Administrator | RoleLevel.Editor )]
     public class HomeController : RootControllerBase
     {
-        [LoadFeeds]
+        //[LoadFeeds]
         [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult Index()
         {
+            string address = "warrior square, hastings, east sussex, uk";
+
+            ViewData["address"] = address;
+            
+            var bingLocationService = new BingLocationService( address );
+            ViewData["geocode"] = bingLocationService.GeocodeAddress( address );
+            ViewData["latitude"] = bingLocationService.Latitude.ToString();
+            ViewData["longitude"] = bingLocationService.Longitude.ToString();
+
             return View();
         }
 
@@ -39,15 +49,15 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ViewResult FeedOutput()
         {
-            var feedOutput = (SyndicationFeed)Type.GetType("StuartClode.Mvc.Feeds.CustomSyndicationFeed, StuartClode.Mvc")
+            var feedOutput = (SyndicationFeed)Type.GetType("StuartClode.Mvc.Service.Feed.CustomSyndicationFeed, StuartClode.Mvc")
                 .GetMethod("Load")
                 .Invoke( null, new object[] { "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml", null, null } );
 
-            var feedOutput1 = (SyndicationFeed)Type.GetType("StuartClode.Mvc.Feeds.BbcCustomHttpFeed, StuartClode.Mvc")
+            var feedOutput1 = (SyndicationFeed)Type.GetType("StuartClode.Mvc.Service.Feed.BbcCustomHttpFeed, StuartClode.Mvc")
                 .GetMethod("Load")
                 .Invoke(null, new object[] { "http://news.bbc.co.uk", null, null });
 
-            var feedOutput2 = (SyndicationFeed)Type.GetType("StuartClode.Mvc.Feeds.YahooGroupsCustomHttpFeed, StuartClode.Mvc")
+            var feedOutput2 = (SyndicationFeed)Type.GetType("StuartClode.Mvc.Service.Feed.YahooGroupsCustomHttpFeed, StuartClode.Mvc")
                 .GetMethod("Load")
                 .Invoke(null, new object[] { "http://groups.yahoo.com/group/hastings-freecycle/messages?xm=1&m=e&l=1", "noostu", "edinburgh" });
 

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using Jumblist.Core.Model;
 using Jumblist.Core.Service.Data;
-using StuartClode.Mvc.Service;
+using StuartClode.Mvc.Service.Data;
 using MvcContrib;
 using Jumblist.Website.ViewModel;
 using Jumblist.Website.Filter;
@@ -43,7 +43,7 @@ namespace Jumblist.Website.Controllers
             }
             else
             {
-                var item = userService.GetUser( name );
+                var item = userService.Select( name );
                 var model = BuildDefaultViewModel().With( item );
                 return View( "LoginLinksAuthenticated", model );
             }
@@ -92,20 +92,21 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Register( User user, string confirmPassword, string returnUrl )
+        public ActionResult Register( User item, string confirmPassword, string returnUrl )
         {
             try
             {
-                userService.RegisterUser( user.Name, user.Email, user.Postcode, user.Password, confirmPassword );
+                item.RoleId = Role.Author.RoleId;
+                userService.Create( item, confirmPassword );
             }
             catch (RulesException ex)
             {
-                ex.AddModelStateErrors( ModelState, "User" );
+                ex.AddModelStateErrors( ModelState, "Item" );
             }
 
             if (ModelState.IsValid)
             {
-                userService.SetAuthenticationCookie( user.Name, true );
+                userService.SetAuthenticationCookie( item.Name, true );
                 Message = new Message { Text = "Thank you for registering", StyleClass = "message" };
 
                 if (!string.IsNullOrEmpty( returnUrl ))

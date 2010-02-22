@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Castle.MicroKernel;
 
-namespace StuartClode.Mvc.Service
+namespace StuartClode.Mvc.Service.Data
 {
     public class DataServiceResolver : IDataServiceResolver
     {

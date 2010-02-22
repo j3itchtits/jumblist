@@ -16,7 +16,7 @@ using Jumblist.Core.Service.Authentication;
 using Jumblist.Core.Service.Basket;
 using Jumblist.Core.Model;
 using StuartClode.Mvc.Repository;
-using StuartClode.Mvc.Service;
+using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Extension;
 using StuartClode.Mvc.IoC;
 using Microsoft.Practices.ServiceLocation;

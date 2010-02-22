@@ -5,85 +5,84 @@ using System;
 using xVal.ServerSide;
 using Jumblist.Core.Model;
 using Jumblist.Core.Service.Authentication;
-using StuartClode.Mvc.Service;
+using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Validation;
+using StuartClode.Mvc.Service.Bing;
 
 namespace Jumblist.Core.Service.Data
 {
     public class UserService : DataService<User>, IUserService
     {
-        private readonly IRepository<User> repository;
         private readonly IFormsAuthenticationService formsAuth;
 
         public UserService( IRepository<User> repository, IFormsAuthenticationService formsAuth )
             : base( repository )
         {
-            this.repository = repository;
             this.formsAuth = formsAuth;
         }
 
         #region IUserService Members
 
-        public void SaveUser( User entity )
+        public override void Save( User entity )
         {
+            var bingLocationService = new BingLocationService( entity.Postcode );
+
+            entity.Latitude = bingLocationService.Latitude;
+            entity.Longitude = bingLocationService.Longitude;
+
             ValidateDataRules( entity );
             ValidateBusinessRules( entity );
+
             base.Save( entity );
         }
 
-        public void ResetUserPassword( User entity, string password, string confirmPassword )
+        public void ResetPassword( User entity, string password, string confirmPassword )
         {
             ValidateBusinessRules( password, confirmPassword );
             entity.Password = HashPassword( password );
+
             base.Update( entity );
         }
 
-        public void CreateUser( string name, string email, string password, string confirmPassword, int roleId )
+        public void Create( User entity, string confirmPassword )
         {
-            var user = new User
-            {
-                Name = name,
-                Email = email,
-                Password = HashPassword( password ),
-                IsActive = true,
-                DateCreated = DateTime.Now,
-                RoleId = roleId
-            };
+            var bingLocationService = new BingLocationService( entity.Postcode.ToUpper() );
 
-            ValidateDataRules( user );
-            ValidateBusinessRules( name, email, password, confirmPassword );
+            string password = entity.Password;
 
-            base.Save( user );
+            entity.SearchRadiusMiles = 5;
+            entity.Postcode = entity.Postcode.ToUpper();
+            entity.Latitude = bingLocationService.Latitude;
+            entity.Longitude = bingLocationService.Longitude;
+            entity.Password = HashPassword( password );
+            entity.IsActive = true;
+            entity.DateCreated = DateTime.Now;
+
+            ValidateDataRules( entity );
+            ValidateBusinessRules( entity.Name, entity.Email, password, confirmPassword );
+
+            base.Save( entity );
         }
 
-        public void RegisterUser( string name, string email, string postcode, string password, string confirmPassword )
+        public override IQueryable<User> SelectList()
         {
-            var user = new User
-            {
-                Name = name,
-                Email = email,
-                Postcode = postcode.ToUpper(),
-                Password = HashPassword( password ),
-                IsActive = true,
-                DateCreated = DateTime.Now,
-                RoleId = Role.Author.RoleId
-            };
-
-            ValidateDataRules( user );
-            ValidateBusinessRules( name, email, password, confirmPassword );
-
-            base.Save( user );
+            return base.SelectList();
         }
 
-        public User GetUser( string name, string password )
+        public override User Select( int id )
         {
-            return repository.SelectList().SingleOrDefault( u => u.Name == name && u.Password == password && u.IsActive );
+            return base.Select( id );
         }
 
-        public User GetUser( string name )
+        public User Select( string name, string password )
         {
-            return repository.SelectList().SingleOrDefault( u => u.Name == name );
+            return SelectList().SingleOrDefault( u => u.Name == name && u.Password == password && u.IsActive );
+        }
+
+        public override User Select( string name )
+        {
+            return base.Select( name );
         }
 
         public virtual void SetAuthenticationCookie( string name, bool rememberMe )
@@ -103,7 +102,12 @@ namespace Jumblist.Core.Service.Data
 
         public bool Authenticate( string name, string password )
         {
-            return GetUser( name, HashPassword( password ) ) != null;
+            return Select( name, HashPassword( password ) ) != null;
+        }
+
+        public override void Delete( User entity )
+        {
+            base.Delete( entity );
         }
 
         //public virtual User CurrentUser

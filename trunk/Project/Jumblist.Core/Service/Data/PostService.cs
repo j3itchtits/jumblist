@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Jumblist.Core.Model;
-using StuartClode.Mvc.Service;
+using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Extension;
 using xVal.ServerSide;
@@ -226,7 +226,7 @@ namespace Jumblist.Core.Service.Data
 
             foreach (Location location in locationList)
             {
-                string pattern = ( location.IsPostcode ) ? location.Name + ".*" : location.Name;
+                string pattern = (location.IsPostcode) ? location.NameSearch + ".*" : location.NameSearch;
                 if (RegexExtensions.IsPhraseMatch(input, pattern, RegexOptions.IgnoreCase))
                 {
                     var postLocationItem = new PostLocation { PostId = entity.PostId, LocationId = location.LocationId };

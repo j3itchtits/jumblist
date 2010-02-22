@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections;
 using System.Data.Linq;
 
-namespace StuartClode.Mvc.Service
+namespace StuartClode.Mvc.Service.Data
 {
     public interface IDataService<T> where T : class
     {

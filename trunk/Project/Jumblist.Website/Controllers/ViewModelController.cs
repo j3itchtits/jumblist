@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using StuartClode.Mvc.Repository;
 using Jumblist.Website.ViewModel;
 using StuartClode.Mvc.Extension;
-using StuartClode.Mvc.Service;
+using StuartClode.Mvc.Service.Data;
 
 namespace Jumblist.Website.Controllers
 {
@@ -41,7 +41,7 @@ namespace Jumblist.Website.Controllers
         public virtual void AddLookupListsToModel( DefaultViewModel<T> viewModel )
         {
             // find any properties that are attributed as a linq entity
-            foreach (var property in typeof(T).GetProperties())
+            foreach ( var property in typeof(T).GetProperties( BindingFlags.Public | BindingFlags.Instance ) )
             {
                 if (property.PropertyType.IsLinqEntity())
                 {

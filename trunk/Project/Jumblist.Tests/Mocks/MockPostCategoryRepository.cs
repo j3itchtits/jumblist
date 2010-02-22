@@ -5,7 +5,7 @@ using System.Text;
 using Moq;
 using Jumblist.Core.Model;
 using Jumblist.Core.Service;
-using StuartClode.Mvc.Service;
+using StuartClode.Mvc.Service.Data;
 
 namespace Jumblist.Tests.Mocks
 {

@@ -87,6 +87,16 @@ p
 	padding: 10px 0px;
 }
 
+.text-upper 
+{
+        text-transform: uppercase;
+}
+
+.text-lower 
+{
+        text-transform: lowercase;
+}
+
 .field-validation-error
 {
 	color: Red;

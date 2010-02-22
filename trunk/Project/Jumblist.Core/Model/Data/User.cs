@@ -49,13 +49,7 @@ namespace Jumblist.Core.Model
         [Required]
         public int SearchRadiusMiles { get; set; }
 
-        [Column( Name = "UserLink" )]
-        [StringLength( 500 )]
-        [RegularExpression( RegularExpressionString.Url, ErrorMessage = "You must supply a valid web link" )]
-        public string Link { get; set; }
-
         [Column( Name = "UserIsActive" )]
-        [Required]
         public bool IsActive { get; set; }
 
         [Column( Name = "UserDateCreated" )]

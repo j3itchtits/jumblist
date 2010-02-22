@@ -10,41 +10,39 @@
 
     <%= Html.MessageBox( ViewData.Model )%>
 
-    <%= Html.ClientSideValidation<User>( "User" )%>
+    <%= Html.ClientSideValidation<User>( "Item" )%>
         
     <p>Please submit your details. <%= Html.LoginLink( "Log In" )%> if you already have an account.</p>
 
 	<% using( Html.BeginForm() ) { %>
 	
-        <p>
-            <label for="User.Name">Name</label>
-            <%= Html.TextBox( "User.Name" )%>
-            <%= Html.ValidationMessage( "User.Name" )%>
-        </p>
-
-        <p>
-            <label for="User.Email">Email</label>
-            <%= Html.TextBox( "User.Email" )%>
-            <%= Html.ValidationMessage( "User.Email" )%>
-        </p>
-
-        <p>
-            <label for="User.Postcode">Postcode</label>
-            <%= Html.TextBox( "User.Postcode" )%>
-            <%= Html.ValidationMessage( "User.Postcode" )%>
-        </p>
-        
-        <p>
-            <label for="User.Password">Password</label>
-            <%= Html.Password( "User.Password" )%>
-            <%= Html.ValidationMessage( "User.Password" )%>            
-        </p>
-
-        <p>
-            <label for="ConfirmPassword">Confirm Password</label>
-            <%= Html.Password( "ConfirmPassword" )%>
-            <%= Html.ValidationMessage( "User.ConfirmPassword" )%>  
-        </p>
+        <table>
+        <tr>
+            <td><label for="Item.Name">Name:</label></td>
+            <td><%= Html.TextBoxFor( m => m.Item.Name ) %>
+            <%= Html.ValidationMessageFor( m => m.Item.Name )%></td>
+        </tr>
+        <tr>
+            <td><label for="Item.Email">Email:</label></td>
+            <td><%= Html.TextBoxFor( m => m.Item.Email ) %>
+            <%= Html.ValidationMessageFor( m => m.Item.Email )%></td>
+        </tr>
+        <tr>
+            <td><label for="Item.Postcode">Postcode:</label></td>
+            <td><%= Html.TextBoxFor( m => m.Item.Postcode, new { @class = "text-upper" } )%>
+            <%= Html.ValidationMessageFor( m => m.Item.Postcode )%></td>
+        </tr> 
+        <tr>
+            <td><label for="Item.Password">Password:</label></td>
+            <td><%= Html.PasswordFor( m => m.Item.Password )%>
+            <%= Html.ValidationMessageFor( m => m.Item.Password )%></td>
+        </tr>
+        <tr>
+            <td><label for="ConfirmPassword">Confirm Password</label></td>
+            <td><%= Html.Password( "ConfirmPassword" )%>
+            <%= Html.ValidationMessage( "Item.ConfirmPassword" )%></td>  
+        </tr>
+        </table>
 
         <%= Html.SubmitButton( "submit", "Register" ) %>
         

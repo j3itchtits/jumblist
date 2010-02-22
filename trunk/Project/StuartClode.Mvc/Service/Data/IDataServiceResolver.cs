@@ -1,6 +1,6 @@
 using System;
 
-namespace StuartClode.Mvc.Service
+namespace StuartClode.Mvc.Service.Data
 {
     public interface IDataServiceResolver
     {

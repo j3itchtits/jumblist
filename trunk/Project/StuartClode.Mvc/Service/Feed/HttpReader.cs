@@ -9,7 +9,7 @@ using System.Collections.Specialized;
 using System.Collections;
 using System.Text.RegularExpressions;
 
-namespace StuartClode.Mvc.Feeds
+namespace StuartClode.Mvc.Service.Feed
 {
     public class HttpReader
     {

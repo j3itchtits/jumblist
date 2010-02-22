@@ -8,11 +8,11 @@ using System.Xml;
 using Jumblist.Website.Module;
 using System.ServiceModel.Syndication;
 using Jumblist.Core.Service.Data;
-using StuartClode.Mvc.Service;
+using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Repository;
 using Microsoft.Practices.ServiceLocation;
 using Jumblist.Core.Model;
-using StuartClode.Mvc.Feeds;
+using StuartClode.Mvc.Service.Feed;
 
 namespace Jumblist.Website.Module
 {
@@ -76,7 +76,7 @@ namespace Jumblist.Website.Module
 
             foreach ( var feed in feeds )
             {
-                var feedOutput = (SyndicationFeed)Type.GetType( "StuartClode.Mvc.Feeds." + feed.Category.Type + ", StuartClode.Mvc" )
+                var feedOutput = (SyndicationFeed)Type.GetType( "StuartClode.Mvc.Service.Feed." + feed.Category.Type + ", StuartClode.Mvc" )
                     .GetMethod( "Load" )
                     .Invoke( null, new object[] { feed.Url, feed.Username, feed.Password } );
 
@@ -105,7 +105,7 @@ namespace Jumblist.Website.Module
 
             //var feedOutput = YahooGroupsCustomHttpFeed.Load( "http://groups.yahoo.com/group/hastings-freecycle/messages/?xm=1&o=1&m=e&l=1", "noostu", "edinburgh" );
 
-            //var feedOutput = (SyndicationFeed)Type.GetType("StuartClode.Mvc.Feeds.YahooGroupsCustomHttpFeed, StuartClode.Mvc")
+            //var feedOutput = (SyndicationFeed)Type.GetType("StuartClode.Mvc.Service.Feed.YahooGroupsCustomHttpFeed, StuartClode.Mvc")
             //    .GetMethod("Load")
             //    .Invoke(null, new object[] { "http://groups.yahoo.com/group/hastings-freecycle/messages?xm=1&m=e&l=1", "noostu", "edinburgh" });
 

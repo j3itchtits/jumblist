@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Jumblist.Core.Model;
-using StuartClode.Mvc.Service;
+using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Repository;
 using xVal.ServerSide;
 

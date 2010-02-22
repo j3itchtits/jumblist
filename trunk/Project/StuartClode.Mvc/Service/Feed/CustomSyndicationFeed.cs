@@ -12,7 +12,7 @@ using Microsoft.Web.Testing.Light;
 using System.ServiceModel.Syndication;
 using System.Xml;
 
-namespace StuartClode.Mvc.Feeds
+namespace StuartClode.Mvc.Service.Feed
 {
     public class CustomSyndicationFeed// : ISyndicationFeed
     {

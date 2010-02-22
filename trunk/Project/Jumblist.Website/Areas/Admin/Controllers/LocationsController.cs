@@ -7,8 +7,8 @@ using Jumblist.Core.Model;
 using Jumblist.Website.Controllers;
 using Jumblist.Core.Service.Data;
 using xVal.ServerSide;
-using StuartClode.Mvc.Service;
-using StuartClode.Mvc.Extension;
+using StuartClode.Mvc.Service.Data;
+
 using Jumblist.Website.ViewModel;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
@@ -67,7 +67,6 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             try
             {
-                item.FriendlyUrl = item.Name.ToFriendlyUrl();
                 locationService.Save( item );
             }
             catch (RulesException ex)

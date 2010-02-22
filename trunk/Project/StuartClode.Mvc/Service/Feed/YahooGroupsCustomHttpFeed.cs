@@ -12,9 +12,9 @@ using Microsoft.Web.Testing.Light;
 using System.ServiceModel.Syndication;
 using System.Collections.ObjectModel;
 
-namespace StuartClode.Mvc.Feeds
+namespace StuartClode.Mvc.Service.Feed
 {
-    public class BbcCustomHttpFeed// : ISyndicationFeed
+    public class YahooGroupsCustomHttpFeed// : ISyndicationFeed
     {
         public static SyndicationFeed Load( string uri, string username, string password )
         {
@@ -24,7 +24,7 @@ namespace StuartClode.Mvc.Feeds
 
         public static string GetFeedSource( string uri, string username, string password )
         {
-            string feedSource = HttpReader.Create( uri );
+            string feedSource = HttpReader.YahooGroup( uri, username, password );
             return CleanFeedSource( feedSource );
         }
 
@@ -40,25 +40,31 @@ namespace StuartClode.Mvc.Feeds
 
             var items = new List<SyndicationItem>();
 
-            //find all the headlines
+            int i = 0;
+
             foreach (HtmlElement element in elementList)
             {
-                //find the first link within the div
-                HtmlAnchorElement link = (HtmlAnchorElement)element.ChildElements.Find( "a", 0 );
+                //each feed item spans two rows so we want to add the item on every odd numbered tr element
+                if ((i % 2) != 0)
+                {
+                    HtmlElement link = element.PreviousSibling.ChildElements.Find( "a", 0 );
+                    HtmlElement td = element.PreviousSibling.ChildElements.Find( "td", 1 );
+                    HtmlElement pre = element.ChildElements.Find( "pre", 0 );
 
-                string title = GetFeedItemTitle( link );
-                string hRef = GetFeedItemLink( link );
-                DateTime publishedTime = GetFeedItemPublishedTime();
-                string summary = GetFeedItemSummary();
-                DateTime lastUpdatedTime = GetFeedItemLastUpdatedTime();
+                    string title = GetFeedItemTitle( link );
+                    string hRef = GetFeedItemLink( link );
+                    DateTime publishedTime = GetFeedItemPublishedTime( td );
+                    string summary = GetFeedItemSummary( pre );
+                    DateTime lastUpdatedTime = GetFeedItemLastUpdatedTime();
 
-                var syndicationItem = new SyndicationItem( title, string.Empty, new Uri( hRef ), hRef, lastUpdatedTime );
-                syndicationItem.Summary = new TextSyndicationContent( summary, TextSyndicationContentKind.XHtml );
-                syndicationItem.PublishDate = publishedTime;
+                    var syndicationItem = new SyndicationItem( title, string.Empty, new Uri( hRef ), hRef, lastUpdatedTime );
+                    syndicationItem.Summary = new TextSyndicationContent( summary, TextSyndicationContentKind.XHtml );
+                    syndicationItem.PublishDate = publishedTime;
 
-                items.Add( syndicationItem );
-
-
+                    items.Add( syndicationItem );
+                }
+                
+                i++;
             }
 
             return new SyndicationFeed( items );
@@ -68,6 +74,7 @@ namespace StuartClode.Mvc.Feeds
         {
             feedSource = Regex.Replace( feedSource, @"\<\!DOCTYPE.*?\>", String.Empty );
             feedSource = Regex.Replace( feedSource, "</html>(.|\n)*", "</html>" );
+            feedSource = Regex.Replace( feedSource, "</tr>\n</tr>", "</tr>" );
             
             return feedSource;
         }
@@ -75,20 +82,17 @@ namespace StuartClode.Mvc.Feeds
         private static HtmlElement GetRowContainer( HtmlElement rootElement )
         {
             HtmlElementFindParams findParams1 = new HtmlElementFindParams();
-            findParams1.TagName = "div";
-            findParams1.Attributes.Add( "class", "wgreylinebottom" );
-            findParams1.Index = 0;
+            findParams1.TagName = "table";
+            findParams1.Attributes.Add( "class", "wide" );
+            //findParams1.Index = 0;
             
             return rootElement.ChildElements.Find( findParams1 );
         }
 
         private static IList<HtmlElement> GetElementList( HtmlElement container )
         {
-            HtmlElementFindParams findParams2 = new HtmlElementFindParams();
-            findParams2.TagName = "div";
-            findParams2.Attributes.Add( "class", "arr" );
-
-            IList<HtmlElement> elementList = container.ChildElements.FindAll( findParams2 ).ToList();
+            IList<HtmlElement> elementList = container.ChildElements.ToList();
+            elementList.RemoveAt( 0 );
 
             return elementList;
         }
@@ -101,17 +105,18 @@ namespace StuartClode.Mvc.Feeds
         private static string GetFeedItemLink( HtmlElement element )
         {
             HtmlAnchorElement a = element as HtmlAnchorElement;
-            return "http://news.bbc.co.uk" + a.CachedAttributes.HRef;
+            return "http://groups.yahoo.com" + a.CachedAttributes.HRef;
         }
 
-        private static DateTime GetFeedItemPublishedTime()
+        private static DateTime GetFeedItemPublishedTime( HtmlElement element )
         {
-            return DateTime.Now;
+            string dateString = Regex.Replace( element.CachedInnerText, "(.*)&gt;", String.Empty );
+            return DateTime.Parse( HttpUtility.HtmlDecode( dateString ) );
         }
 
-        private static string GetFeedItemSummary()
+        private static string GetFeedItemSummary( HtmlElement element )
         {
-            return string.Empty;
+            return HttpUtility.HtmlDecode( element.CachedInnerText );
         }
 
         private static DateTime GetFeedItemLastUpdatedTime()

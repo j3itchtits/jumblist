@@ -41,20 +41,21 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             var model = BuildDataEditDefaultViewModel().With( new User() );
             model.PageTitle = "Create";
+            model.Message = new Message { Text = "You are about to create a user", StyleClass = "message" };
 
-            return View( "Create", model );
+            return View( model );
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Create( User user, string confirmPassword )
+        public ActionResult Create( User item, string confirmPassword )
         {
             try
             {
-                userService.CreateUser( user.Name, user.Email, user.Password, confirmPassword, user.RoleId );
+                userService.Create( item, confirmPassword );
             }
             catch (RulesException ex)
             {
-                ex.AddModelStateErrors( ModelState, "User" );
+                ex.AddModelStateErrors( ModelState, "Item" );
             }
 
             if (ModelState.IsValid)
@@ -87,7 +88,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             try
             {
-                userService.SaveUser( item );
+                userService.Save( item );
             }
             catch (RulesException ex)
             {
@@ -105,7 +106,6 @@ namespace Jumblist.Website.Areas.Admin.Controllers
                 model.PageTitle = string.Format( "Edit - {0}", item.Name );
                 model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
                 return View( "edit", model );
-
             }
         }
 
@@ -116,7 +116,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             try
             {
-                userService.ResetUserPassword( user, password, confirmPassword );
+                userService.ResetPassword( user, password, confirmPassword );
             }
             catch (RulesException ex)
             {

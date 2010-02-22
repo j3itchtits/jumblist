@@ -7,7 +7,7 @@ using System.Web.Mvc.Ajax;
 using Jumblist.Core.Model;
 using Jumblist.Core.Service.Basket;
 using Jumblist.Website.ViewModel;
-using StuartClode.Mvc.Service;
+using StuartClode.Mvc.Service.Data;
 
 namespace Jumblist.Website.Controllers
 {
