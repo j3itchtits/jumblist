@@ -30,13 +30,11 @@ namespace Jumblist.Core.Model
         [StringLength( 250 )]
         public string Area { get; set; }
 
-        [Column( Name = "LocationCountry" )]
-        [StringLength( 250 )]
-        public string Country { get; set; }
+        [Column(Name = "LocationLatitude")]
+        public double Latitude { get; set; }
 
-        [Column( Name = "LocationIsPostcode" )]
-        [Required]
-        public bool IsPostcode { get; set; }
+        [Column(Name = "LocationLongitude")]
+        public double Longitude { get; set; }
 
         [Association(Name = "FK_PostLocations_Locations", Storage = "postLocations", ThisKey = "LocationId", OtherKey = "LocationId", IsForeignKey = true)]
         public EntitySet<PostLocation> PostLocations

@@ -50,6 +50,11 @@
             <%= Html.ValidationMessageFor( m => m.Item.LastUpdateDateTime )%></td>
         </tr>
         <tr>
+            <td><label for="Item.LocationArea">LocationArea:</label></td>
+            <td><%= Html.TextBoxFor(m => m.Item.LocationArea)%>
+            <%= Html.ValidationMessageFor(m => m.Item.LocationArea)%></td>
+        </tr>
+        <tr>
             <td><label for="Item.FeedCategoryId">Feed Category:</label></td>
             <td><%= Html.DropDownListFor( m => m.Item.FeedCategoryId, new SelectList( Model.LookupList<FeedCategory>(), "FeedCategoryId", "Name", Model.Item.FeedCategoryId ), "-- Select --" )%>
             <%= Html.ValidationMessageFor( m => m.Item.FeedCategoryId )%></td>

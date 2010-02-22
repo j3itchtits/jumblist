@@ -1,0 +1,17 @@
+Feeds and locations
+
+We need a new FeedLocations table to keep track of feeds and locations.
+
+Each feed has multiple locations
+Each location can be associated with multiple feeds
+
+Processing a location for each post (see also "Steps to importing ...txt)
+
+1. Each external post has its title + body examined for (potentially multiple) locations.
+2. Grab a list of all locations by feedid.
+3. Loop through list, do a pattern match on the first string in the locationname field and create a set of postlocations.
+4. If there are no postlocations for a post which has a postcategory of "offered" then the post needs to be marked as inactive.
+5. If there is one postlocation then this location string can be sent to Bing for a lat/long reference. eg. "Warrior Square, Hasings, East Sussex, UK" or "Brede, East Sussex, UK".
+6. If there is more than one postlocation then we check whether there are any duplications (eg. "Warrior Square, Hastings" and "Hastings"). If there are duplications then we take the more specific one and send it to Bing. If there are no duplications (eg. "Mountfield" and "Robertsbridge" then we take the first match and send it to Bing.
+
+

@@ -75,10 +75,13 @@ namespace Jumblist.Core.Service.Data
 
             if ( newEntity )
             {
-                bool locations = SavePostLocations( entity );
-                bool tags = SavePostTags( entity );
+                bool locationsSaved = SavePostLocations( entity );
+                bool tagsSaved = SavePostTags(entity);
 
-                if ( ( locations || tags ) && ( !entity.Display ) && ( !createdFromAdminArea ) )
+                //need to change this - if the postcategory is "Offered" then we need to make sure we have a location and a tag before we make it active
+                //if the postcategory is not offered then we only need a tag to make it active
+                //create a new private function to handle the logic
+                if ((locationsSaved || tagsSaved) && (!entity.Display) && (!createdFromAdminArea))
                 {
                     entity.Display = true;
                     base.Update( entity );
@@ -218,14 +221,15 @@ namespace Jumblist.Core.Service.Data
         {
             bool success = false;
             string input = (entity.Title + " " + entity.Body).Replace( "'", string.Empty ).Replace( ".", string.Empty );
-            string[] locations = Locations();
+            //string[] locations = Locations();
+            var locationList = locationDataService.SelectList();
 
-            foreach ( string l in locations )
+            foreach (Location location in locationList)
             {
-                if (RegexExtensions.IsPhraseMatch(input, l, RegexOptions.IgnoreCase))
+                string pattern = ( location.IsPostcode ) ? location.Name + ".*" : location.Name;
+                if (RegexExtensions.IsPhraseMatch(input, pattern, RegexOptions.IgnoreCase))
                 {
-                    var locationItem = locationDataService.Select(l);
-                    var postLocationItem = new PostLocation { PostId = entity.PostId, LocationId = locationItem.LocationId };
+                    var postLocationItem = new PostLocation { PostId = entity.PostId, LocationId = location.LocationId };
                     postLocationDataService.Save(postLocationItem);
                     success = true;
                 }
@@ -237,14 +241,14 @@ namespace Jumblist.Core.Service.Data
         {
             bool success = false;
             string input = entity.Title + " " + entity.Body;
-            string[] tags = Tags();
+            //string[] tags = Tags();
+            var tagList = tagDataService.SelectList();
 
-            foreach ( string t in tags )
+            foreach (Tag tag in tagList)
             {
-                if (RegexExtensions.IsSingularOrPluralPhraseMatch(input, t, RegexOptions.IgnoreCase))
+                if (RegexExtensions.IsSingularOrPluralPhraseMatch(input, tag.Name, RegexOptions.IgnoreCase))
                 {
-                    var tagItem = tagDataService.Select(t);
-                    var postTagItem = new PostTag { PostId = entity.PostId, TagId = tagItem.TagId };
+                    var postTagItem = new PostTag { PostId = entity.PostId, TagId = tag.TagId };
                     postTagDataService.Save(postTagItem);
                     success = true;
                 }
