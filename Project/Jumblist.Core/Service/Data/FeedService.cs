@@ -1,9 +1,10 @@
 ﻿using Jumblist.Core.Model;
 using System.Collections.Generic;
 using System.Linq;
-using StuartClode.Mvc.Service;
+using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Repository;
 using xVal.ServerSide;
+using StuartClode.Mvc.Extension;
 
 namespace Jumblist.Core.Service.Data
 {
@@ -29,6 +30,9 @@ namespace Jumblist.Core.Service.Data
         public override void Save( Feed entity )
         {
             ValidateBusinessRules( entity );
+
+            entity.FriendlyUrl = entity.Name.ToFriendlyUrl();
+
             base.Save( entity );
         }
 

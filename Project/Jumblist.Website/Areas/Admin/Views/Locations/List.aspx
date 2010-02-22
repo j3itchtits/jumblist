@@ -9,7 +9,11 @@
     <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
     
     <%= Html.MessageBox( ViewData.Model )%>
-    
+
+    <p>
+        <%= Html.ActionLink( "Create", "create" )%>
+    </p> 
+        
     <div id="itemsList">
         <% Html.RenderPartial( "LocationList", Model.List ); %>
     </div>

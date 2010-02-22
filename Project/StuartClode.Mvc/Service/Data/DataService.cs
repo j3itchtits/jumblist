@@ -10,7 +10,7 @@ using StuartClode.Mvc.Validation;
 using xVal.ServerSide;
 using System.Data.Linq;
 
-namespace StuartClode.Mvc.Service
+namespace StuartClode.Mvc.Service.Data
 {
     public class DataService<T> : IDataService<T>, IDataService where T : class
     {

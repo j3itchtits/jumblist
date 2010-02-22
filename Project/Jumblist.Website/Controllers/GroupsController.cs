@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using Jumblist.Core.Model;
 using Jumblist.Core.Service.Data;
-using StuartClode.Mvc.Service;
+using StuartClode.Mvc.Service.Data;
 using xVal.ServerSide;
 using StuartClode.Mvc.Extension;
 using Jumblist.Website.Filter;

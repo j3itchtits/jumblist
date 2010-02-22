@@ -23,5 +23,58 @@ namespace Jumblist.Core.Model
                 return Regex.IsMatch(Name, RegularExpressionString.UKPostcodeBasic, RegexOptions.IgnoreCase);
             }
         }
+
+        public string BingSearch
+        {
+            get
+            {
+                return ( string.IsNullOrEmpty( Area ) ) ? Name : Name + ", " + Area;
+            }
+        }
+
+        public string NamePartOfTown
+        {
+            get
+            {
+                string[] locationArray = Name.Split( ',' );
+                return (locationArray.Length > 1) ? locationArray[0] : string.Empty;
+            }
+        }
+
+        public string NameTown
+        {
+            get
+            {
+                string[] locationArray = Name.Split( ',' );
+                return (locationArray.Length > 1) ? locationArray[1] : locationArray[0];
+            }
+        }
+
+        public string NameSearch
+        {
+            get
+            {
+                string[] locationArray = Name.Split( ',' );
+                return locationArray[0];
+            }
+        }
+
+        public string AreaCounty
+        {
+            get
+            {
+                string[] locationArray = Area.Split( ',' );
+                return (locationArray.Length > 1) ? locationArray[0] : string.Empty;
+            }
+        }
+
+        public string AreaCountry
+        {
+            get
+            {
+                string[] locationArray = Area.Split( ',' );
+                return (locationArray.Length > 1) ? locationArray[1] : locationArray[0];
+            }
+        }
     }
 }

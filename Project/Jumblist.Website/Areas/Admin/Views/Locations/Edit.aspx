@@ -25,12 +25,12 @@
         </tr>
         <tr>
             <td><label for="Item.Latitude">Latitude:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Latitude )%>
+            <td><%= Html.TextBoxFor( m => m.Item.Latitude, new { @readonly = "true" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.Latitude )%></td>
         </tr>
         <tr>
             <td><label for="Item.Longitude">Longitude:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Longitude )%>
+            <td><%= Html.TextBoxFor( m => m.Item.Longitude, new { @readonly = "true" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.Longitude )%></td>
         </tr>        
         </table>

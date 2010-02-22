@@ -1,22 +1,24 @@
 ﻿using Jumblist.Core.Model;
 using System.Collections.Generic;
-using StuartClode.Mvc.Service;
+using StuartClode.Mvc.Service.Data;
+using System.Linq;
 
 namespace Jumblist.Core.Service.Data
 {
-    public interface IUserService : IDataService<User>
+    public interface IUserService
     {
-        void SaveUser( User entity );
-        void ResetUserPassword( User entity, string password, string confirmPassword );
-        void CreateUser( string name, string email, string password, string confirmpassword, int roleId );
-        void RegisterUser( string name, string email, string postcode, string password, string confirmpassword );
-        //User CurrentUser { get; }
-        User GetUser( string name );
-        User GetUser( string name, string password );
+        void Save( User entity );
+        void ResetPassword( User entity, string password, string confirmPassword );
+        void Create( User entity, string confirmPassword );
+        IQueryable<User> SelectList();
+        User Select( int id );
+        User Select( string name );
+        User Select( string name, string password );
         void SetAuthenticationCookie( string name, bool rememberMe );
         //void SetContextUserTo( User user );
         void RemoveAuthenticationCookie();
         string HashPassword( string password );
         bool Authenticate( string name, string password );
+        void Delete( User entity );
     }
 }

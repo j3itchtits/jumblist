@@ -4,6 +4,8 @@
 
     <h2>Hello AdminPage</h2>
 
+    <p>Bing Testing: Address: <%=ViewData["address"]%><br /><br /><%= ViewData["geocode"] %> <br /> Lat: <%=ViewData["latitude"]%> - Long: <%=ViewData["longitude"]%></p>
+    
     <%
         var myString = "&quot;Steven&quot; &lt;stevenpaul_uk2000@...&gt;Mon Feb&nbsp;8,&nbsp;2010 8:16&nbsp;pm";
         myString = Regex.Replace( myString, "(.*)&gt;", String.Empty );
@@ -17,6 +19,10 @@
         Response.Write(Regex.IsMatch("Received: a bit nappy", "(Recieved|Received)", RegexOptions.IgnoreCase) + "<br/><br/>");
         Response.Write( RegexExtensions.IsPhraseMatch( "TN37ssadf dasf asdf", "TN37.*", RegexOptions.IgnoreCase ) + "<br/><br/>" );
         Response.Write(Regex.IsMatch("TN13", @"^[A-Z]{1,2}[0-9]{1,2}$", RegexOptions.IgnoreCase) + "<br/><br/>");
+        string locationName = "Bexhill";
+        string[] locationNameArray = locationName.Split( ',' );
+        string locationNameAreaOfTown = locationNameArray[0];
+        Response.Write( locationNameAreaOfTown + "<br/><br/>" );
          %>
              
     <p>London weather: <%= HttpContext.Current.Items["Temp"] %></p>

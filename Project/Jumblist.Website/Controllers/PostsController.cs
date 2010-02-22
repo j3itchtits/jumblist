@@ -11,7 +11,7 @@ using Jumblist.Core.Service.Paging;
 using Jumblist.Core.Extension;
 using Jumblist.Core.Service.Data;
 using Jumblist.Website.ViewModel;
-using StuartClode.Mvc.Service;
+using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Extension;
 
 namespace Jumblist.Website.Controllers

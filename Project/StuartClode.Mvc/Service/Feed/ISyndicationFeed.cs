@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ServiceModel.Syndication;
 
-namespace StuartClode.Mvc.Feeds
+namespace StuartClode.Mvc.Service.Feed
 {
     interface ISyndicationFeed
     {
