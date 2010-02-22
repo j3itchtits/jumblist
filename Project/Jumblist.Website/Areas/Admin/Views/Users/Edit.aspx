@@ -30,6 +30,16 @@
             <%= Html.ValidationMessageFor( m => m.Item.Postcode )%></td>
         </tr>      
         <tr>
+            <td><label for="Item.Latitude">Latitude:</label></td>
+            <td><%= Html.TextBoxFor( m => m.Item.Latitude )%>
+            <%= Html.ValidationMessageFor( m => m.Item.Latitude )%></td>
+        </tr>
+        <tr>
+            <td><label for="Item.Longitude">Longitude:</label></td>
+            <td><%= Html.TextBoxFor( m => m.Item.Longitude )%>
+            <%= Html.ValidationMessageFor( m => m.Item.Longitude )%></td>
+        </tr>           
+        <tr>
             <td><label for="Item.SearchRadiusMiles">SearchRadiusMiles:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.SearchRadiusMiles )%>
             <%= Html.ValidationMessageFor( m => m.Item.SearchRadiusMiles )%></td>
@@ -41,7 +51,7 @@
         </tr>
         <tr>
             <td><label for="Item.IsActive">IsActive:</label></td>
-            <td><%= Html.CheckBox( "Item.IsActive" )%>
+            <td><%= Html.CheckBoxFor( m => m.Item.IsActive )%>
             <%= Html.ValidationMessageFor( m => m.Item.IsActive )%></td>
         </tr>
         <tr>

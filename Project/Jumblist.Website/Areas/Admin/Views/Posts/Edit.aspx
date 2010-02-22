@@ -49,7 +49,7 @@
             <td><label for="Item.Longitude">Longitude:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Longitude )%>
             <%= Html.ValidationMessageFor( m => m.Item.Longitude )%></td>
-        </tr>
+        </tr>           
         <tr>
             <td><label for="Item.Display">Display:</label></td>
             <td><%= Html.CheckBoxFor( m => m.Item.Display )%>

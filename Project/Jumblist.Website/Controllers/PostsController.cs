@@ -58,6 +58,7 @@ namespace Jumblist.Website.Controllers
             return View( "index", model );
         }
 
+        [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult CategoryList( string highlightedCategory )
         {
             var postCategoryList = postCategoryService.SelectList();
@@ -129,6 +130,13 @@ namespace Jumblist.Website.Controllers
             model.PageTitle = "All Posts by Group - " + feed.Name;
 
             return View("index", model);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        [ValidateInput(true)]
+        public RedirectToRouteResult Search(string searchString, string searchOptions)
+        {
+            return RedirectToAction("tagged", new { id = searchString, page = string.Empty });
         }
     }
 
