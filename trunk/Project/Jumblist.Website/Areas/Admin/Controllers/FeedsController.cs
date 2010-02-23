@@ -10,6 +10,7 @@ using Jumblist.Website.Filter;
 using Jumblist.Core.Service.Data;
 using xVal.ServerSide;
 using StuartClode.Mvc.Service.Data;
+using StuartClode.Mvc.Extension;
 using Jumblist.Website.ViewModel;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
@@ -19,11 +20,15 @@ namespace Jumblist.Website.Areas.Admin.Controllers
     {
         private IFeedService feedService;
         private IDataService<FeedCategory> feedCategoryService;
+        private IDataService<FeedLocation> feedLocationService;
+        private ILocationService locationService;
 
-        public FeedsController(IFeedService feedService, IDataService<FeedCategory> feedCategoryService)
+        public FeedsController(IFeedService feedService, IDataService<FeedCategory> feedCategoryService, IDataService<FeedLocation> feedLocationService, ILocationService locationService)
         {
             this.feedService = feedService;
             this.feedCategoryService = feedCategoryService;
+            this.feedLocationService = feedLocationService;
+            this.locationService = locationService;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -169,6 +174,44 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             }
         }
 
-        
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult FeedLocationCreate(int feedId, string location)
+        {
+            var locationItem = locationService.Select(location);
+
+            if (locationItem != null)
+            {
+                var existingPostLocations = feedLocationService.SelectList().Where(x => x.FeedId == feedId && x.LocationId == locationItem.LocationId);
+
+                if (existingPostLocations.Count() == 0)
+                {
+                    var feedLocationItem = new FeedLocation { FeedId = feedId, LocationId = locationItem.LocationId };
+                    feedLocationService.Save(feedLocationItem);
+                }
+            }
+            else
+            {
+                var newLocationItem = new Location { Name = location, FriendlyUrl = location.ToFriendlyUrl() };
+                locationService.Save(newLocationItem);
+
+                var feedLocationItem = new FeedLocation { FeedId = feedId, LocationId = newLocationItem.LocationId };
+                feedLocationService.Save(feedLocationItem);
+            }
+
+            var model = feedLocationService.SelectList().Where(x => x.FeedId == feedId);
+
+            return PartialView("FeedLocationList", model);
+        }
+
+        [AcceptVerbs(HttpVerbs.Delete)]
+        public ActionResult FeedLocationDelete(int feedId, int feedLocationId)
+        {
+            var item = feedLocationService.Select(feedLocationId);
+            feedLocationService.Delete(item);
+
+            var model = feedLocationService.SelectList().Where(x => x.FeedId == feedId);
+
+            return PartialView("FeedLocationList", model);
+        }
     }
 }

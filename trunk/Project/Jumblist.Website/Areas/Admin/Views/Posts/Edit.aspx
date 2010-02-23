@@ -112,7 +112,6 @@
                     minChars: 2
                 }
             );
-
         });
     </script> 
         

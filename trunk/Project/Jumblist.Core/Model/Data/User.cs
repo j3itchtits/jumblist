@@ -5,7 +5,7 @@ using System.Text;
 using System.Data.Linq.Mapping;
 using System.Data.Linq;
 using System.ComponentModel.DataAnnotations;
-using StuartClode.Mvc.Helper;
+using StuartClode.Mvc.Extension;
 
 namespace Jumblist.Core.Model
 {
@@ -25,18 +25,18 @@ namespace Jumblist.Core.Model
 
         [Column( Name = "UserEmail" )]
         [Required]
-        [RegularExpression( RegularExpressionString.Email, ErrorMessage = "You must supply a valid email address" )]
+        [RegularExpression( RegexExtensions.Email, ErrorMessage = "You must supply a valid email address" )]
         [StringLength( 250 )]
         public string Email { get; set; }
 
         [Column( Name = "UserPassword" )]
         [Required]
         [StringLength( 50 )]
-        [RegularExpression( RegularExpressionString.Password, ErrorMessage = "Your password must be between 6 and 50 characters in length and not contain any spaces" )]
+        [RegularExpression( RegexExtensions.Password, ErrorMessage = "Your password must be between 6 and 50 characters in length and not contain any spaces" )]
         public string Password { get; set; }
 
         [Column( Name = "UserPostcode" )]
-        [RegularExpression( RegularExpressionString.UKPostcode, ErrorMessage = "You must supply a valid UK postcode" )]
+        [RegularExpression( RegexExtensions.UKPostcode, ErrorMessage = "You must supply a valid UK postcode" )]
         public string Postcode { get; set; }
 
         [Column(Name = "UserLatitude")]

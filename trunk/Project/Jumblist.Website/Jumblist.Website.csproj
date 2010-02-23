@@ -204,8 +204,11 @@
     <Content Include="Areas\Admin\Views\Feeds\CategoryEdit.aspx" />
     <Content Include="Areas\Admin\Views\Feeds\CategoryList.aspx" />
     <Content Include="Areas\Admin\Views\Feeds\FeedList.ascx" />
+    <Content Include="Areas\Admin\Views\Feeds\FeedLocationList.ascx" />
     <Content Include="Areas\Admin\Views\Home\FeedOutput.aspx" />
     <Content Include="Areas\Admin\Views\Home\FeedSource.aspx" />
+    <Content Include="Areas\Admin\Views\Locations\LocationPostList.ascx" />
+    <Content Include="Areas\Admin\Views\Locations\LocationFeedList.ascx" />
     <Content Include="Areas\Admin\Views\Locations\LocationList.ascx" />
     <Content Include="Areas\Admin\Views\Posts\CategoryList.aspx" />
     <Content Include="Areas\Admin\Views\Posts\CategoryEdit.aspx" />
@@ -222,6 +225,7 @@
     <Content Include="Areas\Admin\Views\Roles\RoleList.ascx" />
     <Content Include="Areas\Admin\Views\Tags\Edit.aspx" />
     <Content Include="Areas\Admin\Views\Tags\List.aspx" />
+    <Content Include="Areas\Admin\Views\Tags\TagPostList.ascx" />
     <Content Include="Areas\Admin\Views\Tags\TagList.ascx" />
     <Content Include="Areas\Admin\Views\Users\Create.aspx" />
     <Content Include="Areas\Admin\Views\Users\Edit.aspx" />
@@ -246,13 +250,9 @@
     <Content Include="Views\Tags\TagList.ascx" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Areas\Admin\Assets\Images\" />
     <Folder Include="Areas\Admin\Assets\Scripts\" />
     <Folder Include="Assets\Images\" />
-    <Folder Include="IoC\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />

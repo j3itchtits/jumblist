@@ -98,7 +98,6 @@
     <Compile Include="Extension\RegexExtensions.cs" />
     <Compile Include="Extension\RoutingExtension.cs" />
     <Compile Include="Extension\WindsorExtension.cs" />
-    <Compile Include="Helper\RegularExpressionString.cs" />
     <Compile Include="Extension\StringExtensions.cs" />
     <Compile Include="Extension\TypeExtensions.cs" />
     <Compile Include="IoC\WindsorActionInvoker.cs" />
@@ -161,10 +160,6 @@
     <None Include="Service References\GeocodeService\StuartClode.Mvc.GeocodeService.GeocodeResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Filter\" />
-    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
