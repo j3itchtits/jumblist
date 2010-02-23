@@ -36,7 +36,7 @@ namespace StuartClode.Mvc.Service.Bing
                 // Set the options to only return high confidence results 
                 ConfidenceFilter[] filters = new ConfidenceFilter[1];
                 filters[0] = new ConfidenceFilter();
-                filters[0].MinimumConfidence = GeocodeService.Confidence.High;
+                filters[0].MinimumConfidence = GeocodeService.Confidence.Medium;
 
                 // Add the filters to the options
                 GeocodeOptions geocodeOptions = new GeocodeOptions();

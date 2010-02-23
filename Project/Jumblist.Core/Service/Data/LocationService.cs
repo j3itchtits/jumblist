@@ -11,9 +11,12 @@ namespace Jumblist.Core.Service.Data
 {
     public class LocationService : DataService<Location>, ILocationService
     {
-        public LocationService( IRepository<Location> repository )
+        public IDataService<FeedLocation> feedLocationDataService;
+
+        public LocationService( IRepository<Location> repository, IDataService<FeedLocation> feedLocationDataService )
             : base( repository )
         {
+            this.feedLocationDataService = feedLocationDataService;
         }
 
         #region ILocationService Members
@@ -51,12 +54,29 @@ namespace Jumblist.Core.Service.Data
             base.Delete( entity );
         }
 
-        public string[] FindLocations(string q)
+        public string[] FindLocationNames(string q)
         {
             return SelectList()
                 .Where(r => r.Name.StartsWith(q))
                 .Select(r => r.Name)
                 .ToArray();
+        }
+
+        public string[] FindLocationAreas( string q )
+        {
+            return SelectList()
+                .Where( r => r.Area.StartsWith( q ) )
+                .Select( r => r.Area )
+                .Distinct()
+                .ToArray();
+        }
+
+        public IEnumerable<Location> SelectLocationsByFeed( int feedId )
+        {
+            return from l in SelectList().AsEnumerable()
+                   join fl in feedLocationDataService.SelectList().AsEnumerable() on l.LocationId equals fl.LocationId
+                   where fl.FeedId == feedId
+                   select l;
         }
 
         #endregion

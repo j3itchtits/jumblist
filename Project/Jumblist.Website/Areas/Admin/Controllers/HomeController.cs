@@ -22,15 +22,6 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult Index()
         {
-            string address = "warrior square, hastings, east sussex, uk";
-
-            ViewData["address"] = address;
-            
-            var bingLocationService = new BingLocationService( address );
-            ViewData["geocode"] = bingLocationService.GeocodeAddress( address );
-            ViewData["latitude"] = bingLocationService.Latitude.ToString();
-            ViewData["longitude"] = bingLocationService.Longitude.ToString();
-
             return View();
         }
 

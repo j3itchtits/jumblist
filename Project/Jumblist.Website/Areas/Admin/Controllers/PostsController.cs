@@ -12,6 +12,7 @@ using xVal.ServerSide;
 using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Extension;
 using Jumblist.Website.ViewModel;
+using StuartClode.Mvc.Service.Bing;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
 {
@@ -26,6 +27,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         private IDataService<PostTag> postTagService;
         private ILocationService locationService;
         private ITagService tagService;
+        private IDataService<FeedLocation> feedLocationService;
 
         public PostsController(
             IPostService postService, 
@@ -35,7 +37,8 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             IDataService<PostLocation> postLocationService,
             IDataService<PostTag> postTagService,
             ILocationService locationService,
-            ITagService tagService
+            ITagService tagService,
+            IDataService<FeedLocation> feedLocationService
             )
         {
             this.postService = postService;
@@ -46,6 +49,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             this.postTagService = postTagService;
             this.locationService = locationService;
             this.tagService = tagService;
+            this.feedLocationService = feedLocationService;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -276,9 +280,10 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult PostLocationCreate( int postId, string location )
+        public ActionResult PostLocationCreate( int postId, string locationName, string locationArea )
         {
-            var locationItem = locationService.Select( location );
+            var postItem = postService.Select( postId );
+            var locationItem = locationService.Select( locationName );
 
             if (locationItem != null)
             {
@@ -289,21 +294,31 @@ namespace Jumblist.Website.Areas.Admin.Controllers
                     var postLocationItem = new PostLocation { PostId = postId, LocationId = locationItem.LocationId };
                     postLocationService.Save(postLocationItem);
                 }
+
+                postItem.Latitude = locationItem.Latitude;
+                postItem.Longitude = locationItem.Longitude;
+
             }
             else
             {
-                var newLocationItem = new Location { Name = location, FriendlyUrl = location.ToFriendlyUrl() };
+                var newLocationItem = new Location { Name = locationName, FriendlyUrl = locationName.ToFriendlyUrl(), Area = locationArea };
                 locationService.Save(newLocationItem);
 
                 var postLocationItem = new PostLocation { PostId = postId, LocationId = newLocationItem.LocationId };
                 postLocationService.Save(postLocationItem);
+
+                var feedLocationItem = new FeedLocation { FeedId = postItem.FeedId, LocationId = newLocationItem.LocationId };
+                feedLocationService.Save( feedLocationItem );
+
+                postItem.Latitude = newLocationItem.Latitude;
+                postItem.Longitude = newLocationItem.Longitude;
+
             }
+
+            postService.Update( postItem );
 
             var model = postLocationService.SelectList().Where( x => x.PostId == postId );
             
-            //ModelState["location"].Value = new ValueProviderResult(null, string.Empty,null);
-            //ModelState.Clear();
-
             return PartialView( "PostLocationList", model );
         }
 

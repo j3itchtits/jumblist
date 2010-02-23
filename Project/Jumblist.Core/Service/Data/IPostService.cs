@@ -10,6 +10,7 @@ namespace Jumblist.Core.Service.Data
         IQueryable<Post> SelectList( bool isActive );
         Post Select(int id);
         void Save( Post entity );
+        void Update( Post entity );
         void Delete( Post entity );
         IEnumerable<Post> SelectPostsByLocation(int locationId);
         IEnumerable<Post> SelectPostsByLocation( int locationId, bool isActive );
