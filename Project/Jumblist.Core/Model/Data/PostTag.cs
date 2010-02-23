@@ -29,14 +29,14 @@ namespace Jumblist.Core.Model
         public Post Post
         {
             get { return post.Entity; }
-            set { post.Entity = value; PostId = value.PostId; }
+            set { post.Entity = value; }
         }
 
         [Association( Name = "FK_PostTags_Tags", Storage = "tag", ThisKey = "TagId", OtherKey = "TagId", IsForeignKey = true, DeleteOnNull = true )]
         public Tag Tag
         {
             get { return tag.Entity; }
-            set { tag.Entity = value; TagId = value.TagId; }
+            set { tag.Entity = value; }
         }
     }
 }

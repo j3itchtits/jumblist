@@ -12,6 +12,7 @@ namespace Jumblist.Core.Model
     public partial class Location
     {
         private EntitySet<PostLocation> postLocations = new EntitySet<PostLocation>();
+        private EntitySet<FeedLocation> feedLocations = new EntitySet<FeedLocation>();
 
         [Column(IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert)]
         public int LocationId { get; set; }
@@ -41,6 +42,13 @@ namespace Jumblist.Core.Model
         {
             get { return postLocations; }
             set { postLocations.Assign( value ); }
+        }
+
+        [Association(Name = "FK_FeedLocations_Locations", Storage = "feedLocations", ThisKey = "LocationId", OtherKey = "LocationId", IsForeignKey = true)]
+        public EntitySet<FeedLocation> FeedLocations
+        {
+            get { return feedLocations; }
+            set { feedLocations.Assign(value); }
         }
     }
 }

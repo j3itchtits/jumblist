@@ -41,5 +41,14 @@
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="BodyContentRight" runat="server">
+
+    <p>
+        <b>Posts: </b>
+    </p>
+    
+    <div id="tag-posts">
+        <% Html.RenderPartial("TagPostList", Model.Item.PostTags); %>
+    </div> 
+    
 </asp:Content>
 

@@ -177,9 +177,6 @@ namespace Jumblist.Website
         {
             if (engines == null) throw new ArgumentNullException( "engines" );
 
-            //engines.Clear();
-            //engines.Add( new AreaViewEngine() );
-
             //SparkEngineStarter.RegisterViewEngine( engines );
         }
 

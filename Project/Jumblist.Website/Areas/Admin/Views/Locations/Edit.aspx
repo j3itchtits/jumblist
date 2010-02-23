@@ -55,5 +55,22 @@
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="BodyContentRight" runat="server">
+
+    <p>
+        <b>Feeds: </b>
+    </p>
+    
+    <div id="location-feeds">
+        <% Html.RenderPartial("LocationFeedList", Model.Item.FeedLocations); %>
+    </div>   
+    
+    <p>
+        <b>Posts: </b>
+    </p>
+    
+    <div id="location-posts">
+        <% Html.RenderPartial("LocationPostList", Model.Item.PostLocations); %>
+    </div> 
+        
 </asp:Content>
 

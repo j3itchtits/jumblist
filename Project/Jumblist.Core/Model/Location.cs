@@ -5,7 +5,7 @@ using System.Text;
 using System.Data.Linq.Mapping;
 using System.Data.Linq;
 using System.Text.RegularExpressions;
-using StuartClode.Mvc.Helper;
+using StuartClode.Mvc.Extension;
 
 namespace Jumblist.Core.Model
 {
@@ -20,7 +20,7 @@ namespace Jumblist.Core.Model
         {
             get 
             {
-                return Regex.IsMatch(Name, RegularExpressionString.UKPostcodeBasic, RegexOptions.IgnoreCase);
+                return Regex.IsMatch(Name, RegexExtensions.UKPostcodeBasic, RegexOptions.IgnoreCase);
             }
         }
 

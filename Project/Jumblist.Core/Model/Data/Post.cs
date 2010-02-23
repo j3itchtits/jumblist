@@ -5,7 +5,7 @@ using System.Text;
 using System.Data.Linq.Mapping;
 using System.Data.Linq;
 using System.ComponentModel.DataAnnotations;
-using StuartClode.Mvc.Helper;
+using StuartClode.Mvc.Extension;
 
 namespace Jumblist.Core.Model
 {
@@ -32,7 +32,7 @@ namespace Jumblist.Core.Model
         [Column( Name = "PostUrl" )]
         [Required]
         [StringLength( 500 )]
-        [RegularExpression( RegularExpressionString.Url, ErrorMessage = "You must supply a valid web link" )]
+        [RegularExpression( RegexExtensions.Url, ErrorMessage = "You must supply a valid web link" )]
         public string Url { get; set; }
 
         [Column( Name = "PostTitle" )]

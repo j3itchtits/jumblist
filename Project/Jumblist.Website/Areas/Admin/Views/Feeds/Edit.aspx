@@ -50,11 +50,6 @@
             <%= Html.ValidationMessageFor( m => m.Item.LastUpdateDateTime )%></td>
         </tr>
         <tr>
-            <td><label for="Item.LocationArea">LocationArea:</label></td>
-            <td><%= Html.TextBoxFor(m => m.Item.LocationArea)%>
-            <%= Html.ValidationMessageFor(m => m.Item.LocationArea)%></td>
-        </tr>
-        <tr>
             <td><label for="Item.FeedCategoryId">Feed Category:</label></td>
             <td><%= Html.DropDownListFor( m => m.Item.FeedCategoryId, new SelectList( Model.LookupList<FeedCategory>(), "FeedCategoryId", "Name", Model.Item.FeedCategoryId ), "-- Select --" )%>
             <%= Html.ValidationMessageFor( m => m.Item.FeedCategoryId )%></td>
@@ -78,8 +73,41 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContentJavascript" runat="server">
+
+    <link href="<%= Url.Stylesheet( "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
+    <script src="<%= Url.Script( "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $("input#location").autocomplete('<%= Url.Action("findlocations", "locations") %>',
+                {
+                    minChars: 2
+                }
+            );
+        });
+    </script> 
+    
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="BodyContentRight" runat="server">
+
+    <p>
+        <b>Locations: </b>
+    </p>
+    
+    <div id="feed-locations">
+        <% Html.RenderPartial("FeedLocationList", Model.Item.FeedLocations); %>
+    </div>   
+
+    <% using (Ajax.BeginForm("feedlocationcreate", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "feed-locations" }))
+       { %>    
+        <p>
+            <%= Html.Hidden( "feedId", Model.Item.FeedId)%>
+            <%= Html.TextBox("location", null, new { size = 10 })%>
+            <%= Html.SubmitButton("feedlocationcreatebutton", "Create")%>
+        </p> 
+    <% } %>
+
 </asp:Content>
 

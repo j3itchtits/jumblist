@@ -5,7 +5,7 @@ using System.Text;
 using System.Data.Linq.Mapping;
 using System.Data.Linq;
 using System.ComponentModel.DataAnnotations;
-using StuartClode.Mvc.Helper;
+using StuartClode.Mvc.Extension;
 using Jumblist.Core.Model.Validation;
 using Jumblist.Core.Service;
 
@@ -16,6 +16,7 @@ namespace Jumblist.Core.Model
     {
         private EntityRef<FeedCategory> feedCategory;
         private EntitySet<Post> posts = new EntitySet<Post>();
+        private EntitySet<FeedLocation> feedLocations = new EntitySet<FeedLocation>();
 
         [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
         public int FeedId { get; set; }
@@ -33,7 +34,7 @@ namespace Jumblist.Core.Model
         [Column( Name = "FeedUrl" )]
         [Required( ErrorMessage = "Please enter a url" )]
         [StringLength( 500 )]
-        [RegularExpression( RegularExpressionString.Url, ErrorMessage = "You must supply a valid url" )]
+        [RegularExpression( RegexExtensions.Url, ErrorMessage = "You must supply a valid url" )]
         public string Url { get; set; }
 
         [Column( Name = "FeedUsername" )]
@@ -58,11 +59,6 @@ namespace Jumblist.Core.Model
         [DataType( DataType.DateTime )]
         public DateTime LastUpdateDateTime { get; set; }
 
-        [Column( Name = "FeedLocationArea" )]
-        [Required]
-        [StringLength( 250 )]
-        public string LocationArea { get; set; }
-
         [Column( Name = "FeedCategoryId" )]
         [Required]
         public int FeedCategoryId { get; set; }
@@ -79,6 +75,13 @@ namespace Jumblist.Core.Model
         {
             get { return posts; }
             set { posts.Assign( value ); }
+        }
+
+        [Association(Name = "FK_FeedLocations_Feeds", Storage = "feedLocations", ThisKey = "FeedId", OtherKey = "FeedId", IsForeignKey = true)]
+        public EntitySet<FeedLocation> FeedLocations
+        {
+            get { return feedLocations; }
+            set { feedLocations.Assign(value); }
         }
     }
 }
