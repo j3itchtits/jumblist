@@ -100,12 +100,21 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult FindLocations(string q)
+        public ActionResult FindLocationNames(string q)
         {
-            var locations = locationService.FindLocations(q);
+            var locations = locationService.FindLocationNames( q );
 
             //return raw text, one result on each line
             return Content(string.Join("\n", locations));
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ActionResult FindLocationAreas( string q )
+        {
+            var locations = locationService.FindLocationAreas( q );
+
+            //return raw text, one result on each line
+            return Content( string.Join( "\n", locations ) );
         }
     }
 }

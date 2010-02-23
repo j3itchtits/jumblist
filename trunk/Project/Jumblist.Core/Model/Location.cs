@@ -20,7 +20,7 @@ namespace Jumblist.Core.Model
         {
             get 
             {
-                return Regex.IsMatch(Name, RegexExtensions.UKPostcodeBasic, RegexOptions.IgnoreCase);
+                return Regex.IsMatch( Name, RegexExtensions.UKPostcodeBasic, RegexOptions.IgnoreCase );
             }
         }
 
@@ -36,7 +36,7 @@ namespace Jumblist.Core.Model
         {
             get
             {
-                string[] locationArray = Name.Split( ',' );
+                string[] locationArray = Name.Split( new string[] { ", " }, StringSplitOptions.None );
                 return (locationArray.Length > 1) ? locationArray[0] : string.Empty;
             }
         }
@@ -45,7 +45,7 @@ namespace Jumblist.Core.Model
         {
             get
             {
-                string[] locationArray = Name.Split( ',' );
+                string[] locationArray = Name.Split( new string[] { ", " }, StringSplitOptions.None );
                 return (locationArray.Length > 1) ? locationArray[1] : locationArray[0];
             }
         }
@@ -54,7 +54,7 @@ namespace Jumblist.Core.Model
         {
             get
             {
-                string[] locationArray = Name.Split( ',' );
+                string[] locationArray = Name.Split( new string[] { ", " }, StringSplitOptions.None );
                 return locationArray[0];
             }
         }
@@ -63,7 +63,7 @@ namespace Jumblist.Core.Model
         {
             get
             {
-                string[] locationArray = Area.Split( ',' );
+                string[] locationArray = Area.Split( new string[] { ", " }, StringSplitOptions.None );
                 return (locationArray.Length > 1) ? locationArray[0] : string.Empty;
             }
         }
@@ -72,7 +72,7 @@ namespace Jumblist.Core.Model
         {
             get
             {
-                string[] locationArray = Area.Split( ',' );
+                string[] locationArray = Area.Split( new string[] { ", " }, StringSplitOptions.None );
                 return (locationArray.Length > 1) ? locationArray[1] : locationArray[0];
             }
         }

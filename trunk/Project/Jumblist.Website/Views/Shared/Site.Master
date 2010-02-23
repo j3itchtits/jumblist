@@ -34,7 +34,7 @@
                 <% Html.RenderPartial( "BasketUserControl" ); %>
             </div>
 
-            <div id="logo">Jumblist</div>
+            <div id="logo">Hodes Testing</div>
 
             <div id="menu">
                 <%= Html.HomepageLink( "Home" ) %> | 

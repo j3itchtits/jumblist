@@ -24,7 +24,7 @@
   
     <div id="header">
         <div id="header-interior">
-            <div id="logo">Jumblist Admin</div>
+            <div id="logo">Hodes Admin</div>
             
             <%= Html.ActionLink( "Back to site", "Index", new { area = "", controller = "Home" } )%>
 

@@ -101,17 +101,24 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            $("input#location").autocomplete('<%= Url.Action("findlocations", "locations") %>',
-                {
-                    minChars: 2
-                }
-            );
+            $("input#locationName").autocomplete('<%= Url.Action("findlocationNames", "locations") %>',
+                    {
+                        minChars: 2
+                    }
+                );
+
+            $("input#locationArea").autocomplete('<%= Url.Action("findlocationAreas", "locations") %>',
+                    {
+                        minChars: 2
+                    }
+                );
 
             $("input#tag").autocomplete('<%= Url.Action("findtags", "tags") %>',
                 {
                     minChars: 2
                 }
             );
+            
         });
     </script> 
         
@@ -131,7 +138,8 @@
        { %>    
         <p>
             <%= Html.Hidden( "postId", Model.Item.PostId)%>
-            <%= Html.TextBox("location", null, new { size = 10 })%>
+            <%= Html.TextBox("locationName", null, new { size = 10 })%>
+            <%= Html.TextBox("locationArea", null, new { size = 10 })%>
             <%= Html.SubmitButton("postlocationcreatebutton", "Create")%>
         </p> 
     <% } %>

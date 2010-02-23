@@ -9,7 +9,6 @@ http://en.wikipedia.org/wiki/List_of_United_Kingdom_locations:_Bre-Bri
 
 Postcode map
 http://www.freemaptools.com/uk-postcode-map.htm
-http://www.postcoder.com/handy_tools/postcode_area_locator
 
 Download UK Postcodes with Latitude and Longitude (useful links at bottom of page)
 http://www.freemaptools.com/download-uk-postcode-lat-lng.htm

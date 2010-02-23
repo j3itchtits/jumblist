@@ -175,15 +175,15 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult FeedLocationCreate(int feedId, string location)
+        public ActionResult FeedLocationCreate( int feedId, string locationName, string locationArea )
         {
-            var locationItem = locationService.Select(location);
+            var locationItem = locationService.Select( locationName );
 
             if (locationItem != null)
             {
-                var existingPostLocations = feedLocationService.SelectList().Where(x => x.FeedId == feedId && x.LocationId == locationItem.LocationId);
+                var existingFeedLocations = feedLocationService.SelectList().Where(x => x.FeedId == feedId && x.LocationId == locationItem.LocationId);
 
-                if (existingPostLocations.Count() == 0)
+                if (existingFeedLocations.Count() == 0)
                 {
                     var feedLocationItem = new FeedLocation { FeedId = feedId, LocationId = locationItem.LocationId };
                     feedLocationService.Save(feedLocationItem);
@@ -191,7 +191,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             }
             else
             {
-                var newLocationItem = new Location { Name = location, FriendlyUrl = location.ToFriendlyUrl() };
+                var newLocationItem = new Location { Name = locationName, FriendlyUrl = locationName.ToFriendlyUrl(), Area = locationArea };
                 locationService.Save(newLocationItem);
 
                 var feedLocationItem = new FeedLocation { FeedId = feedId, LocationId = newLocationItem.LocationId };

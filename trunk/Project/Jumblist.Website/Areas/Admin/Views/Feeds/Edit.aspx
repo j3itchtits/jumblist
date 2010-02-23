@@ -80,11 +80,18 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            $("input#location").autocomplete('<%= Url.Action("findlocations", "locations") %>',
+            $("input#locationName").autocomplete('<%= Url.Action("findlocationNames", "locations") %>',
                 {
                     minChars: 2
                 }
             );
+
+            $("input#locationArea").autocomplete('<%= Url.Action("findlocationAreas", "locations") %>',
+                {
+                    minChars: 2
+                }
+            );
+
         });
     </script> 
     
@@ -104,7 +111,8 @@
        { %>    
         <p>
             <%= Html.Hidden( "feedId", Model.Item.FeedId)%>
-            <%= Html.TextBox("location", null, new { size = 10 })%>
+            <%= Html.TextBox("locationName", null, new { size = 10 })%>
+            <%= Html.TextBox("locationArea", null, new { size = 10 })%>
             <%= Html.SubmitButton("feedlocationcreatebutton", "Create")%>
         </p> 
     <% } %>

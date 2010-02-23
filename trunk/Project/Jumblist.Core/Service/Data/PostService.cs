@@ -13,7 +13,7 @@ namespace Jumblist.Core.Service.Data
     public class PostService : DataService<Post>, IPostService
     {
         public IDataService<PostLocation> postLocationDataService;
-        public IDataService<Location> locationDataService;
+        public ILocationService locationDataService;
         public IDataService<PostTag> postTagDataService;
         public IDataService<Tag> tagDataService;
         public IDataService<PostCategory> postCategoryDataService;
@@ -21,7 +21,7 @@ namespace Jumblist.Core.Service.Data
         public PostService(
             IRepository<Post> repository, 
             IDataService<PostLocation> postLocationDataService,
-            IDataService<Location> locationDataService,
+            ILocationService locationDataService,
             IDataService<PostTag> postTagDataService,
             IDataService<Tag> tagDataService,
             IDataService<PostCategory> postCategoryDataService
@@ -55,15 +55,15 @@ namespace Jumblist.Core.Service.Data
         public override void Save( Post entity )
         {
             bool newEntity = ( entity.PostId == 0 );
-            bool createdFromAdminArea = true;
+            bool importedViaFeed = false;
 
-            if (string.IsNullOrEmpty(entity.Guid))
+            if ( string.IsNullOrEmpty(entity.Guid) )
                 entity.Guid = entity.Url;
 
             if ( entity.PostCategoryId == 0 )
             {
                 entity.PostCategoryId = GetPostCategoryId( entity );
-                createdFromAdminArea = false;
+                importedViaFeed = true;
             }
 
             entity.LastUpdatedDateTime = DateTime.Now;
@@ -75,18 +75,51 @@ namespace Jumblist.Core.Service.Data
 
             if ( newEntity )
             {
-                bool locationsSaved = SavePostLocations( entity );
-                bool tagsSaved = SavePostTags(entity);
+                var locationsSaved = SavePostLocations( entity );
+                bool tagsSaved = SavePostTags( entity );
+                bool updateDisplayToTrue = CheckIfUpdateDisplayToTrueIsNeeded( locationsSaved.Count > 0, tagsSaved, entity.Category.Name );
 
                 //need to change this - if the postcategory is "Offered" then we need to make sure we have a location and a tag before we make it active
                 //if the postcategory is not offered then we only need a tag to make it active
                 //create a new private function to handle the logic
-                if ((locationsSaved || tagsSaved) && (!entity.Display) && (!createdFromAdminArea))
+                if (importedViaFeed && !entity.Display && updateDisplayToTrue)
                 {
                     entity.Display = true;
                     base.Update( entity );
                 }
+
+                //Update the lat/long values when post is first submitted
+                if (entity.UserId != User.Anonymous.UserId)
+                {
+                    entity.Latitude = entity.User.Latitude;
+                    entity.Longitude = entity.User.Longitude;
+                }
+                else
+                {
+                    if (locationsSaved.Count > 0)
+                    {
+                        entity.Latitude = locationsSaved[0].Location.Latitude;
+                        entity.Longitude = locationsSaved[0].Location.Longitude;
+
+                        foreach (var postLocation in locationsSaved)
+                        {
+                            if (!string.IsNullOrEmpty( postLocation.Location.NamePartOfTown ))
+                            {
+                                entity.Latitude = postLocation.Location.Latitude;
+                                entity.Longitude = postLocation.Location.Longitude;
+                            }
+                        }
+                    }
+                }
+
+                base.Update( entity );
             }
+ 
+        }
+
+        public override void Update( Post entity )
+        {
+            base.Update( entity );
         }
 
         public override void Delete( Post entity )
@@ -203,6 +236,13 @@ namespace Jumblist.Core.Service.Data
 
         #endregion
 
+        private bool CheckIfUpdateDisplayToTrueIsNeeded( bool locationsSaved, bool tagsSaved, string postCategory )
+        {
+            if (postCategory == "Offered")
+                return locationsSaved && tagsSaved;
+            else
+                return tagsSaved;
+        }
 
         private void ValidateBusinessRules( Post entity )
         {
@@ -217,12 +257,14 @@ namespace Jumblist.Core.Service.Data
                 throw new RulesException( "Post", "Duplicate Post", entity );
         }
 
-        private bool SavePostLocations( Post entity )
+        private List<PostLocation> SavePostLocations( Post entity )
         {
-            bool success = false;
+            var list = new List<PostLocation>();
+
             string input = (entity.Title + " " + entity.Body).Replace( "'", string.Empty ).Replace( ".", string.Empty );
             //string[] locations = Locations();
-            var locationList = locationDataService.SelectList();
+            //var locationList = locationDataService.SelectList();
+            var locationList = locationDataService.SelectLocationsByFeed( entity.FeedId );
 
             foreach (Location location in locationList)
             {
@@ -231,10 +273,10 @@ namespace Jumblist.Core.Service.Data
                 {
                     var postLocationItem = new PostLocation { PostId = entity.PostId, LocationId = location.LocationId };
                     postLocationDataService.Save(postLocationItem);
-                    success = true;
+                    list.Add( postLocationItem );
                 }
             }
-            return success;
+            return list;
         }
 
         private bool SavePostTags( Post entity )
