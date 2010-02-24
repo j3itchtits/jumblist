@@ -307,9 +307,9 @@ namespace Jumblist.Core.Service.Data
 
         private double[] GetLocationCoordinates(List<PostLocation> locationsSaved)
         {
-            double[] coordinates = new Double[1];
+            double[] coordinates = new Double[2];
 
-            if (locationsSaved.Count > 0) return coordinates;
+            if (locationsSaved.Count == 0) return coordinates;
 
             coordinates[0] = locationsSaved[0].Location.Latitude;
             coordinates[1] = locationsSaved[0].Location.Longitude;
