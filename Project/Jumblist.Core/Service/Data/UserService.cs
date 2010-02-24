@@ -37,6 +37,11 @@ namespace Jumblist.Core.Service.Data
             base.Save( entity );
         }
 
+        public override void Update(User entity)
+        {
+            base.Update(entity);
+        }
+
         public void ResetPassword( User entity, string password, string confirmPassword )
         {
             ValidateBusinessRules( password, confirmPassword );

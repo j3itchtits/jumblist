@@ -9,6 +9,7 @@ namespace Jumblist.Core.Service.Data
         IQueryable<Role> SelectList();
         Role Select( int id );
         void Save( Role entity );
+        void Update(Role entity);
         void Delete( Role entity );
     }
 }

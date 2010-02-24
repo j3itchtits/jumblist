@@ -49,6 +49,11 @@ namespace Jumblist.Core.Service.Data
             base.Save( entity );
         }
 
+        public override void Update(Location entity)
+        {
+            base.Update(entity);
+        }
+
         public override void Delete( Location entity )
         {
             base.Delete( entity );

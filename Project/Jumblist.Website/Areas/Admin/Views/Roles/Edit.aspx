@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Areas/Admin/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel<Tag>>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Areas/Admin/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel<Role>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
@@ -6,11 +6,11 @@
     
     <%= Html.MessageBox( ViewData.Model )%>
 
-    <%= Html.ClientSideValidation<Tag>( "Item" )%>
+    <%= Html.ClientSideValidation<Role>( "Item" )%>
 
-        <% using ( Html.BeginForm( "save", "tags" ) ) { %>
+        <% using ( Html.BeginForm( "save", "roles" ) ) { %>
 
-        <%= Html.HiddenFor( m => m.Item.TagId )%>
+        <%= Html.HiddenFor( m => m.Item.RoleId )%>
         
         <table>
         <tr>
@@ -18,7 +18,11 @@
             <td><%= Html.TextBoxFor( m => m.Item.Name, new { @size = "100" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.Name )%></td>
         </tr>
-     
+        <tr>
+            <td><label for="Item.Level">Level:</label></td>
+            <td><%= Html.TextBoxFor(m => m.Item.Level)%>
+            <%= Html.ValidationMessageFor(m => m.Item.Level)%></td>
+        </tr>
         </table>
                  
         <p>

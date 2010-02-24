@@ -10,6 +10,7 @@ namespace Jumblist.Core.Service.Data
         Tag Select( int id );
         Tag Select(string name);
         void Save( Tag entity );
+        void Update(Tag entity);
         void Delete( Tag entity );
         string[] FindTags(string q);
     }

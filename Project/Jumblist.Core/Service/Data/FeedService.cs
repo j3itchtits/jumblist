@@ -36,6 +36,11 @@ namespace Jumblist.Core.Service.Data
             base.Save( entity );
         }
 
+        public override void Update(Feed entity)
+        {
+            base.Update(entity);
+        }
+
         public override void Delete( Feed entity )
         {
             base.Delete( entity );

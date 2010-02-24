@@ -97,7 +97,6 @@
     <Compile Include="Service\Data\PostService.cs" />
     <Compile Include="Service\Data\TagService.cs" />
     <Compile Include="Service\Data\UserService.cs" />
-    <Compile Include="Extension\PostExtensions.cs" />
     <Compile Include="Model\Validation\PriceAttribute.cs" />
     <Compile Include="Service\Paging\PaginatedList.cs" />
   </ItemGroup>

@@ -9,6 +9,7 @@ namespace Jumblist.Core.Service.Data
         IQueryable<Feed> SelectList();
         Feed Select( int id );
         void Save( Feed entity );
+        void Update(Feed entity);
         void Delete( Feed entity );
     }
 }

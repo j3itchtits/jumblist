@@ -100,7 +100,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult FindLocationNames(string q)
+        public ContentResult AjaxFindLocationNames(string q)
         {
             var locations = locationService.FindLocationNames( q );
 
@@ -109,7 +109,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ActionResult FindLocationAreas( string q )
+        public ContentResult AjaxFindLocationAreas(string q)
         {
             var locations = locationService.FindLocationAreas( q );
 
