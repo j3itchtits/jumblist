@@ -99,7 +99,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult FindTags(string q)
+        public ContentResult AjaxFindTags(string q)
         {
             var tags = tagService.FindTags(q);
 

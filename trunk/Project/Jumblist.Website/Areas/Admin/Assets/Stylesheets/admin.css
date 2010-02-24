@@ -167,3 +167,12 @@ input[readonly]
 	padding: 20px;
 	width: 980px;
 }
+
+/****************************
+ ** Lists *
+ ****************************/
+
+tr.item-active-false
+{
+    background-color: #eee;
+}

@@ -101,19 +101,19 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            $("input#locationName").autocomplete('<%= Url.Action("findlocationNames", "locations") %>',
+            $("input#locationName").autocomplete('<%= Url.Action("ajaxfindlocationNames", "locations") %>',
                     {
                         minChars: 2
                     }
                 );
 
-            $("input#locationArea").autocomplete('<%= Url.Action("findlocationAreas", "locations") %>',
+            $("input#locationArea").autocomplete('<%= Url.Action("ajaxfindlocationAreas", "locations") %>',
                     {
                         minChars: 2
                     }
                 );
 
-            $("input#tag").autocomplete('<%= Url.Action("findtags", "tags") %>',
+            $("input#tag").autocomplete('<%= Url.Action("ajaxfindtags", "tags") %>',
                 {
                     minChars: 2
                 }

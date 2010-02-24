@@ -55,40 +55,40 @@ namespace Jumblist.Core.Service.Data
         public override void Save( Post entity )
         {
             bool newEntity = ( entity.PostId == 0 );
-            bool importedViaFeed = false;
+            bool entityImportedViaFeed = false;
 
-            if ( string.IsNullOrEmpty(entity.Guid) )
-                entity.Guid = entity.Url;
+            //Set Guid Property
+            if ( string.IsNullOrEmpty(entity.Guid) ) entity.Guid = entity.Url;
 
+            //Set PostCategoryId Property
             if ( entity.PostCategoryId == 0 )
             {
                 entity.PostCategoryId = GetPostCategoryId( entity );
-                importedViaFeed = true;
+                entityImportedViaFeed = true;
             }
 
+            //Set LastUpdatedDateTime Property
             entity.LastUpdatedDateTime = DateTime.Now;
 
+            //Perform our validation
             ValidateBusinessRules( entity );
 
-            // we need to save at this point in order to get the new postid for the next section
+            //We need to save at this point in order to get the new postid for the SavePostLocations and SavePostTags in the next section (if we have a new post)
             base.Save( entity );
 
+            //If we have a new post then we need to create some postlocations and posttags
             if ( newEntity )
             {
+                //Set PostLocations and PostTags Properties and return them for use in searching for latitude and longitudes
                 var locationsSaved = SavePostLocations( entity );
-                bool tagsSaved = SavePostTags( entity );
-                bool updateDisplayToTrue = CheckIfUpdateDisplayToTrueIsNeeded( locationsSaved.Count > 0, tagsSaved, entity.Category.Name );
+                var tagsSaved = SavePostTags(entity);
 
-                //need to change this - if the postcategory is "Offered" then we need to make sure we have a location and a tag before we make it active
-                //if the postcategory is not offered then we only need a tag to make it active
-                //create a new private function to handle the logic
-                if (importedViaFeed && !entity.Display && updateDisplayToTrue)
-                {
-                    entity.Display = true;
-                    base.Update( entity );
-                }
+                //We may need to update the display to true for posts that have been imported from a feed and obey the correct logic
+                bool updateDisplayToTrue = CheckIfUpdateDisplayToTrueIsNeeded(locationsSaved.Count > 0, tagsSaved.Count > 0, entity.Category.Name);
 
-                //Update the lat/long values when post is first submitted
+                if (entityImportedViaFeed && updateDisplayToTrue) entity.Display = true;
+
+                //Set Latitude and Longitude Properties
                 if (entity.UserId != User.Anonymous.UserId)
                 {
                     entity.Latitude = entity.User.Latitude;
@@ -96,25 +96,13 @@ namespace Jumblist.Core.Service.Data
                 }
                 else
                 {
-                    if (locationsSaved.Count > 0)
-                    {
-                        entity.Latitude = locationsSaved[0].Location.Latitude;
-                        entity.Longitude = locationsSaved[0].Location.Longitude;
-
-                        foreach (var postLocation in locationsSaved)
-                        {
-                            if (!string.IsNullOrEmpty( postLocation.Location.NamePartOfTown ))
-                            {
-                                entity.Latitude = postLocation.Location.Latitude;
-                                entity.Longitude = postLocation.Location.Longitude;
-                            }
-                        }
-                    }
+                    double[] coordinates = GetLocationCoordinates(locationsSaved);
+                    entity.Latitude = coordinates[0];
+                    entity.Longitude = coordinates[1];
                 }
 
                 base.Update( entity );
             }
- 
         }
 
         public override void Update( Post entity )
@@ -262,6 +250,7 @@ namespace Jumblist.Core.Service.Data
             var list = new List<PostLocation>();
 
             string input = (entity.Title + " " + entity.Body).Replace( "'", string.Empty ).Replace( ".", string.Empty );
+            
             //string[] locations = Locations();
             //var locationList = locationDataService.SelectList();
             var locationList = locationDataService.SelectLocationsByFeed( entity.FeedId );
@@ -279,10 +268,12 @@ namespace Jumblist.Core.Service.Data
             return list;
         }
 
-        private bool SavePostTags( Post entity )
+        private List<PostTag> SavePostTags(Post entity)
         {
-            bool success = false;
+            var list = new List<PostTag>();
+
             string input = entity.Title + " " + entity.Body;
+            
             //string[] tags = Tags();
             var tagList = tagDataService.SelectList();
 
@@ -292,10 +283,10 @@ namespace Jumblist.Core.Service.Data
                 {
                     var postTagItem = new PostTag { PostId = entity.PostId, TagId = tag.TagId };
                     postTagDataService.Save(postTagItem);
-                    success = true;
+                    list.Add(postTagItem);
                 }
             }
-            return success;
+            return list;
         }
 
         private int GetPostCategoryId( Post entity )
@@ -312,6 +303,27 @@ namespace Jumblist.Core.Service.Data
                 }
             }
             return postCategoryDataService.Select("Unclassified").PostCategoryId;
+        }
+
+        private double[] GetLocationCoordinates(List<PostLocation> locationsSaved)
+        {
+            double[] coordinates = new Double[1];
+
+            if (locationsSaved.Count > 0) return coordinates;
+
+            coordinates[0] = locationsSaved[0].Location.Latitude;
+            coordinates[1] = locationsSaved[0].Location.Longitude;
+
+            foreach (var postLocation in locationsSaved)
+            {
+                if (!string.IsNullOrEmpty(postLocation.Location.NamePartOfTown))
+                {
+                    coordinates[0] = postLocation.Location.Latitude;
+                    coordinates[1] = postLocation.Location.Longitude;
+                }
+            }
+
+            return coordinates;
         }
 
         private string[] Locations()

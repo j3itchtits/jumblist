@@ -32,6 +32,11 @@ namespace Jumblist.Core.Service.Data
             base.Save( entity );
         }
 
+        public override void Update(Role entity)
+        {
+            base.Update(entity);
+        }
+
         public override void Delete( Role entity )
         {
             base.Delete( entity );

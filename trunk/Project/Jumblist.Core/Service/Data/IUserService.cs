@@ -8,6 +8,7 @@ namespace Jumblist.Core.Service.Data
     public interface IUserService
     {
         void Save( User entity );
+        void Update(User entity);
         void ResetPassword( User entity, string password, string confirmPassword );
         void Create( User entity, string confirmPassword );
         IQueryable<User> SelectList();
