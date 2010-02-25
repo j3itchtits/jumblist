@@ -7,6 +7,7 @@ namespace Jumblist.Core.Service.Data
     public interface ITagService
     {
         IQueryable<Tag> SelectList();
+        IQueryable<Tag> SelectList( string[] tagList );
         Tag Select( int id );
         Tag Select(string name);
         void Save( Tag entity );

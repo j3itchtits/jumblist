@@ -1,0 +1,168 @@
+html
+{
+	height: 100%;
+margin-bottom:1px;
+
+}
+
+body 
+{
+	margin: 0px auto;
+	padding: 0px;
+	color: #000;	
+	font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 123.1%;
+    width: 954px;
+    background: #F0F0F0 url(assets/images/background.jpg) repeat-x scroll center top;
+}
+
+img 
+{
+	border: 0px;
+}
+
+#header 
+{
+	height: 130px;
+}
+
+.logo
+{
+  width: 300px;
+  float: left;
+}
+
+.login
+{
+  width: 160px;
+  float: left;
+	font-size: 0.75em;
+}
+
+
+#menu 
+{
+  float: left;
+	border-bottom: 2px solid #373737;
+}
+
+#menu ul 
+{
+  float: right;
+	margin: auto;
+  margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+
+#menu li 
+{
+  float: left;
+}
+
+#menu a 
+{
+	display: block;
+  padding-left: 10px;
+	padding-right: 12px;
+	line-height: 2.3em;
+	text-decoration: none;
+  font-size: 1.1em;
+
+}
+
+#menu .current_page_item a, 
+#menu a:hover 
+{
+  color: #fff;
+}
+
+#menu li:hover
+{
+  //background:#3E6641;
+}
+
+/** First level nav **/
+
+#menu li ul
+{
+  position:absolute;
+  display:none;
+  width: 161px;
+  margin:0;
+  border:0;
+  border-top:1px solid #666;
+  background:#444;
+}
+
+#menu li:hover ul
+{
+  display: block;
+}
+
+#menu li li 
+{
+  width:159px;
+  border-bottom:1px solid #666;
+  border-left:1px solid #666;
+  border-right:1px solid #666;
+}
+
+#menu li li a 
+{
+  font-size: 0.9em;
+  line-height: 2.0em;
+  color: #ddd;
+}
+
+#menu li li:hover 
+{
+  background:#2B533C;
+}
+
+/** Second level nav **/
+
+#menu li ul ul 
+{
+	margin: -1.5em 0 0 157px;
+}
+
+#menu li:hover ul ul 
+{
+  display:none;
+}
+
+#menu li li:hover ul
+{
+  display: block;
+}
+
+
+
+#copy
+{
+	width: 620px;
+	float: left;
+	margin: 10px;
+}
+
+
+#sidebar
+{
+	width: 282px;
+  float: left;
+	font-size: 0.85em;
+	background-color: #eee;
+	border: 1px solid #dedede;
+	padding: 10px;
+	margin: 10px 0px 10px 10px;  
+}
+
+#footer 
+{
+	font-size: 0.75em;
+	clear:both;
+	margin: -13px;
+	height: 400px;
+
+}
