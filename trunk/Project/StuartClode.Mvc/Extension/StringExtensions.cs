@@ -12,6 +12,7 @@ namespace StuartClode.Mvc.Extension
         public static string ToFriendlyUrl( this string helper )
         {
             helper = (helper ?? "").Trim().ToLower();
+            //helper = Regex.Replace(helper, @", ", "+");
             helper = Regex.Replace( helper, @"[^a-z0-9]", "-" ); // invalid chars
             helper = Regex.Replace( helper, @"-+", "-" ).Trim(); // convert multiple dashes into one
             return helper;

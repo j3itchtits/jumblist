@@ -15,6 +15,11 @@ namespace Jumblist.Website.Filter
 			{
                 var model = result.ViewData.Model as ViewModelBase;
 
+                if (model != null && string.IsNullOrEmpty(model.PageTitle) && filterContext.Controller.TempData.ContainsKey("pagetitle"))
+                {
+                    model.PageTitle = filterContext.Controller.TempData["pagetitle"] as string;
+                }
+
                 if (model != null && string.IsNullOrEmpty( model.SimpleMessage ) && filterContext.Controller.TempData.ContainsKey( "simplemessage" ))
 				{
                     model.SimpleMessage = filterContext.Controller.TempData["simplemessage"] as string;

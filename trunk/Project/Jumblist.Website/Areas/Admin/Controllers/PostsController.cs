@@ -113,9 +113,6 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             {
                 var model = BuildDataEditDefaultViewModel().With( item );
                 model.PageTitle = string.Format( "Edit - {0}", item.Title );
-
-                
-
                 model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
                 return View( "edit", model );
             }

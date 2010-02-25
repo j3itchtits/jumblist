@@ -1,0 +1,48 @@
+Still to do - Version 1.0
+
+Design and Layout
+- Home page
+- Static (text) page
+- Tag/Location/Group list page
+- Search results page
+- Error/Problem page
+- Post list page
+- Map list page ("All posts" and "Offered" lists have this as a tab)
+- Post page
+- Register page
+- Login page
+- User profile page
+- Basket page (maybe not called basket though)
+
+Save (to bag/basket/cart) functionality
+
+Paging functionality
+
+Search functionality (see Search options.txt)
+
+Filter/Refine search functionality for search results page
+
+Registration functionality
+- Lock down security (see Steve Sanderson)
+- Use email confirmation strategy
+
+Email alert functionality
+- Allow registered users to save lists as email alerts
+
+User profiles functionality
+- User can edit their personal and default search settings
+
+---------------------
+
+Still to do - Version 2.0
+
+Add post functionality
+- Respond to post
+- Comment on post
+- Report post
+- Vote post up/down
+- Popularity (combination of votes/post views)
+
+User rating functionality
+- Registered users can rate others when they recieve an offer or response to a wanted post
+
