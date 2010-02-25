@@ -241,6 +241,7 @@
     <Content Include="Views\Posts\AddToBasket.ascx" />
     <Content Include="Views\Posts\BasicList.ascx" />
     <Content Include="Views\Posts\CategoryList.ascx" />
+    <Content Include="Views\Posts\Problem.aspx" />
     <Content Include="Views\Posts\Index.aspx" />
     <Content Include="Views\Posts\PostList.ascx" />
     <Content Include="Views\Shared\BasketUserControl.ascx" />

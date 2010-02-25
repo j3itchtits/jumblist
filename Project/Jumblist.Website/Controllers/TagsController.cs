@@ -23,7 +23,7 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Index()
         {
-            var list = tagService.SelectList();
+            var list = tagService.SelectList().OrderBy( x => x.Name );
 
             var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Tags";

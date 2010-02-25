@@ -17,6 +17,12 @@ namespace Jumblist.Website.Controllers
     {
         internal const int frontEndPageSize = 15;
 
+        public virtual string PageTitle
+        {
+            get { return TempData["pagetitle"] as string; }
+            set { TempData["pagetitle"] = value; }
+        }
+
         public virtual string SimpleMessage
         {
             get { return TempData["simplemessage"] as string; }

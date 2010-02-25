@@ -4,10 +4,11 @@ Note - Routing (url) options are available in the file - mvc routing.txt
 
 Options
  
-1. 
+1. First scenario - User is not logged in
+
 One text box for inputting search terms
 Phrases (ie. more than one word) need to entered with quotes (eg. "broad oak" becomes broak-oak and "bath rug" becomes bath-rug)
-User is not logged in
+
  
 a. If user does not type anything then display a full paginated list of posts
  
@@ -33,5 +34,5 @@ d. User types in more than two words (or phrases)
  - some are found in tags and/or locations and some are not (posts/search/?tag=sofa&location=brede&q=wii)
  
 
-2.
+2. Second scenario - User is logged in
 User is logged in and so they get an extra check box that asks "Search near where i live?". If ticked then we use their postcode in the search.

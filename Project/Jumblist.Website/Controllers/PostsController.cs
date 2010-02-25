@@ -93,48 +93,94 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ViewResult Location(string id, int? page)
+        public ActionResult Location(string id, int? page)
         {
-            var location = locationService.SelectList().Single(x => x.FriendlyUrl == id);
-            var postList = postService.SelectPostsByLocation( location.LocationId, true ).OrderByDescending( t => t.PublishDateTime );
-            var pagedPostList = new PaginatedList<Post>( postList.ToList(), ( page ?? 1 ), frontEndPageSize );
+            try
+            {
+                var location = locationService.SelectList().Single(x => x.FriendlyUrl == id);
+                var postList = postService.SelectPostsByLocation(location.LocationId, true).OrderByDescending(t => t.PublishDateTime);
+                var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
 
-            var model = BuildDefaultViewModel().With(pagedPostList);
-            model.PageTitle = "All Posts by Location - " + location.Name;
+                var model = BuildDefaultViewModel().With(pagedPostList);
+                model.PageTitle = "All Posts by Location - " + location.Name;
 
-            return View("index", model);
+                if (postList.Count() == 0) model.Message = new Message { Text = "No posts from this location - " + id, StyleClass = "message" };
+
+                return View("index", model);
+            }
+            catch (Exception)
+            {
+                PageTitle = "Sorry we have a problem";
+                Message = new Message { Text = "We could not find this location - " + id, StyleClass = "message" };
+                return RedirectToAction("problem");
+            }
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ViewResult Tagged(string id, int? page)
+        public ActionResult Tagged(string id, int? page)
         {
-            var tag = tagService.SelectList().Single(x => x.FriendlyUrl == id);
-            var postList = postService.SelectPostsByTag( tag.TagId, true ).OrderByDescending( t => t.PublishDateTime );
-            var pagedPostList = new PaginatedList<Post>( postList.ToList(), ( page ?? 1 ), frontEndPageSize );
 
-            var model = BuildDefaultViewModel().With( pagedPostList );
-            model.PageTitle = "All Posts by Tag - " + tag.Name;
+            //we need to split the id string into a tag array using "+" as the separator
 
-            return View("index", model);
+            
+
+            try
+            {
+                var tag = tagService.SelectList().Single(x => x.FriendlyUrl == id);
+                var postList = postService.SelectPostsByTag(tag.TagId, true).OrderByDescending(t => t.PublishDateTime);
+                var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
+
+                var model = BuildDefaultViewModel().With(pagedPostList);
+                model.PageTitle = "All Posts by Tag - " + tag.Name;
+
+                if (postList.Count() == 0) model.Message = new Message { Text = "No posts tagged with " + id, StyleClass = "message" };
+
+                return View("index", model);
+            }
+            catch (Exception)
+            {
+                PageTitle = "Sorry we have a problem";
+                Message = new Message { Text = "We could not find this tag - " + id, StyleClass = "message" };
+                return RedirectToAction("problem");
+            }
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ViewResult Group(string id, int? page)
+        public ViewResult Problem()
         {
-            var feed = feedService.SelectList().Single(x => x.FriendlyUrl == id);
-            var postList = postService.SelectPostsByFeed( feed.FeedId, true ).OrderByDescending( t => t.PublishDateTime );
-            var pagedPostList = new PaginatedList<Post>( postList.ToList(), ( page ?? 1 ), frontEndPageSize );
+            var model = BuildDefaultViewModel();
+            return View(model);
+        }
 
-            var model = BuildDefaultViewModel().With(pagedPostList);
-            model.PageTitle = "All Posts by Group - " + feed.Name;
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult Group(string id, int? page)
+        {
+            try
+            {
+                var feed = feedService.SelectList().Single(x => x.FriendlyUrl == id);
+                var postList = postService.SelectPostsByFeed(feed.FeedId, true).OrderByDescending(t => t.PublishDateTime);
+                var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
 
-            return View("index", model);
+                var model = BuildDefaultViewModel().With(pagedPostList);
+                model.PageTitle = "All Posts by Group - " + feed.Name;
+
+                if (postList.Count() == 0) model.Message = new Message { Text = "No posts from this group - " + id, StyleClass = "message" };
+
+                return View("index", model);
+            }
+            catch (Exception)
+            {
+                PageTitle = "Sorry we have a problem";
+                Message = new Message { Text = "We could not find this group - " + id, StyleClass = "message" };
+                return RedirectToAction("problem");
+            }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         [ValidateInput(true)]
         public RedirectToRouteResult Search(string searchString, string searchOptions)
         {
+            //Loads of logic to go here
             return RedirectToAction("tagged", new { id = searchString, page = string.Empty });
         }
     }
