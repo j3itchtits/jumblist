@@ -21,6 +21,13 @@ namespace Jumblist.Core.Service.Data
             return base.SelectList();
         }
 
+        public IQueryable<Tag> SelectList( string[] tagList )
+        {
+            return from x in SelectList()
+                    where tagList.Contains( x.FriendlyUrl )
+                    select x;
+        }
+
         public override Tag Select( int id )
         {
             return base.Select( id );

@@ -155,6 +155,29 @@ namespace Jumblist.Core.Service.Data
             return SelectPostsByTag( tagId ).Where( x => x.Display == isActive );
         }
 
+        public IEnumerable<Post> SelectPostsByTag( Tag tag, bool isActive )
+        {
+            return SelectPostsByTag( tag.TagId ).Where( x => x.Display == isActive );
+        }
+
+        public IEnumerable<Post> SelectPostsByTag( Tag tag )
+        {
+            return SelectPostsByTag( tag.TagId );
+        }
+
+        public IEnumerable<Post> SelectPostsByTag( IQueryable<Tag> tagList )
+        {
+            return from p in SelectList().AsEnumerable()
+                   join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
+                   where tagList.Contains( pt.Tag )
+                   select p;
+        }
+
+        public IEnumerable<Post> SelectPostsByTag( IQueryable<Tag> tagList, bool isActive )
+        {
+            return SelectPostsByTag( tagList ).Where( x => x.Display == isActive );
+        }
+
         public IEnumerable<Post> SelectPostsByTag(string tagName)
         {
             return from p in SelectList().AsEnumerable()

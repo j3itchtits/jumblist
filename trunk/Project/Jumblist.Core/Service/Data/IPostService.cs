@@ -20,6 +20,10 @@ namespace Jumblist.Core.Service.Data
         IEnumerable<Post> SelectPostsByTag( int tagId, bool isActive );
         IEnumerable<Post> SelectPostsByTag(string tagName);
         IEnumerable<Post> SelectPostsByTag( string tagName, bool isActive );
+        IEnumerable<Post> SelectPostsByTag( Tag tag );
+        IEnumerable<Post> SelectPostsByTag( Tag tag, bool isActive );
+        IEnumerable<Post> SelectPostsByTag( IQueryable<Tag> tagList );
+        IEnumerable<Post> SelectPostsByTag( IQueryable<Tag> tagList, bool isActive ); 
         IEnumerable<Post> SelectPostsByCategory( int categoryId );
         IEnumerable<Post> SelectPostsByCategory( int categoryId, bool isActive );
         IEnumerable<Post> SelectPostsByCategory( string categoryName );

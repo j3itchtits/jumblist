@@ -19,11 +19,11 @@ namespace Jumblist.Website.Controllers
     {
         private readonly IPostService postService;
         private readonly IDataService<Location> locationService;
-        private readonly IDataService<Tag> tagService;
+        private readonly ITagService tagService;
         private readonly IDataService<Feed> feedService;
         private readonly IDataService<PostCategory> postCategoryService;
 
-        public PostsController( IPostService postService, IDataService<Location> locationService, IDataService<Tag> tagService, IDataService<Feed> feedService, IDataService<PostCategory> postCategoryService )
+        public PostsController( IPostService postService, IDataService<Location> locationService, ITagService tagService, IDataService<Feed> feedService, IDataService<PostCategory> postCategoryService )
         {
             this.postService = postService;
             this.locationService = locationService;
@@ -119,19 +119,18 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Tagged(string id, int? page)
         {
-
-            //we need to split the id string into a tag array using "+" as the separator
-
-            
-
             try
             {
-                var tag = tagService.SelectList().Single(x => x.FriendlyUrl == id);
-                var postList = postService.SelectPostsByTag(tag.TagId, true).OrderByDescending(t => t.PublishDateTime);
+                string[] tags = id.Split('+');
+                var tagList = tagService.SelectList( tags );
+                var postList = postService.SelectPostsByTag( tagList, true ).OrderByDescending( t => t.PublishDateTime );
+
+                //var tag = tagService.SelectList().Single(x => x.FriendlyUrl == id);
+                //var postList = postService.SelectPostsByTag(tag.TagId, true).OrderByDescending(t => t.PublishDateTime);
                 var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
 
                 var model = BuildDefaultViewModel().With(pagedPostList);
-                model.PageTitle = "All Posts by Tag - " + tag.Name;
+                model.PageTitle = "All Posts by Tag - " + tagList.Select( x => x.Name ).ToArray().ToFormattedList( "{0}, " );
 
                 if (postList.Count() == 0) model.Message = new Message { Text = "No posts tagged with " + id, StyleClass = "message" };
 
