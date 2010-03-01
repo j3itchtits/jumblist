@@ -10,6 +10,8 @@
     
     <%= Html.MessageBox( ViewData.Model ) %>
     
+    Number of items: <%= Model.ListCount %>
+    
     <div id="itemsList">
         <% Html.RenderPartial( "PostList", Model.PaginatedList ); %>
     </div>

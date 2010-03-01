@@ -35,7 +35,7 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ViewResult Index( int? page )
         {
-            var postList = postService.SelectList( true ).OrderByDescending(t => t.PublishDateTime);
+            var postList = postService.SelectList( Post.WhereDisplay( true ) ).OrderByDescending( t => t.PublishDateTime );
             var pagedPostList = new PaginatedList<Post>( postList.ToList(), ( page ?? 1 ), frontEndPageSize );
 
             var model = BuildDefaultViewModel().With( pagedPostList );
@@ -76,7 +76,7 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult BasicList( int top )
         {
-            var model = postService.SelectList( true ).OrderByDescending( t => t.PublishDateTime ).Take( top );
+            var model = postService.SelectList( Post.WhereDisplay( true ) ).OrderByDescending( t => t.PublishDateTime ).Take( top );
 
             return PartialView("basiclist", model);
         }
@@ -98,7 +98,7 @@ namespace Jumblist.Website.Controllers
             try
             {
                 var location = locationService.SelectList().Single(x => x.FriendlyUrl == id);
-                var postList = postService.SelectPostsByLocation(location.LocationId, true).OrderByDescending(t => t.PublishDateTime);
+                var postList = postService.SelectListByLocation( Post.WhereDisplay( true ), Post.WhereLocationId( location.LocationId ) ).OrderByDescending( t => t.PublishDateTime );
                 var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
 
                 var model = BuildDefaultViewModel().With(pagedPostList);
@@ -122,18 +122,23 @@ namespace Jumblist.Website.Controllers
             try
             {
                 string[] tags = id.Split('+');
-                var tagList = tagService.SelectList(tags);
+                var tagList = tagService.SelectList( Tag.WhereTagNameListOr( tags ) );
 
                 IEnumerable<Post> postList;
 
                 if (!string.IsNullOrEmpty(category))
                 {
-                    var postCategory = postCategoryService.Select(category);
-                    postList = postService.SelectPostsByTag(tagList, postCategory, true).OrderByDescending(t => t.PublishDateTime);
+                    var postCategory = postCategoryService.Select( category );
+                    //postList = postService.SelectPostsByTag(tagList, postCategory, true).OrderByDescending(t => t.PublishDateTime);
+
+                    postList = postService.SelectListByTag( Post.WherePostCategoryAndDisplay( postCategory, true ), Post.WhereTagNameOr( tagList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
                 }
                 else
                 {
-                    postList = postService.SelectPostsByTag(tagList, true).OrderByDescending(t => t.PublishDateTime);
+                    postList = postService.SelectListByTag( Post.WhereDisplay( true ), Post.WhereTagNameOr( tagList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
+                    //postList = postService.SelectListByTag( Post.WhereDisplay( true ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
+
+                    //postList = postList.Where( Post.WhereTagName( "Baby" ) );
                 }
                 
                 
@@ -144,8 +149,9 @@ namespace Jumblist.Website.Controllers
 
                 var model = BuildDefaultViewModel().With(pagedPostList);
                 model.PageTitle = "All " + category + " Posts by Tag - " + tagList.Select( x => x.Name ).ToArray().ToFormattedList( "{0}, " );
+                model.ListCount = postList.Count();
 
-                if (postList.Count() == 0) model.Message = new Message { Text = "No posts tagged with " + id, StyleClass = "message" };
+                if (postList.Count() == 0) model.Message = new Message { Text = "No posts tagged with " + tagList.Select( x => x.Name ).ToArray().ToFormattedList( "{0}, " ), StyleClass = "message" };
 
                 return View("index", model);
             }

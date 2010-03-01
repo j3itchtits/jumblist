@@ -7,6 +7,7 @@ using StuartClode.Mvc.Extension;
 using xVal.ServerSide;
 using System.Text.RegularExpressions;
 using System;
+using System.Linq.Expressions;
 
 namespace Jumblist.Core.Service.Data
 {
@@ -42,9 +43,66 @@ namespace Jumblist.Core.Service.Data
             return base.SelectList();
         }
 
-        public virtual IQueryable<Post> SelectList( bool IsActive )
+        public virtual IQueryable<Post> SelectList( Expression<Func<Post, bool>> whereCondition )
         {
-            return SelectList().Where( x => x.Display == IsActive );
+            return from x in SelectList().Where( whereCondition )
+                   select x;
+        }
+
+        public virtual IEnumerable<Post> SelectListByLocation()
+        {
+            return from p in SelectList().AsEnumerable()
+                   join pl in postLocationDataService.SelectList().AsEnumerable() on p.PostId equals pl.PostId
+                   select p;
+        }
+
+        public virtual IEnumerable<Post> SelectListByLocation( Expression<Func<Post, bool>> wherePostCondition )
+        {
+            return from p in SelectList().Where( wherePostCondition ).AsEnumerable()
+                   join pl in postLocationDataService.SelectList().AsEnumerable() on p.PostId equals pl.PostId
+                   select p;
+        }
+
+        public virtual IEnumerable<Post> SelectListByLocation( Expression<Func<PostLocation, bool>> wherePostLocationCondition )
+        {
+            return from p in SelectList().AsEnumerable()
+                   join pl in postLocationDataService.SelectList().Where( wherePostLocationCondition ).AsEnumerable() on p.PostId equals pl.PostId
+                   select p;
+        }
+
+        public virtual IEnumerable<Post> SelectListByLocation( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostLocation, bool>> wherePostLocationCondition )
+        {
+            return from p in SelectList().Where( wherePostCondition ).AsEnumerable()
+                   join pl in postLocationDataService.SelectList().Where( wherePostLocationCondition ).AsEnumerable() on p.PostId equals pl.PostId
+                   select p;
+        }
+
+        public virtual IEnumerable<Post> SelectListByTag()
+        {
+            return from p in SelectList().AsEnumerable()
+                   join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
+                   select p;
+        }
+
+        public virtual IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition )
+        {
+            return from p in SelectList().Where( wherePostCondition ).AsEnumerable()
+                   join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
+                   select p;
+        }
+
+        public virtual IEnumerable<Post> SelectListByTag( Expression<Func<PostTag, bool>> wherePostTagCondition )
+        {
+            return from p in SelectList().AsEnumerable()
+                   join pt in postTagDataService.SelectList().Where( wherePostTagCondition ).AsEnumerable() on p.PostId equals pt.PostId
+                   select p;
+        }
+
+        public virtual IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition )
+        {
+            return from p in SelectList().Where( wherePostCondition ).AsEnumerable()
+                   join pt in postTagDataService.SelectList().Where( wherePostTagCondition ).AsEnumerable() on p.PostId equals pt.PostId
+                   select p;
         }
 
         public override Post Select( int id )
@@ -113,33 +171,6 @@ namespace Jumblist.Core.Service.Data
         public override void Delete( Post entity )
         {
             base.Delete( entity );
-        }
-
-        public IEnumerable<Post> SelectPostsByLocation(int locationId)
-        {
-            return from p in SelectList().AsEnumerable()
-                   join pl in postLocationDataService.SelectList().AsEnumerable() on p.PostId equals pl.PostId
-                   where pl.LocationId == locationId
-                   select p;
-        }
-
-        public IEnumerable<Post> SelectPostsByLocation( int locationId, bool isActive )
-        {
-            return SelectPostsByLocation( locationId ).Where( x => x.Display == isActive );
-        }
-
-        public IEnumerable<Post> SelectPostsByLocation(string locationName)
-        {
-            return from p in SelectList().AsEnumerable()
-                   join pl in postLocationDataService.SelectList().AsEnumerable() on p.PostId equals pl.PostId
-                   join l in locationDataService.SelectList().AsEnumerable() on pl.LocationId equals l.LocationId
-                   where l.Name.ToFriendlyUrl() == locationName
-                   select p;
-        }
-
-        public IEnumerable<Post> SelectPostsByLocation( string locationName, bool isActive )
-        {
-            return SelectPostsByLocation( locationName ).Where( x => x.Display == isActive );
         }
 
         public IEnumerable<Post> SelectPostsByTag(int tagId)

@@ -1,21 +1,33 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Jumblist.Core.Model;
+using System.Linq.Expressions;
+using System;
 
 namespace Jumblist.Core.Service.Data
 {
     public interface IPostService
     {
         IQueryable<Post> SelectList();
-        IQueryable<Post> SelectList( bool isActive );
+        IQueryable<Post> SelectList( Expression<Func<Post, bool>> whereCondition );
+
+        IEnumerable<Post> SelectListByLocation();
+        IEnumerable<Post> SelectListByLocation( Expression<Func<Post, bool>> wherePostCondition );
+        IEnumerable<Post> SelectListByLocation( Expression<Func<PostLocation, bool>> wherePostLocationCondition );
+        IEnumerable<Post> SelectListByLocation( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostLocation, bool>> wherePostLocationCondition );
+
+        IEnumerable<Post> SelectListByTag();
+        IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition );
+        IEnumerable<Post> SelectListByTag( Expression<Func<PostTag, bool>> wherePostTagCondition );
+        IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition );
+
         Post Select(int id);
         void Save( Post entity );
         void Update( Post entity );
         void Delete( Post entity );
-        IEnumerable<Post> SelectPostsByLocation(int locationId);
-        IEnumerable<Post> SelectPostsByLocation( int locationId, bool isActive );
-        IEnumerable<Post> SelectPostsByLocation(string locationName);
-        IEnumerable<Post> SelectPostsByLocation( string locationName, bool isActive );
+
+
+
         IEnumerable<Post> SelectPostsByTag(int tagId);
         IEnumerable<Post> SelectPostsByTag( int tagId, bool isActive );
         IEnumerable<Post> SelectPostsByTag(string tagName);
@@ -26,6 +38,8 @@ namespace Jumblist.Core.Service.Data
         IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, bool isActive);
         IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, PostCategory postCategory);
         IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, PostCategory postCategory, bool isActive);
+
+
         IEnumerable<Post> SelectPostsByCategory( int categoryId );
         IEnumerable<Post> SelectPostsByCategory( int categoryId, bool isActive );
         IEnumerable<Post> SelectPostsByCategory( string categoryName );
