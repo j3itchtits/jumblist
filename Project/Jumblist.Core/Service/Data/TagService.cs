@@ -23,24 +23,10 @@ namespace Jumblist.Core.Service.Data
             return base.SelectList();
         }
 
-        public IQueryable<Tag> SelectList( Expression<Func<Tag, bool>> condition )
+        public IQueryable<Tag> SelectList( Expression<Func<Tag, bool>> whereCondition )
         {
-            //return SelectList().Where(condition);
-
-            return from x in SelectList().Where(condition)
+            return from x in SelectList().Where( whereCondition )
                    select x;
-      
-
-            //return from x in SelectList()
-            //       where condition
-            //       select x;
-        }
-
-        public IQueryable<Tag> SelectList( string[] tagList )
-        {
-            return from x in SelectList()
-                    where tagList.Contains( x.FriendlyUrl )
-                    select x;
         }
 
         public override Tag Select( int id )

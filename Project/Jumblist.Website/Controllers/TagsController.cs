@@ -32,11 +32,18 @@ namespace Jumblist.Website.Controllers
             condition = condition.Or(x => x.Name == "Baby");
             condition = condition.Or(x => x.Name == "Dress");
 
-            var list = tagService.SelectList().Where(condition).OrderBy(x => x.Name);
+            string[] tags = new string[] { "baby", "dress" };
+
+            var list4 = tagService.SelectList().Where(condition).OrderBy(x => x.Name);
 
             var list2 = tagService.SelectList(condition).OrderBy(x => x.Name);
 
             var list3 = tagService.SelectList().OrderBy(x => x.Name);
+
+            //var list = tagService.SelectList( Tag.WhereBabyOrDress() ).OrderBy( x => x.Name );
+            //var list = tagService.SelectList().Where( Tag.WhereBabyOrDress() ).OrderBy( x => x.Name );
+            //var list = tagService.SelectList( Tag.WhereTagNameListOr( tags ) ).OrderBy( x => x.Name );
+            var list = tagService.SelectList().Where( Tag.WhereTagNameListOr( tags ) ).OrderBy( x => x.Name );
 
             var model = BuildDefaultViewModel().With( list3 );
             model.PageTitle = "All Tags";

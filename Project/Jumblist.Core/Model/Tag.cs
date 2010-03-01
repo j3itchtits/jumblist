@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Data.Linq.Mapping;
 using System.Data.Linq;
+using StuartClode.Mvc.Service.Data;
+using System.Linq.Expressions;
 
 namespace Jumblist.Core.Model
 {
@@ -14,5 +16,19 @@ namespace Jumblist.Core.Model
             get { return postTags.Select( p => p.Post ).ToList().AsReadOnly(); }
         }
 
+        public static Expression<Func<Tag, bool>> WhereBabyOrDress()
+        {
+            var condition = PredicateBuilder.False<Tag>();
+            condition = condition.Or( x => x.Name == "Baby" );
+            condition = condition.Or( x => x.Name == "Dress" );
+
+            return condition;
+        }
+
+        public static Expression<Func<Tag, bool>> WhereTagNameListOr( string[] tagList )
+        {
+            Expression<Func<Tag, bool>> condition = x => tagList.Contains( x.FriendlyUrl );
+            return condition;
+        }
     }
 }

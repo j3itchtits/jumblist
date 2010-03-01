@@ -9,6 +9,7 @@ namespace Jumblist.Website.ViewModel
         public string SimpleMessage { get; set; }
         public Message Message { get; set; }
         public List<Message> MessageList { get; set; }
+        public int ListCount { get; set; }
 
         public ViewModelBase WithPageTitle( string pageTitle )
         {
@@ -31,6 +32,12 @@ namespace Jumblist.Website.ViewModel
         public ViewModelBase WithMessageList( List<Message> messages )
         {
             this.MessageList = messages;
+            return this;
+        }
+
+        public ViewModelBase WithListCount( int number )
+        {
+            this.ListCount = number;
             return this;
         }
     }
