@@ -4,6 +4,8 @@ using Jumblist.Core.Model;
 using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Repository;
 using xVal.ServerSide;
+using System.Linq.Expressions;
+using System;
 
 namespace Jumblist.Core.Service.Data
 {
@@ -19,6 +21,19 @@ namespace Jumblist.Core.Service.Data
         public override IQueryable<Tag> SelectList()
         {
             return base.SelectList();
+        }
+
+        public IQueryable<Tag> SelectList( Expression<Func<Tag, bool>> condition )
+        {
+            //return SelectList().Where(condition);
+
+            return from x in SelectList().Where(condition)
+                   select x;
+      
+
+            //return from x in SelectList()
+            //       where condition
+            //       select x;
         }
 
         public IQueryable<Tag> SelectList( string[] tagList )

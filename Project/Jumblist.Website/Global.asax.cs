@@ -166,6 +166,13 @@ namespace Jumblist.Website
             );
 
             routes.MapRoute(
+                "Category",                                              // Route name
+                "{controller}/{action}/{id}/{category}",                           // URL with parameters
+                new { controller = "Home", action = "Index", id = "", category = "" },  // Parameter defaults
+                new string[] { "Jumblist.Website.Controllers" }
+            );
+
+            routes.MapRoute(
                 "Default",                                              // Route name
                 "{controller}/{action}/{id}",                           // URL with parameters
                 new { controller = "Home", action = "Index", id = "" },  // Parameter defaults

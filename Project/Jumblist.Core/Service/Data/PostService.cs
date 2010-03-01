@@ -165,25 +165,43 @@ namespace Jumblist.Core.Service.Data
             return SelectPostsByTag( tag.TagId );
         }
 
-        public IEnumerable<Post> SelectPostsByTag( IQueryable<Tag> tagList )
+        public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList)
         {
+            //var predicate = PredicateBuilder.True<Tag>();
+
+            //foreach (var tag in tagList)
+            //{
+            //    predicate = predicate.And (t => t.Name.Contains (tag.Name));
+            //}
+
             return from p in SelectList().AsEnumerable()
                    join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
                    where tagList.Contains( pt.Tag )
+                   //where predicate
                    select p;
         }
 
-        public IEnumerable<Post> SelectPostsByTag( IQueryable<Tag> tagList, bool isActive )
+        public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, bool isActive)
         {
             return SelectPostsByTag( tagList ).Where( x => x.Display == isActive );
+        }
+
+        public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, PostCategory postCategory)
+        {
+            return SelectPostsByTag(tagList).Where(x => x.PostCategoryId == postCategory.PostCategoryId);
+        }
+
+        public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, PostCategory postCategory, bool isActive)
+        {
+            return SelectPostsByTag(tagList).Where(x => x.Display == isActive && x.PostCategoryId == postCategory.PostCategoryId);
         }
 
         public IEnumerable<Post> SelectPostsByTag(string tagName)
         {
             return from p in SelectList().AsEnumerable()
                    join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
-                   join t in tagDataService.SelectList().AsEnumerable() on pt.TagId equals t.TagId
-                   where t.Name.ToFriendlyUrl() == tagName
+                   join t in tagDataService.SelectList().Where(t => t.Name.ToFriendlyUrl() == tagName).AsEnumerable() on pt.TagId equals t.TagId
+                   //where t.Name.ToFriendlyUrl() == tagName
                    select p;
         }
 
