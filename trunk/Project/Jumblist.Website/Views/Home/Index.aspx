@@ -14,9 +14,9 @@
        { %>
             <p><%= Html.TextBox( "searchstring" ) %> <%= Html.SubmitButton( "submit", "Search" ) %></p>
             
-            <input type="radio" name="searchoptions" value="All" checked="checked" /> All 
-            <input type="radio" name="searchoptions" value="Offered" /> Offered 
-            <input type="radio" name="searchoptions" value="Wanted" /> Wanted
+            <input type="radio" name="searchoptions" value="" checked="checked" /> All 
+            <input type="radio" name="searchoptions" value="offered" /> Offered 
+            <input type="radio" name="searchoptions" value="wanted" /> Wanted
             
     <% } %>
     </div>

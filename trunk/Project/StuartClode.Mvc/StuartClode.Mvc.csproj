@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extension\EnumerationExtensions.cs" />
+    <Compile Include="Service\Data\PredicateBuilder.cs" />
     <Compile Include="Extension\IEnumberableExtensions.cs" />
     <Compile Include="Extension\PropertyInfoExtensions.cs" />
     <Compile Include="Extension\RegexExtensions.cs" />

@@ -117,20 +117,33 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Tagged(string id, int? page)
+        public ActionResult Tagged(string id, string category, int? page)
         {
             try
             {
                 string[] tags = id.Split('+');
-                var tagList = tagService.SelectList( tags );
-                var postList = postService.SelectPostsByTag( tagList, true ).OrderByDescending( t => t.PublishDateTime );
+                var tagList = tagService.SelectList(tags);
+
+                IEnumerable<Post> postList;
+
+                if (!string.IsNullOrEmpty(category))
+                {
+                    var postCategory = postCategoryService.Select(category);
+                    postList = postService.SelectPostsByTag(tagList, postCategory, true).OrderByDescending(t => t.PublishDateTime);
+                }
+                else
+                {
+                    postList = postService.SelectPostsByTag(tagList, true).OrderByDescending(t => t.PublishDateTime);
+                }
+                
+                
 
                 //var tag = tagService.SelectList().Single(x => x.FriendlyUrl == id);
                 //var postList = postService.SelectPostsByTag(tag.TagId, true).OrderByDescending(t => t.PublishDateTime);
                 var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
 
                 var model = BuildDefaultViewModel().With(pagedPostList);
-                model.PageTitle = "All Posts by Tag - " + tagList.Select( x => x.Name ).ToArray().ToFormattedList( "{0}, " );
+                model.PageTitle = "All " + category + " Posts by Tag - " + tagList.Select( x => x.Name ).ToArray().ToFormattedList( "{0}, " );
 
                 if (postList.Count() == 0) model.Message = new Message { Text = "No posts tagged with " + id, StyleClass = "message" };
 
@@ -179,8 +192,10 @@ namespace Jumblist.Website.Controllers
         [ValidateInput(true)]
         public RedirectToRouteResult Search(string searchString, string searchOptions)
         {
+            searchString = searchString.Replace(" ", "+").ToLower();
+
             //Loads of logic to go here
-            return RedirectToAction("tagged", new { id = searchString, page = string.Empty });
+            return RedirectToAction("tagged", new { id = searchString, category = searchOptions, page = string.Empty });
         }
     }
 
