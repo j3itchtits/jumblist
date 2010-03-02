@@ -25,10 +25,9 @@ namespace Jumblist.Core.Model
             return condition;
         }
 
-        public static Expression<Func<Tag, bool>> WhereTagNameListOr( string[] tagList )
+        public static Expression<Func<Tag, bool>> TagNameEqualsListOr( string[] tagList )
         {
-            Expression<Func<Tag, bool>> condition = x => tagList.Contains( x.FriendlyUrl );
-            return condition;
+            return x => tagList.Contains( x.FriendlyUrl );
         }
     }
 }

@@ -26,28 +26,30 @@ namespace Jumblist.Core.Service.Data
         void Update( Post entity );
         void Delete( Post entity );
 
+        bool IsDuplicate(IQueryable<Post> list, string guid);
+
+        //IEnumerable<Post> SelectPostsByTag(int tagId);
+        //IEnumerable<Post> SelectPostsByTag( int tagId, bool isActive );
+        //IEnumerable<Post> SelectPostsByTag(string tagName);
+        //IEnumerable<Post> SelectPostsByTag( string tagName, bool isActive );
+        //IEnumerable<Post> SelectPostsByTag( Tag tag );
+        //IEnumerable<Post> SelectPostsByTag( Tag tag, bool isActive );
+        //IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList);
+        //IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, bool isActive);
+        //IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, PostCategory postCategory);
+        //IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, PostCategory postCategory, bool isActive);
 
 
-        IEnumerable<Post> SelectPostsByTag(int tagId);
-        IEnumerable<Post> SelectPostsByTag( int tagId, bool isActive );
-        IEnumerable<Post> SelectPostsByTag(string tagName);
-        IEnumerable<Post> SelectPostsByTag( string tagName, bool isActive );
-        IEnumerable<Post> SelectPostsByTag( Tag tag );
-        IEnumerable<Post> SelectPostsByTag( Tag tag, bool isActive );
-        IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList);
-        IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, bool isActive);
-        IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, PostCategory postCategory);
-        IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, PostCategory postCategory, bool isActive);
+        //IEnumerable<Post> SelectPostsByCategory( int categoryId );
+        //IEnumerable<Post> SelectPostsByCategory( int categoryId, bool isActive );
+        //IEnumerable<Post> SelectPostsByCategory( string categoryName );
+        //IEnumerable<Post> SelectPostsByCategory( string categoryName, bool isActive );
 
+        //IEnumerable<Post> SelectPostsByFeed( int feedId );
+        //IEnumerable<Post> SelectPostsByFeed( int feedId, bool isActive );
+        //IEnumerable<Post> SelectPostsByFeed( string feedName );
+        //IEnumerable<Post> SelectPostsByFeed( string feedName, bool isActive );
 
-        IEnumerable<Post> SelectPostsByCategory( int categoryId );
-        IEnumerable<Post> SelectPostsByCategory( int categoryId, bool isActive );
-        IEnumerable<Post> SelectPostsByCategory( string categoryName );
-        IEnumerable<Post> SelectPostsByCategory( string categoryName, bool isActive );
-        IEnumerable<Post> SelectPostsByFeed( int feedId );
-        IEnumerable<Post> SelectPostsByFeed( int feedId, bool isActive );
-        IEnumerable<Post> SelectPostsByFeed( string feedName );
-        IEnumerable<Post> SelectPostsByFeed( string feedName, bool isActive );
-        bool IsDuplicate( IQueryable<Post> list, string guid );
+        
     }
 }

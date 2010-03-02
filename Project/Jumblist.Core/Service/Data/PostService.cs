@@ -173,126 +173,128 @@ namespace Jumblist.Core.Service.Data
             base.Delete( entity );
         }
 
-        public IEnumerable<Post> SelectPostsByTag(int tagId)
+        public bool IsDuplicate(IQueryable<Post> list, string guid)
         {
-            return from p in SelectList().AsEnumerable()
-                   join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
-                   where pt.TagId == tagId
-                   select p;
+            return list.Any<Post>(p => p.Guid == guid);
         }
 
-        public IEnumerable<Post> SelectPostsByTag( int tagId, bool isActive )
-        {
-            return SelectPostsByTag( tagId ).Where( x => x.Display == isActive );
-        }
+        //public IEnumerable<Post> SelectPostsByTag(int tagId)
+        //{
+        //    return from p in SelectList().AsEnumerable()
+        //           join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
+        //           where pt.TagId == tagId
+        //           select p;
+        //}
 
-        public IEnumerable<Post> SelectPostsByTag( Tag tag, bool isActive )
-        {
-            return SelectPostsByTag( tag.TagId ).Where( x => x.Display == isActive );
-        }
+        //public IEnumerable<Post> SelectPostsByTag( int tagId, bool isActive )
+        //{
+        //    return SelectPostsByTag( tagId ).Where( x => x.Display == isActive );
+        //}
 
-        public IEnumerable<Post> SelectPostsByTag( Tag tag )
-        {
-            return SelectPostsByTag( tag.TagId );
-        }
+        //public IEnumerable<Post> SelectPostsByTag( Tag tag, bool isActive )
+        //{
+        //    return SelectPostsByTag( tag.TagId ).Where( x => x.Display == isActive );
+        //}
 
-        public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList)
-        {
-            //var predicate = PredicateBuilder.True<Tag>();
+        //public IEnumerable<Post> SelectPostsByTag( Tag tag )
+        //{
+        //    return SelectPostsByTag( tag.TagId );
+        //}
 
-            //foreach (var tag in tagList)
-            //{
-            //    predicate = predicate.And (t => t.Name.Contains (tag.Name));
-            //}
+        //public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList)
+        //{
+        //    //var predicate = PredicateBuilder.True<Tag>();
 
-            return from p in SelectList().AsEnumerable()
-                   join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
-                   where tagList.Contains( pt.Tag )
-                   //where predicate
-                   select p;
-        }
+        //    //foreach (var tag in tagList)
+        //    //{
+        //    //    predicate = predicate.And (t => t.Name.Contains (tag.Name));
+        //    //}
 
-        public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, bool isActive)
-        {
-            return SelectPostsByTag( tagList ).Where( x => x.Display == isActive );
-        }
+        //    return from p in SelectList().AsEnumerable()
+        //           join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
+        //           where tagList.Contains( pt.Tag )
+        //           //where predicate
+        //           select p;
+        //}
 
-        public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, PostCategory postCategory)
-        {
-            return SelectPostsByTag(tagList).Where(x => x.PostCategoryId == postCategory.PostCategoryId);
-        }
+        //public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, bool isActive)
+        //{
+        //    return SelectPostsByTag( tagList ).Where( x => x.Display == isActive );
+        //}
 
-        public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, PostCategory postCategory, bool isActive)
-        {
-            return SelectPostsByTag(tagList).Where(x => x.Display == isActive && x.PostCategoryId == postCategory.PostCategoryId);
-        }
+        //public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, PostCategory postCategory)
+        //{
+        //    return SelectPostsByTag(tagList).Where(x => x.PostCategoryId == postCategory.PostCategoryId);
+        //}
 
-        public IEnumerable<Post> SelectPostsByTag(string tagName)
-        {
-            return from p in SelectList().AsEnumerable()
-                   join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
-                   join t in tagDataService.SelectList().Where(t => t.Name.ToFriendlyUrl() == tagName).AsEnumerable() on pt.TagId equals t.TagId
-                   //where t.Name.ToFriendlyUrl() == tagName
-                   select p;
-        }
+        //public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, PostCategory postCategory, bool isActive)
+        //{
+        //    return SelectPostsByTag(tagList).Where(x => x.Display == isActive && x.PostCategoryId == postCategory.PostCategoryId);
+        //}
 
-        public IEnumerable<Post> SelectPostsByTag( string tagName, bool isActive )
-        {
-            return SelectPostsByTag( tagName ).Where( x => x.Display == isActive );
-        }
+        //public IEnumerable<Post> SelectPostsByTag(string tagName)
+        //{
+        //    return from p in SelectList().AsEnumerable()
+        //           join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
+        //           join t in tagDataService.SelectList().Where(t => t.Name.ToFriendlyUrl() == tagName).AsEnumerable() on pt.TagId equals t.TagId
+        //           //where t.Name.ToFriendlyUrl() == tagName
+        //           select p;
+        //}
 
-        public IEnumerable<Post> SelectPostsByCategory( int categoryId )
-        {
-            return from p in SelectList().AsEnumerable()
-                   where p.PostCategoryId == categoryId
-                   select p;
-        }
+        //public IEnumerable<Post> SelectPostsByTag( string tagName, bool isActive )
+        //{
+        //    return SelectPostsByTag( tagName ).Where( x => x.Display == isActive );
+        //}
 
-        public IEnumerable<Post> SelectPostsByCategory( int categoryId, bool isActive )
-        {
-            return SelectPostsByCategory( categoryId ).Where( x => x.Display == isActive );
-        }
+        //public IEnumerable<Post> SelectPostsByCategory( int categoryId )
+        //{
+        //    return from p in SelectList().AsEnumerable()
+        //           where p.PostCategoryId == categoryId
+        //           select p;
+        //}
 
-        public IEnumerable<Post> SelectPostsByCategory( string categoryName )
-        {
-            return from p in SelectList().AsEnumerable()
-                   where p.Category.Name.Equals( categoryName, System.StringComparison.OrdinalIgnoreCase )
-                   select p;
-        }
+        //public IEnumerable<Post> SelectPostsByCategory( int categoryId, bool isActive )
+        //{
+        //    return SelectPostsByCategory( categoryId ).Where( x => x.Display == isActive );
+        //}
 
-        public IEnumerable<Post> SelectPostsByCategory( string categoryName, bool isActive )
-        {
-            return SelectPostsByCategory( categoryName ).Where( x => x.Display == isActive );
-        }
+        //public IEnumerable<Post> SelectPostsByCategory( string categoryName )
+        //{
+        //    return from p in SelectList().AsEnumerable()
+        //           where p.Category.Name.Equals( categoryName, System.StringComparison.OrdinalIgnoreCase )
+        //           select p;
+        //}
 
-        public bool IsDuplicate( IQueryable<Post> list, string guid )
-        {
-            return list.Any<Post>( p => p.Guid == guid );
-        }
+        //public IEnumerable<Post> SelectPostsByCategory( string categoryName, bool isActive )
+        //{
+        //    return SelectPostsByCategory( categoryName ).Where( x => x.Display == isActive );
+        //}
 
-        public IEnumerable<Post> SelectPostsByFeed( int feedId )
-        {
-            return from p in SelectList().AsEnumerable()
-                   where p.FeedId == feedId
-                   select p;
-        }
+        
 
-        public IEnumerable<Post> SelectPostsByFeed( int feedId, bool isActive )
-        {
-            return SelectPostsByFeed( feedId ).Where( x => x.Display == isActive );
-        }
+        //public IEnumerable<Post> SelectPostsByFeed( int feedId )
+        //{
+        //    return from p in SelectList().AsEnumerable()
+        //           where p.FeedId == feedId
+        //           select p;
+        //}
 
-        public IEnumerable<Post> SelectPostsByFeed( string feedName )
-        {
-            return from p in SelectList().AsEnumerable()
-                   where p.Category.Name.Equals( feedName, System.StringComparison.OrdinalIgnoreCase )
-                   select p;
-        }
+        //public IEnumerable<Post> SelectPostsByFeed( int feedId, bool isActive )
+        //{
+        //    return SelectPostsByFeed( feedId ).Where( x => x.Display == isActive );
+        //}
 
-        public IEnumerable<Post> SelectPostsByFeed( string feedName, bool isActive )
-        {
-            return SelectPostsByFeed( feedName ).Where( x => x.Display == isActive );
-        }
+        //public IEnumerable<Post> SelectPostsByFeed( string feedName )
+        //{
+        //    return from p in SelectList().AsEnumerable()
+        //           where p.Category.Name.Equals( feedName, System.StringComparison.OrdinalIgnoreCase )
+        //           select p;
+        //}
+
+        //public IEnumerable<Post> SelectPostsByFeed( string feedName, bool isActive )
+        //{
+        //    return SelectPostsByFeed( feedName ).Where( x => x.Display == isActive );
+        //}
 
         #endregion
 

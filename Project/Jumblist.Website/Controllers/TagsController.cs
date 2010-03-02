@@ -43,7 +43,7 @@ namespace Jumblist.Website.Controllers
             //var list = tagService.SelectList( Tag.WhereBabyOrDress() ).OrderBy( x => x.Name );
             //var list = tagService.SelectList().Where( Tag.WhereBabyOrDress() ).OrderBy( x => x.Name );
             //var list = tagService.SelectList( Tag.WhereTagNameListOr( tags ) ).OrderBy( x => x.Name );
-            var list = tagService.SelectList().Where( Tag.WhereTagNameListOr( tags ) ).OrderBy( x => x.Name );
+            var list = tagService.SelectList().Where( Tag.TagNameEqualsListOr( tags ) ).OrderBy( x => x.Name );
 
             var model = BuildDefaultViewModel().With( list3 );
             model.PageTitle = "All Tags";
