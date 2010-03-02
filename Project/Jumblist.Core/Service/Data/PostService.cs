@@ -105,6 +105,28 @@ namespace Jumblist.Core.Service.Data
                    select p;
         }
 
+        public virtual IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, IQueryable<Tag> tagList )
+        {
+            return from p in SelectList().Where( wherePostCondition ).AsEnumerable()
+                   where PostMatchesAllTags( tagList, p )
+                   select p;
+
+                   //let inner = from pt in postTagDataService.SelectList().AsEnumerable()
+                   //            where pt.Tag.Name == "Baby"
+                   //            select pt.PostId
+                   //let inner2 = from pt in postTagDataService.SelectList().AsEnumerable()
+                   //             where pt.Tag.Name == "Clothes"
+                   //             select pt.PostId
+
+                   //let inner = postTagDataService.SelectList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId )
+                   //let inner2 = postTagDataService.SelectList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId )
+
+                   //where inner.Contains( p.PostId ) && inner2.Contains( p.PostId )
+                   //where (postTagDataService.SelectList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId ).Contains( p.PostId )) && (postTagDataService.SelectList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId ).Contains( p.PostId ))
+
+
+        }
+
         public override Post Select( int id )
         {
             return base.Select( id );
@@ -173,9 +195,9 @@ namespace Jumblist.Core.Service.Data
             base.Delete( entity );
         }
 
-        public bool IsDuplicate(IQueryable<Post> list, string guid)
+        public bool IsDuplicate( IQueryable<Post> list, string guid )
         {
-            return list.Any<Post>(p => p.Guid == guid);
+            return list.Any<Post>( p => p.Guid == guid );
         }
 
         //public IEnumerable<Post> SelectPostsByTag(int tagId)
@@ -412,6 +434,19 @@ namespace Jumblist.Core.Service.Data
             return tagDataService.SelectList()
                 .Select(r => r.Name)
                 .ToArray();
+        }
+
+        private bool PostMatchesAllTags( IQueryable<Tag> tagList, Post post )
+        {
+            bool success = true;
+
+            foreach (var tag in tagList)
+            {
+                success = postTagDataService.SelectList().Where( pt => pt.Tag.Name == tag.Name ).Select( pt => pt.PostId ).Contains( post.PostId );
+                if (!success) break;
+            }
+
+            return success;
         }
     }
 }

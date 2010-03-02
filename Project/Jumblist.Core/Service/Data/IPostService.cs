@@ -20,6 +20,7 @@ namespace Jumblist.Core.Service.Data
         IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition );
         IEnumerable<Post> SelectListByTag( Expression<Func<PostTag, bool>> wherePostTagCondition );
         IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition );
+        IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, IQueryable<Tag> tagList );
 
         Post Select(int id);
         void Save( Post entity );
