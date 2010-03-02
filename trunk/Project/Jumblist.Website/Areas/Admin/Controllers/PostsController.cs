@@ -236,12 +236,12 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             if (result)
             {
                 item = locationService.Select( number );
-                list = postService.SelectListByLocation( Post.WhereDisplay( false ), Post.WhereLocationId( number ) ).OrderByDescending( t => t.PublishDateTime );
+                list = postService.SelectListByLocation(Post.DisplayEquals(false), PostLocation.LocationIdEquals(number)).OrderByDescending(t => t.PublishDateTime);
             }
             else
             {
                 item = locationService.SelectList().Single( x => x.FriendlyUrl == id );
-                list = postService.SelectListByLocation( Post.WhereLocationName( id ) ).OrderByDescending( t => t.PublishDateTime );
+                list = postService.SelectListByLocation(PostLocation.LocationNameEquals(id)).OrderByDescending(t => t.PublishDateTime);
             }
 
             var model = BuildDefaultViewModel().With(list);
@@ -262,12 +262,12 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             if (result)
             {
                 item = tagService.Select( number );
-                list = postService.SelectListByTag( Post.WhereTagId( number ) ).OrderByDescending(t => t.PublishDateTime);
+                list = postService.SelectListByTag( PostTag.TagIdEquals( number ) ).OrderByDescending(t => t.PublishDateTime);
             }
             else
             {
                 item = tagService.SelectList().Single( x => x.FriendlyUrl == id );
-                list = postService.SelectListByTag( Post.WhereTagName( id ) ).OrderByDescending( t => t.PublishDateTime );
+                list = postService.SelectListByTag( PostTag.TagNameEquals( id ) ).OrderByDescending( t => t.PublishDateTime );
             }
 
             var model = BuildDefaultViewModel().With( list );

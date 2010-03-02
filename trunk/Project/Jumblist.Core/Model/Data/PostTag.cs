@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Jumblist.Core.Model
 {
     [Table(Name = "PostTags")]
-    public class PostTag
+    public partial class PostTag
     {
         private EntityRef<Post> post;
         private EntityRef<Tag> tag;

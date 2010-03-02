@@ -216,20 +216,65 @@ Press F4 and add a reference to LinqKit.dll
  
  
  
- 
-	About the Book
- 
-	Code Listings
- 
-	Extras
-LINQPad
-VIDEO: What's new in C# 4.0
-LINQKit
-PredicateBuilder
-LINQBridge
-The LINQ Quiz
-Ten LINQ Myths
-Asynchronator
-	Contact Authors
- 
- 	 Available now
+SELECT  
+                      Posts.PostId, Posts.PostParentId, Posts.PostGuid, Posts.PostUrl, Posts.PostTitle, Posts.PostBody, Posts.PostPublishDateTime, 
+                      Posts.PostLastUpdatedDateTime, Posts.PostLatitude, Posts.PostLongitude, Posts.PostCategoryId, Posts.PostDisplay, Posts.UserId, 
+                      Posts.FeedId
+FROM         Posts INNER JOIN
+                      PostTags ON Posts.PostId = PostTags.PostId
+WHERE     (PostTags.TagId = 43) OR
+                      (PostTags.TagId = 9)
+
+57 records (50 distinct)
+
+SELECT 
+                      Posts.PostId, Posts.PostParentId, Posts.PostGuid, Posts.PostUrl, Posts.PostTitle, Posts.PostBody, Posts.PostPublishDateTime, 
+                      Posts.PostLastUpdatedDateTime, Posts.PostLatitude, Posts.PostLongitude, Posts.PostCategoryId, Posts.PostDisplay, Posts.UserId, 
+                      Posts.FeedId
+FROM         Posts INNER JOIN
+                      PostTags ON Posts.PostId = PostTags.PostId
+WHERE     (PostTags.TagId = 43)
+
+31 records
+
+
+SELECT 
+                      Posts.PostId, Posts.PostParentId, Posts.PostGuid, Posts.PostUrl, Posts.PostTitle, Posts.PostBody, Posts.PostPublishDateTime, 
+                      Posts.PostLastUpdatedDateTime, Posts.PostLatitude, Posts.PostLongitude, Posts.PostCategoryId, Posts.PostDisplay, Posts.UserId, 
+                      Posts.FeedId
+FROM         Posts INNER JOIN
+                      PostTags ON Posts.PostId = PostTags.PostId
+WHERE     (PostTags.TagId = 43)
+
+26 records
+
+SELECT     PostId, PostParentId, PostGuid, PostUrl, PostTitle, PostBody, PostPublishDateTime, PostLastUpdatedDateTime, PostLatitude, PostLongitude, 
+                      PostCategoryId, PostDisplay, UserId, FeedId
+FROM         Posts
+WHERE    
+
+(PostId IN  (SELECT     PostId   FROM          PostTags AS PostTags_1   WHERE      (TagId = 43))) 
+AND 
+(PostId IN  (SELECT     PostId   FROM          PostTags AS PostTags_2   WHERE      (TagId = 9)))
+
+7 records
+
+
+
+SELECT 
+                      Posts.PostId, Posts.PostParentId, Posts.PostGuid, Posts.PostUrl, Posts.PostTitle, Posts.PostBody, Posts.PostPublishDateTime, 
+                      Posts.PostLastUpdatedDateTime, Posts.PostLatitude, Posts.PostLongitude, Posts.PostCategoryId, Posts.PostDisplay, Posts.UserId, 
+                      Posts.FeedId
+FROM         Posts INNER JOIN
+                      PostTags ON Posts.PostId = PostTags.PostId
+WHERE     (PostTags.TagId = 43)
+INTERSECT
+SELECT 
+                      Posts.PostId, Posts.PostParentId, Posts.PostGuid, Posts.PostUrl, Posts.PostTitle, Posts.PostBody, Posts.PostPublishDateTime, 
+                      Posts.PostLastUpdatedDateTime, Posts.PostLatitude, Posts.PostLongitude, Posts.PostCategoryId, Posts.PostDisplay, Posts.UserId, 
+                      Posts.FeedId
+FROM         Posts INNER JOIN
+                      PostTags ON Posts.PostId = PostTags.PostId
+WHERE     (PostTags.TagId = 9)
+
+7 records

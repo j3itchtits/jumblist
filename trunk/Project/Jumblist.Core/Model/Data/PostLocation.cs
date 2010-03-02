@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Jumblist.Core.Model
 {
     [Table(Name = "PostLocations")]
-    public class PostLocation
+    public partial class PostLocation
     {
         private EntityRef<Post> post;
         private EntityRef<Location> location;
