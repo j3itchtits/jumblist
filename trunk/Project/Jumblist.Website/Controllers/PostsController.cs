@@ -132,14 +132,17 @@ namespace Jumblist.Website.Controllers
                 if (!string.IsNullOrEmpty(category))
                 {
                     var postCategory = postCategoryService.Select( category );
-                    postList = postService.SelectListByTag(Post.PostCategoryEquals(postCategory).And(Post.DisplayEquals(true)), PostTag.TagNameEqualsListOr(tagList)).OrderByDescending(t => t.PublishDateTime).Distinct();
+                    //postList = postService.SelectListByTag(Post.PostCategoryEquals(postCategory).And(Post.DisplayEquals(true)), PostTag.TagNameEqualsListOr(tagList)).OrderByDescending(t => t.PublishDateTime).Distinct();
+                    postList = postService.SelectListByTag( Post.PostCategoryEquals( postCategory ).And( Post.DisplayEquals( true ) ), tagList ).OrderByDescending( t => t.PublishDateTime ).Distinct();
                 }
                 else
                 {
-                    postList = postService.SelectListByTag( Post.DisplayEquals( true ), PostTag.TagNameEqualsListOr( tagList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
+                    postList = postService.SelectListByTag( Post.DisplayEquals( true ), tagList ).OrderByDescending( t => t.PublishDateTime );
+
+                    //postList = postService.SelectListByTag( Post.DisplayEquals( true ), PostTag.TagNameEqualsListOr( tagList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
                     
                     //postList = postService.SelectListByTag(Post.DisplayEquals(true), PostTag.TagNameEqualsListAnd(tagList)).OrderByDescending(t => t.PublishDateTime).Distinct();
-                    postList = postService.SelectList(Post.DisplayEquals(true).And(Post.TagNameEqualsListAnd(tagList))).OrderByDescending(t => t.PublishDateTime);
+                    //postList = postService.SelectList(Post.DisplayEquals(true).And(Post.TagNameEqualsListAnd(tagList))).OrderByDescending(t => t.PublishDateTime);
                 }
                 
                 var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);

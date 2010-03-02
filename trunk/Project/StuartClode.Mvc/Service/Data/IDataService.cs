@@ -15,6 +15,7 @@ namespace StuartClode.Mvc.Service.Data
         void Save( T entity );
         void Update( T entity );
         void Delete( T entity );
+        bool IsDuplicate( Func<T, bool> whereCondition );
     }
 
     public interface IDataService
@@ -25,5 +26,6 @@ namespace StuartClode.Mvc.Service.Data
         void Save( object entity );
         void Update( object entity );
         void Delete( object entity );
+        bool IsDuplicate( Func<object, bool> whereCondition );
     }
 }

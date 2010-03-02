@@ -62,6 +62,11 @@ namespace StuartClode.Mvc.Service.Data
             repository.SubmitChanges();
         }
 
+        public bool IsDuplicate( Func<T, bool> whereCondition )
+        {
+            return SelectList().Any( whereCondition );
+        }
+
         #endregion
 
         #region IDataService Members
@@ -94,6 +99,11 @@ namespace StuartClode.Mvc.Service.Data
         public void Delete( object entity )
         {
             Delete( entity );
+        }
+
+        public bool IsDuplicate( Func<object, bool> whereCondition )
+        {
+            return SelectList().AsEnumerable().Any( whereCondition );
         }
 
         #endregion

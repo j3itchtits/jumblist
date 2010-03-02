@@ -41,11 +41,11 @@ namespace Jumblist.Core.Model
         {
             var condition = PredicateBuilder.True<Post>();
 
-            foreach (Tag tag in tagList)
-            {
-                string temp = tag.Name;
-                condition = condition.And(x => x.PostTags.Where( y => y.Tag.Name == temp ));
-            }
+            //foreach (Tag tag in tagList)
+            //{
+            //    string temp = tag.Name;
+            //    condition = condition.And( x => x.PostTags.Where( y => y.Tag.Name == temp ) );
+            //}
 
             return condition;
         }
