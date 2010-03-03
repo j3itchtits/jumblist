@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Jumblist.Core.Model
 {
     [Table( Name = "PostCategories" )]
-    public class PostCategory
+    public partial class PostCategory
     {
         private EntitySet<Post> posts = new EntitySet<Post>();
 

@@ -12,23 +12,42 @@ namespace Jumblist.Core.Model
 {
     public partial class PostTag
     {
-        public static Expression<Func<PostTag, bool>> TagIdEquals( int tagId )
+        public static Expression<Func<PostTag, bool>> WhereEquals( int postId, int tagId )
+        {
+            return x => ( x.PostId == postId && x.TagId == tagId );
+        }
+
+        public static Expression<Func<PostTag, bool>> WherePostEquals( Post post )
+        {
+            return x => x.PostId == post.PostId;
+        }
+
+        public static Expression<Func<PostTag, bool>> WherePostIdEquals( int postId )
+        {
+            return x => x.PostId == postId;
+        }
+
+        public static Expression<Func<PostTag, bool>> WhereTagEquals( Tag tag )
+        {
+            return x => x.TagId == tag.TagId;
+        }
+
+        public static Expression<Func<PostTag, bool>> WhereTagIdEquals( int tagId )
         {
             return x => x.TagId == tagId;
         }
 
-        public static Expression<Func<PostTag, bool>> TagNameEquals( string tagName )
+        public static Expression<Func<PostTag, bool>> WhereTagNameEquals( string tagName )
         {
-            Expression<Func<PostTag, bool>> condition = x => x.Tag.Name.ToFriendlyUrl() == tagName;
-            return condition;
+            return x => x.Tag.Name == tagName;
         }
 
-        public static Expression<Func<PostTag, bool>> TagNameEqualsListOr(string[] tagList)
+        public static Expression<Func<PostTag, bool>> WhereFriendlyUrlListEqualsOr( string[] tagList )
         {
             return x => tagList.Contains( x.Tag.FriendlyUrl );
         }
 
-        public static Expression<Func<PostTag, bool>> TagNameEqualsListOr(IQueryable<Tag> tagList)
+        public static Expression<Func<PostTag, bool>> WhereNameListEqualsOr( IQueryable<Tag> tagList )
         {
             var condition = PredicateBuilder.False<PostTag>();
 
@@ -41,15 +60,9 @@ namespace Jumblist.Core.Model
             return condition;
         }
 
-        public static Expression<Func<PostTag, bool>> TagNameEqualsListAnd(IQueryable<Tag> tagList)
+        public static Expression<Func<PostTag, bool>> WhereNameListEqualsAnd( IQueryable<Tag> tagList )
         {
             var condition = PredicateBuilder.True<PostTag>();
-
-            //condition = condition.And( x => x.Tag.Name == "Baby" );
-            //condition = condition.And( x => x.Tag.Name == "Clothes" );
-
-            //condition = condition.And( x => x.TagId == 43 );
-            //condition = condition.And( x => x.TagId == 9 );
 
             foreach (Tag tag in tagList)
             {

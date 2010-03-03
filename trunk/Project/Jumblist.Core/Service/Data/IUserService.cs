@@ -2,19 +2,22 @@
 using System.Collections.Generic;
 using StuartClode.Mvc.Service.Data;
 using System.Linq;
+using System.Linq.Expressions;
+using System;
 
 namespace Jumblist.Core.Service.Data
 {
     public interface IUserService
     {
+        IQueryable<User> SelectRecordList();
+        IQueryable<User> SelectRecordList( Expression<Func<User, bool>> whereCondition );
+        User SelectRecord( int id );
+        User SelectRecord( Expression<Func<User, bool>> whereCondition );
+        User SelectRecord( string name );
         void Save( User entity );
         void Update(User entity);
         void ResetPassword( User entity, string password, string confirmPassword );
         void Create( User entity, string confirmPassword );
-        IQueryable<User> SelectList();
-        User Select( int id );
-        User Select( string name );
-        User Select( string name, string password );
         void SetAuthenticationCookie( string name, bool rememberMe );
         //void SetContextUserTo( User user );
         void RemoveAuthenticationCookie();

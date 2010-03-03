@@ -28,24 +28,23 @@ namespace Jumblist.Website.Controllers
             //Func<Tag, bool> condition = x => x.Name.Contains("Baby");
             //Expression<Func<Tag, bool>> condition2 = x => x.Name == "Baby";
 
-            var condition = PredicateBuilder.False<Tag>();
-            condition = condition.Or(x => x.Name == "Baby");
-            condition = condition.Or(x => x.Name == "Dress");
+            //var condition = PredicateBuilder.False<Tag>();
+            //condition = condition.Or(x => x.Name == "Baby");
+            //condition = condition.Or(x => x.Name == "Dress");
 
-            string[] tags = new string[] { "baby", "dress" };
+            //string[] tags = new string[] { "baby", "dress" };
 
-            var list4 = tagService.SelectList().Where(condition).OrderBy(x => x.Name);
+            //var list4 = tagService.SelectList().Where(condition).OrderBy(x => x.Name);
 
-            var list2 = tagService.SelectList(condition).OrderBy(x => x.Name);
-
-            var list3 = tagService.SelectList().OrderBy(x => x.Name);
-
+            //var list2 = tagService.SelectList(condition).OrderBy(x => x.Name);
             //var list = tagService.SelectList( Tag.WhereBabyOrDress() ).OrderBy( x => x.Name );
             //var list = tagService.SelectList().Where( Tag.WhereBabyOrDress() ).OrderBy( x => x.Name );
             //var list = tagService.SelectList( Tag.WhereTagNameListOr( tags ) ).OrderBy( x => x.Name );
-            var list = tagService.SelectList().Where( Tag.TagNameEqualsListOr( tags ) ).OrderBy( x => x.Name );
+            //var list = tagService.SelectList( Tag.WhereTagNameListEqualsOr( tags ) ).OrderBy( x => x.Name );
 
-            var model = BuildDefaultViewModel().With( list3 );
+            var list = tagService.SelectRecordList().OrderBy(x => x.Name);
+
+            var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Tags";
 
             return View( model );

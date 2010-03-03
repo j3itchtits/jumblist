@@ -26,7 +26,7 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Detail( int id )
         {
-            var item = userService.Select( id );
+            var item = userService.SelectRecord( id );
             var model = BuildDefaultViewModel().With( item );
 
             model.PageTitle = string.Format( "Detail - {0}", item.Name );
@@ -43,7 +43,7 @@ namespace Jumblist.Website.Controllers
             }
             else
             {
-                var item = userService.Select( name );
+                var item = userService.SelectRecord( name );
                 var model = BuildDefaultViewModel().With( item );
                 return View( "LoginLinksAuthenticated", model );
             }

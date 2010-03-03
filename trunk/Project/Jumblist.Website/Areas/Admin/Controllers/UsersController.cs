@@ -28,7 +28,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult List()
         {
-            var list = userService.SelectList();
+            var list = userService.SelectRecordList();
 
             var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Users";
@@ -74,7 +74,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Edit( int id )
         {
-            var item = userService.Select( id );
+            var item = userService.SelectRecord( id );
 
             var model = BuildDataEditDefaultViewModel().With( item );
             model.PageTitle = string.Format( "Edit - {0}", item.Name );
@@ -112,7 +112,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Post )]
         public ActionResult ResetUserPassword( int userId, string password, string confirmPassword )
         {
-            var user = userService.Select( userId );
+            var user = userService.SelectRecord( userId );
 
             try
             {
@@ -140,11 +140,11 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Delete )]
         public ActionResult Delete( int id )
         {
-            var post = userService.Select( id );
+            var post = userService.SelectRecord( id );
             userService.Delete( post );
             TempData["notificationmessage"] = post.Name + " has been deleted";
 
-            var model = userService.SelectList();
+            var model = userService.SelectRecordList();
             return PartialView( "UserList", model );
         }
 

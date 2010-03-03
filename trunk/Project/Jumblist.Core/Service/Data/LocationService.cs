@@ -6,6 +6,8 @@ using StuartClode.Mvc.Repository;
 using xVal.ServerSide;
 using StuartClode.Mvc.Service.Bing;
 using StuartClode.Mvc.Extension;
+using System.Linq.Expressions;
+using System;
 
 namespace Jumblist.Core.Service.Data
 {
@@ -21,83 +23,82 @@ namespace Jumblist.Core.Service.Data
 
         #region ILocationService Members
 
-        public override IQueryable<Location> SelectList()
+        public override IQueryable<Location> SelectRecordList()
         {
-            return base.SelectList();
+            return base.SelectRecordList();
         }
 
-        public override Location Select( int id )
+        public override IQueryable<Location> SelectRecordList( Expression<Func<Location, bool>> whereCondition )
         {
-            return base.Select( id );
+            return base.SelectRecordList( whereCondition );
         }
 
-        public override Location Select(string name)
+        public override Location SelectRecord( int id )
         {
-            return base.Select(name);
+            return base.SelectRecord( id );
         }
 
-        public override void Save( Location entity )
+        public override Location SelectRecord( Expression<Func<Location, bool>> whereCondition )
         {
-            ValidateBusinessRules( entity );
-
-            var bingLocationService = new BingLocationService( entity.BingSearch );
-            entity.Latitude = bingLocationService.Latitude;
-            entity.Longitude = bingLocationService.Longitude;
-
-            entity.FriendlyUrl = entity.Name.ToFriendlyUrl();
-
-            base.Save( entity );
+            return base.SelectRecord( whereCondition );
         }
 
-        public override void Update(Location entity)
+        public override void Save( Location location )
         {
-            base.Update(entity);
+            ValidateBusinessRules( location );
+
+            var bingLocationService = new BingLocationService( location.BingSearch );
+            location.Latitude = bingLocationService.Latitude;
+            location.Longitude = bingLocationService.Longitude;
+
+            location.FriendlyUrl = location.Name.ToFriendlyUrl();
+
+            base.Save( location );
         }
 
-        public override void Delete( Location entity )
+        public override void Update( Location location )
         {
-            base.Delete( entity );
+            base.Update( location );
         }
 
-        public string[] FindLocationNames(string q)
+        public override void Delete( Location location )
         {
-            return SelectList()
+            base.Delete( location );
+        }
+
+        public string[] SelectLocationNameList( string q )
+        {
+            return SelectRecordList()
                 .Where(r => r.Name.StartsWith(q))
                 .Select(r => r.Name)
                 .ToArray();
         }
 
-        public string[] FindLocationAreas( string q )
+        public string[] SelectLocationAreaList( string q )
         {
-            return SelectList()
+            return SelectRecordList()
                 .Where( r => r.Area.StartsWith( q ) )
                 .Select( r => r.Area )
                 .Distinct()
                 .ToArray();
         }
 
-        public IEnumerable<Location> SelectLocationsByFeed( int feedId )
+        public IEnumerable<Location> SelectRecordListByFeed( Expression<Func<FeedLocation, bool>> whereCondition )
         {
-            return from l in SelectList().AsEnumerable()
-                   join fl in feedLocationDataService.SelectList().AsEnumerable() on l.LocationId equals fl.LocationId
-                   where fl.FeedId == feedId
+            return from l in SelectRecordList().AsEnumerable()
+                   join fl in feedLocationDataService.SelectRecordList( whereCondition ).AsEnumerable() on l.LocationId equals fl.LocationId
                    select l;
         }
 
         #endregion
 
-        private void ValidateBusinessRules( Location entity )
+        private void ValidateBusinessRules( Location location )
         {
-            IQueryable<Location> list;
+            var list = base.IsNew( location ) ? SelectRecordList() : SelectRecordList( Location.WhereNotEquals( location ) );
 
-            if (entity.LocationId == 0)
-                list = SelectList();
-            else
-                list = SelectList().Where( p => p.LocationId != entity.LocationId );
-
-            if (base.IsDuplicate(Location.Duplicate(entity.Name, entity.Area)))
+            if ( base.IsDuplicate( list, Location.WhereEquals( location.Name, location.Area ) ) )
             {
-                throw new RulesException("Name", "Duplicate Location Name", entity);
+                throw new RulesException( "Name", "Duplicate Location Name", location );
             }
         }
 

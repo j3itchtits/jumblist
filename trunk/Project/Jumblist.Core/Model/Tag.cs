@@ -25,14 +25,29 @@ namespace Jumblist.Core.Model
             return condition;
         }
 
-        public static Expression<Func<Tag, bool>> TagNameEqualsListOr( string[] tagList )
+        public static Expression<Func<Tag, bool>> WhereFriendlyUrlListEqualsOr( string[] tagList )
         {
             return x => tagList.Contains( x.FriendlyUrl );
         }
 
-        public static Expression<Func<Tag, bool>> Duplicate(string name)
+        public static Expression<Func<Tag, bool>> WhereNameEquals( string name )
         {
-            return p => p.Name == name;
+            return x => x.Name == name;
+        }
+
+        public static Expression<Func<Tag, bool>> WhereEquals( Tag tag )
+        {
+            return x => x.TagId == tag.TagId;
+        }
+
+        public static Expression<Func<Tag, bool>> WhereNotEquals( Tag tag )
+        {
+            return x => x.TagId != tag.TagId;
+        }
+
+        public static Expression<Func<Tag, bool>> WhereFriendlyUrlEquals( string friendlyUrl )
+        {
+            return x => x.FriendlyUrl == friendlyUrl;
         }
     }
 }

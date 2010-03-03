@@ -40,7 +40,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult List()
         {
-            var list = feedService.SelectList();
+            var list = feedService.SelectRecordList();
 
             var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Feeds";
@@ -68,7 +68,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Edit( int id )
         {
-            var item = feedService.Select( id );
+            var item = feedService.SelectRecord( id );
 
             var model = BuildDataEditDefaultViewModel().With( item );
             model.PageTitle = string.Format( "Edit - {0}", item.Name );
@@ -107,10 +107,10 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Delete )]
         public ActionResult Delete( int id )
         {
-            var feed = feedService.Select( id );
+            var feed = feedService.SelectRecord( id );
             feedService.Delete( feed );
 
-            var list = feedService.SelectList();
+            var list = feedService.SelectRecordList();
 
             return PartialView( "FeedList", list );
         }
@@ -118,7 +118,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ViewResult CategoryList()
         {
-            var list = feedCategoryService.SelectList();
+            var list = feedCategoryService.SelectRecordList();
 
             var model = DefaultView.Model<FeedCategory>().With(list);
             model.PageTitle = "Feed Categories";
@@ -129,7 +129,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ViewResult CategoryEdit(int id)
         {
-            var item = feedCategoryService.Select(id);
+            var item = feedCategoryService.SelectRecord(id);
 
             var model = DefaultView.Model<FeedCategory>().With(item);
             model.PageTitle = string.Format("Edit - {0}", item.Name);
@@ -177,13 +177,13 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult FeedLocationCreate( int feedId, string locationName, string locationArea )
         {
-            var locationItem = locationService.Select( locationName );
+            var locationItem = locationService.SelectRecord( Location.WhereEquals( locationName, locationArea ) );
 
             if (locationItem != null)
             {
-                var existingFeedLocations = feedLocationService.SelectList().Where(x => x.FeedId == feedId && x.LocationId == locationItem.LocationId);
+                var existingFeedLocations = feedLocationService.IsDuplicate( FeedLocation.WhereEquals( feedId, locationItem.LocationId ) );
 
-                if (existingFeedLocations.Count() == 0)
+                if ( !existingFeedLocations )
                 {
                     var feedLocationItem = new FeedLocation { FeedId = feedId, LocationId = locationItem.LocationId };
                     feedLocationService.Save(feedLocationItem);
@@ -191,14 +191,14 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             }
             else
             {
-                var newLocationItem = new Location { Name = locationName, FriendlyUrl = locationName.ToFriendlyUrl(), Area = locationArea };
+                var newLocationItem = new Location { Name = locationName, FriendlyUrl = (locationName + ", " + locationArea).ToFriendlyUrl(), Area = locationArea };
                 locationService.Save(newLocationItem);
 
                 var feedLocationItem = new FeedLocation { FeedId = feedId, LocationId = newLocationItem.LocationId };
                 feedLocationService.Save(feedLocationItem);
             }
 
-            var model = feedLocationService.SelectList().Where(x => x.FeedId == feedId);
+            var model = feedLocationService.SelectRecordList( FeedLocation.WhereFeedIdEquals( feedId ) );
 
             return PartialView("FeedLocationList", model);
         }
@@ -206,10 +206,10 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs(HttpVerbs.Delete)]
         public ActionResult FeedLocationDelete(int feedId, int feedLocationId)
         {
-            var item = feedLocationService.Select(feedLocationId);
-            feedLocationService.Delete(item);
+            var item = feedLocationService.SelectRecord( feedLocationId );
+            feedLocationService.Delete( item );
 
-            var model = feedLocationService.SelectList().Where(x => x.FeedId == feedId);
+            var model = feedLocationService.SelectRecordList( FeedLocation.WhereFeedIdEquals( feedId ) );
 
             return PartialView("FeedLocationList", model);
         }

@@ -45,7 +45,7 @@ namespace Jumblist.Tests.Mocks
         private IPostService GenerateMockPostRepository( List<Post> posts )
         {
             var mockRepository = new Mock<IPostService>();
-            mockRepository.Setup( x => x.SelectList() ).Returns( posts.AsQueryable() );
+            mockRepository.Setup( x => x.SelectRecordList() ).Returns( posts.AsQueryable() );
             return mockRepository.Object;
         }
     }

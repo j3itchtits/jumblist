@@ -38,77 +38,48 @@ namespace Jumblist.Core.Service.Data
 
         #region IPostService Members
 
-        public override IQueryable<Post> SelectList()
+        public override IQueryable<Post> SelectRecordList()
         {
-            return base.SelectList();
+            return base.SelectRecordList();
         }
 
-        public override IQueryable<Post> SelectList( Expression<Func<Post, bool>> whereCondition )
+        public override IQueryable<Post> SelectRecordList( Expression<Func<Post, bool>> whereCondition )
         {
-            return base.SelectList(whereCondition);
+            return base.SelectRecordList( whereCondition );
         }
 
-        public virtual IEnumerable<Post> SelectListByLocation()
+        public IEnumerable<Post> SelectListByLocation( Expression<Func<PostLocation, bool>> wherePostLocationCondition )
         {
-            return from p in SelectList().AsEnumerable()
-                   join pl in postLocationDataService.SelectList().AsEnumerable() on p.PostId equals pl.PostId
+            return from p in SelectRecordList().AsEnumerable()
+                   join pl in postLocationDataService.SelectRecordList( wherePostLocationCondition ).AsEnumerable() on p.PostId equals pl.PostId
                    select p;
         }
 
-        public virtual IEnumerable<Post> SelectListByLocation( Expression<Func<Post, bool>> wherePostCondition )
+        public IEnumerable<Post> SelectListByLocation( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostLocation, bool>> wherePostLocationCondition )
         {
-            return from p in SelectList().Where( wherePostCondition ).AsEnumerable()
-                   join pl in postLocationDataService.SelectList().AsEnumerable() on p.PostId equals pl.PostId
+            return from p in SelectRecordList( wherePostCondition ).AsEnumerable()
+                   join pl in postLocationDataService.SelectRecordList( wherePostLocationCondition ).AsEnumerable() on p.PostId equals pl.PostId
                    select p;
         }
 
-        public virtual IEnumerable<Post> SelectListByLocation( Expression<Func<PostLocation, bool>> wherePostLocationCondition )
+        public IEnumerable<Post> SelectListByTag( Expression<Func<PostTag, bool>> wherePostTagCondition )
         {
-            return from p in SelectList().AsEnumerable()
-                   join pl in postLocationDataService.SelectList().Where( wherePostLocationCondition ).AsEnumerable() on p.PostId equals pl.PostId
+            return from p in SelectRecordList().AsEnumerable()
+                   join pt in postTagDataService.SelectRecordList( wherePostTagCondition ).AsEnumerable() on p.PostId equals pt.PostId
                    select p;
         }
 
-        public virtual IEnumerable<Post> SelectListByLocation( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostLocation, bool>> wherePostLocationCondition )
+        public IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition )
         {
-            return from p in SelectList().Where( wherePostCondition ).AsEnumerable()
-                   join pl in postLocationDataService.SelectList().Where( wherePostLocationCondition ).AsEnumerable() on p.PostId equals pl.PostId
+            return from p in SelectRecordList( wherePostCondition ).AsEnumerable()
+                   join pt in postTagDataService.SelectRecordList( wherePostTagCondition ).AsEnumerable() on p.PostId equals pt.PostId
                    select p;
         }
 
-        public virtual IEnumerable<Post> SelectListByTag()
+        public IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, IQueryable<Tag> tagList )
         {
-            return from p in SelectList().AsEnumerable()
-                   join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
-                   select p;
-        }
-
-        public virtual IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition )
-        {
-            return from p in SelectList().Where( wherePostCondition ).AsEnumerable()
-                   join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
-                   select p;
-        }
-
-        public virtual IEnumerable<Post> SelectListByTag( Expression<Func<PostTag, bool>> wherePostTagCondition )
-        {
-            return from p in SelectList().AsEnumerable()
-                   join pt in postTagDataService.SelectList().Where( wherePostTagCondition ).AsEnumerable() on p.PostId equals pt.PostId
-                   select p;
-        }
-
-        public virtual IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition )
-        {
-            //NOTE - CHANGED THE SELECTLIST METHOD ON THIS ONE
-            return from p in SelectList( wherePostCondition ).AsEnumerable()
-                   join pt in postTagDataService.SelectList().Where( wherePostTagCondition ).AsEnumerable() on p.PostId equals pt.PostId
-                   select p;
-        }
-
-        public virtual IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, IQueryable<Tag> tagList )
-        {
-            return from p in SelectList().Where( wherePostCondition ).AsEnumerable()
-                   where PostMatchesAllTags( tagList, p )
+            return from p in SelectRecordList().Where( wherePostCondition ).AsEnumerable()
+                   where PostMatchesAllTags( p, tagList )
                    select p;
 
                    //let inner = from pt in postTagDataService.SelectList().AsEnumerable()
@@ -127,72 +98,78 @@ namespace Jumblist.Core.Service.Data
 
         }
 
-        public override Post Select( int id )
+        public override Post SelectRecord( int id )
         {
-            return base.Select( id );
+            return base.SelectRecord( id );
         }
 
-        public override void Save( Post entity )
+        public override Post SelectRecord( Expression<Func<Post, bool>> whereCondition )
         {
-            bool newEntity = ( entity.PostId == 0 );
+            return base.SelectRecord( whereCondition );
+        }
+
+        public override void Save( Post post )
+        {
+            bool newEntity = IsNew( post );
             bool entityImportedViaFeed = false;
 
             //Set Guid Property
-            if ( string.IsNullOrEmpty(entity.Guid) ) entity.Guid = entity.Url;
+            if ( string.IsNullOrEmpty(post.Guid) ) 
+                post.Guid = post.Url;
 
             //Set PostCategoryId Property
-            if ( entity.PostCategoryId == 0 )
+            if ( post.PostCategoryId == 0 )
             {
-                entity.PostCategoryId = GetPostCategoryId( entity );
+                post.PostCategoryId = GetPostCategoryId( post );
                 entityImportedViaFeed = true;
             }
 
             //Set LastUpdatedDateTime Property
-            entity.LastUpdatedDateTime = DateTime.Now;
+            post.LastUpdatedDateTime = DateTime.Now;
 
             //Perform our validation
-            ValidateBusinessRules( entity );
+            ValidateBusinessRules( post );
 
             //We need to save at this point in order to get the new postid for the SavePostLocations and SavePostTags in the next section (if we have a new post)
-            base.Save( entity );
+            base.Save( post );
 
             //If we have a new post then we need to create some postlocations and posttags
             if ( newEntity )
             {
                 //Set PostLocations and PostTags Properties and return them for use in searching for latitude and longitudes
-                var locationsSaved = SavePostLocations( entity );
-                var tagsSaved = SavePostTags(entity);
+                var locationsSaved = SavePostLocations( post );
+                var tagsSaved = SavePostTags(post);
 
                 //We may need to update the display to true for posts that have been imported from a feed and obey the correct logic
-                bool updateDisplayToTrue = CheckIfUpdateDisplayToTrueIsNeeded(locationsSaved.Count > 0, tagsSaved.Count > 0, entity.Category.Name);
+                bool updateDisplayToTrue = CheckIfUpdateDisplayToTrueIsNeeded(locationsSaved.Count > 0, tagsSaved.Count > 0, post.Category.Name);
 
-                if (entityImportedViaFeed && updateDisplayToTrue) entity.Display = true;
+                if (entityImportedViaFeed && updateDisplayToTrue) post.Display = true;
 
                 //Set Latitude and Longitude Properties
-                if (entity.UserId != User.Anonymous.UserId)
+                if (post.UserId != User.Anonymous.UserId)
                 {
-                    entity.Latitude = entity.User.Latitude;
-                    entity.Longitude = entity.User.Longitude;
+                    post.Latitude = post.User.Latitude;
+                    post.Longitude = post.User.Longitude;
                 }
                 else
                 {
                     double[] coordinates = GetLocationCoordinates(locationsSaved);
-                    entity.Latitude = coordinates[0];
-                    entity.Longitude = coordinates[1];
+                    post.Latitude = coordinates[0];
+                    post.Longitude = coordinates[1];
                 }
 
-                base.Update( entity );
+                base.Update( post );
             }
         }
 
-        public override void Update( Post entity )
+        public override void Update( Post post )
         {
-            base.Update( entity );
+            base.Update( post );
         }
 
-        public override void Delete( Post entity )
+        public override void Delete( Post post )
         {
-            base.Delete( entity );
+            base.Delete( post );
         }
 
         //public override bool IsDuplicate(Expression<Func<Post, bool>> whereCondition)
@@ -328,37 +305,30 @@ namespace Jumblist.Core.Service.Data
                 return tagsSaved;
         }
 
-        private void ValidateBusinessRules( Post entity )
+        private void ValidateBusinessRules( Post post )
         {
-            IQueryable<Post> list;
+            var list = base.IsNew( post ) ? SelectRecordList() : SelectRecordList( Post.WhereNotEquals( post ) );
 
-            if (entity.PostId == 0)
-                list = SelectList();
-            else
-                list = SelectList().Where( p => p.PostId != entity.PostId );
-
-            if (base.IsDuplicate(Post.Duplicate(entity.Guid)))
+            if ( base.IsDuplicate( list, Post.WhereGuidEquals( post.Guid ) ) )
             {
-                throw new RulesException("Post", "Duplicate Post", entity);
+                throw new RulesException( "Name", "Duplicate Post Name", post );
             }
         }
 
-        private List<PostLocation> SavePostLocations( Post entity )
+        private List<PostLocation> SavePostLocations( Post post )
         {
             var list = new List<PostLocation>();
 
-            string input = (entity.Title + " " + entity.Body).Replace( "'", string.Empty ).Replace( ".", string.Empty );
+            string input = (post.Title + " " + post.Body).Replace( "'", string.Empty ).Replace( ".", string.Empty );
             
-            //string[] locations = Locations();
-            //var locationList = locationDataService.SelectList();
-            var locationList = locationDataService.SelectLocationsByFeed( entity.FeedId );
+            var locationList = locationDataService.SelectRecordListByFeed( FeedLocation.WhereFeedIdEquals( post.FeedId ) );
 
             foreach (Location location in locationList)
             {
                 string pattern = (location.IsPostcode) ? location.NameSearch + ".*" : location.NameSearch;
                 if (RegexExtensions.IsPhraseMatch(input, pattern, RegexOptions.IgnoreCase))
                 {
-                    var postLocationItem = new PostLocation { PostId = entity.PostId, LocationId = location.LocationId };
+                    var postLocationItem = new PostLocation { PostId = post.PostId, LocationId = location.LocationId };
                     postLocationDataService.Save(postLocationItem);
                     list.Add( postLocationItem );
                 }
@@ -366,20 +336,19 @@ namespace Jumblist.Core.Service.Data
             return list;
         }
 
-        private List<PostTag> SavePostTags(Post entity)
+        private List<PostTag> SavePostTags( Post post )
         {
             var list = new List<PostTag>();
 
-            string input = entity.Title + " " + entity.Body;
+            string input = post.Title + " " + post.Body;
             
-            //string[] tags = Tags();
-            var tagList = tagDataService.SelectList();
+            var tagList = tagDataService.SelectRecordList();
 
             foreach (Tag tag in tagList)
             {
                 if (RegexExtensions.IsSingularOrPluralPhraseMatch(input, tag.Name, RegexOptions.IgnoreCase))
                 {
-                    var postTagItem = new PostTag { PostId = entity.PostId, TagId = tag.TagId };
+                    var postTagItem = new PostTag { PostId = post.PostId, TagId = tag.TagId };
                     postTagDataService.Save(postTagItem);
                     list.Add(postTagItem);
                 }
@@ -387,11 +356,11 @@ namespace Jumblist.Core.Service.Data
             return list;
         }
 
-        private int GetPostCategoryId( Post entity )
+        private int GetPostCategoryId( Post post )
         {
-            string input = entity.Title;
+            string input = post.Title;
 
-            foreach ( PostCategory c in postCategoryDataService.SelectList() )
+            foreach ( PostCategory c in postCategoryDataService.SelectRecordList() )
             {
                 string pattern = "(" + c.Search.Replace( ", ", "|" ) + ")";
                 //string pattern = c.Name;
@@ -400,10 +369,10 @@ namespace Jumblist.Core.Service.Data
                     return c.PostCategoryId;
                 }
             }
-            return postCategoryDataService.Select("Unclassified").PostCategoryId;
+            return postCategoryDataService.SelectRecord( x => x.Name == "Unclassified" ).PostCategoryId;
         }
 
-        private double[] GetLocationCoordinates(List<PostLocation> locationsSaved)
+        private double[] GetLocationCoordinates( List<PostLocation> locationsSaved )
         {
             double[] coordinates = new Double[2];
 
@@ -424,27 +393,27 @@ namespace Jumblist.Core.Service.Data
             return coordinates;
         }
 
-        private string[] Locations()
-        {
-            return locationDataService.SelectList()
-                .Select(r => r.Name)
-                .ToArray();
-        }
+        //private string[] LocationNames()
+        //{
+        //    return locationDataService.SelectList()
+        //        .Select(r => r.Name)
+        //        .ToArray();
+        //}
 
-        private string[] Tags()
-        {
-            return tagDataService.SelectList()
-                .Select(r => r.Name)
-                .ToArray();
-        }
+        //private string[] TagNames()
+        //{
+        //    return tagDataService.SelectList()
+        //        .Select(r => r.Name)
+        //        .ToArray();
+        //}
 
-        private bool PostMatchesAllTags( IQueryable<Tag> tagList, Post post )
+        private bool PostMatchesAllTags( Post post, IQueryable<Tag> tagList )
         {
-            bool success = true;
+            bool success = false;
 
             foreach (var tag in tagList)
             {
-                success = postTagDataService.SelectList().Where( pt => pt.Tag.Name == tag.Name ).Select( pt => pt.PostId ).Contains( post.PostId );
+                success = postTagDataService.SelectRecordList( PostTag.WhereTagEquals( tag ) ).Select( pt => pt.PostId ).Contains( post.PostId );
                 if (!success) break;
             }
 

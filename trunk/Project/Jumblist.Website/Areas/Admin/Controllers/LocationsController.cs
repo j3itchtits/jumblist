@@ -31,7 +31,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult List()
         {
-            var list = locationService.SelectList();
+            var list = locationService.SelectRecordList();
 
             var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Locations";
@@ -52,7 +52,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Edit( int id )
         {
-            var item = locationService.Select( id );
+            var item = locationService.SelectRecord( id );
 
             var model = BuildDataEditDefaultViewModel().With( item );
             model.PageTitle = string.Format( "Edit - {0}", item.Name );
@@ -91,27 +91,27 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Delete )]
         public ActionResult Delete( int id )
         {
-            var feed = locationService.Select( id );
+            var feed = locationService.SelectRecord( id );
             locationService.Delete( feed );
 
-            var list = locationService.SelectList();
+            var list = locationService.SelectRecordList();
 
             return PartialView( "LocationList", list );
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ContentResult AjaxFindLocationNames(string q)
+        public ContentResult AjaxFindLocationNames( string q )
         {
-            var locations = locationService.FindLocationNames( q );
+            var locations = locationService.SelectLocationNameList( q );
 
             //return raw text, one result on each line
             return Content(string.Join("\n", locations));
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ContentResult AjaxFindLocationAreas(string q)
+        public ContentResult AjaxFindLocationAreas( string q )
         {
-            var locations = locationService.FindLocationAreas( q );
+            var locations = locationService.SelectLocationAreaList( q );
 
             //return raw text, one result on each line
             return Content( string.Join( "\n", locations ) );

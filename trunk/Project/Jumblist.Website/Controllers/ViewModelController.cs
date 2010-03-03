@@ -57,7 +57,7 @@ namespace Jumblist.Website.Controllers
             var dataService = DataServiceResolver.GetDataService( property.PropertyType );
 
             // get the items
-            var list = dataService.SelectList();
+            var list = dataService.SelectRecordList();
 
             // add the items to the viewData
             viewModel.WithLookupList( property.PropertyType, list );

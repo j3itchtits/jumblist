@@ -8,11 +8,13 @@ namespace Jumblist.Core.Service.Data
 {
     public interface IFeedService
     {
-        IQueryable<Feed> SelectList();
-        IQueryable<Feed> SelectList(Expression<Func<Feed, bool>> whereCondition);
-        Feed Select( int id );
+        IQueryable<Feed> SelectRecordList();
+        IQueryable<Feed> SelectRecordList( Expression<Func<Feed, bool>> whereCondition );
+        Feed SelectRecord( int id );
+        Feed SelectRecord( Expression<Func<Feed, bool>> whereCondition );
+        Feed SelectRecord( string name );
         void Save( Feed entity );
-        void Update(Feed entity);
+        void Update( Feed entity );
         void Delete( Feed entity );
     }
 }

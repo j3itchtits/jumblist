@@ -18,9 +18,20 @@ namespace Jumblist.Core.Model
         public bool UserIsExternalUser { get { return Name == ExternalUser.Name; } }
         public bool UserCanAccessAdminArea { get { return Level <= Editor.Level; } }
 
-        public static Expression<Func<Role, bool>> Duplicate(string name)
+
+        public static Expression<Func<Role, bool>> WhereNameEquals( string name )
         {
-            return p => p.Name == name;
+            return x => x.Name == name;
+        }
+
+        public static Expression<Func<Role, bool>> WhereEquals( Role role )
+        {
+            return x => x.RoleId == role.RoleId;
+        }
+
+        public static Expression<Func<Role, bool>> WhereNotEquals( Role role )
+        {
+            return x => x.RoleId != role.RoleId;
         }
     }
 
