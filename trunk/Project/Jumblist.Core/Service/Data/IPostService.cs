@@ -27,7 +27,7 @@ namespace Jumblist.Core.Service.Data
         void Update( Post entity );
         void Delete( Post entity );
 
-        bool IsDuplicate(IQueryable<Post> list, string guid);
+        //bool IsDuplicate(Expression<Func<Post, bool>> whereCondition);
 
         //IEnumerable<Post> SelectPostsByTag(int tagId);
         //IEnumerable<Post> SelectPostsByTag( int tagId, bool isActive );

@@ -82,7 +82,7 @@ namespace Jumblist.Website.Module
 
                 foreach ( var item in feedOutput.Items )
                 {
-                    if ( !( postService.IsDuplicate( posts, item.Id ) ) )
+                    if ( !(postService as IDataService<Post>).IsDuplicate( Post.Duplicate( item.Id ) ) )
                     {
                         var post = new Post();
                         post.ParentId = 0;

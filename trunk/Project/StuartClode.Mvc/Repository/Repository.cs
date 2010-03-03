@@ -65,6 +65,11 @@ namespace StuartClode.Mvc.Repository
             return dataContext.GetTable<T>();
         }
 
+        public virtual IQueryable<T> SelectList(Expression<Func<T, bool>> whereCondition)
+        {
+            return dataContext.GetTable<T>().Where(whereCondition);
+        }
+
         public virtual void InsertOnSubmit( T entity )
         {
             table.InsertOnSubmit( entity );

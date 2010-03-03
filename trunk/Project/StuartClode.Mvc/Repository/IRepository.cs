@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Data.Linq;
+using System.Linq.Expressions;
 
 namespace StuartClode.Mvc.Repository
 {
@@ -9,6 +10,7 @@ namespace StuartClode.Mvc.Repository
         T Select( int id );
         T Select( string name );
         IQueryable<T> SelectList();
+        IQueryable<T> SelectList(Expression<Func<T, bool>> whereCondition);
         void InsertOnSubmit( T entity );
         void DeleteOnSubmit( T entity );
         void Save( T entity );

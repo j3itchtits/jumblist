@@ -23,8 +23,7 @@
         string locationNameAreaOfTown = locationNameArray[1];
         Response.Write( locationNameAreaOfTown + "<br/><br/>" );
         Response.Write( (true || false).ToString() + "<br/><br/>" );
-        
-        
+
          %>
              
     <p>London weather: <%= HttpContext.Current.Items["Temp"] %></p>

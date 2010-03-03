@@ -284,20 +284,17 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             if (locationItem != null)
             {
+                var existingPostLocations = postLocationService.IsDuplicate(PostLocation.Duplicate(postId, locationItem.LocationId));
 
-                var asdf = postLocationService.IsDuplicate( new Func<PostLocation, bool> { x => x.PostId == postId && x.LocationId == locationItem.LocationId } );
-
-                var existingPostLocations = postLocationService.SelectList().Where(x => x.PostId == postId && x.LocationId == locationItem.LocationId);
-
-                if (existingPostLocations.Count() == 0)
+                if (!existingPostLocations)
                 {
                     var postLocationItem = new PostLocation { PostId = postId, LocationId = locationItem.LocationId };
-                    postLocationService.Save( postLocationItem );
+                    postLocationService.Save(postLocationItem);
                 }
 
-                var existingFeedLocations = feedLocationService.SelectList().Where( x => x.FeedId == postItem.FeedId && x.LocationId == locationItem.LocationId );
+                var existingFeedLocations = feedLocationService.IsDuplicate(FeedLocation.Duplicate(postItem.FeedId, locationItem.LocationId));
 
-                if (existingFeedLocations.Count() == 0)
+                if (!existingFeedLocations)
                 {
                     var feedLocationItem = new FeedLocation { FeedId = postItem.FeedId, LocationId = locationItem.LocationId };
                     feedLocationService.Save( feedLocationItem );

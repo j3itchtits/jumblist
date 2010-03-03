@@ -49,5 +49,10 @@ namespace Jumblist.Core.Model
 
             return condition;
         }
+
+        public static Expression<Func<Post, bool>> Duplicate(string guid)
+        {
+            return x => x.Guid == guid;
+        }
     }
 }

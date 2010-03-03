@@ -6,6 +6,7 @@ using System.Data.Linq.Mapping;
 using System.Data.Linq;
 using System.Text.RegularExpressions;
 using StuartClode.Mvc.Extension;
+using System.Linq.Expressions;
 
 namespace Jumblist.Core.Model
 {
@@ -75,6 +76,11 @@ namespace Jumblist.Core.Model
                 string[] locationArray = Area.Split( new string[] { ", " }, StringSplitOptions.None );
                 return (locationArray.Length > 1) ? locationArray[1] : locationArray[0];
             }
+        }
+
+        public static Expression<Func<Location, bool>> Duplicate(string name, string area)
+        {
+            return p => p.Name == name && p.Area == area;
         }
     }
 }

@@ -43,10 +43,9 @@ namespace Jumblist.Core.Service.Data
             return base.SelectList();
         }
 
-        public virtual IQueryable<Post> SelectList( Expression<Func<Post, bool>> whereCondition )
+        public override IQueryable<Post> SelectList( Expression<Func<Post, bool>> whereCondition )
         {
-            return from x in SelectList().Where( whereCondition )
-                   select x;
+            return base.SelectList(whereCondition);
         }
 
         public virtual IEnumerable<Post> SelectListByLocation()
@@ -100,7 +99,8 @@ namespace Jumblist.Core.Service.Data
 
         public virtual IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition )
         {
-            return from p in SelectList().Where( wherePostCondition ).AsEnumerable()
+            //NOTE - CHANGED THE SELECTLIST METHOD ON THIS ONE
+            return from p in SelectList( wherePostCondition ).AsEnumerable()
                    join pt in postTagDataService.SelectList().Where( wherePostTagCondition ).AsEnumerable() on p.PostId equals pt.PostId
                    select p;
         }
@@ -195,10 +195,10 @@ namespace Jumblist.Core.Service.Data
             base.Delete( entity );
         }
 
-        public bool IsDuplicate( IQueryable<Post> list, string guid )
-        {
-            return list.Any<Post>( p => p.Guid == guid );
-        }
+        //public override bool IsDuplicate(Expression<Func<Post, bool>> whereCondition)
+        //{
+        //    return base.IsDuplicate(whereCondition);
+        //}
 
         //public IEnumerable<Post> SelectPostsByTag(int tagId)
         //{
@@ -337,8 +337,10 @@ namespace Jumblist.Core.Service.Data
             else
                 list = SelectList().Where( p => p.PostId != entity.PostId );
 
-            if ( IsDuplicate( list, entity.Guid ) )
-                throw new RulesException( "Post", "Duplicate Post", entity );
+            if (base.IsDuplicate(Post.Duplicate(entity.Guid)))
+            {
+                throw new RulesException("Post", "Duplicate Post", entity);
+            }
         }
 
         private List<PostLocation> SavePostLocations( Post entity )

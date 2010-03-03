@@ -21,5 +21,10 @@ namespace Jumblist.Core.Model
         {
             return x => x.Location.Name.ToFriendlyUrl() == locationName;
         }
+
+        public static Expression<Func<PostLocation, bool>> Duplicate(int postId, int locationId)
+        {
+            return x => x.PostId == postId && x.LocationId == locationId;
+        }
     }
 }

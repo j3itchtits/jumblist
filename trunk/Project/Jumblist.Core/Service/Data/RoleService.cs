@@ -53,8 +53,10 @@ namespace Jumblist.Core.Service.Data
             else
                 list = SelectList().Where( p => p.RoleId != entity.RoleId );
 
-            if (list.Any<Role>( p => p.Name == entity.Name ))
-                throw new RulesException( "Name", "Duplicate Role Name", entity );
+            if (base.IsDuplicate(Role.Duplicate(entity.Name)))
+            {
+                throw new RulesException("Name", "Duplicate Role Name", entity);
+            }
         }
     }
 }

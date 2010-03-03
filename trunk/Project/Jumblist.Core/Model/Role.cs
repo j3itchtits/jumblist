@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace Jumblist.Core.Model
 {
@@ -16,6 +17,11 @@ namespace Jumblist.Core.Model
         public bool UserIsAuthor { get { return Name == Author.Name; } }
         public bool UserIsExternalUser { get { return Name == ExternalUser.Name; } }
         public bool UserCanAccessAdminArea { get { return Level <= Editor.Level; } }
+
+        public static Expression<Func<Role, bool>> Duplicate(string name)
+        {
+            return p => p.Name == name;
+        }
     }
 
     [Serializable]
