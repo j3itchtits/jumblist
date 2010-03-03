@@ -71,8 +71,8 @@ namespace Jumblist.Website.Module
 
             var feedService = ServiceLocator.Current.GetInstance<IFeedService>();
             var postService = ServiceLocator.Current.GetInstance<IPostService>();
-            var posts = postService.SelectList();
-            var feeds = feedService.SelectList();
+            var posts = postService.SelectRecordList();
+            var feeds = feedService.SelectRecordList();
 
             foreach ( var feed in feeds )
             {
@@ -82,7 +82,7 @@ namespace Jumblist.Website.Module
 
                 foreach ( var item in feedOutput.Items )
                 {
-                    if ( !(postService as IDataService<Post>).IsDuplicate( Post.Duplicate( item.Id ) ) )
+                    if ( !(postService as IDataService<Post>).IsDuplicate( Post.WhereGuidEquals( item.Id ) ) )
                     {
                         var post = new Post();
                         post.ParentId = 0;

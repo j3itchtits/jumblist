@@ -61,7 +61,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult List()
         {
-            var list = postService.SelectList().OrderByDescending(t => t.PublishDateTime);
+            var list = postService.SelectRecordList().OrderByDescending(t => t.PublishDateTime);
 
             var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Posts";
@@ -82,7 +82,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Edit( int id )
         {
-            var item = postService.Select( id );
+            var item = postService.SelectRecord( id );
 
             var model = BuildDataEditDefaultViewModel().With( item );
             model.PageTitle = string.Format( "Edit - {0}", item.Title );
@@ -121,10 +121,10 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Delete )]
         public ActionResult Delete( int id )
         {
-            var item = postService.Select( id );
+            var item = postService.SelectRecord( id );
             postService.Delete( item );
 
-            var model = postService.SelectList().OrderByDescending( t => t.PublishDateTime );
+            var model = postService.SelectRecordList().OrderByDescending( t => t.PublishDateTime );
 
             return PartialView("PostList", model);
         }
@@ -132,7 +132,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ViewResult CategoryList()
         {
-            var list = postCategoryService.SelectList();
+            var list = postCategoryService.SelectRecordList();
 
             var model = DefaultView.Model<PostCategory>().With(list);
             model.PageTitle = "Post Categories";
@@ -143,7 +143,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ViewResult CategoryEdit(int id)
         {
-            var item = postCategoryService.Select(id);
+            var item = postCategoryService.SelectRecord(id);
 
             var model = DefaultView.Model<PostCategory>().With(item);
             model.PageTitle = string.Format("Edit - {0}", item.Name);
@@ -191,11 +191,12 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult ListByCategory( int id )
         {
-            var item = postCategoryService.Select( id );
-            var list = postService.SelectList().Where(x => x.PostCategoryId == id).OrderByDescending(t => t.PublishDateTime);
+            var postCategory = postCategoryService.SelectRecord( id );
+            var postList = postService.SelectRecordList( Post.WherePostCategoryEquals( postCategory ) ).OrderByDescending( t => t.PublishDateTime );
 
-            var model = BuildDefaultViewModel().With( list );
-            model.PageTitle = "All Posts by Category - " + item.Name;
+
+            var model = BuildDefaultViewModel().With( postList );
+            model.PageTitle = "All Posts by Category - " + postCategory.Name;
 
             return View( "list", model );
         }
@@ -203,75 +204,53 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult ListByFeed( int id )
         {
-            var item = feedService.Select( id );
-            var list = postService.SelectList().Where(x => x.FeedId == id).OrderByDescending(t => t.PublishDateTime);
+            var feed = feedService.SelectRecord( id );
+            var postList = postService.SelectRecordList( Post.WhereFeedEquals( feed ) ).OrderByDescending( t => t.PublishDateTime );
 
-            var model = BuildDefaultViewModel().With( list );
-            model.PageTitle = "All Posts by Feed - " + item.Name;
+            var model = BuildDefaultViewModel().With( postList );
+            model.PageTitle = "All Posts by Feed - " + feed.Name;
 
             return View( "list", model );
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ViewResult ListByUser(int id)
+        public ViewResult ListByUser( int id )
         {
-            var item = userService.Select(id);
-            var list = postService.SelectList().Where(x => x.UserId == id).OrderByDescending(t => t.PublishDateTime);
+            var user = userService.SelectRecord( id );
+            var postList = postService.SelectRecordList( Post.WhereUserEquals( user ) ).OrderByDescending( t => t.PublishDateTime );
 
-            var model = BuildDefaultViewModel().With(list);
-            model.PageTitle = "All Posts by User - " + item.Name;
+            var model = BuildDefaultViewModel().With( postList );
+            model.PageTitle = "All Posts by User - " + user.Name;
 
-            return View("list", model);
+            return View( "list", model );
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
         public ViewResult ListByLocation( string id )
         {
             int number;
-            Location item;
-            IEnumerable<Post> list;
+            bool isInt = Int32.TryParse( id, out number );
 
-            bool result = Int32.TryParse( id, out number );
-            
-            if (result)
-            {
-                item = locationService.Select( number );
-                list = postService.SelectListByLocation(Post.DisplayEquals(false), PostLocation.LocationIdEquals(number)).OrderByDescending(t => t.PublishDateTime);
-            }
-            else
-            {
-                item = locationService.SelectList().Single( x => x.FriendlyUrl == id );
-                list = postService.SelectListByLocation(PostLocation.LocationNameEquals(id)).OrderByDescending(t => t.PublishDateTime);
-            }
+            var location = isInt ? locationService.SelectRecord( number ) : locationService.SelectRecord( Location.WhereFriendlyUrlEquals( id ) );
+            var postList = postService.SelectListByLocation( PostLocation.WhereLocationEquals( location ) ).OrderByDescending( t => t.PublishDateTime );
 
-            var model = BuildDefaultViewModel().With(list);
-            model.PageTitle = "All Posts by Location - " + item.Name;
+            var model = BuildDefaultViewModel().With( postList );
+            model.PageTitle = "All Posts by Location - " + location.Name;
 
             return View("list", model);
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult ListByTag(string id)
+        public ViewResult ListByTag( string id )
         {
             int number;
-            Tag item;
-            IEnumerable<Post> list;
+            bool isInt = Int32.TryParse( id, out number );
 
-            bool result = Int32.TryParse( id, out number );
+            var tag = isInt ? tagService.SelectRecord( number ) : tagService.SelectRecord( Tag.WhereNameEquals( id ) );
+            var postList = postService.SelectListByTag( PostTag.WhereTagEquals( tag ) ).OrderByDescending( t => t.PublishDateTime );
 
-            if (result)
-            {
-                item = tagService.Select( number );
-                list = postService.SelectListByTag( PostTag.TagIdEquals( number ) ).OrderByDescending(t => t.PublishDateTime);
-            }
-            else
-            {
-                item = tagService.SelectList().Single( x => x.FriendlyUrl == id );
-                list = postService.SelectListByTag( PostTag.TagNameEquals( id ) ).OrderByDescending( t => t.PublishDateTime );
-            }
-
-            var model = BuildDefaultViewModel().With( list );
-            model.PageTitle = "All Posts by Tag - " + item.Name;
+            var model = BuildDefaultViewModel().With( postList );
+            model.PageTitle = "All Posts by Tag - " + tag.Name;
 
             return View( "list", model );
         }
@@ -279,90 +258,89 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult PostLocationCreate( int postId, string locationName, string locationArea )
         {
-            var postItem = postService.Select( postId );
-            var locationItem = locationService.Select( locationName );
+            var post = postService.SelectRecord( postId );
+            var location = locationService.SelectRecord( Location.WhereEquals( locationName, locationArea ) );
 
-            if (locationItem != null)
+            if (location != null)
             {
-                var existingPostLocations = postLocationService.IsDuplicate(PostLocation.Duplicate(postId, locationItem.LocationId));
+                var existingPostLocations = postLocationService.IsDuplicate( PostLocation.WhereEquals( postId, location.LocationId ) );
 
                 if (!existingPostLocations)
                 {
-                    var postLocationItem = new PostLocation { PostId = postId, LocationId = locationItem.LocationId };
-                    postLocationService.Save(postLocationItem);
+                    var postLocation = new PostLocation { PostId = postId, LocationId = location.LocationId };
+                    postLocationService.Save( postLocation );
                 }
 
-                var existingFeedLocations = feedLocationService.IsDuplicate(FeedLocation.Duplicate(postItem.FeedId, locationItem.LocationId));
+                var existingFeedLocations = feedLocationService.IsDuplicate( FeedLocation.WhereEquals( post.FeedId, location.LocationId ) );
 
                 if (!existingFeedLocations)
                 {
-                    var feedLocationItem = new FeedLocation { FeedId = postItem.FeedId, LocationId = locationItem.LocationId };
-                    feedLocationService.Save( feedLocationItem );
+                    var feedLocation = new FeedLocation { FeedId = post.FeedId, LocationId = location.LocationId };
+                    feedLocationService.Save( feedLocation );
                 }
 
-                postItem.Latitude = locationItem.Latitude;
-                postItem.Longitude = locationItem.Longitude;
+                post.Latitude = location.Latitude;
+                post.Longitude = location.Longitude;
 
             }
             else
             {
-                var newLocationItem = new Location { Name = locationName, FriendlyUrl = locationName.ToFriendlyUrl(), Area = locationArea };
-                locationService.Save(newLocationItem);
+                var newLocation = new Location { Name = locationName, FriendlyUrl = ( locationName + ", " + locationArea ).ToFriendlyUrl(), Area = locationArea };
+                locationService.Save(newLocation);
 
-                var postLocationItem = new PostLocation { PostId = postId, LocationId = newLocationItem.LocationId };
-                postLocationService.Save(postLocationItem);
+                var postLocation = new PostLocation { PostId = postId, LocationId = newLocation.LocationId };
+                postLocationService.Save(postLocation);
 
-                var feedLocationItem = new FeedLocation { FeedId = postItem.FeedId, LocationId = newLocationItem.LocationId };
-                feedLocationService.Save( feedLocationItem );
+                var feedLocation = new FeedLocation { FeedId = post.FeedId, LocationId = newLocation.LocationId };
+                feedLocationService.Save( feedLocation );
 
-                postItem.Latitude = newLocationItem.Latitude;
-                postItem.Longitude = newLocationItem.Longitude;
-
+                post.Latitude = newLocation.Latitude;
+                post.Longitude = newLocation.Longitude;
             }
 
-            postService.Update( postItem );
+            postService.Update( post );
 
-            var model = postLocationService.SelectList().Where( x => x.PostId == postId );
-            
+            var model = postLocationService.SelectRecordList( PostLocation.WherePostEquals( post ) );
+
             return PartialView( "PostLocationList", model );
         }
 
         [AcceptVerbs(HttpVerbs.Delete)]
         public ActionResult PostLocationDelete( int postId, int postLocationId )
         {
-            var item = postLocationService.Select( postLocationId );
-            postLocationService.Delete( item );
+            var postLocation = postLocationService.SelectRecord( postLocationId );
+            postLocationService.Delete( postLocation );
 
-            var model = postLocationService.SelectList().Where( x => x.PostId == postId );
+            var model = postLocationService.SelectRecordList( PostLocation.WherePostIdEquals( postId ) );
 
             return PartialView( "PostLocationList", model );
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult PostTagCreate( int postId, string tag )
+        public ActionResult PostTagCreate( int postId, string tagName )
         {
-            var tagItem = tagService.Select( tag );
+            var tag = tagService.SelectRecord( tagName );
 
-            if (tagItem != null)
+            if (tag != null)
             {
-                var existingPostTags = postTagService.SelectList().Where(x => x.PostId == postId && x.TagId == tagItem.TagId);
+                var existingPostTags = postTagService.IsDuplicate( PostTag.WhereEquals( postId, tag.TagId ) );
 
-                if (existingPostTags.Count() == 0)
+                if ( !existingPostTags )
                 {
-                    var postTagItem = new PostTag { PostId = postId, TagId = tagItem.TagId };
-                    postTagService.Save(postTagItem);
+                    var postTag = new PostTag { PostId = postId, TagId = tag.TagId };
+                    postTagService.Save(postTag);
                 }
             }
             else
             {
-                var newTagItem = new Tag { Name = tag, FriendlyUrl = tag.ToFriendlyUrl() };
-                tagService.Save(newTagItem);
+                var newTag = new Tag { Name = tagName, FriendlyUrl = tagName.ToFriendlyUrl() };
+                tagService.Save( newTag );
 
-                var postTagItem = new PostTag { PostId = postId, TagId = newTagItem.TagId };
-                postTagService.Save(postTagItem);
+                var postTag = new PostTag { PostId = postId, TagId = newTag.TagId };
+                postTagService.Save( postTag );
             }
 
-            var model = postTagService.SelectList().Where( x => x.PostId == postId );
+            var model = postTagService.SelectRecordList( PostTag.WherePostIdEquals( postId ) );
 
             return PartialView( "PostTagList", model );
         }
@@ -370,10 +348,10 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Delete )]
         public ActionResult PostTagDelete( int postId, int postTagId )
         {
-            var item = postTagService.Select( postTagId );
+            var item = postTagService.SelectRecord( postTagId );
             postTagService.Delete( item );
 
-            var model = postTagService.SelectList().Where( x => x.PostId == postId );
+            var model = postTagService.SelectRecordList( PostTag.WherePostIdEquals( postId ) );
 
             return PartialView( "PostTagList", model );
         }

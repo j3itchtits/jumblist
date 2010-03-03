@@ -10,9 +10,29 @@ namespace Jumblist.Core.Model
 {
     public partial class Feed
     {
-        public static Expression<Func<Feed, bool>> Duplicate(string url)
+        public static Expression<Func<Feed, bool>> WhereNotEquals( Feed feed )
+        {
+            return x => x.FeedId != feed.FeedId;
+        }
+
+        public static Expression<Func<Feed, bool>> WhereEquals( Feed feed )
+        {
+            return x => x.Url == feed.Url;
+        }
+
+        public static Expression<Func<Feed, bool>> WhereUrlEquals( string url )
         {
             return x => x.Url == url;
+        }
+
+        public static Expression<Func<Feed, bool>> WhereNameEquals( string name )
+        {
+            return x => x.Name == name;
+        }
+
+        public static Expression<Func<Feed, bool>> WhereFriendlyUrlEquals( string friendlyUrl )
+        {
+            return x => x.FriendlyUrl == friendlyUrl;
         }
     }
 }

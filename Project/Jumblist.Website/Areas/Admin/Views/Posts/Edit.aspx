@@ -156,7 +156,7 @@
        { %>    
         <p>
             <%= Html.Hidden( "postId", Model.Item.PostId)%>
-            <%= Html.TextBox("tag", null, new { size = 10 } )%>
+            <%= Html.TextBox("tagName", null, new { size = 10 } )%>
             <%= Html.SubmitButton("posttagcreatebutton", "Create")%>
         </p> 
     <% } %>  

@@ -22,37 +22,39 @@ namespace Jumblist.Core.Model
             get { return postTags.Select( t => t.Tag ).ToList().AsReadOnly(); }
         }
 
-        public static Expression<Func<Post, bool>> DisplayEquals( bool isActive )
+        public static Expression<Func<Post, bool>> WhereDisplayEquals( bool isActive )
         {
             return x => x.Display == isActive;
         }
 
-        public static Expression<Func<Post, bool>> PostCategoryEquals(PostCategory postCategory)
+        public static Expression<Func<Post, bool>> WherePostCategoryEquals( PostCategory postCategory )
         {
             return x => x.PostCategoryId == postCategory.PostCategoryId;
         }
 
-        public static Expression<Func<Post, bool>> FeedEquals(Feed feed)
+        public static Expression<Func<Post, bool>> WhereFeedEquals( Feed feed )
         {
             return x => x.FeedId == feed.FeedId;
         }
 
-        public static Expression<Func<Post, bool>> TagNameEqualsListAnd(IQueryable<Tag> tagList)
+        public static Expression<Func<Post, bool>> WhereUserEquals( User user )
         {
-            var condition = PredicateBuilder.True<Post>();
-
-            //foreach (Tag tag in tagList)
-            //{
-            //    string temp = tag.Name;
-            //    condition = condition.And( x => x.PostTags.Where( y => y.Tag.Name == temp ) );
-            //}
-
-            return condition;
+            return x => x.UserId == user.UserId;
         }
 
-        public static Expression<Func<Post, bool>> Duplicate(string guid)
+        public static Expression<Func<Post, bool>> WhereGuidEquals( string guid )
         {
             return x => x.Guid == guid;
+        }
+
+        public static Expression<Func<Post, bool>> WhereEquals( Post post )
+        {
+            return x => x.PostId == post.PostId;
+        }
+
+        public static Expression<Func<Post, bool>> WhereNotEquals( Post post )
+        {
+            return x => x.PostId != post.PostId;
         }
     }
 }

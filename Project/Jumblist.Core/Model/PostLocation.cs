@@ -12,19 +12,35 @@ namespace Jumblist.Core.Model
 {
     public partial class PostLocation
     {
-        public static Expression<Func<PostLocation, bool>> LocationIdEquals( int locationId )
+        public static Expression<Func<PostLocation, bool>> WhereEquals( int postId, int locationId )
+        {
+            return x => ( x.PostId == postId && x.LocationId == locationId );
+        }
+
+        public static Expression<Func<PostLocation, bool>> WherePostEquals( Post post )
+        {
+            return x => x.PostId == post.PostId;
+        }
+
+        public static Expression<Func<PostLocation, bool>> WherePostIdEquals( int postId )
+        {
+            return x => x.PostId == postId;
+        }
+
+        public static Expression<Func<PostLocation, bool>> WhereLocationEquals( Location location )
+        {
+            return x => x.LocationId == location.LocationId;
+        }
+
+        public static Expression<Func<PostLocation, bool>> WhereLocationIdEquals( int locationId )
         {
             return x => x.LocationId == locationId;
         }
 
-        public static Expression<Func<PostLocation, bool>> LocationNameEquals( string locationName )
+        public static Expression<Func<PostLocation, bool>> WhereLocationNameEquals( string locationName )
         {
             return x => x.Location.Name.ToFriendlyUrl() == locationName;
         }
 
-        public static Expression<Func<PostLocation, bool>> Duplicate(int postId, int locationId)
-        {
-            return x => x.PostId == postId && x.LocationId == locationId;
-        }
     }
 }

@@ -4,7 +4,7 @@
 <% foreach ( var location in Model )
    { %>
         <tr class="item">
-            <td><%= Html.ActionLink(Html.Encode(location.Name), "location", "posts", new { id = location.Name.ToFriendlyUrl() }, null)%></td> 
+            <td><%= Html.ActionLink(Html.Encode(location.Name), "located", "posts", new { id = location.FriendlyUrl }, null)%></td> 
         </tr> 
 <% } %>
 </table>         

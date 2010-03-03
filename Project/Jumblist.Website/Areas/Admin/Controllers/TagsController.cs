@@ -29,7 +29,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult List()
         {
-            var list = tagService.SelectList();
+            var list = tagService.SelectRecordList();
 
             var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Tags";
@@ -50,7 +50,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Edit( int id )
         {
-            var item = tagService.Select( id );
+            var item = tagService.SelectRecord( id );
 
             var model = BuildDataEditDefaultViewModel().With( item );
             model.PageTitle = string.Format( "Edit - {0}", item.Name );
@@ -65,7 +65,6 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             try
             {
-                item.FriendlyUrl = item.Name.ToFriendlyUrl();
                 tagService.Save( item );
             }
             catch (RulesException ex)
@@ -90,10 +89,10 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Delete )]
         public ActionResult Delete( int id )
         {
-            var feed = tagService.Select( id );
+            var feed = tagService.SelectRecord( id );
             tagService.Delete( feed );
 
-            var list = tagService.SelectList();
+            var list = tagService.SelectRecordList();
 
             return PartialView( "TagList", list );
         }
@@ -101,7 +100,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ContentResult AjaxFindTags(string q)
         {
-            var tags = tagService.FindTags(q);
+            var tags = tagService.SelectTagNameList(q);
 
             //return raw text, one result on each line
             return Content(string.Join("\n", tags));

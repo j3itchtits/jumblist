@@ -20,17 +20,27 @@ namespace StuartClode.Mvc.Repository
 
         #region IRepository<T> Members
 
-        public virtual T Select( int id )
+        public virtual IQueryable<T> SelectRecordList()
+        {
+            return dataContext.GetTable<T>();
+        }
+
+        public virtual IQueryable<T> SelectRecordList( Expression<Func<T, bool>> whereCondition )
+        {
+            return dataContext.GetTable<T>().Where( whereCondition );
+        }
+
+        public virtual T SelectRecord( int id )
         {
             var entityParameter = Expression.Parameter( typeof( T ), "entity" );
 
-            var whereExpression = 
+            var whereCondition = 
                 Expression.Lambda<Func<T, bool>> (
                     Expression.Equal( Expression.Property( entityParameter, typeof( T ).GetPrimaryKey().Name ), Expression.Constant( id ) ),
                     new[] { entityParameter }
                 );
 
-            var item = SelectList().SingleOrDefault( whereExpression );
+            var item = dataContext.GetTable<T>().SingleOrDefault( whereCondition );
 
             if ( item == null )
                 throw new PrimaryKeyNotFoundException( string.Format( "No {0} with primary key {1} found", typeof( T ).FullName, id ) );
@@ -38,37 +48,32 @@ namespace StuartClode.Mvc.Repository
             return item;
         }
 
-        public virtual T Select( string name )
+        public virtual T SelectRecord( Expression<Func<T, bool>> whereCondition )
         {
-            var entityParameter = Expression.Parameter( typeof( T ), "entity" );
-            var nameProperty = typeof( T ).GetProperty( "Name" ).Name;
-
-            if (nameProperty == null)
-                throw new ApplicationException( string.Format( "This type {0} does not have a name property", typeof( T ).FullName ) );
-
-            var whereExpression =
-                Expression.Lambda<Func<T, bool>>(
-                    Expression.Equal( Expression.Property( entityParameter, nameProperty ), Expression.Constant( name ) ),
-                    new[] { entityParameter }
-                );
-
-            var item = SelectList().SingleOrDefault( whereExpression );
-
-            //if (item == null)
-            //    throw new ArgumentException(string.Format("No name property with value {0} found", name));
-
-            return item;
+            return dataContext.GetTable<T>().SingleOrDefault( whereCondition );
         }
 
-        public virtual IQueryable<T> SelectList()
-        {
-            return dataContext.GetTable<T>();
-        }
+        //public virtual T Select( string name )
+        //{
+        //    var entityParameter = Expression.Parameter( typeof( T ), "entity" );
+        //    var nameProperty = typeof( T ).GetProperty( "Name" ).Name;
 
-        public virtual IQueryable<T> SelectList(Expression<Func<T, bool>> whereCondition)
-        {
-            return dataContext.GetTable<T>().Where(whereCondition);
-        }
+        //    if (nameProperty == null)
+        //        throw new ApplicationException( string.Format( "This type {0} does not have a name property", typeof( T ).FullName ) );
+
+        //    var whereExpression =
+        //        Expression.Lambda<Func<T, bool>>(
+        //            Expression.Equal( Expression.Property( entityParameter, nameProperty ), Expression.Constant( name ) ),
+        //            new[] { entityParameter }
+        //        );
+
+        //    var item = SelectList().SingleOrDefault( whereExpression );
+
+        //    //if (item == null)
+        //    //    throw new ArgumentException(string.Format("No name property with value {0} found", name));
+
+        //    return item;
+        //}
 
         public virtual void InsertOnSubmit( T entity )
         {
@@ -97,20 +102,20 @@ namespace StuartClode.Mvc.Repository
 
         #region IRepository Members
 
-        object IRepository.Select( int id )
+        IQueryable IRepository.SelectRecordList()
         {
-            return Select( id );
+            return SelectRecordList();
         }
 
-        object IRepository.Select( string name )
+        object IRepository.SelectRecord( int id )
         {
-            return Select( name );
+            return SelectRecord( id );
         }
 
-        IQueryable IRepository.SelectList()
-        {
-            return SelectList();
-        }
+        //object IRepository.Select( string name )
+        //{
+        //    return Select( name );
+        //}
 
         public void InsertOnSubmit( object entity )
         {

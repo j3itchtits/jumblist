@@ -19,59 +19,61 @@ namespace Jumblist.Core.Service.Data
 
         #region IFeedService Members
 
-        public override IQueryable<Feed> SelectList()
+        public override IQueryable<Feed> SelectRecordList()
         {
-            return base.SelectList();
+            return base.SelectRecordList();
         }
 
-        public override IQueryable<Feed> SelectList(Expression<Func<Feed, bool>> whereCondition)
+        public override IQueryable<Feed> SelectRecordList( Expression<Func<Feed, bool>> whereCondition )
         {
-            return base.SelectList(whereCondition);
+            return base.SelectRecordList( whereCondition );
         }
 
-        public override Feed Select( int id )
+        public override Feed SelectRecord( int id )
         {
-            return base.Select( id );
+            return base.SelectRecord( id );
         }
 
-        public override void Save( Feed entity )
+        public override Feed SelectRecord( Expression<Func<Feed, bool>> whereCondition )
         {
-            ValidateBusinessRules( entity );
-
-            entity.FriendlyUrl = entity.Name.ToFriendlyUrl();
-
-            base.Save( entity );
+            return base.SelectRecord( whereCondition );
         }
 
-        public override void Update(Feed entity)
+        public Feed SelectRecord( string name )
         {
-            base.Update(entity);
+            return SelectRecord( Feed.WhereNameEquals( name ) );
         }
 
-        public override void Delete( Feed entity )
+        public override void Save( Feed feed )
         {
-            base.Delete( entity );
+            ValidateBusinessRules( feed );
+
+            feed.FriendlyUrl = feed.Name.ToFriendlyUrl();
+
+            base.Save( feed );
+        }
+
+        public override void Update( Feed feed )
+        {
+            base.Update( feed );
+        }
+
+        public override void Delete( Feed feed )
+        {
+            base.Delete( feed );
         }
 
         #endregion
 
-        private void ValidateBusinessRules( Feed entity )
+        private void ValidateBusinessRules( Feed feed )
         {
-            IQueryable<Feed> list;
+            var feedList = base.IsNew( feed ) ? SelectRecordList() : SelectRecordList( Feed.WhereNotEquals( feed ) );
 
-            if (entity.FeedId == 0)
-            {
-                list = SelectList();
-            }
-            else
-            {
-                list = SelectList().Where(f => f.FeedId != entity.FeedId);
-            }
+            if ( base.IsDuplicate( feedList, Feed.WhereUrlEquals( feed.Url ) ) )
+                throw new RulesException( "Url", "Duplicate Urls", feed );
 
-            if (base.IsDuplicate(Feed.Duplicate(entity.Url)))
-            {
-                throw new RulesException("Url", "Duplicate Urls", entity);
-            }
+            if ( base.IsDuplicate( feedList, Feed.WhereNameEquals( feed.Name ) ) )
+                throw new RulesException( "Name", "Duplicate Names", feed );
         }
     }
 }

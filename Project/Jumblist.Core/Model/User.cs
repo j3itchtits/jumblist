@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Principal;
+using System.Linq.Expressions;
 
 namespace Jumblist.Core.Model
 {
@@ -7,6 +8,27 @@ namespace Jumblist.Core.Model
     {
         public static User Anonymous { get { return new User() { UserId = (int)UserUniqueId.Anonymous, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Anonymous, "g" ) }; } }
         public static User Administrator { get { return new User() { UserId = (int)UserUniqueId.Administrator, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Administrator, "g" ) }; } }
+
+        public static Expression<Func<User, bool>> WhereNameEquals( string name )
+        {
+            return x => x.Name == name;
+        }
+
+        public static Expression<Func<User, bool>> WhereEmailEquals( string email )
+        {
+            return x => x.Email == email;
+        }
+
+        public static Expression<Func<User, bool>> WhereEquals( User user )
+        {
+            return x => x.UserId == user.UserId;
+        }
+
+        public static Expression<Func<User, bool>> WhereNotEquals( User user )
+        {
+            return x => x.UserId != user.UserId;
+        }
+
     }
 
     //public partial class User : IPrincipal

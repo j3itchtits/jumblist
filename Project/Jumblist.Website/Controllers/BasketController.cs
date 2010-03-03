@@ -36,14 +36,14 @@ namespace Jumblist.Website.Controllers
 
         public RedirectToRouteResult AddItem( Basket basket, int postId, string returnUrl )
         {
-            Post post = postService.Select( postId );
+            Post post = postService.SelectRecord( postId );
             basket.AddItem( post );
             return RedirectToAction( "Index", new { returnUrl } );
         }
 
         public RedirectToRouteResult ClearItem( Basket basket, int postId, string returnUrl )
         {
-            Post post = postService.Select( postId );
+            Post post = postService.SelectRecord( postId );
             basket.ClearItem( post );
             return RedirectToAction( "Index", new { returnUrl } );
         }

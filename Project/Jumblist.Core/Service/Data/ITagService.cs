@@ -8,13 +8,14 @@ namespace Jumblist.Core.Service.Data
 {
     public interface ITagService
     {
-        IQueryable<Tag> SelectList();
-        IQueryable<Tag> SelectList( Expression<Func<Tag, bool>> whereCondition );
-        Tag Select( int id );
-        Tag Select(string name);
+        IQueryable<Tag> SelectRecordList();
+        IQueryable<Tag> SelectRecordList( Expression<Func<Tag, bool>> whereCondition );
+        Tag SelectRecord( int id );
+        Tag SelectRecord( Expression<Func<Tag, bool>> whereCondition );
+        Tag SelectRecord( string name );
         void Save( Tag entity );
         void Update(Tag entity);
         void Delete( Tag entity );
-        string[] FindTags(string q);
+        string[] SelectTagNameList( string q );
     }
 }

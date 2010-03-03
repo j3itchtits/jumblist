@@ -4,6 +4,8 @@ using Jumblist.Core.Model;
 using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Repository;
 using xVal.ServerSide;
+using System.Linq.Expressions;
+using System;
 
 namespace Jumblist.Core.Service.Data
 {
@@ -16,46 +18,51 @@ namespace Jumblist.Core.Service.Data
 
         #region IRoleService Members
 
-        public override IQueryable<Role> SelectList()
+        public override IQueryable<Role> SelectRecordList()
         {
-            return base.SelectList();
+            return base.SelectRecordList();
         }
 
-        public override Role Select( int id )
+        public override IQueryable<Role> SelectRecordList( Expression<Func<Role, bool>> whereCondition )
         {
-            return base.Select( id );
+            return base.SelectRecordList( whereCondition );
         }
 
-        public override void Save( Role entity )
+        public override Role SelectRecord( int id )
         {
-            ValidateBusinessRules( entity );
-            base.Save( entity );
+            return base.SelectRecord( id );
         }
 
-        public override void Update(Role entity)
+        public override Role SelectRecord( Expression<Func<Role, bool>> whereCondition )
         {
-            base.Update(entity);
+            return base.SelectRecord( whereCondition );
         }
 
-        public override void Delete( Role entity )
+        public override void Save( Role role )
         {
-            base.Delete( entity );
+            ValidateBusinessRules( role );
+            base.Save( role );
+        }
+
+        public override void Update( Role role )
+        {
+            base.Update( role );
+        }
+
+        public override void Delete( Role role )
+        {
+            base.Delete( role );
         }
 
         #endregion
 
-        private void ValidateBusinessRules( Role entity )
+        private void ValidateBusinessRules( Role role )
         {
-            IQueryable<Role> list;
+            var list = base.IsNew( role ) ? SelectRecordList() : SelectRecordList( Role.WhereNotEquals( role ) );
 
-            if (entity.RoleId == 0)
-                list = SelectList();
-            else
-                list = SelectList().Where( p => p.RoleId != entity.RoleId );
-
-            if (base.IsDuplicate(Role.Duplicate(entity.Name)))
+            if ( base.IsDuplicate( list, Role.WhereNameEquals( role.Name ) ) )
             {
-                throw new RulesException("Name", "Duplicate Role Name", entity);
+                throw new RulesException( "Name", "Duplicate Role Name", role );
             }
         }
     }

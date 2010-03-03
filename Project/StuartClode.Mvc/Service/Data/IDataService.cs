@@ -10,21 +10,22 @@ namespace StuartClode.Mvc.Service.Data
 {
     public interface IDataService<T> where T : class
     {
-        IQueryable<T> SelectList();
-        IQueryable<T> SelectList(Expression<Func<T, bool>> whereCondition);
-        T Select( int id );
-        T Select( string name );
+        IQueryable<T> SelectRecordList();
+        IQueryable<T> SelectRecordList( Expression<Func<T, bool>> whereCondition );
+        T SelectRecord( int id );
+        T SelectRecord( Expression<Func<T, bool>> whereCondition );
         void Save( T entity );
         void Update( T entity );
         void Delete( T entity );
+        bool IsNew( T entity );
         bool IsDuplicate( Expression<Func<T, bool>> whereCondition );
+        bool IsDuplicate( IQueryable<T> list, Expression<Func<T, bool>> whereCondition );
     }
 
     public interface IDataService
     {
-        IQueryable SelectList();
-        object Select( int id );
-        object Select( string name );
+        IQueryable SelectRecordList();
+        object SelectRecord( int id );
         void Save( object entity );
         void Update( object entity );
         void Delete( object entity );

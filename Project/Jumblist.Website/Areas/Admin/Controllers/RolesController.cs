@@ -28,7 +28,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult List()
         {
-            var list = roleService.SelectList();
+            var list = roleService.SelectRecordList();
 
             var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Roles";
@@ -49,7 +49,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Edit( int id )
         {
-            var item = roleService.Select( id );
+            var item = roleService.SelectRecord( id );
 
             var model = BuildDataEditDefaultViewModel().With( item );
             model.PageTitle = string.Format( "Edit - {0}", item.Name );
@@ -88,10 +88,10 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Delete )]
         public ActionResult Delete( int id )
         {
-            var feed = roleService.Select( id );
+            var feed = roleService.SelectRecord( id );
             roleService.Delete( feed );
 
-            var list = roleService.SelectList();
+            var list = roleService.SelectRecordList();
 
             return PartialView( "RoleList", list );
         }

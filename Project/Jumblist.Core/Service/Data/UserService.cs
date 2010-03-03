@@ -9,6 +9,7 @@ using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Validation;
 using StuartClode.Mvc.Service.Bing;
+using System.Linq.Expressions;
 
 namespace Jumblist.Core.Service.Data
 {
@@ -24,70 +25,75 @@ namespace Jumblist.Core.Service.Data
 
         #region IUserService Members
 
-        public override void Save( User entity )
+        public override IQueryable<User> SelectRecordList()
         {
-            var bingLocationService = new BingLocationService( entity.Postcode );
-
-            entity.Latitude = bingLocationService.Latitude;
-            entity.Longitude = bingLocationService.Longitude;
-
-            ValidateDataRules( entity );
-            ValidateBusinessRules( entity );
-
-            base.Save( entity );
+            return base.SelectRecordList();
         }
 
-        public override void Update(User entity)
+        public override IQueryable<User> SelectRecordList( Expression<Func<User, bool>> whereCondition )
         {
-            base.Update(entity);
+            return base.SelectRecordList( whereCondition );
         }
 
-        public void ResetPassword( User entity, string password, string confirmPassword )
+        public override User SelectRecord( int id )
+        {
+            return base.SelectRecord( id );
+        }
+
+        public override User SelectRecord( Expression<Func<User, bool>> whereCondition )
+        {
+            return base.SelectRecord( whereCondition );
+        }
+
+        public User SelectRecord( string name )
+        {
+            return SelectRecord( User.WhereNameEquals( name ) );
+        }
+
+        public override void Save( User user )
+        {
+            var bingLocationService = new BingLocationService( user.Postcode );
+
+            user.Latitude = bingLocationService.Latitude;
+            user.Longitude = bingLocationService.Longitude;
+
+            ValidateDataRules( user );
+            ValidateBusinessRules( user );
+
+            base.Save( user );
+        }
+
+        public override void Update( User user )
+        {
+            base.Update( user );
+        }
+
+        public void ResetPassword( User user, string password, string confirmPassword )
         {
             ValidateBusinessRules( password, confirmPassword );
-            entity.Password = HashPassword( password );
+            user.Password = HashPassword( password );
 
-            base.Update( entity );
+            base.Update( user );
         }
 
-        public void Create( User entity, string confirmPassword )
+        public void Create( User user, string confirmPassword )
         {
-            var bingLocationService = new BingLocationService( entity.Postcode.ToUpper() );
+            var bingLocationService = new BingLocationService( user.Postcode.ToUpper() );
 
-            string password = entity.Password;
+            string password = user.Password;
 
-            entity.SearchRadiusMiles = 5;
-            entity.Postcode = entity.Postcode.ToUpper();
-            entity.Latitude = bingLocationService.Latitude;
-            entity.Longitude = bingLocationService.Longitude;
-            entity.Password = HashPassword( password );
-            entity.IsActive = true;
-            entity.DateCreated = DateTime.Now;
+            user.SearchRadiusMiles = 5;
+            user.Postcode = user.Postcode.ToUpper();
+            user.Latitude = bingLocationService.Latitude;
+            user.Longitude = bingLocationService.Longitude;
+            user.Password = HashPassword( password );
+            user.IsActive = true;
+            user.DateCreated = DateTime.Now;
 
-            ValidateDataRules( entity );
-            ValidateBusinessRules( entity.Name, entity.Email, password, confirmPassword );
+            ValidateDataRules( user );
+            ValidateBusinessRules( user.Name, user.Email, password, confirmPassword );
 
-            base.Save( entity );
-        }
-
-        public override IQueryable<User> SelectList()
-        {
-            return base.SelectList();
-        }
-
-        public override User Select( int id )
-        {
-            return base.Select( id );
-        }
-
-        public User Select( string name, string password )
-        {
-            return SelectList().SingleOrDefault( u => u.Name == name && u.Password == password && u.IsActive );
-        }
-
-        public override User Select( string name )
-        {
-            return base.Select( name );
+            base.Save( user );
         }
 
         public virtual void SetAuthenticationCookie( string name, bool rememberMe )
@@ -107,12 +113,12 @@ namespace Jumblist.Core.Service.Data
 
         public bool Authenticate( string name, string password )
         {
-            return Select( name, HashPassword( password ) ) != null;
+            return SelectRecord( u => ( u.Name == name && u.Password == password && u.IsActive ) ) != null;
         }
 
-        public override void Delete( User entity )
+        public override void Delete( User user )
         {
-            base.Delete( entity );
+            base.Delete( user );
         }
 
         //public virtual User CurrentUser
@@ -142,7 +148,7 @@ namespace Jumblist.Core.Service.Data
         private void ValidateBusinessRules( string name, string email, string password, string confirmpassword )
         {
             CheckPasswords( password, confirmpassword );
-            CheckforDatabaseDuplicates( SelectList(), name, email );
+            CheckforDatabaseDuplicates( SelectRecordList(), name, email );
         }
 
         private void ValidateBusinessRules( string password, string confirmpassword )
@@ -150,16 +156,11 @@ namespace Jumblist.Core.Service.Data
             CheckPasswords( password, confirmpassword );
         }
 
-        private void ValidateBusinessRules( User entity )
+        private void ValidateBusinessRules( User user )
         {
-            IQueryable<User> list;
+            var list = base.IsNew( user ) ? SelectRecordList() : SelectRecordList( User.WhereNotEquals( user ) );
 
-            if (entity.UserId == 0)
-                list = SelectList();
-            else
-                list = SelectList().Where( u => u.UserId != entity.UserId );
-
-            CheckforDatabaseDuplicates( list, entity.Name, entity.Email );
+            CheckforDatabaseDuplicates( list, user.Name, user.Email );
         }
 
         private void CheckPasswords( string password, string confirmpassword )
@@ -176,12 +177,12 @@ namespace Jumblist.Core.Service.Data
 
         private void CheckforDatabaseDuplicates( IQueryable<User> list, string name, string email )
         {
-            if (list.Any<User>( u => u.Name == name ))
+            if ( base.IsDuplicate( list, User.WhereNameEquals( name ) ) )
                 throw new RulesException( "Name", "Username already taken", "User" );
             
             if (email != "user@yahoo.com")
             {
-                if (list.Any<User>( u => u.Email == email ))
+                if ( base.IsDuplicate( list, User.WhereEmailEquals( email ) ) )
                     throw new RulesException( "Email", "Email already taken", "User" );
             }
 

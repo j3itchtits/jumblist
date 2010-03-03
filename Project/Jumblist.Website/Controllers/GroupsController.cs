@@ -25,7 +25,7 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Index()
         {
-            var list = feedService.SelectList().OrderBy(x => x.Name);
+            var list = feedService.SelectRecordList().OrderBy(x => x.Name);
 
             var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Groups";

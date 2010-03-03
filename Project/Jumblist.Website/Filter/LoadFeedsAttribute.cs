@@ -13,7 +13,7 @@ namespace Jumblist.Website.Filter
 
         public override void OnActionExecuting( ActionExecutingContext filterContext )
         {
-            filterContext.Controller.ViewData["feeds"] = FeedService.SelectList();
+            filterContext.Controller.ViewData["feeds"] = FeedService.SelectRecordList();
             base.OnActionExecuting( filterContext );
         }
     }

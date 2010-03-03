@@ -8,21 +8,19 @@ namespace Jumblist.Core.Service.Data
 {
     public interface IPostService
     {
-        IQueryable<Post> SelectList();
-        IQueryable<Post> SelectList( Expression<Func<Post, bool>> whereCondition );
+        IQueryable<Post> SelectRecordList();
+        IQueryable<Post> SelectRecordList( Expression<Func<Post, bool>> whereCondition );
 
-        IEnumerable<Post> SelectListByLocation();
-        IEnumerable<Post> SelectListByLocation( Expression<Func<Post, bool>> wherePostCondition );
         IEnumerable<Post> SelectListByLocation( Expression<Func<PostLocation, bool>> wherePostLocationCondition );
         IEnumerable<Post> SelectListByLocation( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostLocation, bool>> wherePostLocationCondition );
 
-        IEnumerable<Post> SelectListByTag();
-        IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition );
         IEnumerable<Post> SelectListByTag( Expression<Func<PostTag, bool>> wherePostTagCondition );
         IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition );
         IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, IQueryable<Tag> tagList );
 
-        Post Select(int id);
+        Post SelectRecord( int id );
+        Post SelectRecord( Expression<Func<Post, bool>> whereCondition );
+
         void Save( Post entity );
         void Update( Post entity );
         void Delete( Post entity );

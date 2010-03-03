@@ -78,9 +78,24 @@ namespace Jumblist.Core.Model
             }
         }
 
-        public static Expression<Func<Location, bool>> Duplicate(string name, string area)
+        public static Expression<Func<Location, bool>> WhereEquals( string name, string area )
         {
-            return p => p.Name == name && p.Area == area;
+            return x => ( x.Name == name && x.Area == area );
+        }
+
+        public static Expression<Func<Location, bool>> WhereEquals( Location location )
+        {
+            return x => x.LocationId == location.LocationId;
+        }
+
+        public static Expression<Func<Location, bool>> WhereNotEquals( Location location )
+        {
+            return x => x.LocationId != location.LocationId;
+        }
+
+        public static Expression<Func<Location, bool>> WhereFriendlyUrlEquals( string friendlyUrl )
+        {
+            return x => x.FriendlyUrl == friendlyUrl;
         }
     }
 }

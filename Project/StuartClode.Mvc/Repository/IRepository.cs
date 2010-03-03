@@ -7,10 +7,11 @@ namespace StuartClode.Mvc.Repository
 {
     public interface IRepository<T> where T : class
     {
-        T Select( int id );
-        T Select( string name );
-        IQueryable<T> SelectList();
-        IQueryable<T> SelectList(Expression<Func<T, bool>> whereCondition);
+        IQueryable<T> SelectRecordList();
+        IQueryable<T> SelectRecordList( Expression<Func<T, bool>> whereCondition );
+        T SelectRecord( int id );
+        T SelectRecord( Expression<Func<T, bool>> whereCondition );
+        //T Select( string name );
         void InsertOnSubmit( T entity );
         void DeleteOnSubmit( T entity );
         void Save( T entity );
@@ -19,9 +20,9 @@ namespace StuartClode.Mvc.Repository
 
     public interface IRepository
     {
-        object Select( int id );
-        object Select( string name );
-        IQueryable SelectList();
+        IQueryable SelectRecordList();
+        object SelectRecord( int id );
+        //object Select( string name );
         void InsertOnSubmit( object entity );
         void DeleteOnSubmit( object entity );
         void Save( object entity );

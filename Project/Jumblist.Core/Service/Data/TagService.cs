@@ -3,6 +3,7 @@ using System.Linq;
 using Jumblist.Core.Model;
 using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Repository;
+using StuartClode.Mvc.Extension;
 using xVal.ServerSide;
 using System.Linq.Expressions;
 using System;
@@ -18,46 +19,51 @@ namespace Jumblist.Core.Service.Data
 
         #region ITagService Members
 
-        public override IQueryable<Tag> SelectList()
+        public override IQueryable<Tag> SelectRecordList()
         {
-            return base.SelectList();
+            return base.SelectRecordList();
         }
 
-        public IQueryable<Tag> SelectList( Expression<Func<Tag, bool>> whereCondition )
+        public override IQueryable<Tag> SelectRecordList( Expression<Func<Tag, bool>> whereCondition )
         {
-            return from x in SelectList().Where( whereCondition )
-                   select x;
+            return base.SelectRecordList( whereCondition );
         }
 
-        public override Tag Select( int id )
+        public override Tag SelectRecord( int id )
         {
-            return base.Select( id );
+            return base.SelectRecord( id );
         }
 
-        public override Tag Select(string name)
+        public override Tag SelectRecord( Expression<Func<Tag, bool>> whereCondition )
         {
-            return base.Select(name);
+            return base.SelectRecord( whereCondition );
         }
 
-        public override void Save( Tag entity )
+        public Tag SelectRecord( string name )
         {
-            ValidateBusinessRules( entity );
-            base.Save( entity );
+            return SelectRecord( Tag.WhereNameEquals( name ) );
         }
 
-        public override void Update(Tag entity)
+        public override void Save( Tag tag )
         {
-            base.Update(entity);
+            ValidateBusinessRules( tag );
+            tag.FriendlyUrl = tag.Name.ToFriendlyUrl();
+            base.Save( tag );
         }
 
-        public override void Delete( Tag entity )
+        public override void Update( Tag tag )
         {
-            base.Delete( entity );
+            base.Update( tag );
         }
 
-        public string[] FindTags(string q)
+        public override void Delete( Tag tag )
         {
-            return SelectList()
+            base.Delete( tag );
+        }
+
+        public string[] SelectTagNameList(string q)
+        {
+            return SelectRecordList()
                 .Where(r => r.Name.StartsWith(q))
                 .Select(r => r.Name)
                 .ToArray();
@@ -65,18 +71,13 @@ namespace Jumblist.Core.Service.Data
 
         #endregion
 
-        private void ValidateBusinessRules( Tag entity )
+        private void ValidateBusinessRules( Tag tag )
         {
-            IQueryable<Tag> list;
+            var list = base.IsNew( tag ) ? SelectRecordList() : SelectRecordList( Tag.WhereNotEquals( tag ) );
 
-            if (entity.TagId == 0)
-                list = SelectList();
-            else
-                list = SelectList().Where( p => p.TagId != entity.TagId );
-
-            if (base.IsDuplicate(Tag.Duplicate(entity.Name)))
+            if ( base.IsDuplicate( list, Tag.WhereNameEquals( tag.Name ) ) )
             {
-                throw new RulesException("Name", "Duplicate Tag Name", entity);
+                throw new RulesException( "Name", "Duplicate Tag Name", tag );
             }
         }
     }

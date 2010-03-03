@@ -41,7 +41,7 @@ namespace Jumblist.Tests.Mocks
         private IDataService<PostCategory> GenerateMockPostCategoryRepository( List<PostCategory> postCategories )
         {
             var mockRepository = new Mock<IDataService<PostCategory>>();
-            mockRepository.Setup( x => x.SelectList() ).Returns( postCategories.AsQueryable() );
+            mockRepository.Setup( x => x.SelectRecordList() ).Returns( postCategories.AsQueryable() );
             return mockRepository.Object;
         }
     }
