@@ -28,6 +28,11 @@ namespace StuartClode.Mvc.Service.Data
             return repository.SelectList();
         }
 
+        public virtual IQueryable<T> SelectList(Expression<Func<T, bool>> whereCondition)
+        {
+            return repository.SelectList(whereCondition);
+        }
+
         public virtual T Select( int id )
         {
             return repository.Select( id );
@@ -62,9 +67,9 @@ namespace StuartClode.Mvc.Service.Data
             repository.SubmitChanges();
         }
 
-        public bool IsDuplicate( Func<T, bool> whereCondition )
+        public virtual bool IsDuplicate( Expression<Func<T, bool>> whereCondition )
         {
-            return SelectList().Any( whereCondition );
+            return SelectList( whereCondition ).Any();
         }
 
         #endregion
@@ -99,11 +104,6 @@ namespace StuartClode.Mvc.Service.Data
         public void Delete( object entity )
         {
             Delete( entity );
-        }
-
-        public bool IsDuplicate( Func<object, bool> whereCondition )
-        {
-            return SelectList().AsEnumerable().Any( whereCondition );
         }
 
         #endregion

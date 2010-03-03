@@ -74,8 +74,10 @@ namespace Jumblist.Core.Service.Data
             else
                 list = SelectList().Where( p => p.TagId != entity.TagId );
 
-            if (list.Any<Tag>( p => p.Name == entity.Name ))
-                throw new RulesException( "Name", "Duplicate Tag Name", entity );
+            if (base.IsDuplicate(Tag.Duplicate(entity.Name)))
+            {
+                throw new RulesException("Name", "Duplicate Tag Name", entity);
+            }
         }
     }
 }

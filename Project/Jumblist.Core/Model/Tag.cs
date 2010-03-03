@@ -29,5 +29,10 @@ namespace Jumblist.Core.Model
         {
             return x => tagList.Contains( x.FriendlyUrl );
         }
+
+        public static Expression<Func<Tag, bool>> Duplicate(string name)
+        {
+            return p => p.Name == name;
+        }
     }
 }

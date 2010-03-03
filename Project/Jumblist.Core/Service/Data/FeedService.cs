@@ -5,6 +5,8 @@ using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Repository;
 using xVal.ServerSide;
 using StuartClode.Mvc.Extension;
+using System.Linq.Expressions;
+using System;
 
 namespace Jumblist.Core.Service.Data
 {
@@ -20,6 +22,11 @@ namespace Jumblist.Core.Service.Data
         public override IQueryable<Feed> SelectList()
         {
             return base.SelectList();
+        }
+
+        public override IQueryable<Feed> SelectList(Expression<Func<Feed, bool>> whereCondition)
+        {
+            return base.SelectList(whereCondition);
         }
 
         public override Feed Select( int id )
@@ -53,12 +60,18 @@ namespace Jumblist.Core.Service.Data
             IQueryable<Feed> list;
 
             if (entity.FeedId == 0)
+            {
                 list = SelectList();
+            }
             else
-                list = SelectList().Where( f => f.FeedId != entity.FeedId );
+            {
+                list = SelectList().Where(f => f.FeedId != entity.FeedId);
+            }
 
-            if (list.Any<Feed>( f => f.Url == entity.Url ))
-                throw new RulesException( "Url", "Duplicate Urls", entity );
+            if (base.IsDuplicate(Feed.Duplicate(entity.Url)))
+            {
+                throw new RulesException("Url", "Duplicate Urls", entity);
+            }
         }
     }
 }

@@ -84,11 +84,6 @@ namespace Jumblist.Core.Service.Data
                    select l;
         }
 
-        public bool IsDuplicate( IQueryable<Location> list, string name, string area )
-        {
-            return list.Any( p => p.Name == name && p.Area == area );
-        }
-
         #endregion
 
         private void ValidateBusinessRules( Location entity )
@@ -100,8 +95,10 @@ namespace Jumblist.Core.Service.Data
             else
                 list = SelectList().Where( p => p.LocationId != entity.LocationId );
 
-            if ( IsDuplicate( list, entity.Name, entity.Area ) )
-                throw new RulesException( "Name", "Duplicate Location Name", entity );
+            if (base.IsDuplicate(Location.Duplicate(entity.Name, entity.Area)))
+            {
+                throw new RulesException("Name", "Duplicate Location Name", entity);
+            }
         }
 
     }

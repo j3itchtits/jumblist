@@ -15,6 +15,5 @@ namespace Jumblist.Core.Service.Data
         string[] FindLocationNames(string q);
         string[] FindLocationAreas( string q );
         IEnumerable<Location> SelectLocationsByFeed( int feedId );
-        bool IsDuplicate( IQueryable<Location> list, string name, string area );
     }
 }
