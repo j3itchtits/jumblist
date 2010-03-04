@@ -79,7 +79,7 @@ namespace Jumblist.Core.Service.Data
         public IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, IQueryable<Tag> tagList )
         {
             return from p in SelectRecordList().Where( wherePostCondition ).AsEnumerable()
-                   where PostMatchesAllTags( p, tagList )
+                   where TagNameListEqualsAnd(p, tagList)
                    select p;
 
                    //let inner = from pt in postTagDataService.SelectList().AsEnumerable()
@@ -407,7 +407,7 @@ namespace Jumblist.Core.Service.Data
         //        .ToArray();
         //}
 
-        private bool PostMatchesAllTags( Post post, IQueryable<Tag> tagList )
+        private bool TagNameListEqualsAnd( Post post, IQueryable<Tag> tagList )
         {
             bool success = false;
 

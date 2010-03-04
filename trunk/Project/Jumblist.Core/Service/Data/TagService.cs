@@ -63,10 +63,9 @@ namespace Jumblist.Core.Service.Data
 
         public string[] SelectTagNameList(string q)
         {
-            return SelectRecordList()
-                .Where(r => r.Name.StartsWith(q))
-                .Select(r => r.Name)
-                .ToArray();
+            return (from t in SelectRecordList()
+                    where t.Name.StartsWith(q)
+                    select t.Name).ToArray();
         }
 
         #endregion
