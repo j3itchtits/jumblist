@@ -47,7 +47,7 @@ namespace Jumblist.Core.Model
             return x => tagList.Contains( x.Tag.FriendlyUrl );
         }
 
-        public static Expression<Func<PostTag, bool>> WhereNameListEqualsOr( IQueryable<Tag> tagList )
+        public static Expression<Func<PostTag, bool>> WhereTagNameListEqualsOr( IQueryable<Tag> tagList )
         {
             var condition = PredicateBuilder.False<PostTag>();
 
@@ -60,7 +60,7 @@ namespace Jumblist.Core.Model
             return condition;
         }
 
-        public static Expression<Func<PostTag, bool>> WhereNameListEqualsAnd( IQueryable<Tag> tagList )
+        public static Expression<Func<PostTag, bool>> WhereTagNameListEqualsAnd( IQueryable<Tag> tagList )
         {
             var condition = PredicateBuilder.True<PostTag>();
 

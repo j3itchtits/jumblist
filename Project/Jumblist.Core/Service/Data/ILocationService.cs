@@ -15,8 +15,7 @@ namespace Jumblist.Core.Service.Data
         void Save( Location entity );
         void Update(Location entity);
         void Delete( Location entity );
-        string[] SelectLocationNameList( string q );
-        string[] SelectLocationAreaList( string q );
+        string[] SelectLocationNameAreaList(string q);
         IEnumerable<Location> SelectRecordListByFeed( Expression<Func<FeedLocation, bool>> whereCondition );
     }
 }

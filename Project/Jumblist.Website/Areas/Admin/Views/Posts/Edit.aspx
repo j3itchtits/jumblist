@@ -100,25 +100,8 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-
-            $("input#locationName").autocomplete('<%= Url.Action("ajaxfindlocationNames", "locations") %>',
-                    {
-                        minChars: 2
-                    }
-                );
-
-            $("input#locationArea").autocomplete('<%= Url.Action("ajaxfindlocationAreas", "locations") %>',
-                    {
-                        minChars: 2
-                    }
-                );
-
-            $("input#tag").autocomplete('<%= Url.Action("ajaxfindtags", "tags") %>',
-                {
-                    minChars: 2
-                }
-            );
-            
+            $("input#locationNameArea").autocomplete('<%= Url.Action("AjaxFindLocationNameAreas", "Locations") %>', { minChars: 2 } );
+            $("input#tagName").autocomplete('<%= Url.Action("AjaxFindTags", "Tags") %>', { minChars: 2 } );
         });
     </script> 
         
@@ -138,8 +121,7 @@
        { %>    
         <p>
             <%= Html.Hidden( "postId", Model.Item.PostId)%>
-            <%= Html.TextBox("locationName", null, new { size = 10 })%>
-            <%= Html.TextBox("locationArea", null, new { size = 10 })%>
+            <%= Html.TextBox("locationNameArea", null, new { size = 10 })%>
             <%= Html.SubmitButton("postlocationcreatebutton", "Create")%>
         </p> 
     <% } %>
