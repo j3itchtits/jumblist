@@ -256,12 +256,14 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult PostLocationCreate( int postId, string locationName, string locationArea )
+        public ActionResult PostLocationCreate( int postId, string locationNameAndArea )
         {
-            var post = postService.SelectRecord( postId );
-            var location = locationService.SelectRecord( Location.WhereEquals( locationName, locationArea ) );
+            var locationArray = locationNameAndArea.Split( new string[] { " > " }, StringSplitOptions.RemoveEmptyEntries );
 
-            if (location != null)
+            var post = postService.SelectRecord( postId );
+            var location = locationService.SelectRecord( Location.WhereEquals( locationArray[0], locationArray[1] ) );
+
+            try
             {
                 var existingPostLocations = postLocationService.IsDuplicate( PostLocation.WhereEquals( postId, location.LocationId ) );
 
@@ -281,21 +283,10 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
                 post.Latitude = location.Latitude;
                 post.Longitude = location.Longitude;
-
             }
-            else
+            catch( Exception ex )
             {
-                var newLocation = new Location { Name = locationName, FriendlyUrl = ( locationName + ", " + locationArea ).ToFriendlyUrl(), Area = locationArea };
-                locationService.Save(newLocation);
 
-                var postLocation = new PostLocation { PostId = postId, LocationId = newLocation.LocationId };
-                postLocationService.Save(postLocation);
-
-                var feedLocation = new FeedLocation { FeedId = post.FeedId, LocationId = newLocation.LocationId };
-                feedLocationService.Save( feedLocation );
-
-                post.Latitude = newLocation.Latitude;
-                post.Longitude = newLocation.Longitude;
             }
 
             postService.Update( post );
@@ -356,5 +347,28 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             return PartialView( "PostTagList", model );
         }
 
+        [AcceptVerbs( HttpVerbs.Post )]
+        public ActionResult LocationCreate( int postId, string locationName, string locationArea )
+        {
+            var post = postService.SelectRecord( postId );
+
+            var location = new Location { Name = locationName, FriendlyUrl = ( locationName + ", " + locationArea ).ToFriendlyUrl(), Area = locationArea };
+            locationService.Save(location);
+
+            var postLocation = new PostLocation { PostId = postId, LocationId = location.LocationId };
+            postLocationService.Save(postLocation);
+
+            var feedLocation = new FeedLocation { FeedId = post.FeedId, LocationId = location.LocationId };
+            feedLocationService.Save( feedLocation );
+
+            post.Latitude = location.Latitude;
+            post.Longitude = location.Longitude;
+
+            postService.Update( post );
+
+            var model = postLocationService.SelectRecordList( PostLocation.WherePostEquals( post ) );
+
+            return PartialView( "PostLocationList", model );
+        }
     }
 }

@@ -100,8 +100,9 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $("input#locationNameArea").autocomplete('<%= Url.Action("AjaxFindLocationNameAreas", "Locations") %>', { minChars: 2 } );
-            $("input#tagName").autocomplete('<%= Url.Action("AjaxFindTags", "Tags") %>', { minChars: 2 } );
+            $("input#locationNameAndArea").autocomplete('<%= Url.Action("AjaxFindLocationNameAndAreas", "Locations") %>', { minChars: 2 });
+            $("input#tagName").autocomplete('<%= Url.Action("AjaxFindTags", "Tags") %>', { minChars: 2 });
+            $("input#locationArea").autocomplete('<%= Url.Action("AjaxFindLocationAreas", "Locations") %>', { minChars: 2 });
         });
     </script> 
         
@@ -114,15 +115,15 @@
     </p>
     
     <div id="post-locations">
-        <% Html.RenderPartial("PostLocationList", Model.Item.PostLocations); %>
+        <% Html.RenderPartial( "PostLocationList", Model.Item.PostLocations ); %>
     </div>   
 
-    <% using (Ajax.BeginForm("postlocationcreate", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "post-locations" }))
+    <% using ( Ajax.BeginForm( "postlocationcreate", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "post-locations" } ) )
        { %>    
         <p>
-            <%= Html.Hidden( "postId", Model.Item.PostId)%>
-            <%= Html.TextBox("locationNameArea", null, new { size = 10 })%>
-            <%= Html.SubmitButton("postlocationcreatebutton", "Create")%>
+            <%= Html.Hidden( "postId", Model.Item.PostId )%>
+            <%= Html.TextBox( "locationNameAndArea", null, new { size = 10 } )%>
+            <%= Html.SubmitButton( "postlocationcreatebutton", "Create" )%>
         </p> 
     <% } %>
     
@@ -131,18 +132,30 @@
     </p>
         
     <div id="post-tags">
-        <% Html.RenderPartial("PostTagList", Model.Item.PostTags); %>
+        <% Html.RenderPartial( "PostTagList", Model.Item.PostTags ); %>
     </div>
     
-    <% using (Ajax.BeginForm("posttagcreate", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "post-tags" }))
+    <% using ( Ajax.BeginForm( "posttagcreate", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "post-tags" } ) )
        { %>    
         <p>
-            <%= Html.Hidden( "postId", Model.Item.PostId)%>
-            <%= Html.TextBox("tagName", null, new { size = 10 } )%>
-            <%= Html.SubmitButton("posttagcreatebutton", "Create")%>
+            <%= Html.Hidden( "postId", Model.Item.PostId )%>
+            <%= Html.TextBox( "tagName", null, new { size = 10 } )%>
+            <%= Html.SubmitButton( "posttagcreatebutton", "Create" )%>
         </p> 
     <% } %>  
         
-        
-</asp:Content>
+    <p>
+        <b>New Location</b>
+    </p>
 
+    <% using ( Ajax.BeginForm( "locationcreate", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "post-locations" } ) )
+       { %>    
+        <p>
+            <%= Html.Hidden( "postId", Model.Item.PostId)%>
+            <%= Html.TextBox("locationName", null, new { size = 10 })%>
+            <%= Html.TextBox("locationArea", null, new { size = 10 })%>
+            <%= Html.SubmitButton("locationcreatebutton", "Create")%>
+        </p> 
+    <% } %>
+    
+</asp:Content>

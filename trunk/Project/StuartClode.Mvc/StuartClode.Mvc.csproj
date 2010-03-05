@@ -92,9 +92,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extension\ArrayExtensions.cs" />
+    <Compile Include="Extension\ListExtensions.cs" />
     <Compile Include="Extension\EnumerationExtensions.cs" />
     <Compile Include="Service\Data\PredicateBuilder.cs" />
-    <Compile Include="Extension\IEnumberableExtensions.cs" />
     <Compile Include="Extension\PropertyInfoExtensions.cs" />
     <Compile Include="Extension\RegexExtensions.cs" />
     <Compile Include="Extension\RoutingExtension.cs" />

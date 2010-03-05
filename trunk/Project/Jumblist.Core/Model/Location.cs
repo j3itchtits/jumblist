@@ -33,6 +33,12 @@ namespace Jumblist.Core.Model
             }
         }
 
+        public string FullLocationName
+        {
+            get;
+            set;
+        }
+
         public string NamePartOfTown
         {
             get
