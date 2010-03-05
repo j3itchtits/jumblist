@@ -99,12 +99,20 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             return PartialView( "LocationList", list );
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
-        public ContentResult AjaxFindLocationNameAreas( string q )
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ContentResult AjaxFindLocationNameAndAreas( string q )
         {
-            var locations = locationService.SelectLocationNameAreaList( q );
+            var locations = locationService.SelectLocationNameAndAreaList( q );
 
-            return Content(string.Join("\n", locations));
+            return Content( string.Join( "\n", locations ) );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ContentResult AjaxFindLocationAreas( string q )
+        {
+            var locations = locationService.SelectLocationAreaList( q );
+
+            return Content( string.Join( "\n", locations ) );
         }
 
     }
