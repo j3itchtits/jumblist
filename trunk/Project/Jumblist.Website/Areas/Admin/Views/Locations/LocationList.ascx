@@ -9,6 +9,7 @@
             <td><%= Ajax.ActionLink( "Delete", "delete", new { id = location.LocationId }, new AjaxOptions { Confirm = "Delete '" + location.Name + "' Post?", HttpMethod = "Delete", UpdateTargetId = "itemsList" } )%></td> 
             <td>[ <%= Html.ActionLink( "List Posts", "listbylocation", "posts", new { id = location.LocationId }, null )%> ]</td> 
             <td>[ <%= Html.ActionLink( "List Posts", "listbylocation", "posts", new { id = location.Name.ToFriendlyUrl() }, null )%> ]</td> 
+            <td>[ <%= Html.ActionLink( "List Feeds", "listbylocation", "feeds", new { id = location.LocationId }, null )%> ]</td> 
             
 <%--            <%
        

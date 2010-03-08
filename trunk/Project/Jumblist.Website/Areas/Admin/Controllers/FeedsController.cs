@@ -55,6 +55,21 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             return View( model );
         }
 
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ViewResult ListByLocation(string id)
+        {
+            int number;
+            bool isInt = Int32.TryParse(id, out number);
+
+            var location = isInt ? locationService.SelectRecord(number) : locationService.SelectRecord(Location.WhereFriendlyUrlEquals(id));
+            var feedList = feedService.SelectListByLocation(FeedLocation.WhereLocationEquals(location)).OrderBy(t => t.Name);
+
+            var model = BuildDefaultViewModel().With(feedList);
+            model.PageTitle = "All Feeds by Location - " + location.Name;
+
+            return View("list", model);
+        }
+
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Create()
         {
