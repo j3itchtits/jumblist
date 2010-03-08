@@ -29,5 +29,7 @@ namespace StuartClode.Mvc.Extension
         {
             return lines.Replace( "\r\n\r\n", "<br/><br/>" ).Replace( "\n\n", "<br/><br/>" );
         }
+
+        public const string FieldSeparator = " > ";
     }
 }

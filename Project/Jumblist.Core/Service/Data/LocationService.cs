@@ -33,6 +33,13 @@ namespace Jumblist.Core.Service.Data
             return base.SelectRecordList( whereCondition );
         }
 
+        public IEnumerable<Location> SelectListByFeed(Expression<Func<FeedLocation, bool>> whereFeedLocationCondition)
+        {
+            return from l in SelectRecordList().AsEnumerable()
+                   join fl in feedLocationDataService.SelectRecordList(whereFeedLocationCondition).AsEnumerable() on l.LocationId equals fl.LocationId
+                   select l;
+        }
+
         public override Location SelectRecord( int id )
         {
             return base.SelectRecord( id );
@@ -79,7 +86,7 @@ namespace Jumblist.Core.Service.Data
         {
             var locationList = from l in SelectRecordList()
                                where l.Name.StartsWith( q )
-                               select new { FullLocationName = l.Name + " > " + l.Area };
+                               select new { FullLocationName = l.Name + StringExtensions.FieldSeparator + l.Area };
 
             return locationList.Select( r => r.FullLocationName ).ToArray();
         }

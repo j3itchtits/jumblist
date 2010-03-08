@@ -9,6 +9,7 @@
             <td><%= Html.ActionLink( "Edit", "edit", new { id = feed.FeedId } )%></td>  
             <td><%= Ajax.ActionLink("Delete", "delete", new { id = feed.FeedId }, new AjaxOptions { Confirm = "Delete '" + feed.Name + "' Feed?", HttpMethod = "Delete", UpdateTargetId = "itemsList" })%></td> 
             <td>[ <%= Html.ActionLink( "List Posts", "listbyfeed", "posts", new { id = feed.FeedId }, null )%> ]</td> 
+            <td>[ <%= Html.ActionLink( "List Locations", "listbyfeed", "locations", new { id = feed.FeedId }, null )%> ]</td> 
         </tr> 
 <% } %>
 </table>         

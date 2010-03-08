@@ -12,6 +12,7 @@ using Jumblist.Core.Service.Data;
 using Jumblist.Website.ViewModel;
 using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Extension;
+using System.Text.RegularExpressions;
 
 namespace Jumblist.Website.Controllers
 {
@@ -206,6 +207,10 @@ namespace Jumblist.Website.Controllers
         [ValidateInput(true)]
         public RedirectToRouteResult Search(string searchString, string searchOptions)
         {
+
+
+
+
             searchString = searchString.Replace(" ", "+").ToLower();
 
             //Loads of logic to go here

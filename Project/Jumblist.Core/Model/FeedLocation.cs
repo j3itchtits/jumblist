@@ -21,5 +21,15 @@ namespace Jumblist.Core.Model
         {
             return x => x.FeedId == feedId;
         }
+
+        public static Expression<Func<FeedLocation, bool>> WhereFeedEquals(Feed feed)
+        {
+            return x => x.FeedId == feed.FeedId;
+        }
+
+        public static Expression<Func<FeedLocation, bool>> WhereLocationEquals(Location location)
+        {
+            return x => x.LocationId == location.LocationId;
+        }
     }
 }

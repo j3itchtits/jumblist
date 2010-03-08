@@ -9,6 +9,32 @@ Options
 One text box for inputting search terms
 Phrases (ie. more than one word) need to entered with quotes (eg. "broad oak" becomes broak-oak and "bath rug" becomes bath-rug)
 
+Amendment - actually we want to not have to use quotes
+
+Each search string is broken into a list of all possible one and two word phrases
+
+Therefore a search for "baby clothes girl hastings" becomes a search for
+
+1. baby clothes girl hastings
+2. baby clothes girl
+clothes girl hastings
+3.baby clothes
+clothes girl
+girl hastings
+4. baby
+clothes
+girl
+hastings
+
+1. The whole search string
+2. String.split on 0/3 and 1/4 whitespace (or dash etc) chars
+3. String.split on 0/2, 1/3 and 2/4
+4. String.split on 0/1, 1/2, 2/3 and 3/4
+
+We then need to loop through all these search strings and match them against a string array of tags to produce a list of tagmatches and then a string array of locations to produced a list of locationmatches.
+
+NEED TO SEE IF I CAN FIND A REGEX EXTENSION METHOD THAT CAN DO THIS FOR ME OR WHETHER I NEED TO WRITE ONE MYSELF
+
  
 a. If user does not type anything then display a full paginated list of posts
  

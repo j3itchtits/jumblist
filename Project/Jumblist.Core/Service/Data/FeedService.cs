@@ -12,9 +12,12 @@ namespace Jumblist.Core.Service.Data
 {
     public class FeedService : DataService<Feed>, IFeedService
     {
-        public FeedService( IRepository<Feed> repository )
+        public IDataService<FeedLocation> feedLocationDataService;
+
+        public FeedService(IRepository<Feed> repository, IDataService<FeedLocation> feedLocationDataService)
             : base( repository )
         {
+            this.feedLocationDataService = feedLocationDataService;
         }
 
         #region IFeedService Members
@@ -27,6 +30,13 @@ namespace Jumblist.Core.Service.Data
         public override IQueryable<Feed> SelectRecordList( Expression<Func<Feed, bool>> whereCondition )
         {
             return base.SelectRecordList( whereCondition );
+        }
+
+        public IEnumerable<Feed> SelectListByLocation(Expression<Func<FeedLocation, bool>> whereFeedLocationCondition)
+        {
+            return from f in SelectRecordList().AsEnumerable()
+                   join fl in feedLocationDataService.SelectRecordList(whereFeedLocationCondition).AsEnumerable() on f.FeedId equals fl.FeedId
+                   select f;
         }
 
         public override Feed SelectRecord( int id )

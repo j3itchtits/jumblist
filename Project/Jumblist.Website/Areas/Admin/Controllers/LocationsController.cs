@@ -16,10 +16,12 @@ namespace Jumblist.Website.Areas.Admin.Controllers
     public class LocationsController : ViewModelController<Location>
     {
         private ILocationService locationService;
+        private IFeedService feedService;
 
-        public LocationsController( ILocationService tagService )
+        public LocationsController(ILocationService locationService, IFeedService feedService)
         {
-            this.locationService = tagService;
+            this.locationService = locationService;
+            this.feedService = feedService;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -37,6 +39,18 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             model.PageTitle = "All Locations";
 
             return View( model );
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ViewResult ListByFeed(int id)
+        {
+            var feed = feedService.SelectRecord(id);
+            var locationList = locationService.SelectListByFeed(FeedLocation.WhereFeedEquals(feed)).OrderBy(t => t.Name);
+
+            var model = BuildDefaultViewModel().With(locationList);
+            model.PageTitle = "All Locations by Feed - " + feed.Name;
+
+            return View("list", model);
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
