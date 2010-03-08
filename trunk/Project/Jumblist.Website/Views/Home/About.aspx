@@ -8,4 +8,17 @@
 
     <h2>About</h2>
 
+    <%= ("baby car tramp".Split( ' ' )).Count() + "<br/>"%>
+    
+    <%  foreach (var item in ("baby car tramp".Split( new char[]{ ' ' }, 1 ) ))
+	{
+        Response.Write( item + "<br/>" );
+	}
+        Response.Write( "<br/>" );
+        %>
+    
+    <%= Regex.IsMatch( "baby\nclothes\nhat\ngirl\nbed\nbaby girl", "baby clothes", RegexOptions.IgnoreCase | RegexOptions.Multiline ).ToString()%>
+
+
+
 </asp:Content>

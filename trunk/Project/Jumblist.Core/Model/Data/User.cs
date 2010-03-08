@@ -25,18 +25,18 @@ namespace Jumblist.Core.Model
 
         [Column( Name = "UserEmail" )]
         [Required]
-        [RegularExpression( RegexExtensions.Email, ErrorMessage = "You must supply a valid email address" )]
+        [RegularExpression( StringExtensions.Email, ErrorMessage = "You must supply a valid email address" )]
         [StringLength( 250 )]
         public string Email { get; set; }
 
         [Column( Name = "UserPassword" )]
         [Required]
         [StringLength( 50 )]
-        [RegularExpression( RegexExtensions.Password, ErrorMessage = "Your password must be between 6 and 50 characters in length and not contain any spaces" )]
+        [RegularExpression( StringExtensions.Password, ErrorMessage = "Your password must be between 6 and 50 characters in length and not contain any spaces" )]
         public string Password { get; set; }
 
         [Column( Name = "UserPostcode" )]
-        [RegularExpression( RegexExtensions.UKPostcode, ErrorMessage = "You must supply a valid UK postcode" )]
+        [RegularExpression( StringExtensions.UKPostcode, ErrorMessage = "You must supply a valid UK postcode" )]
         public string Postcode { get; set; }
 
         [Column(Name = "UserLatitude")]

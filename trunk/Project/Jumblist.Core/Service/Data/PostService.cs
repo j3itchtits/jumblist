@@ -326,7 +326,7 @@ namespace Jumblist.Core.Service.Data
             foreach (Location location in locationList)
             {
                 string pattern = (location.IsPostcode) ? location.NameSearch + ".*" : location.NameSearch;
-                if (RegexExtensions.IsPhraseMatch(input, pattern, RegexOptions.IgnoreCase))
+                if (input.IsPhraseRegexMatch( pattern, RegexOptions.IgnoreCase ))
                 {
                     var postLocationItem = new PostLocation { PostId = post.PostId, LocationId = location.LocationId };
                     postLocationDataService.Save(postLocationItem);
@@ -346,7 +346,7 @@ namespace Jumblist.Core.Service.Data
 
             foreach (Tag tag in tagList)
             {
-                if (RegexExtensions.IsSingularOrPluralPhraseMatch(input, tag.Name, RegexOptions.IgnoreCase))
+                if (input.IsSingularOrPluralPhraseRegexMatch(tag.Name, RegexOptions.IgnoreCase))
                 {
                     var postTagItem = new PostTag { PostId = post.PostId, TagId = tag.TagId };
                     postTagDataService.Save(postTagItem);

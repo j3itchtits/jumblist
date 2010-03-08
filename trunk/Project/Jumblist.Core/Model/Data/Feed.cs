@@ -34,7 +34,7 @@ namespace Jumblist.Core.Model
         [Column( Name = "FeedUrl" )]
         [Required( ErrorMessage = "Please enter a url" )]
         [StringLength( 500 )]
-        [RegularExpression( RegexExtensions.Url, ErrorMessage = "You must supply a valid url" )]
+        [RegularExpression( StringExtensions.Url, ErrorMessage = "You must supply a valid url" )]
         public string Url { get; set; }
 
         [Column( Name = "FeedUsername" )]
