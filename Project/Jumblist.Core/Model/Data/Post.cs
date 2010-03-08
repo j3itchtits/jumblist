@@ -32,7 +32,7 @@ namespace Jumblist.Core.Model
         [Column( Name = "PostUrl" )]
         [Required]
         [StringLength( 500 )]
-        [RegularExpression( RegexExtensions.Url, ErrorMessage = "You must supply a valid web link" )]
+        [RegularExpression( StringExtensions.Url, ErrorMessage = "You must supply a valid web link" )]
         public string Url { get; set; }
 
         [Column( Name = "PostTitle" )]

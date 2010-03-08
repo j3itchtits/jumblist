@@ -21,7 +21,7 @@ namespace Jumblist.Core.Model
         {
             get 
             {
-                return Regex.IsMatch( Name, RegexExtensions.UKPostcodeBasic, RegexOptions.IgnoreCase );
+                return Regex.IsMatch( Name, StringExtensions.UKPostcodeBasic, RegexOptions.IgnoreCase );
             }
         }
 
