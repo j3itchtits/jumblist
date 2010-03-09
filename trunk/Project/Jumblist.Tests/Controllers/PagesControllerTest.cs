@@ -15,7 +15,7 @@ namespace Jumblist.Tests.Controllers
         public void HomePage_Displays_Correctly()
         {
             // Arrange
-            var controller = new HomeController();
+            var controller = new HomeController(null);
 
             // Act
             var result = controller.Index();

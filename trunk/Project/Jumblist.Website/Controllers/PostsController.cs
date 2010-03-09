@@ -19,12 +19,12 @@ namespace Jumblist.Website.Controllers
     public class PostsController : ViewModelController<Post>
     {
         private readonly IPostService postService;
-        private readonly IDataService<Location> locationService;
+        private readonly ILocationService locationService;
         private readonly ITagService tagService;
         private readonly IDataService<Feed> feedService;
         private readonly IDataService<PostCategory> postCategoryService;
 
-        public PostsController( IPostService postService, IDataService<Location> locationService, ITagService tagService, IDataService<Feed> feedService, IDataService<PostCategory> postCategoryService )
+        public PostsController(IPostService postService, ILocationService locationService, ITagService tagService, IDataService<Feed> feedService, IDataService<PostCategory> postCategoryService)
         {
             this.postService = postService;
             this.locationService = locationService;
@@ -207,14 +207,49 @@ namespace Jumblist.Website.Controllers
         [ValidateInput(true)]
         public RedirectToRouteResult Search(string searchString, string searchOptions)
         {
+            var searchPattern = searchString.ToSearchRegexPattern();
+
+            var tagsInput = string.Join("\n", tagService.SelectTagNameList());
+            var locationsInput = string.Join("\n", locationService.SelectLocationNameTownList());
+
+            var tagMatches = Regex.Matches(tagsInput, searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            var locationMatches = Regex.Matches(locationsInput, searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
+            if (tagMatches.Count > 0 && locationMatches.Count == 0)
+            {
+                string queryString = GenerateQueryString(tagMatches);
+                return RedirectToAction("tagged", new { id = queryString, category = searchOptions, page = string.Empty });
+            }
+
+            if (tagMatches.Count == 0 && locationMatches.Count > 0)
+            {
+                string queryString = GenerateQueryString(locationMatches);
+                return RedirectToAction("located", new { id = queryString, category = searchOptions, page = string.Empty });
+            }
+
+            if (tagMatches.Count > 0 && locationMatches.Count > 0)
+            {
+                string tagQueryString = GenerateQueryString(tagMatches);
+                string locationQueryString = GenerateQueryString(locationMatches);
+                return RedirectToAction("search", new { tagged = tagQueryString, located = locationQueryString, category = searchOptions, page = string.Empty });
+            }
+
+            PageTitle = "Sorry we have a problem";
+            return RedirectToAction("problem");
+            
+        }
 
 
+        private string GenerateQueryString(MatchCollection matches)
+        {
+            string queryString = string.Empty;
 
+            foreach (var match in matches)
+            {
+                queryString += match.ToString().ToFriendlyUrl() + "+";
+            }
 
-            searchString = searchString.Replace(" ", "+").ToLower();
-
-            //Loads of logic to go here
-            return RedirectToAction("tagged", new { id = searchString, category = searchOptions, page = string.Empty });
+            return queryString.Remove(queryString.Length - 1);
         }
     }
 

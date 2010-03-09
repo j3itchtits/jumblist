@@ -73,6 +73,14 @@ namespace Jumblist.Core.Service.Data
             base.Delete( location );
         }
 
+        public string[] SelectLocationNameTownList()
+        {
+            var locationList = from l in SelectRecordList()
+                               select l.NameSearch;
+
+            return locationList.Distinct().ToArray();
+        }
+
         public string[] SelectLocationAreaList( string q )
         {
             var locationList = from l in SelectRecordList()
