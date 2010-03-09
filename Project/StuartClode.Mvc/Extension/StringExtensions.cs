@@ -42,19 +42,21 @@ namespace StuartClode.Mvc.Extension
 
         public static string ToSearchRegexPattern( this string search )
         {
-            string[] array = search.Split( ' ' );
-            string[] newarray = FindWords( array );
+            string[] searchArray = FindWords(search.Split(' '));
 
-            var sb = new StringBuilder();
+            return (searchArray.Where(s => s.Length > 0)).ConvertListItemsToString("(^", "$)|");
 
-            foreach (var item in newarray.Where( s => s.Length > 0 ))
-            {
-                sb.Append( "(^" + item + "$)|" );
-            }
 
-            var stringsearch = sb.ToString();
+            //var sb = new StringBuilder();
 
-            return stringsearch.Remove( stringsearch.Length - 1 );
+            //foreach (var item in newarray.Where( s => s.Length > 0 ))
+            //{
+            //    sb.Append( "(^" + item + "$)|" );
+            //}
+
+            //var stringsearch = sb.ToString();
+
+            //return stringsearch.Remove( stringsearch.Length - 1 );
         }
 
         public static bool IsPhraseRegexMatch( this string input, string pattern, RegexOptions options )

@@ -16,6 +16,7 @@ namespace Jumblist.Core.Service.Data
         void Save( Tag entity );
         void Update(Tag entity);
         void Delete( Tag entity );
+        string[] SelectTagNameList();
         string[] SelectTagNameList( string q );
     }
 }

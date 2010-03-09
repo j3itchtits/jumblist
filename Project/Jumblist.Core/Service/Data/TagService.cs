@@ -61,6 +61,12 @@ namespace Jumblist.Core.Service.Data
             base.Delete( tag );
         }
 
+        public string[] SelectTagNameList()
+        {
+            return (from t in SelectRecordList()
+                    select t.Name).ToArray();
+        }
+
         public string[] SelectTagNameList(string q)
         {
             return (from t in SelectRecordList()
