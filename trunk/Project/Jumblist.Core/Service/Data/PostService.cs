@@ -82,15 +82,19 @@ namespace Jumblist.Core.Service.Data
                    where TagNameListEqualsAnd(p, tagList)
                    select p;
 
-                   //let inner = from pt in postTagDataService.SelectList().AsEnumerable()
+                   //let inner = from pt in postTagDataService.SelectRecordList().AsEnumerable()
                    //            where pt.Tag.Name == "Baby"
                    //            select pt.PostId
-                   //let inner2 = from pt in postTagDataService.SelectList().AsEnumerable()
-                   //             where pt.Tag.Name == "Clothes"
-                   //             select pt.PostId
+                   ////let inner2 = from pt in postTagDataService.SelectRecordList().AsEnumerable()
+                   ////             where pt.Tag.Name == "Clothes"
+                   ////             select pt.PostId
 
-                   //let inner = postTagDataService.SelectList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId )
-                   //let inner2 = postTagDataService.SelectList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId )
+                   //where inner.Contains( p.PostId ) // && inner2.Contains( p.PostId )
+                   //select p;
+
+
+            //let inner = postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId )
+            //let inner2 = postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId )
 
                    //where inner.Contains( p.PostId ) && inner2.Contains( p.PostId )
                    //where (postTagDataService.SelectList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId ).Contains( p.PostId )) && (postTagDataService.SelectList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId ).Contains( p.PostId ))

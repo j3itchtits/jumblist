@@ -13,6 +13,7 @@ using Jumblist.Website.ViewModel;
 using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Extension;
 using System.Text.RegularExpressions;
+using System.Collections;
 
 namespace Jumblist.Website.Controllers
 {
@@ -68,6 +69,7 @@ namespace Jumblist.Website.Controllers
             List<Link> model = new List<Link>();
 
             model.Add( new CategoryLink( null ) { IsSelected = ( string.IsNullOrEmpty( highlightedCategory ) ) } );
+
             foreach ( var category in postCategoryList )
             {
                 model.Add( new CategoryLink( category.Name ) { IsSelected = ( highlightedCategory.Equals( category.Name, StringComparison.OrdinalIgnoreCase ) ) } );
@@ -153,11 +155,11 @@ namespace Jumblist.Website.Controllers
                 var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
 
                 var model = BuildDefaultViewModel().With(pagedPostList);
-                model.PageTitle = "All " + category + " Posts by Tag - " + tagList.Select( x => x.Name ).ToArray().ToFormattedList( "{0}, " );
+                model.PageTitle = "All " + category + " Posts by Tag - " + tagList.Select( x => x.Name ).ToFormattedStringList( "{0}, ", 2 );
                 model.ListCount = postList.Count();
 
-                if (postList.Count() == 0) 
-                    model.Message = new Message { Text = "No posts tagged with " + tagList.Select( x => x.Name ).ToArray().ToFormattedList( "{0}, " ), StyleClass = "message" };
+                if (postList.Count() == 0)
+                    model.Message = new Message { Text = "No posts tagged with " + tagList.Select( x => x.Name ).ToFormattedStringList( "{0}, ", 2 ), StyleClass = "message" };
 
                 return View("index", model);
             }
@@ -177,7 +179,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Group(string id, int? page)
+        public ActionResult Group( string id, int? page )
         {
             try
             {
@@ -205,33 +207,40 @@ namespace Jumblist.Website.Controllers
 
         [AcceptVerbs(HttpVerbs.Post)]
         [ValidateInput(true)]
-        public RedirectToRouteResult Search(string searchString, string searchOptions)
+        public RedirectToRouteResult Search( string searchString, string searchOptions )
         {
+            searchString = searchString.ToCleanSearchString();
+
             var searchPattern = searchString.ToSearchRegexPattern();
+            var tagsInput = string.Join( "\n", tagService.SelectTagNameList() );
+            var locationsInput = string.Join( "\n", locationService.SelectLocationNameTownList() );
 
-            var tagsInput = string.Join("\n", tagService.SelectTagNameList());
-            var locationsInput = string.Join("\n", locationService.SelectLocationNameTownList());
+            var tagMatches = Regex.Matches( tagsInput, searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
+            var locationMatches = Regex.Matches( locationsInput, searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
 
-            var tagMatches = Regex.Matches(tagsInput, searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
-            var locationMatches = Regex.Matches(locationsInput, searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            var tagMatchesCompareString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0} ", 1 );
+            var locationMatchesCompareString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0} ", 1 );
+            locationMatchesCompareString = (locationMatchesCompareString.Length == 0) ? string.Empty : " " + locationMatchesCompareString;
 
-            if (tagMatches.Count > 0 && locationMatches.Count == 0)
+            bool isCompleteSearchMatch = string.Compare( searchString.ToAlphabetical(), (tagMatchesCompareString + locationMatchesCompareString).ToAlphabetical(), true ) == 0;
+
+            if (tagMatches.Count > 0 && locationMatches.Count == 0 && isCompleteSearchMatch)
             {
-                string queryString = GenerateQueryString(tagMatches);
-                return RedirectToAction("tagged", new { id = queryString, category = searchOptions, page = string.Empty });
+                string tagQueryString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0}, ", 2 ).ToFriendlyUrl();
+                return RedirectToAction( "tagged", new { id = tagQueryString, category = searchOptions, page = string.Empty } );
             }
 
-            if (tagMatches.Count == 0 && locationMatches.Count > 0)
+            if (tagMatches.Count == 0 && locationMatches.Count > 0 && isCompleteSearchMatch)
             {
-                string queryString = GenerateQueryString(locationMatches);
-                return RedirectToAction("located", new { id = queryString, category = searchOptions, page = string.Empty });
+                string locationQueryString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0}, ", 2 ).ToFriendlyUrl();
+                return RedirectToAction( "located", new { id = locationQueryString, category = searchOptions, page = string.Empty } );
             }
 
-            if (tagMatches.Count > 0 && locationMatches.Count > 0)
+            if (tagMatches.Count > 0 && locationMatches.Count > 0 && isCompleteSearchMatch)
             {
-                string tagQueryString = GenerateQueryString(tagMatches);
-                string locationQueryString = GenerateQueryString(locationMatches);
-                return RedirectToAction("search", new { tagged = tagQueryString, located = locationQueryString, category = searchOptions, page = string.Empty });
+                string tagQueryString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0}, ", 2 ).ToFriendlyUrl();
+                string locationQueryString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0}, ", 2 ).ToFriendlyUrl();
+                return RedirectToAction( "search", new { tagged = tagQueryString, located = locationQueryString, category = searchOptions, page = string.Empty } );
             }
 
             PageTitle = "Sorry we have a problem";
@@ -239,18 +248,6 @@ namespace Jumblist.Website.Controllers
             
         }
 
-
-        private string GenerateQueryString(MatchCollection matches)
-        {
-            string queryString = string.Empty;
-
-            foreach (var match in matches)
-            {
-                queryString += match.ToString().ToFriendlyUrl() + "+";
-            }
-
-            return queryString.Remove(queryString.Length - 1);
-        }
     }
 
     public class CategoryLink : Link

@@ -23,9 +23,25 @@ namespace StuartClode.Mvc.Extension
         {
             helper = (helper ?? "").Trim().ToLower();
             helper = Regex.Replace( helper, @", ", "+" );        // a comma then space becomes a separator (+) in the url
-            helper = Regex.Replace( helper, @"[^a-z0-9]", "-" ); // invalid chars become a connector (-) in the url
-            helper = Regex.Replace( helper, @"-+", "-" ).Trim(); // convert multiple dashes into one
+            helper = Regex.Replace( helper, @"[^a-z0-9+]", "-" ); // invalid chars become a connector (-) in the url
+            helper = Regex.Replace( helper, @"-+", "-" ); // convert multiple dashes into one
             return helper;
+        }
+
+        public static string ToCleanSearchString( this string helper )
+        {
+            helper = (helper ?? "").Trim().ToLower();
+            helper = Regex.Replace( helper, @",", " " );        
+            helper = Regex.Replace( helper, @"[^a-z0-9\s]", "" ); //remove punctuation 
+            helper = Regex.Replace( helper, @"\sand\s", " " ); 
+            helper = Regex.Replace( helper, @"\sor\s", " " );
+            helper = Regex.Replace( helper, @"\s+", " " ); // convert multiple spaces into one
+            return helper;
+        }
+
+        public static string ToAlphabetical( this string input )
+        {
+            return input.Split( ' ' ).OrderBy( s => s ).ToFormattedStringList( "{0} ", 1 );
         }
 
         public static string ReplaceLineBreaks( this string lines, string replacement )
@@ -38,25 +54,6 @@ namespace StuartClode.Mvc.Extension
         public static string ReplaceParagraphBreaks( this string lines )
         {
             return lines.Replace( "\r\n\r\n", "<br/><br/>" ).Replace( "\n\n", "<br/><br/>" );
-        }
-
-        public static string ToSearchRegexPattern( this string search )
-        {
-            string[] searchArray = FindWords(search.Split(' '));
-
-            return (searchArray.Where(s => s.Length > 0)).ConvertListItemsToString("(^", "$)|");
-
-
-            //var sb = new StringBuilder();
-
-            //foreach (var item in newarray.Where( s => s.Length > 0 ))
-            //{
-            //    sb.Append( "(^" + item + "$)|" );
-            //}
-
-            //var stringsearch = sb.ToString();
-
-            //return stringsearch.Remove( stringsearch.Length - 1 );
         }
 
         public static bool IsPhraseRegexMatch( this string input, string pattern, RegexOptions options )
@@ -107,7 +104,16 @@ namespace StuartClode.Mvc.Extension
             return isMatch;
         }
 
-        private static string[] FindWords( params string[] args )
+        public static string ToSearchRegexPattern( this string search )
+        {
+            //string[] searchArray = search.Split( ' ' );
+            //return (searchArray.Where( s => s.Length > 0 )).ToFormattedStringList( "(^{0}$)|", 1 );
+
+            string[] searchArray = FindAllWordPhraseCombinations( search.Split( ' ' ) );
+            return (searchArray.Where( s => s.Length > 0 )).ToFormattedStringList( "(^{0}$)|", 1 );
+        }
+
+        private static string[] FindAllWordPhraseCombinations( params string[] args )
         {
             //if (args.Count() == 0)
             //{
@@ -125,7 +131,7 @@ namespace StuartClode.Mvc.Extension
             }
             else
             {
-                String[] oldWords = FindWords( args.Skip( 1 ).ToArray() );
+                String[] oldWords = FindAllWordPhraseCombinations( args.Skip( 1 ).ToArray() );
                 String[] newWords = oldWords.Where( word => word == "" || word.Split( new String[] { " " }, StringSplitOptions.RemoveEmptyEntries )[0] == args[1] )
                     .Select( word => (args[0] + " " + word).Trim() )
                     .ToArray();

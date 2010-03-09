@@ -7,8 +7,12 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
     <h2>About</h2>
-
+    
     <%= ("baby car tramp".Split( ' ' )).Count() + "<br/>"%>
+    
+    Clean Search String: <%= ("baby,arse or car tramp").ToCleanSearchString() + "<br/>" %>
+    
+    Ordered Search String: <%= ("baby arse car tramp").Split( ' ' ).OrderBy( s => s ).ToFormattedStringList( "{0} ", 1 ) + "<br/>" %>
     
     <%  foreach (var item in ("baby car tramp".Split( new char[]{ ' ' }, 1 ) ))
 	{
