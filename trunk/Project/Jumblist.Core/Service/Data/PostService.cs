@@ -80,6 +80,8 @@ namespace Jumblist.Core.Service.Data
         {
             return from p in SelectRecordList().Where( wherePostCondition ).AsEnumerable()
                    where TagNameListEqualsAnd(p, tagList)
+                   //where (postTagDataService.SelectRecordList().Where(pt => pt.Tag.Name == "Baby").Select(pt => pt.PostId).Contains(p.PostId)) && (postTagDataService.SelectRecordList().Where(pt => pt.Tag.Name == "Clothes").Select(pt => pt.PostId).Contains(p.PostId))
+                   //where (postTagDataService.SelectRecordList().Where(pt => pt.Tag.Name == "Baby").Select(pt => pt.PostId).Contains(p.PostId))
                    select p;
 
                    //let inner = from pt in postTagDataService.SelectRecordList().AsEnumerable()
@@ -101,6 +103,7 @@ namespace Jumblist.Core.Service.Data
 
 
         }
+
 
         public override Post SelectRecord( int id )
         {

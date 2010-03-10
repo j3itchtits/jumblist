@@ -98,18 +98,56 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Located( string id, int? page )
+        public ActionResult Group(string id, int? page)
         {
             try
             {
-                var location = locationService.SelectRecord( Location.WhereFriendlyUrlEquals( id ) );
+                var feed = feedService.SelectRecord(Feed.WhereFriendlyUrlEquals(id));
 
-                var postList = postService.SelectListByLocation( Post.WhereDisplayEquals( true ), PostLocation.WhereLocationEquals( location ) ).OrderByDescending( t => t.PublishDateTime );
+                var postList = postService.SelectRecordList(Post.WhereFeedEquals(feed).And(Post.WhereDisplayEquals(true))).OrderByDescending(t => t.PublishDateTime);
+                var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
+
+                var model = BuildDefaultViewModel().With(pagedPostList);
+                model.PageTitle = "All Posts by Group - " + feed.Name;
+                model.ListCount = postList.Count();
+
+                if (postList.Count() == 0)
+                    model.Message = new Message { Text = "No posts from this group - " + id, StyleClass = "message" };
+
+                return View("index", model);
+            }
+            catch (Exception)
+            {
+                PageTitle = "Sorry we have a problem";
+                Message = new Message { Text = "We could not find this group - " + id, StyleClass = "message" };
+                return RedirectToAction("problem");
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult Located(string id, string category, int? page)
+        {
+            try
+            {
+                string[] locations = id.Split('+');
+                var locationList = locationService.SelectRecordList(Location.WhereFriendlyUrlListEqualsOr(locations));
+
+                IEnumerable<Post> postList;
+
+                if (!string.IsNullOrEmpty(category))
+                {
+                    var postCategory = postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category));
+                    postList = postService.SelectListByLocation(Post.WherePostCategoryEquals(postCategory).And(Post.WhereDisplayEquals(true)), PostLocation.WhereLocationNameListEqualsOr(locationList)).OrderByDescending(t => t.PublishDateTime).Distinct();
+                }
+                else
+                {
+                    postList = postService.SelectListByLocation(Post.WhereDisplayEquals(true), PostLocation.WhereLocationNameListEqualsOr(locationList)).OrderByDescending(t => t.PublishDateTime).Distinct();
+                }
 
                 var pagedPostList = new PaginatedList<Post>( postList.ToList(), (page ?? 1), frontEndPageSize );
 
                 var model = BuildDefaultViewModel().With(pagedPostList);
-                model.PageTitle = "All Posts by Location - " + location.Name;
+                model.PageTitle = "All " + category + " Posts by Location - " + locationList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
                 model.ListCount = postList.Count();
 
                 if (postList.Count() == 0) 
@@ -139,14 +177,14 @@ namespace Jumblist.Website.Controllers
                 {
                     var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
                     //Or
-                    //postList = postService.SelectListByTag( Post.WherePostCategoryEquals( postCategory ).And( Post.WhereDisplayEquals( true ) ), PostTag.WhereNameListEqualsOr( tagList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
+                    //postList = postService.SelectListByTag( Post.WherePostCategoryEquals( postCategory ).And( Post.WhereDisplayEquals( true ) ), PostTag.WhereTagNameListEqualsOr( tagList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
                     //And
                     postList = postService.SelectListByTag( Post.WherePostCategoryEquals( postCategory ).And( Post.WhereDisplayEquals( true ) ), tagList ).OrderByDescending( t => t.PublishDateTime );
                 }
                 else
                 {
                     //Or
-                    //postList = postService.SelectListByTag( Post.WhereDisplayEquals( true ), PostTag.WhereNameListEqualsOr( tagList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
+                    //postList = postService.SelectListByTag( Post.WhereDisplayEquals( true ), PostTag.WhereTagNameListEqualsOr( tagList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
                     //And
                     postList = postService.SelectListByTag( Post.WhereDisplayEquals( true ), tagList ).OrderByDescending( t => t.PublishDateTime );
 
@@ -179,30 +217,49 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Group( string id, int? page )
+        public ActionResult Search(string tagged, string located, string category, int? page)
         {
             try
             {
-                var feed = feedService.SelectRecord( Feed.WhereFriendlyUrlEquals( id ) );
 
-                var postList = postService.SelectRecordList( Post.WhereFeedEquals(feed).And(Post.WhereDisplayEquals(true)) ).OrderByDescending(t => t.PublishDateTime);
+                string[] tags = tagged.Split('+');
+                var tagList = tagService.SelectRecordList(Tag.WhereFriendlyUrlListEqualsOr(tags));
+
+                string[] locations = located.Split('+');
+                var locationList = locationService.SelectRecordList(Location.WhereFriendlyUrlListEqualsOr(locations));
+
+
+                IEnumerable<Post> postList = null;
+
+                if (!string.IsNullOrEmpty(category))
+                {
+                }
+                else
+                {
+                }
+
                 var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
 
                 var model = BuildDefaultViewModel().With(pagedPostList);
-                model.PageTitle = "All Posts by Group - " + feed.Name;
+                model.PageTitle = "All " + category + " Posts by Tag - " + tagList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
+                model.PageTitle += "All " + category + " Posts by Location - " + locationList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
                 model.ListCount = postList.Count();
 
-                if (postList.Count() == 0) 
-                    model.Message = new Message { Text = "No posts from this group - " + id, StyleClass = "message" };
+                if (postList.Count() == 0)
+                {
+                    model.Message = new Message { Text = "No posts tagged with " + tagList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2), StyleClass = "message" };
+                    model.Message = new Message { Text = "No posts located at " + locationList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2), StyleClass = "message" };
+                }
 
                 return View("index", model);
             }
             catch (Exception)
             {
                 PageTitle = "Sorry we have a problem";
-                Message = new Message { Text = "We could not find this group - " + id, StyleClass = "message" };
+                Message = new Message { Text = "We could not find this tag - " + tagged + " or location - " + located, StyleClass = "message" };
                 return RedirectToAction("problem");
             }
+
         }
 
         [AcceptVerbs(HttpVerbs.Post)]

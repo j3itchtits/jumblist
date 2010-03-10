@@ -42,5 +42,17 @@ namespace Jumblist.Core.Model
             return x => x.Location.Name.ToFriendlyUrl() == locationName;
         }
 
+        public static Expression<Func<PostLocation, bool>> WhereLocationNameListEqualsOr(IQueryable<Location> locationList)
+        {
+            var condition = PredicateBuilder.False<PostLocation>();
+
+            foreach (var location in locationList)
+            {
+                string temp = location.Name;
+                condition = condition.Or(x => x.Location.Name == temp);
+            }
+
+            return condition;
+        }
     }
 }
