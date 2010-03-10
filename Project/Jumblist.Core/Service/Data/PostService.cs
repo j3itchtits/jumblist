@@ -78,7 +78,7 @@ namespace Jumblist.Core.Service.Data
 
         public IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, IQueryable<Tag> tagList )
         {
-            //var postIds = postTagDataService.SelectRecordList( PostTag.WhereTagNameListEqualsAnd( tagList ) ).Select( pt => pt.PostId ).ToArray();
+            var postIds = postTagDataService.SelectRecordList( PostTag.WhereTagNameListEqualsAnd( tagList ) ).Select( pt => pt.PostId ).ToArray();
 
             //return from p in SelectRecordList().Where( wherePostCondition ).AsEnumerable()
             //       where TagNameListEqualsAnd( p, tagList )
@@ -88,13 +88,21 @@ namespace Jumblist.Core.Service.Data
             //       where ( postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId ).Contains( p.PostId ) ) && ( postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId ).Contains( p.PostId ) )
             //       select p;
 
-            //return from p in SelectRecordList().Where( wherePostCondition.And( Post.WherePostIdListEqualsOr( postIds ) ) ).AsEnumerable()
-            //       select p;
-
-            return from p in SelectRecordList().Where( wherePostCondition.And( p => Post.WhereTagNameListEqualsAnd( tagList ) ) )
+            return from p in SelectRecordList().Where( wherePostCondition.And( Post.WherePostIdListEqualsOr( postIds ) ) ).AsEnumerable()
                    select p;
 
+            //return from p in SelectRecordList().Where( wherePostCondition.And( p => Post.WhereTagNameListEqualsAnd( tagList ) ) )
+            //       select p;
 
+//            SELECT     PostId
+//FROM         PostTags
+//WHERE     (PostId IN
+//                          (SELECT     PostId
+//                            FROM          PostTags AS PostTags_2
+//                            WHERE      (TagId = 9))) AND (PostId IN
+//                          (SELECT     PostId
+//                            FROM          PostTags AS PostTags_1
+//                            WHERE      (TagId = 43)))
 
 
             //Orders.Where(o => o.OrderDetails.Any(od => od.ProductId == 11) 
