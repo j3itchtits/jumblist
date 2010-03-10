@@ -7,6 +7,7 @@ using System.Data.Linq;
 using System.Linq.Expressions;
 using StuartClode.Mvc.Extension;
 using StuartClode.Mvc.Service.Data;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Jumblist.Core.Model
 {
@@ -51,7 +52,7 @@ namespace Jumblist.Core.Model
         {
             var condition = PredicateBuilder.False<PostTag>();
 
-            foreach (Tag tag in tagList)
+            foreach (var tag in tagList)
             {
                 string temp = tag.Name;
                 condition = condition.Or( x => x.Tag.Name == temp );
@@ -60,14 +61,17 @@ namespace Jumblist.Core.Model
             return condition;
         }
 
-        public static Expression<Func<PostTag, bool>> WhereTagNameListEqualsAnd( IQueryable<Tag> tagList )
+        public static Expression<Func<PostTag, bool>> WhereTagNameListEqualsAnd( Post post, IQueryable<Tag> tagList )
         {
             var condition = PredicateBuilder.True<PostTag>();
+            var postTagDataService = ServiceLocator.Current.GetInstance<IDataService<PostTag>>();
 
-            foreach (Tag tag in tagList)
+            foreach (var tag in tagList)
             {
                 string temp = tag.Name;
-                condition = condition.And( x => x.Tag.Name == temp );
+                condition = condition.And(x => postTagDataService.SelectRecordList(PostTag.WhereTagEquals(tag)).Select(pt => pt.PostId).Contains(post.PostId));
+
+                //postTagDataService.SelectRecordList( PostTag.WhereTagEquals( tag ) ).Select( pt => pt.PostId ).Contains( post.PostId );
             }
 
             return condition;

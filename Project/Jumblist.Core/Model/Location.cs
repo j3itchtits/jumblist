@@ -103,5 +103,10 @@ namespace Jumblist.Core.Model
         {
             return x => x.FriendlyUrl == friendlyUrl;
         }
+
+        public static Expression<Func<Location, bool>> WhereFriendlyUrlListEqualsOr(string[] locationList)
+        {
+            return x => locationList.Contains(x.FriendlyUrl);
+        }
     }
 }
