@@ -78,11 +78,29 @@ namespace Jumblist.Core.Service.Data
 
         public IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, IQueryable<Tag> tagList )
         {
-            return from p in SelectRecordList().Where( wherePostCondition ).AsEnumerable()
-                   where TagNameListEqualsAnd(p, tagList)
-                   //where (postTagDataService.SelectRecordList().Where(pt => pt.Tag.Name == "Baby").Select(pt => pt.PostId).Contains(p.PostId)) && (postTagDataService.SelectRecordList().Where(pt => pt.Tag.Name == "Clothes").Select(pt => pt.PostId).Contains(p.PostId))
-                   //where (postTagDataService.SelectRecordList().Where(pt => pt.Tag.Name == "Baby").Select(pt => pt.PostId).Contains(p.PostId))
+            //var postIds = postTagDataService.SelectRecordList( PostTag.WhereTagNameListEqualsAnd( tagList ) ).Select( pt => pt.PostId ).ToArray();
+
+            //return from p in SelectRecordList().Where( wherePostCondition ).AsEnumerable()
+            //       where TagNameListEqualsAnd( p, tagList )
+            //       select p;
+
+            //return from p in SelectRecordList().Where( wherePostCondition ).AsEnumerable()
+            //       where ( postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId ).Contains( p.PostId ) ) && ( postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId ).Contains( p.PostId ) )
+            //       select p;
+
+            //return from p in SelectRecordList().Where( wherePostCondition.And( Post.WherePostIdListEqualsOr( postIds ) ) ).AsEnumerable()
+            //       select p;
+
+            return from p in SelectRecordList().Where( wherePostCondition.And( p => Post.WhereTagNameListEqualsAnd( tagList ) ) )
                    select p;
+
+
+
+
+            //Orders.Where(o => o.OrderDetails.Any(od => od.ProductId == 11) 
+            //                && o.OrderDetails.Any(od => od.ProductId == 42))
+
+            //new int[] { 315, 328, 401, 465, 760, 797, 874 } )
 
                    //let inner = from pt in postTagDataService.SelectRecordList().AsEnumerable()
                    //            where pt.Tag.Name == "Baby"

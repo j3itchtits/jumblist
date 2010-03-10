@@ -52,7 +52,7 @@ namespace Jumblist.Core.Model
         {
             var condition = PredicateBuilder.False<PostTag>();
 
-            foreach (var tag in tagList)
+            foreach ( var tag in tagList )
             {
                 string temp = tag.Name;
                 condition = condition.Or( x => x.Tag.Name == temp );
@@ -61,20 +61,23 @@ namespace Jumblist.Core.Model
             return condition;
         }
 
-        public static Expression<Func<PostTag, bool>> WhereTagNameListEqualsAnd( Post post, IQueryable<Tag> tagList )
+        public static Expression<Func<PostTag, bool>> WhereTagNameListEqualsAnd( IQueryable<Tag> tagList )
         {
-            var condition = PredicateBuilder.True<PostTag>();
             var postTagDataService = ServiceLocator.Current.GetInstance<IDataService<PostTag>>();
+            
+            var condition = PredicateBuilder.True<PostTag>();
 
-            foreach (var tag in tagList)
+            foreach ( var tag in tagList )
             {
                 string temp = tag.Name;
-                condition = condition.And(x => postTagDataService.SelectRecordList(PostTag.WhereTagEquals(tag)).Select(pt => pt.PostId).Contains(post.PostId));
-
-                //postTagDataService.SelectRecordList( PostTag.WhereTagEquals( tag ) ).Select( pt => pt.PostId ).Contains( post.PostId );
+                var list = postTagDataService.SelectRecordList().Where( x => x.Tag.Name == temp ).Select( x => x.PostId ).ToArray();
+                condition = condition.And( x => list.Contains( x.PostId ) );
             }
 
             return condition;
         }
+
+
+
     }
 }
