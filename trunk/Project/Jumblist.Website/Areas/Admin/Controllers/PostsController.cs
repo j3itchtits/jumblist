@@ -232,7 +232,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             bool isInt = Int32.TryParse( id, out number );
 
             var location = isInt ? locationService.SelectRecord( number ) : locationService.SelectRecord( Location.WhereFriendlyUrlEquals( id ) );
-            var postList = postService.SelectListByLocation( PostLocation.WhereLocationEquals( location ) ).OrderByDescending( t => t.PublishDateTime );
+            var postList = postService.SelectRecordList(PostLocation.WhereLocationEquals(location)).OrderByDescending(t => t.PublishDateTime);
 
             var model = BuildDefaultViewModel().With( postList );
             model.PageTitle = "All Posts by Location - " + location.Name;
@@ -247,7 +247,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             bool isInt = Int32.TryParse( id, out number );
 
             var tag = isInt ? tagService.SelectRecord( number ) : tagService.SelectRecord( Tag.WhereNameEquals( id ) );
-            var postList = postService.SelectListByTag( PostTag.WhereTagEquals( tag ) ).OrderByDescending( t => t.PublishDateTime );
+            var postList = postService.SelectRecordList(PostTag.WhereTagEquals(tag)).OrderByDescending(t => t.PublishDateTime);
 
             var model = BuildDefaultViewModel().With( postList );
             model.PageTitle = "All Posts by Tag - " + tag.Name;
@@ -284,7 +284,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
                 post.Latitude = location.Latitude;
                 post.Longitude = location.Longitude;
             }
-            catch( Exception ex )
+            catch( Exception )
             {
 
             }

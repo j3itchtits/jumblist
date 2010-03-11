@@ -33,9 +33,16 @@ namespace Jumblist.Core.Service.Data
             return base.SelectRecordList( whereCondition );
         }
 
-        public IEnumerable<Location> SelectListByFeed(Expression<Func<FeedLocation, bool>> whereFeedLocationCondition)
+        public IEnumerable<Location> SelectRecordList(Expression<Func<FeedLocation, bool>> whereFeedLocationCondition)
         {
             return from l in SelectRecordList().AsEnumerable()
+                   join fl in feedLocationDataService.SelectRecordList(whereFeedLocationCondition).AsEnumerable() on l.LocationId equals fl.LocationId
+                   select l;
+        }
+
+        public IEnumerable<Location> SelectRecordList(Expression<Func<Location, bool>> whereFeedCondition, Expression<Func<FeedLocation, bool>> whereFeedLocationCondition)
+        {
+            return from l in SelectRecordList(whereFeedCondition).AsEnumerable()
                    join fl in feedLocationDataService.SelectRecordList(whereFeedLocationCondition).AsEnumerable() on l.LocationId equals fl.LocationId
                    select l;
         }

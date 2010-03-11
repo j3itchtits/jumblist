@@ -57,25 +57,7 @@ namespace Jumblist.Core.Model
             return x => x.PostId != post.PostId;
         }
 
-        public static Expression<Func<Post, bool>> WherePostIdListEqualsOr( int[] postIdList )
-        {
-            return x => postIdList.Contains( x.PostId );
-        }
-
-        //public static Expression<Func<Post, bool>> WhereTagNameListEqualsAnd( IEnumerable<Tag> tagList )
-        //{
-        //    var condition = PredicateBuilder.True<Post>();
-
-        //    foreach ( var tag in tagList )
-        //    {
-        //        string temp = tag.Name;
-        //        condition = condition.And( x => tagList.ToList().ForEach( t => t.Name == temp )  );
-        //    }
-
-        //    return p => tagList.ToList().ForEach( t => condition = condition.And( p => p.PostTags.Any( pt => pt.Tag.Name == t.Name ) ) );;
-        //}
-
-        public static Expression<Func<Post, bool>> WhereTagNameListEqualsAnd( IEnumerable<Tag> tagList )
+        public static Expression<Func<Post, bool>> WhereTagNameListEqualsAnd( IQueryable<Tag> tagList )
         {
             var condition = PredicateBuilder.True<Post>();
 
