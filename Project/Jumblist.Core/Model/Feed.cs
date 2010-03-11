@@ -39,5 +39,10 @@ namespace Jumblist.Core.Model
         {
             return x => x.FriendlyUrl == friendlyUrl;
         }
+
+        public static Expression<Func<Feed, bool>> WhereIsActiveEquals( bool isActive )
+        {
+            return x => x.IsActive == isActive;
+        }
     }
 }

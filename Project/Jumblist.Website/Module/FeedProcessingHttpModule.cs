@@ -31,7 +31,7 @@ namespace Jumblist.Website.Module
                 try
                 {
                     CopyRssToHttpContext();
-                    SaveRssToDatabase();
+                    ProcessFeeds();
 
 
                 }
@@ -54,7 +54,7 @@ namespace Jumblist.Website.Module
             _value = String.Format( "{0} {1} degrees {2}", description, temperature, unit );
         }
 
-        private void SaveRssToDatabase()
+        private void ProcessFeeds()
         {
             //See notes at Steps to importing a feed into the database.txt for further explanation
 
@@ -70,9 +70,7 @@ namespace Jumblist.Website.Module
             //adding a post to the post table for each unique item found
 
             var feedService = ServiceLocator.Current.GetInstance<IFeedService>();
-            var postService = ServiceLocator.Current.GetInstance<IPostService>();
-            var posts = postService.SelectRecordList();
-            var feeds = feedService.SelectRecordList();
+            var feeds = feedService.SelectRecordList( Feed.WhereIsActiveEquals ( true ) );
 
             foreach ( var feed in feeds )
             {
@@ -80,27 +78,7 @@ namespace Jumblist.Website.Module
                     .GetMethod( "Load" )
                     .Invoke( null, new object[] { feed.Url, feed.Username, feed.Password } );
 
-                foreach ( var item in feedOutput.Items )
-                {
-                    if ( !(postService as IDataService<Post>).IsDuplicate( Post.WhereGuidEquals( item.Id ) ) )
-                    {
-                        var post = new Post();
-                        post.ParentId = 0;
-                        post.Guid = item.Id;
-                        post.Url = item.Links[0].Uri.ToString();
-                        post.Title = item.Title.Text;
-                        post.Body = item.Summary.Text;
-                        post.PublishDateTime = item.PublishDate.LocalDateTime;
-                        post.LastUpdatedDateTime = item.LastUpdatedTime.LocalDateTime;
-                        post.PostCategoryId = 0;
-                        post.Display = false;
-                        post.UserId = User.Anonymous.UserId;
-                        post.FeedId = feed.FeedId;
-
-                        postService.Save( post );
-                    }
-                }
-
+                SavePostsToDatabase( feed, feedOutput );
             }
 
             //var feedOutput = YahooGroupsCustomHttpFeed.Load( "http://groups.yahoo.com/group/hastings-freecycle/messages/?xm=1&o=1&m=e&l=1", "noostu", "edinburgh" );
@@ -109,11 +87,31 @@ namespace Jumblist.Website.Module
             //    .GetMethod("Load")
             //    .Invoke(null, new object[] { "http://groups.yahoo.com/group/hastings-freecycle/messages?xm=1&m=e&l=1", "noostu", "edinburgh" });
 
+        }
 
+        private void SavePostsToDatabase( Feed feed, SyndicationFeed feedOutput )
+        {
+            var postService = ServiceLocator.Current.GetInstance<IPostService>();
 
-            
+            foreach (var item in feedOutput.Items)
+            {
+                if (((IDataService<Post>)postService).IsDuplicate( Post.WhereGuidEquals( item.Id ) )) continue;
 
+                var post = new Post();
+                post.ParentId = 0;
+                post.Guid = item.Id;
+                post.Url = item.Links[0].Uri.ToString();
+                post.Title = item.Title.Text;
+                post.Body = item.Summary.Text;
+                post.PublishDateTime = item.PublishDate.LocalDateTime;
+                post.LastUpdatedDateTime = item.LastUpdatedTime.LocalDateTime;
+                post.PostCategoryId = 0;
+                post.Display = false;
+                post.UserId = User.Anonymous.UserId;
+                post.FeedId = feed.FeedId;
 
+                postService.Save( post );
+            }
         }
 
         protected void OnBeginRequest( object sender, EventArgs e )

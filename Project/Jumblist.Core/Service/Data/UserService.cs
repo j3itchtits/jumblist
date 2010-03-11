@@ -113,7 +113,7 @@ namespace Jumblist.Core.Service.Data
 
         public bool Authenticate( string name, string password )
         {
-            return SelectRecord( u => ( u.Name == name && u.Password == HashPassword( password ) && u.IsActive ) ) != null;
+            return SelectRecord( User.WhereNamePasswordEquals( name, HashPassword( password ) ) ) != null;
         }
 
         public override void Delete( User user )

@@ -111,7 +111,17 @@ namespace StuartClode.Mvc.Service.Feed
         private static DateTime GetFeedItemPublishedTime( HtmlElement element )
         {
             string dateString = Regex.Replace( element.CachedInnerText, "(.*)&gt;", String.Empty );
-            return DateTime.Parse( HttpUtility.HtmlDecode( dateString ) );
+            DateTime publishDateTime;
+
+            if (DateTime.TryParse( HttpUtility.HtmlDecode( dateString ), out publishDateTime ))
+            {
+                return publishDateTime;
+            }
+            else
+            {
+                return DateTime.Parse( "01/01/2001" );
+            }
+            
         }
 
         private static string GetFeedItemSummary( HtmlElement element )
