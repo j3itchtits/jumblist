@@ -10,6 +10,11 @@ namespace Jumblist.Core.Model
 {
     public partial class Feed
     {
+        public IList<Location> Locations
+        {
+            get { return feedLocations.Select(l => l.Location).ToList().AsReadOnly(); }
+        }
+
         public static Expression<Func<Feed, bool>> WhereNotEquals( Feed feed )
         {
             return x => x.FeedId != feed.FeedId;

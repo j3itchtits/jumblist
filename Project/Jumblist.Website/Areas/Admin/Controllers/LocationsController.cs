@@ -45,7 +45,8 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         public ViewResult ListByFeed(int id)
         {
             var feed = feedService.SelectRecord(id);
-            var locationList = locationService.SelectListByFeed(FeedLocation.WhereFeedEquals(feed)).OrderBy(t => t.Name);
+            var locationList = feed.Locations.OrderBy(l => l.Name);
+            //var locationList = locationService.SelectRecordList(FeedLocation.WhereFeedEquals(feed)).OrderBy(t => t.Name);
 
             var model = BuildDefaultViewModel().With(locationList);
             model.PageTitle = "All Locations by Feed - " + feed.Name;

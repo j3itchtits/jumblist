@@ -60,24 +60,5 @@ namespace Jumblist.Core.Model
 
             return condition;
         }
-
-        public static Expression<Func<PostTag, bool>> WhereTagNameListEqualsAnd( IQueryable<Tag> tagList )
-        {
-            var postTagDataService = ServiceLocator.Current.GetInstance<IDataService<PostTag>>();
-            
-            var condition = PredicateBuilder.True<PostTag>();
-
-            foreach ( var tag in tagList )
-            {
-                string temp = tag.Name;
-                var list = postTagDataService.SelectRecordList().Where( x => x.Tag.Name == temp ).Select( x => x.PostId ).ToArray();
-                condition = condition.And( x => list.Contains( x.PostId ) );
-            }
-
-            return condition;
-        }
-
-
-
     }
 }

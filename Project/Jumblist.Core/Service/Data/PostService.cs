@@ -48,87 +48,84 @@ namespace Jumblist.Core.Service.Data
             return base.SelectRecordList( whereCondition );
         }
 
-        public IEnumerable<Post> SelectListByLocation( Expression<Func<PostLocation, bool>> wherePostLocationCondition )
+        public IEnumerable<Post> SelectRecordList(Expression<Func<PostLocation, bool>> wherePostLocationCondition)
         {
             return from p in SelectRecordList().AsEnumerable()
                    join pl in postLocationDataService.SelectRecordList( wherePostLocationCondition ).AsEnumerable() on p.PostId equals pl.PostId
                    select p;
         }
 
-        public IEnumerable<Post> SelectListByLocation( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostLocation, bool>> wherePostLocationCondition )
+        public IEnumerable<Post> SelectRecordList(Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostLocation, bool>> wherePostLocationCondition)
         {
             return from p in SelectRecordList( wherePostCondition ).AsEnumerable()
                    join pl in postLocationDataService.SelectRecordList( wherePostLocationCondition ).AsEnumerable() on p.PostId equals pl.PostId
                    select p;
         }
 
-        public IEnumerable<Post> SelectListByTag( Expression<Func<PostTag, bool>> wherePostTagCondition )
+        public IEnumerable<Post> SelectRecordList(Expression<Func<PostTag, bool>> wherePostTagCondition)
         {
             return from p in SelectRecordList().AsEnumerable()
                    join pt in postTagDataService.SelectRecordList( wherePostTagCondition ).AsEnumerable() on p.PostId equals pt.PostId
                    select p;
         }
 
-        public IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition )
+        public IEnumerable<Post> SelectRecordList(Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition)
         {
             return from p in SelectRecordList( wherePostCondition ).AsEnumerable()
                    join pt in postTagDataService.SelectRecordList( wherePostTagCondition ).AsEnumerable() on p.PostId equals pt.PostId
                    select p;
         }
 
-        public IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, IQueryable<Tag> tagList )
-        {
-            var postIds = postTagDataService.SelectRecordList( PostTag.WhereTagNameListEqualsAnd( tagList ) ).Select( pt => pt.PostId ).ToArray();
+//        public IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, IQueryable<Tag> tagList )
+//        {
+//            //var postIds = postTagDataService.SelectRecordList( PostTag.WhereTagNameListEqualsAnd( tagList ) ).Select( pt => pt.PostId ).ToArray();
 
-            //return from p in SelectRecordList().Where( wherePostCondition ).AsEnumerable()
-            //       where TagNameListEqualsAnd( p, tagList )
-            //       select p;
-
-            //return from p in SelectRecordList().Where( wherePostCondition ).AsEnumerable()
-            //       where ( postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId ).Contains( p.PostId ) ) && ( postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId ).Contains( p.PostId ) )
-            //       select p;
-
-            return from p in SelectRecordList().Where( wherePostCondition.And( Post.WherePostIdListEqualsOr( postIds ) ) ).AsEnumerable()
-                   select p;
-
-            //return from p in SelectRecordList().Where( wherePostCondition.And( p => Post.WhereTagNameListEqualsAnd( tagList ) ) )
-            //       select p;
-
-//            SELECT     PostId
-//FROM         PostTags
-//WHERE     (PostId IN
-//                          (SELECT     PostId
-//                            FROM          PostTags AS PostTags_2
-//                            WHERE      (TagId = 9))) AND (PostId IN
-//                          (SELECT     PostId
-//                            FROM          PostTags AS PostTags_1
-//                            WHERE      (TagId = 43)))
+//            //return from p in SelectRecordList().Where(wherePostCondition.And(Post.WherePostIdListEqualsOr(postIds))).AsEnumerable()
+//            //       select p;
 
 
-            //Orders.Where(o => o.OrderDetails.Any(od => od.ProductId == 11) 
-            //                && o.OrderDetails.Any(od => od.ProductId == 42))
+//            //return from p in SelectRecordList().Where( wherePostCondition ).AsEnumerable()
+//            //       where ( postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId ).Contains( p.PostId ) ) && ( postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId ).Contains( p.PostId ) )
+//            //       select p;
 
-            //new int[] { 315, 328, 401, 465, 760, 797, 874 } )
+//            return from p in SelectRecordList().Where(wherePostCondition)
+//                   select p;
 
-                   //let inner = from pt in postTagDataService.SelectRecordList().AsEnumerable()
-                   //            where pt.Tag.Name == "Baby"
-                   //            select pt.PostId
-                   ////let inner2 = from pt in postTagDataService.SelectRecordList().AsEnumerable()
-                   ////             where pt.Tag.Name == "Clothes"
-                   ////             select pt.PostId
-
-                   //where inner.Contains( p.PostId ) // && inner2.Contains( p.PostId )
-                   //select p;
-
-
-            //let inner = postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId )
-            //let inner2 = postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId )
-
-                   //where inner.Contains( p.PostId ) && inner2.Contains( p.PostId )
-                   //where (postTagDataService.SelectList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId ).Contains( p.PostId )) && (postTagDataService.SelectList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId ).Contains( p.PostId ))
+////            SELECT     PostId
+////FROM         PostTags
+////WHERE     (PostId IN
+////                          (SELECT     PostId
+////                            FROM          PostTags AS PostTags_2
+////                            WHERE      (TagId = 9))) AND (PostId IN
+////                          (SELECT     PostId
+////                            FROM          PostTags AS PostTags_1
+////                            WHERE      (TagId = 43)))
 
 
-        }
+//            //Orders.Where(o => o.OrderDetails.Any(od => od.ProductId == 11) 
+//            //                && o.OrderDetails.Any(od => od.ProductId == 42))
+
+//            //new int[] { 315, 328, 401, 465, 760, 797, 874 } )
+
+//                   //let inner = from pt in postTagDataService.SelectRecordList().AsEnumerable()
+//                   //            where pt.Tag.Name == "Baby"
+//                   //            select pt.PostId
+//                   ////let inner2 = from pt in postTagDataService.SelectRecordList().AsEnumerable()
+//                   ////             where pt.Tag.Name == "Clothes"
+//                   ////             select pt.PostId
+
+//                   //where inner.Contains( p.PostId ) // && inner2.Contains( p.PostId )
+//                   //select p;
+
+
+//            //let inner = postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId )
+//            //let inner2 = postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId )
+
+//                   //where inner.Contains( p.PostId ) && inner2.Contains( p.PostId )
+//                   //where (postTagDataService.SelectList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId ).Contains( p.PostId )) && (postTagDataService.SelectList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId ).Contains( p.PostId ))
+
+
+//        }
 
 
         public override Post SelectRecord( int id )
@@ -440,17 +437,5 @@ namespace Jumblist.Core.Service.Data
         //        .ToArray();
         //}
 
-        private bool TagNameListEqualsAnd( Post post, IQueryable<Tag> tagList )
-        {
-            bool success = false;
-
-            foreach (var tag in tagList)
-            {
-                success = postTagDataService.SelectRecordList( PostTag.WhereTagEquals( tag ) ).Select( pt => pt.PostId ).Contains( post.PostId );
-                if (!success) break;
-            }
-
-            return success;
-        }
     }
 }

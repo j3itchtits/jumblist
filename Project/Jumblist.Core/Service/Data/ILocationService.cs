@@ -10,7 +10,8 @@ namespace Jumblist.Core.Service.Data
     {
         IQueryable<Location> SelectRecordList();
         IQueryable<Location> SelectRecordList( Expression<Func<Location, bool>> whereCondition );
-        IEnumerable<Location> SelectListByFeed(Expression<Func<FeedLocation, bool>> whereFeedLocationCondition);
+        IEnumerable<Location> SelectRecordList(Expression<Func<FeedLocation, bool>> whereFeedLocationCondition);
+        IEnumerable<Location> SelectRecordList(Expression<Func<Location, bool>> whereFeedCondition, Expression<Func<FeedLocation, bool>> whereFeedLocationCondition);
         Location SelectRecord( int id );
         Location SelectRecord( Expression<Func<Location, bool>> whereCondition );
         void Save( Location entity );

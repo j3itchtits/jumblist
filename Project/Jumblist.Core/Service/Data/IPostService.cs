@@ -11,12 +11,11 @@ namespace Jumblist.Core.Service.Data
         IQueryable<Post> SelectRecordList();
         IQueryable<Post> SelectRecordList( Expression<Func<Post, bool>> whereCondition );
 
-        IEnumerable<Post> SelectListByLocation( Expression<Func<PostLocation, bool>> wherePostLocationCondition );
-        IEnumerable<Post> SelectListByLocation( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostLocation, bool>> wherePostLocationCondition );
+        IEnumerable<Post> SelectRecordList(Expression<Func<PostLocation, bool>> wherePostLocationCondition);
+        IEnumerable<Post> SelectRecordList(Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostLocation, bool>> wherePostLocationCondition);
 
-        IEnumerable<Post> SelectListByTag( Expression<Func<PostTag, bool>> wherePostTagCondition );
-        IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition );
-        IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, IQueryable<Tag> tagList );
+        IEnumerable<Post> SelectRecordList(Expression<Func<PostTag, bool>> wherePostTagCondition);
+        IEnumerable<Post> SelectRecordList(Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition);
 
         Post SelectRecord( int id );
         Post SelectRecord( Expression<Func<Post, bool>> whereCondition );

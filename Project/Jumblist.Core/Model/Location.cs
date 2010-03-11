@@ -17,6 +17,11 @@ namespace Jumblist.Core.Model
             get { return postLocations.Select( p => p.Post ).ToList().AsReadOnly(); }
         }
 
+        public IList<Feed> Feeds
+        {
+            get { return feedLocations.Select(f => f.Feed).ToList().AsReadOnly(); }
+        }
+
         public bool IsPostcode
         {
             get 

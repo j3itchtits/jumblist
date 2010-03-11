@@ -137,11 +137,11 @@ namespace Jumblist.Website.Controllers
                 if (!string.IsNullOrEmpty(category))
                 {
                     var postCategory = postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category));
-                    postList = postService.SelectListByLocation(Post.WherePostCategoryEquals(postCategory).And(Post.WhereDisplayEquals(true)), PostLocation.WhereLocationNameListEqualsOr(locationList)).OrderByDescending(t => t.PublishDateTime).Distinct();
+                    postList = postService.SelectRecordList(Post.WherePostCategoryEquals(postCategory).And(Post.WhereDisplayEquals(true)), PostLocation.WhereLocationNameListEqualsOr(locationList)).OrderByDescending(t => t.PublishDateTime).Distinct();
                 }
                 else
                 {
-                    postList = postService.SelectListByLocation(Post.WhereDisplayEquals(true), PostLocation.WhereLocationNameListEqualsOr(locationList)).OrderByDescending(t => t.PublishDateTime).Distinct();
+                    postList = postService.SelectRecordList(Post.WhereDisplayEquals(true), PostLocation.WhereLocationNameListEqualsOr(locationList)).OrderByDescending(t => t.PublishDateTime).Distinct();
                 }
 
                 var pagedPostList = new PaginatedList<Post>( postList.ToList(), (page ?? 1), frontEndPageSize );
@@ -179,14 +179,14 @@ namespace Jumblist.Website.Controllers
                     //Or
                     //postList = postService.SelectListByTag( Post.WherePostCategoryEquals( postCategory ).And( Post.WhereDisplayEquals( true ) ), PostTag.WhereTagNameListEqualsOr( tagList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
                     //And
-                    postList = postService.SelectListByTag( Post.WherePostCategoryEquals( postCategory ).And( Post.WhereDisplayEquals( true ) ), tagList ).OrderByDescending( t => t.PublishDateTime );
+                    postList = postService.SelectRecordList(Post.WherePostCategoryEquals(postCategory).And(Post.WhereDisplayEquals(true)).And(Post.WhereTagNameListEqualsAnd(tagList))).OrderByDescending(t => t.PublishDateTime);
                 }
                 else
                 {
                     //Or
                     //postList = postService.SelectListByTag( Post.WhereDisplayEquals( true ), PostTag.WhereTagNameListEqualsOr( tagList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
                     //And
-                    postList = postService.SelectListByTag( Post.WhereDisplayEquals( true ), tagList ).OrderByDescending( t => t.PublishDateTime );
+                    postList = postService.SelectRecordList(Post.WhereDisplayEquals(true).And(Post.WhereTagNameListEqualsAnd(tagList))).OrderByDescending(t => t.PublishDateTime);
 
                 }
                 
