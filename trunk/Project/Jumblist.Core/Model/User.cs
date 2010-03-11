@@ -14,6 +14,11 @@ namespace Jumblist.Core.Model
             return x => x.Name == name;
         }
 
+        public static Expression<Func<User, bool>> WhereNamePasswordEquals( string name, string password )
+        {
+            return u => (u.Name == name && u.Password == password && u.IsActive);
+        }
+
         public static Expression<Func<User, bool>> WhereEmailEquals( string email )
         {
             return x => x.Email == email;

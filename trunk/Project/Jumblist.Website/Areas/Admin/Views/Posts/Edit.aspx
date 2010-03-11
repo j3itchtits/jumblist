@@ -51,7 +51,7 @@
             <%= Html.ValidationMessageFor( m => m.Item.Longitude )%></td>
         </tr>           
         <tr>
-            <td><label for="Item.Display">Display:</label></td>
+            <td><label for="Item.Display">Display ?:</label></td>
             <td><%= Html.CheckBoxFor( m => m.Item.Display )%>
             <%= Html.ValidationMessageFor( m => m.Item.Display )%></td>
         </tr>

@@ -54,6 +54,11 @@
             <td><%= Html.DropDownListFor( m => m.Item.FeedCategoryId, new SelectList( Model.LookupList<FeedCategory>(), "FeedCategoryId", "Name", Model.Item.FeedCategoryId ), "-- Select --" )%>
             <%= Html.ValidationMessageFor( m => m.Item.FeedCategoryId )%></td>
         </tr>   
+        <tr>
+            <td><label for="Item.IsActive">Is Active ?:</label></td>
+            <td><%= Html.CheckBoxFor( m => m.Item.IsActive )%>
+            <%= Html.ValidationMessageFor( m => m.Item.IsActive )%></td>
+        </tr>
         </table>
                  
         <p>

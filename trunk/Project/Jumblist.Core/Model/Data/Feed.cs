@@ -63,6 +63,9 @@ namespace Jumblist.Core.Model
         [Required]
         public int FeedCategoryId { get; set; }
 
+        [Column( Name = "FeedIsActive" )]
+        public bool IsActive { get; set; }
+
         [Association( Name = "FK_Feeds_FeedCategories", Storage = "feedCategory", ThisKey = "FeedCategoryId", OtherKey = "FeedCategoryId", IsForeignKey = true )]
         public FeedCategory Category
         {

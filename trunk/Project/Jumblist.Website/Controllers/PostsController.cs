@@ -176,18 +176,11 @@ namespace Jumblist.Website.Controllers
                 if (!string.IsNullOrEmpty(category))
                 {
                     var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-                    //Or
-                    //postList = postService.SelectListByTag( Post.WherePostCategoryEquals( postCategory ).And( Post.WhereDisplayEquals( true ) ), PostTag.WhereTagNameListEqualsOr( tagList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
-                    //And
                     postList = postService.SelectRecordList(Post.WherePostCategoryEquals(postCategory).And(Post.WhereDisplayEquals(true)).And(Post.WhereTagNameListEqualsAnd(tagList))).OrderByDescending(t => t.PublishDateTime);
                 }
                 else
                 {
-                    //Or
-                    //postList = postService.SelectListByTag( Post.WhereDisplayEquals( true ), PostTag.WhereTagNameListEqualsOr( tagList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
-                    //And
                     postList = postService.SelectRecordList(Post.WhereDisplayEquals(true).And(Post.WhereTagNameListEqualsAnd(tagList))).OrderByDescending(t => t.PublishDateTime);
-
                 }
                 
                 var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
@@ -217,30 +210,31 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Search(string tagged, string located, string category, int? page)
+        public ActionResult Search( string tagged, string located, string category, int? page )
         {
             try
             {
-
                 string[] tags = tagged.Split('+');
-                var tagList = tagService.SelectRecordList(Tag.WhereFriendlyUrlListEqualsOr(tags));
+                var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( tags ) );
 
                 string[] locations = located.Split('+');
-                var locationList = locationService.SelectRecordList(Location.WhereFriendlyUrlListEqualsOr(locations));
-
+                var locationList = locationService.SelectRecordList( Location.WhereFriendlyUrlListEqualsOr( locations ) );
 
                 IEnumerable<Post> postList = null;
 
-                if (!string.IsNullOrEmpty(category))
+                if (!string.IsNullOrEmpty( category ))
                 {
+                    var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
+                    postList = postService.SelectRecordList( Post.WherePostCategoryEquals( postCategory ).And( Post.WhereDisplayEquals( true ) ).And( Post.WhereTagNameListEqualsAnd( tagList ) ), PostLocation.WhereLocationNameListEqualsOr(locationList) ).OrderByDescending( t => t.PublishDateTime );
                 }
                 else
                 {
+                    postList = postService.SelectRecordList( Post.WhereDisplayEquals( true ).And( Post.WhereTagNameListEqualsAnd( tagList ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime );
                 }
 
                 var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
 
-                var model = BuildDefaultViewModel().With(pagedPostList);
+                var model = BuildDefaultViewModel().With( pagedPostList );
                 model.PageTitle = "All " + category + " Posts by Tag - " + tagList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
                 model.PageTitle += "All " + category + " Posts by Location - " + locationList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
                 model.ListCount = postList.Count();

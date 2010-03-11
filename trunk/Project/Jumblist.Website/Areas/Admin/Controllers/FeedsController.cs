@@ -62,7 +62,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             bool isInt = Int32.TryParse(id, out number);
 
             var location = isInt ? locationService.SelectRecord(number) : locationService.SelectRecord(Location.WhereFriendlyUrlEquals(id));
-            var feedList = feedService.SelectRecordList(FeedLocation.WhereLocationEquals(location)).OrderBy(t => t.Name);
+            var feedList = location.Feeds.OrderBy( t => t.Name );
 
             var model = BuildDefaultViewModel().With(feedList);
             model.PageTitle = "All Feeds by Location - " + location.Name;

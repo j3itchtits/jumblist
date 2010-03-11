@@ -32,20 +32,6 @@ namespace Jumblist.Core.Service.Data
             return base.SelectRecordList( whereCondition );
         }
 
-        public IEnumerable<Feed> SelectRecordList(Expression<Func<FeedLocation, bool>> whereFeedLocationCondition)
-        {
-            return from f in SelectRecordList().AsEnumerable()
-                   join fl in feedLocationDataService.SelectRecordList(whereFeedLocationCondition).AsEnumerable() on f.FeedId equals fl.FeedId
-                   select f;
-        }
-
-        public IEnumerable<Feed> SelectRecordList(Expression<Func<Feed, bool>> whereFeedCondition, Expression<Func<FeedLocation, bool>> whereFeedLocationCondition)
-        {
-            return from f in SelectRecordList(whereFeedCondition).AsEnumerable()
-                   join fl in feedLocationDataService.SelectRecordList(whereFeedLocationCondition).AsEnumerable() on f.FeedId equals fl.FeedId
-                   select f;
-        }
-
         public override Feed SelectRecord( int id )
         {
             return base.SelectRecord( id );

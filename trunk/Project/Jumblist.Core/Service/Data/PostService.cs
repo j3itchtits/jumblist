@@ -329,6 +329,8 @@ namespace Jumblist.Core.Service.Data
 
         private bool CheckIfUpdateDisplayToTrueIsNeeded( bool locationsSaved, bool tagsSaved, string postCategory )
         {
+            if (postCategory == "Unclassified") return false;
+
             if (postCategory == "Offered")
                 return locationsSaved && tagsSaved;
             else
