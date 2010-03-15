@@ -12,8 +12,7 @@ using Jumblist.Website.Filter;
 using Jumblist.Website.Controllers;
 using Jumblist.Website.Module;
 using Jumblist.Website.ModelBinder;
-using Jumblist.Core.Service.Authentication;
-using Jumblist.Core.Service.Basket;
+using Jumblist.Core.Service;
 using Jumblist.Core.Model;
 using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Service.Data;
@@ -83,6 +82,7 @@ namespace Jumblist.Website
                 Component.For( typeof( IDataService<> ) ).ImplementedBy( typeof( DataService<> ) ).LifeStyle.Transient,
                 Component.For<IDataServiceResolver>().ImplementedBy<DataServiceResolver>().LifeStyle.Transient,
                 Component.For<IFormsAuthenticationService>().ImplementedBy<FormsAuthenticationService>().LifeStyle.Transient,
+                Component.For<ISearchService>().ImplementedBy<SearchService>().LifeStyle.Transient,
                 Component.For<IBasketSubmitter>().ImplementedBy<EmailBasketSubmitter>().LifeStyle.Transient.Parameters( Parameter.ForKey( "smtpServer" ).Eq( "127.0.0.1" ), Parameter.ForKey( "mailFrom" ).Eq( "stuartclode@idnet.com" ), Parameter.ForKey( "mailTo" ).Eq( "stuartclode@idnet.com" ) ),
                 Component.For<IActionInvoker>().ImplementedBy<WindsorActionInvoker>().LifeStyle.Transient
             );

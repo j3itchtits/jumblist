@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using Jumblist.Core.Model;
-using Jumblist.Core.Service.Basket;
+using Jumblist.Core.Service;
 using Jumblist.Website.ViewModel;
 using StuartClode.Mvc.Service.Data;
 

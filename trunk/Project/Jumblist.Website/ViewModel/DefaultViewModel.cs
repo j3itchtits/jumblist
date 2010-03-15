@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using StuartClode.Mvc.Extension;
 using System.Reflection;
 using StuartClode.Mvc.Service.Data;
-using Jumblist.Core.Service.Paging;
+using Jumblist.Core.Model;
 
 namespace Jumblist.Website.ViewModel
 {

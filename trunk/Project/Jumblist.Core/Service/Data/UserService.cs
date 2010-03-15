@@ -4,7 +4,7 @@ using System.Web;
 using System;
 using xVal.ServerSide;
 using Jumblist.Core.Model;
-using Jumblist.Core.Service.Authentication;
+using Jumblist.Core.Service;
 using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Validation;
