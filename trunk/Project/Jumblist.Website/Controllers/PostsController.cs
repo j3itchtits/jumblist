@@ -262,11 +262,14 @@ namespace Jumblist.Website.Controllers
         [ValidateInput(true)]
         public RedirectToRouteResult Search( string searchString, string searchOptions )
         {
-            searchService.UserInputSearch = searchString;
-            searchService.Tags = string.Join("\n", tagService.SelectTagNameList());
-            searchService.Locations = string.Join("\n", locationService.SelectLocationNameTownList());
+            searchService.UserInputSearchString = searchString.ToCleanSearchString();
+            searchService.UserInputSearchOptions = searchOptions;
+            searchService.Tags = tagService.SelectTagNameList();
+            searchService.Locations = locationService.SelectLocationNameTownList();
 
-            searchService.ProcessSearch();
+            var searchResult = searchService.ProcessSearch();
+
+            return RedirectToAction( searchResult.ActionName, searchResult.RouteValues );
 
             //searchString = searchString.ToCleanSearchString();
 
@@ -283,27 +286,27 @@ namespace Jumblist.Website.Controllers
 
             //bool isCompleteSearchMatch = string.Compare(searchString.ToAlphabetical(), compareString.ToAlphabetical(), true) == 0;
 
-            if (tagMatches.Count > 0 && locationMatches.Count == 0 && isCompleteSearchMatch)
-            {
-                //string tagQueryString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0}, ", 2 ).ToFriendlyUrl();
-                return RedirectToAction( "tagged", new { id = tagQueryString, category = searchOptions, page = string.Empty } );
-            }
+            //if (tagMatches.Count > 0 && locationMatches.Count == 0 && isCompleteSearchMatch)
+            //{
+            //    //string tagQueryString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0}, ", 2 ).ToFriendlyUrl();
+            //    return RedirectToAction( "tagged", new { id = tagQueryString, category = searchOptions, page = string.Empty } );
+            //}
 
-            if (tagMatches.Count == 0 && locationMatches.Count > 0 && isCompleteSearchMatch)
-            {
-                //string locationQueryString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0}, ", 2 ).ToFriendlyUrl();
-                return RedirectToAction( "located", new { id = locationQueryString, category = searchOptions, page = string.Empty } );
-            }
+            //if (tagMatches.Count == 0 && locationMatches.Count > 0 && isCompleteSearchMatch)
+            //{
+            //    //string locationQueryString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0}, ", 2 ).ToFriendlyUrl();
+            //    return RedirectToAction( "located", new { id = locationQueryString, category = searchOptions, page = string.Empty } );
+            //}
 
-            if (tagMatches.Count > 0 && locationMatches.Count > 0 && isCompleteSearchMatch)
-            {
-                //string tagQueryString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0}, ", 2 ).ToFriendlyUrl();
-                //string locationQueryString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0}, ", 2 ).ToFriendlyUrl();
-                return RedirectToAction( "search", new { tagged = tagQueryString, located = locationQueryString, category = searchOptions, page = string.Empty } );
-            }
+            //if (tagMatches.Count > 0 && locationMatches.Count > 0 && isCompleteSearchMatch)
+            //{
+            //    //string tagQueryString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0}, ", 2 ).ToFriendlyUrl();
+            //    //string locationQueryString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0}, ", 2 ).ToFriendlyUrl();
+            //    return RedirectToAction( "search", new { tagged = tagQueryString, located = locationQueryString, category = searchOptions, page = string.Empty } );
+            //}
 
-            PageTitle = "Sorry we have a problem";
-            return RedirectToAction("problem");
+            //PageTitle = "Sorry we have a problem";
+            //return RedirectToAction("problem");
             
         }
 

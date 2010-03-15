@@ -4,8 +4,11 @@ namespace Jumblist.Core.Service
 {
     public interface ISearchService
     {
-        string UserInputSearch { get; set; }
+        string UserInputSearchString { get; set; }
+        string UserInputSearchOptions { get; set; }
+        string[] Tags { get; set; }
+        string[] Locations { get; set; }
 
-        void ProcessSearch();
+        SearchResult ProcessSearch();
     }
 }
