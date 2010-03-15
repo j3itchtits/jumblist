@@ -15,6 +15,7 @@
         //Response.Write( Regex.IsMatch( "Availabl rye in st leonards", @"\bSt Leonards\b", RegexOptions.IgnoreCase ).ToString() );
         Response.Write(StringExtensions.IsSingularOrPluralPhraseRegexMatch("I have some nappies-buckets to give aways ", "Nappy", RegexOptions.IgnoreCase).ToString() + "<br/><br/>");
         Response.Write( "Bexhill : " + Regex.IsMatch( "available in the (Bexhill] area", @"\b" + "Bexhill" + @"\b", RegexOptions.IgnoreCase ) + "<br/><br/>" );
+        Response.Write("Replace text : " + Regex.Replace("helo there...&gt;This is working now", @"(.*)&gt;", string.Empty) + "<br/><br/>");
         Response.Write( ("i am based in St Leonard's").Replace( "'", string.Empty ) + "<br/><br/>" );
         Response.Write(Regex.IsMatch("Received: a bit nappy", "(Recieved|Received)", RegexOptions.IgnoreCase) + "<br/><br/>");
         Response.Write(StringExtensions.IsPhraseRegexMatch("TN37ssadf dasf asdf", "TN37.*", RegexOptions.IgnoreCase) + "<br/><br/>");
