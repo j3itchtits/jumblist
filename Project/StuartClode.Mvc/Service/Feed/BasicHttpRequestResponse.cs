@@ -83,7 +83,7 @@ namespace StuartClode.Mvc.Feeds
                 "Response : " + Environment.NewLine + responseString;
         }
 
-        public static string BasicGetRequest( string url )
+        public string BasicGetRequest( string url )
         {
             string responseString;
 
@@ -115,15 +115,18 @@ namespace StuartClode.Mvc.Feeds
             request.Method = "POST";  
             request.ContentType = "application/x-www-form-urlencoded";
 
-            StringBuilder postData = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
 
             foreach (KeyValuePair<string, string> val in PostParameters)
             {
-                postData.Append( val.Key.ToString() + "=" + HttpUtility.UrlEncode( val.Value.ToString() ) );
+                sb.Append( val.Key.ToString() + "=" + HttpUtility.UrlEncode( val.Value.ToString() ) + "&" );
             }
 
+            string postData = sb.ToString();
+            postData = postData.Remove( postData.Length, 1 );
+
             // Create a byte array of the data we want to send  
-            byte[] byteData = UTF8Encoding.UTF8.GetBytes( postData.ToString() );
+            byte[] byteData = UTF8Encoding.UTF8.GetBytes( postData );
 
             // Set the content length in the request headers  
             request.ContentLength = byteData.Length;
