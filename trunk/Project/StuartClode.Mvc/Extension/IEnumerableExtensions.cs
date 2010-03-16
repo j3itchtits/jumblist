@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace StuartClode.Mvc.Extension
 {
-    public static class ArrayExtensions
+    public static class IEnumerableExtensions
     {
         /// <summary>
         /// Creates a formatted list of items based on the passed in format
@@ -45,6 +45,16 @@ namespace StuartClode.Mvc.Extension
             var result = enumeration.ToFormattedStringList( formattedString );
 
             return (result.Length == 0) ? string.Empty : result.Remove( result.Length - rightLengthToRemove );
+        }
+
+        public static string FriendlyUrlEncode( this IEnumerable enumeration )
+        {
+            return enumeration.ToFormattedStringList("{0}, ", 2).FriendlyUrlEncode();
+        }
+
+        public static string ToNewLineDelimitedString(this IEnumerable<string> enumeration)
+        {
+            return string.Join("\n", enumeration.ToArray());
         }
     }
 }

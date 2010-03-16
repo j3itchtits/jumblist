@@ -7,6 +7,8 @@ using System.Data.Linq;
 using System.Linq.Expressions;
 using StuartClode.Mvc.Extension;
 using StuartClode.Mvc.Service.Data;
+using System.Text.RegularExpressions;
+using System.Data.Linq.SqlClient;
 
 namespace Jumblist.Core.Model
 {
@@ -45,6 +47,15 @@ namespace Jumblist.Core.Model
         public static Expression<Func<Post, bool>> WhereGuidEquals( string guid )
         {
             return x => x.Guid == guid;
+        }
+
+        public static Expression<Func<Post, bool>> WhereSearchTextEquals(string q)
+        {
+            var condition = PredicateBuilder.False<Post>();
+            condition = condition.Or(x => SqlMethods.Like(x.Title, "%" + q + "%"));
+            condition = condition.Or(x => SqlMethods.Like(x.Body, "%" + q + "%"));
+
+            return condition;
         }
 
         public static Expression<Func<Post, bool>> WhereEquals( Post post )

@@ -5,6 +5,8 @@
    { %>
         <tr class="item">
             <td><%= Html.ActionLink(Html.Encode(feed.Name), "group", "posts", new { id = feed.FriendlyUrl }, null)%></td> 
+            <td><%= Html.ActionLink("Offered", "group", "posts", new { id = feed.FriendlyUrl, category = "offered" }, null)%></td> 
+            <td><%= Html.ActionLink("Wanted", "group", "posts", new { id = feed.FriendlyUrl, category = "wanted" }, null)%></td> 
         </tr> 
 <% } %>
 </table>         

@@ -47,7 +47,7 @@ namespace Jumblist.Core.Service.Data
         public override void Save( Tag tag )
         {
             ValidateBusinessRules( tag );
-            tag.FriendlyUrl = tag.Name.ToFriendlyUrl();
+            tag.FriendlyUrl = tag.Name.FriendlyUrlEncode();
             base.Save( tag );
         }
 

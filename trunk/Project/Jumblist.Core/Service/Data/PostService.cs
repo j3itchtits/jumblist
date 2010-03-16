@@ -265,8 +265,8 @@ namespace Jumblist.Core.Service.Data
         //{
         //    return from p in SelectList().AsEnumerable()
         //           join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
-        //           join t in tagDataService.SelectList().Where(t => t.Name.ToFriendlyUrl() == tagName).AsEnumerable() on pt.TagId equals t.TagId
-        //           //where t.Name.ToFriendlyUrl() == tagName
+        //           join t in tagDataService.SelectList().Where(t => t.Name.FriendlyUrlEncode() == tagName).AsEnumerable() on pt.TagId equals t.TagId
+        //           //where t.Name.FriendlyUrlEncode() == tagName
         //           select p;
         //}
 
@@ -401,7 +401,7 @@ namespace Jumblist.Core.Service.Data
                     return c.PostCategoryId;
                 }
             }
-            return postCategoryDataService.SelectRecord( x => x.Name == "Unclassified" ).PostCategoryId;
+            return postCategoryDataService.SelectRecord( PostCategory.WhereNameEquals( "Unclassified" ) ).PostCategoryId;
         }
 
         private double[] GetLocationCoordinates( List<PostLocation> locationsSaved )

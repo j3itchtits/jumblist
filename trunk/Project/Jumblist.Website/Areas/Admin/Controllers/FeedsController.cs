@@ -206,7 +206,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             }
             else
             {
-                var newLocationItem = new Location { Name = locationName, FriendlyUrl = (locationName + ", " + locationArea).ToFriendlyUrl(), Area = locationArea };
+                var newLocationItem = new Location { Name = locationName, FriendlyUrl = (locationName + ", " + locationArea).FriendlyUrlEncode(), Area = locationArea };
                 locationService.Save(newLocationItem);
 
                 var feedLocationItem = new FeedLocation { FeedId = feedId, LocationId = newLocationItem.LocationId };
