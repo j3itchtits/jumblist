@@ -232,8 +232,13 @@
     <Content Include="Areas\Admin\Views\Users\List.aspx" />
     <Content Include="Areas\Admin\Views\Users\UserList.ascx" />
     <Content Include="Areas\Admin\Views\Web.config" />
+    <Content Include="Assets\Scripts\jquery-ui-1.7.2.custom.min.js" />
     <Content Include="Assets\Scripts\jquery.autocomplete.min.js" />
+    <Content Include="Assets\Scripts\ui.core.min.js" />
+    <Content Include="Assets\Scripts\ui.tabs.min.js" />
+    <Content Include="Assets\Stylesheets\jquery-ui-1.7.2.custom.css" />
     <Content Include="Assets\Stylesheets\jquery.autocomplete.css" />
+    <Content Include="Assets\Stylesheets\ui.tabs.css" />
     <Content Include="Views\Groups\GroupList.ascx" />
     <Content Include="Views\Groups\Index.aspx" />
     <Content Include="Views\Locations\Index.aspx" />

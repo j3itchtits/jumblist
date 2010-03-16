@@ -258,7 +258,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult PostLocationCreate( int postId, string locationNameAndArea )
         {
-            var locationArray = locationNameAndArea.Split(new string[] { StringExtensions.FieldSeparator }, StringSplitOptions.RemoveEmptyEntries);
+            var locationArray = locationNameAndArea.Split( new string[] { StringExtensions.FieldSeparator }, StringSplitOptions.RemoveEmptyEntries );
 
             var post = postService.SelectRecord( postId );
             var location = locationService.SelectRecord( Location.WhereEquals( locationArray[0], locationArray[1] ) );
