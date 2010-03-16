@@ -4,7 +4,7 @@
 <% foreach ( var post in Model )
    { %>
         <tr class="item">
-            <td><%= Html.RouteLink(post.Title, "Post-Detail", new { id = post.PostId, name = post.Title.ToFriendlyUrl() })%></td>  
+            <td><%= Html.RouteLink(post.Title, "Post-Detail", new { id = post.PostId, name = post.Title.FriendlyUrlEncode() })%></td>  
         </tr>            
 <% } %>
 </table>

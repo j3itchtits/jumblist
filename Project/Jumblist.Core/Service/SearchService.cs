@@ -21,12 +21,12 @@ namespace Jumblist.Core.Service
         {
             var searchPattern = UserInputSearchString.ToSearchRegexPattern();
 
-            var tagMatches = Regex.Matches( string.Join( "\n", Tags ), searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
-            var locationMatches = Regex.Matches( string.Join( "\n", Locations ), searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
+            var tagMatches = Regex.Matches(Tags.ToNewLineDelimitedString(), searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            var locationMatches = Regex.Matches(Locations.ToNewLineDelimitedString(), searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
             
             bool isCompleteSearchMatch = IsSearchCompleteMatch( tagMatches, locationMatches );
-            string tagQueryString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0}, ", 2 ).ToFriendlyUrl();
-            string locationQueryString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0}, ", 2 ).ToFriendlyUrl();
+            string tagQueryString = ((IEnumerable)tagMatches).FriendlyUrlEncode();
+            string locationQueryString = ((IEnumerable)locationMatches).FriendlyUrlEncode();
 
             string actionName = string.Empty;
             object routeValues = new object();

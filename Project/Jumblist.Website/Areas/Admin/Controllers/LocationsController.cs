@@ -8,6 +8,7 @@ using Jumblist.Website.Controllers;
 using Jumblist.Core.Service.Data;
 using xVal.ServerSide;
 using StuartClode.Mvc.Service.Data;
+using StuartClode.Mvc.Extension;
 
 using Jumblist.Website.ViewModel;
 
@@ -119,7 +120,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             var locations = locationService.SelectLocationNameAndAreaList( q );
 
-            return Content( string.Join( "\n", locations ) );
+            return Content(locations.ToNewLineDelimitedString());
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -127,7 +128,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             var locations = locationService.SelectLocationAreaList( q );
 
-            return Content( string.Join( "\n", locations ) );
+            return Content(locations.ToNewLineDelimitedString());
         }
 
     }

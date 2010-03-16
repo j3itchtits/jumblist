@@ -103,7 +103,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             var tags = tagService.SelectTagNameList(q);
 
             //return raw text, one result on each line
-            return Content(string.Join("\n", tags));
+            return Content(tags.ToNewLineDelimitedString());
         } 
     }
 }

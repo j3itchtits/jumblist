@@ -19,13 +19,18 @@ namespace StuartClode.Mvc.Extension
         public const string Password = @"^[^\s]{6,50}$";
 
 
-        public static string ToFriendlyUrl( this string helper )
+        public static string FriendlyUrlEncode( this string helper )
         {
             helper = (helper ?? "").Trim().ToLower();
             helper = Regex.Replace( helper, @", ", "+" );        // a comma then space becomes a separator (+) in the url
             helper = Regex.Replace( helper, @"[^a-z0-9+]", "-" ); // invalid chars become a connector (-) in the url
             helper = Regex.Replace( helper, @"-+", "-" ); // convert multiple dashes into one
             return helper;
+        }
+
+        public static string[] FriendlyUrlDecode(this string helper)
+        {
+            return helper.Split('+'); ;
         }
 
         public static string ToCleanSearchString( this string helper )

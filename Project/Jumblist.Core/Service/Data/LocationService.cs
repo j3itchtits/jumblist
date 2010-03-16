@@ -51,7 +51,7 @@ namespace Jumblist.Core.Service.Data
             location.Latitude = bingLocationService.Latitude;
             location.Longitude = bingLocationService.Longitude;
 
-            location.FriendlyUrl = location.Name.ToFriendlyUrl();
+            location.FriendlyUrl = location.Name.FriendlyUrlEncode();
 
             base.Save( location );
         }
