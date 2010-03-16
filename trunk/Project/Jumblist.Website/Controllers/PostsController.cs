@@ -111,7 +111,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Group(string id, string category, int? page)
+        public ActionResult Group( string id, string category, string q, int? page )
         {
             try
             {
@@ -129,6 +129,8 @@ namespace Jumblist.Website.Controllers
                     postList = postService.SelectRecordList(Post.WhereFeedEquals(feed).And(Post.WhereDisplayEquals(true))).OrderByDescending(t => t.PublishDateTime);
                 }
 
+                if (!string.IsNullOrEmpty( q ))
+                    postList = postList.AsQueryable().Where( Post.WhereSearchTextEquals( q ) );
 
                 var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
 
@@ -141,16 +143,16 @@ namespace Jumblist.Website.Controllers
 
                 return View("index", model);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                PageTitle = "Sorry we have a problem";
+                PageTitle = "Sorry we have a problem" + ex.Message;
                 Message = new Message { Text = "We could not find this group - " + id, StyleClass = "message" };
-                return RedirectToAction("problem");
+                return RedirectToAction( "problem" );
             }
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Located(string id, string category, string q, int? page)
+        public ActionResult Located( string id, string category, string q, int? page )
         {
             try
             {
@@ -167,6 +169,9 @@ namespace Jumblist.Website.Controllers
                     postList = postService.SelectRecordList(Post.WhereDisplayEquals(true), PostLocation.WhereLocationNameListEqualsOr(locationList)).OrderByDescending(t => t.PublishDateTime).Distinct();
                 }
 
+                if (!string.IsNullOrEmpty( q ))
+                    postList = postList.AsQueryable().Where( Post.WhereSearchTextEquals( q ) );
+
                 var pagedPostList = new PaginatedList<Post>( postList.ToList(), (page ?? 1), frontEndPageSize );
 
                 var model = BuildDefaultViewModel().With(pagedPostList);
@@ -178,11 +183,11 @@ namespace Jumblist.Website.Controllers
 
                 return View("index", model);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                PageTitle = "Sorry we have a problem";
+                PageTitle = "Sorry we have a problem" + ex.Message;
                 Message = new Message { Text = "We could not find this location - " + id, StyleClass = "message" };
-                return RedirectToAction("problem");
+                return RedirectToAction( "problem" );
             }
         }
 
@@ -227,7 +232,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Search( string tagged, string located, string category, string q, int? page )
+        public ActionResult TaggedLocations( string tagged, string located, string category, string q, int? page )
         {
             try
             {
@@ -246,6 +251,9 @@ namespace Jumblist.Website.Controllers
                     postList = postService.SelectRecordList( Post.WhereDisplayEquals( true ).And( Post.WhereTagNameListEqualsAnd( tagList ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime );
                 }
 
+                if (!string.IsNullOrEmpty( q ))
+                    postList = postList.AsQueryable().Where( Post.WhereSearchTextEquals( q ) );
+
                 var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
 
                 var model = BuildDefaultViewModel().With( pagedPostList );
@@ -261,13 +269,49 @@ namespace Jumblist.Website.Controllers
 
                 return View("index", model);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                PageTitle = "Sorry we have a problem";
+                PageTitle = "Sorry we have a problem" + ex.Message;
                 Message = new Message { Text = "We could not find this tag - " + tagged + " or location - " + located, StyleClass = "message" };
-                return RedirectToAction("problem");
+                return RedirectToAction( "problem" );
             }
+        }
 
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ActionResult Search( string q, string category, int? page )
+        {
+            try
+            {
+                IEnumerable<Post> postList;
+
+                if (!string.IsNullOrEmpty( category ))
+                {
+                    var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
+                    postList = postService.SelectRecordList( Post.WherePostCategoryEquals( postCategory ).And( Post.WhereDisplayEquals( true ) ).And( Post.WhereSearchTextEquals( q ) ) ).OrderByDescending( t => t.PublishDateTime );
+                }
+                else
+                {
+                    postList = postService.SelectRecordList( Post.WhereDisplayEquals( true ).And( Post.WhereSearchTextEquals( q ) ) ).OrderByDescending( t => t.PublishDateTime );
+                }
+
+                var pagedPostList = new PaginatedList<Post>( postList.ToList(), (page ?? 1), frontEndPageSize );
+
+                var model = BuildDefaultViewModel().With( pagedPostList );
+                model.PageTitle = "All " + category + " Posts with the following search terms - " + q;
+                model.ListCount = postList.Count();
+
+                if (postList.Count() == 0)
+                    model.Message = new Message { Text = "No posts with the following search terms " + q, StyleClass = "message" };
+
+
+                return View( "index", model );
+            }
+            catch (Exception ex)
+            {
+                PageTitle = "Sorry we have a problem" + ex.Message;
+                Message = new Message { Text = "We could not find this search term " + q, StyleClass = "message" };
+                return RedirectToAction( "problem" );
+            }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
