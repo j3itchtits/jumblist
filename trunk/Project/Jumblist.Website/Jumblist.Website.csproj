@@ -63,6 +63,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ReferenceAssemblies\MvcContrib.dll</HintPath>
     </Reference>
+    <Reference Include="MvcMaps, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceAssemblies\MvcMaps.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core">
@@ -143,6 +147,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\TestViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="Views\Shared\MapDisplay.ascx.cs">
+      <DependentUpon>MapDisplay.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Shared\MapDisplay.ascx.designer.cs">
+      <DependentUpon>MapDisplay.ascx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Stylesheets\jumblist.css" />
@@ -251,6 +262,7 @@
     <Content Include="Views\Posts\PostList.ascx" />
     <Content Include="Views\Shared\BasketUserControl.ascx" />
     <Content Include="Views\Shared\LogOnUserControl.ascx" />
+    <Content Include="Views\Shared\MapDisplay.ascx" />
     <Content Include="Views\Shared\RightNavListBy.ascx" />
     <Content Include="Views\Tags\Index.aspx" />
     <Content Include="Views\Tags\TagList.ascx" />
