@@ -175,7 +175,7 @@ namespace Jumblist.Website.Controllers
 
                 var pagedPostList = new PaginatedList<Post>( postList.ToList(), (page ?? 1), frontEndPageSize );
 
-                var model = BuildDefaultViewModel().With(pagedPostList);
+                var model =  BuildDefaultViewModel().With( pagedPostList );
                 model.PageTitle = "All " + category + " Posts by Location - " + locationList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
                 model.ListCount = postList.Count();
 

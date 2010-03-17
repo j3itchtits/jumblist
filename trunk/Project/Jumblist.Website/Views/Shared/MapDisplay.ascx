@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="MapDisplay.ascx.cs" Inherits="Jumblist.Website.Views.Shared.MapDisplay" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Jumblist.Website.Views.Shared.MapDisplay" %>
 <table>
     <tr>
         <%
