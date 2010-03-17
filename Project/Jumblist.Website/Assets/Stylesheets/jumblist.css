@@ -224,3 +224,16 @@ tr.item a.selected:hover
 	background-color: #666;
 	color: #fff;
 }
+
+.GoogleMap
+{
+    width: 600px;
+    height: 400px;
+    border: solid 1px black;
+}
+.BingMap
+{
+    width: 600px;
+    height: 400px;
+    border: solid 1px black;
+}

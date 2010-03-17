@@ -14,6 +14,7 @@ using StuartClode.Mvc.Extension;
 using System.Text.RegularExpressions;
 using System.Collections;
 using Jumblist.Core.Service;
+using MvcMaps;
 
 namespace Jumblist.Website.Controllers
 {
@@ -212,9 +213,12 @@ namespace Jumblist.Website.Controllers
                 if (!string.IsNullOrEmpty(q))
                     postList = postList.AsQueryable().Where(Post.WhereSearchTextEquals(q));
 
+                var pushpins = from p in postList
+                               select (new Pushpin(p.Latitude, p.Longitude, p.Title, p.Body));
+
                 var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
 
-                var model = BuildDefaultViewModel().With(pagedPostList);
+                var model = BuildDefaultViewModel().With(pagedPostList);//.With(pushpins)
                 model.PageTitle = "All " + category + " Posts by Tag - " + tagList.Select( x => x.Name ).ToFormattedStringList( "{0}, ", 2 );
                 model.ListCount = postList.Count();
 
