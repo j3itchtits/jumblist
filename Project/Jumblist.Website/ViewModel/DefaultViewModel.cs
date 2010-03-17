@@ -15,6 +15,8 @@ namespace Jumblist.Website.ViewModel
         public IEnumerable<T> List { get; set; }
         public T Item { get; set; }
         public PaginatedList<T> PaginatedList { get; set; }
+        public int ListCount { get; set; }
+        public string EntityName { get { return typeof( T ).Name; } }
 
         public DefaultViewModel<T> With( T item )
         {
@@ -40,6 +42,12 @@ namespace Jumblist.Website.ViewModel
             return this;
         }
 
+        public DefaultViewModel<T> WithListCount( int number )
+        {
+            this.ListCount = number;
+            return this;
+        }
+
 		public IEnumerable<TLookup> LookupList<TLookup>()
 		{
             return GetLookupList( typeof( TLookup ) ) as IEnumerable<TLookup>;
@@ -52,14 +60,6 @@ namespace Jumblist.Website.ViewModel
 
             return lookupLists[lookupType] as IEnumerable;
         }
-
-        public string EntityName
-        {
-            get
-            {
-                return typeof(T).Name;                
-            }
-        }
     }
 
     public static class DefaultView
@@ -68,5 +68,6 @@ namespace Jumblist.Website.ViewModel
         {
             return new DefaultViewModel<T>();
         }
+
     }
 }

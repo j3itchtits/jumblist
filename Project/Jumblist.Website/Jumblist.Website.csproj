@@ -147,13 +147,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\TestViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
-    <Compile Include="Views\Shared\MapDisplay.ascx.cs">
-      <DependentUpon>MapDisplay.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Views\Shared\MapDisplay.ascx.designer.cs">
-      <DependentUpon>MapDisplay.ascx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Stylesheets\jumblist.css" />
