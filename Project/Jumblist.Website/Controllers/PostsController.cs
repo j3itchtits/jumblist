@@ -214,11 +214,14 @@ namespace Jumblist.Website.Controllers
                     postList = postList.AsQueryable().Where(Post.WhereSearchTextEquals(q));
 
                 var pushpins = from p in postList
-                               select (new Pushpin(p.Latitude, p.Longitude, p.Title, p.Body));
+                               where p.Latitude != 0 && p.Longitude != 0
+                               select ( new Pushpin( p.Latitude, p.Longitude, p.Title ) );
 
                 var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
 
-                var model = BuildDefaultViewModel().With(pagedPostList);//.With(pushpins)
+                var model = PostView.Model().With(pushpins);
+
+                model.PaginatedList = pagedPostList;
                 model.PageTitle = "All " + category + " Posts by Tag - " + tagList.Select( x => x.Name ).ToFormattedStringList( "{0}, ", 2 );
                 model.ListCount = postList.Count();
 

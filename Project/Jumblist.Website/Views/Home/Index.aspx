@@ -23,7 +23,10 @@
     
     <p><%= Html.ActionLink("View All Posts", "index", "posts")%> - <%= Html.ActionLink("Wanted", "category", "posts", new { id = "Wanted" }, null ) %> - <%= Html.ActionLink( "Offered", "category", "posts", new { id = "Offered" }, null )%></p>
     
-      
+    <% Html.RenderPartial("MapDisplay", new ViewDataDictionary() {
+        { "Google", Ajax.GoogleMap().CssClass("GoogleMap").Center(50.853544, 0.56347).Zoom(12).AddPushpin(new Pushpin(50.853544, 0.56347)) }
+    }); %>
+          
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">

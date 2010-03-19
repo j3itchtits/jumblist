@@ -5,17 +5,45 @@ using System.Web;
 using Jumblist.Core.Model;
 using System.Web.Mvc;
 using Jumblist.Core.Service;
+using MvcMaps;
+using Jumblist.Core.Service.Data;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Jumblist.Website.ViewModel
 {
     public class PostViewModel<T> : DefaultViewModel<T>
     {
-        public User User { get; set; }
-        public IEnumerable<User> Users { get; set; }
+        private readonly IUserService userService = ServiceLocator.Current.GetInstance<IUserService>();
+        private User user;
 
-        public PostViewModel<T> WithUser( User user )
+        public Pushpin Pushpin { get; set; }
+        public IEnumerable<Pushpin> Pushpins { get; set; }
+
+        public User User
+        {
+            get 
+            {
+                var user = (HttpContext.Current.User.Identity.IsAuthenticated) ? userService.SelectRecord(HttpContext.Current.User.Identity.Name) : User.Anonymous;
+                return user;
+            }
+            set { user = value; }
+        }
+
+        public PostViewModel<T> With( User user )
         {
             this.User = user;
+            return this;
+        }
+
+        public PostViewModel<T> With(Pushpin pushpin)
+        {
+            this.Pushpin = pushpin;
+            return this;
+        }
+
+        public PostViewModel<T> With(IEnumerable<Pushpin> pushpins)
+        {
+            this.Pushpins = pushpins;
             return this;
         }
     }
@@ -36,10 +64,6 @@ namespace Jumblist.Website.ViewModel
             return new PostViewModel<Post>();
         }
 
-        public static PostViewModel<Post> Model 
-        { 
-            get { return new PostViewModel<Post>(); } 
-        }
     }
 }
 

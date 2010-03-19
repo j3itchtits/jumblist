@@ -1,5 +1,7 @@
 ﻿using Jumblist.Core.Model;
 using System.Collections.Generic;
+using System.Web;
+using Jumblist.Core.Service.Data;
 
 namespace Jumblist.Website.ViewModel
 {
@@ -9,7 +11,7 @@ namespace Jumblist.Website.ViewModel
         public string SimpleMessage { get; set; }
         public Message Message { get; set; }
         public List<Message> MessageList { get; set; }
-
+        
         public ViewModelBase WithPageTitle( string pageTitle )
         {
             this.PageTitle = pageTitle;
@@ -33,7 +35,6 @@ namespace Jumblist.Website.ViewModel
             this.MessageList = messages;
             return this;
         }
-
 
     }
 }

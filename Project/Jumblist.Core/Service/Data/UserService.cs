@@ -10,6 +10,7 @@ using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Validation;
 using StuartClode.Mvc.Service.Bing;
 using System.Linq.Expressions;
+using System.Security.Principal;
 
 namespace Jumblist.Core.Service.Data
 {
@@ -113,7 +114,9 @@ namespace Jumblist.Core.Service.Data
 
         public bool Authenticate( string name, string password )
         {
-            return SelectRecord( User.WhereNamePasswordEquals( name, HashPassword( password ) ) ) != null;
+            var user = SelectRecord(User.WhereNamePasswordEquals(name, HashPassword(password)));
+            SetContextUserTo(user);
+            return user != null;
         }
 
         public override void Delete( User user )
@@ -131,10 +134,10 @@ namespace Jumblist.Core.Service.Data
         //    }
         //}
 
-        //public virtual void SetContextUserTo( User user )
-        //{
-        //    System.Threading.Thread.CurrentPrincipal = HttpContext.Current.User = user;
-        //}
+        public virtual void SetContextUserTo( User user )
+        {
+            System.Threading.Thread.CurrentPrincipal = HttpContext.Current.User = (IPrincipal)user;
+        }
 
         #endregion
 
