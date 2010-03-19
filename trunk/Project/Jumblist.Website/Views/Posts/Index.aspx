@@ -12,16 +12,7 @@
     
     Number of items: <%= Model.ListCount %>
 
-		    <% Html.RenderPartial( "MapDisplay", new ViewDataDictionary() {
-                { 
-                    "Google", Ajax.GoogleMap()
-                    .CssClass("GoogleMap")
-                    .Center(50.853544, 0.56347)
-                    .Zoom(9)
-                    .AddPushpin( Model.Pushpins )
-                    //.DynamicMap( new { controller = "Posts", action = "Tagged", id = "Baby" })
-                }
-            }); %> 
+
        
 <%--    <% Html.RenderPartial("MapDisplay", new ViewDataDictionary() {
         { 
@@ -57,7 +48,16 @@
 		
 		<div id="tabs-2">
 
-
+		    <% Html.RenderPartial( "MapDisplay", new ViewDataDictionary() {
+                { 
+                    "Google", Ajax.GoogleMap()
+                    .CssClass("GoogleMap")
+                    .Center(50.853544, 0.56347)
+                    .Zoom(9)
+                    .AddPushpin( Model.Pushpins )
+                    //.DynamicMap( new { controller = "Posts", action = "Tagged", id = "Baby" })
+                }
+            }); %> 
             
 <%--    <% Html.RenderPartial("MapDisplay", new ViewDataDictionary() {
         //{ "Bing", Ajax.BingMap().CssClass("BingMap").Center(50.853544, 0.56347).Zoom(12).AddPushpin(new Pushpin(50.853544, 0.56347)) },
@@ -74,12 +74,8 @@
 
 <asp:Content ID="Content4" ContentPlaceHolderID="HeadContentJavascript" runat="server">
 
-<%--   <link href="<%= Url.Stylesheet( "ui.tabs.css" )%>" rel="stylesheet" type="text/css"/>
---%>   <link href="<%= Url.Stylesheet( "jquery-ui-1.7.2.custom.css" )%>" rel="stylesheet" type="text/css"/>
-    
-<%--    <script src="<%= Url.Script( "jquery-ui-1.7.2.custom.min.js" )%>" type="text/javascript"></script>--%>
-    <script src="<%= Url.Script( "ui.core.min.js" )%>" type="text/javascript"></script>
-    <script src="<%= Url.Script( "ui.tabs.min.js" )%>" type="text/javascript"></script>
+    <link href="<%= Url.Stylesheet( "ui.tabs.css" )%>" rel="stylesheet" type="text/css"/>
+    <script src="<%= Url.Script( "jquery-ui-1.7.2.custom.min.js" )%>" type="text/javascript"></script>
     
     <script type="text/javascript">
         $(function() {
