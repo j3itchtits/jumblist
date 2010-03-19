@@ -62,3 +62,5 @@ d. User types in more than two words (or phrases)
 
 2. Second scenario - User is logged in
 User is logged in and so they get an extra check box that asks "Search near where i live?". If ticked then we use their postcode in the search.
+
+We probably need to use their postcode by default. We can combine this with the SearchRadius to find (a) a postlisting and (b) a set of lat/long boundaries that we can use in our map (we may not need this as perhaps the map can draw itself based on the boundaries defined by the pushpins created by the postlisting).
