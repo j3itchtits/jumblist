@@ -8,6 +8,7 @@ using xVal.ServerSide;
 using System.Text.RegularExpressions;
 using System;
 using System.Linq.Expressions;
+using Jumblist.Website.Extension;
 
 namespace Jumblist.Core.Service.Data
 {
@@ -74,6 +75,26 @@ namespace Jumblist.Core.Service.Data
             return from p in SelectRecordList( wherePostCondition ).AsEnumerable()
                    join pt in postTagDataService.SelectRecordList( wherePostTagCondition ).AsEnumerable() on p.PostId equals pt.PostId
                    select p;
+        }
+
+        public IEnumerable<Post> SelectRecordList(IQueryable<Tag> tagList, string category, string q)
+        {
+            IEnumerable<Post> postList;
+
+            if (!string.IsNullOrEmpty(category))
+            {
+                var postCategory = postCategoryDataService.SelectRecord(PostCategory.WhereNameEquals(category));
+                postList = SelectRecordList(Post.WherePostCategoryEquals(postCategory).And(Post.WhereDisplayEquals(true)).And(Post.WhereTagNameListEqualsAnd(tagList))).OrderByDescending(t => t.PublishDateTime);
+            }
+            else
+            {
+                postList = SelectRecordList(Post.WhereDisplayEquals(true).And(Post.WhereTagNameListEqualsAnd(tagList))).OrderByDescending(t => t.PublishDateTime);
+            }
+
+            if (!string.IsNullOrEmpty(q))
+                postList = postList.ToFilteredList(Post.WhereSearchTextEquals(q));
+
+            return postList;
         }
 
 //        public IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, IQueryable<Tag> tagList )
