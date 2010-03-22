@@ -68,6 +68,13 @@ namespace Jumblist.Core.Model
             return x => x.PostId != post.PostId;
         }
 
+        //p => (p.Latitude != 0 && p.Longitude != 0)
+
+        public static Expression<Func<Post, bool>> WhereLocationExists()
+        {
+            return x => (x.Latitude != 0 && x.Longitude != 0);
+        }
+
         public static Expression<Func<Post, bool>> WhereTagNameListEqualsAnd( IQueryable<Tag> tagList )
         {
             var condition = PredicateBuilder.True<Post>();

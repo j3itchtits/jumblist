@@ -9,6 +9,7 @@ using System.Configuration;
 using Jumblist.Core.Model;
 using Jumblist.Core.Service.Data;
 using Jumblist.Website.ViewModel;
+using Jumblist.Website.Extension;
 using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Extension;
 using System.Text.RegularExpressions;
@@ -198,29 +199,31 @@ namespace Jumblist.Website.Controllers
             try
             {
                 var tagList = tagService.SelectRecordList(Tag.WhereFriendlyUrlListEqualsOr(id.FriendlyUrlDecode()));
-                IEnumerable<Post> postList;
 
-                if (!string.IsNullOrEmpty(category))
-                {
-                    var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-                    postList = postService.SelectRecordList(Post.WherePostCategoryEquals(postCategory).And(Post.WhereDisplayEquals(true)).And(Post.WhereTagNameListEqualsAnd(tagList))).OrderByDescending(t => t.PublishDateTime);
-                }
-                else
-                {
-                    postList = postService.SelectRecordList(Post.WhereDisplayEquals(true).And(Post.WhereTagNameListEqualsAnd(tagList))).OrderByDescending(t => t.PublishDateTime);
-                }
+                var postList = postService.SelectRecordList(tagList, category, q);
 
-                if (!string.IsNullOrEmpty(q))
-                    postList = postList.AsQueryable().Where(Post.WhereSearchTextEquals(q));
+                //IEnumerable<Post> postList;
 
-                var pushpins = from p in postList
-                               where p.Latitude != 0 && p.Longitude != 0
-                               select ( new Pushpin( p.Latitude, p.Longitude, p.Title ) );
+                //if (!string.IsNullOrEmpty(category))
+                //{
+                //    var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
+                //    postList = postService.SelectRecordList(Post.WherePostCategoryEquals(postCategory).And(Post.WhereDisplayEquals(true)).And(Post.WhereTagNameListEqualsAnd(tagList))).OrderByDescending(t => t.PublishDateTime);
+                //}
+                //else
+                //{
+                //    postList = postService.SelectRecordList(Post.WhereDisplayEquals(true).And(Post.WhereTagNameListEqualsAnd(tagList))).OrderByDescending(t => t.PublishDateTime);
+                //}
 
-                var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
+                //if (!string.IsNullOrEmpty(q))
+                //    postList = postList.ToFilteredList(Post.WhereSearchTextEquals(q));
 
-                var model = PostView.Model().With(pushpins);
+                var pushpinList = postList.ToFilteredPushPinList(Post.WhereLocationExists());
 
+                var pagedPostList = postList.ToPagedList(page, frontEndPageSize);
+
+                var model = PostView.Model();
+
+                model.Pushpins = pushpinList;
                 model.PaginatedList = pagedPostList;
                 model.PageTitle = "All " + category + " Posts by Tag - " + tagList.Select( x => x.Name ).ToFormattedStringList( "{0}, ", 2 );
                 model.ListCount = postList.Count();

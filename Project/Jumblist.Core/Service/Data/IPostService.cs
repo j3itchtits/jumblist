@@ -48,6 +48,8 @@ namespace Jumblist.Core.Service.Data
         //IEnumerable<Post> SelectPostsByFeed( string feedName );
         //IEnumerable<Post> SelectPostsByFeed( string feedName, bool isActive );
 
-        
+
+
+        object SelectRecordList(IQueryable<Tag> tagList, string category, string q);
     }
 }

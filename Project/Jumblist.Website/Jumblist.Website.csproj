@@ -125,6 +125,7 @@
     <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ViewModelController.cs" />
+    <Compile Include="Extension\IEnumerableExtensions.cs" />
     <Compile Include="Extension\UrlHelperExtensions.cs" />
     <Compile Include="Filter\CompressResponseAttribute.cs" />
     <Compile Include="Filter\CopyTempDataToViewDataAttribute.cs" />
