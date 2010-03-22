@@ -8,7 +8,6 @@ using xVal.ServerSide;
 using System.Text.RegularExpressions;
 using System;
 using System.Linq.Expressions;
-using Jumblist.Website.Extension;
 
 namespace Jumblist.Core.Service.Data
 {
@@ -44,10 +43,12 @@ namespace Jumblist.Core.Service.Data
             return base.SelectRecordList();
         }
 
+
         public override IQueryable<Post> SelectRecordList( Expression<Func<Post, bool>> whereCondition )
         {
             return base.SelectRecordList( whereCondition );
         }
+
 
         public IEnumerable<Post> SelectRecordList(Expression<Func<PostLocation, bool>> wherePostLocationCondition)
         {
@@ -56,12 +57,14 @@ namespace Jumblist.Core.Service.Data
                    select p;
         }
 
+
         public IEnumerable<Post> SelectRecordList(Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostLocation, bool>> wherePostLocationCondition)
         {
             return from p in SelectRecordList( wherePostCondition ).AsEnumerable()
                    join pl in postLocationDataService.SelectRecordList( wherePostLocationCondition ).AsEnumerable() on p.PostId equals pl.PostId
                    select p;
         }
+
 
         public IEnumerable<Post> SelectRecordList(Expression<Func<PostTag, bool>> wherePostTagCondition)
         {
@@ -70,6 +73,7 @@ namespace Jumblist.Core.Service.Data
                    select p;
         }
 
+
         public IEnumerable<Post> SelectRecordList(Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition)
         {
             return from p in SelectRecordList( wherePostCondition ).AsEnumerable()
@@ -77,23 +81,103 @@ namespace Jumblist.Core.Service.Data
                    select p;
         }
 
-        public IEnumerable<Post> SelectRecordList(IQueryable<Tag> tagList, string category, string q)
+
+        public IEnumerable<Post> SelectRecordList( PostCategory category, string q )
         {
             IEnumerable<Post> postList;
 
-            if (!string.IsNullOrEmpty(category))
+            if (category !=  null)
             {
-                var postCategory = postCategoryDataService.SelectRecord(PostCategory.WhereNameEquals(category));
-                postList = SelectRecordList(Post.WherePostCategoryEquals(postCategory).And(Post.WhereDisplayEquals(true)).And(Post.WhereTagNameListEqualsAnd(tagList))).OrderByDescending(t => t.PublishDateTime);
+                postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ) ).OrderByDescending( t => t.PublishDateTime );
             }
             else
             {
-                postList = SelectRecordList(Post.WhereDisplayEquals(true).And(Post.WhereTagNameListEqualsAnd(tagList))).OrderByDescending(t => t.PublishDateTime);
+                postList = SelectRecordList( Post.WhereDisplayEquals( true ) ).OrderByDescending( t => t.PublishDateTime );
+            }
+
+            if (!string.IsNullOrEmpty( q ))
+                postList = postList.ToFilteredList( Post.WhereSearchTextEquals( q ) );
+
+            return postList;
+        }
+
+
+        public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string q )
+        {
+            IEnumerable<Post> postList;
+
+            if (category != null)
+            {
+                postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ).And( Post.WhereTagNameListEqualsAnd( tagList ) ) ).OrderByDescending( t => t.PublishDateTime );
+            }
+            else
+            {
+                postList = SelectRecordList( Post.WhereDisplayEquals(true).And(Post.WhereTagNameListEqualsAnd(tagList))).OrderByDescending(t => t.PublishDateTime );
             }
 
             if (!string.IsNullOrEmpty(q))
-                postList = postList.ToFilteredList(Post.WhereSearchTextEquals(q));
+                postList = postList.ToFilteredList( Post.WhereSearchTextEquals(q) );
 
+            return postList;
+        }
+
+
+        public IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category, string q )
+        {
+            IEnumerable<Post> postList;
+
+            if (category != null)
+            {
+                postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ).And( Post.WhereFeedEquals( feed ) ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
+            }
+            else
+            {
+                postList = SelectRecordList(Post.WhereFeedEquals(feed).And(Post.WhereDisplayEquals(true))).OrderByDescending(t => t.PublishDateTime);
+            }
+
+            if (!string.IsNullOrEmpty( q ))
+                postList = postList.ToFilteredList( Post.WhereSearchTextEquals( q ) );
+
+            return postList;
+        }
+
+
+        public IEnumerable<Post> SelectRecordList( IEnumerable<Location> locationList, PostCategory category, string q )
+        {
+            IEnumerable<Post> postList;
+
+            if (category != null)
+            {
+                postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
+            }
+            else
+            {
+                postList = SelectRecordList( Post.WhereDisplayEquals( true ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
+            }
+
+            if (!string.IsNullOrEmpty( q ))
+                postList = postList.ToFilteredList( Post.WhereSearchTextEquals( q ) );
+
+            return postList;
+
+        }
+
+        public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, IEnumerable<Location> locationList, PostCategory category, string q )
+        {
+            IEnumerable<Post> postList;
+
+            if (category != null)
+            {
+                postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ).And( Post.WhereTagNameListEqualsAnd( tagList ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime );
+            }
+            else
+            {
+                postList = SelectRecordList( Post.WhereDisplayEquals( true ).And( Post.WhereTagNameListEqualsAnd( tagList ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime );
+            }
+
+            if (!string.IsNullOrEmpty( q ))
+                postList = postList.ToFilteredList( Post.WhereSearchTextEquals( q ) );
+            
             return postList;
         }
 

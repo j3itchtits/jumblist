@@ -4,8 +4,10 @@ using System.Linq.Expressions;
 
 namespace Jumblist.Core.Model
 {
-    public partial class User
+    public partial class User : IIdentity
     {
+
+
         public static User Anonymous { get { return new User() { UserId = (int)UserUniqueId.Anonymous, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Anonymous, "g" ) }; } }
         public static User Administrator { get { return new User() { UserId = (int)UserUniqueId.Administrator, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Administrator, "g" ) }; } }
 
@@ -34,6 +36,37 @@ namespace Jumblist.Core.Model
             return x => x.UserId != user.UserId;
         }
 
+
+        //#region IPrincipal Members
+
+        //public IIdentity Identity
+        //{
+        //    get 
+        //    { 
+        //        bool isAuthenticated = (this != null);
+        //        User user = isAuthenticated ? this : User.Anonymous;
+        //        user.IsAuthenticated = isAuthenticated;
+        //        return (IIdentity)user;
+        //    }
+        //}
+
+        //public bool IsInRole( string role )
+        //{
+        //    return this.Role.Name == role;
+        //}
+
+        //#endregion
+
+        #region IIdentity Members
+
+        public string AuthenticationType
+        {
+            get { return "FormsAuth"; }
+        }
+
+        public bool IsAuthenticated { get; set; }
+
+        #endregion
     }
 
     //public partial class User : IPrincipal

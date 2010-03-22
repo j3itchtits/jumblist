@@ -19,6 +19,8 @@ using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Extension;
 using StuartClode.Mvc.IoC;
 using Microsoft.Practices.ServiceLocation;
+using System.Web.Security;
+using System.Security.Principal;
 
 namespace Jumblist.Website
 {
@@ -193,6 +195,54 @@ namespace Jumblist.Website
 
             binders[typeof(Basket)] = new BasketModelBinder();
 
+        }
+
+        //protected void Application_AuthenticateRequest( object sender, EventArgs e )
+        //{
+        //    if (HttpContext.Current.User == null) return;
+        //    if (!HttpContext.Current.User.Identity.IsAuthenticated) return;
+
+        //    HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            
+        //    if (authCookie != null) return;
+
+        //    //Extract the forms authentication cookie
+        //    FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt( authCookie.Value );
+
+        //    string[] roles = authTicket.UserData.Split( new Char[] { '|' } );
+
+        //    User userIdentity = new User();
+        //    userIdentity.Name = authTicket.Name;
+        //    userIdentity.Postcode = authTicket.UserData;
+
+        //    //CustomPrincipal implements System.Web.Security.IPrincipal
+        //    GenericPrincipal userPrincipal = new GenericPrincipal( userIdentity.Identity, roles );
+
+        //    //Context.User = userPrincipal;
+        //    HttpContext.Current.User = userPrincipal;
+        //}
+
+        protected void Application_AuthenticateRequest( object sender, EventArgs e )
+        {
+            // Get the authentication cookie
+            string cookieName = FormsAuthentication.FormsCookieName;
+            HttpCookie authCookie = Context.Request.Cookies[cookieName];
+
+            // If the cookie can't be found, don't issue the ticket
+            if (authCookie == null) return;
+
+            // Get the authentication ticket and rebuild the principal  & identity
+            FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt( authCookie.Value );
+            string[] roles = authTicket.UserData.Split( new Char[] { '|' } );
+            
+            GenericIdentity userIdentity = new GenericIdentity( authTicket.Name );
+
+            //User userIdentity = new User();
+            //userIdentity.Name = authTicket.Name;
+            //userIdentity.Postcode = authTicket.UserData;
+
+            GenericPrincipal userPrincipal = new GenericPrincipal( userIdentity, roles );
+            Context.User = userPrincipal;
         }
 
         protected void Application_Error( object sender, EventArgs e )

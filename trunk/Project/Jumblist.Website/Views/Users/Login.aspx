@@ -20,7 +20,11 @@
         
         <p><label for="password">Password</label>
         <%= Html.Password("password") %></p>
-
+        
+        <p><label for="rememberMe">Remember Me?</label>
+        <%= Html.CheckBox( "rememberMe" )%></p>
+        
+        
         <input type="submit" value="Log On" />
 	<% } %>
 

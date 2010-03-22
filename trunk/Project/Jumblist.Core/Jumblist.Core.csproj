@@ -67,7 +67,6 @@
     <Compile Include="Model\BasketUser.cs" />
     <Compile Include="Model\CategoryLink.cs" />
     <Compile Include="Model\Link.cs" />
-    <Compile Include="Model\PaginatedList.cs" />
     <Compile Include="Model\PostCategory.cs" />
     <Compile Include="Model\FeedLocation.cs" />
     <Compile Include="Model\PostTag.cs" />

@@ -12,6 +12,7 @@ using Jumblist.Website.ViewModel;
 using Jumblist.Website.Extension;
 using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Extension;
+using StuartClode.Mvc.Model;
 using System.Text.RegularExpressions;
 using System.Collections;
 using Jumblist.Core.Service;
@@ -42,9 +43,13 @@ namespace Jumblist.Website.Controllers
         public ViewResult Index( int? page )
         {
             var postList = postService.SelectRecordList( Post.WhereDisplayEquals( true ) ).OrderByDescending( t => t.PublishDateTime );
-            var pagedPostList = new PaginatedList<Post>( postList.ToList(), ( page ?? 1 ), frontEndPageSize );
+            var pushpinList = postList.ToFilteredPushPinList( Post.WhereLocationExists() );
+            var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
-            var model = BuildDefaultViewModel().With( pagedPostList );
+            var model = PostView.Model();
+
+            model.Pushpins = pushpinList;
+            model.PaginatedList = pagedPostList;
             model.PageTitle = "All Posts";
             model.ListCount = postList.Count();
 
@@ -88,23 +93,27 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Category(string id, int? page)
+        public ActionResult Category( string id, string q, int? page )
         {
             try
             {
-                var postCategory = postCategoryService.SelectRecord(PostCategory.WhereNameEquals(id));
-                var postList = postService.SelectRecordList(Post.WherePostCategoryEquals(postCategory).And(Post.WhereDisplayEquals(true))).OrderByDescending(t => t.PublishDateTime);
-                var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
+                var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals(id) );
+                var postList = postService.SelectRecordList( postCategory, q );
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLocationExists() );
+                var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
-                var model = BuildDefaultViewModel().With(pagedPostList);
+                var model = PostView.Model();
+
+                model.Pushpins = pushpinList;
+                model.PaginatedList = pagedPostList;
                 model.PageTitle = postCategory.Name + " Posts";
                 model.ListCount = postList.Count();
 
                 return View("index", model);
             }
-            catch (Exception)
+            catch ( Exception ex )
             {
-                PageTitle = "Sorry we have a problem";
+                PageTitle = "Sorry we have a problem" + ex.Message;
                 Message = new Message { Text = "We could not find this category - " + id, StyleClass = "message" };
                 return RedirectToAction("problem");
             }
@@ -117,26 +126,16 @@ namespace Jumblist.Website.Controllers
         {
             try
             {
-                var feed = feedService.SelectRecord(Feed.WhereFriendlyUrlEquals(id));
-                IEnumerable<Post> postList;
+                var feed = feedService.SelectRecord( Feed.WhereFriendlyUrlEquals( id ) );
+                var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
+                var postList = postService.SelectRecordList( feed, postCategory, q );
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLocationExists() );
+                var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
-                if (!string.IsNullOrEmpty(category))
-                {
-                    var postCategory = postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category));
-                    postList = postService.SelectRecordList(Post.WherePostCategoryEquals(postCategory).And(Post.WhereDisplayEquals(true)).And(Post.WhereFeedEquals(feed))).OrderByDescending(t => t.PublishDateTime).Distinct();
+                var model = PostView.Model();
 
-                }
-                else
-                {
-                    postList = postService.SelectRecordList(Post.WhereFeedEquals(feed).And(Post.WhereDisplayEquals(true))).OrderByDescending(t => t.PublishDateTime);
-                }
-
-                if (!string.IsNullOrEmpty( q ))
-                    postList = postList.AsQueryable().Where( Post.WhereSearchTextEquals( q ) );
-
-                var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
-
-                var model = BuildDefaultViewModel().With(pagedPostList);
+                model.Pushpins = pushpinList;
+                model.PaginatedList = pagedPostList;
                 model.PageTitle = "All " + category + " Posts by Group - " + feed.Name;
                 model.ListCount = postList.Count();
 
@@ -145,7 +144,7 @@ namespace Jumblist.Website.Controllers
 
                 return View("index", model);
             }
-            catch (Exception ex)
+            catch ( Exception ex )
             {
                 PageTitle = "Sorry we have a problem" + ex.Message;
                 Message = new Message { Text = "We could not find this group - " + id, StyleClass = "message" };
@@ -159,24 +158,15 @@ namespace Jumblist.Website.Controllers
             try
             {
                 var locationList = locationService.SelectRecordList(Location.WhereFriendlyUrlListEqualsOr(id.FriendlyUrlDecode()));
-                IEnumerable<Post> postList;
+                var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
+                var postList = postService.SelectRecordList( locationList, postCategory, q );
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLocationExists() );
+                var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
-                if (!string.IsNullOrEmpty(category))
-                {
-                    var postCategory = postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category));
-                    postList = postService.SelectRecordList(Post.WherePostCategoryEquals(postCategory).And(Post.WhereDisplayEquals(true)), PostLocation.WhereLocationNameListEqualsOr(locationList)).OrderByDescending(t => t.PublishDateTime).Distinct();
-                }
-                else
-                {
-                    postList = postService.SelectRecordList(Post.WhereDisplayEquals(true), PostLocation.WhereLocationNameListEqualsOr(locationList)).OrderByDescending(t => t.PublishDateTime).Distinct();
-                }
+                var model = PostView.Model();
 
-                if (!string.IsNullOrEmpty( q ))
-                    postList = postList.AsQueryable().Where( Post.WhereSearchTextEquals( q ) );
-
-                var pagedPostList = new PaginatedList<Post>( postList.ToList(), (page ?? 1), frontEndPageSize );
-
-                var model =  BuildDefaultViewModel().With( pagedPostList );
+                model.Pushpins = pushpinList;
+                model.PaginatedList = pagedPostList;
                 model.PageTitle = "All " + category + " Posts by Location - " + locationList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
                 model.ListCount = postList.Count();
 
@@ -185,7 +175,7 @@ namespace Jumblist.Website.Controllers
 
                 return View("index", model);
             }
-            catch (Exception ex)
+            catch ( Exception ex )
             {
                 PageTitle = "Sorry we have a problem" + ex.Message;
                 Message = new Message { Text = "We could not find this location - " + id, StyleClass = "message" };
@@ -198,28 +188,11 @@ namespace Jumblist.Website.Controllers
         {
             try
             {
-                var tagList = tagService.SelectRecordList(Tag.WhereFriendlyUrlListEqualsOr(id.FriendlyUrlDecode()));
-
-                var postList = postService.SelectRecordList(tagList, category, q);
-
-                //IEnumerable<Post> postList;
-
-                //if (!string.IsNullOrEmpty(category))
-                //{
-                //    var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-                //    postList = postService.SelectRecordList(Post.WherePostCategoryEquals(postCategory).And(Post.WhereDisplayEquals(true)).And(Post.WhereTagNameListEqualsAnd(tagList))).OrderByDescending(t => t.PublishDateTime);
-                //}
-                //else
-                //{
-                //    postList = postService.SelectRecordList(Post.WhereDisplayEquals(true).And(Post.WhereTagNameListEqualsAnd(tagList))).OrderByDescending(t => t.PublishDateTime);
-                //}
-
-                //if (!string.IsNullOrEmpty(q))
-                //    postList = postList.ToFilteredList(Post.WhereSearchTextEquals(q));
-
-                var pushpinList = postList.ToFilteredPushPinList(Post.WhereLocationExists());
-
-                var pagedPostList = postList.ToPagedList(page, frontEndPageSize);
+                var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( id.FriendlyUrlDecode() ) );
+                var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
+                var postList = postService.SelectRecordList( tagList, postCategory, q );
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLocationExists() );
+                var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
                 var model = PostView.Model();
 
@@ -233,7 +206,7 @@ namespace Jumblist.Website.Controllers
 
                 return View("index", model);
             }
-            catch (Exception ex)
+            catch ( Exception ex )
             {
                 PageTitle = "Sorry we have a problem" + ex.Message;
                 Message = new Message { Text = "We could not find this tag - " + id, StyleClass = "message" };
@@ -248,25 +221,15 @@ namespace Jumblist.Website.Controllers
             {
                 var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( tagged.FriendlyUrlDecode() ) );
                 var locationList = locationService.SelectRecordList( Location.WhereFriendlyUrlListEqualsOr(located.FriendlyUrlDecode()) );
+                var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
+                var postList = postService.SelectRecordList( tagList, locationList, postCategory, q );
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLocationExists() );
+                var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
-                IEnumerable<Post> postList;
+                var model = PostView.Model();
 
-                if (!string.IsNullOrEmpty( category ))
-                {
-                    var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-                    postList = postService.SelectRecordList( Post.WherePostCategoryEquals( postCategory ).And( Post.WhereDisplayEquals( true ) ).And( Post.WhereTagNameListEqualsAnd( tagList ) ), PostLocation.WhereLocationNameListEqualsOr(locationList) ).OrderByDescending( t => t.PublishDateTime );
-                }
-                else
-                {
-                    postList = postService.SelectRecordList( Post.WhereDisplayEquals( true ).And( Post.WhereTagNameListEqualsAnd( tagList ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime );
-                }
-
-                if (!string.IsNullOrEmpty( q ))
-                    postList = postList.AsQueryable().Where( Post.WhereSearchTextEquals( q ) );
-
-                var pagedPostList = new PaginatedList<Post>(postList.ToList(), (page ?? 1), frontEndPageSize);
-
-                var model = BuildDefaultViewModel().With( pagedPostList );
+                model.Pushpins = pushpinList;
+                model.PaginatedList = pagedPostList;
                 model.PageTitle = "All " + category + " Posts by Tag - " + tagList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
                 model.PageTitle += "All " + category + " Posts by Location - " + locationList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
                 model.ListCount = postList.Count();
@@ -277,9 +240,9 @@ namespace Jumblist.Website.Controllers
                     model.Message = new Message { Text = "No posts located at " + locationList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2), StyleClass = "message" };
                 }
 
-                return View("index", model);
+                return View( "index", model );
             }
-            catch (Exception ex)
+            catch ( Exception ex )
             {
                 PageTitle = "Sorry we have a problem" + ex.Message;
                 Message = new Message { Text = "We could not find this tag - " + tagged + " or location - " + located, StyleClass = "message" };
@@ -292,21 +255,15 @@ namespace Jumblist.Website.Controllers
         {
             try
             {
-                IEnumerable<Post> postList;
+                var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
+                var postList = postService.SelectRecordList( postCategory, q );
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLocationExists() );
+                var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
-                if (!string.IsNullOrEmpty( category ))
-                {
-                    var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-                    postList = postService.SelectRecordList( Post.WherePostCategoryEquals( postCategory ).And( Post.WhereDisplayEquals( true ) ).And( Post.WhereSearchTextEquals( q ) ) ).OrderByDescending( t => t.PublishDateTime );
-                }
-                else
-                {
-                    postList = postService.SelectRecordList( Post.WhereDisplayEquals( true ).And( Post.WhereSearchTextEquals( q ) ) ).OrderByDescending( t => t.PublishDateTime );
-                }
+                var model = PostView.Model();
 
-                var pagedPostList = new PaginatedList<Post>( postList.ToList(), (page ?? 1), frontEndPageSize );
-
-                var model = BuildDefaultViewModel().With( pagedPostList );
+                model.Pushpins = pushpinList;
+                model.PaginatedList = pagedPostList;
                 model.PageTitle = "All " + category + " Posts with the following search terms - " + q;
                 model.ListCount = postList.Count();
 
@@ -316,7 +273,7 @@ namespace Jumblist.Website.Controllers
 
                 return View( "index", model );
             }
-            catch (Exception ex)
+            catch ( Exception ex )
             {
                 PageTitle = "Sorry we have a problem" + ex.Message;
                 Message = new Message { Text = "We could not find this search term " + q, StyleClass = "message" };
@@ -328,12 +285,26 @@ namespace Jumblist.Website.Controllers
         [ValidateInput(true)]
         public RedirectToRouteResult Search( string searchString, string searchOptions )
         {
+            SearchResult searchResult;
+
+            if (searchString.Length == 0 && searchOptions.Length == 0)
+            {
+                searchResult = new SearchResult { ActionName = "index", RouteValues = new { page = string.Empty } };
+                return RedirectToAction( searchResult.ActionName, searchResult.RouteValues );
+            }
+
+            if (searchString.Length == 0 && searchOptions.Length > 0)
+            {
+                searchResult = new SearchResult { ActionName = "category", RouteValues = new { category = searchOptions, page = string.Empty } };
+                return RedirectToAction( searchResult.ActionName, searchResult.RouteValues );
+            }
+
             searchService.UserInputSearchString = searchString.ToCleanSearchString();
             searchService.UserInputSearchOptions = searchOptions;
             searchService.Tags = tagService.SelectTagNameList();
             searchService.Locations = locationService.SelectLocationNameTownList();
 
-            var searchResult = searchService.ProcessSearch();
+            searchResult = searchService.ProcessSearch();
 
             return RedirectToAction( searchResult.ActionName, searchResult.RouteValues );
 
