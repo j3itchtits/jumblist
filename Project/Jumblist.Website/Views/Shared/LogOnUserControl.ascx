@@ -3,7 +3,8 @@
 <%
     if (!(ViewContext.Controller is UsersController))
     {
-       Html.RenderAction( "LoginLinks", "Users", new { isAuthenticated = Page.Request.IsAuthenticated, name = Page.User.Identity.Name } );  
+       Html.RenderAction( "LoginLinks", "Users", new { isAuthenticated = Page.Request.IsAuthenticated, name = Page.User.Identity.Name } );
+       Response.Write( "isAuthenticated: " + Page.User.Identity.IsAuthenticated + ", name: " + Page.User.Identity.Name );
     } 
 %>
 

@@ -11,6 +11,7 @@ using StuartClode.Mvc.Validation;
 using StuartClode.Mvc.Service.Bing;
 using System.Linq.Expressions;
 using System.Security.Principal;
+using System.Web.Security;
 
 namespace Jumblist.Core.Service.Data
 {
@@ -90,6 +91,7 @@ namespace Jumblist.Core.Service.Data
             user.Password = HashPassword( password );
             user.IsActive = true;
             user.DateCreated = DateTime.Now;
+            user.IsAuthenticated = true;
 
             ValidateDataRules( user );
             ValidateBusinessRules( user.Name, user.Email, password, confirmPassword );
@@ -97,9 +99,17 @@ namespace Jumblist.Core.Service.Data
             base.Save( user );
         }
 
-        public virtual void SetAuthenticationCookie( string name, bool rememberMe )
+        public virtual void SetAuthenticationCookie( User user, bool rememberMe )
         {
-            formsAuth.SetAuthCookie( name, rememberMe );
+            formsAuth.SetAuthCookie( user.Name, rememberMe );
+
+            var userData = user.Postcode;
+            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket( 1, user.Name, DateTime.Now, DateTime.Now.AddMinutes( 30 ), true, userData );
+            string encTicket = FormsAuthentication.Encrypt( ticket );
+            HttpCookie faCookie = new HttpCookie( FormsAuthentication.FormsCookieName, encTicket );
+            HttpContext.Current.Response.Cookies.Add( faCookie );
+
+            //System.Threading.Thread.CurrentPrincipal = HttpContext.Current.User = (IPrincipal)user;
         }
 
         public virtual void RemoveAuthenticationCookie()
@@ -112,11 +122,12 @@ namespace Jumblist.Core.Service.Data
             return formsAuth.HashPasswordForStoringInConfigFile( password );
         }
 
-        public bool Authenticate( string name, string password )
+        public User Authenticate( string name, string password )
         {
-            var user = SelectRecord(User.WhereNamePasswordEquals(name, HashPassword(password)));
-            SetContextUserTo(user);
-            return user != null;
+            var user = SelectRecord( User.WhereNamePasswordEquals( name, HashPassword( password ) ) );
+            user.IsAuthenticated = true;
+
+            return user;
         }
 
         public override void Delete( User user )
@@ -134,10 +145,6 @@ namespace Jumblist.Core.Service.Data
         //    }
         //}
 
-        public virtual void SetContextUserTo( User user )
-        {
-            System.Threading.Thread.CurrentPrincipal = HttpContext.Current.User = (IPrincipal)user;
-        }
 
         #endregion
 

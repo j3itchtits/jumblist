@@ -18,11 +18,10 @@ namespace Jumblist.Core.Service.Data
         void Update(User entity);
         void ResetPassword( User entity, string password, string confirmPassword );
         void Create( User entity, string confirmPassword );
-        void SetAuthenticationCookie( string name, bool rememberMe );
-        //void SetContextUserTo( User user );
+        void SetAuthenticationCookie( User user, bool rememberMe );
         void RemoveAuthenticationCookie();
         string HashPassword( string password );
-        bool Authenticate( string name, string password );
+        User Authenticate( string name, string password );
         void Delete( User entity );
     }
 }

@@ -57,11 +57,13 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Login( string name, string password, string returnUrl )
+        public ActionResult Login( string name, string password, bool rememberMe, string returnUrl )
         {
-            if ( userService.Authenticate( name, password ) )
+            var user = userService.Authenticate( name, password );
+
+            if (user != null)
             {
-                userService.SetAuthenticationCookie( name, true );
+                userService.SetAuthenticationCookie( user, rememberMe );
 
                 if ( !string.IsNullOrEmpty( returnUrl ) )
                     return Redirect( returnUrl );
@@ -106,7 +108,7 @@ namespace Jumblist.Website.Controllers
 
             if (ModelState.IsValid)
             {
-                userService.SetAuthenticationCookie( item.Name, true );
+                userService.SetAuthenticationCookie( item, true );
                 Message = new Message { Text = "Thank you for registering", StyleClass = "message" };
 
                 if (!string.IsNullOrEmpty( returnUrl ))

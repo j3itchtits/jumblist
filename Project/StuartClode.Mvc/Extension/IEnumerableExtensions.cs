@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using StuartClode.Mvc.Model;
+using System.Linq.Expressions;
 
 namespace StuartClode.Mvc.Extension
 {
@@ -55,6 +57,16 @@ namespace StuartClode.Mvc.Extension
         public static string ToNewLineDelimitedString(this IEnumerable<string> enumeration)
         {
             return string.Join("\n", enumeration.ToArray());
+        }
+
+        public static PaginatedList<T> ToPagedList<T>( this IEnumerable<T> list, int? page, int frontEndPageSize )
+        {
+            return new PaginatedList<T>( list.ToList(), (page ?? 1), frontEndPageSize );
+        }
+
+        public static IEnumerable<T> ToFilteredList<T>( this IEnumerable<T> list, Expression<Func<T, bool>> filter )
+        {
+            return list.AsQueryable().Where( filter );
         }
     }
 }

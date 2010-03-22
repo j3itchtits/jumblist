@@ -34,6 +34,11 @@ namespace Jumblist.Core.Model
             return x => x.PostCategoryId == postCategory.PostCategoryId;
         }
 
+        public static Expression<Func<Post, bool>> WherePostCategoryNameEquals( string categoryName )
+        {
+            return x => x.Category.Name == categoryName;
+        }
+
         public static Expression<Func<Post, bool>> WhereFeedEquals( Feed feed )
         {
             return x => x.FeedId == feed.FeedId;
@@ -68,14 +73,12 @@ namespace Jumblist.Core.Model
             return x => x.PostId != post.PostId;
         }
 
-        //p => (p.Latitude != 0 && p.Longitude != 0)
-
         public static Expression<Func<Post, bool>> WhereLocationExists()
         {
             return x => (x.Latitude != 0 && x.Longitude != 0);
         }
 
-        public static Expression<Func<Post, bool>> WhereTagNameListEqualsAnd( IQueryable<Tag> tagList )
+        public static Expression<Func<Post, bool>> WhereTagNameListEqualsAnd( IEnumerable<Tag> tagList )
         {
             var condition = PredicateBuilder.True<Post>();
 
