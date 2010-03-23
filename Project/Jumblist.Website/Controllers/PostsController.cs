@@ -60,19 +60,15 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult CategoryList( RouteValueDictionary routeValueDic, string highlightedCategory )
         {
-            var postCategoryList = postCategoryService.SelectRecordList();
+            var postCategoryList = postCategoryService.SelectRecordList( PostCategory.WhereIsNavigationEquals( true ) );
 
             List<Link> model = new List<Link>();
 
-            routeValueDic.Remove("category");
-            routeValueDic.Add("category", string.Empty);
-            model.Add( new CategoryLink( null ) { RouteValues = routeValueDic, IsSelected = ( string.IsNullOrEmpty( highlightedCategory ) ) } );
+            model.Add( new CategoryLink( null, routeValueDic ) { IsSelected = (string.IsNullOrEmpty( highlightedCategory )) } );
 
             foreach ( var category in postCategoryList )
             {
-                routeValueDic.Remove("category");
-                routeValueDic.Add("category", category.Name.FriendlyUrlEncode());
-                model.Add(new CategoryLink(category.Name) { RouteValues = routeValueDic, IsSelected = (highlightedCategory.Equals(category.Name, StringComparison.OrdinalIgnoreCase)) });
+                model.Add( new CategoryLink( category.Name, routeValueDic ) { IsSelected = (highlightedCategory.Equals( category.Name, StringComparison.OrdinalIgnoreCase )) } );
             }
 
             return PartialView( model );

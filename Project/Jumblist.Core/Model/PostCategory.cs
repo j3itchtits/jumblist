@@ -18,5 +18,9 @@ namespace Jumblist.Core.Model
             return x => x.Name == postCategoryName;
         }
 
+        public static Expression<Func<PostCategory, bool>> WhereIsNavigationEquals( bool isNavigation )
+        {
+            return x => x.IsNavigation == isNavigation;
+        }
     }
 }

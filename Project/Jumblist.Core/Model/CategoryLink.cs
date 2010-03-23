@@ -9,26 +9,47 @@ namespace Jumblist.Core.Model
 {
     public class CategoryLink : Link
     {
-        public CategoryLink(string category)
+        public CategoryLink( string category, RouteValueDictionary routeValueDic )
         {
             if (category != null)
             {
                 Text = category;
-                //RouteValues = new RouteValueDictionary(new
-                //{
-                //    controller = "posts",
-                //    action = "category",
-                //    id = category.FriendlyUrlEncode()
-                //});
+
+                switch (routeValueDic["action"].ToString().ToLower())
+                {
+                    case "index":
+                        routeValueDic["action"] = "category";
+                        routeValueDic["id"] = category.FriendlyUrlEncode();
+                        break;
+                    case "category":
+                        routeValueDic["id"] = category.FriendlyUrlEncode();
+                        break;
+                    default:
+                        routeValueDic["category"] = category.FriendlyUrlEncode();
+                        break;
+                } 
+                
+                RouteValues = new RouteValueDictionary( routeValueDic );
+
             }
             else
             {
                 Text = "All";
-                //RouteValues = new RouteValueDictionary(new
-                //{
-                //    controller = "posts",
-                //    action = "index"
-                //});
+
+                switch (routeValueDic["action"].ToString().ToLower())
+                {
+                    case "index":
+                        break;
+                    case "category":
+                        routeValueDic["action"] = "index";
+                        routeValueDic["id"] = string.Empty;
+                        break;
+                    default:
+                        routeValueDic["category"] = string.Empty;
+                        break;
+                } 
+                    
+                RouteValues = new RouteValueDictionary( routeValueDic );
             }
         }
     }

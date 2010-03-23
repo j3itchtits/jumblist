@@ -12,6 +12,9 @@ using StuartClode.Mvc.Service.Bing;
 using System.Linq.Expressions;
 using System.Security.Principal;
 using System.Web.Security;
+using System.Xml.Serialization;
+using System.IO;
+using System.Text;
 
 namespace Jumblist.Core.Service.Data
 {
@@ -101,15 +104,35 @@ namespace Jumblist.Core.Service.Data
 
         public virtual void SetAuthenticationCookie( User user, bool rememberMe )
         {
-            formsAuth.SetAuthCookie( user.Name, rememberMe );
+            //formsAuth.SetAuthCookie( user.Name, rememberMe );
 
-            var userData = user.Postcode;
+            user.IsAuthenticated = true;
+
+            User newUser = new User();
+            newUser.Name = user.Name;
+            newUser.IsAuthenticated = user.IsAuthenticated;
+            newUser.Postcode = user.Postcode;
+
+            TextWriter outStream = new StringWriter();
+            XmlSerializer s = new XmlSerializer( typeof( User ) );
+            s.Serialize( outStream, newUser );
+            string xmlResult = outStream.ToString();
+            var userData = xmlResult;
+
+            //SerializableEntity<User> entity = new SerializableEntity<User>( user );
+            //XmlSerializer serializer = new XmlSerializer( entity.GetType() );
+            //StringBuilder sb = new StringBuilder();
+            //StringWriter sw = new StringWriter( sb );
+            //serializer.Serialize( sw, entity );
+            //sw.Close();
+            //string xmlResult = sb.ToString();
+            //var userData = xmlResult;
+
             FormsAuthenticationTicket ticket = new FormsAuthenticationTicket( 1, user.Name, DateTime.Now, DateTime.Now.AddMinutes( 30 ), true, userData );
             string encTicket = FormsAuthentication.Encrypt( ticket );
             HttpCookie faCookie = new HttpCookie( FormsAuthentication.FormsCookieName, encTicket );
             HttpContext.Current.Response.Cookies.Add( faCookie );
 
-            //System.Threading.Thread.CurrentPrincipal = HttpContext.Current.User = (IPrincipal)user;
         }
 
         public virtual void RemoveAuthenticationCookie()
@@ -124,10 +147,7 @@ namespace Jumblist.Core.Service.Data
 
         public User Authenticate( string name, string password )
         {
-            var user = SelectRecord( User.WhereNamePasswordEquals( name, HashPassword( password ) ) );
-            user.IsAuthenticated = true;
-
-            return user;
+            return SelectRecord( User.WhereNamePasswordEquals( name, HashPassword( password ) ) );
         }
 
         public override void Delete( User user )

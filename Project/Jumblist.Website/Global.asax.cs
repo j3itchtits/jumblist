@@ -21,6 +21,8 @@ using StuartClode.Mvc.IoC;
 using Microsoft.Practices.ServiceLocation;
 using System.Web.Security;
 using System.Security.Principal;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace Jumblist.Website
 {
@@ -211,6 +213,8 @@ namespace Jumblist.Website
 
         //    string[] roles = authTicket.UserData.Split( new Char[] { '|' } );
 
+        //    GenericIdentity userIdentity = new GenericIdentity( authTicket.Name );
+
         //    User userIdentity = new User();
         //    userIdentity.Name = authTicket.Name;
         //    userIdentity.Postcode = authTicket.UserData;
@@ -222,8 +226,21 @@ namespace Jumblist.Website
         //    HttpContext.Current.User = userPrincipal;
         //}
 
+
         protected void Application_AuthenticateRequest( object sender, EventArgs e )
         {
+
+            //if (Context.User == null) return;
+            //if (!Context.User.Identity.IsAuthenticated) return;
+
+            if (Context.User == null)
+            {
+                GenericPrincipal anonPrincipal = new GenericPrincipal( Jumblist.Core.Model.User.Anonymous, new string[] {} );
+                Context.User = anonPrincipal;
+                return;
+            }
+
+
             // Get the authentication cookie
             string cookieName = FormsAuthentication.FormsCookieName;
             HttpCookie authCookie = Context.Request.Cookies[cookieName];
@@ -231,22 +248,23 @@ namespace Jumblist.Website
             // If the cookie can't be found, don't issue the ticket
             if (authCookie == null) return;
 
-            // Get the authentication ticket and rebuild the principal  & identity
+            // Get the authentication ticket and rebuild the GenericPrincipal principal & Jumblist User identity
             FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt( authCookie.Value );
-            string[] roles = authTicket.UserData.Split( new Char[] { '|' } );
-            
-            GenericIdentity userIdentity = new GenericIdentity( authTicket.Name );
 
-            UserIdentity tempIdentity = new UserIdentity(true, authTicket.Name);
-            UserIdentity2 tempIdentity2 = new UserIdentity2(authTicket.Name);
+            string[] roles = new string[] {};
 
-            User user = new User();
-            user.Name = authTicket.Name;
-            user.Postcode = authTicket.UserData;
+            XmlSerializer s = new XmlSerializer( typeof( User ) );
+            User user = (User)s.Deserialize( new StringReader( authTicket.UserData ) );
 
-            GenericPrincipal userPrincipal = new GenericPrincipal(userIdentity, roles);
+            //User user = new User();
+            //user.Name = authTicket.Name;
+            //user.IsAuthenticated = true;
+            //user.Postcode = authTicket.UserData;
+
+            GenericPrincipal userPrincipal = new GenericPrincipal( user, roles );
             Context.User = userPrincipal;
         }
+
 
         protected void Application_Error( object sender, EventArgs e )
         {
