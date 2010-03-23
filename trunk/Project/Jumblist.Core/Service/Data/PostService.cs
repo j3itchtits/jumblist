@@ -499,7 +499,7 @@ namespace Jumblist.Core.Service.Data
 
             foreach ( PostCategory c in postCategoryDataService.SelectRecordList() )
             {
-                string pattern = "(" + c.Search.Replace( ", ", "|" ) + ")";
+                string pattern = "(" + c.AlternativeSearchText.Replace( ", ", "|" ) + ")";
                 //string pattern = c.Name;
                 if ( Regex.IsMatch( input, pattern, RegexOptions.IgnoreCase ) )
                 {
