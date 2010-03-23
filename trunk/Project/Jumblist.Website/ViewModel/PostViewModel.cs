@@ -16,6 +16,7 @@ namespace Jumblist.Website.ViewModel
         private readonly IUserService userService = ServiceLocator.Current.GetInstance<IUserService>();
         private User user;
 
+        public string PostCategory { get; set; }
         public Pushpin Pushpin { get; set; }
         public IEnumerable<Pushpin> Pushpins { get; set; }
 
