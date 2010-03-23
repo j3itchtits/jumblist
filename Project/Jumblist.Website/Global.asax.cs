@@ -237,11 +237,14 @@ namespace Jumblist.Website
             
             GenericIdentity userIdentity = new GenericIdentity( authTicket.Name );
 
-            //User userIdentity = new User();
-            //userIdentity.Name = authTicket.Name;
-            //userIdentity.Postcode = authTicket.UserData;
+            UserIdentity tempIdentity = new UserIdentity(true, authTicket.Name);
+            UserIdentity2 tempIdentity2 = new UserIdentity2(authTicket.Name);
 
-            GenericPrincipal userPrincipal = new GenericPrincipal( userIdentity, roles );
+            User user = new User();
+            user.Name = authTicket.Name;
+            user.Postcode = authTicket.UserData;
+
+            GenericPrincipal userPrincipal = new GenericPrincipal(userIdentity, roles);
             Context.User = userPrincipal;
         }
 

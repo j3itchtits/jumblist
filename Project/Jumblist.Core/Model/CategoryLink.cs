@@ -14,21 +14,21 @@ namespace Jumblist.Core.Model
             if (category != null)
             {
                 Text = category;
-                RouteValues = new RouteValueDictionary(new
-                {
-                    controller = "posts",
-                    action = "category",
-                    id = category.FriendlyUrlEncode()
-                });
+                //RouteValues = new RouteValueDictionary(new
+                //{
+                //    controller = "posts",
+                //    action = "category",
+                //    id = category.FriendlyUrlEncode()
+                //});
             }
             else
             {
                 Text = "All";
-                RouteValues = new RouteValueDictionary(new
-                {
-                    controller = "posts",
-                    action = "index"
-                });
+                //RouteValues = new RouteValueDictionary(new
+                //{
+                //    controller = "posts",
+                //    action = "index"
+                //});
             }
         }
     }

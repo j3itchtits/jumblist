@@ -4,10 +4,9 @@ using System.Linq.Expressions;
 
 namespace Jumblist.Core.Model
 {
+    [Serializable]
     public partial class User : IIdentity
     {
-
-
         public static User Anonymous { get { return new User() { UserId = (int)UserUniqueId.Anonymous, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Anonymous, "g" ) }; } }
         public static User Administrator { get { return new User() { UserId = (int)UserUniqueId.Administrator, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Administrator, "g" ) }; } }
 
