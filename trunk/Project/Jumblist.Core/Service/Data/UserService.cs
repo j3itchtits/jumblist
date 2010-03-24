@@ -15,6 +15,8 @@ using System.Web.Security;
 using System.Xml.Serialization;
 using System.IO;
 using System.Text;
+using System.Runtime.Serialization;
+using System.Xml;
 
 namespace Jumblist.Core.Service.Data
 {
@@ -106,21 +108,31 @@ namespace Jumblist.Core.Service.Data
         {
             //formsAuth.SetAuthCookie( user.Name, rememberMe );
 
+
+            
             user.IsAuthenticated = true;
 
-            User newUser = new User();
-            newUser.Name = user.Name;
-            newUser.IsAuthenticated = user.IsAuthenticated;
-            newUser.Email = user.Email;
-            newUser.Postcode = user.Postcode;
-            newUser.RoleId = user.RoleId;
+            //User newUser = new User();
+            //newUser.Name = user.Name;
+            //newUser.IsAuthenticated = user.IsAuthenticated;
+            //newUser.Email = user.Email;
+            //newUser.Postcode = user.Postcode;
+            //newUser.RoleId = user.RoleId;
             //newUser.Role = user.Role;
 
-            TextWriter outStream = new StringWriter();
-            XmlSerializer s = new XmlSerializer( typeof( User ) );
-            s.Serialize( outStream, newUser );
-            string xmlResult = outStream.ToString();
-            var userData = xmlResult;
+            //TextWriter outStream = new StringWriter();
+            //XmlSerializer s = new XmlSerializer( typeof( User ) );
+            //s.Serialize( outStream, user );
+            //string xmlResult = outStream.ToString();
+            //var userData = xmlResult;
+
+            DataContractSerializer dcs = new DataContractSerializer( typeof( User ) );
+            StringBuilder sb = new StringBuilder();
+            XmlWriter writer = XmlWriter.Create( sb );
+            dcs.WriteObject( writer, user );
+            writer.Close();
+            var userData = sb.ToString();
+
 
             //SerializableEntity<User> entity = new SerializableEntity<User>(user);
             //TextWriter tw = new StringWriter();
@@ -128,6 +140,9 @@ namespace Jumblist.Core.Service.Data
             //serializer.Serialize(tw, entity);
             //string xmlResult2 = tw.ToString();
             //var userData = xmlResult2;
+
+
+            //NEED TO USE THE REMEMBERME VARIABLE SOMEWHERE
 
             FormsAuthenticationTicket ticket = new FormsAuthenticationTicket( 1, user.Name, DateTime.Now, DateTime.Now.AddMinutes( 30 ), true, userData );
             string encTicket = FormsAuthentication.Encrypt( ticket );
