@@ -50,12 +50,12 @@
 
 		    <% Html.RenderPartial( "MapDisplay", new ViewDataDictionary() {
                 { 
-                    "Google", Ajax.GoogleMap()
+                    "Google", 
+                    Ajax.GoogleMap()
                     .CssClass("GoogleMap")
                     .Center(50.853544, 0.56347)
                     .Zoom(9)
                     .AddPushpin( Model.Pushpins )
-                    //.DynamicMap( new { controller = "Posts", action = "Tagged", id = "Baby" })
                 }
             }); %> 
             

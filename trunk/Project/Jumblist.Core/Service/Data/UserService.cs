@@ -111,7 +111,10 @@ namespace Jumblist.Core.Service.Data
             User newUser = new User();
             newUser.Name = user.Name;
             newUser.IsAuthenticated = user.IsAuthenticated;
+            newUser.Email = user.Email;
             newUser.Postcode = user.Postcode;
+            newUser.RoleId = user.RoleId;
+            //newUser.Role = user.Role;
 
             TextWriter outStream = new StringWriter();
             XmlSerializer s = new XmlSerializer( typeof( User ) );
@@ -119,14 +122,12 @@ namespace Jumblist.Core.Service.Data
             string xmlResult = outStream.ToString();
             var userData = xmlResult;
 
-            //SerializableEntity<User> entity = new SerializableEntity<User>( user );
-            //XmlSerializer serializer = new XmlSerializer( entity.GetType() );
-            //StringBuilder sb = new StringBuilder();
-            //StringWriter sw = new StringWriter( sb );
-            //serializer.Serialize( sw, entity );
-            //sw.Close();
-            //string xmlResult = sb.ToString();
-            //var userData = xmlResult;
+            //SerializableEntity<User> entity = new SerializableEntity<User>(user);
+            //TextWriter tw = new StringWriter();
+            //XmlSerializer serializer = new XmlSerializer(entity.GetType());
+            //serializer.Serialize(tw, entity);
+            //string xmlResult2 = tw.ToString();
+            //var userData = xmlResult2;
 
             FormsAuthenticationTicket ticket = new FormsAuthenticationTicket( 1, user.Name, DateTime.Now, DateTime.Now.AddMinutes( 30 ), true, userData );
             string encTicket = FormsAuthentication.Encrypt( ticket );

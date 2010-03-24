@@ -73,7 +73,7 @@ namespace Jumblist.Core.Model
             return x => x.PostId != post.PostId;
         }
 
-        public static Expression<Func<Post, bool>> WhereLocationExists()
+        public static Expression<Func<Post, bool>> WhereLatLongValuesExist()
         {
             return x => (x.Latitude != 0 && x.Longitude != 0);
         }
