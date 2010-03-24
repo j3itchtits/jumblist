@@ -87,8 +87,9 @@ namespace Jumblist.Core.Service.Data
         {
             var locationList = from l in SelectRecordList()
                                where l.Name.StartsWith( q )
-                               select new { FullLocationName = l.Name + StringExtensions.FieldSeparator + l.Area };
+                               select new { FullLocationName = l.Name + StringExtensions.FieldSeparator + ((l.Area == null) ? string.Empty : l.Area) };
 
+            //need this to convert IQueryable<AnonymousType> into IQueryable<string>
             return locationList.Select( r => r.FullLocationName ).ToArray();
         }
 

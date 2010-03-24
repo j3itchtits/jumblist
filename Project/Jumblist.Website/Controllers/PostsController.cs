@@ -43,7 +43,7 @@ namespace Jumblist.Website.Controllers
         public ViewResult Index( int? page )
         {
             var postList = postService.SelectRecordList( Post.WhereDisplayEquals( true ) ).OrderByDescending( t => t.PublishDateTime );
-            var pushpinList = postList.ToFilteredPushPinList( Post.WhereLocationExists() );
+            var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
             var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
             var model = PostView.Model();
@@ -100,7 +100,7 @@ namespace Jumblist.Website.Controllers
             {
                 var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals(id) );
                 var postList = postService.SelectRecordList( postCategory, q );
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLocationExists() );
+                var pushpinList = postList.ToFilteredPushPinList(Post.WhereLatLongValuesExist());
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
                 var model = PostView.Model();
@@ -131,7 +131,7 @@ namespace Jumblist.Website.Controllers
                 var feed = feedService.SelectRecord( Feed.WhereFriendlyUrlEquals( id ) );
                 var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) ) : null;
                 var postList = postService.SelectRecordList( feed, postCategory, q );
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLocationExists() );
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
                 var model = PostView.Model();
@@ -163,7 +163,7 @@ namespace Jumblist.Website.Controllers
                 var locationList = locationService.SelectRecordList(Location.WhereFriendlyUrlListEqualsOr(id.FriendlyUrlDecode()));
                 var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
                 var postList = postService.SelectRecordList( locationList, postCategory, q );
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLocationExists() );
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
                 var model = PostView.Model();
@@ -195,7 +195,7 @@ namespace Jumblist.Website.Controllers
                 var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( id.FriendlyUrlDecode() ) );
                 var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
                 var postList = postService.SelectRecordList( tagList, postCategory, q );
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLocationExists() );
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
                 var model = PostView.Model();
@@ -228,7 +228,7 @@ namespace Jumblist.Website.Controllers
                 var locationList = locationService.SelectRecordList( Location.WhereFriendlyUrlListEqualsOr(located.FriendlyUrlDecode()) );
                 var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
                 var postList = postService.SelectRecordList( tagList, locationList, postCategory, q );
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLocationExists() );
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
                 var model = PostView.Model();
@@ -263,7 +263,7 @@ namespace Jumblist.Website.Controllers
             {
                 var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
                 var postList = postService.SelectRecordList( postCategory, q );
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLocationExists() );
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
                 var model = PostView.Model();
