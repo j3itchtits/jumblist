@@ -6,6 +6,7 @@ using System.Data.Linq.Mapping;
 using System.Data.Linq;
 using System.ComponentModel.DataAnnotations;
 using StuartClode.Mvc.Extension;
+using System.Runtime.Serialization;
 
 namespace Jumblist.Core.Model
 {

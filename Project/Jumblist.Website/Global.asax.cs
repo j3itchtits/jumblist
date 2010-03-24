@@ -23,6 +23,8 @@ using System.Web.Security;
 using System.Security.Principal;
 using System.Xml.Serialization;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Xml;
 
 namespace Jumblist.Website
 {
@@ -78,7 +80,6 @@ namespace Jumblist.Website
 
         private void RegisterComponents()
         {
-
             container.Register(
                 Component.For<IDataContextProvider>().ImplementedBy<DataContextProvider>().LifeStyle.Transient,
                 Component.For<IConnectionStringProvider>().ImplementedBy<ConnectionStringProvider>().LifeStyle.Transient.Parameters( Parameter.ForKey( "connectionString" ).Eq( jumblistDbConnString ) ),
@@ -253,8 +254,12 @@ namespace Jumblist.Website
 
             string[] roles = new string[] {};
 
-            XmlSerializer s = new XmlSerializer( typeof( User ) );
-            User user = (User)s.Deserialize( new StringReader( authTicket.UserData ) );
+            //XmlSerializer s = new XmlSerializer( typeof( User ) );
+            //User user = (User)s.Deserialize( new StringReader( authTicket.UserData ) );
+
+            DataContractSerializer dcs = new DataContractSerializer( typeof( User ) );
+            XmlReader reader = XmlReader.Create( new StringReader( authTicket.UserData ) );
+            User user = (User)dcs.ReadObject( reader, true );
 
             //User user = new User();
             //user.Name = authTicket.Name;

@@ -6,10 +6,12 @@ using System.Data.Linq.Mapping;
 using System.Data.Linq;
 using System.ComponentModel.DataAnnotations;
 using StuartClode.Mvc.Extension;
+using System.Runtime.Serialization;
 
 namespace Jumblist.Core.Model
 {
     [Table( Name = "Users" )]
+    [DataContract]
     public partial class User
     {
         private EntityRef<Role> role;
@@ -19,11 +21,13 @@ namespace Jumblist.Core.Model
         public int UserId { get; set; }
 
         [Column( Name = "UserName" )]
+        [DataMember]
         [Required]
         [StringLength( 50 )]
         public string Name { get; set; }
 
         [Column( Name = "UserEmail" )]
+        [DataMember]
         [Required]
         [RegularExpression( StringExtensions.Email, ErrorMessage = "You must supply a valid email address" )]
         [StringLength( 250 )]
@@ -36,28 +40,35 @@ namespace Jumblist.Core.Model
         public string Password { get; set; }
 
         [Column( Name = "UserPostcode" )]
+        [DataMember]
         [RegularExpression( StringExtensions.UKPostcode, ErrorMessage = "You must supply a valid UK postcode" )]
         public string Postcode { get; set; }
 
         [Column(Name = "UserLatitude")]
+        [DataMember]
         public double Latitude { get; set; }
 
         [Column(Name = "UserLongitude")]
+        [DataMember]
         public double Longitude { get; set; }
 
         [Column(Name = "UserSearchRadiusMiles")]
+        [DataMember]
         [Required]
         public int SearchRadiusMiles { get; set; }
 
         [Column( Name = "UserIsActive" )]
+        [DataMember]
         public bool IsActive { get; set; }
 
         [Column( Name = "UserDateCreated" )]
+        [DataMember]
         [Required]
         [DataType( DataType.DateTime )]
         public DateTime DateCreated { get; set; }
 
         [Column( Name = "RoleId" )]
+        [DataMember]
         [Required]
         public int RoleId { get; set; }
 

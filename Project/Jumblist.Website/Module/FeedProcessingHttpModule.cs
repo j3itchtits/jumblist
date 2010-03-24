@@ -35,7 +35,7 @@ namespace Jumblist.Website.Module
 
 
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     //need to throw an error that can be caught by Elmah - by default the error gets handled by the web server which then crashes
                     //throw ex;
