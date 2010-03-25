@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 namespace Jumblist.Core.Model
 {
     [Table( Name = "Users" )]
-    [DataContract]
+    [DataContract( IsReference=false )]
     public partial class User
     {
         private EntityRef<Role> role;
@@ -29,19 +29,19 @@ namespace Jumblist.Core.Model
         [Column( Name = "UserEmail" )]
         [DataMember]
         [Required]
-        [RegularExpression( StringExtensions.Email, ErrorMessage = "You must supply a valid email address" )]
+        [RegularExpression( StringExtensions.EmailOnlyRegex, ErrorMessage = "You must supply a valid email address" )]
         [StringLength( 250 )]
         public string Email { get; set; }
 
         [Column( Name = "UserPassword" )]
         [Required]
         [StringLength( 50 )]
-        [RegularExpression( StringExtensions.Password, ErrorMessage = "Your password must be between 6 and 50 characters in length and not contain any spaces" )]
+        [RegularExpression( StringExtensions.PasswordOnlyRegex, ErrorMessage = "Your password must be between 6 and 50 characters in length and not contain any spaces" )]
         public string Password { get; set; }
 
         [Column( Name = "UserPostcode" )]
         [DataMember]
-        [RegularExpression( StringExtensions.UKPostcode, ErrorMessage = "You must supply a valid UK postcode" )]
+        [RegularExpression( StringExtensions.UKPostcodeOnlyRegex, ErrorMessage = "You must supply a valid UK postcode" )]
         public string Postcode { get; set; }
 
         [Column(Name = "UserLatitude")]
@@ -73,6 +73,7 @@ namespace Jumblist.Core.Model
         public int RoleId { get; set; }
 
         [Association( Name = "FK_Users_Roles", Storage = "role", ThisKey = "RoleId", OtherKey = "RoleId", IsForeignKey = true )]
+        [DataMember]
         public Role Role
         {
             get { return role.Entity; }

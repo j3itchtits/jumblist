@@ -119,6 +119,9 @@ namespace StuartClode.Mvc.Service.Feed
             byte[] firstResponse = webClient.DownloadData( loginUrl );
             string firstRes = Encoding.Default.GetString( firstResponse );
 
+            //This should work but dosen't
+            //string firstRes = webClient.DownloadString( loginUrl );
+
             // begin second (post) request by setting hidden form values, then setting Headers (UserAgent,Referer and Cookie) and Encoding (Default)
             NameValueCollection postToLogin = new NameValueCollection();
             Regex regex = new Regex( "type=\"hidden\" name=\"(.*?)\" value=\"(.*?)\"", RegexOptions.IgnoreCase );
@@ -165,6 +168,9 @@ namespace StuartClode.Mvc.Service.Feed
             //fetch response to get request (3)
             byte[] thirdResponse = webClient.DownloadData( groupUrl );
             string thirdRes = Encoding.Default.GetString( thirdResponse );
+
+            //This should work but dosen't
+            //string thirdRes = webClient.DownloadString( groupUrl );
 
             return thirdRes;
         } 

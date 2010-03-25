@@ -8,6 +8,7 @@ using xVal.ServerSide;
 using System.Text.RegularExpressions;
 using System;
 using System.Linq.Expressions;
+using StuartClode.Mvc.Service.Bing;
 
 namespace Jumblist.Core.Service.Data
 {
@@ -273,7 +274,7 @@ namespace Jumblist.Core.Service.Data
             {
                 //Set PostLocations and PostTags Properties and return them for use in searching for latitude and longitudes
                 var locationsSaved = SavePostLocations( ref post );
-                var tagsSaved = SavePostTags(post);
+                var tagsSaved = SavePostTags( post );
 
                 //We may need to update the display to true for posts that have been imported from a feed and obey the correct logic
                 bool updateDisplayToTrue = CheckIfUpdateDisplayToTrueIsNeeded(locationsSaved.Count > 0, tagsSaved.Count > 0, post.Category.Name);
@@ -281,6 +282,7 @@ namespace Jumblist.Core.Service.Data
                 if (entityImportedViaFeed && updateDisplayToTrue) post.Display = true;
 
                 //Set Latitude and Longitude Properties
+                //If the post is not from an anonymous user then use their lat/long from when they registered with a postcode
                 if (post.UserId != User.Anonymous.UserId)
                 {
                     post.Latitude = post.User.Latitude;
@@ -288,9 +290,13 @@ namespace Jumblist.Core.Service.Data
                 }
                 else
                 {
-                    double[] coordinates = GetLocationCoordinates(locationsSaved);
-                    post.Latitude = coordinates[0];
-                    post.Longitude = coordinates[1];
+                    //Latitude and longitude may have already been set if a proper postcode was found in their post (see "SavePostLocations" method)
+                    if (post.Latitude == 0 && post.Longitude == 0)
+                    {
+                        double[] coordinates = GetLocationCoordinates( locationsSaved );
+                        post.Latitude = coordinates[0];
+                        post.Longitude = coordinates[1];
+                    }
                 }
 
                 base.Update( post );
@@ -460,9 +466,14 @@ namespace Jumblist.Core.Service.Data
             
             //NEED TO CHECK HERE WHETHER A FULL POSTCODE EXISTS IN THE INPUT - IF IT DOES THEN WE NEED TO DO A GEOCODE LOOKUP FOR THE LAT/LONG - INSERT THAT INTO THE POST RECORD AND THEN ESCAPE THIS FUNCTION
 
-            if (Regex.IsMatch(input, StringExtensions.UKPostcodeBasic))
+            var match = Regex.Match( input, StringExtensions.UKPostcodeRegex, RegexOptions.IgnoreCase );
+
+            if (match.Success)
             {
-                
+                var bingLocationService = new BingLocationService( match.ToString() );
+                post.Latitude = bingLocationService.Latitude;
+                post.Longitude = bingLocationService.Longitude;
+                return list;
             }
 
             var feedLocationList = locationDataService.SelectRecordListByFeed( FeedLocation.WhereFeedIdEquals( post.FeedId ) );

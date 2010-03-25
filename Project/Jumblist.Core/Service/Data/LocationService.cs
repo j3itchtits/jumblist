@@ -77,7 +77,7 @@ namespace Jumblist.Core.Service.Data
         public string[] SelectLocationAreaList( string q )
         {
             var locationList = from l in SelectRecordList()
-                               where l.Name.StartsWith( q )
+                               where l.Area.StartsWith( q )
                                select l.Area;
 
             return locationList.Distinct().ToArray();
