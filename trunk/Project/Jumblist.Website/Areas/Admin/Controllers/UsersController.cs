@@ -7,9 +7,11 @@ using Jumblist.Website.Controllers;
 using Jumblist.Core.Model;
 using Jumblist.Core.Service.Data;
 using xVal.ServerSide;
+using Jumblist.Website.Filter;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
 {
+    [CustomAuthorization( RoleLevelMinimum = RoleLevel.Editor )]
     public class UsersController : ViewModelController<User>
     {
         private IUserService userService;

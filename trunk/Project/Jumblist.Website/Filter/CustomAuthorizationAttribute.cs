@@ -8,6 +8,7 @@ using System.Security.Principal;
 using Jumblist.Core.Model;
 using StuartClode.Mvc.Extension;
 using Microsoft.Practices.ServiceLocation;
+using System.Web.Routing;
 
 namespace Jumblist.Website.Filter
 {
@@ -22,10 +23,7 @@ namespace Jumblist.Website.Filter
             //Basic user authentication
             var userAuth = base.AuthorizeCore( httpContext );
 
-            if ( !userAuth )
-            {
-                return false;
-            }
+            if ( !userAuth ) return false;
 
             //Custom user authorisation against assigned roles
             var user = UserService.SelectRecord( httpContext.User.Identity.Name );
@@ -70,8 +68,11 @@ namespace Jumblist.Website.Filter
             {
                 // auth failed, redirect to not authorized page
                 ViewDataDictionary viewData = new ViewDataDictionary();
+                viewData.Add( "PageTitle", "Not Authorized" );
                 viewData.Add( "Message", "Sorry, you do not have sufficient privileges for this operation." );
-                filterContext.Result = new ViewResult { ViewName = "NotAuthorised", ViewData = viewData };
+
+                filterContext.Result = new ViewResult { ViewName = "Error",  ViewData = viewData };
+                //filterContext.Result = new RedirectToRouteResult( new RouteValueDictionary( new { area = "", controller = "Home" } ) );
             }
         }
 

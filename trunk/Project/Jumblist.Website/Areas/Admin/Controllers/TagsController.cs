@@ -8,9 +8,11 @@ using Jumblist.Website.Controllers;
 using Jumblist.Core.Service.Data;
 using StuartClode.Mvc.Extension;
 using xVal.ServerSide;
+using Jumblist.Website.Filter;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
 {
+    [CustomAuthorization( RoleLevelMinimum = RoleLevel.Editor )]
     public class TagsController : ViewModelController<Tag>
     {
         private ITagService tagService;

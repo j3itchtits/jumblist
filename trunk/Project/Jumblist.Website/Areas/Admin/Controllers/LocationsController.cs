@@ -9,11 +9,12 @@ using Jumblist.Core.Service.Data;
 using xVal.ServerSide;
 using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Extension;
-
 using Jumblist.Website.ViewModel;
+using Jumblist.Website.Filter;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
 {
+    [CustomAuthorization( RoleLevelMinimum = RoleLevel.Editor )]
     public class LocationsController : ViewModelController<Location>
     {
         private ILocationService locationService;

@@ -142,9 +142,9 @@ namespace Jumblist.Core.Service.Data
             //var userData = xmlResult2;
 
 
-            //NEED TO USE THE REMEMBERME VARIABLE SOMEWHERE
+            var timeout = (rememberMe) ? DateTime.Now.AddDays( 14 ) : DateTime.Now.AddMinutes( 30 );
 
-            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket( 1, user.Name, DateTime.Now, DateTime.Now.AddMinutes( 30 ), true, userData );
+            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket( 1, user.Name, DateTime.Now, timeout, true, userData );
             string encTicket = FormsAuthentication.Encrypt( ticket );
             HttpCookie faCookie = new HttpCookie( FormsAuthentication.FormsCookieName, encTicket );
             HttpContext.Current.Response.Cookies.Add( faCookie );
