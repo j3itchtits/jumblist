@@ -19,7 +19,7 @@ namespace StuartClode.Mvc.Extension
         public const string Password = @"^[^\s]{6,50}$";
 
 
-        public static string FriendlyUrlEncode( this string helper )
+        public static string ToFriendlyUrlEncode( this string helper )
         {
             helper = (helper ?? "").Trim().ToLower();
             helper = Regex.Replace( helper, @", ", "+" );        // a comma then space becomes a separator (+) in the url
@@ -28,7 +28,7 @@ namespace StuartClode.Mvc.Extension
             return helper;
         }
 
-        public static string[] FriendlyUrlDecode(this string helper)
+        public static string[] ToFriendlyUrlDecode(this string helper)
         {
             return helper.Split('+'); ;
         }
@@ -47,6 +47,21 @@ namespace StuartClode.Mvc.Extension
         public static string ToAlphabetical( this string input )
         {
             return input.Split( ' ' ).OrderBy( s => s ).ToFormattedStringList( "{0} ", 1 );
+        }
+
+        public static string AlterIfNotNullOrEmpty(this string input, string prepend, string postpend)
+        {
+            if (!string.IsNullOrEmpty(input))
+            {
+                if (!string.IsNullOrEmpty(prepend)) input = prepend + input;
+                if (!string.IsNullOrEmpty(postpend)) input = input + postpend;
+            }
+            else
+            {
+                input = string.Empty;
+            }
+
+            return input;
         }
 
         public static string ReplaceLineBreaks( this string lines, string replacement )

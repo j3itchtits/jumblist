@@ -272,7 +272,7 @@ namespace Jumblist.Core.Service.Data
             if ( newEntity )
             {
                 //Set PostLocations and PostTags Properties and return them for use in searching for latitude and longitudes
-                var locationsSaved = SavePostLocations( post );
+                var locationsSaved = SavePostLocations( ref post );
                 var tagsSaved = SavePostTags(post);
 
                 //We may need to update the display to true for posts that have been imported from a feed and obey the correct logic
@@ -452,15 +452,23 @@ namespace Jumblist.Core.Service.Data
             }
         }
 
-        private List<PostLocation> SavePostLocations( Post post )
+        private List<PostLocation> SavePostLocations( ref Post post )
         {
             var list = new List<PostLocation>();
 
             string input = (post.Title + " " + post.Body).Replace( "'", string.Empty ).Replace( ".", string.Empty );
             
-            var locationList = locationDataService.SelectRecordListByFeed( FeedLocation.WhereFeedIdEquals( post.FeedId ) );
+            //NEED TO CHECK HERE WHETHER A FULL POSTCODE EXISTS IN THE INPUT - IF IT DOES THEN WE NEED TO DO A GEOCODE LOOKUP FOR THE LAT/LONG - INSERT THAT INTO THE POST RECORD AND THEN ESCAPE THIS FUNCTION
 
-            foreach (Location location in locationList)
+            if (Regex.IsMatch(input, StringExtensions.UKPostcodeBasic))
+            {
+                
+            }
+
+            var feedLocationList = locationDataService.SelectRecordListByFeed( FeedLocation.WhereFeedIdEquals( post.FeedId ) );
+            var postCodeLocationList = locationDataService.SelectRecordList(Location.WhereLocationAreaIsNull());
+
+            foreach (Location location in (feedLocationList.Concat(postCodeLocationList)))
             {
                 string pattern = (location.IsPostcode) ? location.NameSearch + ".*" : location.NameSearch;
                 if (input.IsPhraseRegexMatch( pattern, RegexOptions.IgnoreCase ))

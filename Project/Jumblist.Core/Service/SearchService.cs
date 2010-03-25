@@ -26,8 +26,8 @@ namespace Jumblist.Core.Service
 
             string q;
             bool isCompleteSearchMatch = IsSearchCompleteMatch( tagMatches, locationMatches, out q );
-            string tagQueryString = ((IEnumerable)tagMatches).FriendlyUrlEncode();
-            string locationQueryString = ((IEnumerable)locationMatches).FriendlyUrlEncode();
+            string tagQueryString = ((IEnumerable)tagMatches).ToFriendlyUrlEncode();
+            string locationQueryString = ((IEnumerable)locationMatches).ToFriendlyUrlEncode();
 
             string actionName = string.Empty;
             object routeValues = new object();
@@ -74,7 +74,7 @@ namespace Jumblist.Core.Service
             if (!match)
 	        {
                 IEnumerable<string> difference = (UserInputSearchString.ToLower().Split( ' ' )).Except( combinedCompareString.ToLower().Split( ' ' ) );
-                q = difference.FriendlyUrlEncode(); 
+                q = difference.ToFriendlyUrlEncode(); 
 	        }
 
             return match;

@@ -49,9 +49,9 @@ namespace StuartClode.Mvc.Extension
             return (result.Length == 0) ? string.Empty : result.Remove( result.Length - rightLengthToRemove );
         }
 
-        public static string FriendlyUrlEncode( this IEnumerable enumeration )
+        public static string ToFriendlyUrlEncode( this IEnumerable enumeration )
         {
-            return enumeration.ToFormattedStringList("{0}, ", 2).FriendlyUrlEncode();
+            return enumeration.ToFormattedStringList("{0}, ", 2).ToFriendlyUrlEncode();
         }
 
         public static string ToNewLineDelimitedString(this IEnumerable<string> enumeration)

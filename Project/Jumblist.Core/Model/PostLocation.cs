@@ -39,7 +39,7 @@ namespace Jumblist.Core.Model
 
         public static Expression<Func<PostLocation, bool>> WhereLocationNameEquals( string locationName )
         {
-            return x => x.Location.Name.FriendlyUrlEncode() == locationName;
+            return x => x.Location.Name.ToFriendlyUrlEncode() == locationName;
         }
 
         public static Expression<Func<PostLocation, bool>> WhereLocationNameListEqualsOr( IEnumerable<Location> locationList )

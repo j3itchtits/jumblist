@@ -51,7 +51,7 @@ namespace Jumblist.Core.Service.Data
         {
             ValidateBusinessRules( feed );
 
-            feed.FriendlyUrl = feed.Name.FriendlyUrlEncode();
+            feed.FriendlyUrl = feed.Name.ToFriendlyUrlEncode();
 
             base.Save( feed );
         }

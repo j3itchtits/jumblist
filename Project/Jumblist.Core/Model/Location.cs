@@ -89,6 +89,11 @@ namespace Jumblist.Core.Model
             }
         }
 
+        public static Expression<Func<Location, bool>> WhereEquals(string name)
+        {
+            return x => (x.Name == name);
+        }
+
         public static Expression<Func<Location, bool>> WhereEquals( string name, string area )
         {
             return x => ( x.Name == name && x.Area == area );
@@ -112,6 +117,11 @@ namespace Jumblist.Core.Model
         public static Expression<Func<Location, bool>> WhereFriendlyUrlListEqualsOr(string[] locationList)
         {
             return x => locationList.Contains(x.FriendlyUrl);
+        }
+
+        public static Expression<Func<Location, bool>> WhereLocationAreaIsNull()
+        {
+            return x => x.Area == null;
         }
     }
 }

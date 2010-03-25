@@ -99,9 +99,9 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $("input#locationNameAndArea").autocomplete('<%= Url.Action("AjaxFindLocationNameAndAreas", "Locations") %>', { minChars: 2 });
-            $("input#tagName").autocomplete('<%= Url.Action("AjaxFindTags", "Tags") %>', { minChars: 2 });
-            $("input#locationArea").autocomplete('<%= Url.Action("AjaxFindLocationAreas", "Locations") %>', { minChars: 2 });
+            $("input#locationNameAndArea").autocomplete('<%= Url.Action("AjaxFindLocationNameAndAreas", "Locations") %>', { minChars: 3 });
+            $("input#tagName").autocomplete('<%= Url.Action("AjaxFindTags", "Tags") %>', { minChars: 3 });
+            $("input#locationArea").autocomplete('<%= Url.Action("AjaxFindLocationAreas", "Locations") %>', { minChars: 3 });
         });
     </script> 
         
