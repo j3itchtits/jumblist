@@ -160,7 +160,7 @@ namespace Jumblist.Website.Controllers
         {
             try
             {
-                var locationList = locationService.SelectRecordList(Location.WhereFriendlyUrlListEqualsOr(id.FriendlyUrlDecode()));
+                var locationList = locationService.SelectRecordList(Location.WhereFriendlyUrlListEqualsOr(id.ToFriendlyUrlDecode()));
                 var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
                 var postList = postService.SelectRecordList( locationList, postCategory, q );
                 var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
@@ -192,7 +192,7 @@ namespace Jumblist.Website.Controllers
         {
             try
             {
-                var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( id.FriendlyUrlDecode() ) );
+                var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( id.ToFriendlyUrlDecode() ) );
                 var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
                 var postList = postService.SelectRecordList( tagList, postCategory, q );
                 var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
@@ -224,8 +224,8 @@ namespace Jumblist.Website.Controllers
         {
             try
             {
-                var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( tagged.FriendlyUrlDecode() ) );
-                var locationList = locationService.SelectRecordList( Location.WhereFriendlyUrlListEqualsOr(located.FriendlyUrlDecode()) );
+                var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( tagged.ToFriendlyUrlDecode() ) );
+                var locationList = locationService.SelectRecordList( Location.WhereFriendlyUrlListEqualsOr(located.ToFriendlyUrlDecode()) );
                 var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
                 var postList = postService.SelectRecordList( tagList, locationList, postCategory, q );
                 var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );

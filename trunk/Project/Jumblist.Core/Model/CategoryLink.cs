@@ -19,13 +19,13 @@ namespace Jumblist.Core.Model
                 {
                     case "index":
                         routeValueDic["action"] = "category";
-                        routeValueDic["id"] = category.FriendlyUrlEncode();
+                        routeValueDic["id"] = category.ToFriendlyUrlEncode();
                         break;
                     case "category":
-                        routeValueDic["id"] = category.FriendlyUrlEncode();
+                        routeValueDic["id"] = category.ToFriendlyUrlEncode();
                         break;
                     default:
-                        routeValueDic["category"] = category.FriendlyUrlEncode();
+                        routeValueDic["category"] = category.ToFriendlyUrlEncode();
                         break;
                 } 
                 

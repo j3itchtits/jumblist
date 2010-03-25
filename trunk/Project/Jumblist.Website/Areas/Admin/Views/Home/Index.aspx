@@ -9,10 +9,13 @@
         var myString = "&quot;Steven&quot; &lt;stevenpaul_uk2000@...&gt;Mon Feb&nbsp;8,&nbsp;2010 8:16&nbsp;pm";
         myString = Regex.Replace( myString, "(.*)&gt;", String.Empty );
 
+        var anotherString = "hello";
+        Response.Write(anotherString.AlterIfNotNullOrEmpty("well ", null) + "<br/><br/>");
         var dt = DateTime.Parse( HttpUtility.HtmlDecode( myString ) );
         Response.Write( dt.ToString() + "<br/><br/>" );
 
         //Response.Write( Regex.IsMatch( "Availabl rye in st leonards", @"\bSt Leonards\b", RegexOptions.IgnoreCase ).ToString() );
+        Response.Write("Postcode match: " + StringExtensions.IsPhraseRegexMatch("This is a typical freecycle TN31 6HG indeed", StringExtensions.UKPostcodeBasic, RegexOptions.IgnoreCase) + "<br/><br/>");
         Response.Write(StringExtensions.IsSingularOrPluralPhraseRegexMatch("I have some nappies-buckets to give aways ", "Nappy", RegexOptions.IgnoreCase).ToString() + "<br/><br/>");
         Response.Write( "Bexhill : " + Regex.IsMatch( "available in the (Bexhill] area", @"\b" + "Bexhill" + @"\b", RegexOptions.IgnoreCase ) + "<br/><br/>" );
         Response.Write("Replace text : " + Regex.Replace("helo there...&gt;This is working now", @"(.*)&gt;", string.Empty) + "<br/><br/>");

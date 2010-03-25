@@ -51,7 +51,7 @@ namespace Jumblist.Core.Service.Data
             location.Latitude = bingLocationService.Latitude;
             location.Longitude = bingLocationService.Longitude;
 
-            location.FriendlyUrl = location.Name.FriendlyUrlEncode();
+            location.FriendlyUrl = location.Name.ToFriendlyUrlEncode();
 
             base.Save( location );
         }
@@ -87,7 +87,7 @@ namespace Jumblist.Core.Service.Data
         {
             var locationList = from l in SelectRecordList()
                                where l.Name.StartsWith( q )
-                               select new { FullLocationName = l.Name + StringExtensions.FieldSeparator + ((l.Area == null) ? string.Empty : l.Area) };
+                               select new { FullLocationName = l.Name + ((l.Area == null) ? string.Empty : StringExtensions.FieldSeparator + l.Area) };
 
             //need this to convert IQueryable<AnonymousType> into IQueryable<string>
             return locationList.Select( r => r.FullLocationName ).ToArray();

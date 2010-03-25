@@ -258,10 +258,19 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult PostLocationCreate( int postId, string locationNameAndArea )
         {
-            var locationArray = locationNameAndArea.Split( new string[] { StringExtensions.FieldSeparator }, StringSplitOptions.RemoveEmptyEntries );
+            var post = postService.SelectRecord(postId);
 
-            var post = postService.SelectRecord( postId );
-            var location = locationService.SelectRecord( Location.WhereEquals( locationArray[0], locationArray[1] ) );
+            //if the location is a postcode then we don't have a locationArea
+            var locationArray = locationNameAndArea.Split( new string[] { StringExtensions.FieldSeparator }, StringSplitOptions.RemoveEmptyEntries );
+            var locationName = locationArray[0];
+            var locationArea = (locationArray.Count() > 1) ? locationArray[1] : string.Empty;
+
+            Location location;
+
+            if (string.IsNullOrEmpty(locationArea))
+                location = locationService.SelectRecord(Location.WhereEquals(locationName));
+            else
+                location = locationService.SelectRecord( Location.WhereEquals( locationName, locationArea ) );
 
             try
             {
@@ -324,7 +333,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             }
             else
             {
-                var newTag = new Tag { Name = tagName, FriendlyUrl = tagName.FriendlyUrlEncode() };
+                var newTag = new Tag { Name = tagName, FriendlyUrl = tagName.ToFriendlyUrlEncode() };
                 tagService.Save( newTag );
 
                 var postTag = new PostTag { PostId = postId, TagId = newTag.TagId };
@@ -352,7 +361,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             var post = postService.SelectRecord( postId );
 
-            var location = new Location { Name = locationName, FriendlyUrl = ( locationName + ", " + locationArea ).FriendlyUrlEncode(), Area = locationArea };
+            var location = new Location { Name = locationName, FriendlyUrl = ( locationName + ", " + locationArea ).ToFriendlyUrlEncode(), Area = locationArea };
             locationService.Save(location);
 
             var postLocation = new PostLocation { PostId = postId, LocationId = location.LocationId };
