@@ -464,8 +464,7 @@ namespace Jumblist.Core.Service.Data
 
             string input = (post.Title + " " + post.Body).Replace( "'", string.Empty ).Replace( ".", string.Empty );
             
-            //NEED TO CHECK HERE WHETHER A FULL POSTCODE EXISTS IN THE INPUT - IF IT DOES THEN WE NEED TO DO A GEOCODE LOOKUP FOR THE LAT/LONG - INSERT THAT INTO THE POST RECORD AND THEN ESCAPE THIS FUNCTION
-
+            //Check whether a full postcode exists in teh input - if it does we simply perform a geocode lookup and then update the post and return
             var match = Regex.Match( input, StringExtensions.UKPostcodeRegex, RegexOptions.IgnoreCase );
 
             if (match.Success)

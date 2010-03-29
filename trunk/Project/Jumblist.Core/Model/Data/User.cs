@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 namespace Jumblist.Core.Model
 {
     [Table( Name = "Users" )]
-    [DataContract( IsReference=false )]
+    [DataContract]
     public partial class User
     {
         private EntityRef<Role> role;
@@ -73,7 +73,6 @@ namespace Jumblist.Core.Model
         public int RoleId { get; set; }
 
         [Association( Name = "FK_Users_Roles", Storage = "role", ThisKey = "RoleId", OtherKey = "RoleId", IsForeignKey = true )]
-        [DataMember]
         public Role Role
         {
             get { return role.Entity; }

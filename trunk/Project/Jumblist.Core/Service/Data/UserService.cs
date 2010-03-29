@@ -107,9 +107,7 @@ namespace Jumblist.Core.Service.Data
         public virtual void SetAuthenticationCookie( User user, bool rememberMe )
         {
             //formsAuth.SetAuthCookie( user.Name, rememberMe );
-
-
-            
+    
             user.IsAuthenticated = true;
 
             //User newUser = new User();
