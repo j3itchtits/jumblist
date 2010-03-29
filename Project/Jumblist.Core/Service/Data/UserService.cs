@@ -107,9 +107,7 @@ namespace Jumblist.Core.Service.Data
         public virtual void SetAuthenticationCookie( User user, bool rememberMe )
         {
             //formsAuth.SetAuthCookie( user.Name, rememberMe );
-    
-            user.IsAuthenticated = true;
-
+            
             //User newUser = new User();
             //newUser.Name = user.Name;
             //newUser.IsAuthenticated = user.IsAuthenticated;
@@ -118,18 +116,32 @@ namespace Jumblist.Core.Service.Data
             //newUser.RoleId = user.RoleId;
             //newUser.Role = user.Role;
 
+            user.IsAuthenticated = true;
+
+
+            //1. using datacontract serialization
+
+            DataContractSerializer dcs = new DataContractSerializer( typeof( User ) );
+            MemoryStream ms = new MemoryStream();
+            dcs.WriteObject( ms, user );
+            string userData = Encoding.UTF8.GetString( ms.ToArray() );
+
+            //StringBuilder sb = new StringBuilder();
+            //XmlWriter writer = XmlWriter.Create( sb );
+            //dcs.WriteObject( writer, user );
+            //writer.Close();
+            //var userData = sb.ToString();
+
+            //2. using xml serialization
+
             //TextWriter outStream = new StringWriter();
             //XmlSerializer s = new XmlSerializer( typeof( User ) );
             //s.Serialize( outStream, user );
             //string xmlResult = outStream.ToString();
-            //var userData = xmlResult;
+            //var userData1 = xmlResult;
 
-            DataContractSerializer dcs = new DataContractSerializer( typeof( User ) );
-            StringBuilder sb = new StringBuilder();
-            XmlWriter writer = XmlWriter.Create( sb );
-            dcs.WriteObject( writer, user );
-            writer.Close();
-            var userData = sb.ToString();
+            //XmlSerializer s1 = new XmlSerializer( typeof( User ) );
+            //User user2 = (User)s.Deserialize( new StringReader( userData1 ) );
 
 
             //SerializableEntity<User> entity = new SerializableEntity<User>(user);

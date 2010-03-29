@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 namespace Jumblist.Core.Model
 {
     [Table( Name = "Users" )]
-    [DataContract]
+    [DataContract]//( IsReference = true )
     public partial class User
     {
         private EntityRef<Role> role;
@@ -68,11 +68,13 @@ namespace Jumblist.Core.Model
         public DateTime DateCreated { get; set; }
 
         [Column( Name = "RoleId" )]
-        [DataMember]
         [Required]
         public int RoleId { get; set; }
 
         [Association( Name = "FK_Users_Roles", Storage = "role", ThisKey = "RoleId", OtherKey = "RoleId", IsForeignKey = true )]
+        //Note we cannot serialize this entity until we enable reference tracking on the User class
+        //We cannot enable reference trackgin on teh User class until we get rid of the MarshalByRefObject inheritance which we currently need for running on Cassini - hopefully we can move to IIS and the problem will be sorted
+        //[DataMember]
         public Role Role
         {
             get { return role.Entity; }
