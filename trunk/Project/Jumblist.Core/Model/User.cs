@@ -5,7 +5,6 @@ using System.Runtime.Serialization;
 
 namespace Jumblist.Core.Model
 {
-    //[Serializable]
     public partial class User : MarshalByRefObject, IIdentity
     {
         public static User Anonymous { get { return new User() { UserId = (int)UserUniqueId.Anonymous, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Anonymous, "g" ) }; } }
@@ -46,6 +45,7 @@ namespace Jumblist.Core.Model
         public bool IsAuthenticated { get; set; }
 
         #endregion
+
     }
 
     [Serializable]
