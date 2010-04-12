@@ -13,16 +13,17 @@ namespace Jumblist.Website.ViewModel
 {
     public class PostViewModel<T> : DefaultViewModel<T>
     {
-        //private readonly IUserService userService = ServiceLocator.Current.GetInstance<IUserService>();
+        private readonly IUserService userService = ServiceLocator.Current.GetInstance<IUserService>();
         //private User user;
 
         public string PostCategory { get; set; }
         public Pushpin Pushpin { get; set; }
         public IEnumerable<Pushpin> Pushpins { get; set; }
+        public User User { get; set; }
 
         //public User User
         //{
-        //    get 
+        //    get
         //    {
         //        var user = (HttpContext.Current.User.Identity.IsAuthenticated) ? userService.SelectRecord(HttpContext.Current.User.Identity.Name) : User.Anonymous;
         //        return user;
@@ -30,11 +31,11 @@ namespace Jumblist.Website.ViewModel
         //    set { user = value; }
         //}
 
-        //public PostViewModel<T> With( User user )
-        //{
-        //    this.User = user;
-        //    return this;
-        //}
+        public PostViewModel<T> With(User user)
+        {
+            this.User = user;
+            return this;
+        }
 
         public PostViewModel<T> With(Pushpin pushpin)
         {
