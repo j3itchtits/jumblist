@@ -12,20 +12,24 @@
     <div class="searchbox">
     <% using (Html.BeginForm("search", "posts"))
        { %>
-            <p><%= Html.TextBox( "searchstring" ) %> <%= Html.SubmitButton( "submit", "Search" ) %></p>
+            <p>
+                What <%= Html.TextBox( "tagSearch" ) %><br />
+                Where <%= Html.TextBox( "locationSearch" ) %> 
+                <%= Html.SubmitButton( "submit", "Search" ) %>
+            </p>
             
-            <input type="radio" name="searchoptions" value="" checked="checked" /> All 
-            <input type="radio" name="searchoptions" value="offered" /> Offered 
-            <input type="radio" name="searchoptions" value="wanted" /> Wanted
+            <input type="radio" name="postCategorySearch" value="" checked="checked" /> All 
+            <input type="radio" name="postCategorySearch" value="offered" /> Offered 
+            <input type="radio" name="postCategorySearch" value="wanted" /> Wanted
             
     <% } %>
     </div>
     
     <p><%= Html.ActionLink("View All Posts", "index", "posts")%> - <%= Html.ActionLink("Wanted", "category", "posts", new { id = "Wanted" }, null ) %> - <%= Html.ActionLink( "Offered", "category", "posts", new { id = "Offered" }, null )%></p>
     
-    <% Html.RenderPartial("MapDisplay", new ViewDataDictionary() {
+<%--    <% Html.RenderPartial("MapDisplay", new ViewDataDictionary() {
         { "Google", Ajax.GoogleMap().CssClass("GoogleMap").Center(50.853544, 0.56347).Zoom(12).AddPushpin(new Pushpin(50.853544, 0.56347)) }
-    }); %>
+    }); %>--%>
           
 </asp:Content>
 

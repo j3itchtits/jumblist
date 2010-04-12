@@ -155,37 +155,37 @@ namespace Jumblist.Website.Controllers
             }
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Located( string id, string category, string q, int? page )
-        {
-            try
-            {
-                var locationList = locationService.SelectRecordList(Location.WhereFriendlyUrlListEqualsOr(id.ToFriendlyUrlDecode()));
-                var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
-                var postList = postService.SelectRecordList( locationList, postCategory, q );
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
-                var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
+        //[AcceptVerbs(HttpVerbs.Get)]
+        //public ActionResult Located( string id, string category, string q, int? page )
+        //{
+        //    try
+        //    {
+        //        var locationList = locationService.SelectRecordList(Location.WhereFriendlyUrlListEqualsOr(id.ToFriendlyUrlDecode()));
+        //        var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
+        //        var postList = postService.SelectRecordList( locationList, postCategory, q );
+        //        var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
+        //        var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
-                var model = PostView.Model();
+        //        var model = PostView.Model();
 
-                model.PostCategory = (postCategory != null) ? postCategory.Name : string.Empty;
-                model.Pushpins = pushpinList;
-                model.PaginatedList = pagedPostList;
-                model.PageTitle = "All " + category + " Posts by Location - " + locationList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
-                model.ListCount = postList.Count();
+        //        model.PostCategory = (postCategory != null) ? postCategory.Name : string.Empty;
+        //        model.Pushpins = pushpinList;
+        //        model.PaginatedList = pagedPostList;
+        //        model.PageTitle = "All " + category + " Posts by Location - " + locationList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
+        //        model.ListCount = postList.Count();
 
-                if (postList.Count() == 0) 
-                    model.Message = new Message { Text = "No posts from this location - " + id, StyleClass = "message" };
+        //        if (postList.Count() == 0) 
+        //            model.Message = new Message { Text = "No posts from this location - " + id, StyleClass = "message" };
 
-                return View("index", model);
-            }
-            catch ( Exception ex )
-            {
-                PageTitle = "Sorry we have a problem" + ex.Message;
-                Message = new Message { Text = "We could not find this location - " + id, StyleClass = "message" };
-                return RedirectToAction( "problem" );
-            }
-        }
+        //        return View("index", model);
+        //    }
+        //    catch ( Exception ex )
+        //    {
+        //        PageTitle = "Sorry we have a problem" + ex.Message;
+        //        Message = new Message { Text = "We could not find this location - " + id, StyleClass = "message" };
+        //        return RedirectToAction( "problem" );
+        //    }
+        //}
 
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Tagged( string id, string category, string q, int? page )
@@ -219,48 +219,51 @@ namespace Jumblist.Website.Controllers
             }
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult TaggedLocations( string tagged, string located, string category, string q, int? page )
-        {
-            try
-            {
-                var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( tagged.ToFriendlyUrlDecode() ) );
-                var locationList = locationService.SelectRecordList( Location.WhereFriendlyUrlListEqualsOr(located.ToFriendlyUrlDecode()) );
-                var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
-                var postList = postService.SelectRecordList( tagList, locationList, postCategory, q );
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
-                var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
+        //[AcceptVerbs(HttpVerbs.Get)]
+        //public ActionResult TaggedLocations( string tagged, string located, string category, string q, int? page )
+        //{
+        //    try
+        //    {
+        //        var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( tagged.ToFriendlyUrlDecode() ) );
+        //        var locationList = locationService.SelectRecordList( Location.WhereFriendlyUrlListEqualsOr(located.ToFriendlyUrlDecode()) );
+        //        var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
+        //        var postList = postService.SelectRecordList( tagList, locationList, postCategory, q );
+        //        var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
+        //        var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
-                var model = PostView.Model();
+        //        var model = PostView.Model();
 
-                model.PostCategory = (postCategory != null) ? postCategory.Name : string.Empty;
-                model.Pushpins = pushpinList;
-                model.PaginatedList = pagedPostList;
-                model.PageTitle = "All " + category + " Posts by Tag - " + tagList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
-                model.PageTitle += "All " + category + " Posts by Location - " + locationList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
-                model.ListCount = postList.Count();
+        //        model.PostCategory = (postCategory != null) ? postCategory.Name : string.Empty;
+        //        model.Pushpins = pushpinList;
+        //        model.PaginatedList = pagedPostList;
+        //        model.PageTitle = "All " + category + " Posts by Tag - " + tagList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
+        //        model.PageTitle += "All " + category + " Posts by Location - " + locationList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
+        //        model.ListCount = postList.Count();
 
-                if (postList.Count() == 0)
-                {
-                    model.Message = new Message { Text = "No posts tagged with " + tagList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2), StyleClass = "message" };
-                    model.Message = new Message { Text = "No posts located at " + locationList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2), StyleClass = "message" };
-                }
+        //        if (postList.Count() == 0)
+        //        {
+        //            model.Message = new Message { Text = "No posts tagged with " + tagList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2), StyleClass = "message" };
+        //            model.Message = new Message { Text = "No posts located at " + locationList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2), StyleClass = "message" };
+        //        }
 
-                return View( "index", model );
-            }
-            catch ( Exception ex )
-            {
-                PageTitle = "Sorry we have a problem" + ex.Message;
-                Message = new Message { Text = "We could not find this tag - " + tagged + " or location - " + located, StyleClass = "message" };
-                return RedirectToAction( "problem" );
-            }
-        }
+        //        return View( "index", model );
+        //    }
+        //    catch ( Exception ex )
+        //    {
+        //        PageTitle = "Sorry we have a problem" + ex.Message;
+        //        Message = new Message { Text = "We could not find this tag - " + tagged + " or location - " + located, StyleClass = "message" };
+        //        return RedirectToAction( "problem" );
+        //    }
+        //}
 
         [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult Search( string q, string category, int? page )
         {
             try
             {
+                //put the following line in rootcontrollerbase class - maybe - note check out the model binder thing so that the user can be passed via the method parameters - either as a Session (like the Basket) or perhaps the authCookie (then we wouldn't need the AuthenticateRequest method in global.asax or any of that stypid serialization crap
+                var user = (HttpContext.Current.User.Identity.IsAuthenticated) ? userService.SelectRecord(HttpContext.Current.User.Identity.Name) : User.Anonymous;
+                
                 var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
                 var postList = postService.SelectRecordList( postCategory, q );
                 var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
@@ -268,6 +271,7 @@ namespace Jumblist.Website.Controllers
 
                 var model = PostView.Model();
 
+                model.User = user;
                 model.PostCategory = (postCategory != null) ? postCategory.Name : string.Empty;
                 model.Pushpins = pushpinList;
                 model.PaginatedList = pagedPostList;
@@ -290,28 +294,18 @@ namespace Jumblist.Website.Controllers
 
         [AcceptVerbs(HttpVerbs.Post)]
         [ValidateInput(true)]
-        public RedirectToRouteResult Search( string searchString, string searchOptions )
+        public RedirectToRouteResult Search(string tagSearch, string locationSearch, string postCategorySearch)
         {
-            SearchResult searchResult;
+            searchService.TagSearch = tagSearch.ToCleanSearchString();
+            searchService.LocationSearch = locationSearch.ToCleanSearchString();
+            searchService.PostCategorySearch = postCategorySearch;
 
-            if (searchString.Length == 0 && searchOptions.Length == 0)
-            {
-                searchResult = new SearchResult { ActionName = "index", RouteValues = new { page = string.Empty } };
-                return RedirectToAction( searchResult.ActionName, searchResult.RouteValues );
-            }
 
-            if (searchString.Length == 0 && searchOptions.Length > 0)
-            {
-                searchResult = new SearchResult { ActionName = "category", RouteValues = new { category = searchOptions, page = string.Empty } };
-                return RedirectToAction( searchResult.ActionName, searchResult.RouteValues );
-            }
 
-            searchService.UserInputSearchString = searchString.ToCleanSearchString();
-            searchService.UserInputSearchOptions = searchOptions;
-            searchService.Tags = tagService.SelectTagNameList();
-            searchService.Locations = locationService.SelectLocationNameTownList();
+            //searchService.Tags = tagService.SelectTagNameList();
+            //searchService.Locations = locationService.SelectLocationNameTownList();
 
-            searchResult = searchService.ProcessSearch();
+            var searchResult = searchService.ProcessSearch();
 
             return RedirectToAction( searchResult.ActionName, searchResult.RouteValues );
 

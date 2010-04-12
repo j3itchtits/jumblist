@@ -7,54 +7,93 @@ using Jumblist.Core.Service.Data;
 using System.Text.RegularExpressions;
 using System.Collections;
 using Jumblist.Core.Model;
+using StuartClode.Mvc.Service.Data;
 
 namespace Jumblist.Core.Service
 {
     public class SearchService : ISearchService
     {
-        public string UserInputSearchString { get; set; }
-        public string UserInputSearchOptions { get; set; }
-        public string[] Tags { get; set; }
-        public string[] Locations { get; set; }
+        private string[] tags;
+        private string[] locations;
+        public ITagService tagService;
+        public ILocationService locationService;
+
+        public SearchService(ITagService tagService, ILocationService locationService)
+        {
+            this.tagService = tagService;
+            this.locationService = locationService;
+        }
+
+        public string TagSearch { get; set; }
+        public string LocationSearch { get; set; }
+        public string PostCategorySearch { get; set; }
+
+        public string[] Tags 
+        {
+            get { return tagService.SelectTagNameList(); }
+            set { tags = value; }
+        }
+        
+        public string[] Locations
+        {
+            get { return locationService.SelectLocationNameTownList(); }
+            set { locations = value; }
+        }
 
         public SearchResult ProcessSearch()
         {
-            var searchPattern = UserInputSearchString.ToSearchRegexPattern();
+            if (TagSearch.Length == 0 && PostCategorySearch.Length == 0)
+            {
+                return new SearchResult { ActionName = "index", RouteValues = new { page = string.Empty } };
+            }
 
-            var tagMatches = Regex.Matches(Tags.ToNewLineDelimitedString(), searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
-            var locationMatches = Regex.Matches(Locations.ToNewLineDelimitedString(), searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            if (TagSearch.Length == 0 && PostCategorySearch.Length > 0)
+            {
+                return new SearchResult { ActionName = "category", RouteValues = new { category = PostCategorySearch, page = string.Empty } };
+            }
+
+            var tagSearchPattern = TagSearch.ToSearchRegexPattern();
+            if (string.IsNullOrEmpty(LocationSearch)) LocationSearch = "UK";
+
+            //Get User entity - what about anonymous users?
+            //Add LocationSearch to User entity - this can then be used in the PostController to filter the tagged or search post list
+
+            var tagMatches = Regex.Matches(Tags.ToNewLineDelimitedString(), tagSearchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            //var locationMatches = Regex.Matches(Locations.ToNewLineDelimitedString(), searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
             string q;
-            bool isCompleteSearchMatch = IsSearchCompleteMatch( tagMatches, locationMatches, out q );
+            bool isCompleteSearchMatch = IsSearchCompleteMatch( tagMatches, out q );
             string tagQueryString = ((IEnumerable)tagMatches).ToFriendlyUrlEncode();
-            string locationQueryString = ((IEnumerable)locationMatches).ToFriendlyUrlEncode();
+            //string locationQueryString = ((IEnumerable)locationMatches).ToFriendlyUrlEncode();
 
             string actionName = string.Empty;
             object routeValues = new object();
 
-            if (tagQueryString.Length > 0 && locationQueryString.Length == 0)
+            if (tagQueryString.Length > 0)
             {
                 actionName = "tagged";
-                routeValues = new { id = tagQueryString, category = UserInputSearchOptions, q = q, page = string.Empty };
+                routeValues = new { id = tagQueryString, category = PostCategorySearch, q = q, page = string.Empty };
             }
 
-            if (tagQueryString.Length == 0 && locationQueryString.Length > 0)
-            {
-                actionName = "located";
-                routeValues = new { id = locationQueryString, category = UserInputSearchOptions, q = q, page = string.Empty };
-            }
-
-            if (tagQueryString.Length > 0 && locationQueryString.Length > 0)
-            {
-                actionName = "taggedlocations";
-                routeValues = new { tagged = tagQueryString, located = locationQueryString, category = UserInputSearchOptions, q = q, page = string.Empty };
-            }
-
-            if (tagQueryString.Length == 0 && locationQueryString.Length == 0)
+            if (tagQueryString.Length == 0)
             {
                 actionName = "search";
-                routeValues = new { q = q, category = UserInputSearchOptions, page = string.Empty };
+                routeValues = new { q = q, category = PostCategorySearch, page = string.Empty };
             }
+
+            //if (tagQueryString.Length == 0 && locationQueryString.Length > 0)
+            //{
+            //    actionName = "located";
+            //    routeValues = new { id = locationQueryString, category = PostCategorySearch, q = q, page = string.Empty };
+            //}
+
+            //if (tagQueryString.Length > 0 && locationQueryString.Length > 0)
+            //{
+            //    actionName = "taggedlocations";
+            //    routeValues = new { tagged = tagQueryString, located = locationQueryString, category = PostCategorySearch, q = q, page = string.Empty };
+            //}
+
+
 
             var searchResult = new SearchResult { ActionName = actionName, RouteValues = routeValues };
 
@@ -62,18 +101,19 @@ namespace Jumblist.Core.Service
         }
 
 
-        private bool IsSearchCompleteMatch( MatchCollection tagMatches, MatchCollection locationMatches, out string q )
+        private bool IsSearchCompleteMatch( MatchCollection tagMatches, out string q )
         {
             var tagMatchesCompareString = ((IEnumerable)tagMatches).ToFormattedStringList("{0} ");
-            var locationMatchesCompareString = ((IEnumerable)locationMatches).ToFormattedStringList("{0} ");
-            var combinedCompareString = (tagMatchesCompareString + locationMatchesCompareString).Trim();
 
-            bool match = string.Compare( UserInputSearchString.ToAlphabetical(), combinedCompareString.ToAlphabetical(), true ) == 0;
+            //var locationMatchesCompareString = ((IEnumerable)locationMatches).ToFormattedStringList("{0} ");
+            //var combinedCompareString = (tagMatchesCompareString + locationMatchesCompareString).Trim();
+
+            bool match = string.Compare(TagSearch.ToAlphabetical(), tagMatchesCompareString.ToAlphabetical(), true) == 0;
             q = string.Empty;
 
             if (!match)
 	        {
-                IEnumerable<string> difference = (UserInputSearchString.ToLower().Split( ' ' )).Except( combinedCompareString.ToLower().Split( ' ' ) );
+                IEnumerable<string> difference = (TagSearch.ToLower().Split(' ')).Except(tagMatchesCompareString.ToLower().Split(' '));
                 q = difference.ToFriendlyUrlEncode(); 
 	        }
 
