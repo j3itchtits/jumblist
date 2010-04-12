@@ -28,8 +28,9 @@ namespace Jumblist.Website.Controllers
         private readonly IDataService<Feed> feedService;
         private readonly IDataService<PostCategory> postCategoryService;
         private readonly ISearchService searchService;
+        private readonly IUserService userService;
 
-        public PostsController(IPostService postService, ILocationService locationService, ITagService tagService, IDataService<Feed> feedService, IDataService<PostCategory> postCategoryService, ISearchService searchService)
+        public PostsController( IPostService postService, ILocationService locationService, ITagService tagService, IDataService<Feed> feedService, IDataService<PostCategory> postCategoryService, ISearchService searchService, IUserService userService )
         {
             this.postService = postService;
             this.locationService = locationService;
@@ -37,6 +38,7 @@ namespace Jumblist.Website.Controllers
             this.feedService = feedService;
             this.postCategoryService = postCategoryService;
             this.searchService = searchService;
+            this.userService = userService;
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -259,10 +261,11 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult Search( string q, string category, int? page )
         {
+
             try
             {
                 //put the following line in rootcontrollerbase class - maybe - note check out the model binder thing so that the user can be passed via the method parameters - either as a Session (like the Basket) or perhaps the authCookie (then we wouldn't need the AuthenticateRequest method in global.asax or any of that stypid serialization crap
-                var user = (HttpContext.Current.User.Identity.IsAuthenticated) ? userService.SelectRecord(HttpContext.Current.User.Identity.Name) : User.Anonymous;
+                var user =  (HttpContext.User.Identity.IsAuthenticated) ? userService.SelectRecord(HttpContext.User.Identity.Name) : Jumblist.Core.Model.User.Anonymous;
                 
                 var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
                 var postList = postService.SelectRecordList( postCategory, q );
