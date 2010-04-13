@@ -197,7 +197,7 @@ namespace Jumblist.Website
             var binders = ModelBinders.Binders;
 
             binders[typeof(Basket)] = new BasketModelBinder();
-
+            binders[typeof(User)] = new UserModelBinder();
         }
 
         //protected void Application_AuthenticateRequest( object sender, EventArgs e )
@@ -228,47 +228,47 @@ namespace Jumblist.Website
         //}
 
 
-        protected void Application_AuthenticateRequest( object sender, EventArgs e )
-        {
+        //protected void Application_AuthenticateRequest( object sender, EventArgs e )
+        //{
 
-            //if (Context.User == null) return;
-            //if (!Context.User.Identity.IsAuthenticated) return;
+        //    //if (Context.User == null) return;
+        //    //if (!Context.User.Identity.IsAuthenticated) return;
 
-            if (Context.User == null)
-            {
-                GenericPrincipal anonPrincipal = new GenericPrincipal( Jumblist.Core.Model.User.Anonymous, new string[] {} );
-                Context.User = anonPrincipal;
-                return;
-            }
+        //    if (Context.User == null)
+        //    {
+        //        GenericPrincipal anonPrincipal = new GenericPrincipal( Jumblist.Core.Model.User.Anonymous, new string[] {} );
+        //        Context.User = anonPrincipal;
+        //        return;
+        //    }
 
 
-            // Get the authentication cookie
-            string cookieName = FormsAuthentication.FormsCookieName;
-            HttpCookie authCookie = Context.Request.Cookies[cookieName];
+        //    // Get the authentication cookie
+        //    string cookieName = FormsAuthentication.FormsCookieName;
+        //    HttpCookie authCookie = Context.Request.Cookies[cookieName];
 
-            // If the cookie can't be found, don't issue the ticket
-            if (authCookie == null) return;
+        //    // If the cookie can't be found, don't issue the ticket
+        //    if (authCookie == null) return;
 
-            // Get the authentication ticket and rebuild the GenericPrincipal principal & Jumblist User identity
-            FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt( authCookie.Value );
+        //    // Get the authentication ticket and rebuild the GenericPrincipal principal & Jumblist User identity
+        //    FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt( authCookie.Value );
 
-            string[] roles = new string[] {};
+        //    string[] roles = new string[] {};
 
-            //XmlSerializer s = new XmlSerializer( typeof( User ) );
-            //User user = (User)s.Deserialize( new StringReader( authTicket.UserData ) );
+        //    //XmlSerializer s = new XmlSerializer( typeof( User ) );
+        //    //User user = (User)s.Deserialize( new StringReader( authTicket.UserData ) );
 
-            DataContractSerializer dcs = new DataContractSerializer( typeof( User ) );
-            XmlReader reader = XmlReader.Create( new StringReader( authTicket.UserData ) );
-            User user = (User)dcs.ReadObject( reader, true );
+        //    DataContractSerializer dcs = new DataContractSerializer( typeof( User ) );
+        //    XmlReader reader = XmlReader.Create( new StringReader( authTicket.UserData ) );
+        //    User user = (User)dcs.ReadObject( reader, true );
 
-            //User user = new User();
-            //user.Name = authTicket.Name;
-            //user.IsAuthenticated = true;
-            //user.Postcode = authTicket.UserData;
+        //    //User user = new User();
+        //    //user.Name = authTicket.Name;
+        //    //user.IsAuthenticated = true;
+        //    //user.Postcode = authTicket.UserData;
 
-            GenericPrincipal userPrincipal = new GenericPrincipal( user, roles );
-            Context.User = userPrincipal;
-        }
+        //    GenericPrincipal userPrincipal = new GenericPrincipal( user, roles );
+        //    Context.User = userPrincipal;
+        //}
 
 
         protected void Application_Error( object sender, EventArgs e )

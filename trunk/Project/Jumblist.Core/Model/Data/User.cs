@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 namespace Jumblist.Core.Model
 {
     [Table( Name = "Users" )]
-    [DataContract]//( IsReference = true )
+    [DataContract]//( IsReference = true ) - can only use this with IIS
     public partial class User
     {
         private EntityRef<Role> role;
