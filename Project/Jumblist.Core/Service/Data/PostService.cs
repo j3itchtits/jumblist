@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System;
 using System.Linq.Expressions;
 using StuartClode.Mvc.Service.Bing;
+using System.Data.Linq.Mapping;
 
 namespace Jumblist.Core.Service.Data
 {
@@ -118,6 +119,17 @@ namespace Jumblist.Core.Service.Data
 
             if (!string.IsNullOrEmpty(q))
                 postList = postList.ToFilteredList( Post.WhereSearchTextEquals(q) );
+
+            return postList;
+        }
+
+
+        public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string q, User user )
+        {
+            IEnumerable<Post> postList = SelectRecordList( tagList, category, q );
+
+            if (user != null)
+                postList = postList.ToFilteredList( Post.WhereLocationEquals( user.Latitude, user.Longitude, user.SearchRadiusMiles ) );
 
             return postList;
         }
@@ -435,6 +447,21 @@ namespace Jumblist.Core.Service.Data
         //{
         //    return SelectPostsByFeed( feedName ).Where( x => x.Display == isActive );
         //}
+
+
+
+        //[Function( Name = "dbo.NearestMessages", IsComposable = true )]
+        //public IQueryable<Post> NearestMessages( [Parameter( DbType = "Real" )] System.Nullable<float> lat, [Parameter( Name = "long", DbType = "Real" )] System.Nullable<float> @long, [Parameter( DbType = "Real" )] System.Nullable<int> distance )
+        //{
+        //    return this.CreateMethodCallQuery<Post>( this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), lat, @long, distance );
+        //}
+
+        //[Function( Name = "dbo.DistanceBetween", IsComposable = true )]
+        //public System.Nullable<float> DistanceBetween( [Parameter( Name = "Lat1", DbType = "Real" )] System.Nullable<float> lat1, [Parameter( Name = "Long1", DbType = "Real" )] System.Nullable<float> long1, [Parameter( Name = "Lat2", DbType = "Real" )] System.Nullable<float> lat2, [Parameter( Name = "Long2", DbType = "Real" )] System.Nullable<float> long2 )
+        //{
+        //    return ((System.Nullable<float>)(this.ExecuteMethodCall( this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), lat1, long1, lat2, long2 ).ReturnValue));
+        //}
+
 
         #endregion
 

@@ -18,6 +18,8 @@ namespace Jumblist.Core.Service.Data
         IEnumerable<Post> SelectRecordList(Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition);
 
         IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string q );
+        IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string q, User user );
+
         IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category, string q );
         IEnumerable<Post> SelectRecordList( IEnumerable<Location> locationList, PostCategory category, string q );
         IEnumerable<Post> SelectRecordList( PostCategory category, string q );

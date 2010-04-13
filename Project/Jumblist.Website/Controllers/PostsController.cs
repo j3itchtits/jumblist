@@ -28,9 +28,8 @@ namespace Jumblist.Website.Controllers
         private readonly IDataService<Feed> feedService;
         private readonly IDataService<PostCategory> postCategoryService;
         private readonly ISearchService searchService;
-        private readonly IUserService userService;
 
-        public PostsController( IPostService postService, ILocationService locationService, ITagService tagService, IDataService<Feed> feedService, IDataService<PostCategory> postCategoryService, ISearchService searchService, IUserService userService )
+        public PostsController( IPostService postService, ILocationService locationService, ITagService tagService, IDataService<Feed> feedService, IDataService<PostCategory> postCategoryService, ISearchService searchService )
         {
             this.postService = postService;
             this.locationService = locationService;
@@ -38,11 +37,10 @@ namespace Jumblist.Website.Controllers
             this.feedService = feedService;
             this.postCategoryService = postCategoryService;
             this.searchService = searchService;
-            this.userService = userService;
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ViewResult Index( int? page )
+        public ViewResult Index( User user, int? page )
         {
             var postList = postService.SelectRecordList( Post.WhereDisplayEquals( true ) ).OrderByDescending( t => t.PublishDateTime );
             var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
@@ -50,6 +48,7 @@ namespace Jumblist.Website.Controllers
 
             var model = PostView.Model();
 
+            model.User = user;
             model.PostCategory = string.Empty;
             model.Pushpins = pushpinList;
             model.PaginatedList = pagedPostList;
@@ -96,7 +95,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Category( string id, string q, int? page )
+        public ActionResult Category( User user, string id, string q, int? page )
         {
             try
             {
@@ -107,6 +106,7 @@ namespace Jumblist.Website.Controllers
 
                 var model = PostView.Model();
 
+                model.User = user;
                 model.PostCategory = postCategory.Name;
                 model.Pushpins = pushpinList;
                 model.PaginatedList = pagedPostList;
@@ -126,7 +126,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Group( string id, string category, string q, int? page )
+        public ActionResult Group( User user, string id, string category, string q, int? page )
         {
             try
             {
@@ -138,6 +138,7 @@ namespace Jumblist.Website.Controllers
 
                 var model = PostView.Model();
 
+                model.User = user;
                 model.PostCategory = (postCategory != null) ? postCategory.Name : string.Empty;
                 model.Pushpins = pushpinList;
                 model.PaginatedList = pagedPostList;
@@ -190,19 +191,19 @@ namespace Jumblist.Website.Controllers
         //}
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Tagged( string id, string category, string q, int? page )
+        public ActionResult Tagged( string id, string category, string q, User user, int? page )
         {
             try
             {
                 var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( id.ToFriendlyUrlDecode() ) );
-                var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
-                var postList = postService.SelectRecordList( tagList, postCategory, q );
+                var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) ) : null;
+                var postList = postService.SelectRecordList( tagList, postCategory, q, user );
                 var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
                 var model = PostView.Model();
 
-                model.User = null;
+                model.User = user;
                 model.PostCategory = (postCategory != null) ? postCategory.Name : string.Empty;
                 model.Pushpins = pushpinList;
                 model.PaginatedList = pagedPostList;
@@ -262,12 +263,8 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult Search( User user, string q, string category, int? page )
         {
-
             try
             {
-                //put the following line in rootcontrollerbase class - maybe - note check out the model binder thing so that the user can be passed via the method parameters - either as a Session (like the Basket) or perhaps the authCookie (then we wouldn't need the AuthenticateRequest method in global.asax or any of that stypid serialization crap
-                //var user = (HttpContext.User.Identity.IsAuthenticated) ? userService.SelectRecord(HttpContext.User.Identity.Name) : Jumblist.Core.Model.User.Anonymous;
-                
                 var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
                 var postList = postService.SelectRecordList( postCategory, q );
                 var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
@@ -298,13 +295,11 @@ namespace Jumblist.Website.Controllers
 
         [AcceptVerbs(HttpVerbs.Post)]
         [ValidateInput(true)]
-        public RedirectToRouteResult Search(string tagSearch, string locationSearch, string postCategorySearch)
+        public RedirectToRouteResult Search( string tagSearch, string locationSearch, string postCategorySearch )
         {
             searchService.TagSearch = tagSearch.ToCleanSearchString();
-            searchService.LocationSearch = locationSearch.ToCleanSearchString();
+            searchService.LocationSearch = (!string.IsNullOrEmpty( locationSearch )) ? locationSearch.ToCleanSearchString() : "UK";
             searchService.PostCategorySearch = postCategorySearch;
-
-
 
             //searchService.Tags = tagService.SelectTagNameList();
             //searchService.Locations = locationService.SelectLocationNameTownList();

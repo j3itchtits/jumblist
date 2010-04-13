@@ -17,12 +17,14 @@ using System.IO;
 using System.Text;
 using System.Runtime.Serialization;
 using System.Xml;
+using System.Configuration;
 
 namespace Jumblist.Core.Service.Data
 {
     public class UserService : DataService<User>, IUserService
     {
         private readonly IFormsAuthenticationService formsAuth;
+        private readonly string userKey = ConfigurationSettings.AppSettings["UserModelBinderKey"];
 
         public UserService( IRepository<User> repository, IFormsAuthenticationService formsAuth )
             : base( repository )
@@ -104,15 +106,14 @@ namespace Jumblist.Core.Service.Data
             base.Save( user );
         }
 
-        public virtual void SetAuthenticationCookie(User user, bool rememberMe)
-        {
-            //Just a quick test to see if i can pass the user to controllers via the model binder
-            formsAuth.SetAuthCookie(user.Name, rememberMe);
-            //user.IsAuthenticated = true;
-            HttpContext.Current.Session["_user"] = user;
-        }
+        //public virtual void SetAuthenticationCookie_Alt( User user, bool rememberMe )
+        //{
+        //    //Just a quick test to see if i can pass the user to controllers via the model binder
+        //    formsAuth.SetAuthCookie( user.Name, rememberMe );
+        //    HttpContext.Current.Session[userKey] = user;
+        //}
 
-        public virtual void SetAuthenticationCookie_Alt( User user, bool rememberMe )
+        public virtual void SetAuthenticationCookie( User user, bool rememberMe )
         {
             user.IsAuthenticated = true;
 
