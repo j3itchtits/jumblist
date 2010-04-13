@@ -34,8 +34,16 @@ namespace Jumblist.Website.Controllers
             return View( model );
         }
 
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult LoginLinks(User user)
+        {
+            var model = BuildDefaultViewModel().With(user);
+            //return View("LoginLinks", model);
+            return PartialView("LoginLinks", model);
+        }
+
         [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult LoginLinks( bool isAuthenticated, string name )
+        public ViewResult LoginLinks_Alt(bool isAuthenticated, string name)
         {
             if ( !isAuthenticated )
             {

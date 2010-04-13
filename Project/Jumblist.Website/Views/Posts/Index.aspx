@@ -44,6 +44,7 @@
             <p><%= Html.NextPreviousPageLinks( Model.PaginatedList.CurrentPage, Model.PaginatedList.HasPreviousPage, Model.PaginatedList.HasNextPage, x => Url.Action( ViewContext.RouteData.Values["action"].ToString(), new { id = ViewContext.RouteData.Values["id"].ToString(), page = x } ) )%></p>
             
             <p>test postcode: <%= Html.Encode( ((User)Page.User.Identity).Postcode ) %></p>
+            <p>test postcode: <%= Html.Encode( Model.User.Postcode ) %></p>
 		</div>
 		
 		<div id="tabs-2">

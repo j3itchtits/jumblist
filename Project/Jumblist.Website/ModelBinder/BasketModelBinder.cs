@@ -19,11 +19,13 @@ namespace Jumblist.Website.ModelBinder
                 throw new InvalidOperationException( "Cannot update instances" );
 
             Basket basket = controllerContext.HttpContext.Session[basketCookieKey] as Basket;
+
             if (basket == null)
             {
                 basket = new Basket();
                 controllerContext.HttpContext.Session[basketCookieKey] = basket;
             }
+            
             return basket;
         }
 

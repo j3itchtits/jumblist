@@ -145,6 +145,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ModelBinder\BasketModelBinder.cs" />
+    <Compile Include="ModelBinder\UserModelBinder.cs" />
     <Compile Include="Module\FeedProcessingHttpModule.cs" />
     <Compile Include="ViewModel\DefaultViewModel.cs" />
     <Compile Include="ViewModel\IViewModelBase.cs" />
@@ -259,6 +260,7 @@
     <Content Include="Views\Shared\RightNavListBy.ascx" />
     <Content Include="Views\Tags\Index.aspx" />
     <Content Include="Views\Tags\TagList.ascx" />
+    <Content Include="Views\Users\LoginLinks.ascx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Assets\Images\" />

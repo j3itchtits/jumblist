@@ -13,7 +13,7 @@ namespace Jumblist.Website.ViewModel
 {
     public class PostViewModel<T> : DefaultViewModel<T>
     {
-        private readonly IUserService userService = ServiceLocator.Current.GetInstance<IUserService>();
+        //private readonly IUserService userService = ServiceLocator.Current.GetInstance<IUserService>();
         //private User user;
 
         public string PostCategory { get; set; }
