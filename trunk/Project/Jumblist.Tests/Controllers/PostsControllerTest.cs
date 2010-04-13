@@ -21,10 +21,10 @@ namespace Jumblist.Tests.Controllers
             //Arrange
             var postRepository = new MockPostRepository().Repository;
             var postCategoryRepository = new MockPostCategoryRepository().Repository;
-            var controller = new PostsController( postRepository, null, null, null, null, null, null );
+            var controller = new PostsController( postRepository, null, null, null, null, null );
 
             //Act
-            var result = controller.Index(null);
+            var result = controller.Index( null, null );
 
             // Assert
             Assert.IsNotNull(result);
@@ -36,10 +36,10 @@ namespace Jumblist.Tests.Controllers
             //Arrange
             var postRepository = new MockPostRepository().Repository;
             var postCategoryRepository = new MockPostCategoryRepository().Repository;
-            var controller = new PostsController( postRepository, null, null, null, null, null, null );
+            var controller = new PostsController( postRepository, null, null, null, null, null );
 
             //Act
-            var result = controller.Index( null );
+            var result = controller.Index( null, null );
             var model = result.ViewData.Model as DefaultViewModel<Post>;
             
             // Assert
@@ -53,11 +53,11 @@ namespace Jumblist.Tests.Controllers
             //Arrange
             var postRepository = new MockPostRepository().Repository;
             var postCategoryRepository = new MockPostCategoryRepository().Repository;
-            var controller = new PostsController( postRepository, null, null, null, null, null, null );
+            var controller = new PostsController( postRepository, null, null, null, null, null );
             //controller.PageSize = 3;
 
             //Act
-            var result = controller.Index( null );
+            var result = controller.Index( null, null );
             var model = result.ViewData.Model as DefaultViewModel<Post>;
 
             //Assert

@@ -14,7 +14,7 @@ namespace Jumblist.Core.Service
     public class SearchService : ISearchService
     {
         private string[] tags;
-        private string[] locations;
+        //private string[] locations;
         public ITagService tagService;
         public ILocationService locationService;
 
@@ -34,11 +34,11 @@ namespace Jumblist.Core.Service
             set { tags = value; }
         }
         
-        public string[] Locations
-        {
-            get { return locationService.SelectLocationNameTownList(); }
-            set { locations = value; }
-        }
+        //public string[] Locations
+        //{
+        //    get { return locationService.SelectLocationNameTownList(); }
+        //    set { locations = value; }
+        //}
 
         public SearchResult ProcessSearch()
         {
@@ -53,12 +53,13 @@ namespace Jumblist.Core.Service
             }
 
             var tagSearchPattern = TagSearch.ToSearchRegexPattern();
-            if (string.IsNullOrEmpty(LocationSearch)) LocationSearch = "UK";
-
+            
+            
             //Get User entity - what about anonymous users?
             //Add LocationSearch to User entity - this can then be used in the PostController to filter the tagged or search post list
+            // note - actually we might not need locationsearch at all - perhaps this logic can be incorporated into the controllers
 
-            var tagMatches = Regex.Matches(Tags.ToNewLineDelimitedString(), tagSearchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            var tagMatches = Regex.Matches( Tags.ToNewLineDelimitedString(), tagSearchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
             //var locationMatches = Regex.Matches(Locations.ToNewLineDelimitedString(), searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
             string q;

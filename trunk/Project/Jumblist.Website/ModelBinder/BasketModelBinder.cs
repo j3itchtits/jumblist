@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Jumblist.Core.Model;
+using System.Configuration;
 
 namespace Jumblist.Website.ModelBinder
 {
     public class BasketModelBinder : IModelBinder
     {
-        private const string basketCookieKey = "_basket";
+        private readonly string basketCookieKey = ConfigurationSettings.AppSettings["BasketModelBinderKey"];
 
         #region IModelBinder Members
 

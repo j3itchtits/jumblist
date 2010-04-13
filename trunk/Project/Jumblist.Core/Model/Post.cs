@@ -78,6 +78,11 @@ namespace Jumblist.Core.Model
             return x => (x.Latitude != 0 && x.Longitude != 0);
         }
 
+        public static Expression<Func<Post, bool>> WhereLocationEquals( double latitude, double longitude, int searchRadiusMiles )
+        {
+            return x => (x.Latitude != 0 && x.Longitude != 0);
+        }
+
         public static Expression<Func<Post, bool>> WhereTagNameListEqualsAnd( IEnumerable<Tag> tagList )
         {
             var condition = PredicateBuilder.True<Post>();

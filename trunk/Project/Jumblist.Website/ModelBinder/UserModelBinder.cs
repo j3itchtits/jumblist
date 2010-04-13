@@ -5,12 +5,17 @@ using System.Web;
 using System.Web.Mvc;
 using Jumblist.Core.Service.Data;
 using Jumblist.Core.Model;
+using System.Configuration;
+using System.Web.Security;
+using System.Runtime.Serialization;
+using System.Xml;
+using System.IO;
 
 namespace Jumblist.Website.ModelBinder
 {
     public class UserModelBinder : IModelBinder
     {
-        private const string userKey = "_user";
+        private readonly string userKey = ConfigurationSettings.AppSettings["UserModelBinderKey"];
 
         //private readonly IUserService userService;
 
@@ -33,12 +38,33 @@ namespace Jumblist.Website.ModelBinder
             //User user = (controllerContext.HttpContext.User.Identity.IsAuthenticated) ? userService.SelectRecord(controllerContext.HttpContext.User.Identity.Name) : Jumblist.Core.Model.User.Anonymous;
             //User user = (controllerContext.HttpContext.User.Identity.IsAuthenticated) ? Jumblist.Core.Model.User.Administrator : Jumblist.Core.Model.User.Anonymous;
 
-            User user = (controllerContext.HttpContext.User.Identity.IsAuthenticated) ? (controllerContext.HttpContext.Session[userKey] as User) : null;
+            //User user = (controllerContext.HttpContext.User.Identity.IsAuthenticated) ? (controllerContext.HttpContext.Session[userKey] as User) : null;
+
+            //if (user == null)
+            //{
+            //    user = Jumblist.Core.Model.User.Anonymous;
+            //    controllerContext.HttpContext.Session[userKey] = user;
+            //}
+
+            // Get the authentication cookie
+            string cookieName = FormsAuthentication.FormsCookieName;
+            HttpCookie authCookie = controllerContext.HttpContext.Request.Cookies[cookieName];
+
+            // If the cookie can't be found, don't issue the ticket
+            if (authCookie == null) return null;
+
+            // Get the authentication ticket
+            FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt( authCookie.Value );
+
+            // Attach the UserData from the  authTicket to a User object
+            DataContractSerializer dcs = new DataContractSerializer( typeof( User ) );
+            XmlReader reader = XmlReader.Create( new StringReader( authTicket.UserData ) );
+            User user = dcs.ReadObject( reader, true ) as User;
 
             if (user == null)
             {
                 user = Jumblist.Core.Model.User.Anonymous;
-                controllerContext.HttpContext.Session[userKey] = user;
+                user.IsAuthenticated = false;
             }
 
             return user;
