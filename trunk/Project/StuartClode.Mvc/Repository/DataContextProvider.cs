@@ -6,12 +6,10 @@ namespace StuartClode.Mvc.Repository
     {
         private readonly DataContext dataContext;
 
-
         public DataContextProvider( IConnectionStringProvider connectionStringProvider )
         {
             dataContext = new DataContext( connectionStringProvider.ConnectionString );
         }
-
 
         public DataContext DataContext
         {

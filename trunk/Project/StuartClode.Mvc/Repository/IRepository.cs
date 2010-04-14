@@ -7,6 +7,7 @@ namespace StuartClode.Mvc.Repository
 {
     public interface IRepository<T> where T : class
     {
+        DataContext DataContext { get; }
         IQueryable<T> SelectRecordList();
         IQueryable<T> SelectRecordList( Expression<Func<T, bool>> whereCondition );
         T SelectRecord( int id );
@@ -20,6 +21,7 @@ namespace StuartClode.Mvc.Repository
 
     public interface IRepository
     {
+        DataContext DataContext { get; }
         IQueryable SelectRecordList();
         object SelectRecord( int id );
         //object Select( string name );
