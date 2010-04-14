@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<DefaultViewModel<User>>" %>
 
 <%
+
     if (Page.User.Identity.IsAuthenticated)
     {
         %> Welcome <b><%= Model.Item.Name %></b>! [ <%= Html.LogoutLink( "Log Out" )%> ] | <%

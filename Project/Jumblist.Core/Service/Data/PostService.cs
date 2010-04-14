@@ -289,9 +289,10 @@ namespace Jumblist.Core.Service.Data
                 var tagsSaved = SavePostTags( post );
 
                 //We may need to update the display to true for posts that have been imported from a feed and obey the correct logic
-                bool updateDisplayToTrue = CheckIfUpdateDisplayToTrueIsNeeded(locationsSaved.Count > 0, tagsSaved.Count > 0, post.Category.Name);
+                bool updateDisplayToTrue = CheckIfUpdateDisplayToTrueIsNeeded(post,locationsSaved.Count > 0, tagsSaved.Count > 0, post.Category.Name);
 
-                if (entityImportedViaFeed && updateDisplayToTrue) post.Display = true;
+                if (entityImportedViaFeed && updateDisplayToTrue) 
+                    post.Display = true;
 
                 //Set Latitude and Longitude Properties
                 //If the post is not from an anonymous user then use their lat/long from when they registered with a postcode
@@ -303,7 +304,7 @@ namespace Jumblist.Core.Service.Data
                 else
                 {
                     //Latitude and longitude may have already been set if a proper postcode was found in their post (see "SavePostLocations" method)
-                    if (post.Latitude == 0 && post.Longitude == 0)
+                    if (!post.HaveLatitudeAndLongitudeValuesBeenPopulated)
                     {
                         double[] coordinates = GetLocationCoordinates( locationsSaved );
                         post.Latitude = coordinates[0];
@@ -465,14 +466,26 @@ namespace Jumblist.Core.Service.Data
 
         #endregion
 
-        private bool CheckIfUpdateDisplayToTrueIsNeeded( bool locationsSaved, bool tagsSaved, string postCategory )
+        private bool CheckIfUpdateDisplayToTrueIsNeeded( Post post, bool locationsSaved, bool tagsSaved, string postCategory )
         {
-            if (postCategory == "Unclassified") return false;
+            bool updateDisplayToTrue = false;
+
+            if (postCategory == "Unclassified") return updateDisplayToTrue;
 
             if (postCategory == "Offered")
-                return locationsSaved && tagsSaved;
+            {
+                if (!locationsSaved)
+                    locationsSaved = post.HaveLatitudeAndLongitudeValuesBeenPopulated;
+
+                updateDisplayToTrue = locationsSaved && tagsSaved;
+
+            }
             else
-                return tagsSaved;
+            {
+                updateDisplayToTrue = tagsSaved;
+            }
+
+            return updateDisplayToTrue;
         }
 
         private void ValidateBusinessRules( Post post )
