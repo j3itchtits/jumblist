@@ -9,6 +9,7 @@ using StuartClode.Mvc.Extension;
 using StuartClode.Mvc.Service.Data;
 using System.Text.RegularExpressions;
 using System.Data.Linq.SqlClient;
+using StuartClode.Mvc.Model;
 
 namespace Jumblist.Core.Model
 {
@@ -80,13 +81,14 @@ namespace Jumblist.Core.Model
 
         public static Expression<Func<Post, bool>> WhereLatLongValuesExist()
         {
-            return x => x.HaveLatitudeAndLongitudeValuesBeenPopulated;
+            //need to do it this way rather than using HaveLatitudeAndLongitudeValuesBeenPopulated as we need it to be translated into sql
+            return x => (x.Latitude != 0 && x.Longitude != 0);
         }
 
-        public static Expression<Func<Post, bool>> WhereLocationEquals( double latitude, double longitude, int searchRadiusMiles )
+        public static Func<Post, bool> WhereLocationEquals( double latitude, double longitude, int searchRadiusMiles )
         {
             //this needs to change in order to use the NearestMessage function (somehow)
-            return x => (x.Latitude != 0 && x.Longitude != 0);
+            return x => (Geography.DistanceBetween( latitude, longitude, x.Latitude, x.Longitude, 'M' ) < searchRadiusMiles);
         }
 
         public static Expression<Func<Post, bool>> WhereTagNameListEqualsAnd( IEnumerable<Tag> tagList )

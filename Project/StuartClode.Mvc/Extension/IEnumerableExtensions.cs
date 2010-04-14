@@ -68,5 +68,10 @@ namespace StuartClode.Mvc.Extension
         {
             return list.AsQueryable().Where( filter );
         }
+
+        public static IEnumerable<T> ToFilteredList<T>( this IEnumerable<T> list, Func<T, bool> filter )
+        {
+            return list.Where( filter );
+        }
     }
 }

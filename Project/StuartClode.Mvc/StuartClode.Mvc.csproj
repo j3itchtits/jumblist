@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="Extension\EnumerationExtensions.cs" />
     <Compile Include="Extension\IEnumerableExtensions.cs" />
+    <Compile Include="Model\Geography.cs" />
     <Compile Include="Model\PaginatedList.cs" />
     <Compile Include="Service\Data\PredicateBuilder.cs" />
     <Compile Include="Extension\PropertyInfoExtensions.cs" />
@@ -112,9 +113,7 @@
     <Compile Include="Repository\IConnectionStringProvider.cs" />
     <Compile Include="Repository\IDataContextProvider.cs" />
     <Compile Include="Repository\IRepository.cs" />
-    <Compile Include="Repository\IRepositoryResolver.cs" />
     <Compile Include="Repository\Repository.cs" />
-    <Compile Include="Repository\RepositoryResolver.cs" />
     <Compile Include="Service References\GeocodeService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

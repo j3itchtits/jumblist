@@ -23,6 +23,11 @@ namespace StuartClode.Mvc.Service.Data
 
         #region IDataService<T> Members
 
+        public virtual DataContext DataContext
+        {
+            get { return repository.DataContext; }
+        }
+
         public virtual IQueryable<T> SelectRecordList()
         {
             return repository.SelectRecordList();

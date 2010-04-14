@@ -10,6 +10,7 @@ namespace StuartClode.Mvc.Service.Data
 {
     public interface IDataService<T> where T : class
     {
+        DataContext DataContext { get; }
         IQueryable<T> SelectRecordList();
         IQueryable<T> SelectRecordList( Expression<Func<T, bool>> whereCondition );
         T SelectRecord( int id );
@@ -24,6 +25,7 @@ namespace StuartClode.Mvc.Service.Data
 
     public interface IDataService
     {
+        DataContext DataContext { get; }
         IQueryable SelectRecordList();
         object SelectRecord( int id );
         void Save( object entity );
