@@ -200,8 +200,6 @@
     <Content Include="Areas\Admin\Views\Shared\Admin.Master" />
     <Content Include="favicon.ico" />
     <Content Include="Views\Error\Index.aspx" />
-    <Content Include="Views\Users\LoginLinksAuthenticated.ascx" />
-    <Content Include="Views\Users\LoginLinksUnauthenticated.ascx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Views\Feeds\CategoryEdit.aspx" />
@@ -242,6 +240,7 @@
     <Content Include="Assets\Stylesheets\ui.tabs.css" />
     <Content Include="Views\Groups\GroupList.ascx" />
     <Content Include="Views\Groups\Index.aspx" />
+    <Content Include="Views\Home\SearchBox.ascx" />
     <Content Include="Views\Locations\Index.aspx" />
     <Content Include="Views\Locations\LocationList.ascx" />
     <Content Include="Views\Posts\AddToBasket.ascx" />

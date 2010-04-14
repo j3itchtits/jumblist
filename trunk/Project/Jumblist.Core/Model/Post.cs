@@ -14,6 +14,11 @@ namespace Jumblist.Core.Model
 {
     public partial class Post
     {
+        public bool HaveLatitudeAndLongitudeValuesBeenPopulated
+        {
+            get { return this.Latitude != 0 && this.Longitude != 0; }
+        }
+
         public IList<Location> Locations
         {
             get { return postLocations.Select( l => l.Location ).ToList().AsReadOnly(); }
@@ -75,11 +80,12 @@ namespace Jumblist.Core.Model
 
         public static Expression<Func<Post, bool>> WhereLatLongValuesExist()
         {
-            return x => (x.Latitude != 0 && x.Longitude != 0);
+            return x => x.HaveLatitudeAndLongitudeValuesBeenPopulated;
         }
 
         public static Expression<Func<Post, bool>> WhereLocationEquals( double latitude, double longitude, int searchRadiusMiles )
         {
+            //this needs to change in order to use the NearestMessage function (somehow)
             return x => (x.Latitude != 0 && x.Longitude != 0);
         }
 

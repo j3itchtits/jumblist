@@ -10,22 +10,9 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
     <div class="searchbox">
-    <% using (Html.BeginForm("search", "posts"))
-       { %>
-            <p>
-                What <%= Html.TextBox( "tagSearch" ) %><br />
-                Where <%= Html.TextBox( "locationSearch" ) %> 
-                <%= Html.SubmitButton( "submit", "Search" ) %>
-            </p>
-            
-            <input type="radio" name="postCategorySearch" value="" checked="checked" /> All 
-            <input type="radio" name="postCategorySearch" value="offered" /> Offered 
-            <input type="radio" name="postCategorySearch" value="wanted" /> Wanted
-            
-    <% } %>
+        <% Html.RenderAction("SearchBox"); %>
     </div>
     
-    <p><%= Html.ActionLink("View All Posts", "index", "posts")%> - <%= Html.ActionLink("Wanted", "category", "posts", new { id = "Wanted" }, null ) %> - <%= Html.ActionLink( "Offered", "category", "posts", new { id = "Offered" }, null )%></p>
     
 <%--    <% Html.RenderPartial("MapDisplay", new ViewDataDictionary() {
         { "Google", Ajax.GoogleMap().CssClass("GoogleMap").Center(50.853544, 0.56347).Zoom(12).AddPushpin(new Pushpin(50.853544, 0.56347)) }
@@ -35,7 +22,10 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-
+    <p>Quick View</p>
+    <p><%= Html.ActionLink("Everything", "index", "posts")%><br />
+    <%= Html.ActionLink("Wanted", "category", "posts", new { id = "Wanted" }, null ) %><br />
+    <%= Html.ActionLink( "Offered", "category", "posts", new { id = "Offered" }, null )%></p>
      
      <p>Latest Items</p>
      <% Html.RenderAction("basiclist", "posts", new { top = 5 } ); %>

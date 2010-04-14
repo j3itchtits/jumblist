@@ -1,10 +1,8 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IEnumerable<Post>>" %>
 
-<table class="list">
+<ul class="basiclist">
 <% foreach ( var post in Model )
    { %>
-        <tr class="item">
-            <td><%= Html.RouteLink(post.Title, "Post-Detail", new { id = post.PostId, name = post.Title.ToFriendlyUrlEncode() })%></td>  
-        </tr>            
+        <li><%= Html.RouteLink(post.Title, "Post-Detail", new { id = post.PostId, name = post.Title.ToFriendlyUrlEncode() })%></li>            
 <% } %>
-</table>
+</ul>
