@@ -94,7 +94,7 @@
   <ItemGroup>
     <Compile Include="Extension\EnumerationExtensions.cs" />
     <Compile Include="Extension\IEnumerableExtensions.cs" />
-    <Compile Include="Model\Geography.cs" />
+    <Compile Include="Model\Mapping.cs" />
     <Compile Include="Model\PaginatedList.cs" />
     <Compile Include="Service\Data\PredicateBuilder.cs" />
     <Compile Include="Extension\PropertyInfoExtensions.cs" />

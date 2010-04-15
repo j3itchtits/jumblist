@@ -14,9 +14,22 @@ namespace Jumblist.Website.ViewModel
     public class PostViewModel<T> : DefaultViewModel<T>
     {
         public string PostCategory { get; set; }
-        public Pushpin Pushpin { get; set; }
-        public IEnumerable<Pushpin> Pushpins { get; set; }
+        public IEnumerable<Tag> Tags { get; set; }
         public User User { get; set; }
+        //public Pushpin Pushpin { get; set; }
+        public IEnumerable<Pushpin> Pushpins { get; set; }
+
+        public PostViewModel<T> With(string postCategory)
+        {
+            this.PostCategory = postCategory;
+            return this;
+        }
+
+        public PostViewModel<T> With(IEnumerable<Tag> tags)
+        {
+            this.Tags = tags;
+            return this;
+        }
 
         public PostViewModel<T> With(User user)
         {
@@ -24,11 +37,11 @@ namespace Jumblist.Website.ViewModel
             return this;
         }
 
-        public PostViewModel<T> With(Pushpin pushpin)
-        {
-            this.Pushpin = pushpin;
-            return this;
-        }
+        //public PostViewModel<T> With(Pushpin pushpin)
+        //{
+        //    this.Pushpin = pushpin;
+        //    return this;
+        //}
 
         public PostViewModel<T> With(IEnumerable<Pushpin> pushpins)
         {

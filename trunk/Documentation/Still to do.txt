@@ -8,7 +8,7 @@ Design and Layout
 - Error/Problem page
 - Post list page
 - Map list page ("All posts" and "Offered" lists have this as a tab)
-- Post page
+- Post detail page
 - Register page
 - Login page
 - User profile page
@@ -16,11 +16,17 @@ Design and Layout
 
 Save (to bag/basket/cart) functionality
 
-Paging functionality
+Paging functionality (like stackoverflow)
+
+Change number of posts per page (like stackoverflow)
 
 Search functionality (see Search options.txt)
 
 Filter/Refine search functionality for search results page
+- by category
+- by tag
+- by location (save across requests as user lat and long in the auth cookie)
+- by search radius (save across requests as user search radius in the auth cookie)
 
 Registration functionality
 - Lock down security (see Steve Sanderson)

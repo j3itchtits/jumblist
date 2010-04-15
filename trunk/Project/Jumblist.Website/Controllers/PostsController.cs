@@ -59,23 +59,6 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult CategoryList( RouteValueDictionary routeValueDic, string highlightedCategory )
-        {
-            var postCategoryList = postCategoryService.SelectRecordList( PostCategory.WhereIsNavigationEquals( true ) );
-
-            List<Link> model = new List<Link>();
-
-            model.Add( new CategoryLink( null, routeValueDic ) { IsSelected = (string.IsNullOrEmpty( highlightedCategory )) } );
-
-            foreach ( var category in postCategoryList )
-            {
-                model.Add( new CategoryLink( category.Name, routeValueDic ) { IsSelected = (highlightedCategory.Equals( category.Name, StringComparison.OrdinalIgnoreCase )) } );
-            }
-
-            return PartialView( model );
-        }
-
-        [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult BasicList( int top )
         {
             var model = postService.SelectRecordList( Post.WhereDisplayEquals( true ) ).OrderByDescending( t => t.PublishDateTime ).Take( top );
@@ -100,7 +83,7 @@ namespace Jumblist.Website.Controllers
             try
             {
                 var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals(id) );
-                var postList = postService.SelectRecordList( postCategory, q );
+                var postList = postService.SelectRecordList( postCategory, q, user );
                 var pushpinList = postList.ToFilteredPushPinList(Post.WhereLatLongValuesExist());
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
@@ -121,12 +104,10 @@ namespace Jumblist.Website.Controllers
                 Message = new Message { Text = "We could not find this category - " + id, StyleClass = "message" };
                 return RedirectToAction("problem");
             }
-
-            
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Group( User user, string id, string category, string q, int? page )
+        public ActionResult Group( string id, string category, string q, int? page )
         {
             try
             {
@@ -138,7 +119,6 @@ namespace Jumblist.Website.Controllers
 
                 var model = PostView.Model();
 
-                model.User = user;
                 model.PostCategory = (postCategory != null) ? postCategory.Name : string.Empty;
                 model.Pushpins = pushpinList;
                 model.PaginatedList = pagedPostList;
@@ -158,37 +138,37 @@ namespace Jumblist.Website.Controllers
             }
         }
 
-        //[AcceptVerbs(HttpVerbs.Get)]
-        //public ActionResult Located( string id, string category, string q, int? page )
-        //{
-        //    try
-        //    {
-        //        var locationList = locationService.SelectRecordList(Location.WhereFriendlyUrlListEqualsOr(id.ToFriendlyUrlDecode()));
-        //        var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
-        //        var postList = postService.SelectRecordList( locationList, postCategory, q );
-        //        var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
-        //        var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult Located(string id, string category, string q, int? page)
+        {
+            try
+            {
+                var locationList = locationService.SelectRecordList(Location.WhereFriendlyUrlListEqualsOr(id.ToFriendlyUrlDecode()));
+                var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
+                var postList = postService.SelectRecordList(locationList, postCategory, q);
+                var pushpinList = postList.ToFilteredPushPinList(Post.WhereLatLongValuesExist());
+                var pagedPostList = postList.ToPagedList(page, frontEndPageSize);
 
-        //        var model = PostView.Model();
+                var model = PostView.Model();
 
-        //        model.PostCategory = (postCategory != null) ? postCategory.Name : string.Empty;
-        //        model.Pushpins = pushpinList;
-        //        model.PaginatedList = pagedPostList;
-        //        model.PageTitle = "All " + category + " Posts by Location - " + locationList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
-        //        model.ListCount = postList.Count();
+                model.PostCategory = (postCategory != null) ? postCategory.Name : string.Empty;
+                model.Pushpins = pushpinList;
+                model.PaginatedList = pagedPostList;
+                model.PageTitle = "All " + category + " Posts by Location - " + locationList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
+                model.ListCount = postList.Count();
 
-        //        if (postList.Count() == 0) 
-        //            model.Message = new Message { Text = "No posts from this location - " + id, StyleClass = "message" };
+                if (postList.Count() == 0)
+                    model.Message = new Message { Text = "No posts from this location - " + id, StyleClass = "message" };
 
-        //        return View("index", model);
-        //    }
-        //    catch ( Exception ex )
-        //    {
-        //        PageTitle = "Sorry we have a problem" + ex.Message;
-        //        Message = new Message { Text = "We could not find this location - " + id, StyleClass = "message" };
-        //        return RedirectToAction( "problem" );
-        //    }
-        //}
+                return View("index", model);
+            }
+            catch (Exception ex)
+            {
+                PageTitle = "Sorry we have a problem" + ex.Message;
+                Message = new Message { Text = "We could not find this location - " + id, StyleClass = "message" };
+                return RedirectToAction("problem");
+            }
+        }
 
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Tagged( string id, string category, string q, User user, int? page )
@@ -203,6 +183,7 @@ namespace Jumblist.Website.Controllers
 
                 var model = PostView.Model();
 
+                model.Tags = tagList;
                 model.User = user;
                 model.PostCategory = (postCategory != null) ? postCategory.Name : string.Empty;
                 model.Pushpins = pushpinList;
@@ -345,6 +326,23 @@ namespace Jumblist.Website.Controllers
             //PageTitle = "Sorry we have a problem";
             //return RedirectToAction("problem");
             
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult SelectCategoryList(RouteValueDictionary routeValueDic, string highlightedCategory)
+        {
+            var postCategoryList = postCategoryService.SelectRecordList(PostCategory.WhereIsNavigationEquals(true));
+
+            List<Link> model = new List<Link>();
+
+            model.Add(new CategoryLink(null, routeValueDic) { IsSelected = (string.IsNullOrEmpty(highlightedCategory)) });
+
+            foreach (var category in postCategoryList)
+            {
+                model.Add(new CategoryLink(category.Name, routeValueDic) { IsSelected = (highlightedCategory.Equals(category.Name, StringComparison.OrdinalIgnoreCase)) });
+            }
+
+            return PartialView(model);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]

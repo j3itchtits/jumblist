@@ -88,7 +88,7 @@ namespace Jumblist.Core.Model
         public static Func<Post, bool> WhereLocationEquals( double latitude, double longitude, int searchRadiusMiles )
         {
             //this needs to change in order to use the NearestMessage function (somehow)
-            return x => (Geography.DistanceBetween( latitude, longitude, x.Latitude, x.Longitude, 'M' ) < searchRadiusMiles);
+            return x => (Mapping.DistanceBetween( latitude, longitude, x.Latitude, x.Longitude, 'M' ) < searchRadiusMiles);
         }
 
         public static Expression<Func<Post, bool>> WhereTagNameListEqualsAnd( IEnumerable<Tag> tagList )

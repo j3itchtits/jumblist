@@ -87,6 +87,7 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <% Html.RenderAction("categorylist", "posts", new { routeValueDic = ViewContext.RouteData.Values, highlightedCategory = Model.PostCategory }); %>
+    <% Html.RenderAction("SelectCategoryList", "Posts", new { routeValueDic = ViewContext.RouteData.Values, highlightedCategory = Model.PostCategory }); %>
+    <% Html.RenderPartial( "SelectTagList", Model.Tags ); %>
 
 </asp:Content>
