@@ -5,7 +5,7 @@ using System.Text;
 
 namespace StuartClode.Mvc.Model
 {
-    public class Geography
+    public class Mapping
     {
         //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         //:::                                                                         :::

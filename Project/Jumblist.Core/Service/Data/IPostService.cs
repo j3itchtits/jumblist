@@ -20,10 +20,13 @@ namespace Jumblist.Core.Service.Data
         IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string q );
         IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string q, User user );
 
+        IEnumerable<Post> SelectRecordList(PostCategory category, string q);
+        IEnumerable<Post> SelectRecordList(PostCategory category, string q, User user);
+
         IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category, string q );
+
         IEnumerable<Post> SelectRecordList( IEnumerable<Location> locationList, PostCategory category, string q );
-        IEnumerable<Post> SelectRecordList( PostCategory category, string q );
-        IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, IEnumerable<Location> locationList, PostCategory category, string q );
+        //IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, IEnumerable<Location> locationList, PostCategory category, string q );
 
         Post SelectRecord( int id );
         Post SelectRecord( Expression<Func<Post, bool>> whereCondition );

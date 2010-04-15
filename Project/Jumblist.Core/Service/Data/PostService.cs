@@ -106,6 +106,15 @@ namespace Jumblist.Core.Service.Data
             return postList;
         }
 
+        public IEnumerable<Post> SelectRecordList(PostCategory category, string q, User user)
+        {
+            IEnumerable<Post> postList = SelectRecordList(category, q);
+
+            if (user != null)
+                postList = postList.ToFilteredList(Post.WhereLocationEquals(user.Latitude, user.Longitude, user.SearchRadiusMiles));
+
+            return postList;
+        }
 
         public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string q )
         {
@@ -178,24 +187,24 @@ namespace Jumblist.Core.Service.Data
 
         }
 
-        public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, IEnumerable<Location> locationList, PostCategory category, string q )
-        {
-            IEnumerable<Post> postList;
+        //public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, IEnumerable<Location> locationList, PostCategory category, string q )
+        //{
+        //    IEnumerable<Post> postList;
 
-            if (category != null)
-            {
-                postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ).And( Post.WhereTagNameListEqualsAnd( tagList ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime );
-            }
-            else
-            {
-                postList = SelectRecordList( Post.WhereDisplayEquals( true ).And( Post.WhereTagNameListEqualsAnd( tagList ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime );
-            }
+        //    if (category != null)
+        //    {
+        //        postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ).And( Post.WhereTagNameListEqualsAnd( tagList ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime );
+        //    }
+        //    else
+        //    {
+        //        postList = SelectRecordList( Post.WhereDisplayEquals( true ).And( Post.WhereTagNameListEqualsAnd( tagList ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime );
+        //    }
 
-            if (!string.IsNullOrEmpty( q ))
-                postList = postList.ToFilteredList( Post.WhereSearchTextEquals( q ) );
+        //    if (!string.IsNullOrEmpty( q ))
+        //        postList = postList.ToFilteredList( Post.WhereSearchTextEquals( q ) );
             
-            return postList;
-        }
+        //    return postList;
+        //}
 
 //        public IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, IQueryable<Tag> tagList )
 //        {

@@ -21,7 +21,4 @@
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="BodyContentRight" runat="server">
-
-    <% Html.RenderPartial( "RightNavListBy" ); %>    
-
 </asp:Content>
