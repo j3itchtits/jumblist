@@ -17,11 +17,15 @@ using System.Text.RegularExpressions;
 using System.Collections;
 using Jumblist.Core.Service;
 using MvcMaps;
+using StuartClode.Mvc.Service.Map;
+using System.Web.Security;
 
 namespace Jumblist.Website.Controllers
 {
     public class PostsController : ViewModelController<Post>
     {
+        private readonly string userKey = ConfigurationSettings.AppSettings["UserModelBinderKey"];
+
         private readonly IPostService postService;
         private readonly ILocationService locationService;
         private readonly ITagService tagService;
@@ -151,6 +155,8 @@ namespace Jumblist.Website.Controllers
 
                 var model = PostView.Model();
 
+                model.Tags = null;
+                model.User = null;
                 model.PostCategory = (postCategory != null) ? postCategory.Name : string.Empty;
                 model.Pushpins = pushpinList;
                 model.PaginatedList = pagedPostList;
@@ -276,11 +282,32 @@ namespace Jumblist.Website.Controllers
 
         [AcceptVerbs(HttpVerbs.Post)]
         [ValidateInput(true)]
-        public RedirectToRouteResult Search( string tagSearch, string locationSearch, string postCategorySearch )
+        public RedirectToRouteResult Search( User user, string postCategorySearch, string tagSearch, string locationSearch, int locationRadius )
         {
+            locationSearch = (!string.IsNullOrEmpty( locationSearch )) ? locationSearch.ToCleanSearchString() + ", UK" : "UK";
+
             searchService.TagSearch = tagSearch.ToCleanSearchString();
-            searchService.LocationSearch = (!string.IsNullOrEmpty( locationSearch )) ? locationSearch.ToCleanSearchString() : "UK";
+            searchService.LocationSearch = locationSearch;
             searchService.PostCategorySearch = postCategorySearch;
+
+
+            BingLocationService locationSearchCoordinates = new BingLocationService( locationSearch );
+            user.Latitude = locationSearchCoordinates.Latitude;
+            user.Longitude = locationSearchCoordinates.Longitude;
+            user.SearchLocation = locationSearch;
+            user.SearchRadiusMiles = locationRadius;
+
+            string cookieName = FormsAuthentication.FormsCookieName;
+            HttpCookie authCookie = HttpContext.Request.Cookies[cookieName];
+
+            if (authCookie == null)
+            {
+                HttpContext.Session[userKey] = user;
+            }
+            else
+            {
+
+            }
 
             //searchService.Tags = tagService.SelectTagNameList();
             //searchService.Locations = locationService.SelectLocationNameTownList();
@@ -350,6 +377,18 @@ namespace Jumblist.Website.Controllers
         {
             var model = BuildDefaultViewModel();
             return View(model);
+        }
+
+        public string EditInPlace( string content )
+        {
+            if (!String.IsNullOrEmpty( content ))
+            {
+                return content;
+            }
+            else
+            {
+                return "arse";
+            }
         }
     }
 }

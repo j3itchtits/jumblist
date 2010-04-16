@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using StuartClode.Mvc.GeocodeService;
 
-namespace StuartClode.Mvc.Service.Bing
+namespace StuartClode.Mvc.Service.Map
 {
     public class BingLocationService
     {
+        private double latitude;
+        private double longitude;
+
         public BingLocationService() { }
 
         public BingLocationService( string address )
@@ -15,8 +18,33 @@ namespace StuartClode.Mvc.Service.Bing
             GeocodeAddress( address );
         }
 
-        public double Latitude { get; private set; }
-        public double Longitude { get; private set; }
+        /// <summary>
+        /// Latitude in degrees. -90 to 90
+        /// </summary>
+        public double Latitude
+        {
+            get { return latitude; }
+            private set
+            {
+                if (value > 90) throw new ArgumentOutOfRangeException( "value", "Latitude value cannot be greater than 90." );
+                if (value < -90) throw new ArgumentOutOfRangeException( "value", "Latitude value cannot be less than -90." );
+                latitude = value;
+            }
+        }
+
+        /// <summary>
+        /// Longitude in degree. -180 to 180
+        /// </summary>
+        public double Longitude
+        {
+            get { return longitude; }
+            private set
+            {
+                if (value > 180) throw new ArgumentOutOfRangeException( "value", "Longitude value cannot be greater than 180." );
+                if (value < -180) throw new ArgumentOutOfRangeException( "value", "Longitude value cannot be less than -180." );
+                longitude = value;
+            }
+        }
 
         public string GeocodeAddress( string address )
         {

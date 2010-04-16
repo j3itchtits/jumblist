@@ -9,6 +9,8 @@
             %><p>
                 <%= Html.TextBox( "tagSearch" ) %><br />
                 Within <%= Model.Item.SearchRadiusMiles %> miles of <%= Model.Item.Postcode %><br />
+                <%= Html.Hidden( "locationRadius", Model.Item.SearchRadiusMiles )%>
+                <%= Html.Hidden( "locationSearch", Model.Item.Postcode )%>
                 <%= Html.SubmitButton( "submit", "Search" ) %>
             </p> <%
         }
@@ -18,6 +20,7 @@
             %><p>
                 What <%= Html.TextBox( "tagSearch" ) %><br />
                 Where <%= Html.TextBox( "locationSearch" ) %> <br />
+                <%= Html.Hidden( "locationRadius", 5 ) %>
                 <%= Html.SubmitButton( "submit", "Search" ) %>
             </p>
             

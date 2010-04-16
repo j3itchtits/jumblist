@@ -94,7 +94,6 @@
   <ItemGroup>
     <Compile Include="Extension\EnumerationExtensions.cs" />
     <Compile Include="Extension\IEnumerableExtensions.cs" />
-    <Compile Include="Model\Mapping.cs" />
     <Compile Include="Model\PaginatedList.cs" />
     <Compile Include="Service\Data\PredicateBuilder.cs" />
     <Compile Include="Extension\PropertyInfoExtensions.cs" />
@@ -119,7 +118,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Service\Bing\BingLocationService.cs" />
     <Compile Include="Service\Data\DataService.cs" />
     <Compile Include="Service\Data\DataServiceResolver.cs" />
     <Compile Include="Service\Data\IDataService.cs" />
@@ -128,6 +126,8 @@
     <Compile Include="Service\Feed\CustomSyndicationFeed.cs" />
     <Compile Include="Service\Feed\HttpReader.cs" />
     <Compile Include="Service\Feed\YahooGroupsCustomHttpFeed.cs" />
+    <Compile Include="Service\Map\BingLocationService.cs" />
+    <Compile Include="Service\Map\DistanceService.cs" />
     <Compile Include="Validation\DataAnnotationsValidationRunner.cs" />
   </ItemGroup>
   <ItemGroup>

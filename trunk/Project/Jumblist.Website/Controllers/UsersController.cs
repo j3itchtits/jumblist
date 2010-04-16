@@ -66,7 +66,7 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Post )]
         public ActionResult Login( string name, string password, bool rememberMe, string returnUrl )
         {
-            var user = userService.Authenticate( name, password );
+            User user = userService.Authenticate( name, password );
 
             if (user != null)
             {

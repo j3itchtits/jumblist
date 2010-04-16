@@ -8,7 +8,7 @@ using xVal.ServerSide;
 using System.Text.RegularExpressions;
 using System;
 using System.Linq.Expressions;
-using StuartClode.Mvc.Service.Bing;
+using StuartClode.Mvc.Service.Map;
 using System.Data.Linq.Mapping;
 using System.Reflection;
 

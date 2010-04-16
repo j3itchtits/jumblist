@@ -1,0 +1,7 @@
+/** jQuery Quick Edit **/
+.quickEditOverlay {
+ position: absolute;
+ background: url('indicator.gif') center no-repeat;
+ background-color: #fff;
+ z-index: 1000;
+}
