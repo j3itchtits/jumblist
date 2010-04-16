@@ -8,6 +8,8 @@ using System.Text.RegularExpressions;
 using System.Collections;
 using Jumblist.Core.Model;
 using StuartClode.Mvc.Service.Data;
+using StuartClode.Mvc.Model;
+using StuartClode.Mvc.Service.Map;
 
 namespace Jumblist.Core.Service
 {
@@ -52,15 +54,17 @@ namespace Jumblist.Core.Service
                 return new SearchResult { ActionName = "category", RouteValues = new { category = PostCategorySearch, page = string.Empty } };
             }
 
-            var tagSearchPattern = TagSearch.ToSearchRegexPattern();
-            
-            
+            string tagSearchPattern = TagSearch.ToSearchRegexPattern();
+
+
             //Get User entity - what about anonymous users?
             //Add LocationSearch to User entity - this can then be used in the PostController to filter the tagged or search post list
             // note - actually we might not need locationsearch at all - perhaps this logic can be incorporated into the controllers
 
             var tagMatches = Regex.Matches( Tags.ToNewLineDelimitedString(), tagSearchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
             //var locationMatches = Regex.Matches(Locations.ToNewLineDelimitedString(), searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
+
 
             string q;
             bool isCompleteSearchMatch = IsSearchCompleteMatch( tagMatches, out q );

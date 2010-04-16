@@ -10,6 +10,7 @@ using System.Web.Security;
 using System.Runtime.Serialization;
 using System.Xml;
 using System.IO;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Jumblist.Website.ModelBinder
 {
@@ -30,7 +31,7 @@ namespace Jumblist.Website.ModelBinder
 
         #region IModelBinder Members
 
-        public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        public object BindModel( ControllerContext controllerContext, ModelBindingContext bindingContext )
         {
             if (bindingContext.Model != null)
                 throw new InvalidOperationException("Cannot update instances");
@@ -47,25 +48,31 @@ namespace Jumblist.Website.ModelBinder
             //}
 
             // Get the authentication cookie
+
+
+
             string cookieName = FormsAuthentication.FormsCookieName;
             HttpCookie authCookie = controllerContext.HttpContext.Request.Cookies[cookieName];
+            User user;
 
-            // If the cookie can't be found, don't issue the ticket
-            if (authCookie == null) return null;
-
-            // Get the authentication ticket
-            FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt( authCookie.Value );
-
-            // Attach the UserData from the  authTicket to a User object
-            DataContractSerializer dcs = new DataContractSerializer( typeof( User ) );
-            XmlReader reader = XmlReader.Create( new StringReader( authTicket.UserData ) );
-            User user = dcs.ReadObject( reader, true ) as User;
-
-            if (user == null)
+            // If the auth cookie can't be found then we need to access the anonymous user record stored in the session
+            if (authCookie == null)
             {
-                user = Jumblist.Core.Model.User.Anonymous;
-                user.IsAuthenticated = false;
+                user = controllerContext.HttpContext.Session[userKey] as User;
             }
+            else
+            {
+                // Get the authentication ticket
+                FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt( authCookie.Value );
+
+                // Attach the UserData from the  authTicket to a User object
+                DataContractSerializer dcs = new DataContractSerializer( typeof( User ) );
+                XmlReader reader = XmlReader.Create( new StringReader( authTicket.UserData ) );
+                user = dcs.ReadObject( reader, true ) as User;
+            }
+
+            var userService = ServiceLocator.Current.GetInstance<IUserService>();
+            //var user2 = userService.SelectRecord( user.Name );
 
             return user;
         }

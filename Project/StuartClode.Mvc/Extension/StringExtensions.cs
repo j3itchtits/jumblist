@@ -131,11 +131,12 @@ namespace StuartClode.Mvc.Extension
 
         public static string ToSearchRegexPattern( this string search )
         {
-            //string[] searchArray = search.Split( ' ' );
-            //return (searchArray.Where( s => s.Length > 0 )).ToFormattedStringList( "(^{0}$)|", 1 );
-
-            string[] searchArray = FindAllWordPhraseCombinations( search.Split( ' ' ) );
+            string[] searchArray = search.Split( ' ' );
             return (searchArray.Where( s => s.Length > 0 )).ToFormattedStringList( "(^{0}$)|", 1 );
+
+            // We probably don't need this (FindAllWordPhraseCombinations) as each tag is NOW ONLY ONE word rather than a word or phrase
+            //string[] searchArray = FindAllWordPhraseCombinations( search.Split( ' ' ) );
+            //return (searchArray.Where( s => s.Length > 0 )).ToFormattedStringList( "(^{0}$)|", 1 );
         }
 
         private static string[] FindAllWordPhraseCombinations( params string[] args )

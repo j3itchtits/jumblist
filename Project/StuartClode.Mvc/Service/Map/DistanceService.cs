@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace StuartClode.Mvc.Model
+namespace StuartClode.Mvc.Service.Map
 {
-    public class Mapping
+    public class DistanceService
     {
         //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         //:::                                                                         :::
@@ -27,7 +27,7 @@ namespace StuartClode.Mvc.Model
         //:::                                                                         :::
         //:::                                                                         :::
         //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-        public static double DistanceBetween( double lat1, double lon1, double lat2, double lon2, char unit )
+        public double DistanceBetween( double lat1, double lon1, double lat2, double lon2, char unit )
         {
             double theta = lon1 - lon2;
             double dist = Math.Sin( Deg2Rad( lat1 ) ) * Math.Sin( Deg2Rad( lat2 ) ) + Math.Cos( Deg2Rad( lat1 ) ) * Math.Cos( Deg2Rad( lat2 ) ) * Math.Cos( Deg2Rad( theta ) );
@@ -51,7 +51,7 @@ namespace StuartClode.Mvc.Model
         //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         //::  This function converts decimal degrees to radians             :::
         //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-        private static double Deg2Rad( double deg )
+        private double Deg2Rad( double deg )
         {
             return ( deg * Math.PI / 180.0 );
         }
@@ -59,7 +59,7 @@ namespace StuartClode.Mvc.Model
         //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         //::  This function converts radians to decimal degrees             :::
         //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-        private static double Rad2Deg( double rad )
+        private double Rad2Deg( double rad )
         {
             return ( rad / Math.PI * 180.0 );
         }

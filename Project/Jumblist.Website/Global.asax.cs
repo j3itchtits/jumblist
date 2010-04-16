@@ -33,6 +33,7 @@ namespace Jumblist.Website
         private static object _lock = new object();
         private static IWindsorContainer container;
         private readonly string jumblistDbConnString = ConfigurationManager.ConnectionStrings["ApplicationServices"].ToString();
+        private readonly string userKey = ConfigurationSettings.AppSettings["UserModelBinderKey"];
 
         protected void Application_Start()
         {
@@ -48,6 +49,21 @@ namespace Jumblist.Website
                 RegisterComponents();
             }
         }
+
+        protected void Session_Start()
+        {
+            Session[userKey] = Jumblist.Core.Model.User.Anonymous;
+
+            //HttpCookie MyCookie = new HttpCookie( userKey );
+            //DateTime now = DateTime.Now;
+
+            //MyCookie.Value = now.ToString();
+            //MyCookie.Expires = now.AddHours( 1 );
+
+            //Response.Cookies.Add( MyCookie );
+
+        }
+
 
         private bool InitializeContainer()
         {
@@ -195,6 +211,8 @@ namespace Jumblist.Website
         public static void RegisterModelBinders()
         {
             var binders = ModelBinders.Binders;
+
+            //binders.DefaultBinder = new SomeCustomDefaultBinder();
 
             binders[typeof(Basket)] = new BasketModelBinder();
             binders[typeof(User)] = new UserModelBinder();

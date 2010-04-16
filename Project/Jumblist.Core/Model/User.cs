@@ -10,6 +10,9 @@ namespace Jumblist.Core.Model
         public static User Anonymous { get { return new User() { UserId = (int)UserUniqueId.Anonymous, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Anonymous, "g" ) }; } }
         public static User Administrator { get { return new User() { UserId = (int)UserUniqueId.Administrator, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Administrator, "g" ) }; } }
 
+        [DataMember]
+        public string SearchLocation { get; set; }
+
         public static Expression<Func<User, bool>> WhereNameEquals( string name )
         {
             return x => x.Name == name;

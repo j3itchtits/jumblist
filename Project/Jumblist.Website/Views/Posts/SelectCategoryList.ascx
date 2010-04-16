@@ -7,4 +7,5 @@
             <td><a href="<%= Url.RouteUrl( link.RouteValues )%>" class="<%= link.IsSelected ? "selected" : "" %>"><%= link.Text %></a></td>
         </tr>            
 <% } %>
-</table><br />
+</table>
+<input type="hidden" name="postCategorySearch" value="" />

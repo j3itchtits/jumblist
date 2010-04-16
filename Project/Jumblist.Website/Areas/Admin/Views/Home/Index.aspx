@@ -34,7 +34,7 @@
     <p>London weather: <%= HttpContext.Current.Items["Temp"] %></p>
     
     <% 
-        //var bingLocationService = new StuartClode.Mvc.Service.Bing.BingLocationService( "The Ridge, Hastings, East Sussex, United Kingdom" ); 
+        //var bingLocationService = new StuartClode.Mvc.Service.Map.BingLocationService( "The Ridge, Hastings, East Sussex, United Kingdom" ); 
         //Response.Write( bingLocationService.Latitude + "<br/><br/>" );
         //Response.Write( bingLocationService.Longitude + "<br/><br/>" );
         

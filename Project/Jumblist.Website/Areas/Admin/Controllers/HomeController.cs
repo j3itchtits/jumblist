@@ -11,7 +11,7 @@ using System.ServiceModel.Syndication;
 using StuartClode.Mvc.Service.Feed;
 using Jumblist.Website.ViewModel;
 using System.Xml;
-using StuartClode.Mvc.Service.Bing;
+using StuartClode.Mvc.Service.Map;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
 {

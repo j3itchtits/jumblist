@@ -12,7 +12,7 @@ using xVal.ServerSide;
 using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Extension;
 using Jumblist.Website.ViewModel;
-using StuartClode.Mvc.Service.Bing;
+using StuartClode.Mvc.Service.Map;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
 {

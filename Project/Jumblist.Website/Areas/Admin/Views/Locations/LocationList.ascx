@@ -13,7 +13,7 @@
             
 <%--            <%
        
-                var bingLocationService = new StuartClode.Mvc.Service.Bing.BingLocationService( location.BingSearch );
+                var bingLocationService = new StuartClode.Mvc.Service.Map.BingLocationService( location.BingSearch );
         %>
             <td><%= location.LocationId %></td> 
             <td><%= location.BingSearch %></td>

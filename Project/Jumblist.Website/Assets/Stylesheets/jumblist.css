@@ -188,7 +188,7 @@ p
 
 
 /****************************
- ** Styles *
+ ** Table styles *
  ****************************/
  
 table.list
@@ -225,6 +225,10 @@ tr.item a.selected:hover
 	color: #fff;
 }
 
+/****************************
+ ** Mapping *
+ ****************************/
+ 
 .GoogleMap
 {
     width: 600px;
@@ -236,4 +240,19 @@ tr.item a.selected:hover
     width: 600px;
     height: 400px;
     border: solid 1px black;
+}
+
+/****************************
+ ** Inline editing *
+ ****************************/
+ 
+.editable, textarea
+{
+	background-color: #ffffd3;
+}
+
+img.progress
+{
+	vertical-align: middle;
+	padding: 0 10px;
 }

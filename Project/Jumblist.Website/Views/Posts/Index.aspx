@@ -78,16 +78,28 @@
     <script src="<%= Url.Script( "jquery-ui-1.7.2.custom.min.js" )%>" type="text/javascript"></script>
     
     <script type="text/javascript">
-        $(function() {
+        $(document).ready(function() {
             $('#tabs').tabs();
         });
     </script> 
+
+
+
             
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <% Html.RenderAction("SelectCategoryList", "Posts", new { routeValueDic = ViewContext.RouteData.Values, highlightedCategory = Model.PostCategory }); %>
-    <% Html.RenderPartial( "SelectTagList", Model.Tags ); %>
+<% 
+    using (Html.BeginForm( "search", "posts" ))
+    { 
+        Html.RenderAction( "SelectCategoryList", "Posts", new { routeValueDic = ViewContext.RouteData.Values, highlightedCategory = Model.PostCategory } ); %><br /><br /><%
+        Html.RenderPartial( "SelectTagList", Model.Tags ); %><br /><br /><%
+        Html.RenderPartial( "SelectLocation", Model.User ); %><br /><br />
+        <%= Html.SubmitButton( "submit", "Search" ) %> <%
+    }
+%>    
+        
+        
 
 </asp:Content>

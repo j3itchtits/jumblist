@@ -4,7 +4,7 @@ using Jumblist.Core.Model;
 using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Repository;
 using xVal.ServerSide;
-using StuartClode.Mvc.Service.Bing;
+using StuartClode.Mvc.Service.Map;
 using StuartClode.Mvc.Extension;
 using System.Linq.Expressions;
 using System;

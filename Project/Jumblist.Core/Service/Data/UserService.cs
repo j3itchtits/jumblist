@@ -8,7 +8,7 @@ using Jumblist.Core.Service;
 using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Validation;
-using StuartClode.Mvc.Service.Bing;
+using StuartClode.Mvc.Service.Map;
 using System.Linq.Expressions;
 using System.Security.Principal;
 using System.Web.Security;
