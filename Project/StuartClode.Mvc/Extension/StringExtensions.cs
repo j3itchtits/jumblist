@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Text.RegularExpressions;
 using System.Text;
+using StuartClode.Mvc.Service.Encryption;
 
 namespace StuartClode.Mvc.Extension
 {
@@ -166,5 +167,40 @@ namespace StuartClode.Mvc.Extension
             }
 
         }
+
+        public static string EncryptString( this string input )
+        {
+            ISettingsProvider _settings = new SettingsProvider();
+            //string salt = GetAntiForgeryToken( _settings.SaltGeneratorKey );
+            string salt = "a90sf7oj";
+
+            IEncryptString _encrypter = new RijndaelStringEncrypter( _settings, salt ); 
+
+            if (input == null) input = string.Empty;
+
+            var encryptedValue = _encrypter.Encrypt( input );
+            return encryptedValue;
+        }
+
+        public static string DecryptString( this string input )
+        {
+            ISettingsProvider _settings = new SettingsProvider();
+            //string salt = GetAntiForgeryToken( _settings.SaltGeneratorKey );
+            string salt = "a90sf7oj";
+
+            IEncryptString _encrypter = new RijndaelStringEncrypter( _settings, salt ); 
+
+            if (input == null) input = string.Empty;
+
+            var decryptedValue = _encrypter.Decrypt( input );
+            return decryptedValue;
+        }
+
+        //public static string GetAntiForgeryToken( string salt )
+        //{
+        //    var input = _helper.AntiForgeryToken( salt ).ToString();
+        //    var match = _valueExtractorRegex.Match( input );
+        //    return match.Groups[1].Value;
+        //}
     }
 }

@@ -94,12 +94,10 @@
     using (Html.BeginForm( "search", "posts" ))
     { 
         Html.RenderAction( "SelectCategoryList", "Posts", new { routeValueDic = ViewContext.RouteData.Values, highlightedCategory = Model.PostCategory } ); %><br /><br /><%
-        Html.RenderPartial( "SelectTagList", Model.Tags ); %><br /><br /><%
+        if (Model.Tags != null ) Html.RenderPartial( "SelectTagList", Model.Tags ); %><br /><br /><%
         Html.RenderPartial( "SelectLocation", Model.User ); %><br /><br />
         <%= Html.SubmitButton( "submit", "Search" ) %> <%
     }
 %>    
         
-        
-
 </asp:Content>

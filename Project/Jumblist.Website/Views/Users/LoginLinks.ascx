@@ -2,7 +2,7 @@
 
 <%
 
-    if (Page.User.Identity.IsAuthenticated)
+    if (Model.Item.IsAuthenticated)
     {
         %> Welcome <b><%= Model.Item.Name %></b>! [ <%= Html.LogoutLink( "Log Out" )%> ] | <%
         

@@ -3,8 +3,8 @@
 <%
 
     using (Html.BeginForm("search", "posts"))
-    { 
-        if (Page.User.Identity.IsAuthenticated)
+    {
+        if (Model.Item.IsAuthenticated)
         {
             %><p>
                 <%= Html.TextBox( "tagSearch" ) %><br />

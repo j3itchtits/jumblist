@@ -5,13 +5,18 @@ using System.Runtime.Serialization;
 
 namespace Jumblist.Core.Model
 {
-    public partial class User : IIdentity
+    public partial class User
     {
-        public static User Anonymous { get { return new User() { UserId = (int)UserUniqueId.Anonymous, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Anonymous, "g" ) }; } }
-        public static User Administrator { get { return new User() { UserId = (int)UserUniqueId.Administrator, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Administrator, "g" ) }; } }
+        public static User Anonymous { get { return new User() { UserId = (int)UserUniqueId.Anonymous, Name = Guid.NewGuid().ToString() }; } }
+        public static User Administrator { get { return new User() { UserId = (int)UserUniqueId.Administrator, Name = Guid.NewGuid().ToString() }; } }
+
+        //public static User Administrator { get { return new User() { UserId = (int)UserUniqueId.Administrator, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Administrator, "g" ) }; } }
 
         [DataMember]
         public string SearchLocation { get; set; }
+
+        [DataMember]
+        public bool IsAuthenticated { get; set; }
 
         public static Expression<Func<User, bool>> WhereNameEquals( string name )
         {
@@ -37,18 +42,6 @@ namespace Jumblist.Core.Model
         {
             return x => x.UserId != user.UserId;
         }
-
-        #region IIdentity Members
-
-        public string AuthenticationType
-        {
-            get { return "FormsAuth"; }
-        }
-        [DataMember]
-        public bool IsAuthenticated { get; set; }
-
-        #endregion
-
     }
 
     [Serializable]

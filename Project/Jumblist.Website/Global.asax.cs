@@ -50,10 +50,10 @@ namespace Jumblist.Website
             }
         }
 
-        protected void Session_Start()
-        {
+        //protected void Session_Start()
+        //{
             //Create a session variable to persist the anonymous user across requests
-            Session[userKey] = Jumblist.Core.Model.User.Anonymous;
+            //Session[userKey] = Jumblist.Core.Model.User.Anonymous;
 
             //If we use a cookie instead of the session (above) then we probably need to serialize and encode the User.Anonymous objsct
 
@@ -65,7 +65,7 @@ namespace Jumblist.Website
 
             //Response.Cookies.Add( MyCookie );
 
-        }
+        //}
 
 
         private bool InitializeContainer()
