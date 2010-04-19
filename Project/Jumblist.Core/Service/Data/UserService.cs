@@ -115,6 +115,8 @@ namespace Jumblist.Core.Service.Data
 
         public virtual void SetAuthenticationCookie( User user, bool rememberMe )
         {
+            //Create a cookie to persist the authenticated user across requests
+
             user.IsAuthenticated = true;
 
             //1. using datacontract serialization

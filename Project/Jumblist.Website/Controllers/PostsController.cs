@@ -82,7 +82,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Category( User user, string id, string q, int? page )
+        public ActionResult Category( string id, string q, User user, int? page )
         {
             try
             {
@@ -183,7 +183,9 @@ namespace Jumblist.Website.Controllers
             {
                 var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( id.ToFriendlyUrlDecode() ) );
                 var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) ) : null;
-                var postList = postService.SelectRecordList( tagList, postCategory, q, user );
+
+                var postList = (!string.IsNullOrEmpty(user.SearchLocation)) ? postService.SelectRecordList(tagList, postCategory, q, user) : postService.SelectRecordList(tagList, postCategory, q);
+                
                 var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
@@ -248,7 +250,7 @@ namespace Jumblist.Website.Controllers
         //}
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ActionResult Search( User user, string q, string category, int? page )
+        public ActionResult Search( string q, string category, User user, int? page )
         {
             try
             {
@@ -284,30 +286,39 @@ namespace Jumblist.Website.Controllers
         [ValidateInput(true)]
         public RedirectToRouteResult Search( User user, string postCategorySearch, string tagSearch, string locationSearch, int locationRadius )
         {
-            locationSearch = (!string.IsNullOrEmpty( locationSearch )) ? locationSearch.ToCleanSearchString() + ", UK" : "UK";
+            if (!string.IsNullOrEmpty( locationSearch ))
+            {
+                locationSearch = locationSearch.ToCleanSearchString() + ", UK";
+
+                user.SearchLocation = locationSearch;
+                user.SearchRadiusMiles = locationRadius;
+
+                BingLocationService locationSearchCoordinates = new BingLocationService(locationSearch);
+                user.Latitude = locationSearchCoordinates.Latitude;
+                user.Longitude = locationSearchCoordinates.Longitude;
+
+                //At this point we need a method on IUserService that allows us to SET the user details to either a anon session or auth cookie
+                //Perhaps we need 2 methods - one for anon and one for auth
+
+                string cookieName = FormsAuthentication.FormsCookieName;
+                HttpCookie authCookie = HttpContext.Request.Cookies[cookieName];
+
+                if (authCookie == null)
+                {
+                    HttpContext.Session[userKey] = user;
+                }
+                else
+                {
+                    //how can we update the auth cookie with the amended user object (userdata)
+                }
+            }
 
             searchService.TagSearch = tagSearch.ToCleanSearchString();
-            searchService.LocationSearch = locationSearch;
+            //searchService.LocationSearch = locationSearch;
             searchService.PostCategorySearch = postCategorySearch;
 
 
-            BingLocationService locationSearchCoordinates = new BingLocationService( locationSearch );
-            user.Latitude = locationSearchCoordinates.Latitude;
-            user.Longitude = locationSearchCoordinates.Longitude;
-            user.SearchLocation = locationSearch;
-            user.SearchRadiusMiles = locationRadius;
 
-            string cookieName = FormsAuthentication.FormsCookieName;
-            HttpCookie authCookie = HttpContext.Request.Cookies[cookieName];
-
-            if (authCookie == null)
-            {
-                HttpContext.Session[userKey] = user;
-            }
-            else
-            {
-
-            }
 
             //searchService.Tags = tagService.SelectTagNameList();
             //searchService.Locations = locationService.SelectLocationNameTownList();

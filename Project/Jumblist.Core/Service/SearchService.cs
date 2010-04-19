@@ -27,7 +27,7 @@ namespace Jumblist.Core.Service
         }
 
         public string TagSearch { get; set; }
-        public string LocationSearch { get; set; }
+        //public string LocationSearch { get; set; }
         public string PostCategorySearch { get; set; }
 
         public string[] Tags 

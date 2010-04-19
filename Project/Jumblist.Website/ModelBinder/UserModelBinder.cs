@@ -47,13 +47,18 @@ namespace Jumblist.Website.ModelBinder
             //    controllerContext.HttpContext.Session[userKey] = user;
             //}
 
+            User user;
+
+            //At this point we need a method on IUserService that allows us to GET the user details to either a anon session or auth cookie
+            //Perhaps we need 2 methods - one for anon and one for auth
+
+            var userService = ServiceLocator.Current.GetInstance<IUserService>();
+            //var user2 = userService.SelectRecord( user.Name );
+
             // Get the authentication cookie
-
-
-
             string cookieName = FormsAuthentication.FormsCookieName;
             HttpCookie authCookie = controllerContext.HttpContext.Request.Cookies[cookieName];
-            User user;
+            
 
             // If the auth cookie can't be found then we need to access the anonymous user record stored in the session
             if (authCookie == null)
@@ -66,13 +71,12 @@ namespace Jumblist.Website.ModelBinder
                 FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt( authCookie.Value );
 
                 // Attach the UserData from the  authTicket to a User object
-                DataContractSerializer dcs = new DataContractSerializer( typeof( User ) );
                 XmlReader reader = XmlReader.Create( new StringReader( authTicket.UserData ) );
-                user = dcs.ReadObject( reader, true ) as User;
+                DataContractSerializer dcs = new DataContractSerializer(typeof(User));
+                user = dcs.ReadObject(reader, true) as User;
             }
 
-            var userService = ServiceLocator.Current.GetInstance<IUserService>();
-            //var user2 = userService.SelectRecord( user.Name );
+
 
             return user;
         }
