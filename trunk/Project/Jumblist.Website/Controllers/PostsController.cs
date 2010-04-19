@@ -19,6 +19,9 @@ using Jumblist.Core.Service;
 using MvcMaps;
 using StuartClode.Mvc.Service.Map;
 using System.Web.Security;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Text;
 
 namespace Jumblist.Website.Controllers
 {
@@ -293,7 +296,7 @@ namespace Jumblist.Website.Controllers
                 user.SearchLocation = locationSearch;
                 user.SearchRadiusMiles = locationRadius;
 
-                BingLocationService locationSearchCoordinates = new BingLocationService(locationSearch);
+                BingLocationService locationSearchCoordinates = new BingLocationService( locationSearch );
                 user.Latitude = locationSearchCoordinates.Latitude;
                 user.Longitude = locationSearchCoordinates.Longitude;
 
@@ -303,14 +306,18 @@ namespace Jumblist.Website.Controllers
                 string cookieName = FormsAuthentication.FormsCookieName;
                 HttpCookie authCookie = HttpContext.Request.Cookies[cookieName];
 
-                if (authCookie == null)
-                {
-                    HttpContext.Session[userKey] = user;
-                }
-                else
-                {
-                    //how can we update the auth cookie with the amended user object (userdata)
-                }
+                MemoryStream ms = new MemoryStream();
+                DataContractSerializer dcsWrite = new DataContractSerializer( typeof( User ) );
+                dcsWrite.WriteObject( ms, user );
+                string userData = Encoding.UTF8.GetString( ms.ToArray() );
+
+                var timeout = DateTime.Now.AddDays( 14 );
+
+                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket( 1, user.Name, DateTime.Now, timeout, true, userData );
+                string encTicket = FormsAuthentication.Encrypt( ticket );
+
+                authCookie.Value = encTicket;
+                HttpContext.Response.Cookies.Add( authCookie );
             }
 
             searchService.TagSearch = tagSearch.ToCleanSearchString();

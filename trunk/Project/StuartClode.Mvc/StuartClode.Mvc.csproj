@@ -55,6 +55,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -122,6 +123,10 @@
     <Compile Include="Service\Data\DataServiceResolver.cs" />
     <Compile Include="Service\Data\IDataService.cs" />
     <Compile Include="Service\Data\IDataServiceResolver.cs" />
+    <Compile Include="Service\Encryption\IEncryptString.cs" />
+    <Compile Include="Service\Encryption\RijndaelStringEncrypter.cs" />
+    <Compile Include="Service\Encryption\SettingsProvider.cs" />
+    <Compile Include="Service\Encryption\ISettingsProvider.cs" />
     <Compile Include="Service\Feed\BbcCustomHttpFeed.cs" />
     <Compile Include="Service\Feed\CustomSyndicationFeed.cs" />
     <Compile Include="Service\Feed\HttpReader.cs" />

@@ -126,6 +126,20 @@ namespace Jumblist.Core.Service.Data
             dcs.WriteObject( ms, user );
             string userData = Encoding.UTF8.GetString( ms.ToArray() );
 
+            var timeout = (rememberMe) ? DateTime.Now.AddDays( 14 ) : DateTime.Now.AddMinutes( 30 );
+
+            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket( 1, user.Name, DateTime.Now, timeout, true, userData );
+            string encTicket = FormsAuthentication.Encrypt( ticket );
+            HttpCookie authenticationCookie = new HttpCookie( FormsAuthentication.FormsCookieName, encTicket );
+            HttpContext.Current.Response.Cookies.Add( authenticationCookie );
+
+            //HttpCookie userCookie = new HttpCookie( userKey );
+            //userCookie.Value = userData;
+            //userCookie.Expires = DateTime.Now.AddDays( 14 );
+            //HttpContext.Current.Response.Cookies.Add( userCookie );
+
+
+
             //StringBuilder sb = new StringBuilder();
             //XmlWriter writer = XmlWriter.Create( sb );
             //dcs.WriteObject( writer, user );
@@ -152,12 +166,8 @@ namespace Jumblist.Core.Service.Data
             //var userData = xmlResult2;
 
 
-            var timeout = (rememberMe) ? DateTime.Now.AddDays( 14 ) : DateTime.Now.AddMinutes( 30 );
 
-            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket( 1, user.Name, DateTime.Now, timeout, true, userData );
-            string encTicket = FormsAuthentication.Encrypt( ticket );
-            HttpCookie faCookie = new HttpCookie( FormsAuthentication.FormsCookieName, encTicket );
-            HttpContext.Current.Response.Cookies.Add( faCookie );
+
 
         }
 
