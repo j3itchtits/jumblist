@@ -48,6 +48,8 @@
 		
 		<div id="tabs-2">
 
+
+
 		    <% Html.RenderPartial( "MapDisplay", new ViewDataDictionary() {
                 { 
                     "Google", 
@@ -67,7 +69,7 @@
 		</div>
 	</div>
 	
-        
+       
     
 
 </asp:Content>
@@ -77,12 +79,12 @@
     <link href="<%= Url.Stylesheet( "ui.tabs.css" )%>" rel="stylesheet" type="text/css"/>
     <script src="<%= Url.Script( "jquery-ui-1.7.2.custom.min.js" )%>" type="text/javascript"></script>
     
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#tabs').tabs();
-        });
-    </script> 
 
+   <script type="text/javascript">
+       $(document).ready(function() {
+           $('#tabs').tabs();
+       });
+    </script>   
 
 
             

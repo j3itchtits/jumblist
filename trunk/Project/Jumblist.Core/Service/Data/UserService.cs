@@ -118,12 +118,15 @@ namespace Jumblist.Core.Service.Data
             //Create a cookie to persist the authenticated user across requests
 
             user.IsAuthenticated = true;
+            user.Search = new SearchUser( user.Postcode, user.SearchRadiusMiles, user.Latitude, user.Longitude );
 
             //1. using datacontract serialization
             var timeout = (rememberMe) ? DateTime.Now.AddDays(14) : DateTime.Now.AddMinutes(30);
-            HttpCookie authenticationCookie = CreateAuthenticationCookie(user, timeout);
+            HttpCookie authenticationCookie = CreateAuthenticationCookie( user, timeout );
 
             HttpContext.Current.Response.Cookies.Add( authenticationCookie );
+
+            HttpContext.Current.Session["_search"] = user.Search;
 
             //HttpCookie userCookie = new HttpCookie( userKey );
             //userCookie.Value = userData;

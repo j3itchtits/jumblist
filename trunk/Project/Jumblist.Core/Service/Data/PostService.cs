@@ -110,8 +110,8 @@ namespace Jumblist.Core.Service.Data
         {
             IEnumerable<Post> postList = SelectRecordList(category, q);
 
-            if (user != null)
-                postList = postList.ToFilteredList(Post.WhereLocationEquals(user.Latitude, user.Longitude, user.SearchRadiusMiles));
+            if (user.Search != null)
+                postList = postList.ToFilteredList( Post.WhereLocationEquals( user.Search.LocationLatitude, user.Search.LocationLongitude, user.Search.LocationRadius ) );
 
             return postList;
         }
@@ -140,8 +140,8 @@ namespace Jumblist.Core.Service.Data
         {
             IEnumerable<Post> postList = SelectRecordList( tagList, category, q );
 
-            if (user != null)
-                postList = postList.ToFilteredList( Post.WhereLocationEquals( user.Latitude, user.Longitude, user.SearchRadiusMiles ) );
+            if (!string.IsNullOrEmpty( user.Search.LocationName ))
+                postList = postList.ToFilteredList( Post.WhereLocationEquals( user.Search.LocationLatitude, user.Search.LocationLongitude, user.Search.LocationRadius ) );
 
             return postList;
         }
