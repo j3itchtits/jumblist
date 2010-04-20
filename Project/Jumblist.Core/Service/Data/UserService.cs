@@ -24,7 +24,7 @@ namespace Jumblist.Core.Service.Data
     public class UserService : DataService<User>, IUserService
     {
         private readonly IFormsAuthenticationService formsAuth;
-        private readonly string userKey = ConfigurationSettings.AppSettings["UserModelBinderKey"];
+        //private readonly string userKey = ConfigurationSettings.AppSettings["UserModelBinderKey"];
 
         public UserService( IRepository<User> repository, IFormsAuthenticationService formsAuth )
             : base( repository )
@@ -120,17 +120,9 @@ namespace Jumblist.Core.Service.Data
             user.IsAuthenticated = true;
 
             //1. using datacontract serialization
+            var timeout = (rememberMe) ? DateTime.Now.AddDays(14) : DateTime.Now.AddMinutes(30);
+            HttpCookie authenticationCookie = CreateAuthenticationCookie(user, timeout);
 
-            DataContractSerializer dcs = new DataContractSerializer( typeof( User ) );
-            MemoryStream ms = new MemoryStream();
-            dcs.WriteObject( ms, user );
-            string userData = Encoding.UTF8.GetString( ms.ToArray() );
-
-            var timeout = (rememberMe) ? DateTime.Now.AddDays( 14 ) : DateTime.Now.AddMinutes( 30 );
-
-            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket( 1, user.Name, DateTime.Now, timeout, true, userData );
-            string encTicket = FormsAuthentication.Encrypt( ticket );
-            HttpCookie authenticationCookie = new HttpCookie( FormsAuthentication.FormsCookieName, encTicket );
             HttpContext.Current.Response.Cookies.Add( authenticationCookie );
 
             //HttpCookie userCookie = new HttpCookie( userKey );
@@ -169,6 +161,57 @@ namespace Jumblist.Core.Service.Data
 
 
 
+        }
+
+        public virtual HttpCookie CreateAuthenticationCookie( User user, DateTime timeout )
+        {
+            MemoryStream ms = new MemoryStream();
+            DataContractSerializer dcsWrite = new DataContractSerializer(typeof(User));
+            dcsWrite.WriteObject(ms, user);
+            string userData = Encoding.UTF8.GetString(ms.ToArray());
+
+            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, user.Name, DateTime.Now, timeout, true, userData);
+            string encTicket = FormsAuthentication.Encrypt(ticket);
+            HttpCookie authenticationCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+            authenticationCookie.Expires = timeout;
+
+            return authenticationCookie;
+        }
+
+        public virtual HttpCookie UpdateAuthenticationCookie( HttpCookie authenticationCookie, User user )
+        {
+            MemoryStream ms = new MemoryStream();
+            DataContractSerializer dcsWrite = new DataContractSerializer(typeof(User));
+            dcsWrite.WriteObject(ms, user);
+            string userData = Encoding.UTF8.GetString(ms.ToArray());
+
+            DateTime timeout = DateTime.Now.AddDays(1);
+
+            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, user.Name, DateTime.Now, timeout, true, userData);
+            string encTicket = FormsAuthentication.Encrypt(ticket);
+            authenticationCookie.Value = encTicket;
+
+            return authenticationCookie;
+        }
+
+        //public virtual HttpCookie FetchAuthenticationCookie()
+        //{
+        //    string cookieName = FormsAuthentication.FormsCookieName;
+        //    HttpCookie authCookie = HttpContext.Current.Request.Cookies[cookieName];
+        //    return authCookie;
+        //}
+
+        public virtual User DeserializeAuthenticationCookie(string cookieValue)
+        {
+            // Get the authentication ticket
+            FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(cookieValue);
+
+            // Attach the UserData from the  authTicket to a User object
+            XmlReader reader = XmlReader.Create(new StringReader(authTicket.UserData));
+            DataContractSerializer dcsRead = new DataContractSerializer(typeof(User));
+            User user = dcsRead.ReadObject(reader, true) as User;
+
+            return user;
         }
 
         public virtual void RemoveAuthenticationCookie()

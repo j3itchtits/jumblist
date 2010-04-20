@@ -17,7 +17,7 @@ namespace Jumblist.Website.ModelBinder
 {
     public class UserModelBinder : IModelBinder
     {
-        private readonly string userKey = ConfigurationSettings.AppSettings["UserModelBinderKey"];
+        //private readonly string userKey = ConfigurationSettings.AppSettings["UserModelBinderKey"];
 
         //private readonly IUserService userService;
 
@@ -46,37 +46,27 @@ namespace Jumblist.Website.ModelBinder
             //User user = dcs.ReadObject( reader, true ) as User;
 
 
+            var userService = ServiceLocator.Current.GetInstance<IUserService>();
+
             // Get the authentication cookie
-            string cookieName = FormsAuthentication.FormsCookieName;
-            HttpCookie authCookie = controllerContext.HttpContext.Request.Cookies[cookieName];
-            
+            HttpCookie authCookie = controllerContext.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
             User user;
             
             if (authCookie != null)
             {
-                // Get the authentication ticket
-                FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt( authCookie.Value );
-
-                // Attach the UserData from the  authTicket to a User object
-                XmlReader reader = XmlReader.Create( new StringReader( authTicket.UserData ) );
-                DataContractSerializer dcsRead = new DataContractSerializer( typeof( User ) );
-                user = dcsRead.ReadObject( reader, true ) as User;
+                user = userService.DeserializeAuthenticationCookie(authCookie.Value);
             }
             else
             {
                 user = Jumblist.Core.Model.User.Anonymous;
-
-                MemoryStream ms = new MemoryStream();
-                DataContractSerializer dcsWrite = new DataContractSerializer( typeof( User ) );
-                dcsWrite.WriteObject( ms, user );
-                string userData = Encoding.UTF8.GetString( ms.ToArray() );
-
-                var timeout = DateTime.Now.AddDays( 14 );
-
-                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket( 1, user.Name, DateTime.Now, timeout, true, userData );
-                string encTicket = FormsAuthentication.Encrypt( ticket );
-                HttpCookie authenticationCookie = new HttpCookie( FormsAuthentication.FormsCookieName, encTicket );
+                DateTime timeout = DateTime.Now.AddDays( 14 );
+                HttpCookie authenticationCookie = userService.CreateAuthenticationCookie(user, timeout);
                 controllerContext.HttpContext.Response.Cookies.Add( authenticationCookie );
+
+                HttpCookie testCookie = new HttpCookie("test");
+                testCookie.Value = "Hello";
+                testCookie.Expires = DateTime.Now.AddHours(1);
+                controllerContext.HttpContext.Response.Cookies.Add(testCookie);
             }
 
             //HttpCookie MyCookie = new HttpCookie( userKey );
