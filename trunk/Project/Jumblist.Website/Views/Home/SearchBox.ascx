@@ -27,7 +27,12 @@
             <% 
         }
         
-        %><input type="radio" name="postCategorySearch" value="" checked="checked" /> All 
+        
+        
+        %>
+        
+        Testing: <%= Page.User.Identity.IsAuthenticated %>, <%= Model.Item.IsAuthenticated %>, <%= Model.Item.Name %><br />
+        <input type="radio" name="postCategorySearch" value="" checked="checked" /> All 
         <input type="radio" name="postCategorySearch" value="offered" /> Offered 
         <input type="radio" name="postCategorySearch" value="wanted" /> Wanted        <%
     }

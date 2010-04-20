@@ -15,8 +15,8 @@
 
 
 <b>Location</b><br />
-Within <%= Model.SearchRadiusMiles %> miles of <%= Model.SearchLocation %>
-<%= Html.Hidden( "locationRadius", Model.SearchRadiusMiles )%>
-<%= Html.Hidden( "locationSearch", Model.SearchLocation )%>
+Within <%= Html.TextBox("locationRadius", Model.SearchRadiusMiles)%> miles of <%= Html.TextBox("locationSearch", Model.SearchLocation)%>
+
+
 
        

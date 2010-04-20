@@ -4,6 +4,7 @@ using StuartClode.Mvc.Service.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System;
+using System.Web;
 
 namespace Jumblist.Core.Service.Data
 {
@@ -23,5 +24,9 @@ namespace Jumblist.Core.Service.Data
         string HashPassword( string password );
         User Authenticate( string name, string password );
         void Delete( User entity );
+        HttpCookie CreateAuthenticationCookie(User user, DateTime timeout);
+        HttpCookie UpdateAuthenticationCookie(HttpCookie authCookie, User user);
+        //HttpCookie FetchAuthenticationCookie();
+        User DeserializeAuthenticationCookie(string cookieValue);
     }
 }

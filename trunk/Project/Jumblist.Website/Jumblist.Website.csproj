@@ -256,6 +256,7 @@
     <Content Include="Views\Locations\LocationList.ascx" />
     <Content Include="Views\Posts\AddToBasket.ascx" />
     <Content Include="Views\Posts\BasicList.ascx" />
+    <Content Include="Views\Posts\SelectPostCategory.ascx" />
     <Content Include="Views\Posts\SelectLocation.ascx" />
     <Content Include="Views\Posts\Problem.aspx" />
     <Content Include="Views\Posts\Index.aspx" />

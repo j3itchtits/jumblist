@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<IEnumerable<Tag>>" %>
 
-<style type="text/css">
+<%--<style type="text/css">
 .InPlaceEditTextBox
   {
       display:none;
@@ -40,7 +40,11 @@
 <b>Tags</b><br />
 <span class="InPlaceEditSpan"><%= Model.Select( x => x.Name ).ToFormattedStringList( "{0}, ", 2 )%></span>
 <input type="text" size="5" name="tagSearch" class="InPlaceEditTextBox" />
-<input type="button" id="Edit" value="Edit" />
+<input type="button" id="Edit" value="Edit" />--%>
+
+
+<b>Tags</b><br />
+<%= Html.TextBox("tagSearch", Model.Select(x => x.Name).ToFormattedStringList("{0}, ", 2))%>
 
 
        

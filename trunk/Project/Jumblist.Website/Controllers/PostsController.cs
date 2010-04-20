@@ -27,16 +27,15 @@ namespace Jumblist.Website.Controllers
 {
     public class PostsController : ViewModelController<Post>
     {
-        private readonly string userKey = ConfigurationSettings.AppSettings["UserModelBinderKey"];
-
         private readonly IPostService postService;
         private readonly ILocationService locationService;
         private readonly ITagService tagService;
         private readonly IDataService<Feed> feedService;
         private readonly IDataService<PostCategory> postCategoryService;
         private readonly ISearchService searchService;
+        private readonly IUserService userService;
 
-        public PostsController( IPostService postService, ILocationService locationService, ITagService tagService, IDataService<Feed> feedService, IDataService<PostCategory> postCategoryService, ISearchService searchService )
+        public PostsController(IPostService postService, ILocationService locationService, ITagService tagService, IDataService<Feed> feedService, IDataService<PostCategory> postCategoryService, ISearchService searchService, IUserService userService)
         {
             this.postService = postService;
             this.locationService = locationService;
@@ -44,6 +43,7 @@ namespace Jumblist.Website.Controllers
             this.feedService = feedService;
             this.postCategoryService = postCategoryService;
             this.searchService = searchService;
+            this.userService = userService;
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -56,7 +56,7 @@ namespace Jumblist.Website.Controllers
             var model = PostView.Model();
 
             model.User = user;
-            model.PostCategory = string.Empty;
+            model.PostCategory = null;
             model.Pushpins = pushpinList;
             model.PaginatedList = pagedPostList;
             model.PageTitle = "All Posts";
@@ -97,7 +97,7 @@ namespace Jumblist.Website.Controllers
                 var model = PostView.Model();
 
                 model.User = user;
-                model.PostCategory = postCategory.Name;
+                model.PostCategory = postCategory;
                 model.Pushpins = pushpinList;
                 model.PaginatedList = pagedPostList;
                 model.PageTitle = postCategory.Name + " Posts";
@@ -126,7 +126,7 @@ namespace Jumblist.Website.Controllers
 
                 var model = PostView.Model();
 
-                model.PostCategory = (postCategory != null) ? postCategory.Name : string.Empty;
+                model.PostCategory = postCategory;
                 model.Pushpins = pushpinList;
                 model.PaginatedList = pagedPostList;
                 model.PageTitle = "All " + category + " Posts by Group - " + feed.Name;
@@ -160,7 +160,7 @@ namespace Jumblist.Website.Controllers
 
                 model.Tags = null;
                 model.User = null;
-                model.PostCategory = (postCategory != null) ? postCategory.Name : string.Empty;
+                model.PostCategory = postCategory;
                 model.Pushpins = pushpinList;
                 model.PaginatedList = pagedPostList;
                 model.PageTitle = "All " + category + " Posts by Location - " + locationList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
@@ -185,7 +185,7 @@ namespace Jumblist.Website.Controllers
             try
             {
                 var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( id.ToFriendlyUrlDecode() ) );
-                var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) ) : null;
+                var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
 
                 var postList = (!string.IsNullOrEmpty(user.SearchLocation)) ? postService.SelectRecordList(tagList, postCategory, q, user) : postService.SelectRecordList(tagList, postCategory, q);
                 
@@ -196,7 +196,7 @@ namespace Jumblist.Website.Controllers
 
                 model.Tags = tagList;
                 model.User = user;
-                model.PostCategory = (postCategory != null) ? postCategory.Name : string.Empty;
+                model.PostCategory = (postCategory != null) ? postCategory : new PostCategory();
                 model.Pushpins = pushpinList;
                 model.PaginatedList = pagedPostList;
                 model.PageTitle = "All " + category + " Posts by Tag - " + tagList.Select( x => x.Name ).ToFormattedStringList( "{0}, ", 2 );
@@ -265,7 +265,7 @@ namespace Jumblist.Website.Controllers
                 var model = PostView.Model();
 
                 model.User = user;
-                model.PostCategory = (postCategory != null) ? postCategory.Name : string.Empty;
+                model.PostCategory = postCategory;
                 model.Pushpins = pushpinList;
                 model.PaginatedList = pagedPostList;
                 model.PageTitle = "All " + category + " Posts with the following search terms - " + q;
@@ -303,21 +303,14 @@ namespace Jumblist.Website.Controllers
                 //At this point we need a method on IUserService that allows us to SET the user details to either a anon session or auth cookie
                 //Perhaps we need 2 methods - one for anon and one for auth
 
-                string cookieName = FormsAuthentication.FormsCookieName;
-                HttpCookie authCookie = HttpContext.Request.Cookies[cookieName];
-
-                MemoryStream ms = new MemoryStream();
-                DataContractSerializer dcsWrite = new DataContractSerializer( typeof( User ) );
-                dcsWrite.WriteObject( ms, user );
-                string userData = Encoding.UTF8.GetString( ms.ToArray() );
-
-                var timeout = DateTime.Now.AddDays( 14 );
-
-                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket( 1, user.Name, DateTime.Now, timeout, true, userData );
-                string encTicket = FormsAuthentication.Encrypt( ticket );
-
-                authCookie.Value = encTicket;
+                HttpCookie authCookie = HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
+                authCookie = userService.UpdateAuthenticationCookie(authCookie, user);
                 HttpContext.Response.Cookies.Add( authCookie );
+
+                HttpCookie testCookie = HttpContext.Request.Cookies["test"];
+                testCookie.Value = "You've just run a search";
+                testCookie.Expires = testCookie.Expires.AddDays(1);
+                HttpContext.Response.Cookies.Add(testCookie);
             }
 
             searchService.TagSearch = tagSearch.ToCleanSearchString();
