@@ -13,8 +13,21 @@ namespace Jumblist.Website.ViewModel
 {
     public class PostViewModel<T> : DefaultViewModel<T>
     {
-        public PostCategory PostCategory { get; set; }
-        public IEnumerable<Tag> Tags { get; set; }
+        private PostCategory postCategory;
+        public IEnumerable<Tag> tags;
+
+        public PostCategory PostCategory 
+        {
+            get { return postCategory; }
+            set { postCategory = (value != null) ? value : new PostCategory(); }
+        }
+
+        public IEnumerable<Tag> Tags 
+        {
+            get { return tags; }
+            set { tags = (value != null) ? value : new List<Tag>() as IEnumerable<Tag>; }
+        }
+
         public User User { get; set; }
         //public Pushpin Pushpin { get; set; }
         public IEnumerable<Pushpin> Pushpins { get; set; }

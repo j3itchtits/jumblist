@@ -55,6 +55,7 @@ namespace Jumblist.Website.Controllers
 
             var model = PostView.Model();
 
+            model.Tags = null;
             model.User = user;
             model.PostCategory = null;
             model.Pushpins = pushpinList;
@@ -89,9 +90,9 @@ namespace Jumblist.Website.Controllers
         {
             try
             {
-                var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals(id) );
+                var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( id ) );
                 var postList = postService.SelectRecordList( postCategory, q, user );
-                var pushpinList = postList.ToFilteredPushPinList(Post.WhereLatLongValuesExist());
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
                 var model = PostView.Model();
@@ -185,21 +186,23 @@ namespace Jumblist.Website.Controllers
             try
             {
                 var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( id.ToFriendlyUrlDecode() ) );
-                var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
+                var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
 
-                var postList = (!string.IsNullOrEmpty(user.SearchLocation)) ? postService.SelectRecordList(tagList, postCategory, q, user) : postService.SelectRecordList(tagList, postCategory, q);
+                //var postList = (!string.IsNullOrEmpty(user.Search.LocationName)) ? postService.SelectRecordList(tagList, postCategory, q, user) : postService.SelectRecordList(tagList, postCategory, q);
+                var postList = postService.SelectRecordList( tagList, postCategory, q, user );
                 
                 var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
                 var model = PostView.Model();
 
+                //model.Tags = (tagList != null) ? tagList : new object() as IEnumerable<Tag>;
                 model.Tags = tagList;
                 model.User = user;
-                model.PostCategory = (postCategory != null) ? postCategory : new PostCategory();
+                model.PostCategory = postCategory;
                 model.Pushpins = pushpinList;
                 model.PaginatedList = pagedPostList;
-                model.PageTitle = "All " + category + " Posts by Tag - " + tagList.Select( x => x.Name ).ToFormattedStringList( "{0}, ", 2 );
+                model.PageTitle = "All " + postCategory.Name + " Posts by Tag - " + tagList.Select( x => x.Name ).ToFormattedStringList( "{0}, ", 2 );
                 model.ListCount = postList.Count();
 
                 if (postList.Count() == 0)
@@ -274,7 +277,6 @@ namespace Jumblist.Website.Controllers
                 if (postList.Count() == 0)
                     model.Message = new Message { Text = "No posts with the following search terms " + q, StyleClass = "message" };
 
-
                 return View( "index", model );
             }
             catch ( Exception ex )
@@ -287,31 +289,40 @@ namespace Jumblist.Website.Controllers
 
         [AcceptVerbs(HttpVerbs.Post)]
         [ValidateInput(true)]
-        public RedirectToRouteResult Search( User user, string postCategorySearch, string tagSearch, string locationSearch, int locationRadius )
+        public RedirectToRouteResult Search( string postCategorySearch, string tagSearch, string locationSearch, int locationRadius )
         {
+            SearchUser searchUser;
+
             if (!string.IsNullOrEmpty( locationSearch ))
             {
                 locationSearch = locationSearch.ToCleanSearchString() + ", UK";
 
-                user.SearchLocation = locationSearch;
-                user.SearchRadiusMiles = locationRadius;
+                //user.Search.LocationName = locationSearch;
+                //user.Search.LocationRadius = locationRadius;
 
                 BingLocationService locationSearchCoordinates = new BingLocationService( locationSearch );
-                user.Latitude = locationSearchCoordinates.Latitude;
-                user.Longitude = locationSearchCoordinates.Longitude;
+                //user.Search.LocationLatitude = locationSearchCoordinates.Latitude;
+                //user.Search.LocationLongitude = locationSearchCoordinates.Longitude;
 
                 //At this point we need a method on IUserService that allows us to SET the user details to either a anon session or auth cookie
                 //Perhaps we need 2 methods - one for anon and one for auth
 
-                HttpCookie authCookie = HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
-                authCookie = userService.UpdateAuthenticationCookie(authCookie, user);
-                HttpContext.Response.Cookies.Add( authCookie );
+                searchUser = new SearchUser( locationSearch, locationRadius, locationSearchCoordinates.Latitude, locationSearchCoordinates.Longitude );
 
-                HttpCookie testCookie = HttpContext.Request.Cookies["test"];
-                testCookie.Value = "You've just run a search";
-                testCookie.Expires = testCookie.Expires.AddDays(1);
-                HttpContext.Response.Cookies.Add(testCookie);
+                //HttpCookie testCookie = HttpContext.Request.Cookies["test"];
+                //testCookie.Value = "You've just run a search";
+                //testCookie.Expires = testCookie.Expires.AddDays( 1 );
+                //HttpContext.Response.Cookies.Add( testCookie );
             }
+            else
+            {
+                searchUser = new SearchUser( string.Empty, 0, 0, 0 );
+            }
+
+            
+
+            HttpContext.Session["_search"] = searchUser;
+
 
             searchService.TagSearch = tagSearch.ToCleanSearchString();
             //searchService.LocationSearch = locationSearch;

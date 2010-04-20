@@ -13,9 +13,15 @@
 <span id="demoText1">This is a jQuery Quick Edit Demo1.</span>
 <a href="#" id="demo1" rel="demoText1">edit</a><br /><br />--%>
 
-
 <b>Location</b><br />
-Within <%= Html.TextBox("locationRadius", Model.SearchRadiusMiles)%> miles of <%= Html.TextBox("locationSearch", Model.SearchLocation)%>
+
+<%  
+    string radius = (Model.Search.LocationRadius == 0) ? string.Empty : Model.Search.LocationRadius.ToString();
+    string location = ((Model.Search.LocationName).Split( new string[] { ", " }, StringSplitOptions.None ))[0]; 
+%>
+    Within <%= Html.TextBox( "locationRadius", radius )%> miles of <%= Html.TextBox( "locationSearch", location ) %> 
+
+
 
 
 

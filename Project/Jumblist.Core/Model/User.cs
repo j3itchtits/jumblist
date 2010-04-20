@@ -12,8 +12,7 @@ namespace Jumblist.Core.Model
 
         //public static User Administrator { get { return new User() { UserId = (int)UserUniqueId.Administrator, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Administrator, "g" ) }; } }
 
-        [DataMember]
-        public string SearchLocation { get; set; }
+        public SearchUser Search { get; set; }
 
         [DataMember]
         public bool IsAuthenticated { get; set; }

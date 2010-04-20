@@ -51,23 +51,49 @@ namespace Jumblist.Website.ModelBinder
             // Get the authentication cookie
             HttpCookie authCookie = controllerContext.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
             User user;
-            
+
             if (authCookie != null)
             {
-                user = userService.DeserializeAuthenticationCookie(authCookie.Value);
+                user = userService.DeserializeAuthenticationCookie( authCookie.Value );
             }
             else
             {
                 user = Jumblist.Core.Model.User.Anonymous;
-                DateTime timeout = DateTime.Now.AddDays( 14 );
-                HttpCookie authenticationCookie = userService.CreateAuthenticationCookie(user, timeout);
-                controllerContext.HttpContext.Response.Cookies.Add( authenticationCookie );
-
-                HttpCookie testCookie = new HttpCookie("test");
-                testCookie.Value = "Hello";
-                testCookie.Expires = DateTime.Now.AddHours(1);
-                controllerContext.HttpContext.Response.Cookies.Add(testCookie);
             }
+
+            user.Search = controllerContext.HttpContext.Session["_search"] as SearchUser;
+
+            if (user.Search == null)
+            {
+                var searchUser = new SearchUser( string.Empty, 0, 0, 0 );
+                controllerContext.HttpContext.Session["_search"] = searchUser;
+            }
+
+
+
+
+            //if (authCookie != null)
+            //{
+            //    user = userService.DeserializeAuthenticationCookie(authCookie.Value);
+            //    user.Search = controllerContext.HttpContext.Session["_search"] as SearchUser;
+            //}
+            //else
+            //{
+            //    //user = Jumblist.Core.Model.User.Anonymous;
+            //    //DateTime timeout = DateTime.Now.AddDays( 14 );
+            //    //HttpCookie authenticationCookie = userService.CreateAuthenticationCookie(user, timeout);
+            //    //controllerContext.HttpContext.Response.Cookies.Add( authenticationCookie );
+
+            //    //create a new SearchUser with all blank properties and add it to a session variable
+            //    //var searchUser = new SearchUser();
+            //    user = Jumblist.Core.Model.User.Anonymous;
+            //    controllerContext.HttpContext.Session["_search"] = new SearchUser();
+
+            //    //HttpCookie testCookie = new HttpCookie("test");
+            //    //testCookie.Value = "Hello";
+            //    //testCookie.Expires = DateTime.Now.AddHours(1);
+            //    //controllerContext.HttpContext.Response.Cookies.Add(testCookie);
+            //}
 
             //HttpCookie MyCookie = new HttpCookie( userKey );
             //DateTime now = DateTime.Now;
