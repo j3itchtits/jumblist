@@ -135,7 +135,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             var list = feedCategoryService.SelectRecordList();
 
-            var model = DefaultView.Model<FeedCategory>().With(list);
+            var model = DefaultView.CreateModel<FeedCategory>().With(list);
             model.PageTitle = "Feed Categories";
 
             return View("CategoryList", model);
@@ -146,7 +146,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             var item = feedCategoryService.SelectRecord(id);
 
-            var model = DefaultView.Model<FeedCategory>().With(item);
+            var model = DefaultView.CreateModel<FeedCategory>().With(item);
             model.PageTitle = string.Format("Edit - {0}", item.Name);
             model.Message = new Message { Text = "You are about to edit something", StyleClass = "message" };
 
@@ -156,7 +156,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ViewResult CategoryCreate()
         {
-            var model = DefaultView.Model<FeedCategory>().With(new FeedCategory());
+            var model = DefaultView.CreateModel<FeedCategory>().With(new FeedCategory());
             model.PageTitle = "Create a new category";
             model.Message = new Message { Text = "You are about to create a category", StyleClass = "message" };
 
@@ -182,7 +182,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             }
             else
             {
-                var model = DefaultView.Model<FeedCategory>().With(item);
+                var model = DefaultView.CreateModel<FeedCategory>().With(item);
                 model.PageTitle = string.Format("Edit - {0}", item.Name);
                 model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
                 return View("categoryedit", model);

@@ -37,8 +37,7 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult LoginLinks( User user )
         {
-            var model = BuildDefaultViewModel().With( user );
-            return PartialView( "LoginLinks", model );
+            return PartialView( "LoginLinks", user );
         }
 
         //[AcceptVerbs( HttpVerbs.Get )]

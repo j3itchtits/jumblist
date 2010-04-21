@@ -17,8 +17,8 @@ namespace Jumblist.Website.ViewModel
         {
             PostCategory = null;
             Tags = null;
+            PostCategoryList = BuildPostCategorySelectList();
         }
-
 
         private PostCategory postCategory;
         private IEnumerable<Tag> tags;
@@ -35,9 +35,9 @@ namespace Jumblist.Website.ViewModel
             set { tags = (value != null) ? value : new List<Tag>() as IEnumerable<Tag>; }
         }
 
-        public User User { get; set; }
         //public Pushpin Pushpin { get; set; }
         public IEnumerable<Pushpin> Pushpins { get; set; }
+        public IEnumerable<SelectListItem> PostCategoryList { get; set; }
 
         public PostViewModel<T> With(PostCategory postCategory)
         {
@@ -48,12 +48,6 @@ namespace Jumblist.Website.ViewModel
         public PostViewModel<T> With(IEnumerable<Tag> tags)
         {
             this.Tags = tags;
-            return this;
-        }
-
-        public PostViewModel<T> With(User user)
-        {
-            this.User = user;
             return this;
         }
 
@@ -68,11 +62,19 @@ namespace Jumblist.Website.ViewModel
             this.Pushpins = pushpins;
             return this;
         }
+
+        private IEnumerable<SelectListItem> BuildPostCategorySelectList()
+        {
+            SelectListItem all = new SelectListItem() { Text = "All", Value = "" };
+            SelectListItem offered = new SelectListItem() { Text = "Offered", Value = "offered" };
+            SelectListItem wanted = new SelectListItem() { Text = "Wanted", Value = "wanted" };
+            return new[] { all, offered, wanted };
+        }
     }
 
     /// <summary>
     /// So you can write 
-    /// PostView.Model.WithUser(user);
+    /// PostView.CreateModel.WithUser(user);
     /// </summary>
     public class PostView
     {
@@ -80,12 +82,6 @@ namespace Jumblist.Website.ViewModel
         {
             return new PostViewModel<T>();
         }
-
-        public static PostViewModel<Post> CreateModel()
-        {
-            return new PostViewModel<Post>();
-        }
-
     }
 }
 

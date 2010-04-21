@@ -115,13 +115,13 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\TagsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BasketController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
-    <Compile Include="Controllers\RootControllerBase.cs" />
     <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ViewModelController.cs" />
@@ -143,12 +143,11 @@
     <Compile Include="ModelBinder\BasketModelBinder.cs" />
     <Compile Include="ModelBinder\UserModelBinder.cs" />
     <Compile Include="Module\FeedProcessingHttpModule.cs" />
+    <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\DefaultViewModel.cs" />
-    <Compile Include="ViewModel\IViewModelBase.cs" />
+    <Compile Include="ViewModel\IBaseViewModel.cs" />
     <Compile Include="ViewModel\PostViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\TestViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Stylesheets\jumblist.css" />
@@ -256,13 +255,11 @@
     <Content Include="Views\Locations\LocationList.ascx" />
     <Content Include="Views\Posts\AddToBasket.ascx" />
     <Content Include="Views\Posts\BasicList.ascx" />
-    <Content Include="Views\Posts\SelectPostCategory.ascx" />
-    <Content Include="Views\Posts\SelectLocation.ascx" />
+    <Content Include="Views\Posts\SearchBox.ascx" />
     <Content Include="Views\Posts\Problem.aspx" />
     <Content Include="Views\Posts\Index.aspx" />
     <Content Include="Views\Posts\PostList.ascx" />
     <Content Include="Views\Posts\SelectCategoryList.ascx" />
-    <Content Include="Views\Posts\SelectTagList.ascx" />
     <Content Include="Views\Shared\BasketUserControl.ascx" />
     <Content Include="Views\Shared\LogOnUserControl.ascx" />
     <Content Include="Views\Shared\MapDisplay.ascx" />

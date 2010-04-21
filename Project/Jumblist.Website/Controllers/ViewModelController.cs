@@ -9,29 +9,30 @@ using StuartClode.Mvc.Service.Data;
 
 namespace Jumblist.Website.Controllers
 {
-    public class ViewModelController<T> : RootControllerBase where T : class, new()
+    public class ViewModelController<T> : BaseController where T : class, new()
     {
         public IDataServiceResolver DataServiceResolver { get; set; }
 
         [NonAction]
         public virtual DefaultViewModel<T> BuildDefaultViewModel()
         {
-            return DefaultView.Model<T>();
+            return DefaultView.CreateModel<T>();
         }
 
         [NonAction]
         public virtual DefaultViewModel<T> BuildDataEditDefaultViewModel()
         {
-            var viewModel = DefaultView.Model<T>();
+            var viewModel = DefaultView.CreateModel<T>();
             AddLookupListsToModel( viewModel );
             return viewModel;
         }
 
         [NonAction]
-        public virtual DefaultViewModel<T> BuildTestViewModel()
+        public virtual PostViewModel<T> BuildPostViewModel()
         {
-            return DefaultView.Model<T>();
+            return PostView.CreateModel<T>();
         }
+
 
         /// <summary>
         /// Appends any lookup lists T might need for editing
@@ -61,6 +62,16 @@ namespace Jumblist.Website.Controllers
 
             // add the items to the viewData
             viewModel.WithLookupList( property.PropertyType, list );
+        }
+    }
+
+
+    public class ViewModelController : BaseController
+    {
+        [NonAction]
+        public virtual DefaultViewModel BuildDefaultViewModel()
+        {
+            return DefaultView.CreateModel();
         }
     }
 }

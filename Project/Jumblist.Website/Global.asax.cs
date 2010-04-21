@@ -33,6 +33,7 @@ namespace Jumblist.Website
         private static object _lock = new object();
         private static IWindsorContainer container;
         private readonly string jumblistDbConnString = ConfigurationManager.ConnectionStrings["ApplicationServices"].ToString();
+        private readonly string userKey = ConfigurationSettings.AppSettings["UserModelBinderKey"];
 
         protected void Application_Start()
         {
@@ -49,8 +50,10 @@ namespace Jumblist.Website
             }
         }
 
-        //protected void Session_Start()
-        //{
+        protected void Session_Start()
+        {
+            Session[userKey] = Jumblist.Core.Model.User.Anonymous;
+
             //Create a session variable to persist the anonymous user across requests
             //Session[userKey] = Jumblist.Core.Model.User.Anonymous;
 
@@ -64,7 +67,7 @@ namespace Jumblist.Website
 
             //Response.Cookies.Add( MyCookie );
 
-        //}
+        }
 
 
         private bool InitializeContainer()

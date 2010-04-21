@@ -6,10 +6,11 @@ using System.Reflection;
 using StuartClode.Mvc.Service.Data;
 
 using StuartClode.Mvc.Model;
+using System.ServiceModel.Syndication;
 
 namespace Jumblist.Website.ViewModel
 {
-    public class DefaultViewModel<T> : ViewModelBase
+    public class DefaultViewModel<T> : BaseViewModel
     {
         private readonly Dictionary<Type, object> lookupLists = new Dictionary<Type, object>();
 
@@ -63,12 +64,35 @@ namespace Jumblist.Website.ViewModel
         }
     }
 
+
+    public class DefaultViewModel : BaseViewModel
+    {
+        public SyndicationFeed Feed { get; set; }
+        public string HttpResponse { get; set; }
+
+        public DefaultViewModel With( SyndicationFeed feed )
+        {
+            Feed = feed;
+            return this;
+        }
+
+        public DefaultViewModel With( string httpResponse )
+        {
+            HttpResponse = httpResponse;
+            return this;
+        }
+    }
+
     public static class DefaultView
     {
-        public static DefaultViewModel<T> Model<T>()
+        public static DefaultViewModel<T> CreateModel<T>()
         {
             return new DefaultViewModel<T>();
         }
 
+        public static DefaultViewModel CreateModel()
+        {
+            return new DefaultViewModel();
+        }
     }
 }

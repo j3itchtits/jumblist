@@ -11,7 +11,7 @@ using StuartClode.Mvc.Service.Data;
 
 namespace Jumblist.Website.Controllers
 {
-    public class BasketController : RootControllerBase
+    public class BasketController : BaseController
     {
         private readonly IDataService<Post> postService;
         private readonly IBasketSubmitter basketSubmitter;

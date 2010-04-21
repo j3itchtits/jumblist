@@ -61,7 +61,7 @@ namespace Jumblist.Website.Extension
             return helper.ActionLink( linkText, "Logout", new { area = "", controller = "Users" } );
         }
 
-        public static string MessageBox( this HtmlHelper htmlHelper, IViewModelBase model )
+        public static string MessageBox( this HtmlHelper htmlHelper, IBaseViewModel model )
         {
             HtmlTextWriter writer = new HtmlTextWriter( new StringWriter() );
 
@@ -87,7 +87,7 @@ namespace Jumblist.Website.Extension
             return writer.InnerWriter.ToString();
         }
 
-        public static string PageTitle( this HtmlHelper htmlHelper, IViewModelBase model )
+        public static string PageTitle( this HtmlHelper htmlHelper, IBaseViewModel model )
         {
             if (model.PageTitle == null) return string.Empty;
 
@@ -98,7 +98,7 @@ namespace Jumblist.Website.Extension
             return writer.InnerWriter.ToString();
         }
 
-        public static string PageTitle( this HtmlHelper htmlHelper, IViewModelBase model, HtmlTextWriterTag tag )
+        public static string PageTitle( this HtmlHelper htmlHelper, IBaseViewModel model, HtmlTextWriterTag tag )
         {
             if (model.PageTitle == null) return string.Empty;
 

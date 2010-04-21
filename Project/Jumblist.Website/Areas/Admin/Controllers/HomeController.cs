@@ -16,7 +16,7 @@ using StuartClode.Mvc.Service.Map;
 namespace Jumblist.Website.Areas.Admin.Controllers
 {
     [CustomAuthorization( RoleLevels = RoleLevel.Administrator | RoleLevel.Editor )]
-    public class HomeController : RootControllerBase
+    public class HomeController : ViewModelController
     {
         //[LoadFeeds]
         [AcceptVerbs( HttpVerbs.Get )]
@@ -32,7 +32,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             string feedSource1 = HttpReader.Create( "http://news.bbc.co.uk" );
             string feedSource2 = HttpReader.YahooGroup( "http://groups.yahoo.com/group/hastings-freecycle/messages?xm=1&m=e&l=1", "noostu", "edinburgh" );
 
-            var model = TestView.Model().With( feedSource2 ).WithPageTitle( "Testing with custom Yahoo Groups page" );
+            var model = BuildDefaultViewModel().With( feedSource2 ).WithPageTitle( "Testing with custom Yahoo Groups page" );
 
             return View( model );
         }
@@ -70,7 +70,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             //var model = TestView.Model().With( feedOutput ).WithPageTitle( "Testing testing" );
             //var model = TestView.Model().With( feedOutput1 ).With( feedSource ).WithPageTitle( "Testing with custom BBC page" );
 
-            var model = TestView.Model().With( feedOutput2 ).WithPageTitle("Testing with custom Yahoo Groups page");
+            var model = BuildDefaultViewModel().With( feedOutput2 ).WithPageTitle( "Testing with custom Yahoo Groups page" );
 
             return View(model);
         }
