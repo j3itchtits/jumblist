@@ -134,7 +134,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             var list = postCategoryService.SelectRecordList();
 
-            var model = DefaultView.Model<PostCategory>().With(list);
+            var model = DefaultView.CreateModel<PostCategory>().With(list);
             model.PageTitle = "Post Categories";
 
             return View("CategoryList", model);
@@ -145,7 +145,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             var item = postCategoryService.SelectRecord(id);
 
-            var model = DefaultView.Model<PostCategory>().With(item);
+            var model = DefaultView.CreateModel<PostCategory>().With(item);
             model.PageTitle = string.Format("Edit - {0}", item.Name);
             model.Message = new Message { Text = "You are about to edit something", StyleClass = "message" };
 
@@ -155,7 +155,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ViewResult CategoryCreate()
         {
-            var model = DefaultView.Model<PostCategory>().With(new PostCategory());
+            var model = DefaultView.CreateModel<PostCategory>().With(new PostCategory());
             model.PageTitle = "Create a new category";
             model.Message = new Message { Text = "You are about to create a category", StyleClass = "message" };
 
@@ -181,7 +181,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             }
             else
             {
-                var model = DefaultView.Model<PostCategory>().With(item);
+                var model = DefaultView.CreateModel<PostCategory>().With(item);
                 model.PageTitle = string.Format("Edit - {0}", item.Name);
                 model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
                 return View("categoryedit", model);

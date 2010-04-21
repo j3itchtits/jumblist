@@ -17,7 +17,7 @@ namespace Jumblist.Website.ModelBinder
 {
     public class UserModelBinder : IModelBinder
     {
-        //private readonly string userKey = ConfigurationSettings.AppSettings["UserModelBinderKey"];
+        private readonly string userKey = ConfigurationSettings.AppSettings["UserModelBinderKey"];
 
         //private readonly IUserService userService;
 
@@ -55,19 +55,22 @@ namespace Jumblist.Website.ModelBinder
             if (authCookie != null)
             {
                 user = userService.DeserializeAuthenticationCookie( authCookie.Value );
+                user.Search = ( controllerContext.HttpContext.Session[userKey] as User ).Search;
             }
             else
             {
-                user = Jumblist.Core.Model.User.Anonymous;
+                user = controllerContext.HttpContext.Session[userKey] as User;
             }
 
-            user.Search = controllerContext.HttpContext.Session["_search"] as SearchUser;
+            
 
-            if (user.Search == null)
-            {
-                var searchUser = new SearchUser( string.Empty, 0, 0, 0 );
-                controllerContext.HttpContext.Session["_search"] = searchUser;
-            }
+
+            //Don't really need this as the Session[userKey] is set in global.asax
+            //if (user.Search == null)
+            //{
+            //    user.Search = new SearchUser( string.Empty, 0, 0, 0 );
+            //    controllerContext.HttpContext.Session[userSearchKey] = user.Search;
+            //}
 
 
 

@@ -13,7 +13,7 @@ namespace Jumblist.Website.Filter
 
 			if (result != null)
 			{
-                var model = result.ViewData.Model as ViewModelBase;
+                var model = result.ViewData.Model as BaseViewModel;
 
                 if (model != null && string.IsNullOrEmpty(model.PageTitle) && filterContext.Controller.TempData.ContainsKey("pagetitle"))
                 {

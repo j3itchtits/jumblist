@@ -7,16 +7,7 @@ using System.ServiceModel.Syndication;
 
 namespace Jumblist.Website.ViewModel
 {
-    public class TestViewModel<T> : ViewModelBase
-    {
-        public T Item { get; set; }
 
-        public TestViewModel<T> With( T item )
-        {
-            Item = item;
-            return this;
-        }
-    }
 
     public class TestViewModel : ViewModelBase
     {
@@ -38,12 +29,7 @@ namespace Jumblist.Website.ViewModel
 
     public class TestView
     {
-        public static TestViewModel<T> Model<T>()
-        {
-            return new TestViewModel<T>();
-        }
-
-        public static TestViewModel Model()
+        public static TestViewModel CreateModel()
         {
             return new TestViewModel();
         }

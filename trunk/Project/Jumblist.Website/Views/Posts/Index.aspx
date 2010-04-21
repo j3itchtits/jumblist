@@ -92,15 +92,20 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-<% 
-    using (Html.BeginForm( "search", "posts" ))
-    { 
-        //Html.RenderAction( "SelectCategoryList", "Posts", new { routeValueDic = ViewContext.RouteData.Values, highlightedCategory = Model.PostCategory } ); %><br /><br /><%
-        if (Model.PostCategory != null ) Html.RenderPartial( "SelectPostCategory", Model.PostCategory ); %><br /><br /><%
-        if (Model.Tags != null ) Html.RenderPartial( "SelectTagList", Model.Tags ); %><br /><br /><%
-        Html.RenderPartial( "SelectLocation", Model.User ); %><br /><br />
-        <%= Html.SubmitButton( "submit", "Search" ) %> <%
-    }
-%>    
+
+    <% 
+        string actionName = ViewContext.RouteData.Values["action"].ToString();
+
+        if ( actionName == "located" || actionName == "group" )
+        {
+            Html.RenderAction( "SelectCategoryList", "Posts", new { routeValueDic = ViewContext.RouteData.Values, highlightedCategory = Model.PostCategory } );
+        }
+        else
+        {
+            Html.RenderPartial( "SearchBox", Model );
+        }
         
+        //
+    %>
+    
 </asp:Content>

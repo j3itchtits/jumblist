@@ -8,8 +8,8 @@
         {
             %><p>
                 <%= Html.TextBox( "tagSearch" ) %><br />
-                Within <%= Model.Item.SearchRadiusMiles %> miles of <%= Model.Item.Postcode %><br />
-                <%= Html.Hidden( "locationRadius", Model.Item.SearchRadiusMiles )%>
+                Within <%= Model.Item.Radius%> miles of <%= Model.Item.Postcode %><br />
+                <%= Html.Hidden( "locationRadius", Model.Item.Radius )%>
                 <%= Html.Hidden( "locationSearch", Model.Item.Postcode )%>
                 <%= Html.SubmitButton( "submit", "Search" ) %>
             </p> <%
@@ -31,10 +31,18 @@
         
         %>
         
-        Testing: <%= Page.User.Identity.IsAuthenticated %>, <%= Model.Item.IsAuthenticated %>, <%= Model.Item.Name %><br />
         <input type="radio" name="postCategorySearch" value="" checked="checked" /> All 
         <input type="radio" name="postCategorySearch" value="offered" /> Offered 
-        <input type="radio" name="postCategorySearch" value="wanted" /> Wanted        <%
+        <input type="radio" name="postCategorySearch" value="wanted" /> Wanted        
+                
+        <br /><br />Testing: <br />
+        PageIsAuth: <%= Page.User.Identity.IsAuthenticated %><br />
+        UserIsAuth: <%= Model.Item.IsAuthenticated %><br />
+        UserName: <%= Model.Item.Name %><br />
+        UserLocation: <%= Model.Item.Postcode %>, <%= Model.Item.Radius %> - <%= Model.Item.Latitude %> | <%= Model.Item.Longitude %><br />
+        UserSearch: <%= Model.Item.Search.LocationName %>, <%= Model.Item.Search.LocationRadius %> - <%= Model.Item.Search.LocationLatitude %> | <%= Model.Item.Search.LocationLongitude %><br />
+        
+        <%
     }
  
 %>

@@ -9,9 +9,7 @@
     SelectListItem offered = new SelectListItem() { Text = "Offered", Value = "offered" };
     SelectListItem wanted = new SelectListItem() { Text = "Wanted", Value = "wanted" };
     var categories = new[] { all, offered, wanted };
-    %>
+%>
     
-<%--<%= Html.DropDownList( "postCategorySearch", new SelectList( categories ) ) %>
---%>
 <%= Html.DropDownList( "postCategorySearch", new SelectList( categories, "Value", "Text", Model.Name ) )%>
        

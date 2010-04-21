@@ -1,13 +1,13 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<DefaultViewModel<User>>" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<User>" %>
 
 <%
 
-    if (Model.Item.IsAuthenticated)
+    if (Model.IsAuthenticated)
     {
-        %> Welcome <b><%= Model.Item.Name %></b>! [ <%= Html.LogoutLink( "Log Out" )%> ] | <%
+        %> Welcome <b><%= Model.Name %></b>! [ <%= Html.LogoutLink( "Log Out" )%> ] | <%
         
         //we need to have the admin link here - see the bottom of the page for some sample code
-        if ( Model.Item.Role.UserCanAccessAdminArea ) 
+        if ( Model.Role.UserCanAccessAdminArea ) 
         { 
             %> [ <%= Html.ActionLink( "Admin", "Index", new { area = "Admin", controller = "Home" } ) %> ] <% 
         }

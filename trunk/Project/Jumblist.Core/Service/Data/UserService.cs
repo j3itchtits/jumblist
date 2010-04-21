@@ -24,7 +24,7 @@ namespace Jumblist.Core.Service.Data
     public class UserService : DataService<User>, IUserService
     {
         private readonly IFormsAuthenticationService formsAuth;
-        //private readonly string userKey = ConfigurationSettings.AppSettings["UserModelBinderKey"];
+        private readonly string userKey = ConfigurationSettings.AppSettings["UserModelBinderKey"];
 
         public UserService( IRepository<User> repository, IFormsAuthenticationService formsAuth )
             : base( repository )
@@ -91,7 +91,7 @@ namespace Jumblist.Core.Service.Data
 
             string password = user.Password;
 
-            user.SearchRadiusMiles = 5;
+            user.Radius = 5;
             user.Postcode = user.Postcode.ToUpper();
             user.Latitude = bingLocationService.Latitude;
             user.Longitude = bingLocationService.Longitude;
@@ -118,15 +118,14 @@ namespace Jumblist.Core.Service.Data
             //Create a cookie to persist the authenticated user across requests
 
             user.IsAuthenticated = true;
-            user.Search = new SearchUser( user.Postcode, user.SearchRadiusMiles, user.Latitude, user.Longitude );
+            user.Search = new SearchUser( user.Postcode, user.Radius, user.Latitude, user.Longitude );
 
             //1. using datacontract serialization
             var timeout = (rememberMe) ? DateTime.Now.AddDays(14) : DateTime.Now.AddMinutes(30);
             HttpCookie authenticationCookie = CreateAuthenticationCookie( user, timeout );
-
             HttpContext.Current.Response.Cookies.Add( authenticationCookie );
 
-            HttpContext.Current.Session["_search"] = user.Search;
+            HttpContext.Current.Session[userKey] = user;
 
             //HttpCookie userCookie = new HttpCookie( userKey );
             //userCookie.Value = userData;
@@ -181,21 +180,21 @@ namespace Jumblist.Core.Service.Data
             return authenticationCookie;
         }
 
-        public virtual HttpCookie UpdateAuthenticationCookie( HttpCookie authenticationCookie, User user )
-        {
-            MemoryStream ms = new MemoryStream();
-            DataContractSerializer dcsWrite = new DataContractSerializer(typeof(User));
-            dcsWrite.WriteObject(ms, user);
-            string userData = Encoding.UTF8.GetString(ms.ToArray());
+        //public virtual HttpCookie UpdateAuthenticationCookie( HttpCookie authenticationCookie, User user )
+        //{
+        //    MemoryStream ms = new MemoryStream();
+        //    DataContractSerializer dcsWrite = new DataContractSerializer(typeof(User));
+        //    dcsWrite.WriteObject(ms, user);
+        //    string userData = Encoding.UTF8.GetString(ms.ToArray());
 
-            DateTime timeout = DateTime.Now.AddDays(1);
+        //    DateTime timeout = DateTime.Now.AddDays(1);
 
-            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, user.Name, DateTime.Now, timeout, true, userData);
-            string encTicket = FormsAuthentication.Encrypt(ticket);
-            authenticationCookie.Value = encTicket;
+        //    FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, user.Name, DateTime.Now, timeout, true, userData);
+        //    string encTicket = FormsAuthentication.Encrypt(ticket);
+        //    authenticationCookie.Value = encTicket;
 
-            return authenticationCookie;
-        }
+        //    return authenticationCookie;
+        //}
 
         //public virtual HttpCookie FetchAuthenticationCookie()
         //{
@@ -220,6 +219,7 @@ namespace Jumblist.Core.Service.Data
         public virtual void RemoveAuthenticationCookie()
         {
             formsAuth.SignOut();
+            HttpContext.Current.Session[userKey] = Jumblist.Core.Model.User.Anonymous;
         }
 
         public string HashPassword( string password )

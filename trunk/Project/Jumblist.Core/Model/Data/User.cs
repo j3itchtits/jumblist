@@ -43,6 +43,11 @@ namespace Jumblist.Core.Model
         [DataMember]
         [RegularExpression( StringExtensions.UKPostcodeOnlyRegex, ErrorMessage = "You must supply a valid UK postcode" )]
         public string Postcode { get; set; }
+        
+        [Column( Name = "UserRadius" )]
+        [DataMember]
+        [Required]
+        public int Radius { get; set; }
 
         [Column(Name = "UserLatitude")]
         [DataMember]
@@ -51,11 +56,6 @@ namespace Jumblist.Core.Model
         [Column(Name = "UserLongitude")]
         [DataMember]
         public double Longitude { get; set; }
-
-        [Column(Name = "UserSearchRadiusMiles")]
-        [DataMember]
-        [Required]
-        public int SearchRadiusMiles { get; set; }
 
         [Column( Name = "UserIsActive" )]
         [DataMember]

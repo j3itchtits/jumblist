@@ -25,7 +25,7 @@ namespace Jumblist.Core.Service.Data
         User Authenticate( string name, string password );
         void Delete( User entity );
         HttpCookie CreateAuthenticationCookie(User user, DateTime timeout);
-        HttpCookie UpdateAuthenticationCookie(HttpCookie authCookie, User user);
+        //HttpCookie UpdateAuthenticationCookie(HttpCookie authCookie, User user);
         //HttpCookie FetchAuthenticationCookie();
         User DeserializeAuthenticationCookie(string cookieValue);
     }

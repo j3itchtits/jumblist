@@ -27,6 +27,7 @@ namespace Jumblist.Website.Controllers
 {
     public class PostsController : ViewModelController<Post>
     {
+        private readonly string userKey = ConfigurationSettings.AppSettings["UserModelBinderKey"];
         private readonly IPostService postService;
         private readonly ILocationService locationService;
         private readonly ITagService tagService;
@@ -48,10 +49,10 @@ namespace Jumblist.Website.Controllers
         public ViewResult Index( User user, int? page )
         {
             var postList = postService.SelectRecordList( Post.WhereDisplayEquals( true ) ).OrderByDescending( t => t.PublishDateTime );
-            var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
+            var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( frontEndPageSize ); ;
             var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
-            var model = PostView.CreateModel();
+            var model = BuildPostViewModel();
 
             model.User = user;
             model.Pushpins = pushpinList;
@@ -67,7 +68,7 @@ namespace Jumblist.Website.Controllers
         {
             var model = postService.SelectRecordList( Post.WhereDisplayEquals( true ) ).OrderByDescending( t => t.PublishDateTime ).Take( top );
 
-            return PartialView("basiclist", model);
+            return PartialView( "basiclist", model );
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -88,10 +89,10 @@ namespace Jumblist.Website.Controllers
             {
                 var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( id ) );
                 var postList = postService.SelectRecordList( postCategory, q, user );
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( frontEndPageSize );
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
-                var model = PostView.CreateModel();
+                var model = BuildPostViewModel();
 
                 model.User = user;
                 model.PostCategory = postCategory;
@@ -121,7 +122,7 @@ namespace Jumblist.Website.Controllers
                 var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
-                var model = PostView.CreateModel();
+                var model = BuildPostViewModel();
 
                 model.User = null;
                 model.PostCategory = postCategory;
@@ -144,7 +145,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Located(string id, string category, string q, int? page)
+        public ActionResult Located( string id, string category, string q, int? page )
         {
             try
             {
@@ -154,7 +155,7 @@ namespace Jumblist.Website.Controllers
                 var pushpinList = postList.ToFilteredPushPinList(Post.WhereLatLongValuesExist());
                 var pagedPostList = postList.ToPagedList(page, frontEndPageSize);
 
-                var model = PostView.CreateModel();
+                var model = BuildPostViewModel();
 
                 model.PostCategory = postCategory;
                 model.Pushpins = pushpinList;
@@ -186,7 +187,7 @@ namespace Jumblist.Website.Controllers
                 var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
-                var model = PostView.CreateModel();
+                var model = BuildPostViewModel();
 
                 model.Tags = tagList;
                 model.User = user;
@@ -256,7 +257,7 @@ namespace Jumblist.Website.Controllers
                 var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
-                var model = PostView.CreateModel();
+                var model = BuildPostViewModel();
 
                 model.User = user;
                 model.PostCategory = postCategory;
@@ -282,8 +283,6 @@ namespace Jumblist.Website.Controllers
         [ValidateInput(true)]
         public RedirectToRouteResult Search( string postCategorySearch, string tagSearch, string locationSearch, int locationRadius )
         {
-            SearchUser searchUser;
-
             if (!string.IsNullOrEmpty( locationSearch ))
             {
                 locationSearch = locationSearch.ToCleanSearchString() + ", UK";
@@ -298,21 +297,17 @@ namespace Jumblist.Website.Controllers
                 //At this point we need a method on IUserService that allows us to SET the user details to either a anon session or auth cookie
                 //Perhaps we need 2 methods - one for anon and one for auth
 
-                searchUser = new SearchUser( locationSearch, locationRadius, locationSearchCoordinates.Latitude, locationSearchCoordinates.Longitude );
+                SearchUser searchUser = new SearchUser( locationSearch, locationRadius, locationSearchCoordinates.Latitude, locationSearchCoordinates.Longitude );
+
+                ((User)HttpContext.Session[userKey]).Search = searchUser;
 
                 //HttpCookie testCookie = HttpContext.Request.Cookies["test"];
                 //testCookie.Value = "You've just run a search";
                 //testCookie.Expires = testCookie.Expires.AddDays( 1 );
                 //HttpContext.Response.Cookies.Add( testCookie );
             }
-            else
-            {
-                searchUser = new SearchUser( string.Empty, 0, 0, 0 );
-            }
 
             
-
-            HttpContext.Session["_search"] = searchUser;
 
 
             searchService.TagSearch = tagSearch.ToCleanSearchString();
