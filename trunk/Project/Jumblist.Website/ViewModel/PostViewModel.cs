@@ -13,8 +13,15 @@ namespace Jumblist.Website.ViewModel
 {
     public class PostViewModel<T> : DefaultViewModel<T>
     {
+        public PostViewModel() 
+        {
+            PostCategory = null;
+            Tags = null;
+        }
+
+
         private PostCategory postCategory;
-        public IEnumerable<Tag> tags;
+        private IEnumerable<Tag> tags;
 
         public PostCategory PostCategory 
         {
@@ -69,12 +76,12 @@ namespace Jumblist.Website.ViewModel
     /// </summary>
     public class PostView
     {
-        public static PostViewModel<T> Model<T>()
+        public static PostViewModel<T> CreateModel<T>()
         {
             return new PostViewModel<T>();
         }
 
-        public static PostViewModel<Post> Model()
+        public static PostViewModel<Post> CreateModel()
         {
             return new PostViewModel<Post>();
         }

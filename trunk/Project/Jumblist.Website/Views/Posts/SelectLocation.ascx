@@ -15,12 +15,20 @@
 
 <b>Location</b><br />
 
-<%  
-    string radius = (Model.Search.LocationRadius == 0) ? string.Empty : Model.Search.LocationRadius.ToString();
-    string location = ((Model.Search.LocationName).Split( new string[] { ", " }, StringSplitOptions.None ))[0]; 
-%>
-    Within <%= Html.TextBox( "locationRadius", radius )%> miles of <%= Html.TextBox( "locationSearch", location ) %> 
 
+<%
+    if (Model != null ) 
+    {  
+        //string radius = (Model.Search.LocationRadius == 0) ? string.Empty : Model.Search.LocationRadius.ToString();
+        string location = ((Model.Search.LocationName).Split( new string[] { ", " }, StringSplitOptions.None ))[0];
+        //if (string.IsNullOrEmpty(radius)) Response.Write(Html.Hidden("locationRadius", 0)); %>
+        Within <%= Html.TextBox("locationRadius", Model.Search.LocationRadius)%> miles of <%= Html.TextBox( "locationSearch", location ) %><% 
+    }
+    else
+    {
+        %><%= Html.Hidden("locationRadius", 0)%><%= Html.Hidden("locationSearch", string.Empty)%><%
+    }
+%>
 
 
 

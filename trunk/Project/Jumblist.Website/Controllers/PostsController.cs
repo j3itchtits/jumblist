@@ -33,9 +33,8 @@ namespace Jumblist.Website.Controllers
         private readonly IDataService<Feed> feedService;
         private readonly IDataService<PostCategory> postCategoryService;
         private readonly ISearchService searchService;
-        private readonly IUserService userService;
 
-        public PostsController(IPostService postService, ILocationService locationService, ITagService tagService, IDataService<Feed> feedService, IDataService<PostCategory> postCategoryService, ISearchService searchService, IUserService userService)
+        public PostsController(IPostService postService, ILocationService locationService, ITagService tagService, IDataService<Feed> feedService, IDataService<PostCategory> postCategoryService, ISearchService searchService)
         {
             this.postService = postService;
             this.locationService = locationService;
@@ -43,7 +42,6 @@ namespace Jumblist.Website.Controllers
             this.feedService = feedService;
             this.postCategoryService = postCategoryService;
             this.searchService = searchService;
-            this.userService = userService;
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -53,11 +51,9 @@ namespace Jumblist.Website.Controllers
             var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
             var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
-            var model = PostView.Model();
+            var model = PostView.CreateModel();
 
-            model.Tags = null;
             model.User = user;
-            model.PostCategory = null;
             model.Pushpins = pushpinList;
             model.PaginatedList = pagedPostList;
             model.PageTitle = "All Posts";
@@ -95,7 +91,7 @@ namespace Jumblist.Website.Controllers
                 var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
-                var model = PostView.Model();
+                var model = PostView.CreateModel();
 
                 model.User = user;
                 model.PostCategory = postCategory;
@@ -120,13 +116,14 @@ namespace Jumblist.Website.Controllers
             try
             {
                 var feed = feedService.SelectRecord( Feed.WhereFriendlyUrlEquals( id ) );
-                var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) ) : null;
+                var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
                 var postList = postService.SelectRecordList( feed, postCategory, q );
                 var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
-                var model = PostView.Model();
+                var model = PostView.CreateModel();
 
+                model.User = null;
                 model.PostCategory = postCategory;
                 model.Pushpins = pushpinList;
                 model.PaginatedList = pagedPostList;
@@ -157,10 +154,8 @@ namespace Jumblist.Website.Controllers
                 var pushpinList = postList.ToFilteredPushPinList(Post.WhereLatLongValuesExist());
                 var pagedPostList = postList.ToPagedList(page, frontEndPageSize);
 
-                var model = PostView.Model();
+                var model = PostView.CreateModel();
 
-                model.Tags = null;
-                model.User = null;
                 model.PostCategory = postCategory;
                 model.Pushpins = pushpinList;
                 model.PaginatedList = pagedPostList;
@@ -187,22 +182,18 @@ namespace Jumblist.Website.Controllers
             {
                 var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( id.ToFriendlyUrlDecode() ) );
                 var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-
-                //var postList = (!string.IsNullOrEmpty(user.Search.LocationName)) ? postService.SelectRecordList(tagList, postCategory, q, user) : postService.SelectRecordList(tagList, postCategory, q);
                 var postList = postService.SelectRecordList( tagList, postCategory, q, user );
-                
                 var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
-                var model = PostView.Model();
+                var model = PostView.CreateModel();
 
-                //model.Tags = (tagList != null) ? tagList : new object() as IEnumerable<Tag>;
                 model.Tags = tagList;
                 model.User = user;
                 model.PostCategory = postCategory;
                 model.Pushpins = pushpinList;
                 model.PaginatedList = pagedPostList;
-                model.PageTitle = "All " + postCategory.Name + " Posts by Tag - " + tagList.Select( x => x.Name ).ToFormattedStringList( "{0}, ", 2 );
+                model.PageTitle = "All " + category + " Posts by Tag - " + tagList.Select( x => x.Name ).ToFormattedStringList( "{0}, ", 2 );
                 model.ListCount = postList.Count();
 
                 if (postList.Count() == 0)
@@ -260,12 +251,12 @@ namespace Jumblist.Website.Controllers
         {
             try
             {
-                var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
+                var postCategory = postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category));
                 var postList = postService.SelectRecordList( postCategory, q );
                 var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
                 var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
-                var model = PostView.Model();
+                var model = PostView.CreateModel();
 
                 model.User = user;
                 model.PostCategory = postCategory;
