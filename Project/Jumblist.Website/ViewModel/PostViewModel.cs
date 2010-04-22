@@ -15,7 +15,7 @@ namespace Jumblist.Website.ViewModel
     {
         public PostViewModel() 
         {
-            PostCategory = null;
+            //PostCategory = null;
             Tags = null;
             PostCategoryList = BuildPostCategorySelectList();
         }
@@ -23,7 +23,7 @@ namespace Jumblist.Website.ViewModel
         private PostCategory postCategory;
         private IEnumerable<Tag> tags;
 
-        public PostCategory PostCategory 
+        public PostCategory PostCategory
         {
             get { return postCategory; }
             set { postCategory = (value != null) ? value : new PostCategory(); }
@@ -35,6 +35,7 @@ namespace Jumblist.Website.ViewModel
             set { tags = (value != null) ? value : new List<Tag>() as IEnumerable<Tag>; }
         }
 
+        public Feed Group { get; set; }
         //public Pushpin Pushpin { get; set; }
         public IEnumerable<Pushpin> Pushpins { get; set; }
         public IEnumerable<SelectListItem> PostCategoryList { get; set; }

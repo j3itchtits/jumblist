@@ -124,7 +124,7 @@ namespace Jumblist.Website.Controllers
 
                 var model = BuildPostViewModel();
 
-                model.User = null;
+                model.Group = feed;
                 model.PostCategory = postCategory;
                 model.Pushpins = pushpinList;
                 model.PaginatedList = pagedPostList;
@@ -145,13 +145,13 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Located( string id, string category, string q, int? page )
+        public ActionResult Located( string id, string category, int? page )
         {
             try
             {
                 var locationList = locationService.SelectRecordList(Location.WhereFriendlyUrlListEqualsOr(id.ToFriendlyUrlDecode()));
                 var postCategory = (category.Length > 0) ? postCategoryService.SelectRecord(PostCategory.WhereNameEquals(category)) : null;
-                var postList = postService.SelectRecordList(locationList, postCategory, q);
+                var postList = postService.SelectRecordList(locationList, postCategory);
                 var pushpinList = postList.ToFilteredPushPinList(Post.WhereLatLongValuesExist());
                 var pagedPostList = postList.ToPagedList(page, frontEndPageSize);
 
@@ -198,8 +198,11 @@ namespace Jumblist.Website.Controllers
                 model.ListCount = postList.Count();
 
                 if (postList.Count() == 0)
-                    model.Message = new Message { Text = "No posts tagged with " + tagList.Select( x => x.Name ).ToFormattedStringList( "{0}, ", 2 ), StyleClass = "message" };
-
+                {
+                    string contains = string.Empty;
+                    if (!string.IsNullOrEmpty(q)) contains = " containing the search terms " + q;
+                    model.Message = new Message { Text = "No posts tagged with " + tagList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2) + contains, StyleClass = "message" };
+                }
                 return View("index", model);
             }
             catch ( Exception ex )
@@ -281,7 +284,7 @@ namespace Jumblist.Website.Controllers
 
         [AcceptVerbs(HttpVerbs.Post)]
         [ValidateInput(true)]
-        public RedirectToRouteResult Search( string postCategorySearch, string tagSearch, string locationSearch, int locationRadius )
+        public RedirectToRouteResult Search( string postCategorySearch, string tagSearch, string locationSearch, int locationRadius, string groupSearch )
         {
             if (!string.IsNullOrEmpty( locationSearch ))
             {
@@ -313,6 +316,9 @@ namespace Jumblist.Website.Controllers
             searchService.TagSearch = tagSearch.ToCleanSearchString();
             //searchService.LocationSearch = locationSearch;
             searchService.PostCategorySearch = postCategorySearch;
+
+            if (groupSearch == null) groupSearch = string.Empty;
+            searchService.GroupSearch = groupSearch;
 
 
 
@@ -364,7 +370,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult SelectCategoryList(RouteValueDictionary routeValueDic, string highlightedCategory)
+        public ActionResult SelectCategoryList( RouteValueDictionary routeValueDic, string highlightedCategory )
         {
             var postCategoryList = postCategoryService.SelectRecordList(PostCategory.WhereIsNavigationEquals(true));
 
@@ -376,6 +382,8 @@ namespace Jumblist.Website.Controllers
             {
                 model.Add(new CategoryLink(category.Name, routeValueDic) { IsSelected = (highlightedCategory.Equals(category.Name, StringComparison.OrdinalIgnoreCase)) });
             }
+
+
 
             return PartialView(model);
         }

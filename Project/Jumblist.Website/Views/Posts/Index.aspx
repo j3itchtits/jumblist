@@ -96,7 +96,7 @@
     <% 
         string actionName = ViewContext.RouteData.Values["action"].ToString();
 
-        if ( actionName == "located" || actionName == "group" )
+        if ( actionName == "located" )
         {
             Html.RenderAction( "SelectCategoryList", "Posts", new { routeValueDic = ViewContext.RouteData.Values, highlightedCategory = Model.PostCategory } );
         }

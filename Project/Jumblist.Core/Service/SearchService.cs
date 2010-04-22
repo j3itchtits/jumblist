@@ -27,7 +27,7 @@ namespace Jumblist.Core.Service
         }
 
         public string TagSearch { get; set; }
-        //public string LocationSearch { get; set; }
+        public string GroupSearch { get; set; }
         public string PostCategorySearch { get; set; }
 
         public string[] Tags 
@@ -44,6 +44,11 @@ namespace Jumblist.Core.Service
 
         public SearchResult ProcessSearch()
         {
+            if (GroupSearch.Length > 0)
+            {
+                return new SearchResult { ActionName = "group", RouteValues = new { id = GroupSearch, category = PostCategorySearch, q = TagSearch, page = string.Empty } };
+            }
+
             if (TagSearch.Length == 0 && PostCategorySearch.Length == 0)
             {
                 return new SearchResult { ActionName = "index", RouteValues = new { page = string.Empty } };

@@ -167,7 +167,7 @@ namespace Jumblist.Core.Service.Data
         }
 
 
-        public IEnumerable<Post> SelectRecordList( IEnumerable<Location> locationList, PostCategory category, string q )
+        public IEnumerable<Post> SelectRecordList( IEnumerable<Location> locationList, PostCategory category )
         {
             IEnumerable<Post> postList;
 
@@ -179,9 +179,6 @@ namespace Jumblist.Core.Service.Data
             {
                 postList = SelectRecordList( Post.WhereDisplayEquals( true ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
             }
-
-            if (!string.IsNullOrEmpty( q ))
-                postList = postList.ToFilteredList( Post.WhereSearchTextEquals( q ) );
 
             return postList;
 
