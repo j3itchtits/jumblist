@@ -25,7 +25,7 @@ namespace Jumblist.Core.Service.Data
 
         IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category, string q );
 
-        IEnumerable<Post> SelectRecordList( IEnumerable<Location> locationList, PostCategory category, string q );
+        IEnumerable<Post> SelectRecordList( IEnumerable<Location> locationList, PostCategory category );
         //IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, IEnumerable<Location> locationList, PostCategory category, string q );
 
         Post SelectRecord( int id );

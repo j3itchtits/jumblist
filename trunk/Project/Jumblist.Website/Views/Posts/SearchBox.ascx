@@ -18,7 +18,6 @@
             <%= Html.TextBox("tagSearch", Model.Tags.Select(x => x.Name).ToFormattedStringList("{0}, ", 2))%><br /><br /> <%
         }
 
-
         //User/Location
         if (Model.User != null ) 
         {  
@@ -31,6 +30,13 @@
         { %>
             <%= Html.Hidden("locationRadius", 0)%><%= Html.Hidden("locationSearch", string.Empty)%><br /><br /> <%
         }
+        
+        //Group
+        if (Model.Group != null ) 
+        { %>
+            <%= Html.Hidden("groupSearch", Model.Group.FriendlyUrl)%>  <%
+        }
+        
         %>
         
         <%= Html.SubmitButton( "submit", "Search" ) %> <%
