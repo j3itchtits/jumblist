@@ -10,8 +10,8 @@
     
     <%= Html.MessageBox( ViewData.Model )%>
     
-    <div id="itemsList">
-        <% Html.RenderPartial( "GroupList", Model.List ); %>
+    <div id="grouplist">
+        <% Html.RenderPartial( "GroupListControl", Model.List ); %>
     </div>
     
     

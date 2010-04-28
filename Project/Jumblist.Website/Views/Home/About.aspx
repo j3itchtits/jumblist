@@ -8,6 +8,23 @@
 
     <h2>About</h2>
     
+    <form name="arse" action="/home/submitabout" method="post">
+    <input type="text" name="formInput"/>
+    <a href="javascript:this.form.submit();">Submit</a>
+    </form>
+    
+    <% using ( Html.BeginForm( "submitabout", "home" ) )
+       { %>
+            <input type="text" name="formInput" />
+            <input type="submit" value="dotNet Save" />  <%
+       } %>
+    
+
+
+    <%--<input type="submit" value="Normal Save" />--%>
+    
+    Form submission = <%= ViewData["formInput"] %><br/><br/>
+        
     <%= ("baby car tramp".Split( ' ' )).Count() + "<br/>"%>
     
     Clean Search String: <%= ("baby,arse or car tramp").ToCleanSearchString() + "<br/>" %>
@@ -25,4 +42,7 @@
 
 
 
+</asp:Content>
+
+<asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">    
 </asp:Content>

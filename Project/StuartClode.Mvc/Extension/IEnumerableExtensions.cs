@@ -18,16 +18,14 @@ namespace StuartClode.Mvc.Extension
         public static string ToFormattedStringList<T>( this IEnumerable<T> enumeration, string formattedString )
         {
             var sb = new StringBuilder();
-            enumeration.ToList().ForEach( item => sb.AppendFormat( formattedString, item.ToString() ) );
-
+            enumeration.ToList().ForEach( x => sb.AppendFormat( formattedString, x.ToString() ) );
             return sb.ToString();
         }
 
         public static string ToFormattedStringList<T>( this IEnumerable<T> enumeration, string formattedString, int rightLengthToRemove )
         {
             var result = enumeration.ToFormattedStringList<T>( formattedString );
-
-            return (result.Length == 0) ? string.Empty : result.Remove( result.Length - rightLengthToRemove );
+            return result.RemoveRight( rightLengthToRemove );
         }
 
         public static string ToFormattedStringList( this IEnumerable enumeration, string formattedString )
@@ -45,8 +43,7 @@ namespace StuartClode.Mvc.Extension
         public static string ToFormattedStringList( this IEnumerable enumeration, string formattedString, int rightLengthToRemove )
         {
             var result = enumeration.ToFormattedStringList( formattedString );
-
-            return (result.Length == 0) ? string.Empty : result.Remove( result.Length - rightLengthToRemove );
+            return result.RemoveRight( rightLengthToRemove );
         }
 
         public static string ToFriendlyUrlEncode( this IEnumerable enumeration )

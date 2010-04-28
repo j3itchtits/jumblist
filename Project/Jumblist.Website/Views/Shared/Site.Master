@@ -27,16 +27,14 @@
   
     <div id="header">
         <div id="header-interior">
-            <div id="login">
-                <% Html.RenderPartial( "LogOnUserControl" ); %>
-            </div>
-            <div id="basket">
-                <% Html.RenderPartial( "BasketUserControl" ); %>
+        
+            <% Html.RenderPartial( "LoginAreaControl" ); %>
+            
+            <div id="logo">
+                Hodes Testing
             </div>
 
-            <div id="logo">Hodes Testing</div>
-
-            <div id="menu">
+            <div id="topmenu">
                 <%= Html.HomepageLink( "Home" ) %> | 
                 <%= Html.ActionLink( "Posts", "index", "posts" ) %> | 
                 <%= Html.ActionLink( "Tags", "index", "tags" ) %> | 
@@ -45,24 +43,27 @@
                 <%= Html.ActionLink( "About", "About", "Home" )%> | 
                 <%= Html.ActionLink( "Help", "Help", "Home" )%> | 
             </div>
-
+            
         </div>
     </div>
 
 
 
     <div id="container">        
-        <div id="container-left">
+        <div id="container-leftcolumn">
             <asp:ContentPlaceHolder ID="BodyContentLeft" runat="server" />
         </div>
         
-        <div id="container-right">
+        <div id="container-rightcolumn">
+            <% Html.RenderPartial( "BasketControl" ); %>
             <asp:ContentPlaceHolder ID="BodyContentRight" runat="server" />
         </div>
     </div>     
        
     <div id="footer">
-        <div id="footer-interior"><span>Copyright notice etc</span></div>
+        <div id="footer-interior">
+            <span>Copyright notice etc</span>
+        </div>
     </div>                                
        
 

@@ -123,5 +123,10 @@ namespace Jumblist.Core.Model
         {
             return x => x.Area == null;
         }
+
+        public static Expression<Func<Location, bool>> WhereFeedEquals(Feed feed)
+        {
+            return x => x.Name == feed.DefaultLocation;
+        }
     }
 }

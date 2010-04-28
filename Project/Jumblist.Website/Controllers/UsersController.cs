@@ -24,12 +24,13 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult Detail( int id )
+        public ViewResult Profile( User user )
         {
-            var item = userService.SelectRecord( id );
+            //???? can we use the session user or do we need to get it from the database
+            var item = userService.SelectRecord( user.Name );
             var model = BuildDefaultViewModel().With( item );
 
-            model.PageTitle = string.Format( "Detail - {0}", item.Name );
+            model.PageTitle = string.Format( "Profile - {0}", item.Name );
 
             return View( model );
         }
@@ -37,7 +38,7 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult LoginLinks( User user )
         {
-            return PartialView( "LoginLinks", user );
+            return PartialView( "LoginLinksControl", user );
         }
 
         //[AcceptVerbs( HttpVerbs.Get )]

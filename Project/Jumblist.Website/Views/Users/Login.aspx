@@ -10,8 +10,6 @@
     
     <p>Please enter your name and password. <%= Html.RegisterLink( "Register" )%> if you don't have an account.</p>
 
-    <h1>Login</h1>
-
     <%= Html.MessageBox( ViewData.Model ) %>
 
 	<% using( Html.BeginForm() ) { %>

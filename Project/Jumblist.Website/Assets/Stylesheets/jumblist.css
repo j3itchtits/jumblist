@@ -103,10 +103,6 @@ p
 	font-size: 80%;
 }
 
-.searchbox
-{
-	padding: 60px 120px;
-}
 
 /****************************
  ** Layout *
@@ -118,36 +114,31 @@ p
 	color: #000;
 }
 
-#header #header-interior
+#header-interior
 {
 	margin: 0px auto;
 	padding: 20px 0px 10px 0px;
-	width: 980px;
+	width: 980px;		
 }
 
-#header-interior #logo
+#logo
 {
 	font-size: 180%;
 }
 
-#header-interior #basket
+#basket
 {
     
 }
 
-#header-interior #menu
+#topmenu
 {
 	
 }
 
-#header-interior #login
+#loginarea
 {
     float: right;
-}
-
-#header-interior a
-{
-	color: #000;
 }
 
 #container 
@@ -158,14 +149,26 @@ p
 	overflow: hidden;
 }
 
-#container #container-left
+#container-leftcolumn
 {
 	width: 760px;
 	float: left;
 
 }
 
-#container #container-right
+#tabs
+{
+}
+
+#tabs-1
+{
+}
+
+#tabs-2
+{
+}
+
+#container-rightcolumn
 {
 	width: 200px;
 	float: left;
@@ -179,13 +182,37 @@ p
 	height: 430px;
 }
 
-#footer #footer-interior
+#footer-interior
 {
 	margin: 0px auto;
 	padding: 20px;
 	width: 980px;
 }
 
+/****************************
+ ** Div styles *
+ ****************************/
+
+.homepagesearch
+{
+	padding: 60px 120px;
+}
+
+.postlist
+{
+}
+
+.paginglinks
+{
+}
+
+.nextpreviouspagelinks
+{
+}
+
+.locationlist, .taglist, .grouplist
+{
+}
 
 /****************************
  ** Table styles *

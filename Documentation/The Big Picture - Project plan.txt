@@ -6,8 +6,9 @@ http://gettingreal.37signals.com
 
 Jumblist: 
 
-Easy freecycling
-All free. All in one place.
+a. Easy freecycling
+b. All free. All in one place.
+c. Freecycling made easy
 
 2. Features
 
