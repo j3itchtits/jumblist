@@ -49,7 +49,7 @@ namespace Jumblist.Website.Controllers
         public ViewResult Index( User user, int? page )
         {
             var postList = postService.SelectRecordList( Post.WhereDisplayEquals( true ) ).OrderByDescending( t => t.PublishDateTime );
-            var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( frontEndPageSize ); ;
+            var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( 10 ); ;
             var pagedPostList = postList.ToPagedList( page, frontEndPageSize );
 
             var model = BuildPostViewModel();

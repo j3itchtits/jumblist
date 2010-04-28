@@ -68,8 +68,6 @@
             <div id="map_canvas" style="width:800px;height:400px;border: 1px solid black;"></div>
             <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>  
             <script type="text/javascript">
-                //var G4440936 = null;
-                //$(function() { G4440936 = new MvcMaps.GoogleMap('divG4440936', { id: 'G4440936', lat: 50.853544, lng: 0.56347, zoom: 9, maptype: G_NORMAL_MAP, pushpins: [{ lat: 50.853544, lng: 0.56347, imagesize: { w: 0, h: 0} }, { lat: 50.83, lng: 0.57, imagesize: { w: 0, h: 0}}] }); });
                 var latlng = new google.maps.LatLng(51.497, 0.001);
                 var myOptions = {
                     zoom: 12,
