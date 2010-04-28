@@ -66,14 +66,20 @@ Everyone
 
 List tab
 - Fields to include in each post
+-- Title
+-- Feed Name
+-- View map
 
 Map tab
 - Map position and zoom level to reflect visible pushpins
 - Enhanced mouseover on each pushpin
-- Mini list next to map (with connection to pushpin mouseover)
+- Mini post list next to map (with connection to pushpin mouseover)
 
 Post
 - View map
+- Link back to freecycle/freegle
+- Share on facebook
+- Share on twitter
 
 Filter/Refine search (right column search box)
 - by category

@@ -15,9 +15,12 @@
 
     <div class="post-item">
     
-        <div><a href="<%= Model.Item.Url %>" target="_blank">Original Post on <%= Model.Item.Feed.Name %></a></div>     
+ 
+
         <div style="padding: 20px 0px;"><%= Html.Encode( Model.Item.Body ).ReplaceParagraphBreaks()%></div>
+        
         <div>Publish Date: <%= Model.Item.PublishDateTime %></div> 
+
 
     </div>
    
@@ -27,6 +30,11 @@
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentRight" runat="server">
+
+    <div>
+        <b>Contact: </b><br />
+        <a href="<%= Model.Item.Url %>" target="_blank">Original Post on <%= Model.Item.Feed.Name %></a>      
+    </div>
 
     <div class="post-category">
         <b>Category: </b><br />
@@ -44,8 +52,13 @@
     </div>
     
     <div class="post-locations">
-        <b>Locations: </b><br />
-        <%= Model.Item.Locations.ToLinkedLocationList()%>        
+        <b>Location: </b><br />
+        <%= Model.Item.Locations.ToLinkedLocationList()%> 
+        <% if ( Model.Item.HaveLatitudeAndLongitudeValuesBeenPopulated ) 
+           { %>
+                [ <a title="Approximate location of <%= Html.Encode( Model.Item.Title ) %>" href="#" onclick="mapPopup( <%= Model.Item.Latitude %>, <%= Model.Item.Longitude %>, '<%= Html.Encode( Model.Item.Title ) %>' );">Map</a> ]<% 
+           } %>
+            
     </div>
 
 

@@ -13,8 +13,8 @@
 
 
     <%= ViewData["Content"] %>
-    
-
+    <br />
+    <%= new Random().Next()%>
 
     
 </asp:Content>

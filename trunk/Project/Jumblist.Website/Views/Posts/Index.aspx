@@ -47,7 +47,23 @@
                     //.AddPushpin(new Pushpin(50.853544, 0.56347), new Pushpin(50.83,0.57))
                     .AddPushpin( Model.Pushpins )
                 }
-            }); %> 
+            }); %> <br /><br />
+            
+            <table>
+            <%
+                List<Pushpin> list = Model.Pushpins.ToList();
+
+                for ( int i = 0; i < list.Count(); i++ )
+                {
+                    double d = new Random().Next( -10, 10 );
+                    list[i].Title = list[i].Title + d.ToString();
+                }
+                
+                foreach ( Pushpin p in list )
+                {
+                    Response.Write( "<tr><td>Title : " + p.Title + "</td><td>Lat: " + p.Position.Latitude + "</td><td>Long: " + p.Position.Longitude + "</td></tr>" );
+                }
+                 %></table>
                     
 		</div>
 	</div>

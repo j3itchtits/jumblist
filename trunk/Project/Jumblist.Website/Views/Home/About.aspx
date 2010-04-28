@@ -38,9 +38,15 @@
         Response.Write( "<br/>" );
         %>
     
-    <%= Regex.IsMatch( "baby\nclothes\nhat\ngirl\nbed\nbaby girl", "baby clothes", RegexOptions.IgnoreCase | RegexOptions.Multiline ).ToString()%>
-
-
+    <%= Regex.IsMatch( "baby\nclothes\nhat\ngirl\nbed\nbaby girl", "baby clothes", RegexOptions.IgnoreCase | RegexOptions.Multiline ).ToString()%><br /><br />
+    
+    <% 
+        double i = new Random().Next( -10, 10 );
+        i = i / 1000;
+        double g = 0.2334;
+        %>
+    <%= i %><br />
+    <%= g %><br />
 
 </asp:Content>
 
