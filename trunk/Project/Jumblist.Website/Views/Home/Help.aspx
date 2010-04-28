@@ -4,11 +4,18 @@
 	Help
 </asp:Content>
 
+<asp:Content ID="Content4" ContentPlaceHolderID="HeadContentJavascript" runat="server">
+</asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
     <h2>Help</h2>
 
+
     <%= ViewData["Content"] %>
+    
+
 
     
 </asp:Content>
+

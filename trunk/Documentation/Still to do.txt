@@ -1,53 +1,124 @@
 Still to do - Version 1.0
 
-Design and Layout
+Design/Layout and Copy
+======================
+
 - Home page
-- Static (text) page
-- Tag/Location/Group list page
-- Search results page
-- Error/Problem page
+- Text page
 - Post list page
-- Map list page ("All posts" and "Offered" lists have this as a tab)
+	- Post list by category page
+	- Post list by tag page
+	- Post list by location page
+	- Post list by group page
+- Tag list page
+- Location list page
+- Group list page
+- Error/Problem page
+- Map page ("All posts" and "Offered" lists have this as a tab)
 - Post detail page
 - Register page
 - Login page
+- Add post page
+- Forgot password page
 - User profile page
-- Basket page (maybe not called basket though)
+- Box (basket) page
 
-Save (to bag/basket/cart) functionality
 
-Paging functionality (like stackoverflow)
+Functionality
+=============
 
-Change number of posts per page (like stackoverflow)
+--------------
+Logged in user
+--------------
 
-Search functionality (see Search options.txt)
+Box
+- Add
+- Delete
+- Email box to me
 
-Filter/Refine search functionality for search results page
-- by category
-- by tag
-- by location (save across requests as user lat and long in the auth cookie)
-- by search radius (save across requests as user search radius in the auth cookie)
+Post
+- Add post (facebook/twitter integration is for version 2 i think)
+- Email post to me
+- Save post to box
 
-Registration functionality
+Post lists
+- Save lists as email alerts
+- Sort by (nearest, newest)
+
+Profile
+- Edit personal profile
+- Edit search profile
+- Edit email alerts
+
+Registration
 - Lock down security (see Steve Sanderson)
 - Use email confirmation strategy
+- Forgotten password
 
-Email alert functionality
-- Allow registered users to save lists as email alerts
+Search (see Search options.txt)
 
-User profiles functionality
-- User can edit their personal and default search settings
 
----------------------
+
+
+--------
+Everyone
+--------
+
+List tab
+- Fields to include in each post
+
+Map tab
+- Map position and zoom level to reflect visible pushpins
+- Enhanced mouseover on each pushpin
+- Mini list next to map (with connection to pushpin mouseover)
+
+Post
+- View map
+
+Filter/Refine search (right column search box)
+- by category
+- by tag
+- by location
+- by search radius
+
+RSS Feeds
+- Dynamic feed construction based on list properties (routedata)
+
+Facebook integration
+- Add list (feed) to facebook
+- Add post to facebook
+
+Twitter integration
+- Add list (feed) to twitter
+- Add post to twitter
+
+Paging for list pages (like stackoverflow)
+
+Change number of posts per page (like stackoverflow) - add this value to user session
+
+
+-----
+Admin
+-----
+
+Check all fields across all database tables
+
+Paging for list pages
+
+
+--------------------------------------------------------------------------------------
+
 
 Still to do - Version 2.0
 
-Add post functionality
+Advanced post functionality
 - Respond to post
 - Comment on post
 - Report post
 - Vote post up/down
 - Popularity (combination of votes/post views)
+
+JQuery effects on "home page search box" and "right column search filter box"
 
 User rating functionality
 - Registered users can rate others when they recieve an offer or response to a wanted post

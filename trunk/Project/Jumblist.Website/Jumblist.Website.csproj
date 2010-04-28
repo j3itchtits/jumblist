@@ -160,7 +160,6 @@
     <Content Include="Assets\Scripts\jumblist.jquery.js" />
     <Content Include="Assets\Scripts\xVal.jquery.validate.js" />
     <Content Include="Views\Users\Register.aspx" />
-    <Content Include="Views\Users\Detail.aspx" />
     <Content Include="Views\Home\About.aspx" />
     <Content Include="Views\Home\Help.aspx" />
     <Content Include="Views\Home\Index.aspx" />
@@ -191,7 +190,6 @@
     <Content Include="Views\Basket\Completed.aspx" />
     <Content Include="Views\Basket\Email.aspx" />
     <Content Include="Views\Basket\Index.aspx" />
-    <Content Include="Views\Basket\Summary.ascx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Assets\Stylesheets\admin.css" />
@@ -248,24 +246,28 @@
     <Content Include="Assets\Scripts\jquery.quickedit.0.1.min.js" />
     <Content Include="Assets\Stylesheets\jquery.autocomplete.css" />
     <Content Include="Assets\Stylesheets\ui.tabs.css" />
-    <Content Include="Views\Groups\GroupList.ascx" />
+    <Content Include="Views\Basket\SummaryControl.ascx" />
+    <Content Include="Views\Groups\GroupListControl.ascx" />
     <Content Include="Views\Groups\Index.aspx" />
-    <Content Include="Views\Home\SearchBox.ascx" />
+    <Content Include="Views\Home\SearchControl.ascx" />
     <Content Include="Views\Locations\Index.aspx" />
-    <Content Include="Views\Locations\LocationList.ascx" />
-    <Content Include="Views\Posts\AddToBasket.ascx" />
-    <Content Include="Views\Posts\BasicList.ascx" />
-    <Content Include="Views\Posts\SearchBox.ascx" />
+    <Content Include="Views\Locations\LocationListControl.ascx" />
+    <Content Include="Views\Posts\AddToBasketControl.ascx" />
+    <Content Include="Views\Posts\BasicListControl.ascx" />
+    <Content Include="Views\Posts\MapTest.aspx" />
+    <Content Include="Views\Posts\PostListControl.ascx" />
     <Content Include="Views\Posts\Problem.aspx" />
     <Content Include="Views\Posts\Index.aspx" />
-    <Content Include="Views\Posts\PostList.ascx" />
-    <Content Include="Views\Posts\SelectCategoryList.ascx" />
-    <Content Include="Views\Shared\BasketUserControl.ascx" />
-    <Content Include="Views\Shared\LogOnUserControl.ascx" />
-    <Content Include="Views\Shared\MapDisplay.ascx" />
+    <Content Include="Views\Posts\SearchControl.ascx" />
+    <Content Include="Views\Posts\SelectCategoryControl.ascx" />
+    <Content Include="Views\Posts\TabTest.aspx" />
+    <Content Include="Views\Shared\BasketControl.ascx" />
+    <Content Include="Views\Shared\LoginAreaControl.ascx" />
+    <Content Include="Views\Shared\MapDisplayControl.ascx" />
     <Content Include="Views\Tags\Index.aspx" />
-    <Content Include="Views\Tags\TagList.ascx" />
-    <Content Include="Views\Users\LoginLinks.ascx" />
+    <Content Include="Views\Tags\TagListControl.ascx" />
+    <Content Include="Views\Users\LoginLinksControl.ascx" />
+    <Content Include="Views\Users\Profile.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Assets\Images\" />

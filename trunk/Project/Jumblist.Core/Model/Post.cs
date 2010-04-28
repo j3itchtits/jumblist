@@ -85,7 +85,7 @@ namespace Jumblist.Core.Model
             return x => (x.Latitude != 0 && x.Longitude != 0);
         }
 
-        public static Func<Post, bool> WhereLocationEquals( double latitude, double longitude, int searchRadiusMiles )
+        public static Func<Post, bool> WhereLocationEquals( double latitude, double longitude, int? searchRadiusMiles )
         {
             //this needs to change in order to use the NearestMessage function (somehow)
             var distanceService = new DistanceService();

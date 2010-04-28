@@ -106,7 +106,7 @@ namespace Jumblist.Core.Service.Data
             return postList;
         }
 
-        public IEnumerable<Post> SelectRecordList(PostCategory category, string q, User user)
+        public IEnumerable<Post> SelectRecordList( PostCategory category, string q, User user )
         {
             IEnumerable<Post> postList = SelectRecordList(category, q);
 
@@ -298,7 +298,7 @@ namespace Jumblist.Core.Service.Data
                 var tagsSaved = SavePostTags( post );
 
                 //We may need to update the display to true for posts that have been imported from a feed and obey the correct logic
-                bool updateDisplayToTrue = CheckIfUpdateDisplayToTrueIsNeeded(post,locationsSaved.Count > 0, tagsSaved.Count > 0, post.Category.Name);
+                bool updateDisplayToTrue = CheckIfUpdateDisplayToTrueIsNeeded( post, locationsSaved.Count > 0, tagsSaved.Count > 0, post.Category.Name );
 
                 if (entityImportedViaFeed && updateDisplayToTrue) 
                     post.Display = true;
@@ -514,6 +514,7 @@ namespace Jumblist.Core.Service.Data
                 return list;
             }
 
+            //Attempt to match input with locations stored in database
             var feedLocationList = locationDataService.SelectRecordListByFeed( FeedLocation.WhereFeedIdEquals( post.FeedId ) );
             var postCodeLocationList = locationDataService.SelectRecordList(Location.WhereLocationAreaIsNull());
 
@@ -527,6 +528,16 @@ namespace Jumblist.Core.Service.Data
                     list.Add( postLocationItem );
                 }
             }
+
+            //Last try is to get the Default Location for a feed/group and apply it to the post but only if the item is "offered"
+            if (list.Count == 0 && post.Category.Name == "Offered")
+            {
+                var location = locationDataService.SelectRecord( Location.WhereFeedEquals(post.Feed) );
+                var postLocationItem = new PostLocation { PostId = post.PostId, LocationId = location.LocationId };
+                postLocationDataService.Save( postLocationItem );
+                list.Add( postLocationItem );
+            }
+
             return list;
         }
 

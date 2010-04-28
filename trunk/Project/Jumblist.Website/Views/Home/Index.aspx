@@ -8,15 +8,8 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
-
-    <div class="searchbox">
-        <% Html.RenderAction("SearchBox"); %>
-    </div>
     
-    
-<%--    <% Html.RenderPartial("MapDisplay", new ViewDataDictionary() {
-        { "Google", Ajax.GoogleMap().CssClass("GoogleMap").Center(50.853544, 0.56347).Zoom(12).AddPushpin(new Pushpin(50.853544, 0.56347)) }
-    }); %>--%>
+    <% Html.RenderAction("Search"); %>
           
 </asp:Content>
 
@@ -28,6 +21,6 @@
     <%= Html.ActionLink( "Offered", "category", "posts", new { id = "Offered" }, null )%></p>
      
      <p>Latest Items</p>
-     <% Html.RenderAction("basiclist", "posts", new { top = 5 } ); %>
+     <% Html.RenderAction("BasicList", "posts", new { top = 5 } ); %>
 
 </asp:Content>

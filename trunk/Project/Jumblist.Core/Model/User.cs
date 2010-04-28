@@ -7,7 +7,7 @@ namespace Jumblist.Core.Model
 {
     public partial class User
     {
-        public static User Anonymous { get { return new User() { UserId = (int)UserUniqueId.Anonymous, IsAuthenticated = false, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Anonymous, "g" ), Search = new SearchUser( string.Empty, 0, 0, 0 ) }; } }
+        public static User Anonymous { get { return new User() { UserId = (int)UserUniqueId.Anonymous, IsAuthenticated = false, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Anonymous, "g" ), Search = new SearchUser( string.Empty, null, 0, 0 ) }; } }
         //public static User Administrator { get { return new User() { UserId = (int)UserUniqueId.Administrator, IsAuthenticated = true, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Administrator, "g" ) }; } }
 
         public SearchUser Search { get; set; }

@@ -219,5 +219,15 @@ namespace Jumblist.Website.Extension
 
             return MvcHtmlString.Create( sb.ToString() );
         }
+
+        public static object LocationRadius( this HtmlHelper helper, int? radius )
+        {
+            return (radius == 0) ? null : radius.ToString();
+        }
+
+        public static object LocationName( this HtmlHelper helper, string location )
+        {
+            return ((location).Split( new string[] { ", " }, StringSplitOptions.None ))[0];
+        }
     }
 }

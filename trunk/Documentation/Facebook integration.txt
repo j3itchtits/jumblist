@@ -1,0 +1,81 @@
+Facebook
+========
+
+Registration
+------------
+
+1. Step 1
+
+Name
+Email
+Password
+Sex
+DOB
+
+2. Step 2
+
+Security check using a captcha
+
+
+Terms of use
+http://en-gb.facebook.com/terms.php
+
+Privacy policy
+http://en-gb.facebook.com/policy.php
+
+3. Step 3
+
+Configure your profile - add friends etc
+
+4. Step 4
+
+Confirm account via clicking on link in email
+http://www.facebook.com/confirmemail.php?e=stuartclode%40idnet.com&c=2073462222
+
+
+Facebook page
+-------------
+
+Basic link to facebook page (eg. http://www.facebook.com/nickclegg)
+ie. i would create a site at http://www.facebook.com/jumblist
+You can create a page, community page, group or application.
+http://www.facebook.com/pages/create.php
+http://www.facebook.com/advertising/?pages
+
+
+Links
+-----
+
+1. With a web page
+
+Facebook widgets
+http://www.facebook.com/facebook-widgets/ 
+(eg. Share this Page - http://wiki.developers.facebook.com/index.php/Facebook_Share)
+<a onclick="window.open('http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.imdb.com%2Frg%2Fs%2F3%2Ftitle%2Ftt1250777%2F', 'newWindow', 'width=626, height=436'); return false;" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.imdb.com%2Frg%2Fs%2F3%2Ftitle%2Ftt1250777%2F" target="_blank" title="Share on Facebook" class="share_icon facebook"></a>
+
+Facebook plugins
+http://developers.facebook.com/plugins 
+(eg. Like Button - http://developers.facebook.com/docs/reference/plugins/like)
+<iframe id="iframe_like" name="fbLikeIFrame_0" class="social-iframe" scrolling="no" frameborder="0" src="http://www.facebook.com/widgets/like.php?width=300&amp;show_faces=1&amp;layout=standard&amp;href=http%3A%2F%2Fwww.imdb.com%2Ftitle%2Ftt1250777%2F" width=300 height=81></iframe>
+
+
+2. With a feed
+
+TBC
+http://hubpages.com/hub/How-to-Add-your-RSS-Feed-to-Your-Facebook-Page
+
+
+Developer
+---------
+
+http://developers.facebook.com/
+http://developers.facebook.com/plugins
+http://developers.facebook.com/docs/guides/web
+http://wiki.developers.facebook.com/index.php
+http://www.facebook.com/facebook-widgets/
+
+
+Vanity Urls
+http://blog.facebook.com/blog.php?post=90316352130
+http://mashable.com/2009/06/09/facebook-vanity-urls/
+http://www.facebook.com/note.php?note_id=91106469821&ref=blog

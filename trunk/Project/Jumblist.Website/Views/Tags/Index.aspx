@@ -10,8 +10,8 @@
     
     <%= Html.MessageBox( ViewData.Model )%>
     
-    <div id="itemsList">
-        <% Html.RenderPartial( "TagList", Model.List ); %>
+    <div id="taglist">
+        <% Html.RenderPartial( "TagListControl", Model.List ); %>
     </div>
     
 </asp:Content>

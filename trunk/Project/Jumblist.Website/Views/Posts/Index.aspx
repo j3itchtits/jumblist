@@ -12,20 +12,6 @@
     
     Number of items: <%= Model.ListCount %>
 
-
-       
-<%--    <% Html.RenderPartial("MapDisplay", new ViewDataDictionary() {
-        { 
-            "Google", Ajax.GoogleMap()
-            .CssClass("GoogleMap")
-            .Center(50.853544, 0.56347)
-            .Zoom(12)
-            .AddPushpin(new Pushpin(50.853544, 0.56347), new Pushpin(50.83,0.57)) 
-        }
-    }); %>--%>
-    
-
-            
 	<div id="tabs">
 		
 		<ul>
@@ -35,42 +21,36 @@
 		
 		<div id="tabs-1">
 		
-            <div id="itemsList">
-                <% Html.RenderPartial( "PostList", Model.PaginatedList ); %>
+            <div class="postlist">
+                <% Html.RenderPartial( "PostListControl", Model.PaginatedList ); %>
             </div>
           
-            <p><%= Html.PagingLinks( Model.PaginatedList.CurrentPage, Model.PaginatedList.TotalPages, x => Url.Action( ViewContext.RouteData.Values["action"].ToString(), new { id = ViewContext.RouteData.Values["id"].ToString(), page = x } ) )%></p>
+            <div class="paginglinks">
+                <%= Html.PagingLinks( Model.PaginatedList.CurrentPage, Model.PaginatedList.TotalPages, x => Url.Action( ViewContext.RouteData.Values["action"].ToString(), new { id = ViewContext.RouteData.Values["id"].ToString(), page = x } ) )%>
+            </div>
             
-            <p><%= Html.NextPreviousPageLinks( Model.PaginatedList.CurrentPage, Model.PaginatedList.HasPreviousPage, Model.PaginatedList.HasNextPage, x => Url.Action( ViewContext.RouteData.Values["action"].ToString(), new { id = ViewContext.RouteData.Values["id"].ToString(), page = x } ) )%></p>
+            <div class="nextpreviouspagelinks">
+                <%= Html.NextPreviousPageLinks( Model.PaginatedList.CurrentPage, Model.PaginatedList.HasPreviousPage, Model.PaginatedList.HasNextPage, x => Url.Action( ViewContext.RouteData.Values["action"].ToString(), new { id = ViewContext.RouteData.Values["id"].ToString(), page = x } ) )%>
+            </div>
             
-            <%--<p>test postcode: <%= Html.Encode( Model.User.Postcode ) %></p>--%>
 		</div>
 		
 		<div id="tabs-2">
 
-
-
-		    <% Html.RenderPartial( "MapDisplay", new ViewDataDictionary() {
+		    <% Html.RenderPartial( "MapDisplayControl", new ViewDataDictionary() {
                 { 
                     "Google", 
                     Ajax.GoogleMap()
                     .CssClass("GoogleMap")
                     .Center(50.853544, 0.56347)
                     .Zoom(9)
+                    //.AddPushpin(new Pushpin(50.853544, 0.56347), new Pushpin(50.83,0.57))
                     .AddPushpin( Model.Pushpins )
                 }
             }); %> 
-            
-<%--    <% Html.RenderPartial("MapDisplay", new ViewDataDictionary() {
-        //{ "Bing", Ajax.BingMap().CssClass("BingMap").Center(50.853544, 0.56347).Zoom(12).AddPushpin(new Pushpin(50.853544, 0.56347)) },
-        { "Google", Ajax.GoogleMap().CssClass("GoogleMap").Center(50.853544, 0.56347).Zoom(12).AddPushpin(new Pushpin(50.853544, 0.56347)) }
-    }); %>--%>
-                
+                    
 		</div>
 	</div>
-	
-       
-    
 
 </asp:Content>
 
@@ -78,34 +58,24 @@
 
     <link href="<%= Url.Stylesheet( "ui.tabs.css" )%>" rel="stylesheet" type="text/css"/>
     <script src="<%= Url.Script( "jquery-ui-1.7.2.custom.min.js" )%>" type="text/javascript"></script>
-    
 
-   <script type="text/javascript">
+    <script type="text/javascript">
        $(document).ready(function() {
            $('#tabs').tabs();
        });
     </script>   
-
-
-            
+                 
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-
     <% 
         string actionName = ViewContext.RouteData.Values["action"].ToString();
-
-        if ( actionName == "located" )
-        {
-            Html.RenderAction( "SelectCategoryList", "Posts", new { routeValueDic = ViewContext.RouteData.Values, highlightedCategory = Model.PostCategory } );
-        }
-        else
-        {
-            Html.RenderPartial( "SearchBox", Model );
-        }
         
-        //
+        if ( actionName == "located" )
+            Html.RenderAction( "SelectCategory", "Posts", new { routeValueDic = ViewContext.RouteData.Values, highlightedCategory = Model.PostCategory } );
+        else
+            Html.RenderPartial( "SearchControl", Model );
     %>
     
 </asp:Content>

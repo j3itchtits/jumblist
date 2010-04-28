@@ -140,6 +140,11 @@ namespace StuartClode.Mvc.Extension
             //return (searchArray.Where( s => s.Length > 0 )).ToFormattedStringList( "(^{0}$)|", 1 );
         }
 
+        public static string RemoveRight( this string result, int rightLengthToRemove )
+        {
+            return (result.Length == 0) ? string.Empty : result.Remove( result.Length - rightLengthToRemove );
+        }
+
         private static string[] FindAllWordPhraseCombinations( params string[] args )
         {
             //if (args.Count() == 0)

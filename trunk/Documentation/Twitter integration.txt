@@ -1,0 +1,30 @@
+Twitter
+=======
+
+Registration
+------------
+
+
+
+
+
+Links
+-----
+
+1. With a web page
+
+- Basic link to twitter page (eg. http://twitter.com/AliceCreedMovie)
+
+- Tweet this 
+<a onclick="window.open('http://twitter.com/home?status=Kick-Ass%20-%20http%3A%2F%2Fwww.imdb.com%2Frg%2Fs%2F1%2Ftitle%2Ftt1250777%2F', 'newWindow', 'width=815, height=436'); return false;" href="http://twitter.com/home?status=Kick-Ass%20-%20http%3A%2F%2Fwww.imdb.com%2Frg%2Fs%2F1%2Ftitle%2Ftt1250777%2F" target="_blank" title="Share on Twitter" class="share_icon twitter"></a>
+
+
+2. With a feed
+
+
+
+Developer
+---------
+
+http://dev.twitter.com/
+http://apiwiki.twitter.com/

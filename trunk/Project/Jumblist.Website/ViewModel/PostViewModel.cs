@@ -15,7 +15,6 @@ namespace Jumblist.Website.ViewModel
     {
         public PostViewModel() 
         {
-            //PostCategory = null;
             Tags = null;
             PostCategoryList = BuildPostCategorySelectList();
         }

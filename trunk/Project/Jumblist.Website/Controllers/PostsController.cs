@@ -55,6 +55,7 @@ namespace Jumblist.Website.Controllers
             var model = BuildPostViewModel();
 
             model.User = user;
+            model.PostCategory = null;
             model.Pushpins = pushpinList;
             model.PaginatedList = pagedPostList;
             model.PageTitle = "All Posts";
@@ -68,7 +69,7 @@ namespace Jumblist.Website.Controllers
         {
             var model = postService.SelectRecordList( Post.WhereDisplayEquals( true ) ).OrderByDescending( t => t.PublishDateTime ).Take( top );
 
-            return PartialView( "basiclist", model );
+            return PartialView( "BasicListControl", model );
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -282,95 +283,128 @@ namespace Jumblist.Website.Controllers
             }
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        [ValidateInput(true)]
-        public RedirectToRouteResult Search( string postCategorySearch, string tagSearch, string locationSearch, int locationRadius, string groupSearch )
+
+        [AcceptVerbs( HttpVerbs.Post )]
+        [ValidateInput( true )]
+        public RedirectToRouteResult Search( string postCategorySearch, string tagSearch, string locationSearch, int? locationRadius, string groupSearch )
         {
-            if (!string.IsNullOrEmpty( locationSearch ))
+            if ( groupSearch == null ) groupSearch = string.Empty;
+            if ( postCategorySearch == null ) postCategorySearch = string.Empty;
+
+            SearchUser searchUser;
+
+            if ( (string.IsNullOrEmpty( locationSearch )) || (locationRadius == null) )
+            {
+                searchUser = new SearchUser( string.Empty, null, 0, 0 );
+            }
+            else
             {
                 locationSearch = locationSearch.ToCleanSearchString() + ", UK";
-
-                //user.Search.LocationName = locationSearch;
-                //user.Search.LocationRadius = locationRadius;
-
                 BingLocationService locationSearchCoordinates = new BingLocationService( locationSearch );
-                //user.Search.LocationLatitude = locationSearchCoordinates.Latitude;
-                //user.Search.LocationLongitude = locationSearchCoordinates.Longitude;
-
-                //At this point we need a method on IUserService that allows us to SET the user details to either a anon session or auth cookie
-                //Perhaps we need 2 methods - one for anon and one for auth
-
-                SearchUser searchUser = new SearchUser( locationSearch, locationRadius, locationSearchCoordinates.Latitude, locationSearchCoordinates.Longitude );
-
-                ((User)HttpContext.Session[userKey]).Search = searchUser;
-
-                //HttpCookie testCookie = HttpContext.Request.Cookies["test"];
-                //testCookie.Value = "You've just run a search";
-                //testCookie.Expires = testCookie.Expires.AddDays( 1 );
-                //HttpContext.Response.Cookies.Add( testCookie );
+                searchUser = new SearchUser( locationSearch, locationRadius, locationSearchCoordinates.Latitude, locationSearchCoordinates.Longitude );
             }
-
             
-
+            (HttpContext.Session[userKey] as User).Search = searchUser;
 
             searchService.TagSearch = tagSearch.ToCleanSearchString();
-            //searchService.LocationSearch = locationSearch;
             searchService.PostCategorySearch = postCategorySearch;
-
-            if (groupSearch == null) groupSearch = string.Empty;
             searchService.GroupSearch = groupSearch;
-
-
-
-
-            //searchService.Tags = tagService.SelectTagNameList();
-            //searchService.Locations = locationService.SelectLocationNameTownList();
 
             var searchResult = searchService.ProcessSearch();
 
             return RedirectToAction( searchResult.ActionName, searchResult.RouteValues );
-
-            //searchString = searchString.ToCleanSearchString();
-
-            //var searchPattern = searchString.ToSearchRegexPattern();
-            //var tagsInput = string.Join( "\n", tagService.SelectTagNameList() );
-            //var locationsInput = string.Join( "\n", locationService.SelectLocationNameTownList() );
-
-            //var tagMatches = Regex.Matches( tagsInput, searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
-            //var locationMatches = Regex.Matches( locationsInput, searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
-
-            //var tagMatchesCompareString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0} " );
-            //var locationMatchesCompareString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0} " );
-            //var compareString = (tagMatchesCompareString + locationMatchesCompareString).Trim();
-
-            //bool isCompleteSearchMatch = string.Compare(searchString.ToAlphabetical(), compareString.ToAlphabetical(), true) == 0;
-
-            //if (tagMatches.Count > 0 && locationMatches.Count == 0 && isCompleteSearchMatch)
-            //{
-            //    //string tagQueryString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0}, ", 2 ).FriendlyUrlEncode();
-            //    return RedirectToAction( "tagged", new { id = tagQueryString, category = searchOptions, page = string.Empty } );
-            //}
-
-            //if (tagMatches.Count == 0 && locationMatches.Count > 0 && isCompleteSearchMatch)
-            //{
-            //    //string locationQueryString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0}, ", 2 ).FriendlyUrlEncode();
-            //    return RedirectToAction( "located", new { id = locationQueryString, category = searchOptions, page = string.Empty } );
-            //}
-
-            //if (tagMatches.Count > 0 && locationMatches.Count > 0 && isCompleteSearchMatch)
-            //{
-            //    //string tagQueryString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0}, ", 2 ).FriendlyUrlEncode();
-            //    //string locationQueryString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0}, ", 2 ).FriendlyUrlEncode();
-            //    return RedirectToAction( "search", new { tagged = tagQueryString, located = locationQueryString, category = searchOptions, page = string.Empty } );
-            //}
-
-            //PageTitle = "Sorry we have a problem";
-            //return RedirectToAction("problem");
-            
         }
 
+
+        //[AcceptVerbs(HttpVerbs.Post)]
+        //[ValidateInput(true)]
+        //public RedirectToRouteResult Search( string postCategorySearch, string tagSearch, string locationSearch, int? locationRadius, string groupSearch )
+        //{
+        //    if (!string.IsNullOrEmpty( locationSearch ))
+        //    {
+        //        locationSearch = locationSearch.ToCleanSearchString() + ", UK";
+
+        //        //user.Search.LocationName = locationSearch;
+        //        //user.Search.LocationRadius = locationRadius;
+
+        //        BingLocationService locationSearchCoordinates = new BingLocationService( locationSearch );
+        //        //user.Search.LocationLatitude = locationSearchCoordinates.Latitude;
+        //        //user.Search.LocationLongitude = locationSearchCoordinates.Longitude;
+
+        //        //At this point we need a method on IUserService that allows us to SET the user details to either a anon session or auth cookie
+        //        //Perhaps we need 2 methods - one for anon and one for auth
+
+        //        SearchUser searchUser = new SearchUser( locationSearch, locationRadius, locationSearchCoordinates.Latitude, locationSearchCoordinates.Longitude );
+
+        //        (HttpContext.Session[userKey] as User).Search = searchUser;
+
+        //        //HttpCookie testCookie = HttpContext.Request.Cookies["test"];
+        //        //testCookie.Value = "You've just run a search";
+        //        //testCookie.Expires = testCookie.Expires.AddDays( 1 );
+        //        //HttpContext.Response.Cookies.Add( testCookie );
+        //    }
+
+            
+
+
+        //    searchService.TagSearch = tagSearch.ToCleanSearchString();
+        //    //searchService.LocationSearch = locationSearch;
+        //    searchService.PostCategorySearch = postCategorySearch;
+
+        //    if (groupSearch == null) groupSearch = string.Empty;
+        //    searchService.GroupSearch = groupSearch;
+
+
+
+
+        //    //searchService.Tags = tagService.SelectTagNameList();
+        //    //searchService.Locations = locationService.SelectLocationNameTownList();
+
+        //    var searchResult = searchService.ProcessSearch();
+
+        //    return RedirectToAction( searchResult.ActionName, searchResult.RouteValues );
+
+        //    //searchString = searchString.ToCleanSearchString();
+
+        //    //var searchPattern = searchString.ToSearchRegexPattern();
+        //    //var tagsInput = string.Join( "\n", tagService.SelectTagNameList() );
+        //    //var locationsInput = string.Join( "\n", locationService.SelectLocationNameTownList() );
+
+        //    //var tagMatches = Regex.Matches( tagsInput, searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
+        //    //var locationMatches = Regex.Matches( locationsInput, searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
+
+        //    //var tagMatchesCompareString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0} " );
+        //    //var locationMatchesCompareString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0} " );
+        //    //var compareString = (tagMatchesCompareString + locationMatchesCompareString).Trim();
+
+        //    //bool isCompleteSearchMatch = string.Compare(searchString.ToAlphabetical(), compareString.ToAlphabetical(), true) == 0;
+
+        //    //if (tagMatches.Count > 0 && locationMatches.Count == 0 && isCompleteSearchMatch)
+        //    //{
+        //    //    //string tagQueryString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0}, ", 2 ).FriendlyUrlEncode();
+        //    //    return RedirectToAction( "tagged", new { id = tagQueryString, category = searchOptions, page = string.Empty } );
+        //    //}
+
+        //    //if (tagMatches.Count == 0 && locationMatches.Count > 0 && isCompleteSearchMatch)
+        //    //{
+        //    //    //string locationQueryString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0}, ", 2 ).FriendlyUrlEncode();
+        //    //    return RedirectToAction( "located", new { id = locationQueryString, category = searchOptions, page = string.Empty } );
+        //    //}
+
+        //    //if (tagMatches.Count > 0 && locationMatches.Count > 0 && isCompleteSearchMatch)
+        //    //{
+        //    //    //string tagQueryString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0}, ", 2 ).FriendlyUrlEncode();
+        //    //    //string locationQueryString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0}, ", 2 ).FriendlyUrlEncode();
+        //    //    return RedirectToAction( "search", new { tagged = tagQueryString, located = locationQueryString, category = searchOptions, page = string.Empty } );
+        //    //}
+
+        //    //PageTitle = "Sorry we have a problem";
+        //    //return RedirectToAction("problem");
+            
+        //}
+
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult SelectCategoryList( RouteValueDictionary routeValueDic, string highlightedCategory )
+        public ActionResult SelectCategory(RouteValueDictionary routeValueDic, string highlightedCategory)
         {
             var postCategoryList = postCategoryService.SelectRecordList(PostCategory.WhereIsNavigationEquals(true));
 
@@ -383,9 +417,7 @@ namespace Jumblist.Website.Controllers
                 model.Add(new CategoryLink(category.Name, routeValueDic) { IsSelected = (highlightedCategory.Equals(category.Name, StringComparison.OrdinalIgnoreCase)) });
             }
 
-
-
-            return PartialView(model);
+            return PartialView("SelectCategoryControl",model);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -395,6 +427,7 @@ namespace Jumblist.Website.Controllers
             return View(model);
         }
 
+        [AcceptVerbs( HttpVerbs.Get )]
         public string EditInPlace( string content )
         {
             if (!String.IsNullOrEmpty( content ))
@@ -405,6 +438,18 @@ namespace Jumblist.Website.Controllers
             {
                 return "arse";
             }
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ViewResult MapTest()
+        {
+            return View();
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ViewResult TabTest()
+        {
+            return View();
         }
     }
 }
