@@ -23,8 +23,9 @@ namespace Jumblist.Core.Service
 {
     public class UserService : DataService<User>, IUserService
     {
+        private readonly int defaultLocationRadius = int.Parse( ConfigurationManager.AppSettings["DefaultLocationRadius"] );
+        private readonly string userKey = ConfigurationManager.AppSettings["UserModelBinderKey"]; 
         private readonly IFormsAuthenticationService formsAuth;
-        private readonly string userKey = ConfigurationSettings.AppSettings["UserModelBinderKey"];
 
         public UserService( IRepository<User> repository, IFormsAuthenticationService formsAuth )
             : base( repository )
@@ -91,7 +92,7 @@ namespace Jumblist.Core.Service
 
             string password = user.Password;
 
-            user.Radius = 5;
+            user.Radius = defaultLocationRadius;
             user.Postcode = user.Postcode.ToUpper();
             user.Latitude = bingLocationService.Latitude;
             user.Longitude = bingLocationService.Longitude;
@@ -125,7 +126,7 @@ namespace Jumblist.Core.Service
             HttpCookie authenticationCookie = CreateAuthenticationCookie( user, timeout );
             HttpContext.Current.Response.Cookies.Add( authenticationCookie );
 
-            HttpContext.Current.Session[userKey] = user;
+            HttpContext.Current.Session[userKey] = user; 
 
             //HttpCookie userCookie = new HttpCookie( userKey );
             //userCookie.Value = userData;
@@ -203,18 +204,18 @@ namespace Jumblist.Core.Service
         //    return authCookie;
         //}
 
-        public virtual User DeserializeAuthenticationCookie(string cookieValue)
-        {
-            // Get the authentication ticket
-            FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(cookieValue);
+        //public virtual User DeserializeAuthenticationCookie( string cookieValue )
+        //{
+        //    // Get the authentication ticket
+        //    FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(cookieValue);
 
-            // Attach the UserData from the  authTicket to a User object
-            XmlReader reader = XmlReader.Create(new StringReader(authTicket.UserData));
-            DataContractSerializer dcsRead = new DataContractSerializer(typeof(User));
-            User user = dcsRead.ReadObject(reader, true) as User;
+        //    // Attach the UserData from the  authTicket to a User object
+        //    XmlReader reader = XmlReader.Create(new StringReader(authTicket.UserData));
+        //    DataContractSerializer dcsRead = new DataContractSerializer(typeof(User));
+        //    User user = dcsRead.ReadObject(reader, true) as User;
 
-            return user;
-        }
+        //    return user;
+        //}
 
         public virtual void RemoveAuthenticationCookie()
         {

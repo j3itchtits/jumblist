@@ -15,8 +15,6 @@ namespace Jumblist.Website.Controllers
     [CopyTempDataToViewData]
     public abstract class BaseController : Controller
     {
-        internal const int frontEndPageSize = 15;
-
         public virtual string PageTitle
         {
             get { return TempData["pagetitle"] as string; }

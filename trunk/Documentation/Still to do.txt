@@ -67,20 +67,21 @@ Everyone
 
 Post List tab
 - Fields to include on each post record
--- Title
--- Feed Name
+-- Title (DONE)
+-- Feed Name (DONE)
 -- Tags
 -- Date
--- Category
--- View map
-- Paging for list pages (like stackoverflow)
-- Change number of posts per page (like stackoverflow) - add this value to user session
+-- Post Category (DONE)
+-- View map (DONE)
+- Paging for list pages (like stackoverflow) (DONE)
+- Change number of posts per page (like stackoverflow) - add this value to user session (DONE)
 
 Map List tab
 - Map position and zoom level to reflect visible pushpins
+- Different style pushpins dependant on post category
 - Enhanced mouseover on each pushpin
 - Mini post list next to map (with connection to pushpin mouseover)
-- Randomize positions
+- Randomize positions (DONE)
 
 List Right Hand Column
 - Filter/Refine search (right column search box)

@@ -34,7 +34,7 @@ namespace Jumblist.Website
         private static object _lock = new object();
         private static IWindsorContainer container;
         private readonly string jumblistDbConnString = ConfigurationManager.ConnectionStrings["ApplicationServices"].ToString();
-        private readonly string userKey = ConfigurationSettings.AppSettings["UserModelBinderKey"];
+        private readonly string userKey = ConfigurationManager.AppSettings["UserModelBinderKey"];
 
         protected void Application_Start()
         {

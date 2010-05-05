@@ -36,11 +36,11 @@
                 
         <br /><br />Testing: <br />
         PageIsAuth: <%= Page.User.Identity.IsAuthenticated %><br />
-        UserIsAuth: <%= Model.IsAuthenticated %><br />
-        UserName: <%= Model.Name %><br />
-        UserLocation: <%= Model.Postcode %>, <%= Model.Radius %> - <%= Model.Latitude %> | <%= Model.Longitude %><br />
-        UserSearchParams: <%= Model.Session.LocationName %>, <%= Model.Session.LocationRadius%> - <%= Model.Session.LocationLatitude%> | <%= Model.Session.LocationLongitude%><br />
-        PageSize: <%= Model.Session.PageSize%><br />
+        UserCookieIsAuth: <%= Model.IsAuthenticated %><br />
+        UserCookieName: <%= Model.Name %><br />
+        UserCookieLocation: <%= Model.Postcode %>, <%= Model.Radius %> - <%= Model.Latitude %> | <%= Model.Longitude %><br />
+        UserSessionLocation: <%= Model.Session.LocationName %>, <%= Model.Session.LocationRadius%> - <%= Model.Session.LocationLatitude%> | <%= Model.Session.LocationLongitude%><br />
+        UserSessionPageSize: <%= Model.Session.PageSize%><br />
         
         <%
     }

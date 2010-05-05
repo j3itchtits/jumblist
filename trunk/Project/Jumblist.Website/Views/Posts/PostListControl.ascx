@@ -4,7 +4,7 @@
 <% foreach ( var post in Model )
    { %>
         <tr class="item">
-            <td><%= Html.RouteLink(post.Title, "Post-Detail", new { id = post.PostId, name = post.Title.ToFriendlyUrlEncode() }, new { title = Html.Encode( post.Body ) })%></td>  
+            <td><%= Html.RouteLink(post.Title, "Post-Detail", new { id = post.PostId, name = post.Title.ToFriendlyUrlEncode() }, new { title = post.Body })%></td>  
             <td><% if (post.HaveLatitudeAndLongitudeValuesBeenPopulated) 
                { %>
                     <a title="Approximate location of <%= Html.Encode( post.Title ) %>" href="#" onclick="mapPopup( <%= post.Latitude %>, <%= post.Longitude %>, '<%= Html.Encode( post.Title ) %>' );">Map</a> <% 

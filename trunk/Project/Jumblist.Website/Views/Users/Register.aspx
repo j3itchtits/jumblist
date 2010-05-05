@@ -25,7 +25,7 @@
         </tr>
         <tr>
             <td><label for="Item.Postcode">Postcode:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Postcode, new { @class = "text-upper" } )%>
+            <td><%= Html.TextBoxFor( m => m.Item.Postcode )%>
             <%= Html.ValidationMessageFor( m => m.Item.Postcode )%></td>
         </tr> 
         <tr>
