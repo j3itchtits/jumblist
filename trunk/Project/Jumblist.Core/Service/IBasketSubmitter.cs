@@ -1,6 +1,6 @@
 ﻿using Jumblist.Core.Model;
 
-namespace Jumblist.Core.Service
+namespace Jumblist.Core.Service.Basket
 {
     public interface IBasketSubmitter
     {

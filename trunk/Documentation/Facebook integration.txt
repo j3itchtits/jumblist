@@ -6,11 +6,11 @@ Registration
 
 1. Step 1
 
-Name
-Email
-Password
-Sex
-DOB
+Name - Benedict Arnold
+Email - sclode@hodes.co.uk
+Password - WestPoint
+Sex - Male
+DOB - 4/6/1966
 
 2. Step 2
 

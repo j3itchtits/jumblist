@@ -241,9 +241,6 @@
     <Content Include="Assets\Stylesheets\indicator.gif" />
     <Content Include="Assets\Scripts\jquery-ui-1.7.2.custom.min.js" />
     <Content Include="Assets\Scripts\jquery.autocomplete.min.js" />
-    <Content Include="Assets\Stylesheets\jquery.quickedit.0.1.css" />
-    <Content Include="Assets\Scripts\jquery.quickedit.0.1.js" />
-    <Content Include="Assets\Scripts\jquery.quickedit.0.1.min.js" />
     <Content Include="Assets\Stylesheets\jquery.autocomplete.css" />
     <Content Include="Assets\Stylesheets\ui.tabs.css" />
     <Content Include="Views\Basket\SummaryControl.ascx" />
@@ -254,6 +251,8 @@
     <Content Include="Views\Locations\LocationListControl.ascx" />
     <Content Include="Views\Posts\AddToBasketControl.ascx" />
     <Content Include="Views\Posts\BasicListControl.ascx" />
+    <Content Include="Views\Posts\BasicMapListControl.ascx" />
+    <Content Include="Views\Posts\GoogleMapControl.ascx" />
     <Content Include="Views\Posts\MapTest.aspx" />
     <Content Include="Views\Posts\PostListControl.ascx" />
     <Content Include="Views\Posts\Problem.aspx" />
@@ -288,7 +287,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>8010</DevelopmentServerPort>
+          <DevelopmentServerPort>49709</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost/Jumblist.Website</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

@@ -7,7 +7,7 @@ using System.Data;
 using System.Xml;
 using Jumblist.Website.Module;
 using System.ServiceModel.Syndication;
-using Jumblist.Core.Service.Data;
+using Jumblist.Core.Service;
 using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Repository;
 using Microsoft.Practices.ServiceLocation;

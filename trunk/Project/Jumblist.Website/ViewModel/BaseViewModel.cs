@@ -1,7 +1,7 @@
 ﻿using Jumblist.Core.Model;
 using System.Collections.Generic;
 using System.Web;
-using Jumblist.Core.Service.Data;
+using Jumblist.Core.Service;
 
 namespace Jumblist.Website.ViewModel
 {

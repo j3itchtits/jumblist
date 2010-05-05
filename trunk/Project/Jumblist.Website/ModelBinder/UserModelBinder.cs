@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Jumblist.Core.Service.Data;
+using Jumblist.Core.Service;
 using Jumblist.Core.Model;
 using System.Configuration;
 using System.Web.Security;
@@ -55,7 +55,7 @@ namespace Jumblist.Website.ModelBinder
             if (authCookie != null)
             {
                 user = userService.DeserializeAuthenticationCookie( authCookie.Value );
-                user.Search = ( controllerContext.HttpContext.Session[userKey] as User ).Search;
+                user.Session = ( controllerContext.HttpContext.Session[userKey] as User ).Session;
             }
             else
             {

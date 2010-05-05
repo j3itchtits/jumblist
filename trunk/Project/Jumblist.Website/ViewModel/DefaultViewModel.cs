@@ -16,9 +16,9 @@ namespace Jumblist.Website.ViewModel
 
         public IEnumerable<T> List { get; set; }
         public T Item { get; set; }
-        public PaginatedList<T> PaginatedList { get; set; }
         public int ListCount { get; set; }
         public string EntityName { get { return typeof( T ).Name; } }
+        public IPagedList<T> PagedList { get; set; }
 
         public DefaultViewModel<T> With( T item )
         {
@@ -32,9 +32,9 @@ namespace Jumblist.Website.ViewModel
             return this;
         }
 
-        public DefaultViewModel<T> With( PaginatedList<T> list )
+        public DefaultViewModel<T> With( IPagedList<T> list )
         {
-            PaginatedList = list;
+            PagedList = list;
             return this;
         }
 

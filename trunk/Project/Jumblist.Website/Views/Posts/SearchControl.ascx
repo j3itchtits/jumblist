@@ -22,7 +22,7 @@
         if (Model.User != null ) 
         { %>
             <b>Location</b><br />
-            Within <%= Html.TextBox( "locationRadius", Html.LocationRadius( Model.User.Search.LocationRadius ) )%> miles of <%= Html.TextBox( "locationSearch", Html.LocationName( Model.User.Search.LocationName ) )%><br /><br /> <% 
+            Within <%= Html.TextBox( "locationRadius", Html.LocationRadius( Model.User.Session.LocationRadius ) )%> miles of <%= Html.TextBox( "locationSearch", Html.LocationName( Model.User.Session.LocationName ) )%><br /><br /> <% 
         }
         
         //Group
@@ -42,7 +42,8 @@
             UserIsAuth: <%= Model.User.IsAuthenticated %><br />
             UserName: <%= Model.User.Name%><br />
             UserLocation: <%= Model.User.Postcode%>, <%= Model.User.Radius%> - <%= Model.User.Latitude%> | <%= Model.User.Longitude%><br />
-            UserSearch: <%= Model.User.Search.LocationName%>, <%= Model.User.Search.LocationRadius%> - <%= Model.User.Search.LocationLatitude%> | <%= Model.User.Search.LocationLongitude%><br /><%
+            UserSearchParams: <%= Model.User.Session.LocationName%>, <%= Model.User.Session.LocationRadius%> - <%= Model.User.Session.LocationLatitude%> | <%= Model.User.Session.LocationLongitude%><br />
+            PageSize: <%= Model.User.Session.PageSize%><br /><%
         }
     }
 %>    

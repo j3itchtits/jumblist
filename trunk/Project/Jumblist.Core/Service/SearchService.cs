@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using StuartClode.Mvc.Extension;
-using Jumblist.Core.Service.Data;
+using Jumblist.Core.Service;
 using System.Text.RegularExpressions;
 using System.Collections;
 using Jumblist.Core.Model;
@@ -87,7 +87,7 @@ namespace Jumblist.Core.Service
 
             if (tagQueryString.Length == 0)
             {
-                actionName = "search";
+                actionName = "searchresult";
                 routeValues = new { q = q, category = PostCategorySearch, page = string.Empty };
             }
 

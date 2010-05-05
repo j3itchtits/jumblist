@@ -5,6 +5,7 @@ using System.Text;
 using NUnit.Framework;
 using System.Web.Mvc;
 using Jumblist.Website.Extension;
+using StuartClode.Mvc.Extension;
 
 namespace Jumblist.Tests.Helpers
 {

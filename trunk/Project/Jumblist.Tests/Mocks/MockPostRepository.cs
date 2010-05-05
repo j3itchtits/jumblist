@@ -6,7 +6,6 @@ using Moq;
 using Jumblist.Core.Model;
 using Jumblist.Core.Service;
 using StuartClode.Mvc.Service.Data;
-using Jumblist.Core.Service.Data;
 
 namespace Jumblist.Tests.Mocks
 {

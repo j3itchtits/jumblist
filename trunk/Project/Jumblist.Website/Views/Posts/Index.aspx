@@ -1,9 +1,5 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<PostViewModel<Post>>" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="HeadContentTitle" runat="server">
-	<%= Html.PageTitle( ViewData.Model )%>
-</asp:Content>
-
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
     <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
@@ -22,48 +18,40 @@
 		<div id="tabs-1">
 		
             <div class="postlist">
-                <% Html.RenderPartial( "PostListControl", Model.PaginatedList ); %>
-            </div>
+                <% Html.RenderPartial( "PostListControl", Model.PagedList ); %>
+            </div><br /><br />
           
-            <div class="paginglinks">
-                <%= Html.PagingLinks( Model.PaginatedList.CurrentPage, Model.PaginatedList.TotalPages, x => Url.Action( ViewContext.RouteData.Values["action"].ToString(), new { id = ViewContext.RouteData.Values["id"].ToString(), page = x } ) )%>
-            </div>
-            
+<%--           <div class="paginglinks">
+                <%= Html.PagingLinks( Model.PagedList.PageNumber, Model.PagedList.PageCount, x => Url.Action( ViewContext.RouteData.Values["action"].ToString(), new { id = ViewContext.RouteData.Values["id"].ToString(), page = x } ) )%>
+            </div><br /><br />
+    
             <div class="nextpreviouspagelinks">
-                <%= Html.NextPreviousPageLinks( Model.PaginatedList.CurrentPage, Model.PaginatedList.HasPreviousPage, Model.PaginatedList.HasNextPage, x => Url.Action( ViewContext.RouteData.Values["action"].ToString(), new { id = ViewContext.RouteData.Values["id"].ToString(), page = x } ) )%>
-            </div>
+                <%= Html.NextPreviousPageLinks( Model.PagedList.PageNumber, Model.PagedList.HasPreviousPage, Model.PagedList.HasNextPage, x => Url.Action( ViewContext.RouteData.Values["action"].ToString(), new { id = ViewContext.RouteData.Values["id"].ToString(), page = x } ) )%>
+            </div><br /><br />--%>
             
+            <div class="pagerlinks">
+                <%= Html.Pager( Model.PagedList.PageSize, Model.PagedList.PageNumber, Model.PagedList.TotalItemCount )%>
+            </div><br /><br />
+            
+            <div class="page-sizer">
+                <a href="<%= Url.RouteUrl( ViewContext.RouteData.Values )%>?pagesize=15" title="show 15 items per page" class="<%= ( Model.PagedList.PageSize == 15 ) ? "bold" : "" %>">15</a>
+                <a href="<%= Url.RouteUrl( ViewContext.RouteData.Values )%>?pagesize=30" title="show 30 items per page" class="<%= ( Model.PagedList.PageSize == 30 ) ? "bold" : "" %>">30</a>                
+                <a href="<%= Url.RouteUrl( ViewContext.RouteData.Values )%>?pagesize=50" title="show 50 items per page" class="<%= ( Model.PagedList.PageSize == 50 ) ? "bold" : "" %>">50</a>
+                per page 
+            </div> <br /><br />
 		</div>
 		
 		<div id="tabs-2">
+    
+            <% Html.RenderPartial( "GoogleMapControl", Model.Pushpins ); %>
 
-		    <% Html.RenderPartial( "MapDisplayControl", new ViewDataDictionary() {
-                { 
-                    "Google", 
-                    Ajax.GoogleMap()
-                    .CssClass("GoogleMap")
-                    .Center(50.853544, 0.56347)
-                    .Zoom(9)
-                    //.AddPushpin(new Pushpin(50.853544, 0.56347), new Pushpin(50.83,0.57))
-                    .AddPushpin( Model.Pushpins )
-                }
-            }); %> <br /><br />
+            <br /><br />
             
-            <table>
-            <%
-                List<Pushpin> list = Model.Pushpins.ToList();
 
-                for ( int i = 0; i < list.Count(); i++ )
-                {
-                    double d = new Random().Next( -10, 10 );
-                    list[i].Title = list[i].Title + d.ToString();
-                }
-                
-                foreach ( Pushpin p in list )
-                {
-                    Response.Write( "<tr><td>Title : " + p.Title + "</td><td>Lat: " + p.Position.Latitude + "</td><td>Long: " + p.Position.Longitude + "</td></tr>" );
-                }
-                 %></table>
+            
+            <div class="basicmaplist">
+                <% Html.RenderPartial( "BasicMapListControl", Model.Pushpins ); %>
+            </div>
                     
 		</div>
 	</div>
@@ -77,7 +65,7 @@
 
     <script type="text/javascript">
        $(document).ready(function() {
-           $('#tabs').tabs();
+       $('#tabs').tabs();
        });
     </script>   
                  
