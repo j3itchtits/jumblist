@@ -1,9 +1,5 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Basket>" %>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="HeadContentTitle" runat="server">
-    Your Basket
-</asp:Content>
-
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContentJavascript" runat="server">
 </asp:Content>
 

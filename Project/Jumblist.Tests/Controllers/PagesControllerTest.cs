@@ -18,7 +18,7 @@ namespace Jumblist.Tests.Controllers
             var controller = new HomeController(null);
 
             // Act
-            var result = controller.Index();
+            var result = controller.Index( null );
 
             // Assert
             Assert.IsNotNull(result);

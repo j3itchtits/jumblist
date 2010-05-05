@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using Jumblist.Core.Model;
-using Jumblist.Core.Service.Data;
+using Jumblist.Core.Service;
 using StuartClode.Mvc.Service.Data;
 using MvcContrib;
 using Jumblist.Website.ViewModel;
@@ -60,6 +60,7 @@ namespace Jumblist.Website.Controllers
         public ViewResult Login()
         {
             var model = BuildDefaultViewModel();
+            model.PageTitle = "Log on";
             return View( model );
         }
 
@@ -75,7 +76,7 @@ namespace Jumblist.Website.Controllers
                 if ( !string.IsNullOrEmpty( returnUrl ) )
                     return Redirect( returnUrl );
                 else
-                    return this.RedirectToAction<HomeController>( c => c.Index() );
+                    return this.RedirectToAction<HomeController>( c => c.Index( user ) );
             }
             else
             {
@@ -90,7 +91,7 @@ namespace Jumblist.Website.Controllers
         public RedirectToRouteResult Logout()
         {
             userService.RemoveAuthenticationCookie();
-            return this.RedirectToAction<HomeController>( c => c.Index() );
+            return this.RedirectToAction<HomeController>( c => c.Index( null ) );
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -121,7 +122,7 @@ namespace Jumblist.Website.Controllers
                 if (!string.IsNullOrEmpty( returnUrl ))
                     return Redirect( returnUrl );
                 else
-                    return this.RedirectToAction<HomeController>( c => c.Index() );
+                    return this.RedirectToAction<HomeController>( c => c.Index( item ) );
             }
             else
             {

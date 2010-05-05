@@ -1,9 +1,14 @@
-<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<BaseViewModel>" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title><asp:ContentPlaceHolder ID="HeadContentTitle" runat="server" /></title>
+
+    <title><%= Html.PageTitle( ViewData.Model )%> | Jumblist</title>
+    
+<%--  Facebook specific tags  <meta name="title" content="title" />
+    <meta name="description" content="description" />--%>
+    <link rel="image_src" href="http://www.onjd.com/design05/images/PH2/WableAFC205.jpg" />
     
     <link href="<%= Url.Stylesheet( "yui-reset.css" )%>" rel="stylesheet" type="text/css"/>
     <link href="<%= Url.Stylesheet( "yui-reset.css" )%>" rel="stylesheet" type="text/css"/>

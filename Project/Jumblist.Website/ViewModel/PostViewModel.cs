@@ -6,7 +6,6 @@ using Jumblist.Core.Model;
 using System.Web.Mvc;
 using Jumblist.Core.Service;
 using MvcMaps;
-using Jumblist.Core.Service.Data;
 using Microsoft.Practices.ServiceLocation;
 
 namespace Jumblist.Website.ViewModel

@@ -43,6 +43,7 @@ Post
 
 Post lists
 - Save lists as email alerts
+- Distance 
 - Sort by (nearest, newest)
 
 Profile
@@ -64,28 +65,39 @@ Search (see Search options.txt)
 Everyone
 --------
 
-List tab
-- Fields to include in each post
+Post List tab
+- Fields to include on each post record
 -- Title
 -- Feed Name
+-- Tags
+-- Date
+-- Category
 -- View map
+- Paging for list pages (like stackoverflow)
+- Change number of posts per page (like stackoverflow) - add this value to user session
 
-Map tab
+Map List tab
 - Map position and zoom level to reflect visible pushpins
 - Enhanced mouseover on each pushpin
 - Mini post list next to map (with connection to pushpin mouseover)
+- Randomize positions
+
+List Right Hand Column
+- Filter/Refine search (right column search box)
+-- by category
+-- by tag
+-- by location
+-- by search radius
 
 Post
 - View map
 - Link back to freecycle/freegle
 - Share on facebook
 - Share on twitter
-
-Filter/Refine search (right column search box)
-- by category
-- by tag
-- by location
-- by search radius
+- Fields to include on each post record
+-- Title
+-- Body
+-- Publish Date
 
 RSS Feeds
 - Dynamic feed construction based on list properties (routedata)
@@ -98,9 +110,7 @@ Twitter integration
 - Add list (feed) to twitter
 - Add post to twitter
 
-Paging for list pages (like stackoverflow)
 
-Change number of posts per page (like stackoverflow) - add this value to user session
 
 
 -----

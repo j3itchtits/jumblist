@@ -87,20 +87,20 @@ namespace Jumblist.Website.Extension
             return writer.InnerWriter.ToString();
         }
 
-        public static string PageTitle( this HtmlHelper htmlHelper, IBaseViewModel model )
+        public static MvcHtmlString PageTitle( this HtmlHelper htmlHelper, IBaseViewModel model )
         {
-            if (model.PageTitle == null) return string.Empty;
+            if ( model.PageTitle == null ) return MvcHtmlString.Create( string.Empty );
 
             HtmlTextWriter writer = new HtmlTextWriter( new StringWriter() );
 
             writer.WriteEncodedText( model.PageTitle );
 
-            return writer.InnerWriter.ToString();
+            return  MvcHtmlString.Create( writer.InnerWriter.ToString() );
         }
 
-        public static string PageTitle( this HtmlHelper htmlHelper, IBaseViewModel model, HtmlTextWriterTag tag )
+        public static MvcHtmlString PageTitle( this HtmlHelper htmlHelper, IBaseViewModel model, HtmlTextWriterTag tag )
         {
-            if (model.PageTitle == null) return string.Empty;
+            if ( model.PageTitle == null ) return MvcHtmlString.Create( string.Empty );
 
             HtmlTextWriter writer = new HtmlTextWriter( new StringWriter() );
 
@@ -108,45 +108,7 @@ namespace Jumblist.Website.Extension
             writer.WriteEncodedText( model.PageTitle );
             writer.RenderEndTag();
 
-            return writer.InnerWriter.ToString();
-        }
-
-        public static string PagingLinks( this HtmlHelper helper, int currentPage, int totalPages, Func<int, string> pageUrl )
-        {
-            StringBuilder result = new StringBuilder();
-            for (int i = 1; i <= totalPages; i++)
-            {
-                TagBuilder tag = new TagBuilder( "a" );
-                tag.MergeAttribute( "href", pageUrl( i ).ToLower() );
-                tag.InnerHtml = i.ToString();
-                if (i == currentPage)
-                    tag.AddCssClass( "selected" );
-                result.Append( tag.ToString() + " " );
-            }
-            return result.ToString();
-        }
-
-        public static string NextPreviousPageLinks( this HtmlHelper helper, int currentPage, bool hasPreviousPage, bool hasNextPage, Func<int, string> pageUrl )
-        {
-            string result = string.Empty;
-
-            if (hasPreviousPage)
-            {
-                TagBuilder tag = new TagBuilder( "a" );
-                tag.MergeAttribute( "href", pageUrl( currentPage - 1 ).ToLower() );
-                tag.InnerHtml = "<";
-                result += tag.ToString() + " ";
-            }
-
-            if (hasNextPage)
-            {
-                TagBuilder tag = new TagBuilder( "a" );
-                tag.MergeAttribute( "href", pageUrl( currentPage + 1 ).ToLower() );
-                tag.InnerHtml = ">";
-                result += tag.ToString() + " ";
-            }
-
-            return result;
+            return MvcHtmlString.Create( writer.InnerWriter.ToString() );
         }
 
         public static MvcHtmlString TextBoxFor<TModel, TProperty>( this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string format, object htmlAttributes ) where TModel : class
@@ -220,14 +182,16 @@ namespace Jumblist.Website.Extension
             return MvcHtmlString.Create( sb.ToString() );
         }
 
-        public static object LocationRadius( this HtmlHelper helper, int? radius )
+        public static MvcHtmlString LocationRadius( this HtmlHelper helper, int radius )
         {
-            return (radius == 0) ? null : radius.ToString();
+            string locationRadius = (radius != 0) ? radius.ToString() : string.Empty;
+            return MvcHtmlString.Create( locationRadius );
         }
 
-        public static object LocationName( this HtmlHelper helper, string location )
+        public static MvcHtmlString LocationName( this HtmlHelper helper, string location )
         {
-            return ((location).Split( new string[] { ", " }, StringSplitOptions.None ))[0];
+            string locationName = ( !string.IsNullOrEmpty( location ) ) ? ((location).Split( new string[] { ", " }, StringSplitOptions.None ))[0] : string.Empty;
+            return MvcHtmlString.Create( locationName );
         }
     }
 }

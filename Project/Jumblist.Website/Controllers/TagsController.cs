@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Jumblist.Core.Model;
 using Jumblist.Website.Controllers;
-using Jumblist.Core.Service.Data;
+using Jumblist.Core.Service;
 using StuartClode.Mvc.Extension;
 using xVal.ServerSide;
 using System.Linq.Expressions;

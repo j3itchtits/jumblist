@@ -1,15 +1,11 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
-
-<asp:Content ID="Content1" ContentPlaceHolderID="HeadContentTitle" runat="server">
-	Home
-</asp:Content>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel>" %>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="HeadContentJavascript" runat="server">
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
     
-    <% Html.RenderAction("Search"); %>
+    <% Html.RenderPartial( "SearchControl", Model.User ); %>
           
 </asp:Content>
 
@@ -24,3 +20,4 @@
      <% Html.RenderAction("BasicList", "posts", new { top = 5 } ); %>
 
 </asp:Content>
+

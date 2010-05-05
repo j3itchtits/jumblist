@@ -7,6 +7,7 @@ using Jumblist.Core.Model;
 using System.Linq.Expressions;
 using MvcMaps;
 using StuartClode.Mvc.Extension;
+using System.Web;
 
 namespace Jumblist.Website.Extension
 {
@@ -14,7 +15,7 @@ namespace Jumblist.Website.Extension
     {
         public static IEnumerable<Pushpin> ToFilteredPushPinList(this IEnumerable<Post> list, Expression<Func<Post, bool>> filter)
         {
-            return list.AsQueryable().Where( filter ).Select( p => ( new Pushpin( p.Latitude, p.Longitude, p.Title ) ) );
+            return list.AsQueryable().Where( filter ).Select( p => (new Pushpin( p.Latitude.Randomize(), p.Longitude.Randomize(), HttpUtility.HtmlEncode( p.Title ), HttpUtility.HtmlEncode( p.Title ) )) );
         }
 
         public static string ToLinkedTagList( this IEnumerable<Tag> list )

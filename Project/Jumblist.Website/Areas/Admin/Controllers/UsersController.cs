@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Jumblist.Website.Controllers;
 using Jumblist.Core.Model;
-using Jumblist.Core.Service.Data;
+using Jumblist.Core.Service;
 using xVal.ServerSide;
 using Jumblist.Website.Filter;
 

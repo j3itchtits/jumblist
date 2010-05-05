@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Jumblist.Core.Service.Data;
+using Jumblist.Core.Service;
 using System.Web.Mvc;
 
 namespace Jumblist.Website.Filter

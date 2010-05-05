@@ -21,10 +21,10 @@ namespace Jumblist.Tests.Controllers
             //Arrange
             var postRepository = new MockPostRepository().Repository;
             var postCategoryRepository = new MockPostCategoryRepository().Repository;
-            var controller = new PostsController(postRepository, null, null, null, null, null);
+            var controller = new PostsController( postRepository, null, null, null, null, null, null );
 
             //Act
-            var result = controller.Index( null, null );
+            var result = controller.Index( null, null, null );
 
             // Assert
             Assert.IsNotNull(result);
@@ -36,15 +36,15 @@ namespace Jumblist.Tests.Controllers
             //Arrange
             var postRepository = new MockPostRepository().Repository;
             var postCategoryRepository = new MockPostCategoryRepository().Repository;
-            var controller = new PostsController(postRepository, null, null, null, null, null);
+            var controller = new PostsController( postRepository, null, null, null, null, null, null );
 
             //Act
-            var result = controller.Index( null, null );
-            var model = result.ViewData.Model as DefaultViewModel<Post>;
+            var result = controller.Index( null, null, null );
+            var model = ((ViewResult)result).ViewData.Model as DefaultViewModel<Post>;
             
             // Assert
-            Assert.IsNotNull( model.PaginatedList );
-            Assert.AreEqual( 3, model.PaginatedList.Count, "Wrong number of posts" );
+            Assert.IsNotNull( model.PagedList );
+            Assert.AreEqual( 3, model.PagedList.Count, "Wrong number of posts" );
         }
 
         [Test]
@@ -53,17 +53,17 @@ namespace Jumblist.Tests.Controllers
             //Arrange
             var postRepository = new MockPostRepository().Repository;
             var postCategoryRepository = new MockPostCategoryRepository().Repository;
-            var controller = new PostsController(postRepository, null, null, null, null, null);
+            var controller = new PostsController( postRepository, null, null, null, null, null, null );
             //controller.PageSize = 3;
 
             //Act
-            var result = controller.Index( null, null );
-            var model = result.ViewData.Model as DefaultViewModel<Post>;
+            var result = controller.Index( null, null, null );
+            var model = ((ViewResult)result).ViewData.Model as DefaultViewModel<Post>;
 
             //Assert
-            Assert.IsNotNull( model.PaginatedList );
-            Assert.AreEqual( "Wanted: Socks", model.PaginatedList.ElementAt<Post>( 0 ).Title );
-            Assert.AreEqual( "Offered: Linen", model.PaginatedList.ElementAt<Post>( 1 ).Title );
+            Assert.IsNotNull( model.PagedList );
+            Assert.AreEqual( "Wanted: Socks", model.PagedList.ElementAt<Post>( 0 ).Title );
+            Assert.AreEqual( "Offered: Linen", model.PagedList.ElementAt<Post>( 1 ).Title );
         }
 
         [Test]
