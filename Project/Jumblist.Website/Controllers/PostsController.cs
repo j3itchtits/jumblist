@@ -26,6 +26,8 @@ namespace Jumblist.Website.Controllers
 {
     public class PostsController : ViewModelController<Post>
     {
+        private readonly int defaultPageSize = int.Parse( ConfigurationManager.AppSettings["DefaultPageSize"] );
+        private readonly int defaultLocationRadius = int.Parse( ConfigurationManager.AppSettings["DefaultLocationRadius"] );
         private readonly IPostService postService;
         private readonly ILocationService locationService;
         private readonly ITagService tagService;
@@ -52,10 +54,10 @@ namespace Jumblist.Website.Controllers
             {
                 var postList = postService.SelectRecordList( Post.WhereDisplayEquals( true ), user ).OrderByDescending( t => t.PublishDateTime );
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
-                int currentPageSize = PageSizeLogic( pageSize, user.Session );
+                int currentPageSize = CalculatePageSize( pageSize, user.Session );
                 var pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
 
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( frontEndPageSize ); ;
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
                 var model = BuildPostViewModel();
 
@@ -104,10 +106,10 @@ namespace Jumblist.Website.Controllers
 
                 var postList = postService.SelectRecordList( postCategory, q, user );
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
-                int currentPageSize = PageSizeLogic( pageSize, user.Session );
+                int currentPageSize = CalculatePageSize( pageSize, user.Session );
                 var pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
 
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( frontEndPageSize );
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
                 var model = BuildPostViewModel();
 
@@ -138,10 +140,10 @@ namespace Jumblist.Website.Controllers
                 
                 var postList = postService.SelectRecordList( feed, postCategory, q );
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
-                int currentPageSize = PageSizeLogic( pageSize, user.Session );
+                int currentPageSize = CalculatePageSize( pageSize, user.Session );
                 var pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
 
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
                 var model = BuildPostViewModel();
 
@@ -175,10 +177,10 @@ namespace Jumblist.Website.Controllers
                 
                 var postList = postService.SelectRecordList(locationList, postCategory);
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
-                int currentPageSize = PageSizeLogic( pageSize, user.Session );
+                int currentPageSize = CalculatePageSize( pageSize, user.Session );
                 var pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
 
-                var pushpinList = postList.ToFilteredPushPinList(Post.WhereLatLongValuesExist());
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
                 var model = BuildPostViewModel();
 
@@ -211,10 +213,10 @@ namespace Jumblist.Website.Controllers
                 
                 var postList = postService.SelectRecordList( tagList, postCategory, q, user );
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
-                int currentPageSize = PageSizeLogic( pageSize, user.Session );
+                int currentPageSize = CalculatePageSize( pageSize, user.Session );
                 var pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
 
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
                 var model = BuildPostViewModel();
 
@@ -288,10 +290,10 @@ namespace Jumblist.Website.Controllers
                 
                 var postList = postService.SelectRecordList( postCategory, q );
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
-                int currentPageSize = PageSizeLogic( pageSize, user.Session );
+                int currentPageSize = CalculatePageSize( pageSize, user.Session );
                 var pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
 
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() );
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
                 var model = BuildPostViewModel();
 
@@ -326,7 +328,7 @@ namespace Jumblist.Website.Controllers
             if ( !string.IsNullOrEmpty( locationSearch ) )
             {
                 locationSearch = locationSearch.ToCleanSearchString() + ", UK";
-                int radius = (locationRadius.HasValue) ? (int)locationRadius : 5;
+                int radius = ( locationRadius.HasValue ) ? (int)locationRadius : defaultLocationRadius;
                 BingLocationService locationSearchCoordinates = new BingLocationService( locationSearch );
 
                 user.Session.LocationName = locationSearch;
@@ -483,7 +485,7 @@ namespace Jumblist.Website.Controllers
             return View();
         }
 
-        private int PageSizeLogic( int? pageSize, UserSession userSession )
+        private int CalculatePageSize( int? pageSize, UserSession userSession )
         {
             if ( pageSize.HasValue )
             {
@@ -493,13 +495,8 @@ namespace Jumblist.Website.Controllers
             }
             else
             {
-                return SavedPageSize( userSession );
+                return userSession.PageSize.HasValue ? userSession.PageSize.Value : defaultPageSize;
             }
-        }
-
-        private int SavedPageSize( UserSession userSession )
-        {
-            return userSession.PageSize.HasValue ? userSession.PageSize.Value : frontEndPageSize;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Jumblist.Website.ModelBinder
 {
     public class UserModelBinder : IModelBinder
     {
-        private readonly string userKey = ConfigurationSettings.AppSettings["UserModelBinderKey"];
+        private readonly string userKey = ConfigurationManager.AppSettings["UserModelBinderKey"];
 
         //private readonly IUserService userService;
 
@@ -46,7 +46,7 @@ namespace Jumblist.Website.ModelBinder
             //User user = dcs.ReadObject( reader, true ) as User;
 
 
-            var userService = ServiceLocator.Current.GetInstance<IUserService>();
+            //var userService = ServiceLocator.Current.GetInstance<IUserService>();
 
             // Get the authentication cookie
             HttpCookie authCookie = controllerContext.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
@@ -54,7 +54,7 @@ namespace Jumblist.Website.ModelBinder
 
             if (authCookie != null)
             {
-                user = userService.DeserializeAuthenticationCookie( authCookie.Value );
+                user = DeserializeAuthenticationCookie( authCookie.Value );
                 user.Session = ( controllerContext.HttpContext.Session[userKey] as User ).Session;
             }
             else
@@ -62,7 +62,7 @@ namespace Jumblist.Website.ModelBinder
                 user = controllerContext.HttpContext.Session[userKey] as User;
             }
 
-            
+            return user;
 
 
             //Don't really need this as the Session[userKey] is set in global.asax
@@ -151,9 +151,22 @@ namespace Jumblist.Website.ModelBinder
 
 
 
-            return user;
+            
         }
 
         #endregion
+
+        private User DeserializeAuthenticationCookie( string cookieValue )
+        {
+            // Get the authentication ticket
+            FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt( cookieValue );
+
+            // Attach the UserData from the  authTicket to a User object
+            XmlReader reader = XmlReader.Create( new StringReader( authTicket.UserData ) );
+            DataContractSerializer dcsRead = new DataContractSerializer( typeof( User ) );
+            User user = dcsRead.ReadObject( reader, true ) as User;
+
+            return user;
+        }
     }
 }

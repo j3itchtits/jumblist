@@ -15,7 +15,7 @@
         Response.Write( dt.ToString() + "<br/><br/>" );
 
         //Response.Write( Regex.IsMatch( "Availabl rye in st leonards", @"\bSt Leonards\b", RegexOptions.IgnoreCase ).ToString() );
-        Response.Write( "Postcode match t: " + Regex.IsMatch( "afasdf tn31 6hg dafdfasdfs", StringExtensions.UKPostcodeRegex, RegexOptions.IgnoreCase ) + "<br/><br/>" );
+        Response.Write( "Postcode match t: " + Regex.IsMatch( "TN31 6HG", StringExtensions.UKPostcodeOnlyRegex, RegexOptions.IgnoreCase ) + "<br/><br/>" );
         Response.Write(StringExtensions.IsSingularOrPluralPhraseRegexMatch("I have some nappies-buckets to give aways ", "Nappy", RegexOptions.IgnoreCase).ToString() + "<br/><br/>");
         Response.Write( "Bexhill : " + Regex.IsMatch( "available in the (Bexhill] area", @"\b" + "Bexhill" + @"\b", RegexOptions.IgnoreCase ) + "<br/><br/>" );
         Response.Write("Replace text : " + Regex.Replace("helo there...&gt;This is working now", @"(.*)&gt;", string.Empty) + "<br/><br/>");

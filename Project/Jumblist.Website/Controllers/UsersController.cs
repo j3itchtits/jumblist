@@ -98,11 +98,12 @@ namespace Jumblist.Website.Controllers
         public ActionResult Register()
         {
             var model = BuildDefaultViewModel();
+            model.PageTitle = "Register";
             return View( model );
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Register( User item, string confirmPassword, string returnUrl )
+        public ActionResult Register( [ModelBinder( typeof( DefaultModelBinder ) )] User item, string confirmPassword, string returnUrl )
         {
             try
             {

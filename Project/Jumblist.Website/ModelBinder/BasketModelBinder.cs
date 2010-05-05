@@ -10,7 +10,7 @@ namespace Jumblist.Website.ModelBinder
 {
     public class BasketModelBinder : IModelBinder
     {
-        private readonly string basketCookieKey = ConfigurationSettings.AppSettings["BasketModelBinderKey"];
+        private readonly string basketCookieKey = ConfigurationManager.AppSettings["BasketModelBinderKey"];
 
         #region IModelBinder Members
 

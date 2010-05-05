@@ -525,9 +525,9 @@ namespace Jumblist.Core.Service
 
             //Attempt to match input with locations stored in database
             var feedLocationList = locationDataService.SelectRecordListByFeed( FeedLocation.WhereFeedIdEquals( post.FeedId ) );
-            var postCodeLocationList = locationDataService.SelectRecordList(Location.WhereLocationAreaIsNull());
+            var postCodeLocationList = locationDataService.SelectRecordList( Location.WhereLocationAreaIsNull() );
 
-            foreach (Location location in (feedLocationList.Concat(postCodeLocationList)))
+            foreach ( Location location in ( feedLocationList.Concat( postCodeLocationList ) ) )
             {
                 string pattern = (location.IsPostcode) ? location.NameSearch + ".*" : location.NameSearch;
                 if (input.IsPhraseRegexMatch( pattern, RegexOptions.IgnoreCase ))
