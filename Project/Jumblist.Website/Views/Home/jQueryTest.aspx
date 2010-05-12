@@ -9,12 +9,16 @@
     <script src="<%= Url.Script( "MicrosoftAjax.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "MicrosoftMvcAjax.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery-1.3.2.min.js" )%>" type="text/javascript"></script>
-    <link href="<%= Url.Stylesheet( "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
+    <script src="~/Assets/Scripts/jquery-1.3.2.min-vsdoc.js" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.highlight-3.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.jumblist.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.timer.js" )%>" type="text/javascript"></script>
+    <script src="<%= Url.Script( "jquery.colorbox-min.js" )%>" type="text/javascript"></script>
 
+    <link href="<%= Url.Stylesheet( "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
+    <link href="<%= Url.Stylesheet( "colorbox.css" )%>" rel="stylesheet" type="text/css"/>
+    
     <style type="text/css">
         .highlight { background-color: yellow; }
         .highlightedlink { background-color: #eee; }
@@ -76,47 +80,24 @@
 
     <script type="text/javascript">
 
-        function autoUpdate() {
-            $("#notice_div").html('Loading..');
-            $.ajax({
-                type: 'GET',
-                url: '<%= Url.Action( "AjaxTags", "Tags" ) %>',
-                timeout: 3000,
-                success: function(data) {
-                    $("#some_div").html(data);
-                    $("#notice_div").html('');
-                    window.setTimeout(autoUpdate, 10000);
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    $("#notice_div").html('Timeout contacting server..');
-                    window.setTimeout(autoUpdate, 60000);
-                }
-            });
-        }
-        
-        function convertBackToBlack() {
-            $("ul#listselect-click li").each(function() {
-                $(this).css("color", "black");
-            });
-        }
-
-
         $(document).ready(function() {
 
-            $().tabs();
-            autoUpdate();
+            $('div.tabs').tabs();
 
-            $.timer(30000, function() {
+            $.fn.autoUpdate('<%= Url.Action( "AjaxTags", "Tags" ) %>');
+
+            $.fn.timer(5000, function(timer) {
                 $('#dataDisplay').prepend('hello some text goes here<br/>').fadeIn('slow');
+                timer.stop();
             });
 
             $("input#locationName").autocomplete('<%= Url.Action( "AjaxFindLocationNames", "Locations" ) %>', { minChars: 2, multiple: true, multipleSeparator: " " });
             $("input#tagName").autocomplete('<%= Url.Action( "AjaxFindTags", "Tags" ) %>', { minChars: 2, multiple: true, multipleSeparator: " " });
 
-//            var hello = $('#location-value').html();
-//            hello = hello.replace('hello', 'never');
-//            $('#location-value').html(hello);
-            
+            //            var hello = $('#location-value').html();
+            //            hello = hello.replace('hello', 'never');
+            //            $('#location-value').html(hello);
+
             $('#location-edit').hide();
 
             $('a#show-location-edit').click(function() {
@@ -138,19 +119,21 @@
 
             $("ul#listselect-click li").click(function() {
                 //var clicked = $(this).attr("id");
-                convertBackToBlack();
+                $("ul#listselect-click li").each(function() {
+                    $(this).css("color", "black");
+                });
                 $(this).css("color", "red");
                 return false;
             });
 
             $("ul#toggleselect li").toggle(
-                function() {
-                    $(this).css("color", "red");
-                },
-                function() {
-                    $(this).css("color", "");
-                }
-            );
+                    function() {
+                        $(this).css("color", "red");
+                    },
+                    function() {
+                        $(this).css("color", "");
+                    }
+                );
 
 
             var hightlight = "ul#highlight li";
@@ -171,9 +154,16 @@
             $('p.para').highlightlink('ipsum', 'highlightedlink');
             $('p.para').highlight('dolor');
 
-            $('.tip').truncate();
+            $('.tip').truncate({ moreText: "some more please" });
+
+            $(".example8").colorbox({ width: "50%", inline: true, href: "#inline_example1" });
 
         });
+
+        function basicMap(latitude, longitude, title) {
+            document.write("arse");
+        }
+        
     </script> 
             
 </head>
@@ -181,12 +171,34 @@
     <div>
         <h2><%= Model.PageTitle %></h2>
         
-        <p><strong>Auto-update</strong></p>
-        <div id="notice_div"></div>
-        <div id="some_div"></div>
-        
-<%--        <% Html.RenderAction( "AjaxTags", "Tags" ); %>--%>
-        
+        <p><strong>Popup</strong></p>
+        <p><a class="example8" href="#">Inline HTML</a></p> 
+
+		<!-- This contains the hidden content for inline calls --> 
+		<div style="display:none"> 
+			<div id="inline_example1" style="padding:10px; background:#fff;"> 
+			<p><strong>Map</strong></p> 
+			
+			<script type="text/javascript">
+			    document.write('<p>What ever you want to write<\/p>');
+			</script>
+
+			
+			<p>
+			<script type="text/javascript"><!--
+			basicMap(latitude, longitude, title)
+			--></script>
+			</p> 
+			</div> 
+		</div> 
+		        
+        <p><strong>Auto-update 1</strong></p>
+        <div id="updatenotice"></div>
+        <div id="updatetext"></div>
+
+        <p><strong>Auto-update 2</strong></p>
+        <div id="dataDisplay">this will update every 5 secs</div> 
+                
         <p><strong>Autocomplete</strong><br />
         Location: <%= Html.TextBox( "locationName", null, new { size = 10 } )%><br />
         Tag: <%= Html.TextBox( "tagName", null, new { size = 10 } )%><br />
@@ -229,7 +241,7 @@
             Aliquam rhoncus eros at augue. Suspendisse vitae mauris dum ipsum.
         </p>        
 
-        <div id="dataDisplay">this will update every 5 secs</div> 
+        
 
 
         <p><strong>Tabs</strong></p>  
@@ -246,11 +258,11 @@
             </div> 
             <div id="second"> 
                 <h2>Second</h2> 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> 
+                <p>asdf ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> 
             </div> 
             <div id="third"> 
                 <h2>Third</h2> 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> 
+                <p>Loraddddsem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> 
             </div> 
         </div> 
 

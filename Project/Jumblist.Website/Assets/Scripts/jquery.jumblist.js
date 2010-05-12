@@ -73,6 +73,47 @@ jQuery.fn.truncate = function(options) {
     });
 };
 
+
+/*
+autoUpdate
+This plugin will auto-update a div with content from an mvc actionresult request using AJAX.
+http://stackoverflow.com/questions/220767/auto-refreshing-div-with-jquery
+*/
+jQuery.fn.autoUpdate = function(url, options) {
+
+    var defaults = {
+        requestType: "GET",
+        requestTimeout: 3000,
+        requestRepeatTime: 10000,
+        requestSuccessRepeatTime: 10000,
+        requestErrorRepeatTime: 10000,
+        divNotice: "#updatenotice",
+        divUpdate: "#updatetext"
+    };
+
+    var options = $.extend(defaults, options);
+
+    $(options.divNotice).html('Loading..');
+    $.ajax({
+        type: options.requestType,
+        url: url,
+        timeout: options.requestTimeout,
+        success: function(data) {
+            $(options.divUpdate).html(data);
+            $(options.divNotice).html('');
+            window.setTimeout(function() {
+                $.fn.autoUpdate(url);
+            }, options.requestSuccessRepeatTime);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $(options.divNotice).html('Timeout contacting server..');
+            window.setTimeout(function() {
+                $.fn.autoUpdate(url);
+            }, options.requestErrorRepeatTime);
+        }
+    });
+}
+
 /*
 tabs
 This plugin will set-up some nice tabs.
@@ -80,23 +121,42 @@ http://jqueryfordesigners.com/jquery-tabs/
 */
 
 jQuery.fn.tabs = function(options) {
-    var tabContainers = $('div.tabs > div');
+
+    var defaults = {
+        tabNavigationElement: "ul.tabNavigation"
+    };
+
+    var options = $.extend(defaults, options);
+
+    obj = $(this);
+
+    var tabContainers = obj.children('div');
+    //var tabContainers = $('div.tabs > div');
     tabContainers.hide().filter(':first').show();
 
-    $('div.tabs ul.tabNavigation a').click(function() {
+    var links = obj.find(options.tabNavigationElement + ' a');
+
+    links.click(function() {
         tabContainers.hide();
         tabContainers.filter(this.hash).show();
-        $('div.tabs ul.tabNavigation a').removeClass('selected');
+        links.removeClass('selected');
         $(this).addClass('selected');
         return false;
     }).filter(':first').click();
 }
+
+
+/*
+General javascript functions
+*/
 
 function convertLinksToLowerCase() {
     $("a").each(function() {
         this.href = this.href.toLowerCase();
     });
 }
+
+
 
 function mapPopup(latitude, longitude, title) {
     var w = window.screen.width;
