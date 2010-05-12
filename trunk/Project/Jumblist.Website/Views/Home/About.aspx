@@ -1,9 +1,23 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel>" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
-    <h2>About</h2>
+    <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
     
+    <%= Html.MessageBox( ViewData.Model ) %>
+
+<%
+    DateTime nowTime = DateTime.Now;
+    DateTime postTime = DateTime.Now.AddSeconds( -3601 );
+    TimeSpan span = nowTime.Subtract( postTime );
+    
+    string alpha = "Hello Mr Chips";
+    
+     %>
+     Alphabetical: <%= alpha.ToAlphabetical() %><br />
+     Time span1: <%= span.TotalMinutes %><br />
+     Time span2: <%= span.ToDateTimeDiff( postTime )%><br />
+         
     <form name="arse" action="/home/submitabout" method="post">
     <input type="text" name="formInput"/>
     <a href="javascript:this.form.submit();">Submit</a>

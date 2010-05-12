@@ -47,8 +47,6 @@
 
             <br /><br />
             
-
-            
             <div class="basicmaplist">
                 <% Html.RenderPartial( "BasicMapListControl", Model.Pushpins ); %>
             </div>

@@ -7,6 +7,7 @@ using StuartClode.Mvc.Service.Data;
 
 using StuartClode.Mvc.Model;
 using System.ServiceModel.Syndication;
+using Jumblist.Core.Model;
 
 namespace Jumblist.Website.ViewModel
 {
@@ -69,6 +70,8 @@ namespace Jumblist.Website.ViewModel
     {
         public SyndicationFeed Feed { get; set; }
         public string HttpResponse { get; set; }
+        public Basket Basket { get; set; }
+        public string ReturnUrl { get; set; }
 
         public DefaultViewModel With( SyndicationFeed feed )
         {

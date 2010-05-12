@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using Jumblist.Core.Model;
 using Jumblist.Core.Service;
-using Jumblist.Core.Service.Basket;
 using Jumblist.Website.ViewModel;
 using StuartClode.Mvc.Service.Data;
 
@@ -23,63 +22,57 @@ namespace Jumblist.Website.Controllers
             this.basketSubmitter = basketSubmitter;
         }
 
-        public ViewResult Index( Basket basket, string returnUrl )
+        public ViewResult Index( User user, string returnUrl )
         {
-            ViewData["ReturnUrl"] = returnUrl;
-            ViewData["PostCategory"] = "Basket";
-            return View( "Index", basket );
+            var model = DefaultView.CreateModel();
+            model.PageTitle = "Basket";
+            model.Basket = user.Session.Basket;
+            model.ReturnUrl = returnUrl;
+
+            return View( model );
         }
 
-        public ActionResult Summary( Basket basket )
+        public ActionResult Summary( User user )
         {
-            return PartialView( "SummaryControl", basket );
+            return PartialView( "SummaryControl", user.Session.Basket );
         }
 
-        public RedirectToRouteResult AddItem( Basket basket, int postId, string returnUrl )
+        public RedirectToRouteResult AddItem( User user, int id, string returnUrl )
+        {
+            Post post = postService.SelectRecord( id );
+            user.Session.Basket.AddItem( post );
+            return RedirectToAction( "Index", new { returnUrl } );
+        }
+
+        public RedirectToRouteResult ClearItem( User user, int postId, string returnUrl )
         {
             Post post = postService.SelectRecord( postId );
-            basket.AddItem( post );
+            user.Session.Basket.ClearItem( post );
             return RedirectToAction( "Index", new { returnUrl } );
         }
 
-        public RedirectToRouteResult ClearItem( Basket basket, int postId, string returnUrl )
+        public RedirectToRouteResult ClearAll( User user, string returnUrl )
         {
-            Post post = postService.SelectRecord( postId );
-            basket.ClearItem( post );
+            user.Session.Basket.ClearAll();
             return RedirectToAction( "Index", new { returnUrl } );
-        }
-
-        public RedirectToRouteResult ClearAll( Basket basket, string returnUrl )
-        {
-            basket.ClearAll();
-            return RedirectToAction( "Index", new { returnUrl } );
-        }
-
-        [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult Email( Basket basket, string returnUrl )
-        {
-            return View( "Email", basket.BasketUser );
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ViewResult Email( Basket basket, FormCollection form )
+        public RedirectToRouteResult Email( User user, string returnUrl )
         {
             // Empty carts can't be checked out
-            if (basket.Items.Count == 0)
+            if (user.Session.Basket.Items.Count == 0)
             {
-                ModelState.AddModelError( "Basket", "Sorry, your basket is empty!" );
-                return View( "Email" );
+                //ModelState.AddModelError( "Basket", "Sorry, your basket is empty!" );
+                Message = new Message { Text = "Sorry, your basket is empty!", StyleClass = "message" };
+                return RedirectToAction( "Index", new { returnUrl } );
             }
 
-            // Invoke model binding manually
-            if (TryUpdateModel( basket.BasketUser, form.ToValueProvider() ))
-            {
-                basketSubmitter.SubmitBasket( basket );
-                basket.ClearAll();
-                return View( "Completed" );
-            }
-            else // Something was invalid
-                return View( "Email" );
+            basketSubmitter.SubmitBasket( user );
+            user.Session.Basket.ClearAll();
+            Message = new Message { Text = "Message sent", StyleClass = "message" };
+
+            return RedirectToAction( "Index", new { returnUrl } );
         }
     }
 }

@@ -63,6 +63,8 @@ namespace Jumblist.Core.Service
 
 
 
-        
+
+
+        void Email( int postId, User user );
     }
 }

@@ -9,10 +9,31 @@
 
     <div class="post-item">
 
-        <div style="padding: 20px 0px;"><%= Html.Encode( Model.Item.Body ).ReplaceParagraphBreaks()%></div>
+        <div style="padding: 20px 0px;">
+            <%= Html.Encode( Model.Item.Body ).ReplaceParagraphBreaks()%>
+        </div>
         
-        <div>Publish Date: <%= Model.Item.PublishDateTime %></div> 
+        <div>
+            <b>Publish Date: </b><br />
+            <%= Model.Item.PublishDateTime.ToString( "dddd, dd MMMM yyyy" ) %> at <%= Model.Item.PublishDateTime.ToString( "h:mm tt" )%>. <%= (DateTime.Now.Subtract( Model.Item.PublishDateTime )).ToDateTimeDiff( Model.Item.PublishDateTime, true )%>
+        </div> 
 
+        <div>
+            <b>View: </b><br />
+            <a href="<%= Model.Item.Url %>" target="_blank">Original Post on <%= Model.Item.Feed.Name %></a>      
+        </div>
+
+
+        <div>
+            <%= Html.SavePostToBasketLink( "Save to my jumblist (HTML)", new { id = Model.Item.PostId, returnUrl = HttpContext.Current.Request.Url.PathAndQuery }, null )%>
+            <%= Ajax.SavePostToBasketLink( "Save to my jumblist (AJAX)", new { id = Model.Item.PostId, returnUrl = HttpContext.Current.Request.Url.PathAndQuery }, new AjaxOptions { Confirm = "Save?", HttpMethod = "Post" } )%>
+        </div>
+
+        <div>
+            <%= Ajax.EmailPostLink( "Email", new { id = Model.Item.PostId }, new AjaxOptions { Confirm = "Send?", HttpMethod = "Post" } )%>
+        </div>
+            
+             
     </div>
    
     
@@ -23,10 +44,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <div>
-        <b>Contact: </b><br />
-        <a href="<%= Model.Item.Url %>" target="_blank">Original Post on <%= Model.Item.Feed.Name %></a>      
-    </div>
+
 
     <div class="post-category">
         <b>Category: </b><br />

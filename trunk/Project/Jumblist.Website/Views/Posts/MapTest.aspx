@@ -53,18 +53,6 @@
 		
 		<div id="tabs-2">
 
-<%--		    <% Html.RenderPartial( "MapDisplayControl", new ViewDataDictionary() {
-                { 
-                    "Google", 
-                    Ajax.GoogleMap()
-                    .CssClass("GoogleMap")
-                    .Center(50.853544, 0.56347)
-                    .Zoom(9)
-                    .AddPushpin(new Pushpin(50.853544, 0.56347), new Pushpin(50.83,0.57))
-                    //.AddPushpin( Model.Pushpins )
-                }
-            }); %> --%>
-
             <div id="map_canvas" style="width:800px;height:400px;border: 1px solid black;"></div>
             <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>  
             <script type="text/javascript">

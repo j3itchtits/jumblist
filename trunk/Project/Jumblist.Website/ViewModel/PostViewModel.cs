@@ -38,13 +38,13 @@ namespace Jumblist.Website.ViewModel
         public IEnumerable<Pushpin> Pushpins { get; set; }
         public IEnumerable<SelectListItem> PostCategoryList { get; set; }
 
-        public PostViewModel<T> With(PostCategory postCategory)
+        public PostViewModel<T> With( PostCategory postCategory )
         {
             this.PostCategory = postCategory;
             return this;
         }
 
-        public PostViewModel<T> With(IEnumerable<Tag> tags)
+        public PostViewModel<T> With( IEnumerable<Tag> tags )
         {
             this.Tags = tags;
             return this;

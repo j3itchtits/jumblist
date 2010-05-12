@@ -68,7 +68,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Basket.cs" />
-    <Compile Include="Model\BasketUser.cs" />
     <Compile Include="Model\CategoryLink.cs" />
     <Compile Include="Model\Link.cs" />
     <Compile Include="Model\PostCategory.cs" />

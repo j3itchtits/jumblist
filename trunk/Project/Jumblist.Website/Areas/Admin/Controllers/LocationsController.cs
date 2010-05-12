@@ -116,21 +116,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             return PartialView( "LocationList", list );
         }
 
-        [AcceptVerbs( HttpVerbs.Get )]
-        public ContentResult AjaxFindLocationNameAndAreas( string q )
-        {
-            var locations = locationService.SelectLocationNameAndAreaList( q );
 
-            return Content(locations.ToNewLineDelimitedString());
-        }
-
-        [AcceptVerbs( HttpVerbs.Get )]
-        public ContentResult AjaxFindLocationAreas( string q )
-        {
-            var locations = locationService.SelectLocationAreaList( q );
-
-            return Content(locations.ToNewLineDelimitedString());
-        }
 
     }
 }

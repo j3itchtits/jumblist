@@ -99,13 +99,6 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             return PartialView( "TagList", list );
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
-        public ContentResult AjaxFindTags(string q)
-        {
-            var tags = tagService.SelectTagNameList(q);
 
-            //return raw text, one result on each line
-            return Content(tags.ToNewLineDelimitedString());
-        } 
     }
 }

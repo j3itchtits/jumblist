@@ -10,6 +10,7 @@ using Jumblist.Website.Controllers;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Collections.Generic;
+using Jumblist.Core.Model;
 //using Microsoft.Web.Mvc.Internal;
 
 namespace Jumblist.Website.Extension
@@ -61,30 +62,45 @@ namespace Jumblist.Website.Extension
             return helper.ActionLink( linkText, "Logout", new { area = "", controller = "Users" } );
         }
 
-        public static string MessageBox( this HtmlHelper htmlHelper, IBaseViewModel model )
+        public static MvcHtmlString SavePostToBasketLink( this HtmlHelper helper, string linkText, object routeValues, object htmlAttributes )
         {
+            if ( HttpContext.Current.Request.IsAuthenticated )
+                return helper.ActionLink( linkText, "additem", "basket", routeValues, htmlAttributes );
+            else
+                return MvcHtmlString.Create( string.Empty ); 
+        }
+
+        public static MvcHtmlString MapLink( this HtmlHelper helper, Post post )
+        {
+            if ( post.HaveLatitudeAndLongitudeValuesBeenPopulated )
+                return MvcHtmlString.Create( "<a class=\"map\" title=\"Approximate location of " + post.Title + "\" href=\"#\" onclick=\"mapPopup( " + post.Latitude + ", " + post.Longitude + ", '" + post.Title + "');\">Map</a>" ); 
+            else
+                return MvcHtmlString.Create( string.Empty ); 
+        }
+
+        public static MvcHtmlString MessageBox( this HtmlHelper htmlHelper, IBaseViewModel model )
+        {
+            if ( model.Message == null ) return MvcHtmlString.Create( string.Empty );
+
             HtmlTextWriter writer = new HtmlTextWriter( new StringWriter() );
 
-            if (model.Message != null)
-            {
-                writer.AddAttribute( "class", model.Message.StyleClass );
-                writer.RenderBeginTag( HtmlTextWriterTag.Div );
-                writer.WriteEncodedText( model.Message.Text );
-                writer.RenderEndTag();
-            }
-
-            if ((model.MessageList != null) && (model.MessageList.Count > 0))
+            writer.AddAttribute( "class", model.Message.StyleClass );
+            writer.RenderBeginTag( HtmlTextWriterTag.Div );
+            writer.Write( model.Message.Text );
+            writer.RenderEndTag();
+ 
+            if ( model.MessageList != null )
             {
                 foreach (var message in model.MessageList)
                 {
                     writer.AddAttribute( "class", message.StyleClass );
                     writer.RenderBeginTag( HtmlTextWriterTag.Div );
-                    writer.WriteEncodedText( message.Text );
+                    writer.Write( message.Text );
                     writer.RenderEndTag();
                 }    
             }
 
-            return writer.InnerWriter.ToString();
+            return MvcHtmlString.Create( writer.InnerWriter.ToString() );
         }
 
         public static MvcHtmlString PageTitle( this HtmlHelper htmlHelper, IBaseViewModel model )
@@ -92,8 +108,7 @@ namespace Jumblist.Website.Extension
             if ( model.PageTitle == null ) return MvcHtmlString.Create( string.Empty );
 
             HtmlTextWriter writer = new HtmlTextWriter( new StringWriter() );
-
-            writer.WriteEncodedText( model.PageTitle );
+            writer.Write( model.PageTitle );
 
             return  MvcHtmlString.Create( writer.InnerWriter.ToString() );
         }
@@ -103,9 +118,8 @@ namespace Jumblist.Website.Extension
             if ( model.PageTitle == null ) return MvcHtmlString.Create( string.Empty );
 
             HtmlTextWriter writer = new HtmlTextWriter( new StringWriter() );
-
             writer.RenderBeginTag( tag );
-            writer.WriteEncodedText( model.PageTitle );
+            writer.Write( model.PageTitle );
             writer.RenderEndTag();
 
             return MvcHtmlString.Create( writer.InnerWriter.ToString() );

@@ -39,7 +39,7 @@ Box
 Post
 - Add post (facebook/twitter integration is for version 2 i think)
 - Email post to me
-- Save post to box
+- Save post to basket
 
 Post lists
 - Save lists as email alerts
@@ -70,7 +70,7 @@ Post List tab
 -- Title (DONE)
 -- Feed Name (DONE)
 -- Tags
--- Date
+-- Date or Time since posted (DONE)
 -- Post Category (DONE)
 -- View map (DONE)
 - Paging for list pages (like stackoverflow) (DONE)
@@ -85,20 +85,25 @@ Map List tab
 
 List Right Hand Column
 - Filter/Refine search (right column search box)
--- by category
--- by tag
--- by location
--- by search radius
+-- by category (DONE)
+-- by tag (DONE)
+-- by location (DONE)
+-- by search radius (DONE)
 
-Post
-- View map
-- Link back to freecycle/freegle
-- Share on facebook
-- Share on twitter
-- Fields to include on each post record
--- Title
--- Body
--- Publish Date
+Post Detail
+- Fields to include on each post record (left column)
+-- Title (DONE)
+-- Body (DONE)
+-- Publish Date and TimeDiff (DONE)
+- Fields to include on each post record (right column)
+-- Link back to freecycle/freegle (DONE)
+-- Post Category link (DONE)
+-- Group link (DONE)
+-- Tags link (DONE)
+-- Locations link + Map (DONE)
+-- Share on facebook
+-- Share on twitter
+
 
 RSS Feeds
 - Dynamic feed construction based on list properties (routedata)
