@@ -74,6 +74,15 @@ namespace Jumblist.Core.Service
             return locationList.Distinct().ToArray();
         }
 
+        public string[] SelectLocationNameList( string q )
+        {
+            var locationList = from l in SelectRecordList()
+                               where l.Name.StartsWith( q ) && (l.Area != null)
+                               select l.Name;
+
+            return locationList.Distinct().ToArray();
+        }
+
         public string[] SelectLocationAreaList( string q )
         {
             var locationList = from l in SelectRecordList()

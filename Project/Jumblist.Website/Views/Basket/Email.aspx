@@ -1,15 +1,15 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel>" %>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContentJavascript" runat="server">
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
-    <h2>Email my basket</h2>
+    <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
+    
+    <%= Html.MessageBox( ViewData.Model ) %>
     
     Please enter your details and we will email you your items!
-    
-    <%= Html.ValidationSummary() %>
     
     <% using(Html.BeginForm()) { %>
         <table>

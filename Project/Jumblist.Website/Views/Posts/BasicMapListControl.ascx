@@ -1,6 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IEnumerable<Pushpin>>" %>
 
-
 <table>
 <%
     foreach ( Pushpin p in Model )

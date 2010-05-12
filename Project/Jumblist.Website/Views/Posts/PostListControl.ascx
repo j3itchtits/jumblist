@@ -4,19 +4,27 @@
 <% foreach ( var post in Model )
    { %>
         <tr class="item">
-            <td><%= Html.RouteLink(post.Title, "Post-Detail", new { id = post.PostId, name = post.Title.ToFriendlyUrlEncode() }, new { title = post.Body })%></td>  
-            <td><% if (post.HaveLatitudeAndLongitudeValuesBeenPopulated) 
-               { %>
-                    <a title="Approximate location of <%= Html.Encode( post.Title ) %>" href="#" onclick="mapPopup( <%= post.Latitude %>, <%= post.Longitude %>, '<%= Html.Encode( post.Title ) %>' );">Map</a> <% 
-               } %>
+            <td>
+                <%= Html.RouteLink(post.Title, "Post-Detail", new { id = post.PostId, name = post.Title.ToFriendlyUrlEncode() }, new { title = post.Body })%>
+            </td>  
+            <td>
+                <%= Html.MapLink( post )%>
             </td>
-            <td><%= Html.ActionLink( post.Feed.Name, "group", new { id = post.Feed.Name.ToFriendlyUrlEncode() } )%></td>
-            <td><%= Html.Encode( post.Category.Name ) %></td>
-            <% if ( Page.Request.IsAuthenticated )
-               { %>
-                   <td><% Html.RenderPartial( "AddToBasketControl", post ); %></td>
-                   <td>Email me</td> <%
-               } %>
+            <td>
+                <%= Html.ActionLink( post.Feed.Name, "group", new { id = post.Feed.Name.ToFriendlyUrlEncode() } )%>
+            </td>
+            <td>
+                <%= (DateTime.Now.Subtract( post.PublishDateTime )).ToDateTimeDiff( post.PublishDateTime )%>
+            </td>
+            <td>
+                <%= Html.Encode( post.Category.Name ) %>
+            </td>
+            <td>
+                <%= Ajax.SavePostToBasketLink( "Save", new { id =post.PostId, returnUrl = HttpContext.Current.Request.Url.PathAndQuery }, new AjaxOptions { Confirm = "Save?", HttpMethod = "Post" } )%>
+            </td>
+            <td>
+                <%= Ajax.EmailPostLink( "Email", new { id = post.PostId }, new AjaxOptions { Confirm = "Send?", HttpMethod = "Post" } )%>
+            </td>
         </tr>            
 <% } %>
 </table>

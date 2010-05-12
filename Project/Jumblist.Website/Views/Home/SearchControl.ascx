@@ -6,27 +6,25 @@
     {
         if (Model.IsAuthenticated)
         { %>
-            <p>
+            <div>
                 <%= Html.TextBox( "tagSearch" ) %><br />
                 Within <%= Model.Radius%> miles of <%= Model.Postcode %><br />
                 <%= Html.Hidden( "locationRadius", Model.Radius )%>
                 <%= Html.Hidden( "locationSearch", Model.Postcode )%>
                 <%= Html.SubmitButton( "submit", "Search" ) %>
-            </p> <%
+            </div> <%
         }
         else
         { 
-            %><p>
+            %><div>
                 What <%= Html.TextBox( "tagSearch" ) %><br />
                 Where <%= Html.TextBox( "locationSearch" ) %> <br />
                 <%= Html.Hidden( "locationRadius", 5 ) %>
                 <%= Html.SubmitButton( "submit", "Search" ) %>
-            </p>
+            </div>
             
             <% 
         }
-        
-        
         
         %>
         

@@ -234,13 +234,13 @@ namespace Jumblist.Website.Controllers
                     if (!string.IsNullOrEmpty(q)) contains = " containing the search terms " + q;
                     model.Message = new Message { Text = "No posts tagged with " + tagList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2) + contains, StyleClass = "message" };
                 }
-                return View("index", model);
+                return View( "index", model );
             }
             catch ( Exception ex )
             {
                 PageTitle = "Sorry we have a problem" + ex.Message;
                 Message = new Message { Text = "We could not find this tag - " + id, StyleClass = "message" };
-                return RedirectToAction("problem");
+                return RedirectToAction( "problem" );
             }
         }
 
@@ -328,13 +328,17 @@ namespace Jumblist.Website.Controllers
             if ( !string.IsNullOrEmpty( locationSearch ) )
             {
                 locationSearch = locationSearch.ToCleanSearchString() + ", UK";
-                int radius = ( locationRadius.HasValue ) ? (int)locationRadius : defaultLocationRadius;
+                int radius = (locationRadius.HasValue) ? (int)locationRadius : defaultLocationRadius;
                 BingLocationService locationSearchCoordinates = new BingLocationService( locationSearch );
 
                 user.Session.LocationName = locationSearch;
                 user.Session.LocationRadius = radius;
                 user.Session.LocationLatitude = locationSearchCoordinates.Latitude;
                 user.Session.LocationLongitude = locationSearchCoordinates.Longitude;
+            }
+            else
+            {
+                user.Session = new UserSession( user.Session.PageSize );
             }
 
             userService.SaveSession( user.Session );
@@ -346,6 +350,13 @@ namespace Jumblist.Website.Controllers
             var searchResult = searchService.ProcessSearch();
 
             return RedirectToAction( searchResult.ActionName, searchResult.RouteValues );
+        }
+
+
+        [AcceptVerbs( HttpVerbs.Post )]
+        public void Email( int id, User user )
+        {
+            postService.Email( id, user );
         }
 
 

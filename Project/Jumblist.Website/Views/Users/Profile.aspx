@@ -7,14 +7,15 @@
     <%= Html.MessageBox( ViewData.Model ) %>
     
     <p>
-        UserId:
-        <%= Html.Encode( Model.Item.UserId ) %>
-    </p>
-    <p>
         Name:
         <%= Html.Encode( Model.Item.Name )%>
     </p>
 
+    <p>
+        Email:
+        <%= Html.Encode( Model.Item.Email )%>
+    </p>
+    
     <div class="post-locations">
         <div><b>Posts by this user: </b><br />
         <% foreach ( var post in Model.Item.Posts )

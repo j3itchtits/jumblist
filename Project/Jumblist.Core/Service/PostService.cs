@@ -11,6 +11,8 @@ using System.Linq.Expressions;
 using StuartClode.Mvc.Service.Map;
 using System.Data.Linq.Mapping;
 using System.Reflection;
+using System.Text;
+using System.Net.Mail;
 
 namespace Jumblist.Core.Service
 {
@@ -342,6 +344,26 @@ namespace Jumblist.Core.Service
         public override void Delete( Post post )
         {
             base.Delete( post );
+        }
+
+        public void Email( int postId, User user )
+        {
+            var post = SelectRecord( postId );
+
+            const string mailSubject = "Jumblist post";
+            //const string smtpServer = "localhost";
+            const string mailFrom = "jumblist@jumblist.co.uk";
+
+            StringBuilder body = new StringBuilder();
+            body.AppendLine( "Here is the post you requested" );
+            body.AppendLine( "---" );
+            body.AppendLine( "Title:" + post.Title );
+            body.AppendLine( "Group:" + post.Feed.Name );
+            body.AppendLine( "Date:" + post.PublishDateTime.ToLongDateString() );
+            body.AppendLine( "---" );
+
+            SmtpClient smtpClient = new SmtpClient();
+            smtpClient.Send( new MailMessage( mailFrom, user.Email, mailSubject, body.ToString() ) );
         }
 
         //public override bool IsDuplicate(Expression<Func<Post, bool>> whereCondition)

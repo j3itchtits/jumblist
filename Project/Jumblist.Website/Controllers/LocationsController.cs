@@ -33,6 +33,28 @@ namespace Jumblist.Website.Controllers
             return View( model );
         }
 
-        
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ContentResult AjaxFindLocationNames( string q )
+        {
+            var locations = locationService.SelectLocationNameList( q );
+
+            return Content( locations.ToNewLineDelimitedString() );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ContentResult AjaxFindLocationNameAndAreas( string q )
+        {
+            var locations = locationService.SelectLocationNameAndAreaList( q );
+
+            return Content( locations.ToNewLineDelimitedString() );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ContentResult AjaxFindLocationAreas( string q )
+        {
+            var locations = locationService.SelectLocationAreaList( q );
+
+            return Content( locations.ToNewLineDelimitedString() );
+        }
     }
 }

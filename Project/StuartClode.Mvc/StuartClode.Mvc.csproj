@@ -97,9 +97,11 @@
     <Compile Include="Extension\EnumerationExtensions.cs" />
     <Compile Include="Extension\IEnumerableExtensions.cs" />
     <Compile Include="Extension\PagingExtensions.cs" />
+    <Compile Include="Extension\TimeSpanExtensions.cs" />
     <Compile Include="Model\IPagedList.cs" />
     <Compile Include="Model\PagedList.cs" />
     <Compile Include="Model\Pager.cs" />
+    <Compile Include="Model\TimeSpanArticulator.cs" />
     <Compile Include="Service\Data\PredicateBuilder.cs" />
     <Compile Include="Extension\PropertyInfoExtensions.cs" />
     <Compile Include="Extension\RoutingExtension.cs" />

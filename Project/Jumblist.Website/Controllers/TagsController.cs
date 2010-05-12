@@ -50,5 +50,22 @@ namespace Jumblist.Website.Controllers
             return View( model );
         }
 
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ContentResult AjaxFindTags( string q )
+        {
+            var tags = tagService.SelectTagNameList( q );
+
+            //return raw text, one result on each line
+            return Content( tags.ToNewLineDelimitedString() );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ContentResult AjaxTags()
+        {
+            var tags = tagService.SelectTagNameList();
+
+            //return raw text, one result on each line
+            return Content( tags.ToNewLineDelimitedString() );
+        } 
     }
 }

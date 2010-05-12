@@ -13,7 +13,6 @@ using Jumblist.Website.Controllers;
 using Jumblist.Website.Module;
 using Jumblist.Website.ModelBinder;
 using Jumblist.Core.Service;
-using Jumblist.Core.Service.Basket;
 using Jumblist.Core.Model;
 using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Service.Data;
@@ -103,7 +102,7 @@ namespace Jumblist.Website
         private void RegisterComponents()
         {
             container.Register(
-                Component.For<IBasketSubmitter>().ImplementedBy<EmailBasketSubmitter>().LifeStyle.Transient.Parameters( Parameter.ForKey( "smtpServer" ).Eq( "127.0.0.1" ), Parameter.ForKey( "mailFrom" ).Eq( "stuartclode@idnet.com" ), Parameter.ForKey( "mailTo" ).Eq( "stuartclode@idnet.com" ) ),
+                //Component.For<IBasketSubmitter>().ImplementedBy<EmailBasketSubmitter>().LifeStyle.Transient.Parameters( Parameter.ForKey( "smtpServer" ).Eq( "127.0.0.1" ), Parameter.ForKey( "mailFrom" ).Eq( "stuartclode@idnet.com" ), Parameter.ForKey( "mailTo" ).Eq( "stuartclode@idnet.com" ) ),
 
                 Component.For<IDataContextProvider>().ImplementedBy<DataContextProvider>().LifeStyle.Transient,
                 Component.For<IConnectionStringProvider>().ImplementedBy<ConnectionStringProvider>().LifeStyle.Transient.Parameters( Parameter.ForKey( "connectionString" ).Eq( jumblistDbConnString ) ),
@@ -221,7 +220,7 @@ namespace Jumblist.Website
 
             //binders.DefaultBinder = new SomeCustomDefaultBinder();
 
-            binders[typeof(Basket)] = new BasketModelBinder();
+            //binders[typeof(Basket)] = new BasketModelBinder();
             binders[typeof(User)] = new UserModelBinder();
         }
 
