@@ -158,10 +158,13 @@
 
             $(".example8").colorbox({ width: "50%", inline: true, href: "#inline_example1" });
 
+            //$(".myMap").html("arse");
+            
         });
 
         function basicMap(latitude, longitude, title) {
-            document.write("arse");
+            $(this).html("bum");
+            alert("hello");
         }
         
     </script> 
@@ -179,16 +182,8 @@
 			<div id="inline_example1" style="padding:10px; background:#fff;"> 
 			<p><strong>Map</strong></p> 
 			
-			<script type="text/javascript">
-			    document.write('<p>What ever you want to write<\/p>');
-			</script>
-
-			
-			<p>
-			<script type="text/javascript"><!--
-			basicMap(latitude, longitude, title)
-			--></script>
-			</p> 
+			<a href="#" onclick="basicMap(3,3,'hello')" class="myMap">Click me</a>
+			<p onload="basicMap(3,3,'hello')"></p> 
 			</div> 
 		</div> 
 		        
