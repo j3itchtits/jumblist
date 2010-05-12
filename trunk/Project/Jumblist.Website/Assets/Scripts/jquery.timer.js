@@ -8,8 +8,7 @@
  *
  */
  
- jQuery.timer = function (interval, callback)
- {
+ 
  /**
   *
   * timer() provides a cleaner way to handle intervals  
@@ -42,6 +41,8 @@
   *
   * 
   */
+
+jQuery.fn.timer = function(interval, callback) {
 
 	var interval = interval || 100;
 

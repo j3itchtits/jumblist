@@ -56,5 +56,14 @@ namespace Jumblist.Website.Controllers
 
             return Content( locations.ToNewLineDelimitedString() );
         }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ContentResult AjaxLocations()
+        {
+            var locations = locationService.SelectLocationNameTownList();
+
+            //return raw text, one result on each line
+            return Content( locations.ToNewLineDelimitedString() );
+        } 
     }
 }
