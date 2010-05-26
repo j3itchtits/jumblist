@@ -10,7 +10,7 @@
     <div class="post-item">
 
         <div style="padding: 20px 0px;">
-            <%= Html.Encode( Model.Item.Body ).ReplaceParagraphBreaks()%>
+            <%= Html.Encode( Model.Item.Body ).ReplaceParagraphBreaksWithHtmlBrTags()%>
         </div>
         
         <div>

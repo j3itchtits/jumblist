@@ -7,7 +7,7 @@ namespace Jumblist.Core.Service
         string TagSearch { get; set; }
         string GroupSearch { get; set; }
         string PostCategorySearch { get; set; }
-        string[] Tags { get; set; }
+        //string[] Tags { get; set; }
         //string[] Locations { get; set; }
 
         SearchResult ProcessSearch();

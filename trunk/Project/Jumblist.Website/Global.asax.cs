@@ -12,6 +12,7 @@ using Jumblist.Website.Filter;
 using Jumblist.Website.Controllers;
 using Jumblist.Website.Module;
 using Jumblist.Website.ModelBinder;
+using Jumblist.Website.Extension;
 using Jumblist.Core.Service;
 using Jumblist.Core.Model;
 using StuartClode.Mvc.Repository;
@@ -49,6 +50,20 @@ namespace Jumblist.Website
                 RegisterComponents();
             }
         }
+
+        //protected void Application_BeginRequest( object sender, EventArgs e )
+        //{
+        //    string fullOrigionalpath = Request.Url.ToString();
+
+        //    if ( fullOrigionalpath.Contains( "/Products/Books.aspx" ) )
+        //    {
+        //        Context.RewritePath( "/Products.aspx?Category=Books" );
+        //    }
+        //    else if ( fullOrigionalpath.Contains( "/Products/DVDs.aspx" ) )
+        //    {
+        //        Context.RewritePath( "/Products.aspx?Category=DVDs" );
+        //    }
+        //} 
 
         protected void Session_Start()
         {
@@ -185,26 +200,52 @@ namespace Jumblist.Website
 
             AreaRegistration.RegisterAllAreas();
 
-            routes.MapRoute(
+            routes.JumblistMapRoute(
                 "Post-Detail",                                              // Route name
                 "post/{id}/{name}",                           // URL with parameters
                 new { controller = "posts", action = "detail", id = "", name = "" },  // Parameter defaults
                 new string[] { "Jumblist.Website.Controllers" }
             );
 
-            routes.MapRoute(
-                "Category",                                              // Route name
-                "{controller}/{action}/{id}/{category}",                           // URL with parameters
-                new { controller = "Home", action = "Index", id = "", category = "" },  // Parameter defaults
+            routes.JumblistMapRoute(
+                "Rss-Category",                                              // Route name
+                "{controller}/{rssactionname}/{rssactionid}/{rssactioncategory}/rss",                           // URL with parameters
+                new { controller = "posts", action = "rss" },  // Parameter defaults
                 new string[] { "Jumblist.Website.Controllers" }
             );
 
-            routes.MapRoute(
-                "Default",                                              // Route name
-                "{controller}/{action}/{id}",                           // URL with parameters
-                new { controller = "Home", action = "Index", id = "" },  // Parameter defaults
+            routes.JumblistMapRoute(
+                "Rss",                                              // Route name
+                "{controller}/{rssactionname}/{rssactionid}/rss",                           // URL with parameters
+                new { controller = "posts", action = "rss" },  // Parameter defaults
                 new string[] { "Jumblist.Website.Controllers" }
             );
+
+            routes.JumblistMapRoute(
+                "Category",                                              // Route name
+                "{controller}/{action}/{id}/{category}",                           // URL with parameters
+                new { controller = "Home", action = "Index", id = UrlParameter.Optional, category = UrlParameter.Optional },  // Parameter defaults
+                new string[] { "Jumblist.Website.Controllers" }
+            );
+
+            routes.JumblistMapRoute(
+                "Default",                                              // Route name
+                "{controller}/{action}/{id}",                           // URL with parameters
+                new { controller = "Home", action = "Index", id = UrlParameter.Optional },  // Parameter defaults
+                new string[] { "Jumblist.Website.Controllers" }
+            );
+
+            //routes.Add(
+            //    new JumblistRoute(
+            //        "{controller}/{action}/{id}",
+            //        new RouteValueDictionary( new { 
+            //            controller = "Home", 
+            //            action = "Index", 
+            //            id = UrlParameter.Optional 
+            //        } ),
+            //        new MvcRouteHandler()
+            //    )
+            //);
         }
 
         public static void RegisterViewEngines( ViewEngineCollection engines )

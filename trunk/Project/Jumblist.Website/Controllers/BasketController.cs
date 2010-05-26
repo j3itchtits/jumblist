@@ -57,7 +57,7 @@ namespace Jumblist.Website.Controllers
             return RedirectToAction( "Index", new { returnUrl } );
         }
 
-        [AcceptVerbs( HttpVerbs.Post )]
+        [AcceptVerbs( HttpVerbs.Get )]
         public RedirectToRouteResult Email( User user, string returnUrl )
         {
             // Empty carts can't be checked out

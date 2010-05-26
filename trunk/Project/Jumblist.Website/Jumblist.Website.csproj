@@ -63,10 +63,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ReferenceAssemblies\MvcContrib.dll</HintPath>
     </Reference>
-    <Reference Include="MvcMaps, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceAssemblies\MvcMaps.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core">
@@ -127,14 +123,11 @@
     <Compile Include="Controllers\ViewModelController.cs" />
     <Compile Include="Extension\AjaxHelperExtensions.cs" />
     <Compile Include="Extension\IEnumerableExtensions.cs" />
+    <Compile Include="Extension\RouteCollectionExtensions.cs" />
     <Compile Include="Extension\UrlHelperExtensions.cs" />
     <Compile Include="Filter\CompressResponseAttribute.cs" />
     <Compile Include="Filter\CopyTempDataToViewDataAttribute.cs" />
     <Compile Include="Extension\HtmlHelperExtensions.cs" />
-    <Compile Include="Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="Filter\CustomAuthorizationAttribute.cs" />
     <Compile Include="Filter\ElmahHandleErrorAttribute.cs" />
     <Compile Include="Filter\LoadFeedsAttribute.cs" />
@@ -143,6 +136,7 @@
     </Compile>
     <Compile Include="ModelBinder\UserModelBinder.cs" />
     <Compile Include="Module\FeedProcessingHttpModule.cs" />
+    <Compile Include="Result\RssResult.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\DefaultViewModel.cs" />
     <Compile Include="ViewModel\IBaseViewModel.cs" />
@@ -154,7 +148,6 @@
     <Content Include="Assets\Stylesheets\yui-base.css" />
     <Content Include="Assets\Stylesheets\yui-fonts-min.css" />
     <Content Include="Assets\Stylesheets\yui-reset.css" />
-    <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Assets\Scripts\jquery.validate.min.js" />
     <Content Include="Assets\Scripts\xVal.jquery.validate.js" />
@@ -178,6 +171,10 @@
     <ProjectReference Include="..\Jumblist.Core\Jumblist.Core.csproj">
       <Project>{B491CACC-CB79-4FF1-BD9F-0EC617333D0F}</Project>
       <Name>Jumblist.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MvcMaps\MvcMaps.csproj">
+      <Project>{578DC3BC-E37E-41E0-B38F-D1DC54602BFE}</Project>
+      <Name>MvcMaps</Name>
     </ProjectReference>
     <ProjectReference Include="..\StuartClode.Mvc\StuartClode.Mvc.csproj">
       <Project>{24F71C77-8733-4D9A-9B6C-9F3230529AD1}</Project>
@@ -233,22 +230,30 @@
     <Content Include="Assets\Images\background-top.gif" />
     <Content Include="Assets\Images\background-top.jpg" />
     <Content Include="Assets\Images\background.jpg" />
-    <Content Include="Assets\Images\colorbox.controls.png" />
-    <Content Include="Assets\Images\colorbox.loading.gif" />
     <Content Include="Assets\Images\logo.gif" />
     <Content Include="Assets\Images\logo.jpg" />
     <Content Include="Assets\Scripts\jquery-1.3.2-vsdoc.js" />
     <Content Include="Assets\Scripts\jquery-1.3.2.js" />
+    <Content Include="Assets\Scripts\jquery.alerts.js" />
     <Content Include="Assets\Scripts\jquery.colorbox-min.js" />
     <Content Include="Assets\Scripts\jquery.colorbox.js" />
+    <Content Include="Assets\Scripts\jquery.customdata.js" />
     <Content Include="Assets\Scripts\jquery.highlight-3.js" />
+    <Content Include="Assets\Scripts\jquery.jsonviewer.js" />
     <Content Include="Assets\Scripts\jquery.jumblist.js" />
     <Content Include="Assets\Scripts\jquery.timer.js" />
-    <Content Include="Assets\Stylesheets\colorbox.css" />
+    <Content Include="Assets\Stylesheets\Images\alerts.help.gif" />
+    <Content Include="Assets\Stylesheets\Images\alerts.important.gif" />
+    <Content Include="Assets\Stylesheets\Images\alerts.info.gif" />
+    <Content Include="Assets\Stylesheets\Images\alerts.title.gif" />
+    <Content Include="Assets\Stylesheets\Images\colorbox.controls.png" />
+    <Content Include="Assets\Stylesheets\Images\colorbox.loading.gif" />
     <Content Include="Assets\Stylesheets\indicator.gif" />
     <Content Include="Assets\Scripts\jquery-ui-1.7.2.custom.min.js" />
     <Content Include="Assets\Scripts\jquery.autocomplete.min.js" />
+    <Content Include="Assets\Stylesheets\jquery.alerts.css" />
     <Content Include="Assets\Stylesheets\jquery.autocomplete.css" />
+    <Content Include="Assets\Stylesheets\jquery.colorbox.css" />
     <Content Include="Assets\Stylesheets\ui.tabs.css" />
     <Content Include="Views\Basket\SummaryControl.ascx" />
     <Content Include="Views\Groups\GroupListControl.ascx" />

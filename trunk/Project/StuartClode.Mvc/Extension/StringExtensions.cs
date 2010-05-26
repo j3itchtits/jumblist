@@ -37,9 +37,23 @@ namespace StuartClode.Mvc.Extension
             return helper;
         }
 
-        public static string[] ToFriendlyUrlDecode(this string helper)
+        public static string[] ToFriendlyUrlDecode( this string helper )
         {
-            return helper.Split('+'); ;
+            return (helper ?? string.Empty).Split( '+' );
+        }
+
+        public static string ToFriendlyQueryStringEncode( this string helper )
+        {
+            helper = (helper ?? "").Trim().ToLower();
+            helper = Regex.Replace( helper, @", ", " " );        // a comma then space becomes a space (+) in the querystring
+            helper = Regex.Replace( helper, @"[^a-z0-9\s+]", "-" ); // invalid chars become a connector (-) in the querystring
+            helper = Regex.Replace( helper, @"-+", "-" ); // convert multiple dashes into one
+            return helper;
+        }
+
+        public static string[] ToFriendlyQueryStringDecode( this string helper )
+        {
+            return ( helper ?? string.Empty ).Split( ' ' );
         }
 
         public static string ToCleanSearchString( this string helper )
@@ -56,6 +70,15 @@ namespace StuartClode.Mvc.Extension
         public static string ToAlphabetical( this string input )
         {
             return input.Split( ' ' ).OrderBy( s => s ).ToFormattedStringList( "{0} ", 1 );
+        }
+
+        public static string ToShortDescription( this string input )
+        {
+            if (string.IsNullOrEmpty( input ) ) return string.Empty;
+
+            string ret = (input.Length < 150) ? input : input.Substring( 0, 150 ) + "...";
+
+            return ReplaceLineBreaks( ret, " " );
         }
 
         public static string AlterIfNotNullOrEmpty(this string input, string prepend, string postpend)
@@ -80,7 +103,7 @@ namespace StuartClode.Mvc.Extension
                         .Replace( "\n", replacement );
         }
 
-        public static string ReplaceParagraphBreaks( this string lines )
+        public static string ReplaceParagraphBreaksWithHtmlBrTags( this string lines )
         {
             return lines.Replace( "\r\n\r\n", "<br/><br/>" ).Replace( "\n\n", "<br/><br/>" );
         }

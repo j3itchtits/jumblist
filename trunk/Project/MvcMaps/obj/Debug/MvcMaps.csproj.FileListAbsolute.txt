@@ -1,0 +1,10 @@
+C:\Projects\Mvc\MvcMapsPreview1\MvcMaps\bin\Debug\MvcMaps.dll
+C:\Projects\Mvc\MvcMapsPreview1\MvcMaps\bin\Debug\MvcMaps.pdb
+C:\Projects\Mvc\MvcMapsPreview1\MvcMaps\obj\Debug\ResolveAssemblyReference.cache
+C:\Projects\Mvc\MvcMapsPreview1\MvcMaps\obj\Debug\MvcMaps.dll
+C:\Projects\Mvc\MvcMapsPreview1\MvcMaps\obj\Debug\MvcMaps.pdb
+C:\Projects\Mvc\Jumblist\Project\MvcMaps\bin\Debug\MvcMaps.dll
+C:\Projects\Mvc\Jumblist\Project\MvcMaps\bin\Debug\MvcMaps.pdb
+C:\Projects\Mvc\Jumblist\Project\MvcMaps\obj\Debug\ResolveAssemblyReference.cache
+C:\Projects\Mvc\Jumblist\Project\MvcMaps\obj\Debug\MvcMaps.dll
+C:\Projects\Mvc\Jumblist\Project\MvcMaps\obj\Debug\MvcMaps.pdb

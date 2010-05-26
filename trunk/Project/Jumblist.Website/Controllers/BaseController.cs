@@ -2,6 +2,8 @@
 using Jumblist.Website.Filter;
 using Jumblist.Core.Model;
 using System.Collections.Generic;
+using Jumblist.Website.Result;
+using System.ServiceModel.Syndication;
 
 namespace Jumblist.Website.Controllers
 {
@@ -37,6 +39,16 @@ namespace Jumblist.Website.Controllers
         {
             get { return TempData["messagelist"] as List<Message>; }
             set { TempData["messagelist"] = value; }
+        }
+
+        protected internal RssResult Rss( SyndicationFeed feed )
+        {
+            return Rss( feed, null );
+        }
+
+        protected internal virtual RssResult Rss( SyndicationFeed feed, string something )
+        {
+            return new RssResult() { Feed = feed };
         }
     }
 }

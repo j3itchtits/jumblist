@@ -10,31 +10,32 @@ using Jumblist.Core.Model;
 using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Model;
 using StuartClode.Mvc.Service.Map;
+using System.Web;
 
 namespace Jumblist.Core.Service
 {
     public class SearchService : ISearchService
     {
-        private string[] tags;
+        //private string[] tags;
         //private string[] locations;
         public ITagService tagService;
-        public ILocationService locationService;
+       // public ILocationService locationService;
 
-        public SearchService(ITagService tagService, ILocationService locationService)
+        public SearchService( ITagService tagService )
         {
             this.tagService = tagService;
-            this.locationService = locationService;
+            //this.locationService = locationService;
         }
 
         public string TagSearch { get; set; }
         public string GroupSearch { get; set; }
         public string PostCategorySearch { get; set; }
 
-        public string[] Tags 
-        {
-            get { return tagService.SelectTagNameList(); }
-            set { tags = value; }
-        }
+        //public string[] Tags 
+        //{
+        //    get { return tagService.SelectTagNameList(); }
+        //    set { tags = value; }
+        //}
         
         //public string[] Locations
         //{
@@ -44,52 +45,71 @@ namespace Jumblist.Core.Service
 
         public SearchResult ProcessSearch()
         {
-            if (GroupSearch.Length > 0)
-            {
-                return new SearchResult { ActionName = "group", RouteValues = new { id = GroupSearch, category = PostCategorySearch, q = TagSearch, page = string.Empty } };
-            }
-
-            if (TagSearch.Length == 0 && PostCategorySearch.Length == 0)
-            {
-                return new SearchResult { ActionName = "index", RouteValues = new { page = string.Empty } };
-            }
-
-            if (TagSearch.Length == 0 && PostCategorySearch.Length > 0)
-            {
-                return new SearchResult { ActionName = "category", RouteValues = new { category = PostCategorySearch, page = string.Empty } };
-            }
+            //if ( TagSearch.Length == 0 )
+            //{
+            //    if ( GroupSearch.Length > 0 )
+            //    {
+            //        return new SearchResult { ActionName = "group", RouteValues = new { id = GroupSearch, category = PostCategorySearch } };
+            //    }
+            //    else if ( PostCategorySearch.Length > 0 )
+            //    {
+            //        return new SearchResult { ActionName = "category", RouteValues = new { id = PostCategorySearch } };
+            //    }
+            //    else
+            //    {
+            //        return new SearchResult { ActionName = "index", RouteValues = null };
+            //    }
+            //}
 
             string tagSearchPattern = TagSearch.ToSearchRegexPattern();
+            var tagMatches = Regex.Matches( tagService.SelectTagNameList().ToNewLineDelimitedString(), tagSearchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
+
+            string q;
+            bool isCompleteSearchMatch = IsSearchCompleteMatch( tagMatches, out q );
+            string tagQueryString = ((IEnumerable)tagMatches).ToFriendlyUrlEncode();
+
+            if ( tagQueryString.Length == 0 )
+            {
+                if ( GroupSearch.Length > 0 )
+                {
+                    return new SearchResult { ActionName = "group", RouteValues = new { id = GroupSearch, category = PostCategorySearch, q = q } };
+                }
+                else if ( PostCategorySearch.Length > 0 )
+                {
+                    return new SearchResult { ActionName = "category", RouteValues = new { id = PostCategorySearch, q = q } };
+                }
+                else
+                {
+                    return new SearchResult { ActionName = "index", RouteValues = new { q = q } };
+                }
+            }
+            else
+            {
+                if ( GroupSearch.Length > 0 )
+                {
+                    return new SearchResult { ActionName = "group", RouteValues = new { id = GroupSearch, category = PostCategorySearch, q = tagQueryString + q } };
+                }
+                else
+                {
+                    return new SearchResult { ActionName = "tagged", RouteValues = new { id = tagQueryString, category = PostCategorySearch, q = q } };
+                }
+            }
 
 
             //Get User entity - what about anonymous users?
             //Add LocationSearch to User entity - this can then be used in the PostController to filter the tagged or search post list
             // note - actually we might not need locationsearch at all - perhaps this logic can be incorporated into the controllers
 
-            var tagMatches = Regex.Matches( Tags.ToNewLineDelimitedString(), tagSearchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
             //var locationMatches = Regex.Matches(Locations.ToNewLineDelimitedString(), searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
 
 
-            string q;
-            bool isCompleteSearchMatch = IsSearchCompleteMatch( tagMatches, out q );
-            string tagQueryString = ((IEnumerable)tagMatches).ToFriendlyUrlEncode();
+
             //string locationQueryString = ((IEnumerable)locationMatches).ToFriendlyUrlEncode();
 
-            string actionName = string.Empty;
-            object routeValues = new object();
 
-            if (tagQueryString.Length > 0)
-            {
-                actionName = "tagged";
-                routeValues = new { id = tagQueryString, category = PostCategorySearch, q = q, page = string.Empty };
-            }
 
-            if (tagQueryString.Length == 0)
-            {
-                actionName = "searchresult";
-                routeValues = new { q = q, category = PostCategorySearch, page = string.Empty };
-            }
+
 
             //if (tagQueryString.Length == 0 && locationQueryString.Length > 0)
             //{
@@ -103,11 +123,7 @@ namespace Jumblist.Core.Service
             //    routeValues = new { tagged = tagQueryString, located = locationQueryString, category = PostCategorySearch, q = q, page = string.Empty };
             //}
 
-
-
-            var searchResult = new SearchResult { ActionName = actionName, RouteValues = routeValues };
-
-            return searchResult;
+            
         }
 
 
@@ -124,7 +140,7 @@ namespace Jumblist.Core.Service
             if (!match)
 	        {
                 IEnumerable<string> difference = (TagSearch.ToLower().Split(' ')).Except(tagMatchesCompareString.ToLower().Split(' '));
-                q = difference.ToFriendlyUrlEncode(); 
+                q = difference.ToFriendlyQueryStringEncode();
 	        }
 
             return match;
