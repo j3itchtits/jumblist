@@ -1,9 +1,11 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel>" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
 
-<html xmlns="http://www.w3.org/1999/xhtml" >
-<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
     <title>jQueryTest</title>
 
     <script src="<%= Url.Script( "MicrosoftAjax.js" )%>" type="text/javascript"></script>
@@ -15,10 +17,16 @@
     <script src="<%= Url.Script( "jquery.jumblist.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.timer.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.colorbox-min.js" )%>" type="text/javascript"></script>
+    <script src="<%= Url.Script( "jquery.alerts.js" )%>" type="text/javascript"></script>
+    <script src="<%= Url.Script( "jquery.customdata.js" )%>" type="text/javascript"></script>
+    <script src="<%= Url.Script( "jquery.jsonviewer.js" )%>" type="text/javascript"></script>
+    
+    <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
 
     <link href="<%= Url.Stylesheet( "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
-    <link href="<%= Url.Stylesheet( "colorbox.css" )%>" rel="stylesheet" type="text/css"/>
-    
+    <link href="<%= Url.Stylesheet( "jquery.colorbox.css" )%>" rel="stylesheet" type="text/css"/>
+    <link href="<%= Url.Stylesheet( "jquery.alerts.css" )%>" rel="stylesheet" type="text/css"/>
+        
     <style type="text/css">
         .highlight { background-color: yellow; }
         .highlightedlink { background-color: #eee; }
@@ -156,16 +164,128 @@
 
             $('.tip').truncate({ moreText: "some more please" });
 
-            $(".example8").colorbox({ width: "50%", inline: true, href: "#inline_example1" });
+            $("#launchColorbox").colorbox({
+                width: "50%",
+                inline: true,
+                href: "#colorboxContent",
+                onComplete: function() { $("#colorboxMap").gmap({ latitude: 50.9645, longitude: 0.553, zoom: 11, title: "arse" }); }
+            });
 
-            //$(".myMap").html("arse");
-            
+            $("#map_canvas2").gmap({ latitude: 50.9645, longitude: 0.553, zoom: 14, title: "hello" });
+
+            $("#alert_button").click(function() {
+                jAlert('This is a custom alert box', 'Alert Dialog');
+            });
+
+            $("#confirm_button").click(function() {
+                jConfirm('Can you confirm this?', 'Confirmation Dialog', function(r) {
+                    jAlert('Confirmed: ' + r, 'Confirmation Results');
+                });
+            });
+
+            $("#prompt_button").click(function() {
+                jPrompt('Type something:', 'Prefilled value', 'Prompt Dialog', function(r) {
+                    if (r) alert('You entered ' + r);
+                });
+            });
+
+            $("#alert_button_with_html").click(function() {
+                jAlert('You can use HTML, such as <strong>bold</strong>, <em>italics</em>, and <u>underline</u>!');
+            });
+
+            $(".alert_style_example").click(function() {
+                $.alerts.dialogClass = $(this).attr('id'); // set custom style class
+                jAlert('This is the custom class called &ldquo;style_1&rdquo;', 'Custom Styles', function() {
+                    $.alerts.dialogClass = null; // reset to default
+                });
+            });
+
+            $("#girls").find('a').each(function() {
+                var obj = $(this);
+                if (obj.attr('rel') == 'girl' && obj.attr('hotness') >= 9) {
+                    obj.css("font-weight", "bold");
+                }
+
+            });
+
+            $("#delete_link").click(function() {
+                jAlert($(this).customdata());
+                return false;
+            });
+
+            $("#btnFillList").click(function() {
+
+                //this one works but is a potential security risk as it is using a GET request (this is OK for non-sensitve data though)  
+                //                $.getJSON('<%= Url.Action( "JsonTagsGet", "Tags" ) %>', null, function(data) {
+                //                    $("#tagList").fillSelect(data);
+                //                });
+
+                //this one works nicely - and seems to be easily the quickest!
+                $.post('<%= Url.Action( "JsonTagsPost", "Tags" ) %>', null, function(data, textStatus) {
+                    //data contains the JSON object
+                    //textStatus contains the status: success, error, etc
+                    $("#tagList").fillSelect(data);
+                    //$('#basic_usage').jsonviewer({ json_name: 'tags', json_data: data });
+                }, "json");
+
+                //this also works - what a choice!!
+                //                $.ajax({
+                //                    type: "POST",
+                //                    url: '<%= Url.Action( "JsonTagsPost", "Tags" ) %>',
+                //                    data: {},
+                //                    contentType: "application/json; charset=utf-8",
+                //                    dataType: "json",
+                //                    success: function(data) {
+                //                        $("#tagList").fillSelect(data);
+                //                    }
+                //                });                
+
+            });
+
+            $("#btnClearList").click(function() {
+                $("#tagList").clearSelect();
+            });
+
+            $.fn.clearSelect = function() {
+                return this.each(function() {
+                    if (this.tagName == 'SELECT')
+                        this.options.length = 0;
+                });
+            }
+
+            $.fn.fillSelect = function(data) {
+                return this.clearSelect().each(function() {
+                    if (this.tagName == 'SELECT') {
+                        var dropdownList = this;
+                        $.each(data, function(index, optionData) {
+                            var option = new Option(optionData.Name, optionData.Id);
+                            dropdownList.add(option);
+                        });
+                    }
+                });
+            }
+
+            var myobj = { name: "Numbers", data: [1, 2, 3] };
+            var test_object = {
+                test_number: 1,
+                test_string: "test string",
+                test_string2: new String("another test string"),
+                test_date: new Date(),
+                test_boolean: true,
+                test_array: [[1, 2, 3], [4, 5, 6]],
+                test_object: { a: 1, b: "2", another: { internal_array: [{ fate: true }, 34]} }
+            }
+            $('#basic_usage').jsonviewer({ json_name: 'myobj', json_data: myobj });
+            //$('#json_viewer').jsonviewer({ json_name: 'test', type_prefix: false, json_data: test_object });
+
+            //json diff stuff
+            //http://tlrobinson.net/projects/javascript-fun/jsondiff/
+            //{"tag": [{"id":1,"name":"foot"}]}
+            //{"tag": [{"id":1,"name":"foot"},{"id":2,"name":"ball"}]}
+
         });
 
-        function basicMap(latitude, longitude, title) {
-            $(this).html("bum");
-            alert("hello");
-        }
+        
         
     </script> 
             
@@ -173,17 +293,47 @@
 <body>
     <div>
         <h2><%= Model.PageTitle %></h2>
+
+        <p><strong>Client-side JSON</strong></p> 
+        <div id="basic_usage"></div> 
+        <div id="json_viewer"></div> 
+
+        <p><strong>Server-side JSON</strong></p> 
+        <input id="btnFillList" type="button" value="Fill Dropdown List" />
+        <input id="btnClearList" type="button" value="Clear Dropdown" />
+        <select id="tagList"></select>
+        
+        <p><strong>Custom data (attributes)</strong></p>
+        <a id="delete_link" data-method="delete" data-remote="true" href="#">
+          Unobtrusive delete link
+        </a>        
+        
+        <p><strong>Custom attributes</strong></p>        
+        <ol id="girls">
+            <li><a rel="girdl" hotness="9.0">Sarah</a></li>
+            <li><a rel="girl" hotness="8.0">Libby</a></li>
+            <li><a rel="girl" hotness="9.0">Azure</a></li>
+            <li><a rel="girl" hotness="8.5">Cindy</a></li>
+        </ol>
+
+        <p><strong>Dialog boxes</strong></p>
+        <input id="alert_button" type="button" value="Show Alert" />
+        <input id="confirm_button" type="button" value="Show Confirm" />
+        <input id="prompt_button" type="button" value="Show Prompt" /> 
+        <input id="alert_button_with_html" type="button" value="Show Alert" />
+        <input id="style_1" class="alert_style_example" type="button" value="Style 1" /> 
+        
+        <p><strong>Map</strong></p>
+        <div id="map_canvas2" style="width:400px;height:300px;border:1px solid black;"></div>
         
         <p><strong>Popup</strong></p>
-        <p><a class="example8" href="#">Inline HTML</a></p> 
+        <p><a id="launchColorbox" href="#">Inline HTML</a></p> 
 
 		<!-- This contains the hidden content for inline calls --> 
 		<div style="display:none"> 
-			<div id="inline_example1" style="padding:10px; background:#fff;"> 
+			<div id="colorboxContent" style="padding:10px; background:#fff;"> 
 			<p><strong>Map</strong></p> 
-			
-			<a href="#" onclick="basicMap(3,3,'hello')" class="myMap">Click me</a>
-			<p onload="basicMap(3,3,'hello')"></p> 
+			<div id="colorboxMap" style="width:400px;height:300px;border:1px solid black;"></div>
 			</div> 
 		</div> 
 		        

@@ -66,6 +66,28 @@ namespace Jumblist.Website.Controllers
 
             //return raw text, one result on each line
             return Content( tags.ToNewLineDelimitedString() );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public JsonResult JsonTagsGet()
+        {
+            //var tags = from t in tagService.SelectRecordList() 
+            //           select new { Id = t.TagId, Name = t.Name };
+
+            var tags = tagService.SelectRecordList().Select( x => ( new { Id = x.TagId, Name = x.Name } ) );
+
+            return Json( tags, JsonRequestBehavior.AllowGet );
+        }
+
+        [AcceptVerbs( HttpVerbs.Post )]
+        public JsonResult JsonTagsPost()
+        {
+            //var tags = from t in tagService.SelectRecordList() 
+            //           select new { Id = t.TagId, Name = t.Name };
+
+            var tags = tagService.SelectRecordList().Select( x => (new { Id = x.TagId, Name = x.Name }) );
+
+            return Json( tags );
         } 
     }
 }

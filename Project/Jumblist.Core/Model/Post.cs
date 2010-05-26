@@ -60,7 +60,7 @@ namespace Jumblist.Core.Model
             return x => x.Guid == guid;
         }
 
-        public static Expression<Func<Post, bool>> WhereSearchTextEquals(string q)
+        public static Expression<Func<Post, bool>> WhereSearchTextEquals( string q )
         {
             var condition = PredicateBuilder.False<Post>();
             condition = condition.Or(x => SqlMethods.Like(x.Title, "%" + q + "%"));

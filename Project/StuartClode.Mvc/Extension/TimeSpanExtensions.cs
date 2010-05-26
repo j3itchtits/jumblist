@@ -37,7 +37,7 @@ namespace StuartClode.Mvc.Extension
             }
             else
             {
-                return dateTime.ToString( "MMM dd, yyyy" ) + " at " + dateTime.ToString( "h:mm tt" );
+                return dateTime.ToString( "MMM dd, yyyy" );
             }
         }
 

@@ -16,5 +16,11 @@ namespace Jumblist.Website.Filter
             filterContext.Controller.ViewData["feeds"] = FeedService.SelectRecordList();
             base.OnActionExecuting( filterContext );
         }
+
+        //public override void OnActionExecuted( ActionExecutedContext filterContext )
+        //{
+        //    filterContext.HttpContext.RewritePath();
+        //    base.OnActionExecuted( filterContext );
+        //}
     }
 }

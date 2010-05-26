@@ -51,6 +51,11 @@ namespace StuartClode.Mvc.Extension
             return enumeration.ToFormattedStringList("{0}, ", 2).ToFriendlyUrlEncode();
         }
 
+        public static string ToFriendlyQueryStringEncode( this IEnumerable enumeration )
+        {
+            return enumeration.ToFormattedStringList( "{0}, ", 2 ).ToFriendlyQueryStringEncode();
+        }
+
         public static string ToNewLineDelimitedString(this IEnumerable<string> enumeration)
         {
             return string.Join("\n", enumeration.ToArray());

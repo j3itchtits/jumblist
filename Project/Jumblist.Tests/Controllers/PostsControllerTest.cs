@@ -24,7 +24,7 @@ namespace Jumblist.Tests.Controllers
             var controller = new PostsController( postRepository, null, null, null, null, null, null );
 
             //Act
-            var result = controller.Index( null, null, null );
+            var result = controller.Index( string.Empty, null, null, null );
 
             // Assert
             Assert.IsNotNull(result);
@@ -39,7 +39,7 @@ namespace Jumblist.Tests.Controllers
             var controller = new PostsController( postRepository, null, null, null, null, null, null );
 
             //Act
-            var result = controller.Index( null, null, null );
+            var result = controller.Index( string.Empty, null, null, null );
             var model = ((ViewResult)result).ViewData.Model as DefaultViewModel<Post>;
             
             // Assert
@@ -57,7 +57,7 @@ namespace Jumblist.Tests.Controllers
             //controller.PageSize = 3;
 
             //Act
-            var result = controller.Index( null, null, null );
+            var result = controller.Index( string.Empty, null, null, null );
             var model = ((ViewResult)result).ViewData.Model as DefaultViewModel<Post>;
 
             //Assert

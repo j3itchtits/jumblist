@@ -13,6 +13,7 @@ using System.Data.Linq.Mapping;
 using System.Reflection;
 using System.Text;
 using System.Net.Mail;
+using System.Configuration;
 
 namespace Jumblist.Core.Service
 {
@@ -23,6 +24,7 @@ namespace Jumblist.Core.Service
         public IDataService<PostTag> postTagDataService;
         public IDataService<Tag> tagDataService;
         public IDataService<PostCategory> postCategoryDataService;
+        private readonly string defaultEmail = ConfigurationManager.AppSettings["DefaultEmail"];
 
         public PostService(
             IRepository<Post> repository, 
@@ -50,21 +52,20 @@ namespace Jumblist.Core.Service
             return base.SelectRecordList();
         }
 
-
         public override IQueryable<Post> SelectRecordList( Expression<Func<Post, bool>> wherePostCondition )
         {
             return base.SelectRecordList( wherePostCondition );
         }
 
-        public IEnumerable<Post> SelectRecordList( Expression<Func<Post, bool>> wherePostCondition, User user )
-        {
-            IEnumerable<Post> postList = SelectRecordList( wherePostCondition );
+        //public IEnumerable<Post> SelectRecordList( Expression<Func<Post, bool>> wherePostCondition, User user )
+        //{
+        //    IEnumerable<Post> postList = SelectRecordList( wherePostCondition );
 
-            if ( !string.IsNullOrEmpty( user.Session.LocationName ) )
-                postList = postList.ToFilteredList( Post.WhereLocationEquals( user.Session.LocationLatitude, user.Session.LocationLongitude, user.Session.LocationRadius ) );
+        //    if ( !string.IsNullOrEmpty( user.Session.LocationName ) )
+        //        postList = postList.ToFilteredList( Post.WhereLocationEquals( user.Session.LocationLatitude, user.Session.LocationLongitude, user.Session.LocationRadius ) );
 
-            return postList;
-        }
+        //    return postList;
+        //}
 
         public IEnumerable<Post> SelectRecordList(Expression<Func<PostLocation, bool>> wherePostLocationCondition)
         {
@@ -98,11 +99,31 @@ namespace Jumblist.Core.Service
         }
 
 
-        public IEnumerable<Post> SelectRecordList( PostCategory category, string q )
+        public IEnumerable<Post> SelectRecordList( string[] q )
+        {
+            return SelectRecordList( null, q ); ;
+        }
+
+        public IEnumerable<Post> SelectRecordList( User user )
+        {
+            return SelectRecordList( null, null, user ); ;
+        }
+
+        public IEnumerable<Post> SelectRecordList( string[] q, User user )
+        {
+            return SelectRecordList( null, q, user ); ;
+        }
+
+        public IEnumerable<Post> SelectRecordList( PostCategory category, string[] q )
+        {
+            return SelectRecordList( category, q, null ); ;
+        }
+
+        public IEnumerable<Post> SelectRecordList( PostCategory category, string[] q, User user )
         {
             IEnumerable<Post> postList;
 
-            if (category !=  null)
+            if ( category != null )
             {
                 postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ) ).OrderByDescending( t => t.PublishDateTime );
             }
@@ -111,78 +132,82 @@ namespace Jumblist.Core.Service
                 postList = SelectRecordList( Post.WhereDisplayEquals( true ) ).OrderByDescending( t => t.PublishDateTime );
             }
 
-            if (!string.IsNullOrEmpty( q ))
-                postList = postList.ToFilteredList( Post.WhereSearchTextEquals( q ) );
+            if ( q != null )
+            {
+                postList = FilterListBySearchArray( postList, q );
+            }
 
-            return postList;
-        }
-
-        public IEnumerable<Post> SelectRecordList( PostCategory category, string q, User user )
-        {
-            IEnumerable<Post> postList = SelectRecordList(category, q);
-
-            if (!string.IsNullOrEmpty(user.Session.LocationName))
+            if ( !string.IsNullOrEmpty( user.Session.LocationName ) )
                 postList = postList.ToFilteredList( Post.WhereLocationEquals( user.Session.LocationLatitude, user.Session.LocationLongitude, user.Session.LocationRadius ) );
 
             return postList;
         }
 
-        public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string q )
+        public IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category )
+        {
+            return SelectRecordList( feed, category, null );
+        }
+
+        public IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category, string[] q )
         {
             IEnumerable<Post> postList;
 
-            if (category != null)
-            {
-                postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ).And( Post.WhereTagNameListEqualsAnd( tagList ) ) ).OrderByDescending( t => t.PublishDateTime );
-            }
-            else
-            {
-                postList = SelectRecordList( Post.WhereDisplayEquals(true).And(Post.WhereTagNameListEqualsAnd(tagList))).OrderByDescending(t => t.PublishDateTime );
-            }
-
-            if (!string.IsNullOrEmpty(q))
-                postList = postList.ToFilteredList( Post.WhereSearchTextEquals(q) );
-
-            return postList;
-        }
-
-
-        public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string q, User user )
-        {
-            IEnumerable<Post> postList = SelectRecordList( tagList, category, q );
-
-            if (!string.IsNullOrEmpty( user.Session.LocationName ))
-                postList = postList.ToFilteredList( Post.WhereLocationEquals( user.Session.LocationLatitude, user.Session.LocationLongitude, user.Session.LocationRadius ) );
-
-            return postList;
-        }
-
-
-        public IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category, string q )
-        {
-            IEnumerable<Post> postList;
-
-            if (category != null)
+            if ( category != null )
             {
                 postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ).And( Post.WhereFeedEquals( feed ) ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
             }
             else
             {
-                postList = SelectRecordList(Post.WhereFeedEquals(feed).And(Post.WhereDisplayEquals(true))).OrderByDescending(t => t.PublishDateTime);
+                postList = SelectRecordList( Post.WhereFeedEquals( feed ).And( Post.WhereDisplayEquals( true ) ) ).OrderByDescending( t => t.PublishDateTime );
             }
 
-            if (!string.IsNullOrEmpty( q ))
-                postList = postList.ToFilteredList( Post.WhereSearchTextEquals( q ) );
+            if ( q != null )
+            {
+                postList = FilterListBySearchArray( postList, q );
+            }
 
             return postList;
         }
 
+        public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string[] q )
+        {
+            return SelectRecordList( tagList, category, q, null );
+        }
 
-        public IEnumerable<Post> SelectRecordList( IEnumerable<Location> locationList, PostCategory category )
+        public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string[] q, User user )
         {
             IEnumerable<Post> postList;
 
-            if (category != null)
+            if ( category != null )
+            {
+                postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ).And( Post.WhereTagNameListEqualsAnd( tagList ) ) ).OrderByDescending( t => t.PublishDateTime );
+            }
+            else
+            {
+                postList = SelectRecordList( Post.WhereDisplayEquals( true ).And( Post.WhereTagNameListEqualsAnd( tagList ) ) ).OrderByDescending( t => t.PublishDateTime );
+            }
+
+            if ( q != null )
+            {
+                postList = FilterListBySearchArray( postList, q );
+            }
+
+            if ( !string.IsNullOrEmpty( user.Session.LocationName ) )
+                postList = postList.ToFilteredList( Post.WhereLocationEquals( user.Session.LocationLatitude, user.Session.LocationLongitude, user.Session.LocationRadius ) );
+
+            return postList;
+        }
+
+        public IEnumerable<Post> SelectRecordList( IEnumerable<Location> locationList, PostCategory category )
+        {
+            return SelectRecordList( locationList, category, null );
+        }
+
+        public IEnumerable<Post> SelectRecordList( IEnumerable<Location> locationList, PostCategory category, string[] q )
+        {
+            IEnumerable<Post> postList;
+
+            if ( category != null )
             {
                 postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
             }
@@ -191,9 +216,20 @@ namespace Jumblist.Core.Service
                 postList = SelectRecordList( Post.WhereDisplayEquals( true ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
             }
 
-            return postList;
+            if ( q != null )
+            {
+                postList = FilterListBySearchArray( postList, q );
+            }
 
+            return postList;
         }
+
+
+
+
+
+
+
 
         //public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, IEnumerable<Location> locationList, PostCategory category, string q )
         //{
@@ -352,7 +388,6 @@ namespace Jumblist.Core.Service
 
             const string mailSubject = "Jumblist post";
             //const string smtpServer = "localhost";
-            const string mailFrom = "jumblist@jumblist.co.uk";
 
             StringBuilder body = new StringBuilder();
             body.AppendLine( "Here is the post you requested" );
@@ -363,7 +398,7 @@ namespace Jumblist.Core.Service
             body.AppendLine( "---" );
 
             SmtpClient smtpClient = new SmtpClient();
-            smtpClient.Send( new MailMessage( mailFrom, user.Email, mailSubject, body.ToString() ) );
+            smtpClient.Send( new MailMessage( defaultEmail, user.Email, mailSubject, body.ToString() ) );
         }
 
         //public override bool IsDuplicate(Expression<Func<Post, bool>> whereCondition)
@@ -627,6 +662,12 @@ namespace Jumblist.Core.Service
             }
 
             return coordinates;
+        }
+
+        private IEnumerable<Post> FilterListBySearchArray( IEnumerable<Post> list, string[] q )
+        {
+            q.ToList().ForEach( x => list = list.ToFilteredList( Post.WhereSearchTextEquals( x ) ) );
+            return list;
         }
 
         //private string[] LocationNames()
