@@ -60,15 +60,18 @@ namespace Jumblist.Core.Service
             //        return new SearchResult { ActionName = "index", RouteValues = null };
             //    }
             //}
+            string tagPath = string.Empty;
+            string q = string.Empty;
 
-            string tagSearchPattern = TagSearch.ToSearchRegexPattern();
-            var tagMatches = Regex.Matches( tagService.SelectTagNameList().ToNewLineDelimitedString(), tagSearchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
+            if ( TagSearch.Length > 0 )
+            {
+                string tagSearchPattern = TagSearch.ToSearchRegexPattern();
+                var tagMatches = Regex.Matches( tagService.SelectTagNameList().ToNewLineDelimitedString(), tagSearchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
+                bool isCompleteSearchMatch = IsSearchCompleteMatch( tagMatches, out q );
+                tagPath = ( (IEnumerable)tagMatches ).ToFriendlyUrlEncode();
+            }
 
-            string q;
-            bool isCompleteSearchMatch = IsSearchCompleteMatch( tagMatches, out q );
-            string tagQueryString = ((IEnumerable)tagMatches).ToFriendlyUrlEncode();
-
-            if ( tagQueryString.Length == 0 )
+            if ( tagPath.Length == 0 )
             {
                 if ( GroupSearch.Length > 0 )
                 {
@@ -87,11 +90,11 @@ namespace Jumblist.Core.Service
             {
                 if ( GroupSearch.Length > 0 )
                 {
-                    return new SearchResult { ActionName = "group", RouteValues = new { id = GroupSearch, category = PostCategorySearch, q = tagQueryString + q } };
+                    return new SearchResult { ActionName = "group", RouteValues = new { id = GroupSearch, category = PostCategorySearch, q = tagPath + ' ' + q } };
                 }
                 else
                 {
-                    return new SearchResult { ActionName = "tagged", RouteValues = new { id = tagQueryString, category = PostCategorySearch, q = q } };
+                    return new SearchResult { ActionName = "tagged", RouteValues = new { id = tagPath, category = PostCategorySearch, q = q } };
                 }
             }
 

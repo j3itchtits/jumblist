@@ -326,8 +326,8 @@ namespace Jumblist.Website.Controllers
             userService.SaveSession( user.Session );
 
             searchService.TagSearch = tagSearch.ToCleanSearchString();
-            searchService.PostCategorySearch = postCategorySearch.ToCleanSearchString();
-            searchService.GroupSearch = groupSearch.ToCleanSearchString();
+            searchService.PostCategorySearch = postCategorySearch ?? string.Empty;
+            searchService.GroupSearch = groupSearch ?? string.Empty;
 
             var searchResult = searchService.ProcessSearch();
 
