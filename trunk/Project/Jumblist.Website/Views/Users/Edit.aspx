@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Areas/Admin/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel<User>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel<User>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
@@ -10,10 +10,8 @@
 
     <% using ( Html.BeginForm( "save", "users" ) ) { %>
 
+        <%= Html.Hidden( "id", Model.Item.UserId )%>
         <%= Html.HiddenFor( m => m.Item.UserId )%>
-        <%= Html.HiddenFor( m => m.Item.Password )%>
-        
-
         
         <table>
         <tr>
@@ -36,31 +34,7 @@
             <td><%= Html.TextBoxFor( m => m.Item.Radius )%>
             <%= Html.ValidationMessageFor( m => m.Item.Radius )%></td>
         </tr> 
-        <tr>
-            <td><label for="Item.Latitude">Latitude:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Latitude, new { @readonly = "true" } )%>
-            <%= Html.ValidationMessageFor( m => m.Item.Latitude )%></td>
-        </tr>
-        <tr>
-            <td><label for="Item.Longitude">Longitude:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Longitude, new { @readonly = "true" } )%>
-            <%= Html.ValidationMessageFor( m => m.Item.Longitude )%></td>
-        </tr>           
-        <tr>
-            <td><label for="Item.IsActive">IsActive:</label></td>
-            <td><%= Html.CheckBoxFor( m => m.Item.IsActive )%>
-            <%= Html.ValidationMessageFor( m => m.Item.IsActive )%></td>
-        </tr>
-        <tr>
-            <td><label for="Item.DateCreated">DateCreated:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.DateCreated, new { @readonly = "true" } )%>
-            <%= Html.ValidationMessageFor( m => m.Item.DateCreated )%></td>
-        </tr>
-        <tr>
-            <td><label for="Item.RoleId">RoleId:</label></td>
-            <td><%= Html.DropDownListFor( m => m.Item.RoleId, new SelectList( Model.LookupList<Role>(), "RoleId", "Name", Model.Item.RoleId ), "-- Select --" )%>
-            <%= Html.ValidationMessageFor( m => m.Item.RoleId )%></td>
-        </tr>
+
         </table>
         
         <p>
@@ -70,22 +44,7 @@
 
     <% } %>
 
-    <div>
-        <%=Html.ActionLink( "Back to List", "list" ) %>
-    </div>
-
-</asp:Content>
-
-<asp:Content ID="Content2" ContentPlaceHolderID="HeadContentTitle" runat="server">
-    <%= Html.PageTitle( ViewData.Model )%>
-</asp:Content>
-
-<asp:Content ID="Content3" ContentPlaceHolderID="HeadContentJavascript" runat="server">
-</asp:Content>
-
-<asp:Content ID="Content4" ContentPlaceHolderID="BodyContentRight" runat="server">
-
-    <%= Html.ClientSideValidation<User>( "Reset" )%>
+<%--    <%= Html.ClientSideValidation<User>( "Reset" )%>
     
     <b>Reset Password</b>
     
@@ -110,7 +69,23 @@
             <%= Html.SubmitButton( "submit", "Reset Password" ) %>
         </p>        
         
-    <% } %>
+    <% } %>--%>
+    
+    <p>
+        <%=Html.ActionLink( "View alerts", "alerts" ) %>
+    </p>
+    
+    <p>
+        <%=Html.ActionLink( "Back to profile", "profile" ) %>
+    </p>
 
 </asp:Content>
 
+<asp:Content ID="Content2" ContentPlaceHolderID="HeadContentJavascript" runat="server">
+</asp:Content>
+
+<asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
+
+
+    
+</asp:Content>

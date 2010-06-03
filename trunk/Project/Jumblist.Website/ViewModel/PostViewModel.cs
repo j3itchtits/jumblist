@@ -14,29 +14,33 @@ namespace Jumblist.Website.ViewModel
     {
         public PostViewModel() 
         {
-            Tags = null;
             PostCategoryList = BuildPostCategorySelectList();
         }
 
-        private PostCategory postCategory;
-        private IEnumerable<Tag> tags;
+        //private PostCategory postCategory;
+        //private IEnumerable<Tag> tags;
 
-        public PostCategory PostCategory
-        {
-            get { return postCategory; }
-            set { postCategory = (value != null) ? value : new PostCategory(); }
-        }
+        //public PostCategory PostCategory
+        //{
+        //    get { return postCategory; }
+        //    set { postCategory = (value != null) ? value : new PostCategory(); }
+        //}
 
-        public IEnumerable<Tag> Tags 
-        {
-            get { return tags; }
-            set { tags = (value != null) ? value : new List<Tag>() as IEnumerable<Tag>; }
-        }
+        public PostCategory PostCategory { get; set; }
+        public IEnumerable<Tag> Tags { get; set; }
+
+        //public IEnumerable<Tag> Tags 
+        //{
+        //    get { return tags; }
+        //    set { tags = (value != null) ? value : new List<Tag>() as IEnumerable<Tag>; }
+        //}
 
         public Feed Group { get; set; }
+        public IEnumerable<Location> Locations { get; set; }
         //public Pushpin Pushpin { get; set; }
         public IEnumerable<Pushpin> Pushpins { get; set; }
         public IEnumerable<SelectListItem> PostCategoryList { get; set; }
+        public string Q { get; set; }
 
         public PostViewModel<T> With( PostCategory postCategory )
         {

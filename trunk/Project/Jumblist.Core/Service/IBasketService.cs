@@ -2,8 +2,8 @@
 
 namespace Jumblist.Core.Service
 {
-    public interface IBasketSubmitter
+    public interface IBasketService
     {
-        void SubmitBasket( User user );
+        void EmailBasket( User user );
     }
 }

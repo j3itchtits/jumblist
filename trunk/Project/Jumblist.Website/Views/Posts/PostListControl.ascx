@@ -8,6 +8,9 @@
                 <%= Html.RouteLink(post.Title, "Post-Detail", new { id = post.PostId, name = post.Title.ToFriendlyUrlEncode() }, new { title = post.Body })%>
             </td>  
             <td>
+                Tags: <%= Html.TagListLinks( post.Tags )%>
+            </td>            
+            <td>
                 <%= Html.MapLink( post )%>
             </td>
             <td>
@@ -20,7 +23,7 @@
                 <%= Html.Encode( post.Category.Name ) %>
             </td>
             <td>
-                <%= Ajax.SavePostToBasketLink( "Save", new { id =post.PostId, returnUrl = HttpContext.Current.Request.Url.PathAndQuery }, new AjaxOptions { Confirm = "Save?", HttpMethod = "Post" } )%>
+                <%= Ajax.SavePostToBasketLink( "Save", new { id = post.PostId, returnUrl = Request.Url.PathAndQuery }, new AjaxOptions { Confirm = "Save?", HttpMethod = "Post" } )%>
             </td>
             <td>
                 <%= Ajax.EmailPostLink( "Email", new { id = post.PostId }, new AjaxOptions { Confirm = "Send?", HttpMethod = "Post" } )%>

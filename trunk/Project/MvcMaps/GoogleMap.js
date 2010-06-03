@@ -31,11 +31,22 @@
                 }
             });
 
+            //addition
+            if (options.pushpins) {
+                var bounds = new GLatLngBounds();
+                for (var i = 0; i < options.pushpins.length; i++) {
+                    bounds.extend(new GLatLng(options.pushpins[i].lat, options.pushpins[i].lng));
+                }
+            }
+            //end addition  
+
+            //edit
             map.setCenter(
-                (options.lat && options.lng ? new GLatLng(options.lat, options.lng) : null), //new GLatLng(37.4419, -122.1419)
-                (options.zoom ? options.zoom : null),
-                (options.maptype ? options.maptype : null)
-                );
+                        (options.lat && options.lng ? new GLatLng(options.lat, options.lng) : bounds.getCenter()), //new GLatLng(37.4419, -122.1419)
+                        (options.zoom ? options.zoom : map.getBoundsZoomLevel(bounds)),
+                        (options.maptype ? options.maptype : null)
+                    );
+            //end edit
 
             if (options.fixed === true) {
                 map.disableDragging();

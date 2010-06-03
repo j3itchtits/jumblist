@@ -60,15 +60,6 @@ namespace Jumblist.Core.Model
             return x => x.Guid == guid;
         }
 
-        public static Expression<Func<Post, bool>> WhereSearchTextEquals( string q )
-        {
-            var condition = PredicateBuilder.False<Post>();
-            condition = condition.Or(x => SqlMethods.Like(x.Title, "%" + q + "%"));
-            condition = condition.Or(x => SqlMethods.Like(x.Body, "%" + q + "%"));
-
-            return condition;
-        }
-
         public static Expression<Func<Post, bool>> WhereEquals( Post post )
         {
             return x => x.PostId == post.PostId;
@@ -85,11 +76,39 @@ namespace Jumblist.Core.Model
             return x => (x.Latitude != 0 && x.Longitude != 0);
         }
 
+        public static Func<Post, bool> WhereLatLongValuesExistFunc()
+        {
+            return x => (x.Latitude != 0 && x.Longitude != 0);
+        }
+
         public static Func<Post, bool> WhereLocationEquals( double latitude, double longitude, int? searchRadiusMiles )
         {
             //this needs to change in order to use the NearestMessage function (somehow)
             var distanceService = new DistanceService();
             return x => ((distanceService.DistanceBetween( latitude, longitude, x.Latitude, x.Longitude, 'M' )) < searchRadiusMiles);
+        }
+
+        public static Expression<Func<Post, bool>> WhereSearchTextEquals( string q )
+        {
+            var condition = PredicateBuilder.False<Post>();
+            condition = condition.Or( x => SqlMethods.Like( x.Title + ' ' + x.Body, "%" + q + "%" ) );
+
+            return condition;
+        }
+
+        public static Expression<Func<Post, bool>> WhereSearchParamsEqualsAnd( string[] searchParams )
+        {
+            var condition = PredicateBuilder.True<Post>();
+
+            string[] excludeSearchParams = new string[] { "a", "all", "am", "an", "and", "any", "are", "as", "at", "be", "but", "can", "did", "do", "does", "for", "from", "had", "has", "have", "here", "how", "i", "if", "in", "is", "it", "no", "not", "of", "on", "or", "so", "that", "the", "then", "there", "this", "to", "too", "up", "use", "what", "when", "where", "who", "why", "you" };
+
+            foreach ( var q in searchParams.Except( excludeSearchParams ) )
+            {
+                string temp = q;
+                condition = condition.And( x => SqlMethods.Like( x.Title + ' ' + x.Body, "%" + temp + "%" ) );
+            }
+
+            return condition;
         }
 
         public static Expression<Func<Post, bool>> WhereTagNameListEqualsAnd( IEnumerable<Tag> tagList )
@@ -105,5 +124,17 @@ namespace Jumblist.Core.Model
             return condition;
         }
 
+        public static Expression<Func<Post, bool>> WhereLocationNameListEqualsOr( IEnumerable<Location> locationList )
+        {
+            var condition = PredicateBuilder.False<Post>();
+
+            foreach ( var location in locationList )
+            {
+                string temp = location.Name;
+                condition = condition.Or( p => p.PostLocations.Any( pl => pl.Location.Name == temp ) );
+            }
+
+            return condition;
+        }
     }
 }

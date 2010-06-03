@@ -57,25 +57,14 @@ namespace Jumblist.Core.Service
             return base.SelectRecordList( wherePostCondition );
         }
 
-        //public IEnumerable<Post> SelectRecordList( Expression<Func<Post, bool>> wherePostCondition, User user )
-        //{
-        //    IEnumerable<Post> postList = SelectRecordList( wherePostCondition );
-
-        //    if ( !string.IsNullOrEmpty( user.Session.LocationName ) )
-        //        postList = postList.ToFilteredList( Post.WhereLocationEquals( user.Session.LocationLatitude, user.Session.LocationLongitude, user.Session.LocationRadius ) );
-
-        //    return postList;
-        //}
-
-        public IEnumerable<Post> SelectRecordList(Expression<Func<PostLocation, bool>> wherePostLocationCondition)
+        public IEnumerable<Post> SelectRecordList( Expression<Func<PostLocation, bool>> wherePostLocationCondition )
         {
             return from p in SelectRecordList().AsEnumerable()
                    join pl in postLocationDataService.SelectRecordList( wherePostLocationCondition ).AsEnumerable() on p.PostId equals pl.PostId
                    select p;
         }
 
-
-        public IEnumerable<Post> SelectRecordList(Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostLocation, bool>> wherePostLocationCondition)
+        public IEnumerable<Post> SelectRecordList( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostLocation, bool>> wherePostLocationCondition )
         {
             return from p in SelectRecordList( wherePostCondition ).AsEnumerable()
                    join pl in postLocationDataService.SelectRecordList( wherePostLocationCondition ).AsEnumerable() on p.PostId equals pl.PostId
@@ -83,7 +72,7 @@ namespace Jumblist.Core.Service
         }
 
 
-        public IEnumerable<Post> SelectRecordList(Expression<Func<PostTag, bool>> wherePostTagCondition)
+        public IEnumerable<Post> SelectRecordList( Expression<Func<PostTag, bool>> wherePostTagCondition )
         {
             return from p in SelectRecordList().AsEnumerable()
                    join pt in postTagDataService.SelectRecordList( wherePostTagCondition ).AsEnumerable() on p.PostId equals pt.PostId
@@ -91,7 +80,7 @@ namespace Jumblist.Core.Service
         }
 
 
-        public IEnumerable<Post> SelectRecordList(Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition)
+        public IEnumerable<Post> SelectRecordList( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition )
         {
             return from p in SelectRecordList( wherePostCondition ).AsEnumerable()
                    join pt in postTagDataService.SelectRecordList( wherePostTagCondition ).AsEnumerable() on p.PostId equals pt.PostId
@@ -99,9 +88,9 @@ namespace Jumblist.Core.Service
         }
 
 
-        public IEnumerable<Post> SelectRecordList( string[] q )
+        public IEnumerable<Post> SelectRecordList( string[] searchParams )
         {
-            return SelectRecordList( null, q ); ;
+            return SelectRecordList( null, searchParams, null ); ;
         }
 
         public IEnumerable<Post> SelectRecordList( User user )
@@ -109,36 +98,41 @@ namespace Jumblist.Core.Service
             return SelectRecordList( null, null, user ); ;
         }
 
-        public IEnumerable<Post> SelectRecordList( string[] q, User user )
+        public IEnumerable<Post> SelectRecordList( string[] searchParams, User user )
         {
-            return SelectRecordList( null, q, user ); ;
+            return SelectRecordList( null, searchParams, user ); ;
         }
 
-        public IEnumerable<Post> SelectRecordList( PostCategory category, string[] q )
+        public IEnumerable<Post> SelectRecordList( PostCategory category, string[] searchParams )
         {
-            return SelectRecordList( category, q, null ); ;
+            return SelectRecordList( category, searchParams, null ); ;
         }
 
-        public IEnumerable<Post> SelectRecordList( PostCategory category, string[] q, User user )
+        public IEnumerable<Post> SelectRecordList( PostCategory category, string[] searchParams, User user )
         {
             IEnumerable<Post> postList;
 
-            if ( category != null )
+            if ( category != null && searchParams != null )
             {
-                postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ) ).OrderByDescending( t => t.PublishDateTime );
+                postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereSearchParamsEqualsAnd( searchParams ) ).And( Post.WhereDisplayEquals( true ) ) );
+            }
+            else if ( category == null && searchParams != null )
+            {
+                postList = SelectRecordList( Post.WhereSearchParamsEqualsAnd( searchParams ).And( Post.WhereDisplayEquals( true ) ) );
+            }
+            else if ( category != null && searchParams == null )
+            {
+                postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ) );
             }
             else
             {
-                postList = SelectRecordList( Post.WhereDisplayEquals( true ) ).OrderByDescending( t => t.PublishDateTime );
-            }
-
-            if ( q != null )
-            {
-                postList = FilterListBySearchArray( postList, q );
+                postList = SelectRecordList( Post.WhereDisplayEquals( true ) );
             }
 
             if ( !string.IsNullOrEmpty( user.Session.LocationName ) )
+            {
                 postList = postList.ToFilteredList( Post.WhereLocationEquals( user.Session.LocationLatitude, user.Session.LocationLongitude, user.Session.LocationRadius ) );
+            }
 
             return postList;
         }
@@ -148,22 +142,25 @@ namespace Jumblist.Core.Service
             return SelectRecordList( feed, category, null );
         }
 
-        public IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category, string[] q )
+        public IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category, string[] searchParams )
         {
             IEnumerable<Post> postList;
 
-            if ( category != null )
+            if ( category != null && searchParams != null )
             {
-                postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ).And( Post.WhereFeedEquals( feed ) ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
+                postList = SelectRecordList( Post.WhereFeedEquals( feed ).And( Post.WherePostCategoryEquals( category ) ).And( Post.WhereSearchParamsEqualsAnd( searchParams ) ).And( Post.WhereDisplayEquals( true ) ) );
+            }
+            else if ( category == null && searchParams != null )
+            {
+                postList = SelectRecordList( Post.WhereFeedEquals( feed ).And( Post.WhereSearchParamsEqualsAnd( searchParams ) ).And( Post.WhereDisplayEquals( true ) ) );
+            }
+            else if ( category != null && searchParams == null )
+            {
+                postList = SelectRecordList( Post.WhereFeedEquals( feed ).And( Post.WherePostCategoryEquals( category ) ).And( Post.WhereDisplayEquals( true ) ) );
             }
             else
             {
-                postList = SelectRecordList( Post.WhereFeedEquals( feed ).And( Post.WhereDisplayEquals( true ) ) ).OrderByDescending( t => t.PublishDateTime );
-            }
-
-            if ( q != null )
-            {
-                postList = FilterListBySearchArray( postList, q );
+                postList = SelectRecordList( Post.WhereFeedEquals( feed ).And( Post.WhereDisplayEquals( true ) ) );
             }
 
             return postList;
@@ -174,26 +171,31 @@ namespace Jumblist.Core.Service
             return SelectRecordList( tagList, category, q, null );
         }
 
-        public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string[] q, User user )
+        public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string[] searchParams, User user )
         {
             IEnumerable<Post> postList;
 
-            if ( category != null )
+            if ( category != null && searchParams != null )
             {
-                postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ).And( Post.WhereTagNameListEqualsAnd( tagList ) ) ).OrderByDescending( t => t.PublishDateTime );
+                postList = SelectRecordList( Post.WhereTagNameListEqualsAnd( tagList ).And( Post.WherePostCategoryEquals( category ) ).And( Post.WhereSearchParamsEqualsAnd( searchParams ) ).And( Post.WhereDisplayEquals( true ) ) );
+            }
+            else if ( category == null && searchParams != null )
+            {
+                postList = SelectRecordList( Post.WhereTagNameListEqualsAnd( tagList ).And( Post.WhereSearchParamsEqualsAnd( searchParams ) ).And( Post.WhereDisplayEquals( true ) ) );
+            }
+            else if ( category != null && searchParams == null )
+            {
+                postList = SelectRecordList( Post.WhereTagNameListEqualsAnd( tagList ).And( Post.WherePostCategoryEquals( category ) ).And( Post.WhereDisplayEquals( true ) ) );
             }
             else
             {
                 postList = SelectRecordList( Post.WhereDisplayEquals( true ).And( Post.WhereTagNameListEqualsAnd( tagList ) ) ).OrderByDescending( t => t.PublishDateTime );
             }
 
-            if ( q != null )
-            {
-                postList = FilterListBySearchArray( postList, q );
-            }
-
             if ( !string.IsNullOrEmpty( user.Session.LocationName ) )
+            {
                 postList = postList.ToFilteredList( Post.WhereLocationEquals( user.Session.LocationLatitude, user.Session.LocationLongitude, user.Session.LocationRadius ) );
+            }
 
             return postList;
         }
@@ -203,104 +205,29 @@ namespace Jumblist.Core.Service
             return SelectRecordList( locationList, category, null );
         }
 
-        public IEnumerable<Post> SelectRecordList( IEnumerable<Location> locationList, PostCategory category, string[] q )
+        public IEnumerable<Post> SelectRecordList( IEnumerable<Location> locationList, PostCategory category, string[] searchParams )
         {
             IEnumerable<Post> postList;
 
-            if ( category != null )
+            if ( category != null && searchParams != null )
             {
-                postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
+                postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereSearchParamsEqualsAnd( searchParams ) ).And( Post.WhereDisplayEquals( true ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) );
+            }
+            else if ( category == null && searchParams != null )
+            {
+                postList = SelectRecordList( Post.WhereSearchParamsEqualsAnd( searchParams ).And( Post.WhereDisplayEquals( true ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) );
+            }
+            else if ( category != null && searchParams == null )
+            {
+                postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) );
             }
             else
             {
-                postList = SelectRecordList( Post.WhereDisplayEquals( true ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime ).Distinct();
-            }
-
-            if ( q != null )
-            {
-                postList = FilterListBySearchArray( postList, q );
+                postList = SelectRecordList( Post.WhereDisplayEquals( true ).And( Post.WhereLocationNameListEqualsOr( locationList ) ) );
             }
 
             return postList;
         }
-
-
-
-
-
-
-
-
-        //public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, IEnumerable<Location> locationList, PostCategory category, string q )
-        //{
-        //    IEnumerable<Post> postList;
-
-        //    if (category != null)
-        //    {
-        //        postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ).And( Post.WhereTagNameListEqualsAnd( tagList ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime );
-        //    }
-        //    else
-        //    {
-        //        postList = SelectRecordList( Post.WhereDisplayEquals( true ).And( Post.WhereTagNameListEqualsAnd( tagList ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime );
-        //    }
-
-        //    if (!string.IsNullOrEmpty( q ))
-        //        postList = postList.ToFilteredList( Post.WhereSearchTextEquals( q ) );
-            
-        //    return postList;
-        //}
-
-//        public IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, IQueryable<Tag> tagList )
-//        {
-//            //var postIds = postTagDataService.SelectRecordList( PostTag.WhereTagNameListEqualsAnd( tagList ) ).Select( pt => pt.PostId ).ToArray();
-
-//            //return from p in SelectRecordList().Where(wherePostCondition.And(Post.WherePostIdListEqualsOr(postIds))).AsEnumerable()
-//            //       select p;
-
-
-//            //return from p in SelectRecordList().Where( wherePostCondition ).AsEnumerable()
-//            //       where ( postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId ).Contains( p.PostId ) ) && ( postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId ).Contains( p.PostId ) )
-//            //       select p;
-
-//            return from p in SelectRecordList().Where(wherePostCondition)
-//                   select p;
-
-////            SELECT     PostId
-////FROM         PostTags
-////WHERE     (PostId IN
-////                          (SELECT     PostId
-////                            FROM          PostTags AS PostTags_2
-////                            WHERE      (TagId = 9))) AND (PostId IN
-////                          (SELECT     PostId
-////                            FROM          PostTags AS PostTags_1
-////                            WHERE      (TagId = 43)))
-
-
-//            //Orders.Where(o => o.OrderDetails.Any(od => od.ProductId == 11) 
-//            //                && o.OrderDetails.Any(od => od.ProductId == 42))
-
-//            //new int[] { 315, 328, 401, 465, 760, 797, 874 } )
-
-//                   //let inner = from pt in postTagDataService.SelectRecordList().AsEnumerable()
-//                   //            where pt.Tag.Name == "Baby"
-//                   //            select pt.PostId
-//                   ////let inner2 = from pt in postTagDataService.SelectRecordList().AsEnumerable()
-//                   ////             where pt.Tag.Name == "Clothes"
-//                   ////             select pt.PostId
-
-//                   //where inner.Contains( p.PostId ) // && inner2.Contains( p.PostId )
-//                   //select p;
-
-
-//            //let inner = postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId )
-//            //let inner2 = postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId )
-
-//                   //where inner.Contains( p.PostId ) && inner2.Contains( p.PostId )
-//                   //where (postTagDataService.SelectList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId ).Contains( p.PostId )) && (postTagDataService.SelectList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId ).Contains( p.PostId ))
-
-
-//        }
-
 
         public override Post SelectRecord( int id )
         {
@@ -374,6 +301,8 @@ namespace Jumblist.Core.Service
 
         public override void Update( Post post )
         {
+            ValidateDataRules( post );
+            ValidateBusinessRules( post );
             base.Update( post );
         }
 
@@ -400,134 +329,6 @@ namespace Jumblist.Core.Service
             SmtpClient smtpClient = new SmtpClient();
             smtpClient.Send( new MailMessage( defaultEmail, user.Email, mailSubject, body.ToString() ) );
         }
-
-        //public override bool IsDuplicate(Expression<Func<Post, bool>> whereCondition)
-        //{
-        //    return base.IsDuplicate(whereCondition);
-        //}
-
-        //public IEnumerable<Post> SelectPostsByTag(int tagId)
-        //{
-        //    return from p in SelectList().AsEnumerable()
-        //           join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
-        //           where pt.TagId == tagId
-        //           select p;
-        //}
-
-        //public IEnumerable<Post> SelectPostsByTag( int tagId, bool isActive )
-        //{
-        //    return SelectPostsByTag( tagId ).Where( x => x.Display == isActive );
-        //}
-
-        //public IEnumerable<Post> SelectPostsByTag( Tag tag, bool isActive )
-        //{
-        //    return SelectPostsByTag( tag.TagId ).Where( x => x.Display == isActive );
-        //}
-
-        //public IEnumerable<Post> SelectPostsByTag( Tag tag )
-        //{
-        //    return SelectPostsByTag( tag.TagId );
-        //}
-
-        //public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList)
-        //{
-        //    //var predicate = PredicateBuilder.True<Tag>();
-
-        //    //foreach (var tag in tagList)
-        //    //{
-        //    //    predicate = predicate.And (t => t.Name.Contains (tag.Name));
-        //    //}
-
-        //    return from p in SelectList().AsEnumerable()
-        //           join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
-        //           where tagList.Contains( pt.Tag )
-        //           //where predicate
-        //           select p;
-        //}
-
-        //public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, bool isActive)
-        //{
-        //    return SelectPostsByTag( tagList ).Where( x => x.Display == isActive );
-        //}
-
-        //public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, PostCategory postCategory)
-        //{
-        //    return SelectPostsByTag(tagList).Where(x => x.PostCategoryId == postCategory.PostCategoryId);
-        //}
-
-        //public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, PostCategory postCategory, bool isActive)
-        //{
-        //    return SelectPostsByTag(tagList).Where(x => x.Display == isActive && x.PostCategoryId == postCategory.PostCategoryId);
-        //}
-
-        //public IEnumerable<Post> SelectPostsByTag(string tagName)
-        //{
-        //    return from p in SelectList().AsEnumerable()
-        //           join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
-        //           join t in tagDataService.SelectList().Where(t => t.Name.FriendlyUrlEncode() == tagName).AsEnumerable() on pt.TagId equals t.TagId
-        //           //where t.Name.FriendlyUrlEncode() == tagName
-        //           select p;
-        //}
-
-        //public IEnumerable<Post> SelectPostsByTag( string tagName, bool isActive )
-        //{
-        //    return SelectPostsByTag( tagName ).Where( x => x.Display == isActive );
-        //}
-
-        //public IEnumerable<Post> SelectPostsByCategory( int categoryId )
-        //{
-        //    return from p in SelectList().AsEnumerable()
-        //           where p.PostCategoryId == categoryId
-        //           select p;
-        //}
-
-        //public IEnumerable<Post> SelectPostsByCategory( int categoryId, bool isActive )
-        //{
-        //    return SelectPostsByCategory( categoryId ).Where( x => x.Display == isActive );
-        //}
-
-        //public IEnumerable<Post> SelectPostsByCategory( string categoryName )
-        //{
-        //    return from p in SelectList().AsEnumerable()
-        //           where p.Category.Name.Equals( categoryName, System.StringComparison.OrdinalIgnoreCase )
-        //           select p;
-        //}
-
-        //public IEnumerable<Post> SelectPostsByCategory( string categoryName, bool isActive )
-        //{
-        //    return SelectPostsByCategory( categoryName ).Where( x => x.Display == isActive );
-        //}
-
-        
-
-        //public IEnumerable<Post> SelectPostsByFeed( int feedId )
-        //{
-        //    return from p in SelectList().AsEnumerable()
-        //           where p.FeedId == feedId
-        //           select p;
-        //}
-
-        //public IEnumerable<Post> SelectPostsByFeed( int feedId, bool isActive )
-        //{
-        //    return SelectPostsByFeed( feedId ).Where( x => x.Display == isActive );
-        //}
-
-        //public IEnumerable<Post> SelectPostsByFeed( string feedName )
-        //{
-        //    return from p in SelectList().AsEnumerable()
-        //           where p.Category.Name.Equals( feedName, System.StringComparison.OrdinalIgnoreCase )
-        //           select p;
-        //}
-
-        //public IEnumerable<Post> SelectPostsByFeed( string feedName, bool isActive )
-        //{
-        //    return SelectPostsByFeed( feedName ).Where( x => x.Display == isActive );
-        //}
-
-
-
-
-
 
         #endregion
 
@@ -683,6 +484,208 @@ namespace Jumblist.Core.Service
         //        .Select(r => r.Name)
         //        .ToArray();
         //}
+
+
+
+
+
+
+
+        //public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, IEnumerable<Location> locationList, PostCategory category, string q )
+        //{
+        //    IEnumerable<Post> postList;
+
+        //    if (category != null)
+        //    {
+        //        postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ).And( Post.WhereTagNameListEqualsAnd( tagList ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime );
+        //    }
+        //    else
+        //    {
+        //        postList = SelectRecordList( Post.WhereDisplayEquals( true ).And( Post.WhereTagNameListEqualsAnd( tagList ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) ).OrderByDescending( t => t.PublishDateTime );
+        //    }
+
+        //    if (!string.IsNullOrEmpty( q ))
+        //        postList = postList.ToFilteredList( Post.WhereSearchTextEquals( q ) );
+
+        //    return postList;
+        //}
+
+        //        public IEnumerable<Post> SelectListByTag( Expression<Func<Post, bool>> wherePostCondition, IQueryable<Tag> tagList )
+        //        {
+        //            //var postIds = postTagDataService.SelectRecordList( PostTag.WhereTagNameListEqualsAnd( tagList ) ).Select( pt => pt.PostId ).ToArray();
+
+        //            //return from p in SelectRecordList().Where(wherePostCondition.And(Post.WherePostIdListEqualsOr(postIds))).AsEnumerable()
+        //            //       select p;
+
+
+        //            //return from p in SelectRecordList().Where( wherePostCondition ).AsEnumerable()
+        //            //       where ( postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId ).Contains( p.PostId ) ) && ( postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId ).Contains( p.PostId ) )
+        //            //       select p;
+
+        //            return from p in SelectRecordList().Where(wherePostCondition)
+        //                   select p;
+
+        ////            SELECT     PostId
+        ////FROM         PostTags
+        ////WHERE     (PostId IN
+        ////                          (SELECT     PostId
+        ////                            FROM          PostTags AS PostTags_2
+        ////                            WHERE      (TagId = 9))) AND (PostId IN
+        ////                          (SELECT     PostId
+        ////                            FROM          PostTags AS PostTags_1
+        ////                            WHERE      (TagId = 43)))
+
+
+        //            //Orders.Where(o => o.OrderDetails.Any(od => od.ProductId == 11) 
+        //            //                && o.OrderDetails.Any(od => od.ProductId == 42))
+
+        //            //new int[] { 315, 328, 401, 465, 760, 797, 874 } )
+
+        //                   //let inner = from pt in postTagDataService.SelectRecordList().AsEnumerable()
+        //                   //            where pt.Tag.Name == "Baby"
+        //                   //            select pt.PostId
+        //                   ////let inner2 = from pt in postTagDataService.SelectRecordList().AsEnumerable()
+        //                   ////             where pt.Tag.Name == "Clothes"
+        //                   ////             select pt.PostId
+
+        //                   //where inner.Contains( p.PostId ) // && inner2.Contains( p.PostId )
+        //                   //select p;
+
+
+        //            //let inner = postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId )
+        //            //let inner2 = postTagDataService.SelectRecordList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId )
+
+        //                   //where inner.Contains( p.PostId ) && inner2.Contains( p.PostId )
+        //                   //where (postTagDataService.SelectList().Where( pt => pt.Tag.Name == "Baby" ).Select( pt => pt.PostId ).Contains( p.PostId )) && (postTagDataService.SelectList().Where( pt => pt.Tag.Name == "Clothes" ).Select( pt => pt.PostId ).Contains( p.PostId ))
+
+
+        //        }
+
+
+        //public override bool IsDuplicate(Expression<Func<Post, bool>> whereCondition)
+        //{
+        //    return base.IsDuplicate(whereCondition);
+        //}
+
+        //public IEnumerable<Post> SelectPostsByTag(int tagId)
+        //{
+        //    return from p in SelectList().AsEnumerable()
+        //           join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
+        //           where pt.TagId == tagId
+        //           select p;
+        //}
+
+        //public IEnumerable<Post> SelectPostsByTag( int tagId, bool isActive )
+        //{
+        //    return SelectPostsByTag( tagId ).Where( x => x.Display == isActive );
+        //}
+
+        //public IEnumerable<Post> SelectPostsByTag( Tag tag, bool isActive )
+        //{
+        //    return SelectPostsByTag( tag.TagId ).Where( x => x.Display == isActive );
+        //}
+
+        //public IEnumerable<Post> SelectPostsByTag( Tag tag )
+        //{
+        //    return SelectPostsByTag( tag.TagId );
+        //}
+
+        //public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList)
+        //{
+        //    //var predicate = PredicateBuilder.True<Tag>();
+
+        //    //foreach (var tag in tagList)
+        //    //{
+        //    //    predicate = predicate.And (t => t.Name.Contains (tag.Name));
+        //    //}
+
+        //    return from p in SelectList().AsEnumerable()
+        //           join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
+        //           where tagList.Contains( pt.Tag )
+        //           //where predicate
+        //           select p;
+        //}
+
+        //public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, bool isActive)
+        //{
+        //    return SelectPostsByTag( tagList ).Where( x => x.Display == isActive );
+        //}
+
+        //public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, PostCategory postCategory)
+        //{
+        //    return SelectPostsByTag(tagList).Where(x => x.PostCategoryId == postCategory.PostCategoryId);
+        //}
+
+        //public IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, PostCategory postCategory, bool isActive)
+        //{
+        //    return SelectPostsByTag(tagList).Where(x => x.Display == isActive && x.PostCategoryId == postCategory.PostCategoryId);
+        //}
+
+        //public IEnumerable<Post> SelectPostsByTag(string tagName)
+        //{
+        //    return from p in SelectList().AsEnumerable()
+        //           join pt in postTagDataService.SelectList().AsEnumerable() on p.PostId equals pt.PostId
+        //           join t in tagDataService.SelectList().Where(t => t.Name.FriendlyUrlEncode() == tagName).AsEnumerable() on pt.TagId equals t.TagId
+        //           //where t.Name.FriendlyUrlEncode() == tagName
+        //           select p;
+        //}
+
+        //public IEnumerable<Post> SelectPostsByTag( string tagName, bool isActive )
+        //{
+        //    return SelectPostsByTag( tagName ).Where( x => x.Display == isActive );
+        //}
+
+        //public IEnumerable<Post> SelectPostsByCategory( int categoryId )
+        //{
+        //    return from p in SelectList().AsEnumerable()
+        //           where p.PostCategoryId == categoryId
+        //           select p;
+        //}
+
+        //public IEnumerable<Post> SelectPostsByCategory( int categoryId, bool isActive )
+        //{
+        //    return SelectPostsByCategory( categoryId ).Where( x => x.Display == isActive );
+        //}
+
+        //public IEnumerable<Post> SelectPostsByCategory( string categoryName )
+        //{
+        //    return from p in SelectList().AsEnumerable()
+        //           where p.Category.Name.Equals( categoryName, System.StringComparison.OrdinalIgnoreCase )
+        //           select p;
+        //}
+
+        //public IEnumerable<Post> SelectPostsByCategory( string categoryName, bool isActive )
+        //{
+        //    return SelectPostsByCategory( categoryName ).Where( x => x.Display == isActive );
+        //}
+
+
+
+        //public IEnumerable<Post> SelectPostsByFeed( int feedId )
+        //{
+        //    return from p in SelectList().AsEnumerable()
+        //           where p.FeedId == feedId
+        //           select p;
+        //}
+
+        //public IEnumerable<Post> SelectPostsByFeed( int feedId, bool isActive )
+        //{
+        //    return SelectPostsByFeed( feedId ).Where( x => x.Display == isActive );
+        //}
+
+        //public IEnumerable<Post> SelectPostsByFeed( string feedName )
+        //{
+        //    return from p in SelectList().AsEnumerable()
+        //           where p.Category.Name.Equals( feedName, System.StringComparison.OrdinalIgnoreCase )
+        //           select p;
+        //}
+
+        //public IEnumerable<Post> SelectPostsByFeed( string feedName, bool isActive )
+        //{
+        //    return SelectPostsByFeed( feedName ).Where( x => x.Display == isActive );
+        //}
+
+
 
     }
 }

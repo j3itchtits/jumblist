@@ -13,6 +13,7 @@ namespace Jumblist.Website.ViewModel
 {
     public class DefaultViewModel<T> : BaseViewModel
     {
+        public IDataServiceResolver DataServiceResolver { get; set; }
         private readonly Dictionary<Type, object> lookupLists = new Dictionary<Type, object>();
 
         public IEnumerable<T> List { get; set; }

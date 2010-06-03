@@ -122,5 +122,11 @@ namespace StuartClode.Mvc.Service.Data
 
         #endregion
 
+        public void ValidateDataRules( object entity )
+        {
+            var errors = DataAnnotationsValidationRunner.GetErrors( entity );
+            if ( errors.Any() )
+                throw new RulesException( errors );
+        }
     }
 }

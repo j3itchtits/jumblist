@@ -5,32 +5,32 @@
     { 
        
         //PostCategory
-        if ( Model.PostCategory != null )
-        { %>
-            <b>Category</b><br />
-            <%= Html.DropDownList( "postCategorySearch", new SelectList( Model.PostCategoryList, "Value", "Text", Model.PostCategory.Name ) )%><br /><br /> <%
-        }
+%>
+        <b>Category</b><br />
+        <%= Html.DropDownList( "postCategorySelection", new SelectList( Model.PostCategoryList, "Value", "Text", Model.PostCategory.Name ) )%><br /><br />
 
-        //Tags
-        if (Model.Tags != null ) 
-        { %>
-            <b>Tags</b><br />
-            <%= Html.TextBox("tagSearch", Model.Tags.Select(x => x.Name).ToFormattedStringList("{0}, ", 2))%><br /><br /> <%
-        }
+        <b>Tags</b><br />
+        <%= Html.TextBox( "tagSearch", (Model.Tags.Select( x => x.Name ).ToFormattedStringList( "{0} " ) + Model.Q).Trim() )%><br /><br /> <%
 
         //User/Location
-        if (Model.User != null ) 
+        if ((Model.User != null) && (ViewContext.RouteData.Values["action"].ToString() != "located") ) 
         { %>
             <b>Location</b><br />
             Within <%= Html.TextBox( "locationRadius", Html.LocationRadius( Model.User.Session.LocationRadius ) )%> miles of <%= Html.TextBox( "locationSearch", Html.LocationName( Model.User.Session.LocationName ) )%><br /><br /> <% 
         }
         
         //Group
-        if (Model.Group != null ) 
+        if ( Model.Group != null ) 
         { %>
-            <%= Html.Hidden("groupSearch", Model.Group.FriendlyUrl)%>  <%
+            <%= Html.Hidden("groupHidden", Model.Group.FriendlyUrl)%>  <%
         }
-        
+       
+        //Location
+        if ( Model.Locations != null ) 
+        { %>
+            <%= Html.Hidden( "locationHidden", Model.Locations.Select( x => x.FriendlyUrl ).ToFormattedStringList( "{0}+", 1 ) )%>  <%
+        }
+         
         %>
         
         <%= Html.SubmitButton( "submit", "Search" ) %> <%

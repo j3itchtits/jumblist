@@ -11,28 +11,159 @@ using MvcContrib;
 using Jumblist.Website.ViewModel;
 using Jumblist.Website.Filter;
 using xVal.ServerSide;
+using StuartClode.Mvc.Extension;
+using System.Text;
 
 namespace Jumblist.Website.Controllers
 {
     public class UsersController : ViewModelController<User>
     {
         private IUserService userService;
+        private IPostService postService;
 
-        public UsersController( IUserService userService )
+        public UsersController( IUserService userService, IPostService postService )
         {
             this.userService = userService;
+            this.postService = postService;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Profile( User user )
         {
-            //???? can we use the session user or do we need to get it from the database
             var item = userService.SelectRecord( user.Name );
             var model = BuildDefaultViewModel().With( item );
 
             model.PageTitle = string.Format( "Profile - {0}", item.Name );
 
             return View( model );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        [CustomAuthorization( RoleLevelMinimum = RoleLevel.AnonymousUser )]
+        public ViewResult Edit( User user )
+        {
+            var item = userService.SelectRecord( user.Name );
+
+            var model = BuildDataEditDefaultViewModel().With( item );
+            model.PageTitle = string.Format( "Edit - {0}", item.Name );
+
+            return View( model );
+        }
+
+        [AcceptVerbs( HttpVerbs.Post )]
+        //[ValidateInput( false )]
+        //[ValidateAntiForgeryToken]
+        public ActionResult Save( [ModelBinder( typeof( DefaultModelBinder ) )] int id, FormCollection form )
+        {
+            User user = userService.SelectRecord( id );
+            //int radius = Int32.Parse( form["Item.Radius"] );
+            //user.Radius = radius;
+            //bool success = TryUpdateModel( user, "Item", new[] { "Name", "Email", "Postcode", "Radius" }, form.ToValueProvider() );
+            UpdateModel( user, "Item", form.ToValueProvider() );
+
+
+
+
+            try
+            {
+                //item.Password = "1B4E9835735B0FB2EF62623D0E392EC40E0C339F";
+                //item.IsActive = true;
+                //item.DateCreated = DateTime.Now;
+                //item.RoleId = 2;
+
+                
+
+                //userService.Update( item );
+
+                userService.Save2( user );
+            }
+            catch ( RulesException ex )
+            {
+                ex.AddModelStateErrors( ModelState, "Item" );
+            }
+
+            if ( ModelState.IsValid )
+            {
+                Message = new Message { Text = user.Name + " has been saved.", StyleClass = "message" };
+                return RedirectToAction( "profile" );
+            }
+            else
+            {
+                var model = BuildDataEditDefaultViewModel().With( user );
+                model.PageTitle = string.Format( "Edit - {0}", user.Name );
+
+                var errorMessage = new StringBuilder();
+
+                foreach ( var modelStateValue in ModelState.Values )
+                {
+                    foreach ( var error in modelStateValue.Errors )
+                    {
+                        // Do something useful with these properties
+                        errorMessage.Append( error.ErrorMessage );
+                        //var exception = error.Exception;
+                    }
+                }
+
+                model.Message = new Message { Text = "Something went wrong - " + errorMessage.ToString(), StyleClass = "error" };
+                return View( "edit", model );
+            }
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ViewResult Post( int id )
+        {
+            Post post = postService.SelectRecord( id );
+
+            var model = DefaultView.CreateModel<Post>().With( post );
+
+            model.PageTitle = string.Format( "Edit - {0}", post.Title );
+
+            return View( model );
+        }
+
+        [AcceptVerbs( HttpVerbs.Post )]
+        public ActionResult Post( int id, FormCollection collection )
+        {
+            Post post = postService.SelectRecord( id );
+            UpdateModel( post, "Item", new[] { "Title" }, collection.ToValueProvider() );
+
+            if ( ModelState.IsValid )
+            {
+                try
+                {
+                    postService.Update( post );
+                    Message = new Message { Text = post.Title + " has been saved.", StyleClass = "message" };
+                    return RedirectToAction( "profile" );
+                }
+                catch ( RulesException ex )
+                {
+                    ex.AddModelStateErrors( ModelState, "Item" );
+
+                    var model = DefaultView.CreateModel<Post>().With( post );
+                    model.PageTitle = string.Format( "Edit - {0}", post.Title );
+
+                    //var errorMessage = new StringBuilder();
+
+                    //foreach ( var modelStateValue in ModelState.Values )
+                    //{
+                    //    foreach ( var error in modelStateValue.Errors )
+                    //    {
+                    //        // Do something useful with these properties
+                    //        errorMessage.Append( error.ErrorMessage );
+                    //        //var exception = error.Exception;
+                    //    }
+                    //}
+
+                    //model.Message = new Message { Text = "Something went wrong - " + errorMessage.ToString(), StyleClass = "error" };
+
+                    model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+                    return View( "edit", model );
+                }
+            }
+
+            PageTitle = "Sorry we have a problem";
+            Message = new Message { Text = "The modelstate is invalid", StyleClass = "message" };
+            return RedirectToAction( "problem" );
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -107,7 +238,7 @@ namespace Jumblist.Website.Controllers
         {
             try
             {
-                item.RoleId = Role.Author.RoleId;
+                item.RoleId = Role.RegisteredUser.RoleId;
                 userService.Create( item, confirmPassword );
             }
             catch (RulesException ex)

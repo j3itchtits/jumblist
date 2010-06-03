@@ -48,12 +48,26 @@ namespace StuartClode.Mvc.Extension
 
         public static string ToFriendlyUrlEncode( this IEnumerable enumeration )
         {
-            return enumeration.ToFormattedStringList("{0}, ", 2).ToFriendlyUrlEncode();
+            if ( enumeration == null )
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return enumeration.ToFormattedStringList( "{0}, ", 2 ).ToFriendlyUrlEncode();
+            }
         }
 
         public static string ToFriendlyQueryStringEncode( this IEnumerable enumeration )
         {
-            return enumeration.ToFormattedStringList( "{0}, ", 2 ).ToFriendlyQueryStringEncode();
+            if ( enumeration == null )
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return enumeration.ToFormattedStringList( "{0}, ", 2 ).ToFriendlyQueryStringEncode();
+            }
         }
 
         public static string ToNewLineDelimitedString(this IEnumerable<string> enumeration)

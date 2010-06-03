@@ -5,10 +5,9 @@ namespace Jumblist.Core.Service
     public interface ISearchService
     {
         string TagSearch { get; set; }
-        string GroupSearch { get; set; }
-        string PostCategorySearch { get; set; }
-        //string[] Tags { get; set; }
-        //string[] Locations { get; set; }
+        string GroupHidden { get; set; }
+        string PostCategorySelection { get; set; }
+        string LocationHidden { get; set; }
 
         SearchResult ProcessSearch();
     }
