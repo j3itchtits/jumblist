@@ -69,7 +69,8 @@ Post List tab
 - Fields to include on each post record
 -- Title (DONE)
 -- Feed Name (DONE)
--- Tags
+-- Tags (DONE)
+-- Number of views (popularity)
 -- Date or Time since posted (DONE)
 -- Post Category (DONE)
 -- View map (DONE)
@@ -77,9 +78,9 @@ Post List tab
 - Change number of posts per page (like stackoverflow) - add this value to user session (DONE)
 
 Map List tab
-- Map position and zoom level to reflect visible pushpins
+- Map position and zoom level to reflect visible pushpins (DONE)
 - Different style pushpins dependant on post category
-- Enhanced mouseover on each pushpin
+- Enhanced mouseover on each pushpin (DONE?)
 - Mini post list next to map (with connection to pushpin mouseover)
 - Randomize positions (DONE)
 
@@ -101,9 +102,8 @@ Post Detail
 -- Group link (DONE)
 -- Tags link (DONE)
 -- Locations link + Map (DONE)
--- Share on facebook
--- Share on twitter
-
+-- Share on facebook (DONE?)
+-- Share on twitter (DONE?)
 
 RSS Feeds
 - Dynamic feed construction based on list properties (routedata)
@@ -116,7 +116,10 @@ Twitter integration
 - Add list (feed) to twitter
 - Add post to twitter
 
-
+Tags
+- Popularity field (number of views)
+- Popularity field (number of posts) (DONE)
+- Sort list of tags by popularity
 
 
 -----
@@ -132,6 +135,9 @@ Paging for list pages
 
 
 Still to do - Version 2.0
+
+Post listing
+-- Number of views (popularity)
 
 Advanced post functionality
 - Respond to post

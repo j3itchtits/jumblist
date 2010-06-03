@@ -11,7 +11,8 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 using Jumblist.Core.Model;
-//using Microsoft.Web.Mvc.Internal;
+using System.Linq;
+using StuartClode.Mvc.Extension;
 
 namespace Jumblist.Website.Extension
 {
@@ -73,7 +74,7 @@ namespace Jumblist.Website.Extension
         public static MvcHtmlString MapLink( this HtmlHelper helper, Post post )
         {
             if ( post.HaveLatitudeAndLongitudeValuesBeenPopulated )
-                return MvcHtmlString.Create( "<a class=\"map\" title=\"Approximate location of " + post.Title + "\" href=\"#\" onclick=\"mapPopup( " + post.Latitude + ", " + post.Longitude + ", '" + post.Title + "');\">Map</a>" ); 
+                return MvcHtmlString.Create( "<a class=\"map\" title=\"Approximate location of " + HttpUtility.HtmlEncode( post.Title ) + "\" href=\"#\" onclick=\"mapPopup( " + post.Latitude + ", " + post.Longitude + ", '" + HttpUtility.HtmlEncode( post.Title ) + "');\">Map</a>" ); 
             else
                 return MvcHtmlString.Create( string.Empty ); 
         }
@@ -144,10 +145,6 @@ namespace Jumblist.Website.Extension
             return func( model );
         }
 
-        public static MvcHtmlString Fud( this HtmlHelper helper )
-        {
-            return MvcHtmlString.Create( "<acronym title=\"Fear, Uncertainty, and Doubt\">FUD</acronym>" );
-        }
 
         public static MvcHtmlString RadioButtonList( this HtmlHelper helper, string name, IEnumerable<SelectListItem> items )
         {
@@ -207,5 +204,36 @@ namespace Jumblist.Website.Extension
             string locationName = ( !string.IsNullOrEmpty( location ) ) ? ((location).Split( new string[] { ", " }, StringSplitOptions.None ))[0] : string.Empty;
             return MvcHtmlString.Create( locationName );
         }
+
+        public static MvcHtmlString TagListLinks( this HtmlHelper helper, IEnumerable<Tag> tags )
+        {
+            if ( tags == null ) return MvcHtmlString.Create( "No Tags" );
+
+            var sb = new StringBuilder();
+
+            foreach ( var tag in tags )
+            {
+                sb.Append( helper.ActionLink( tag.Name, "tagged", "posts", new { id = tag.FriendlyUrl }, null ) );
+                sb.Append( ' ' );
+            }
+
+            return MvcHtmlString.Create( sb.ToString().Trim() );
+        }
+
+        public static MvcHtmlString LocationListLinks( this HtmlHelper helper, IEnumerable<Location> locations )
+        {
+            var sb = new StringBuilder();
+            //locations.ToList().ForEach( x => helper.ActionLink( x.Name, "located", "posts", new { id = x.FriendlyUrl }, null ) );
+
+            foreach ( var location in locations )
+            {
+                sb.Append( helper.ActionLink( location.Name, "located", "posts", new { id = location.FriendlyUrl }, null ) );
+                sb.Append( ' ' );
+            }
+
+            return MvcHtmlString.Create( sb.ToString().Trim() );
+        }
+
+        
     }
 }

@@ -15,22 +15,16 @@ namespace Jumblist.Website.Extension
     {
         public static IEnumerable<Pushpin> ToFilteredPushPinList(this IEnumerable<Post> list, Expression<Func<Post, bool>> filter)
         {
-            return list.AsQueryable().Where( filter ).Select( p => (new Pushpin( p.Latitude.Randomize(), p.Longitude.Randomize(), HttpUtility.HtmlEncode( p.Title ), HttpUtility.HtmlEncode( p.Title ) )) );
+            return list.AsQueryable()
+                .Where( filter )
+                .Select( p => (new Pushpin( p.Latitude.Randomize(), p.Longitude.Randomize(), HttpUtility.HtmlEncode( p.Title ), HttpUtility.HtmlEncode( p.Title ) )) );
         }
 
-        public static string ToLinkedTagList( this IEnumerable<Tag> list )
+        public static IEnumerable<Pushpin> ToFilteredPushPinList( this IEnumerable<Post> list, Func<Post, bool> filter )
         {
-            var sb = new StringBuilder();
-            list.ToList().ForEach( x => sb.AppendFormat( "<a href='/posts/tagged/{0}'>{1}</a>, ", x.FriendlyUrl, x.Name ) );
-            return sb.ToString().RemoveRight( 2 );
+            return list
+                .Where( filter )
+                .Select( p => (new Pushpin( p.Latitude.Randomize(), p.Longitude.Randomize(), HttpUtility.HtmlEncode( p.Title ), "<a href=\'" + string.Format( "/post/{0}/{1}", p.PostId, p.Title.ToFriendlyUrlEncode() ) + "\'>" + HttpUtility.HtmlEncode( p.Title ) + "</a>" )) );
         }
-
-        public static string ToLinkedLocationList( this IEnumerable<Location> list )
-        {
-            var sb = new StringBuilder();
-            list.ToList().ForEach( x => sb.AppendFormat( "<a href='/posts/located/{0}'>{1}</a>, ", x.FriendlyUrl, x.Name ) );
-            return sb.ToString().RemoveRight( 2 );
-        }
-        
     }
 }

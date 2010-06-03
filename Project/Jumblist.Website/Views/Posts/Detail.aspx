@@ -58,12 +58,13 @@
     
     <div class="post-tags">
         <b>Tags: </b><br />
-        <%= Model.Item.Tags.ToLinkedTagList() %>
+        <%= Html.TagListLinks( Model.Item.Tags ) %>
     </div>
     
     <div class="post-locations">
         <b>Location: </b><br />
-        <%= Model.Item.Locations.ToLinkedLocationList()%> 
+        <%= Html.LocationListLinks( Model.Item.Locations )%>
+
         <%  if ( Model.Item.HaveLatitudeAndLongitudeValuesBeenPopulated ) 
            { %>
                 [ <a title="Approximate location of <%= Html.Encode( Model.Item.Title ) %>" href="#" onclick="mapPopup( <%= Model.Item.Latitude %>, <%= Model.Item.Longitude %>, '<%= Html.Encode( Model.Item.Title ) %>' );">Map</a> ]<% 

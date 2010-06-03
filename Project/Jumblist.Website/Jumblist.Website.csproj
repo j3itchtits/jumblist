@@ -258,6 +258,7 @@
     <Content Include="Views\Basket\SummaryControl.ascx" />
     <Content Include="Views\Groups\GroupListControl.ascx" />
     <Content Include="Views\Groups\Index.aspx" />
+    <Content Include="Views\Home\AnotherJQueryTest.aspx" />
     <Content Include="Views\Home\jQueryTest.aspx" />
     <Content Include="Views\Home\SearchControl.ascx" />
     <Content Include="Views\Locations\Index.aspx" />
@@ -272,10 +273,13 @@
     <Content Include="Views\Posts\SearchControl.ascx" />
     <Content Include="Views\Posts\SelectCategoryControl.ascx" />
     <Content Include="Views\Shared\BasketControl.ascx" />
+    <Content Include="Views\Shared\NotAuthorised.aspx" />
     <Content Include="Views\Shared\LoginAreaControl.ascx" />
     <Content Include="Views\Tags\Index.aspx" />
     <Content Include="Views\Tags\TagListControl.ascx" />
+    <Content Include="Views\Users\Edit.aspx" />
     <Content Include="Views\Users\LoginLinksControl.ascx" />
+    <Content Include="Views\Users\Post.aspx" />
     <Content Include="Views\Users\Profile.aspx" />
   </ItemGroup>
   <ItemGroup>
@@ -295,16 +299,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>49709</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/Jumblist.Website</IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

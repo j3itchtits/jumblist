@@ -21,23 +21,28 @@ namespace StuartClode.Mvc.Extension
 
             if ( timeSpan.TotalMinutes < d )
             {
-                return timeSpan.Seconds.ToString() + " secs ago";
+                string time = (timeSpan.Seconds == 1) ? "sec" : "secs";
+                return timeSpan.Seconds.ToString() + " " + time + " ago";
             }
             else if ( timeSpan.TotalHours < d )
             {
-                return timeSpan.Minutes.ToString() + " mins ago";
+                string time = (timeSpan.Minutes == 1) ? "min" : "mins";
+                return timeSpan.Minutes.ToString() + " " + time + " ago";
             }
             else if ( timeSpan.TotalDays < d )
             {
-                return timeSpan.Hours.ToString() + " hours ago";
+                string time = (timeSpan.Hours == 1) ? "hour" : "hours";
+                return timeSpan.Hours.ToString() + " " + time + " ago";
             }
             else if ( timeSpan.TotalDays < days )
             {
-                return timeSpan.Days.ToString() + " days ago";
+                string time = (timeSpan.Days == 1) ? "day" : "days";
+                return timeSpan.Days.ToString() + " " + time + " ago";
             }
             else
             {
-                return dateTime.ToString( "MMM dd, yyyy" );
+                string time = (dateTime.Year == DateTime.Now.Year) ? "MMM dd" : "MMM dd, yyyy";
+                return dateTime.ToString( time );
             }
         }
 

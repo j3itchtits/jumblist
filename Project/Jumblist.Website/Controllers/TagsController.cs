@@ -10,6 +10,9 @@ using StuartClode.Mvc.Extension;
 using xVal.ServerSide;
 using System.Linq.Expressions;
 using StuartClode.Mvc.Service.Data;
+using System.Configuration;
+using StuartClode.Mvc.Model;
+using Jumblist.Website.ViewModel;
 
 namespace Jumblist.Website.Controllers
 {
@@ -23,7 +26,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult Index()
+        public ViewResult Index( int? page )
         {
             //Func<Tag, bool> condition = x => x.Name.Contains("Baby");
             //Expression<Func<Tag, bool>> condition2 = x => x.Name == "Baby";
@@ -42,9 +45,14 @@ namespace Jumblist.Website.Controllers
             //var list = tagService.SelectList( Tag.WhereTagNameListOr( tags ) ).OrderBy( x => x.Name );
             //var list = tagService.SelectList( Tag.WhereTagNameListEqualsOr( tags ) ).OrderBy( x => x.Name );
 
-            var list = tagService.SelectRecordList().OrderBy(x => x.Name);
+            IQueryable<Tag> tagList = tagService.SelectRecordList().OrderByDescending( t => t.PostTags.Count( pt => pt.Post.Display == true ) );
 
-            var model = BuildDefaultViewModel().With( list );
+            int currentPage = page.HasValue ? page.Value - 1 : 0;
+            int currentPageSize = 50;
+
+            IPagedList<Tag> pagedTagList = tagList.ToPagedList( currentPage, currentPageSize );
+
+            DefaultViewModel<Tag> model = BuildDefaultViewModel().With( pagedTagList );
             model.PageTitle = "All Tags";
 
             return View( model );
@@ -53,7 +61,7 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ContentResult AjaxFindTags( string q )
         {
-            var tags = tagService.SelectTagNameList( q );
+            string[] tags = tagService.SelectTagNameList( q );
 
             //return raw text, one result on each line
             return Content( tags.ToNewLineDelimitedString() );
@@ -62,7 +70,7 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ContentResult AjaxTags()
         {
-            var tags = tagService.SelectTagNameList();
+            string[] tags = tagService.SelectTagNameList();
 
             //return raw text, one result on each line
             return Content( tags.ToNewLineDelimitedString() );

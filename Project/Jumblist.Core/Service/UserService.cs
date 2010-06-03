@@ -73,6 +73,19 @@ namespace Jumblist.Core.Service
             base.Save( user );
         }
 
+        public void Save2( User user )
+        {
+            var bingLocationService = new BingLocationService( user.Postcode );
+
+            user.Latitude = bingLocationService.Latitude;
+            user.Longitude = bingLocationService.Longitude;
+
+            ValidateDataRules( user );
+            ValidateBusinessRules( user );
+
+            base.Update( user );
+        }
+
         public override void Update( User user )
         {
             base.Update( user );
@@ -255,12 +268,7 @@ namespace Jumblist.Core.Service
 
         #endregion
 
-        private void ValidateDataRules( object entity )
-        {
-            var errors = DataAnnotationsValidationRunner.GetErrors( entity );
-            if (errors.Any())
-                throw new RulesException( errors );
-        }
+
 
         private void ValidateBusinessRules( string name, string email, string password, string confirmpassword )
         {

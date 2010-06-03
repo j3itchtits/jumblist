@@ -8,15 +8,15 @@ using System.Configuration;
 
 namespace Jumblist.Core.Service
 {
-    public class EmailBasketSubmitter : IBasketSubmitter
+    public class BasketService : IBasketService
     {
         const string mailSubject = "Jumblist post";
         //const string smtpServer = "localhost";
         private readonly string defaultEmail = ConfigurationManager.AppSettings["DefaultEmail"];
-        
-        #region IBasketSubmitter Members
 
-        public void SubmitBasket( User user )
+        #region IBasketService Members
+
+        public void EmailBasket( User user )
         {
             // Prepare the message body
             StringBuilder body = new StringBuilder();

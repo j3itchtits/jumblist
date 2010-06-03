@@ -26,9 +26,13 @@ namespace MvcMaps
             }
             var map = new GoogleMap(helper, mapID);
 
-            map.Zoom(4)
-                .Center(39.9097362345372, -97.470703125)
-                .MapType(MapType.Road);
+            //edit
+            //map.Zoom( 4 )
+            //    .Center( 39.9097362345372, -97.470703125 )
+            //    .MapType( MapType.Road );
+
+            map.MapType( MapType.Road );
+            //end edit
 
             return map;
         }

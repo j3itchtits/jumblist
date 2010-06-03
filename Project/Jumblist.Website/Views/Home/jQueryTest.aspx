@@ -8,10 +8,10 @@
 
     <title>jQueryTest</title>
 
+    <script src="../../Assets/Scripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+
     <script src="<%= Url.Script( "MicrosoftAjax.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "MicrosoftMvcAjax.js" )%>" type="text/javascript"></script>
-    <script src="<%= Url.Script( "jquery-1.3.2.min.js" )%>" type="text/javascript"></script>
-    <script src="~/Assets/Scripts/jquery-1.3.2.min-vsdoc.js" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.highlight-3.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.jumblist.js" )%>" type="text/javascript"></script>
@@ -20,6 +20,7 @@
     <script src="<%= Url.Script( "jquery.alerts.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.customdata.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.jsonviewer.js" )%>" type="text/javascript"></script>
+    
     
     <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
 

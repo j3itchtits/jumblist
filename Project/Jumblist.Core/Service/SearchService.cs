@@ -28,8 +28,9 @@ namespace Jumblist.Core.Service
         }
 
         public string TagSearch { get; set; }
-        public string GroupSearch { get; set; }
-        public string PostCategorySearch { get; set; }
+        public string GroupHidden { get; set; }
+        public string PostCategorySelection { get; set; }
+        public string LocationHidden { get; set; }
 
         //public string[] Tags 
         //{
@@ -45,41 +46,26 @@ namespace Jumblist.Core.Service
 
         public SearchResult ProcessSearch()
         {
-            //if ( TagSearch.Length == 0 )
-            //{
-            //    if ( GroupSearch.Length > 0 )
-            //    {
-            //        return new SearchResult { ActionName = "group", RouteValues = new { id = GroupSearch, category = PostCategorySearch } };
-            //    }
-            //    else if ( PostCategorySearch.Length > 0 )
-            //    {
-            //        return new SearchResult { ActionName = "category", RouteValues = new { id = PostCategorySearch } };
-            //    }
-            //    else
-            //    {
-            //        return new SearchResult { ActionName = "index", RouteValues = null };
-            //    }
-            //}
-            string tagPath = string.Empty;
             string q = string.Empty;
-
-            if ( TagSearch.Length > 0 )
-            {
-                string tagSearchPattern = TagSearch.ToSearchRegexPattern();
-                var tagMatches = Regex.Matches( tagService.SelectTagNameList().ToNewLineDelimitedString(), tagSearchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
-                bool isCompleteSearchMatch = IsSearchCompleteMatch( tagMatches, out q );
-                tagPath = ( (IEnumerable)tagMatches ).ToFriendlyUrlEncode();
-            }
+            string tagRegex = TagSearch.ToSearchRegexPattern();
+            string tagList = tagService.SelectTagNameList().ToNewLineDelimitedString();
+            MatchCollection tagMatches = Regex.Matches( tagList, tagRegex, RegexOptions.IgnoreCase | RegexOptions.Multiline );
+            bool isCompleteSearchMatch = IsSearchCompleteMatch( tagMatches, out q );
+            string tagPath = ((IEnumerable)tagMatches).ToFriendlyUrlEncode();
 
             if ( tagPath.Length == 0 )
             {
-                if ( GroupSearch.Length > 0 )
+                if ( GroupHidden.Length > 0 )
                 {
-                    return new SearchResult { ActionName = "group", RouteValues = new { id = GroupSearch, category = PostCategorySearch, q = q } };
+                    return new SearchResult { ActionName = "group", RouteValues = new { id = GroupHidden, category = PostCategorySelection, q = q } };
                 }
-                else if ( PostCategorySearch.Length > 0 )
+                else if ( LocationHidden.Length > 0 )
                 {
-                    return new SearchResult { ActionName = "category", RouteValues = new { id = PostCategorySearch, q = q } };
+                    return new SearchResult { ActionName = "located", RouteValues = new { id = LocationHidden, category = PostCategorySelection, q = q } };
+                }
+                else if ( PostCategorySelection.Length > 0 )
+                {
+                    return new SearchResult { ActionName = "category", RouteValues = new { id = PostCategorySelection, q = q } };
                 }
                 else
                 {
@@ -88,45 +74,21 @@ namespace Jumblist.Core.Service
             }
             else
             {
-                if ( GroupSearch.Length > 0 )
+                if ( GroupHidden.Length > 0 )
                 {
-                    return new SearchResult { ActionName = "group", RouteValues = new { id = GroupSearch, category = PostCategorySearch, q = tagPath + ' ' + q } };
+                    q = (((IEnumerable)tagMatches).ToFriendlyQueryStringEncode() + ' ' + q).Trim();
+                    return new SearchResult { ActionName = "group", RouteValues = new { id = GroupHidden, category = PostCategorySelection, q = q } };
+                }
+                else if ( LocationHidden.Length > 0 )
+                {
+                    q = (((IEnumerable)tagMatches).ToFriendlyQueryStringEncode() + ' ' + q).Trim();
+                    return new SearchResult { ActionName = "located", RouteValues = new { id = LocationHidden, category = PostCategorySelection, q = q } };
                 }
                 else
                 {
-                    return new SearchResult { ActionName = "tagged", RouteValues = new { id = tagPath, category = PostCategorySearch, q = q } };
+                    return new SearchResult { ActionName = "tagged", RouteValues = new { id = tagPath, category = PostCategorySelection, q = q } };
                 }
             }
-
-
-            //Get User entity - what about anonymous users?
-            //Add LocationSearch to User entity - this can then be used in the PostController to filter the tagged or search post list
-            // note - actually we might not need locationsearch at all - perhaps this logic can be incorporated into the controllers
-
-            //var locationMatches = Regex.Matches(Locations.ToNewLineDelimitedString(), searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
-
-
-
-
-            //string locationQueryString = ((IEnumerable)locationMatches).ToFriendlyUrlEncode();
-
-
-
-
-
-            //if (tagQueryString.Length == 0 && locationQueryString.Length > 0)
-            //{
-            //    actionName = "located";
-            //    routeValues = new { id = locationQueryString, category = PostCategorySearch, q = q, page = string.Empty };
-            //}
-
-            //if (tagQueryString.Length > 0 && locationQueryString.Length > 0)
-            //{
-            //    actionName = "taggedlocations";
-            //    routeValues = new { tagged = tagQueryString, located = locationQueryString, category = PostCategorySearch, q = q, page = string.Empty };
-            //}
-
-            
         }
 
 
@@ -142,7 +104,7 @@ namespace Jumblist.Core.Service
 
             if (!match)
 	        {
-                IEnumerable<string> difference = (TagSearch.ToLower().Split(' ')).Except(tagMatchesCompareString.ToLower().Split(' '));
+                IEnumerable<string> difference = (TagSearch.ToLower().Split(' ')).Except( tagMatchesCompareString.ToLower().Split(' ') );
                 q = difference.ToFriendlyQueryStringEncode();
 	        }
 

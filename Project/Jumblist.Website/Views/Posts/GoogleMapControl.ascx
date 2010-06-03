@@ -32,8 +32,8 @@
     Ajax.GoogleMap( "map" )
     .CssClass( "GoogleMap" )
     //.Load( "alert('Map Loaded!');" )
-    .Center( 50.853544, 0.56347 )
-    .Zoom( 9 )
+    //.Center( 50.853544, 0.56347 )
+    //.Zoom( 9 )
     //.DynamicMap( new DynamicMapOptions() { DisplayData = "DynamicMap_DisplayData_Handler" } )
     .AddPushpin( Model )
     .Render();

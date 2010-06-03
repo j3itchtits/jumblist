@@ -56,7 +56,8 @@ namespace Jumblist.Website.Controllers
         {
             try
             {
-                var postList = postService.SelectRecordList( q.ToFriendlyQueryStringDecode(), user ).OrderByDescending( t => t.PublishDateTime );
+                string[] searchQuerystring = q.ToFriendlyQueryStringDecode();
+                var postList = postService.SelectRecordList( searchQuerystring, user ).OrderByDescending( t => t.PublishDateTime );
 
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
                 int currentPageSize = CalculatePageSize( pageSize, user.Session );
@@ -64,12 +65,14 @@ namespace Jumblist.Website.Controllers
                 if (!string.IsNullOrEmpty(q)) pageTitle += " - with search term " + q;
 
                 var pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
+                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExistFunc() ).Take( currentPageSize );
 
                 var model = BuildPostViewModel();
 
+                model.Q = q; 
                 model.User = user;
-                model.PostCategory = null;
+                model.PostCategory = new PostCategory();
+                model.Tags = new List<Tag>();
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
                 model.PageTitle = pageTitle;
@@ -101,8 +104,9 @@ namespace Jumblist.Website.Controllers
         {
             try
             {
+                string[] searchQuerystring = q.ToFriendlyQueryStringDecode();
                 var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( id ) );
-                var postList = postService.SelectRecordList( postCategory, q.ToFriendlyQueryStringDecode(), user ).OrderByDescending( t => t.PublishDateTime ); ;
+                var postList = postService.SelectRecordList( postCategory, searchQuerystring, user ).OrderByDescending( t => t.PublishDateTime ); ;
 
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
                 int currentPageSize = CalculatePageSize( pageSize, user.Session );
@@ -114,8 +118,10 @@ namespace Jumblist.Website.Controllers
 
                 var model = BuildPostViewModel();
 
+                model.Q = q;
                 model.User = user;
                 model.PostCategory = postCategory;
+                model.Tags = new List<Tag>();
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
                 model.PageTitle = pageTitle;
@@ -139,9 +145,10 @@ namespace Jumblist.Website.Controllers
         {
             try
             {
+                string[] searchQuerystring = q.ToFriendlyQueryStringDecode();
                 var group = feedService.SelectRecord( Feed.WhereFriendlyUrlEquals( id ) );
                 var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-                var postList = postService.SelectRecordList( group, postCategory, q.ToFriendlyQueryStringDecode() ).OrderByDescending( t => t.PublishDateTime ); ;
+                var postList = postService.SelectRecordList( group, postCategory, searchQuerystring ).OrderByDescending( t => t.PublishDateTime ); ;
 
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
                 int currentPageSize = CalculatePageSize( pageSize, user.Session );
@@ -154,7 +161,9 @@ namespace Jumblist.Website.Controllers
                 var model = BuildPostViewModel();
 
                 model.Group = group;
-                model.PostCategory = postCategory;
+                model.Q = q;
+                model.PostCategory = postCategory ?? new PostCategory();
+                model.Tags = new List<Tag>();
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
                 model.PageTitle = pageTitle;
@@ -174,15 +183,17 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Located( string id, string category, User user, int? page, int? pageSize )
+        public ActionResult Located( string id, string category, string q, User user, int? page, int? pageSize )
         {
             try
             {
-                var locationList = locationService.SelectRecordList( Location.WhereFriendlyUrlListEqualsOr( id.ToFriendlyUrlDecode() ) );
+                string[] searchQuerystring = q.ToFriendlyQueryStringDecode();
+                string[] locationsUrl = id.ToFriendlyUrlDecode();
+
+                var locationList = locationService.SelectRecordList( Location.WhereFriendlyUrlListEqualsOr( locationsUrl ) );
                 var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
 
-                //do we need a q parameter in this method?? - if so then we need a way to search through a list of location-based posts
-                var postList = postService.SelectRecordList( locationList, postCategory ).OrderByDescending( t => t.PublishDateTime ); ;
+                var postList = postService.SelectRecordList( locationList, postCategory, searchQuerystring ).OrderByDescending( t => t.PublishDateTime ); ;
 
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
                 int currentPageSize = CalculatePageSize( pageSize, user.Session );
@@ -192,7 +203,11 @@ namespace Jumblist.Website.Controllers
 
                 var model = BuildPostViewModel();
 
-                model.PostCategory = postCategory;
+                model.Locations = locationList;
+                model.Q = q;
+                model.User = user;
+                model.PostCategory = postCategory ?? new PostCategory();
+                model.Tags = new List<Tag>();                
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
                 model.PageTitle = "All " + category + " Posts by Location - " + locationList.Select(x => x.Name).ToFormattedStringList("{0}, ", 2);
@@ -216,9 +231,12 @@ namespace Jumblist.Website.Controllers
         {
             try
             {
-                var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( id.ToFriendlyUrlDecode() ) );
+                string[] searchQuerystring = q.ToFriendlyQueryStringDecode();
+                string[] tagsUrl = id.ToFriendlyUrlDecode();
+
+                var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( tagsUrl ) );
                 var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-                var postList = postService.SelectRecordList( tagList, postCategory, q.ToFriendlyQueryStringDecode(), user );
+                var postList = postService.SelectRecordList( tagList, postCategory, searchQuerystring, user ).OrderByDescending( t => t.PublishDateTime ); ;
 
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
                 int currentPageSize = CalculatePageSize( pageSize, user.Session );
@@ -230,9 +248,10 @@ namespace Jumblist.Website.Controllers
 
                 var model = BuildPostViewModel();
 
-                model.Tags = tagList;
+                model.Q = q;
                 model.User = user;
-                model.PostCategory = postCategory;
+                model.PostCategory = postCategory ?? new PostCategory();
+                model.Tags = tagList; 
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
                 model.PageTitle = pageTitle;
@@ -255,42 +274,6 @@ namespace Jumblist.Website.Controllers
             }
         }
 
-        //[AcceptVerbs( HttpVerbs.Get )]
-        //public ActionResult SearchResult( string q, string category, User user, int? page, int? pageSize )
-        //{
-        //    try
-        //    {
-        //        var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals(category) );
-        //        var postList = postService.SelectRecordList( postCategory, q, user );
-
-        //        int currentPage = page.HasValue ? page.Value - 1 : 0;
-        //        int currentPageSize = CalculatePageSize( pageSize, user.Session );
-        //        var pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
-
-        //        var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
-
-        //        var model = BuildPostViewModel();
-
-        //        model.User = user;
-        //        model.PostCategory = postCategory;
-        //        model.Pushpins = pushpinList;
-        //        model.PagedList = pagedPostList;
-        //        model.PageTitle = "All " + category + " Posts with the following search terms - " + q;
-        //        model.ListCount = postList.Count();
-
-        //        if (postList.Count() == 0)
-        //            model.Message = new Message { Text = "No posts with the following search terms " + q, StyleClass = "message" };
-
-        //        return View( "index", model );
-        //    }
-        //    catch ( Exception ex )
-        //    {
-        //        PageTitle = "Sorry we have a problem" + ex.Message;
-        //        Message = new Message { Text = "We could not find this search term " + q, StyleClass = "message" };
-        //        return RedirectToAction( "problem" );
-        //    }
-        //}
-
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Detail( int id, string name )
         {
@@ -304,9 +287,8 @@ namespace Jumblist.Website.Controllers
 
         [AcceptVerbs( HttpVerbs.Post )]
         [ValidateInput( true )]
-        public RedirectToRouteResult Search( string postCategorySearch, string tagSearch, string locationSearch, int? locationRadius, string groupSearch, User user )
+        public RedirectToRouteResult Search( string postCategorySelection, string tagSearch, string locationSearch, int? locationRadius, string groupHidden, string locationHidden, User user )
         {
-
             if ( !string.IsNullOrEmpty( locationSearch ) )
             {
                 locationSearch = locationSearch.ToCleanSearchString() + ", UK";
@@ -326,8 +308,9 @@ namespace Jumblist.Website.Controllers
             userService.SaveSession( user.Session );
 
             searchService.TagSearch = tagSearch.ToCleanSearchString();
-            searchService.PostCategorySearch = postCategorySearch ?? string.Empty;
-            searchService.GroupSearch = groupSearch ?? string.Empty;
+            searchService.PostCategorySelection = postCategorySelection ?? string.Empty;
+            searchService.GroupHidden = groupHidden ?? string.Empty;
+            searchService.LocationHidden = locationHidden ?? string.Empty;
 
             var searchResult = searchService.ProcessSearch();
 
@@ -339,6 +322,20 @@ namespace Jumblist.Website.Controllers
         public void Email( int id, User user )
         {
             postService.Email( id, user );
+        }
+
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public RedirectToRouteResult EmailAlert( string postcategory, string tags, string locations, string group, string q, string returnUrl, User user )
+        {
+            if ( user.IsAuthenticated )
+            {
+                return RedirectToAction( "EditEmailAlert", "Users", new { postcategory = postcategory, tags = tags, locations = locations, group = group, q = q, returnUrl = returnUrl } );
+            }
+            else
+            {
+                return RedirectToAction( "Login", "Users", new { returnUrl = returnUrl } );
+            }
         }
 
 
@@ -379,93 +376,6 @@ namespace Jumblist.Website.Controllers
 
             return Rss( feed );
         }
-
-        //[AcceptVerbs(HttpVerbs.Post)]
-        //[ValidateInput(true)]
-        //public RedirectToRouteResult Search( string postCategorySearch, string tagSearch, string locationSearch, int? locationRadius, string groupSearch )
-        //{
-        //    if (!string.IsNullOrEmpty( locationSearch ))
-        //    {
-        //        locationSearch = locationSearch.ToCleanSearchString() + ", UK";
-
-        //        //user.Search.LocationName = locationSearch;
-        //        //user.Search.LocationRadius = locationRadius;
-
-        //        BingLocationService locationSearchCoordinates = new BingLocationService( locationSearch );
-        //        //user.Search.LocationLatitude = locationSearchCoordinates.Latitude;
-        //        //user.Search.LocationLongitude = locationSearchCoordinates.Longitude;
-
-        //        //At this point we need a method on IUserService that allows us to SET the user details to either a anon session or auth cookie
-        //        //Perhaps we need 2 methods - one for anon and one for auth
-
-        //        SearchUser searchUser = new SearchUser( locationSearch, locationRadius, locationSearchCoordinates.Latitude, locationSearchCoordinates.Longitude );
-
-        //        (HttpContext.Session[userKey] as User).Search = searchUser;
-
-        //        //HttpCookie testCookie = HttpContext.Request.Cookies["test"];
-        //        //testCookie.Value = "You've just run a search";
-        //        //testCookie.Expires = testCookie.Expires.AddDays( 1 );
-        //        //HttpContext.Response.Cookies.Add( testCookie );
-        //    }
-
-            
-
-
-        //    searchService.TagSearch = tagSearch.ToCleanSearchString();
-        //    //searchService.LocationSearch = locationSearch;
-        //    searchService.PostCategorySearch = postCategorySearch;
-
-        //    if (groupSearch == null) groupSearch = string.Empty;
-        //    searchService.GroupSearch = groupSearch;
-
-
-
-
-        //    //searchService.Tags = tagService.SelectTagNameList();
-        //    //searchService.Locations = locationService.SelectLocationNameTownList();
-
-        //    var searchResult = searchService.ProcessSearch();
-
-        //    return RedirectToAction( searchResult.ActionName, searchResult.RouteValues );
-
-        //    //searchString = searchString.ToCleanSearchString();
-
-        //    //var searchPattern = searchString.ToSearchRegexPattern();
-        //    //var tagsInput = string.Join( "\n", tagService.SelectTagNameList() );
-        //    //var locationsInput = string.Join( "\n", locationService.SelectLocationNameTownList() );
-
-        //    //var tagMatches = Regex.Matches( tagsInput, searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
-        //    //var locationMatches = Regex.Matches( locationsInput, searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
-
-        //    //var tagMatchesCompareString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0} " );
-        //    //var locationMatchesCompareString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0} " );
-        //    //var compareString = (tagMatchesCompareString + locationMatchesCompareString).Trim();
-
-        //    //bool isCompleteSearchMatch = string.Compare(searchString.ToAlphabetical(), compareString.ToAlphabetical(), true) == 0;
-
-        //    //if (tagMatches.Count > 0 && locationMatches.Count == 0 && isCompleteSearchMatch)
-        //    //{
-        //    //    //string tagQueryString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0}, ", 2 ).FriendlyUrlEncode();
-        //    //    return RedirectToAction( "tagged", new { id = tagQueryString, category = searchOptions, page = string.Empty } );
-        //    //}
-
-        //    //if (tagMatches.Count == 0 && locationMatches.Count > 0 && isCompleteSearchMatch)
-        //    //{
-        //    //    //string locationQueryString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0}, ", 2 ).FriendlyUrlEncode();
-        //    //    return RedirectToAction( "located", new { id = locationQueryString, category = searchOptions, page = string.Empty } );
-        //    //}
-
-        //    //if (tagMatches.Count > 0 && locationMatches.Count > 0 && isCompleteSearchMatch)
-        //    //{
-        //    //    //string tagQueryString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0}, ", 2 ).FriendlyUrlEncode();
-        //    //    //string locationQueryString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0}, ", 2 ).FriendlyUrlEncode();
-        //    //    return RedirectToAction( "search", new { tagged = tagQueryString, located = locationQueryString, category = searchOptions, page = string.Empty } );
-        //    //}
-
-        //    //PageTitle = "Sorry we have a problem";
-        //    //return RedirectToAction("problem");
-            
-        //}
 
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult SelectCategory( RouteValueDictionary routeValueDic, string highlightedCategory )
@@ -562,7 +472,128 @@ namespace Jumblist.Website.Controllers
             return postService.SelectRecordList( postCategory, q.ToFriendlyQueryStringDecode(), user ).OrderByDescending( t => t.PublishDateTime ); ;
         }
 
+        //[AcceptVerbs( HttpVerbs.Get )]
+        //public ActionResult SearchResult( string q, string category, User user, int? page, int? pageSize )
+        //{
+        //    try
+        //    {
+        //        var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals(category) );
+        //        var postList = postService.SelectRecordList( postCategory, q, user );
 
+        //        int currentPage = page.HasValue ? page.Value - 1 : 0;
+        //        int currentPageSize = CalculatePageSize( pageSize, user.Session );
+        //        var pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
+
+        //        var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
+
+        //        var model = BuildPostViewModel();
+
+        //        model.User = user;
+        //        model.PostCategory = postCategory;
+        //        model.Pushpins = pushpinList;
+        //        model.PagedList = pagedPostList;
+        //        model.PageTitle = "All " + category + " Posts with the following search terms - " + q;
+        //        model.ListCount = postList.Count();
+
+        //        if (postList.Count() == 0)
+        //            model.Message = new Message { Text = "No posts with the following search terms " + q, StyleClass = "message" };
+
+        //        return View( "index", model );
+        //    }
+        //    catch ( Exception ex )
+        //    {
+        //        PageTitle = "Sorry we have a problem" + ex.Message;
+        //        Message = new Message { Text = "We could not find this search term " + q, StyleClass = "message" };
+        //        return RedirectToAction( "problem" );
+        //    }
+        //}
+
+        //[AcceptVerbs(HttpVerbs.Post)]
+        //[ValidateInput(true)]
+        //public RedirectToRouteResult Search( string postCategorySearch, string tagSearch, string locationSearch, int? locationRadius, string groupSearch )
+        //{
+        //    if (!string.IsNullOrEmpty( locationSearch ))
+        //    {
+        //        locationSearch = locationSearch.ToCleanSearchString() + ", UK";
+
+        //        //user.Search.LocationName = locationSearch;
+        //        //user.Search.LocationRadius = locationRadius;
+
+        //        BingLocationService locationSearchCoordinates = new BingLocationService( locationSearch );
+        //        //user.Search.LocationLatitude = locationSearchCoordinates.Latitude;
+        //        //user.Search.LocationLongitude = locationSearchCoordinates.Longitude;
+
+        //        //At this point we need a method on IUserService that allows us to SET the user details to either a anon session or auth cookie
+        //        //Perhaps we need 2 methods - one for anon and one for auth
+
+        //        SearchUser searchUser = new SearchUser( locationSearch, locationRadius, locationSearchCoordinates.Latitude, locationSearchCoordinates.Longitude );
+
+        //        (HttpContext.Session[userKey] as User).Search = searchUser;
+
+        //        //HttpCookie testCookie = HttpContext.Request.Cookies["test"];
+        //        //testCookie.Value = "You've just run a search";
+        //        //testCookie.Expires = testCookie.Expires.AddDays( 1 );
+        //        //HttpContext.Response.Cookies.Add( testCookie );
+        //    }
+
+
+
+
+        //    searchService.TagSearch = tagSearch.ToCleanSearchString();
+        //    //searchService.LocationSearch = locationSearch;
+        //    searchService.PostCategorySearch = postCategorySearch;
+
+        //    if (groupSearch == null) groupSearch = string.Empty;
+        //    searchService.GroupSearch = groupSearch;
+
+
+
+
+        //    //searchService.Tags = tagService.SelectTagNameList();
+        //    //searchService.Locations = locationService.SelectLocationNameTownList();
+
+        //    var searchResult = searchService.ProcessSearch();
+
+        //    return RedirectToAction( searchResult.ActionName, searchResult.RouteValues );
+
+        //    //searchString = searchString.ToCleanSearchString();
+
+        //    //var searchPattern = searchString.ToSearchRegexPattern();
+        //    //var tagsInput = string.Join( "\n", tagService.SelectTagNameList() );
+        //    //var locationsInput = string.Join( "\n", locationService.SelectLocationNameTownList() );
+
+        //    //var tagMatches = Regex.Matches( tagsInput, searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
+        //    //var locationMatches = Regex.Matches( locationsInput, searchPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline );
+
+        //    //var tagMatchesCompareString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0} " );
+        //    //var locationMatchesCompareString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0} " );
+        //    //var compareString = (tagMatchesCompareString + locationMatchesCompareString).Trim();
+
+        //    //bool isCompleteSearchMatch = string.Compare(searchString.ToAlphabetical(), compareString.ToAlphabetical(), true) == 0;
+
+        //    //if (tagMatches.Count > 0 && locationMatches.Count == 0 && isCompleteSearchMatch)
+        //    //{
+        //    //    //string tagQueryString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0}, ", 2 ).FriendlyUrlEncode();
+        //    //    return RedirectToAction( "tagged", new { id = tagQueryString, category = searchOptions, page = string.Empty } );
+        //    //}
+
+        //    //if (tagMatches.Count == 0 && locationMatches.Count > 0 && isCompleteSearchMatch)
+        //    //{
+        //    //    //string locationQueryString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0}, ", 2 ).FriendlyUrlEncode();
+        //    //    return RedirectToAction( "located", new { id = locationQueryString, category = searchOptions, page = string.Empty } );
+        //    //}
+
+        //    //if (tagMatches.Count > 0 && locationMatches.Count > 0 && isCompleteSearchMatch)
+        //    //{
+        //    //    //string tagQueryString = ((IEnumerable)tagMatches).ToFormattedStringList( "{0}, ", 2 ).FriendlyUrlEncode();
+        //    //    //string locationQueryString = ((IEnumerable)locationMatches).ToFormattedStringList( "{0}, ", 2 ).FriendlyUrlEncode();
+        //    //    return RedirectToAction( "search", new { tagged = tagQueryString, located = locationQueryString, category = searchOptions, page = string.Empty } );
+        //    //}
+
+        //    //PageTitle = "Sorry we have a problem";
+        //    //return RedirectToAction("problem");
+
+        //}
 
     }
 }

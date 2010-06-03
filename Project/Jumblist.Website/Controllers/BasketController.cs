@@ -14,9 +14,9 @@ namespace Jumblist.Website.Controllers
     public class BasketController : BaseController
     {
         private readonly IDataService<Post> postService;
-        private readonly IBasketSubmitter basketSubmitter;
+        private readonly IBasketService basketSubmitter;
 
-        public BasketController( IDataService<Post> postService, IBasketSubmitter basketSubmitter )
+        public BasketController( IDataService<Post> postService, IBasketService basketSubmitter )
         {
             this.postService = postService;
             this.basketSubmitter = basketSubmitter;
@@ -68,7 +68,7 @@ namespace Jumblist.Website.Controllers
                 return RedirectToAction( "Index", new { returnUrl } );
             }
 
-            basketSubmitter.SubmitBasket( user );
+            basketSubmitter.EmailBasket( user );
             user.Session.Basket.ClearAll();
             Message = new Message { Text = "Message sent", StyleClass = "message" };
 

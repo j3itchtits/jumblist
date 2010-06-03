@@ -68,10 +68,10 @@ namespace Jumblist.Website.Filter
             {
                 // auth failed, redirect to not authorized page
                 ViewDataDictionary viewData = new ViewDataDictionary();
-                viewData.Add( "PageTitle", "Not Authorized" );
+                viewData.Add( "PageTitle", "Not Authorised" );
                 viewData.Add( "Message", "Sorry, you do not have sufficient privileges for this operation." );
 
-                filterContext.Result = new ViewResult { ViewName = "Error",  ViewData = viewData };
+                filterContext.Result = new ViewResult { ViewName = "NotAuthorised", ViewData = viewData };
                 //filterContext.Result = new RedirectToRouteResult( new RouteValueDictionary( new { area = "", controller = "Home" } ) );
             }
         }

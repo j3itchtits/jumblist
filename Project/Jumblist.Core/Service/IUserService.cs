@@ -16,6 +16,7 @@ namespace Jumblist.Core.Service
         User SelectRecord( Expression<Func<User, bool>> whereCondition );
         User SelectRecord( string name );
         void Save( User entity );
+        void Save2( User entity );
         void Update(User entity);
         void ResetPassword( User entity, string password, string confirmPassword );
         void Create( User entity, string confirmPassword );

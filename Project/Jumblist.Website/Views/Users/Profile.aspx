@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentLeft" runat="server">
    
-    <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
+    <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%> <%=Html.ActionLink( "[Edit]", "edit" ) %>
     
     <%= Html.MessageBox( ViewData.Model ) %>
     
@@ -15,19 +15,32 @@
         Email:
         <%= Html.Encode( Model.Item.Email )%>
     </p>
+
+    <p>
+        Postcode:
+        <%= Html.Encode( Model.Item.Postcode )%>
+    </p>
     
-    <div class="post-locations">
-        <div><b>Posts by this user: </b><br />
+    <p>
+        Radius:
+        <%= Html.Encode( Model.Item.Radius )%>
+    </p>
+        
+    <div class="user-alerts">
+        <div><b>Your alerts</b><br />
+
+        </div>
+    </div>
+                
+    <div class="user-posts">
+        <div><b>Your posts</b><br />
         <% foreach ( var post in Model.Item.Posts )
-           {
-               Response.Write( post.Title + "<br />" );
+           { %>
+                <%= post.Title %> <%= Html.ActionLink( "[Edit]", "post", new { id = post.PostId } ) %><br /><%
            } %>
         </div>
     </div>
-       
-    <p style="padding-top:10px;">
-        <%=Html.ActionLink( "Back to List", "list" ) %>
-    </p>
+      
 
 </asp:Content>
 

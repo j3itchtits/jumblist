@@ -208,16 +208,23 @@ namespace Jumblist.Website
             );
 
             routes.JumblistMapRoute(
-                "Rss-Category",                                              // Route name
+                "Rss-WithCategory",                                              // Route name
                 "{controller}/{rssactionname}/{rssactionid}/{rssactioncategory}/rss",                           // URL with parameters
-                new { controller = "posts", action = "rss" },  // Parameter defaults
+                new { controller = "posts", action = "rss", rssactionname = "index" },  // Parameter defaults
+                new string[] { "Jumblist.Website.Controllers" }
+            );
+
+            routes.JumblistMapRoute(
+                "Rss-WithAction",                                              // Route name
+                "{controller}/{rssactionname}/{rssactionid}/rss",                           // URL with parameters
+                new { controller = "posts", action = "rss", rssactionname = "index" },  // Parameter defaults
                 new string[] { "Jumblist.Website.Controllers" }
             );
 
             routes.JumblistMapRoute(
                 "Rss",                                              // Route name
-                "{controller}/{rssactionname}/{rssactionid}/rss",                           // URL with parameters
-                new { controller = "posts", action = "rss" },  // Parameter defaults
+                "{controller}/rss",                           // URL with parameters
+                new { controller = "posts", action = "rss", rssactionname = "index" },  // Parameter defaults
                 new string[] { "Jumblist.Website.Controllers" }
             );
 

@@ -22,7 +22,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ActionResult Index()
+        public RedirectToRouteResult Index()
         {
             return RedirectToAction( "list" );
         }

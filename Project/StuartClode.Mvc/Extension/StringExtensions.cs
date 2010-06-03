@@ -53,7 +53,8 @@ namespace StuartClode.Mvc.Extension
 
         public static string[] ToFriendlyQueryStringDecode( this string helper )
         {
-            return ( helper ?? string.Empty ).Split( ' ' );
+            //return (helper ?? string.Empty).Split( ' ' );
+            return (helper == null) ? null : helper.Split( ' ' );
         }
 
         public static string ToCleanSearchString( this string helper )
@@ -159,7 +160,9 @@ namespace StuartClode.Mvc.Extension
         public static string ToSearchRegexPattern( this string search )
         {
             string[] searchArray = search.Split( ' ' );
-            return (searchArray.Where( s => s.Length > 0 )).ToFormattedStringList( "(^{0}$)|", 1 );
+            string ret = (searchArray.Where( s => s.Length > 0 )).ToFormattedStringList( "(^{0}$)|", 1 );
+            if (ret.Length == 0) ret = "(?!)";
+            return ret;
 
             // We probably don't need this (FindAllWordPhraseCombinations) as each tag is NOW ONLY ONE word rather than a word or phrase
             //string[] searchArray = FindAllWordPhraseCombinations( search.Split( ' ' ) );

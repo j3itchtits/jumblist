@@ -28,9 +28,9 @@
         
         %>
         
-        <input type="radio" name="postCategorySearch" value="" checked="checked" /> All 
-        <input type="radio" name="postCategorySearch" value="offered" /> Offered 
-        <input type="radio" name="postCategorySearch" value="wanted" /> Wanted        
+        <input type="radio" name="postCategorySelection" value="" checked="checked" /> All 
+        <input type="radio" name="postCategorySelection" value="offered" /> Offered 
+        <input type="radio" name="postCategorySelection" value="wanted" /> Wanted        
                 
         <br /><br />Testing: <br />
         PageIsAuth: <%= Page.User.Identity.IsAuthenticated %><br />

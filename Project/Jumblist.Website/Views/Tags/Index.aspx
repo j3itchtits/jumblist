@@ -7,9 +7,13 @@
     <%= Html.MessageBox( ViewData.Model )%>
     
     <div id="taglist">
-        <% Html.RenderPartial( "TagListControl", Model.List ); %>
+        <% Html.RenderPartial( "TagListControl", Model.PagedList ); %>
     </div>
-    
+
+    <div class="pagerlinks">
+        <%= Html.Pager( Model.PagedList.PageSize, Model.PagedList.PageNumber, Model.PagedList.TotalItemCount )%>
+    </div><br /><br />
+                
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContentJavascript" runat="server">
