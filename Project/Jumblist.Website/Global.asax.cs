@@ -269,7 +269,7 @@ namespace Jumblist.Website
             //binders.DefaultBinder = new SomeCustomDefaultBinder();
 
             //binders[typeof(Basket)] = new BasketModelBinder();
-            binders[typeof(User)] = new UserModelBinder();
+            //binders.Add( typeof(User), new UserModelBinder() );
         }
 
         //protected void Application_AuthenticateRequest( object sender, EventArgs e )

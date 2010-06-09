@@ -50,20 +50,22 @@ namespace StuartClode.Mvc.Service.Data
 
         public virtual void Save( T entity )
         {
+            Save( entity, false );
+        }
+
+        public virtual void Save( T entity, bool isDetachedFromDatabase )
+        {
+            //Insert
             if ( IsNew( entity ) )
             {
                 repository.InsertOnSubmit( entity );
             }
+                //Update
             else
             {
-                repository.Save( entity );
+                if ( isDetachedFromDatabase ) repository.Attach( entity );
             }
 
-            repository.SubmitChanges();
-        }
-
-        public virtual void Update( T entity )
-        {
             repository.SubmitChanges();
         }
 
@@ -91,7 +93,16 @@ namespace StuartClode.Mvc.Service.Data
             return list.Where( whereCondition ).Any();
         }
 
+        public void ValidateDataRules( object entity )
+        {
+            var errors = DataAnnotationsValidationRunner.GetErrors( entity );
+            if ( errors.Any() )
+                throw new RulesException( errors );
+        }
+
         #endregion
+
+
 
         #region IDataService Members
 
@@ -107,12 +118,12 @@ namespace StuartClode.Mvc.Service.Data
 
         public void Save( object entity )
         {
-            Save( entity );
+            Save( entity, false );
         }
 
-        public void Update( object entity )
+        public void Save( object entity, bool isDetachedFromDatabase )
         {
-            Update( entity );
+            Save( entity, isDetachedFromDatabase );
         }
 
         public void Delete( object entity )
@@ -122,11 +133,6 @@ namespace StuartClode.Mvc.Service.Data
 
         #endregion
 
-        public void ValidateDataRules( object entity )
-        {
-            var errors = DataAnnotationsValidationRunner.GetErrors( entity );
-            if ( errors.Any() )
-                throw new RulesException( errors );
-        }
+
     }
 }

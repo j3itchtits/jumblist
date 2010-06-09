@@ -40,6 +40,7 @@
         </tr>
         </table>
 
+        <%= Html.AntiForgeryToken() %>
         <%= Html.SubmitButton( "submit", "Register" ) %>
         
 	<% } %>

@@ -10,7 +10,6 @@
 
     <% using ( Html.BeginForm( "save", "users" ) ) { %>
 
-        <%= Html.Hidden( "id", Model.Item.UserId )%>
         <%= Html.HiddenFor( m => m.Item.UserId )%>
         
         <table>
@@ -38,6 +37,7 @@
         </table>
         
         <p>
+            <%= Html.AntiForgeryToken() %>
             <%= Html.SubmitButton( "submit", "Save" ) %>
         </p>
 

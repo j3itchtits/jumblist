@@ -14,7 +14,7 @@ namespace Jumblist.Core.Service
         Tag SelectRecord( Expression<Func<Tag, bool>> whereCondition );
         Tag SelectRecord( string name );
         void Save( Tag entity );
-        void Update(Tag entity);
+        void Save( Tag entity, bool isDetachedFromDatabase );
         void Delete( Tag entity );
         string[] SelectTagNameList();
         string[] SelectTagNameList( string q );

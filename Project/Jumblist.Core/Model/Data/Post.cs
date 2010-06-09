@@ -22,16 +22,7 @@ namespace Jumblist.Core.Model
         [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
         public int PostId { get; set; }
 
-        [Column( Name = "PostParentId" )]
-        [Required]
-        public int ParentId { get; set; }
-
-        [Column( Name = "PostGuid" )]
-        //[Required]
-        public string Guid { get; set; }
-
         [Column( Name = "PostUrl" )]
-        [Required]
         [StringLength( 500 )]
         [RegularExpression( StringExtensions.UrlRegex, ErrorMessage = "You must supply a valid web link" )]
         public string Url { get; set; }
@@ -73,8 +64,7 @@ namespace Jumblist.Core.Model
         public int UserId { get; set; }
 
         [Column(Name = "FeedId")]
-        [Required]
-        public int FeedId { get; set; }
+        public int? FeedId { get; set; }
 
         [Association(Name = "FK_Posts_PostCategories", Storage = "postCategory", ThisKey = "PostCategoryId", OtherKey = "PostCategoryId", IsForeignKey = true)]
         public PostCategory Category

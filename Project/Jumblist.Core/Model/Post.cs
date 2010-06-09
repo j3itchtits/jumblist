@@ -55,9 +55,9 @@ namespace Jumblist.Core.Model
             return x => x.UserId == user.UserId;
         }
 
-        public static Expression<Func<Post, bool>> WhereGuidEquals( string guid )
+        public static Expression<Func<Post, bool>> WhereUrlEquals( string url )
         {
-            return x => x.Guid == guid;
+            return x => x.Url == url;
         }
 
         public static Expression<Func<Post, bool>> WhereEquals( Post post )

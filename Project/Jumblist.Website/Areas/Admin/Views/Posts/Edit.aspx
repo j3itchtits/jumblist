@@ -11,8 +11,6 @@
         <% using ( Html.BeginForm( "save", "posts" ) ) { %>
 
         <%= Html.HiddenFor( m => m.Item.PostId )%>
-        <%= Html.HiddenFor( m => m.Item.ParentId )%>
-        <%= Html.HiddenFor( m => m.Item.Guid )%>
         
         <table>
         <tr>

@@ -13,7 +13,7 @@ namespace Jumblist.Core.Service
         Role SelectRecord( int id );
         Role SelectRecord( Expression<Func<Role, bool>> whereCondition );
         void Save( Role entity );
-        void Update(Role entity);
+        void Save( Role entity, bool isDetachedFromDatabase );
         void Delete( Role entity );
     }
 }

@@ -54,23 +54,17 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             try
             {
                 userService.Create( item, confirmPassword );
+                Message = new Message { Text = "User created", StyleClass = "message" };
+                return RedirectToAction( "list" );
             }
             catch (RulesException ex)
             {
                 ex.AddModelStateErrors( ModelState, "Item" );
             }
 
-            if (ModelState.IsValid)
-            {
-                Message = new Message { Text = "User created", StyleClass = "message" };
-                return RedirectToAction( "list" );
-            }
-            else
-            {
-                var model = BuildDataEditDefaultViewModel().With( new User() );
-                model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
-                return View( model );
-            }
+            var model = BuildDataEditDefaultViewModel().With( new User() );
+            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            return View( model );
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -90,25 +84,19 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             try
             {
-                userService.Save( item );
+                userService.Save( item, true );
+                Message = new Message { Text = item.Name + " has been saved.", StyleClass = "message" };
+                return RedirectToAction( "list" );
             }
             catch (RulesException ex)
             {
                 ex.AddModelStateErrors( ModelState, "Item" );
             }
 
-            if (ModelState.IsValid)
-            {
-                Message = new Message { Text = item.Name + " has been saved.", StyleClass = "message" };
-                return RedirectToAction( "list" );
-            }
-            else
-            {
-                var model = BuildDataEditDefaultViewModel().With( item );
-                model.PageTitle = string.Format( "Edit - {0}", item.Name );
-                model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
-                return View( "edit", model );
-            }
+            var model = BuildDataEditDefaultViewModel().With( item );
+            model.PageTitle = string.Format( "Edit - {0}", item.Name );
+            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            return View( "edit", model );
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
@@ -119,24 +107,18 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             try
             {
                 userService.ResetPassword( user, password, confirmPassword );
+                Message = new Message { Text = user.Name + " has changed their password.", StyleClass = "message" };
+                return RedirectToAction( "list" );
             }
             catch (RulesException ex)
             {
                 ex.AddModelStateErrors( ModelState, "Reset" );
             }
 
-            if (ModelState.IsValid)
-            {
-                Message = new Message { Text = user.Name + " has changed their password.", StyleClass = "message" };
-                return RedirectToAction( "list" );
-            }
-            else
-            {
-                var model = BuildDataEditDefaultViewModel().With( user );
-                model.PageTitle = string.Format( "Edit - {0}", user.Name );
-                model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
-                return View( "edit", model );
-            }
+            var model = BuildDataEditDefaultViewModel().With( user );
+            model.PageTitle = string.Format( "Edit - {0}", user.Name );
+            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            return View( "edit", model );
         }
 
         [AcceptVerbs( HttpVerbs.Delete )]

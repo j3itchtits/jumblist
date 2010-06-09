@@ -23,6 +23,8 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.ServiceModel.Syndication;
 using Jumblist.Website.Result;
+using Jumblist.Website.ModelBinder;
+using xVal.ServerSide;
 
 namespace Jumblist.Website.Controllers
 {
@@ -52,7 +54,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Index( string q, User user, int? page, int? pageSize )
+        public ActionResult Index( string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             try
             {
@@ -100,7 +102,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Category( string id, string q, User user, int? page, int? pageSize )
+        public ActionResult Category( string id, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             try
             {
@@ -141,7 +143,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Group( string id, string category, string q, User user, int? page, int? pageSize )
+        public ActionResult Group( string id, string category, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             try
             {
@@ -183,7 +185,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Located( string id, string category, string q, User user, int? page, int? pageSize )
+        public ActionResult Located( string id, string category, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             try
             {
@@ -227,7 +229,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Tagged( string id, string category, string q, User user, int? page, int? pageSize )
+        public ActionResult Tagged( string id, string category, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             try
             {
@@ -287,7 +289,7 @@ namespace Jumblist.Website.Controllers
 
         [AcceptVerbs( HttpVerbs.Post )]
         [ValidateInput( true )]
-        public RedirectToRouteResult Search( string postCategorySelection, string tagSearch, string locationSearch, int? locationRadius, string groupHidden, string locationHidden, User user )
+        public RedirectToRouteResult Search( string postCategorySelection, string tagSearch, string locationSearch, int? locationRadius, string groupHidden, string locationHidden, [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             if ( !string.IsNullOrEmpty( locationSearch ) )
             {
@@ -319,14 +321,14 @@ namespace Jumblist.Website.Controllers
 
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public void Email( int id, User user )
+        public void Email( int id, [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             postService.Email( id, user );
         }
 
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public RedirectToRouteResult EmailAlert( string postcategory, string tags, string locations, string group, string q, string returnUrl, User user )
+        public RedirectToRouteResult EmailAlert( string postcategory, string tags, string locations, string group, string q, string returnUrl, [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             if ( user.IsAuthenticated )
             {
@@ -340,7 +342,7 @@ namespace Jumblist.Website.Controllers
 
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public RssResult Rss( string rssActionName, string rssActionId, string rssActionCategory, string q, User user )
+        public RssResult Rss( string rssActionName, string rssActionId, string rssActionCategory, string q, [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             SyndicationFeed feed =
                 new SyndicationFeed( "Jumblist Feed",
@@ -426,6 +428,45 @@ namespace Jumblist.Website.Controllers
             return View();
         }
 
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ViewResult Add( string returnUrl, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        {
+            var model = BuildDataEditDefaultViewModel().With( new Post() { PublishDateTime = DateTime.Now, LastUpdatedDateTime = DateTime.Now } );
+            model.ReturnUrl = returnUrl;
+            model.PageTitle = "Create a new post";
+            model.Message = new Message { Text = "You are about to create a post", StyleClass = "message" };
+
+            return View( model );
+        }
+
+        [AcceptVerbs( HttpVerbs.Post )]
+        public ActionResult Add( Post item, string returnUrl, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        {
+            try
+            {
+                item.PublishDateTime = DateTime.Now;
+                item.LastUpdatedDateTime = DateTime.Now;
+                item.Display = true;
+                item.Latitude = user.Latitude;
+                item.Longitude = user.Longitude;
+                item.UserId = user.UserId;
+
+                postService.Save( item, true );
+
+                Message = new Message { Text = item.Title + " has been saved.", StyleClass = "message" };
+                return Redirect( returnUrl ?? "/" );
+            }
+            catch ( RulesException ex )
+            {
+                ex.AddModelStateErrors( ModelState, "Item" );
+            }
+
+            var model = BuildDataEditDefaultViewModel().With( item );
+            model.PageTitle = string.Format( "Edit - {0}", item.Title );
+            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            return View( model );
+        }
+
         private int CalculatePageSize( int? pageSize, UserSession userSession )
         {
             if ( pageSize.HasValue )
@@ -440,12 +481,12 @@ namespace Jumblist.Website.Controllers
             }
         }
 
-        private IEnumerable<Post> GetPosts( string q, User user )
+        private IEnumerable<Post> GetPosts( string q, [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             return postService.SelectRecordList( q.ToFriendlyQueryStringDecode(), user ).OrderByDescending( t => t.PublishDateTime );
         }
 
-        private IEnumerable<Post> GetPostsByTag( string tags, string category, string q, User user )
+        private IEnumerable<Post> GetPostsByTag( string tags, string category, string q, [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( tags.ToFriendlyUrlDecode() ) );
             var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
@@ -466,7 +507,7 @@ namespace Jumblist.Website.Controllers
             return postService.SelectRecordList( group, postCategory, q.ToFriendlyQueryStringDecode() ).OrderByDescending( t => t.PublishDateTime ); ;
         }
 
-        private IEnumerable<Post> GetPostsByCategory( string category, string q, User user )
+        private IEnumerable<Post> GetPostsByCategory( string category, string q, [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
             return postService.SelectRecordList( postCategory, q.ToFriendlyQueryStringDecode(), user ).OrderByDescending( t => t.PublishDateTime ); ;

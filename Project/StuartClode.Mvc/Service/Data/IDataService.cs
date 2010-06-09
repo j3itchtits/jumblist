@@ -16,11 +16,12 @@ namespace StuartClode.Mvc.Service.Data
         T SelectRecord( int id );
         T SelectRecord( Expression<Func<T, bool>> whereCondition );
         void Save( T entity );
-        void Update( T entity );
+        void Save( T entity, bool isDetachedFromDatabase );
         void Delete( T entity );
         bool IsNew( T entity );
         bool IsDuplicate( Expression<Func<T, bool>> whereCondition );
         bool IsDuplicate( IQueryable<T> list, Expression<Func<T, bool>> whereCondition );
+        void ValidateDataRules( object entity );
     }
 
     public interface IDataService
@@ -29,7 +30,7 @@ namespace StuartClode.Mvc.Service.Data
         IQueryable SelectRecordList();
         object SelectRecord( int id );
         void Save( object entity );
-        void Update( object entity );
+        void Save( object entity, bool isDetachedFromDatabase );
         void Delete( object entity );
     }
 }

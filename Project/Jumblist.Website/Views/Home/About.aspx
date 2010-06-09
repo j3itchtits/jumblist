@@ -12,9 +12,28 @@
     TimeSpan span = nowTime.Subtract( postTime );
     
     string alpha = "Hello Mr Chips";
-    
+    int id = 35;
+    string encId = "oxFM+PrbBSMOMy+0MsGw4w==";
+    string encUrlEncodedId = "oxFM%2bPrbBSMOMy%2b0MsGw4w%3d%3d";
+
      %>
      Alphabetical: <%= alpha.ToAlphabetical() %><br />
+     Encrypted: <%= alpha.EncryptString()%><br />
+     Decrypted: <%= alpha.EncryptString().DecryptString()%><br /><br />
+            
+     Encrypted Id: <%= id.ToString().EncryptString() %><br />
+     Encrypted and UrlEncoded Id: <%= Server.UrlEncode( id.ToString().EncryptString() ) %><br /><br />
+          
+     1. Decrypted Id: <%= id.ToString().EncryptString().DecryptString()%><br /><br />
+     
+     2. Decrypted Id: <%= encId.DecryptString()%><br />
+    2. Decrypted and UrlDecoded Id: <%= (Server.UrlDecode(encUrlEncodedId)).DecryptString()%><br /><br />
+ 
+    <%= Html.ActionLink( "Click to see decrypted userid passed via a link", "about", new { userid = id.ToString().EncryptString() }, new { @class = "normalcase" } )%>
+
+     <a class="normalcase" href="/home/about?userid=<%= Server.UrlEncode( id.ToString().EncryptString() ) %>">Click to see decrypted userid passed via a link</a> 
+     Decrypted UserId: <%= ViewData["userId"] %><br /><br />
+     
      Time span1: <%= span.TotalMinutes %><br />
      Time span2: <%= span.ToDateTimeDiff( postTime )%><br />
          

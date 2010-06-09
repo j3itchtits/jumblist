@@ -8,6 +8,7 @@ using Jumblist.Core.Model;
 using Jumblist.Core.Service;
 using Jumblist.Website.ViewModel;
 using StuartClode.Mvc.Service.Data;
+using Jumblist.Website.ModelBinder;
 
 namespace Jumblist.Website.Controllers
 {
@@ -22,7 +23,7 @@ namespace Jumblist.Website.Controllers
             this.basketSubmitter = basketSubmitter;
         }
 
-        public ViewResult Index( User user, string returnUrl )
+        public ViewResult Index( [ModelBinder( typeof( UserModelBinder ) )] User user, string returnUrl )
         {
             var model = DefaultView.CreateModel();
             model.PageTitle = "Basket";
@@ -32,33 +33,33 @@ namespace Jumblist.Website.Controllers
             return View( model );
         }
 
-        public ActionResult Summary( User user )
+        public ActionResult Summary( [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             return PartialView( "SummaryControl", user.Session.Basket );
         }
 
-        public RedirectToRouteResult AddItem( User user, int id, string returnUrl )
+        public RedirectToRouteResult AddItem( [ModelBinder( typeof( UserModelBinder ) )] User user, int id, string returnUrl )
         {
             Post post = postService.SelectRecord( id );
             user.Session.Basket.AddItem( post );
             return RedirectToAction( "Index", new { returnUrl } );
         }
 
-        public RedirectToRouteResult ClearItem( User user, int postId, string returnUrl )
+        public RedirectToRouteResult ClearItem( [ModelBinder( typeof( UserModelBinder ) )] User user, int postId, string returnUrl )
         {
             Post post = postService.SelectRecord( postId );
             user.Session.Basket.ClearItem( post );
             return RedirectToAction( "Index", new { returnUrl } );
         }
 
-        public RedirectToRouteResult ClearAll( User user, string returnUrl )
+        public RedirectToRouteResult ClearAll( [ModelBinder( typeof( UserModelBinder ) )] User user, string returnUrl )
         {
             user.Session.Basket.ClearAll();
             return RedirectToAction( "Index", new { returnUrl } );
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public RedirectToRouteResult Email( User user, string returnUrl )
+        public RedirectToRouteResult Email( [ModelBinder( typeof( UserModelBinder ) )] User user, string returnUrl )
         {
             // Empty carts can't be checked out
             if (user.Session.Basket.Items.Count == 0)

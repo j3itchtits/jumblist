@@ -14,6 +14,8 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
     
+    <%= Html.MessageBox( ViewData.Model )%>
+    
     <% Html.RenderPartial( "SearchControl", Model.User ); %>
           
 </asp:Content>

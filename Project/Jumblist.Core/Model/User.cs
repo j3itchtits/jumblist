@@ -36,6 +36,11 @@ namespace Jumblist.Core.Model
             return x => x.Email == email;
         }
 
+        public static Expression<Func<User, bool>> CheckForUnverifiedUser( int id, string email )
+        {
+            return u => (u.UserId == id && u.Email == email && !u.IsActive);
+        }
+
         public static Expression<Func<User, bool>> WhereEquals( User user )
         {
             return x => x.UserId == user.UserId;

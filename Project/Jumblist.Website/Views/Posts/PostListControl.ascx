@@ -14,7 +14,12 @@
                 <%= Html.MapLink( post )%>
             </td>
             <td>
-                <%= Html.ActionLink( post.Feed.Name, "group", new { id = post.Feed.Name.ToFriendlyUrlEncode() } )%>
+            
+            <% if ( post.Feed != null )
+               { %>
+                    <%= Html.ActionLink( post.Feed.Name, "group", new { id = post.Feed.Name.ToFriendlyUrlEncode() } )%>
+            <% } %>            
+            
             </td>
             <td>
                 <%= (DateTime.Now.Subtract( post.PublishDateTime )).ToDateTimeDiff( post.PublishDateTime )%>

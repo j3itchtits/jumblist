@@ -97,25 +97,19 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             try
             {
-                postService.Save( item );
+                postService.Save( item, true );
+                Message = new Message { Text = item.Title + " has been saved.", StyleClass = "message" };
+                return RedirectToAction( "list" );
             }
             catch (RulesException ex)
             {
                 ex.AddModelStateErrors( ModelState, "Item" );
             }
 
-            if (ModelState.IsValid)
-            {
-                Message = new Message { Text = item.Title + " has been saved.", StyleClass = "message" };
-                return RedirectToAction( "list" );
-            }
-            else
-            {
-                var model = BuildDataEditDefaultViewModel().With( item );
-                model.PageTitle = string.Format( "Edit - {0}", item.Title );
-                model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
-                return View( "edit", model );
-            }
+            var model = BuildDataEditDefaultViewModel().With( item );
+            model.PageTitle = string.Format( "Edit - {0}", item.Title );
+            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            return View( "edit", model );
         }
 
         [AcceptVerbs( HttpVerbs.Delete )]
@@ -163,29 +157,23 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult CategorySave(PostCategory item)
+        public ActionResult CategorySave( PostCategory item )
         {
             try
             {
-                postCategoryService.Save(item);
+                postCategoryService.Save( item, true );
+                Message = new Message { Text = item.Name + " has been saved.", StyleClass = "message" };
+                return RedirectToAction( "categorylist" );
             }
             catch (RulesException ex)
             {
                 ex.AddModelStateErrors(ModelState, "Item");
             }
 
-            if (ModelState.IsValid)
-            {
-                Message = new Message { Text = item.Name + " has been saved.", StyleClass = "message" };
-                return RedirectToAction("categorylist");
-            }
-            else
-            {
-                var model = DefaultView.CreateModel<PostCategory>().With(item);
-                model.PageTitle = string.Format("Edit - {0}", item.Name);
-                model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
-                return View("categoryedit", model);
-            }
+            var model = DefaultView.CreateModel<PostCategory>().With(item);
+            model.PageTitle = string.Format("Edit - {0}", item.Name);
+            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            return View("categoryedit", model);
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -258,7 +246,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult PostLocationCreate( int postId, string locationNameAndArea )
         {
-            var post = postService.SelectRecord(postId);
+            var post = postService.SelectRecord( postId );
 
             //if the location is a postcode then we don't have a locationArea
             var locationArray = locationNameAndArea.Split( new string[] { StringExtensions.FieldSeparator }, StringSplitOptions.RemoveEmptyEntries );
@@ -286,7 +274,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
                 if (!existingFeedLocations)
                 {
-                    var feedLocation = new FeedLocation { FeedId = post.FeedId, LocationId = location.LocationId };
+                    var feedLocation = new FeedLocation { FeedId = (int)post.FeedId, LocationId = location.LocationId };
                     feedLocationService.Save( feedLocation );
                 }
 
@@ -298,7 +286,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             }
 
-            postService.Update( post );
+            postService.Save( post );
 
             var model = postLocationService.SelectRecordList( PostLocation.WherePostEquals( post ) );
 
@@ -328,7 +316,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
                 if ( !existingPostTags )
                 {
                     var postTag = new PostTag { PostId = postId, TagId = tag.TagId };
-                    postTagService.Save(postTag);
+                    postTagService.Save( postTag );
                 }
             }
             else
@@ -362,18 +350,18 @@ namespace Jumblist.Website.Areas.Admin.Controllers
             var post = postService.SelectRecord( postId );
 
             var location = new Location { Name = locationName, FriendlyUrl = ( locationName + ", " + locationArea ).ToFriendlyUrlEncode(), Area = locationArea };
-            locationService.Save(location);
+            locationService.Save( location );
 
             var postLocation = new PostLocation { PostId = postId, LocationId = location.LocationId };
-            postLocationService.Save(postLocation);
+            postLocationService.Save( postLocation );
 
-            var feedLocation = new FeedLocation { FeedId = post.FeedId, LocationId = location.LocationId };
+            var feedLocation = new FeedLocation { FeedId = (int)post.FeedId, LocationId = location.LocationId };
             feedLocationService.Save( feedLocation );
 
             post.Latitude = location.Latitude;
             post.Longitude = location.Longitude;
 
-            postService.Update( post );
+            postService.Save( post );
 
             var model = postLocationService.SelectRecordList( PostLocation.WherePostEquals( post ) );
 

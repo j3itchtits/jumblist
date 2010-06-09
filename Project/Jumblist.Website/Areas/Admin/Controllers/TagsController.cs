@@ -43,8 +43,8 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         public ViewResult Create()
         {
             var model = BuildDataEditDefaultViewModel().With( new Tag() );
-            model.PageTitle = "Create a new post";
-            model.Message = new Message { Text = "You are about to create a post", StyleClass = "message" };
+            model.PageTitle = "Create a new tag";
+            model.Message = new Message { Text = "You are about to create a tag", StyleClass = "message" };
 
             return View( "Edit", model );
         }
@@ -67,25 +67,19 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             try
             {
-                tagService.Save( item );
+                tagService.Save( item, true );
+                Message = new Message { Text = item.Name + " has been saved.", StyleClass = "message" };
+                return RedirectToAction( "list" );
             }
             catch (RulesException ex)
             {
                 ex.AddModelStateErrors( ModelState, "Item" );
             }
 
-            if (ModelState.IsValid)
-            {
-                Message = new Message { Text = item.Name + " has been saved.", StyleClass = "message" };
-                return RedirectToAction( "list" );
-            }
-            else
-            {
-                var model = BuildDataEditDefaultViewModel().With( item );
-                model.PageTitle = string.Format( "Edit - {0}", item.Name );
-                model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
-                return View( "edit", model );
-            }
+            var model = BuildDataEditDefaultViewModel().With( item );
+            model.PageTitle = string.Format( "Edit - {0}", item.Name );
+            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            return View( "edit", model );
         }
 
         [AcceptVerbs( HttpVerbs.Delete )]

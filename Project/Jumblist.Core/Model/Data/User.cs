@@ -41,6 +41,7 @@ namespace Jumblist.Core.Model
 
         [Column( Name = "UserPostcode" )]
         [DataMember]
+        [Required]
         [RegularExpression( StringExtensions.UKPostcodeOnlyRegexCaseInsensitive, ErrorMessage = "You must supply a valid UK postcode" )]
         public string Postcode { get; set; }
         
@@ -66,6 +67,11 @@ namespace Jumblist.Core.Model
         [Required]
         [DataType( DataType.DateTime )]
         public DateTime DateCreated { get; set; }
+
+        [Column( Name = "UserDateVerified" )]
+        [DataMember]
+        [DataType( DataType.DateTime )]
+        public DateTime? DateVerified { get; set; }
 
         [Column( Name = "RoleId" )]
         [Required]

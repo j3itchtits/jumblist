@@ -10,6 +10,7 @@ using System.Runtime.Serialization;
 namespace Jumblist.Core.Model
 {
     [Table( Name = "Roles" )]
+    [DataContract( IsReference = true )]
     public partial class Role
     {
         private EntitySet<User> users = new EntitySet<User>();
@@ -19,11 +20,13 @@ namespace Jumblist.Core.Model
 
         [Column( Name = "RoleLevel" )]
         [Required]
+        [DataMember]
         public int Level { get; set; }
 
         [Column( Name = "RoleName" )]
         [Required( ErrorMessage = "Please enter a name" )]
         [StringLength( 250 )]
+        [DataMember]
         public string Name { get; set; }
 
         [Association( Name = "FK_Users_Roles", Storage = "users", ThisKey = "RoleId", OtherKey = "RoleId", IsForeignKey = true )]
