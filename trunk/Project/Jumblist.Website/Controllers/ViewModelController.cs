@@ -6,6 +6,8 @@ using StuartClode.Mvc.Repository;
 using Jumblist.Website.ViewModel;
 using StuartClode.Mvc.Extension;
 using StuartClode.Mvc.Service.Data;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Jumblist.Website.Controllers
 {
@@ -33,6 +35,21 @@ namespace Jumblist.Website.Controllers
             return PostView.CreateModel<T>();
         }
 
+        [NonAction]
+        public IEnumerable<SelectListItem> BuildSelectList( string[] array )
+        {
+            IEnumerable<SelectListItem> items = ( (IEnumerable<string>)array ).Select( x => new SelectListItem() { Text = x, Value = x.ToLower() } );
+            return items;
+
+            //List<SelectListItem> selectList = new List<SelectListItem>();
+
+            //foreach ( var p in array )
+            //{
+            //    selectList.Add( new SelectListItem() { Text = p, Value = p.ToLower() } );
+            //}
+
+            //return selectList;
+        }
 
         /// <summary>
         /// Appends any lookup lists T might need for editing

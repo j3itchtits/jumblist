@@ -12,6 +12,7 @@
     <%= Html.MessageBox( ViewData.Model ) %>
 
 	<% using( Html.BeginForm() ) { %>
+	
         <p><label for="name">Name</label>
         <%= Html.TextBox("name") %></p>
         
@@ -21,8 +22,8 @@
         <p><label for="rememberMe">Remember Me?</label>
         <%= Html.CheckBox( "rememberMe" )%></p>
         
-        
         <input type="submit" value="Log On" />
+        
 	<% } %>
 
 </asp:Content>

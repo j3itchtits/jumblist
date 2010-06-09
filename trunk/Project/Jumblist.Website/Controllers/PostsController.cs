@@ -74,6 +74,7 @@ namespace Jumblist.Website.Controllers
                 model.Q = q; 
                 model.User = user;
                 model.PostCategory = new PostCategory();
+                model.PostCategoryList = BuildPostCategorySearchList();
                 model.Tags = new List<Tag>();
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
@@ -123,6 +124,7 @@ namespace Jumblist.Website.Controllers
                 model.Q = q;
                 model.User = user;
                 model.PostCategory = postCategory;
+                model.PostCategoryList = BuildPostCategorySearchList();
                 model.Tags = new List<Tag>();
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
@@ -165,6 +167,7 @@ namespace Jumblist.Website.Controllers
                 model.Group = group;
                 model.Q = q;
                 model.PostCategory = postCategory ?? new PostCategory();
+                model.PostCategoryList = BuildPostCategorySearchList();
                 model.Tags = new List<Tag>();
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
@@ -209,6 +212,7 @@ namespace Jumblist.Website.Controllers
                 model.Q = q;
                 model.User = user;
                 model.PostCategory = postCategory ?? new PostCategory();
+                model.PostCategoryList = BuildPostCategorySearchList();
                 model.Tags = new List<Tag>();                
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
@@ -253,6 +257,7 @@ namespace Jumblist.Website.Controllers
                 model.Q = q;
                 model.User = user;
                 model.PostCategory = postCategory ?? new PostCategory();
+                model.PostCategoryList = BuildPostCategorySearchList();
                 model.Tags = tagList; 
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
@@ -429,10 +434,18 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult Add( string returnUrl, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        public ActionResult Add( [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
-            var model = BuildDataEditDefaultViewModel().With( new Post() { PublishDateTime = DateTime.Now, LastUpdatedDateTime = DateTime.Now } );
-            model.ReturnUrl = returnUrl;
+            if ( !user.IsAuthenticated )
+            {
+                return RedirectToAction( "login", "users", new { returnUrl = Url.Action( "add", "posts" ) } );
+            }
+
+            var model = BuildPostViewModel();
+
+            model.Item = new Post();
+            //model.PostCategoryList = BuildSelectList( new[] { "Offered", "Wanted" } );
+            model.PostCategoryList = BuildPostCategoryAddPostList();
             model.PageTitle = "Create a new post";
             model.Message = new Message { Text = "You are about to create a post", StyleClass = "message" };
 
@@ -461,12 +474,13 @@ namespace Jumblist.Website.Controllers
                 ex.AddModelStateErrors( ModelState, "Item" );
             }
 
-            var model = BuildDataEditDefaultViewModel().With( item );
+            var model = BuildDefaultViewModel().With( item );
             model.PageTitle = string.Format( "Edit - {0}", item.Title );
             model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
             return View( model );
         }
 
+        [NonAction]
         private int CalculatePageSize( int? pageSize, UserSession userSession )
         {
             if ( pageSize.HasValue )
@@ -481,18 +495,21 @@ namespace Jumblist.Website.Controllers
             }
         }
 
-        private IEnumerable<Post> GetPosts( string q, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        [NonAction]
+        private IEnumerable<Post> GetPosts( string q, User user )
         {
             return postService.SelectRecordList( q.ToFriendlyQueryStringDecode(), user ).OrderByDescending( t => t.PublishDateTime );
         }
 
-        private IEnumerable<Post> GetPostsByTag( string tags, string category, string q, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        [NonAction]
+        private IEnumerable<Post> GetPostsByTag( string tags, string category, string q, User user )
         {
             var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( tags.ToFriendlyUrlDecode() ) );
             var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
             return postService.SelectRecordList( tagList, postCategory, q.ToFriendlyQueryStringDecode(), user ).OrderByDescending( t => t.PublishDateTime ); ;
         }
 
+        [NonAction]
         private IEnumerable<Post> GetPostsByLocation( string locations, string category )
         {
             var locationList = locationService.SelectRecordList( Location.WhereFriendlyUrlListEqualsOr( locations.ToFriendlyUrlDecode() ) );
@@ -500,6 +517,7 @@ namespace Jumblist.Website.Controllers
             return postService.SelectRecordList( locationList, postCategory ).OrderByDescending( t => t.PublishDateTime ); ;
         }
 
+        [NonAction]
         private IEnumerable<Post> GetPostsByGroup( string feed, string category, string q )
         {
             var group = feedService.SelectRecord( Feed.WhereFriendlyUrlEquals( feed ) );
@@ -507,12 +525,33 @@ namespace Jumblist.Website.Controllers
             return postService.SelectRecordList( group, postCategory, q.ToFriendlyQueryStringDecode() ).OrderByDescending( t => t.PublishDateTime ); ;
         }
 
-        private IEnumerable<Post> GetPostsByCategory( string category, string q, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        [NonAction]
+        private IEnumerable<Post> GetPostsByCategory( string category, string q, User user )
         {
             var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
             return postService.SelectRecordList( postCategory, q.ToFriendlyQueryStringDecode(), user ).OrderByDescending( t => t.PublishDateTime ); ;
         }
 
+        [NonAction]
+        private IEnumerable<SelectListItem> BuildPostCategorySearchList()
+        {
+            return new[] 
+            { 
+                new SelectListItem() { Text = "All", Value = "" }, 
+                new SelectListItem() { Text = "Offered", Value = "offered" }, 
+                new SelectListItem() { Text = "Wanted", Value = "wanted" } 
+            };
+        }
+
+        [NonAction]
+        private IEnumerable<SelectListItem> BuildPostCategoryAddPostList()
+        {
+            return new[] 
+            { 
+                new SelectListItem() { Text = "Offered", Value = ((int)PostCategoryId.Offered).ToString() }, 
+                new SelectListItem() { Text = "Wanted", Value = ((int)PostCategoryId.Wanted).ToString() } 
+            };
+        }
         //[AcceptVerbs( HttpVerbs.Get )]
         //public ActionResult SearchResult( string q, string category, User user, int? page, int? pageSize )
         //{

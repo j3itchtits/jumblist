@@ -13,7 +13,7 @@ namespace Jumblist.Website.ViewModel
 {
     public class DefaultViewModel<T> : BaseViewModel
     {
-        public IDataServiceResolver DataServiceResolver { get; set; }
+        //public IDataServiceResolver DataServiceResolver { get; set; }
         private readonly Dictionary<Type, object> lookupLists = new Dictionary<Type, object>();
 
         public IEnumerable<T> List { get; set; }
@@ -21,7 +21,6 @@ namespace Jumblist.Website.ViewModel
         public int ListCount { get; set; }
         public string EntityName { get { return typeof( T ).Name; } }
         public IPagedList<T> PagedList { get; set; }
-        public string ReturnUrl { get; set; }
 
         public DefaultViewModel<T> With( T item )
         {
@@ -73,7 +72,6 @@ namespace Jumblist.Website.ViewModel
         public SyndicationFeed Feed { get; set; }
         public string HttpResponse { get; set; }
         public Basket Basket { get; set; }
-        public string ReturnUrl { get; set; }
 
         public DefaultViewModel With( SyndicationFeed feed )
         {
