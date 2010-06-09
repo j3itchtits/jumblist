@@ -188,7 +188,7 @@ General javascript functions
 */
 
 function convertLinksToLowerCase() {
-    $("a").each(function() {
+    $("a").not('.normalcase').each(function() {
         this.href = this.href.toLowerCase();
     });
 }

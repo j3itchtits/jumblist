@@ -13,6 +13,7 @@ using Jumblist.Website.Filter;
 using xVal.ServerSide;
 using StuartClode.Mvc.Extension;
 using System.Text;
+using Jumblist.Website.ModelBinder;
 
 namespace Jumblist.Website.Controllers
 {
@@ -28,7 +29,8 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult Profile( User user )
+        [CustomAuthorization( RoleLevelMinimum = RoleLevel.AnonymousUser )]
+        public ViewResult Profile( [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             var item = userService.SelectRecord( user.Name );
             var model = BuildDefaultViewModel().With( item );
@@ -40,76 +42,50 @@ namespace Jumblist.Website.Controllers
 
         [AcceptVerbs( HttpVerbs.Get )]
         [CustomAuthorization( RoleLevelMinimum = RoleLevel.AnonymousUser )]
-        public ViewResult Edit( User user )
+        public ViewResult Edit( [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             var item = userService.SelectRecord( user.Name );
 
-            var model = BuildDataEditDefaultViewModel().With( item );
+            var model = BuildDefaultViewModel().With( item );
             model.PageTitle = string.Format( "Edit - {0}", item.Name );
 
             return View( model );
         }
 
+
         [AcceptVerbs( HttpVerbs.Post )]
-        //[ValidateInput( false )]
-        //[ValidateAntiForgeryToken]
-        public ActionResult Save( [ModelBinder( typeof( DefaultModelBinder ) )] int id, FormCollection form )
+        [ValidateAntiForgeryToken]
+        public ActionResult Save( User item )
         {
-            User user = userService.SelectRecord( id );
-            //int radius = Int32.Parse( form["Item.Radius"] );
-            //user.Radius = radius;
-            //bool success = TryUpdateModel( user, "Item", new[] { "Name", "Email", "Postcode", "Radius" }, form.ToValueProvider() );
-            UpdateModel( user, "Item", form.ToValueProvider() );
+            User user = userService.SelectRecord( item.UserId );
 
+            user.Name = item.Name;
+            user.Email = item.Email;
+            user.Postcode = item.Postcode;
+            user.Radius = item.Radius;
 
-
+            //UpdateModel( item, "Item", new[] { "Name", "Email", "Postcode", "Radius" } );
 
             try
             {
-                //item.Password = "1B4E9835735B0FB2EF62623D0E392EC40E0C339F";
-                //item.IsActive = true;
-                //item.DateCreated = DateTime.Now;
-                //item.RoleId = 2;
-
-                
-
-                //userService.Update( item );
-
-                userService.Save2( user );
+                userService.Save( user );
+                Message = new Message { Text = user.Name + " has been saved.", StyleClass = "message" };
+                return RedirectToAction( "profile" );
             }
             catch ( RulesException ex )
             {
                 ex.AddModelStateErrors( ModelState, "Item" );
             }
 
-            if ( ModelState.IsValid )
-            {
-                Message = new Message { Text = user.Name + " has been saved.", StyleClass = "message" };
-                return RedirectToAction( "profile" );
-            }
-            else
-            {
-                var model = BuildDataEditDefaultViewModel().With( user );
-                model.PageTitle = string.Format( "Edit - {0}", user.Name );
-
-                var errorMessage = new StringBuilder();
-
-                foreach ( var modelStateValue in ModelState.Values )
-                {
-                    foreach ( var error in modelStateValue.Errors )
-                    {
-                        // Do something useful with these properties
-                        errorMessage.Append( error.ErrorMessage );
-                        //var exception = error.Exception;
-                    }
-                }
-
-                model.Message = new Message { Text = "Something went wrong - " + errorMessage.ToString(), StyleClass = "error" };
-                return View( "edit", model );
-            }
+            var model = BuildDefaultViewModel().With( user );
+            model.PageTitle = string.Format( "Edit - {0}", user.Name );
+            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            return View( "edit", model );
         }
 
+
         [AcceptVerbs( HttpVerbs.Get )]
+        [CustomAuthorization( RoleLevelMinimum = RoleLevel.AnonymousUser )]
         public ViewResult Post( int id )
         {
             Post post = postService.SelectRecord( id );
@@ -122,52 +98,36 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Post( int id, FormCollection collection )
+        [ValidateAntiForgeryToken]
+        public ActionResult Post( Post item )
         {
-            Post post = postService.SelectRecord( id );
-            UpdateModel( post, "Item", new[] { "Title" }, collection.ToValueProvider() );
+            Post post = postService.SelectRecord( item.PostId );
+            //bool success = TryUpdateModel( post, "Item", new[] { "Url", "Title", "Body", "Display" }, collection.ToValueProvider() );
 
-            if ( ModelState.IsValid )
+            post.Url = item.Url;
+            post.Title = item.Title;
+            post.Body = item.Body;
+            post.Display = item.Display;
+
+            try
             {
-                try
-                {
-                    postService.Update( post );
-                    Message = new Message { Text = post.Title + " has been saved.", StyleClass = "message" };
-                    return RedirectToAction( "profile" );
-                }
-                catch ( RulesException ex )
-                {
-                    ex.AddModelStateErrors( ModelState, "Item" );
-
-                    var model = DefaultView.CreateModel<Post>().With( post );
-                    model.PageTitle = string.Format( "Edit - {0}", post.Title );
-
-                    //var errorMessage = new StringBuilder();
-
-                    //foreach ( var modelStateValue in ModelState.Values )
-                    //{
-                    //    foreach ( var error in modelStateValue.Errors )
-                    //    {
-                    //        // Do something useful with these properties
-                    //        errorMessage.Append( error.ErrorMessage );
-                    //        //var exception = error.Exception;
-                    //    }
-                    //}
-
-                    //model.Message = new Message { Text = "Something went wrong - " + errorMessage.ToString(), StyleClass = "error" };
-
-                    model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
-                    return View( "edit", model );
-                }
+                postService.Save( post );
+                Message = new Message { Text = post.Title + " has been saved.", StyleClass = "message" };
+                return RedirectToAction( "profile" );
+            }
+            catch ( RulesException ex )
+            {
+                ex.AddModelStateErrors( ModelState, "Item" );
             }
 
-            PageTitle = "Sorry we have a problem";
-            Message = new Message { Text = "The modelstate is invalid", StyleClass = "message" };
-            return RedirectToAction( "problem" );
+            var model = DefaultView.CreateModel<Post>().With( post );
+            model.PageTitle = string.Format( "Edit - {0}", post.Title );
+            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            return View( model );
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult LoginLinks( User user )
+        public ActionResult LoginLinks( [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             return PartialView( "LoginLinksControl", user );
         }
@@ -198,16 +158,16 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Post )]
         public ActionResult Login( string name, string password, bool rememberMe, string returnUrl )
         {
-            User user = userService.Authenticate( name, password );
+            bool success = userService.Authenticate( name, password );
 
-            if (user != null)
+            if ( success )
             {
-                userService.SetAuthenticationCookie( user, rememberMe );
+                return Redirect( returnUrl ?? "/" );
 
-                if ( !string.IsNullOrEmpty( returnUrl ) )
-                    return Redirect( returnUrl );
-                else
-                    return this.RedirectToAction<HomeController>( c => c.Index( user ) );
+                //if ( !string.IsNullOrEmpty( returnUrl ) )
+                //    return Redirect( returnUrl );
+                //else
+                //    return this.RedirectToAction<HomeController>( c => c.Index( user ) );
             }
             else
             {
@@ -234,34 +194,48 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Register( [ModelBinder( typeof( DefaultModelBinder ) )] User item, string confirmPassword, string returnUrl )
+        [ValidateAntiForgeryToken]
+        public ActionResult Register( User item, string confirmPassword, string returnUrl )
         {
             try
             {
                 item.RoleId = Role.RegisteredUser.RoleId;
-                userService.Create( item, confirmPassword );
+                User user = userService.Create( item, confirmPassword );
+
+                //userService.SetAuthenticationCookie( item, true );
+                userService.SendVerificationEmail( user );
+                Message = new Message { Text = "Thank you for registering. Please click on the link in the email to complete the process", StyleClass = "message" };
+
+                return Redirect( returnUrl ?? "/" );
             }
-            catch (RulesException ex)
+            catch ( RulesException ex )
             {
                 ex.AddModelStateErrors( ModelState, "Item" );
             }
 
-            if (ModelState.IsValid)
-            {
-                userService.SetAuthenticationCookie( item, true );
-                Message = new Message { Text = "Thank you for registering", StyleClass = "message" };
+            var model = BuildDefaultViewModel();
+            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            return View( model );
+        }
 
-                if (!string.IsNullOrEmpty( returnUrl ))
-                    return Redirect( returnUrl );
-                else
-                    return this.RedirectToAction<HomeController>( c => c.Index( item ) );
+        [AcceptVerbs( HttpVerbs.Get )]
+        public RedirectResult Verify( string userId, string userEmail )
+        {
+            userId = userId.DecryptString();
+            int id = Int32.Parse( userId );
+
+            bool success = userService.Verify( id, userEmail );
+
+            if ( success )
+            {
+                Message = new Message { Text = "Thank you for registering", StyleClass = "message" };
             }
             else
             {
-                var model = BuildDefaultViewModel();
-                model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
-                return View( model );
+                Message = new Message { Text = "Something went wrong", StyleClass = "error" };
             }
+
+            return Redirect( "/" );
         }
     }
 }

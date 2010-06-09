@@ -8,7 +8,7 @@
 
     <%= Html.ClientSideValidation<Tag>( "Item" )%>
 
-        <% using ( Html.BeginForm( "save", "tags" ) ) { %>
+    <% using ( Html.BeginForm( "save", "tags" ) ) { %>
 
         <%= Html.HiddenFor( m => m.Item.TagId )%>
         

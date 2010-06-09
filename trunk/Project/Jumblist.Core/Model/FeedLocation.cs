@@ -12,22 +12,22 @@ namespace Jumblist.Core.Model
 {
     public partial class FeedLocation
     {
-        public static Expression<Func<FeedLocation, bool>> WhereEquals( int feedId, int locationId )
+        public static Expression<Func<FeedLocation, bool>> WhereEquals( int? feedId, int locationId )
         {
             return x => ( x.FeedId == feedId && x.LocationId == locationId );
         }
 
-        public static Expression<Func<FeedLocation, bool>> WhereFeedIdEquals( int feedId )
+        public static Expression<Func<FeedLocation, bool>> WhereFeedIdEquals( int? feedId )
         {
             return x => x.FeedId == feedId;
         }
 
-        public static Expression<Func<FeedLocation, bool>> WhereFeedEquals(Feed feed)
+        public static Expression<Func<FeedLocation, bool>> WhereFeedEquals( Feed feed )
         {
             return x => x.FeedId == feed.FeedId;
         }
 
-        public static Expression<Func<FeedLocation, bool>> WhereLocationEquals(Location location)
+        public static Expression<Func<FeedLocation, bool>> WhereLocationEquals( Location location )
         {
             return x => x.LocationId == location.LocationId;
         }

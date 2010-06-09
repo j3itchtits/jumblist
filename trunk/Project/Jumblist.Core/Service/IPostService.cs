@@ -37,39 +37,11 @@ namespace Jumblist.Core.Service
         Post SelectRecord( int id );
         Post SelectRecord( Expression<Func<Post, bool>> whereCondition );
 
-
         void Save( Post entity );
-        void Update( Post entity );
+        void Save( Post entity, bool isDetachedFromDatabase );
+        void Import( Post entity );
         void Delete( Post entity );
-
-        //bool IsDuplicate(Expression<Func<Post, bool>> whereCondition);
-
-        //IEnumerable<Post> SelectPostsByTag(int tagId);
-        //IEnumerable<Post> SelectPostsByTag( int tagId, bool isActive );
-        //IEnumerable<Post> SelectPostsByTag(string tagName);
-        //IEnumerable<Post> SelectPostsByTag( string tagName, bool isActive );
-        //IEnumerable<Post> SelectPostsByTag( Tag tag );
-        //IEnumerable<Post> SelectPostsByTag( Tag tag, bool isActive );
-        //IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList);
-        //IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, bool isActive);
-        //IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, PostCategory postCategory);
-        //IEnumerable<Post> SelectPostsByTag(IQueryable<Tag> tagList, PostCategory postCategory, bool isActive);
-
-
-        //IEnumerable<Post> SelectPostsByCategory( int categoryId );
-        //IEnumerable<Post> SelectPostsByCategory( int categoryId, bool isActive );
-        //IEnumerable<Post> SelectPostsByCategory( string categoryName );
-        //IEnumerable<Post> SelectPostsByCategory( string categoryName, bool isActive );
-
-        //IEnumerable<Post> SelectPostsByFeed( int feedId );
-        //IEnumerable<Post> SelectPostsByFeed( int feedId, bool isActive );
-        //IEnumerable<Post> SelectPostsByFeed( string feedName );
-        //IEnumerable<Post> SelectPostsByFeed( string feedName, bool isActive );
-
-
-
-
-
         void Email( int postId, User user );
+        int ExtractPostCategoryId( Post post );
     }
 }

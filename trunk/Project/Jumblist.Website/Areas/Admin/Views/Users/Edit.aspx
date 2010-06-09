@@ -11,9 +11,7 @@
     <% using ( Html.BeginForm( "save", "users" ) ) { %>
 
         <%= Html.HiddenFor( m => m.Item.UserId )%>
-        <%= Html.HiddenFor( m => m.Item.Password )%>
-        
-
+        <%= Html.HiddenFor( m => m.Item.Password )%><%= Html.ValidationMessageFor( m => m.Item.Password )%>
         
         <table>
         <tr>

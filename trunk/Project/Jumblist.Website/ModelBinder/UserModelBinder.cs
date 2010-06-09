@@ -35,10 +35,20 @@ namespace Jumblist.Website.ModelBinder
         [ValidateInput( false )]
         public object BindModel( ControllerContext controllerContext, ModelBindingContext bindingContext )
         {
+            if ( controllerContext == null )
+            {
+                throw new ArgumentNullException( "controllerContext" );
+            }
+
+            if ( bindingContext == null )
+            {
+                throw new ArgumentNullException( "bindingContext" );
+            }
+
             if ( bindingContext.Model != null )
             {
-                return bindingContext.Model as User;
-                //throw new InvalidOperationException( "Cannot update instances" );
+                //return bindingContext.Model as User;
+                throw new InvalidOperationException( "Cannot update instances" );
             }
 
             //HttpCookie userCookie = controllerContext.HttpContext.Request.Cookies[userKey];

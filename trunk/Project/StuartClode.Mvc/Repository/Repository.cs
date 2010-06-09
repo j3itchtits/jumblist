@@ -80,28 +80,32 @@ namespace StuartClode.Mvc.Repository
         //    return item;
         //}
 
-        public virtual void InsertOnSubmit( T entity )
+        public void InsertOnSubmit( T entity )
         {
             table.InsertOnSubmit( entity );
         }
 
-        public virtual void DeleteOnSubmit( T entity )
+        public void DeleteOnSubmit( T entity )
         {
             table.DeleteOnSubmit( entity );
         }
 
-        public virtual void Save( T entity )
+        //public void Save( T entity )
+        //{
+        //    table.Attach( entity, true );
+        //    table.Context.Refresh( RefreshMode.KeepCurrentValues, entity );
+        //}
+
+        public void Attach( T entity )
         {
             table.Attach( entity );
             table.Context.Refresh( RefreshMode.KeepCurrentValues, entity );
         }
 
-        public virtual void SubmitChanges()
+        public void SubmitChanges()
         {
             table.Context.SubmitChanges();
         }
-
-
 
         #endregion
 
@@ -132,10 +136,10 @@ namespace StuartClode.Mvc.Repository
             DeleteOnSubmit( (T)entity );
         }
 
-        public void Save( object entity )
-        {
-            Save( (T)entity );
-        }
+        //public void Save( object entity )
+        //{
+        //    Save( (T)entity );
+        //}
 
         #endregion
     }

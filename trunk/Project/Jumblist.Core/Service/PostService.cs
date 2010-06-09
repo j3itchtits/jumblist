@@ -241,70 +241,100 @@ namespace Jumblist.Core.Service
 
         public override void Save( Post post )
         {
-            bool newEntity = IsNew( post );
-            bool entityImportedViaFeed = false;
-
-            //Set Guid Property
-            if ( string.IsNullOrEmpty(post.Guid) ) 
-                post.Guid = post.Url;
-
-            //Set PostCategoryId Property
-            if ( post.PostCategoryId == 0 )
-            {
-                post.PostCategoryId = GetPostCategoryId( post );
-                entityImportedViaFeed = true;
-            }
-
-            //Set LastUpdatedDateTime Property
-            post.LastUpdatedDateTime = DateTime.Now;
-
-            //Perform our validation
-            ValidateBusinessRules( post );
-
-            //We need to save at this point in order to get the new postid for the SavePostLocations and SavePostTags in the next section (if we have a new post)
-            base.Save( post );
-
-            //If we have a new post then we need to create some postlocations and posttags
-            if ( newEntity )
-            {
-                //Set PostLocations and PostTags Properties and return them for use in searching for latitude and longitudes
-                var locationsSaved = SavePostLocations( ref post );
-                var tagsSaved = SavePostTags( post );
-
-                //We may need to update the display to true for posts that have been imported from a feed and obey the correct logic
-                bool updateDisplayToTrue = CheckIfUpdateDisplayToTrueIsNeeded( post, locationsSaved.Count > 0, tagsSaved.Count > 0, post.Category.Name );
-
-                if (entityImportedViaFeed && updateDisplayToTrue) 
-                    post.Display = true;
-
-                //Set Latitude and Longitude Properties
-                //If the post is not from an anonymous user then use their lat/long from when they registered with a postcode
-                if (post.UserId != User.Anonymous.UserId)
-                {
-                    post.Latitude = post.User.Latitude;
-                    post.Longitude = post.User.Longitude;
-                }
-                else
-                {
-                    //Latitude and longitude may have already been set if a proper postcode was found in their post (see "SavePostLocations" method)
-                    if (!post.HaveLatitudeAndLongitudeValuesBeenPopulated)
-                    {
-                        double[] coordinates = GetLocationCoordinates( locationsSaved );
-                        post.Latitude = coordinates[0];
-                        post.Longitude = coordinates[1];
-                    }
-                }
-
-                base.Update( post );
-            }
+            Save( post, false );
         }
 
-        public override void Update( Post post )
+        public override void Save( Post post, bool isDetachedFromDatabase )
         {
             ValidateDataRules( post );
             ValidateBusinessRules( post );
-            base.Update( post );
+            base.Save( post, isDetachedFromDatabase );
         }
+
+        public void Import( Post post )
+        {
+            //We need to save at this point in order to get the new postid for the SavePostLocations and SavePostTags in the next section (if we have a new post)
+            Save( post );
+
+            //As we have a new post then we need to create some postlocations and posttags
+            //Set PostLocations and PostTags Properties and return them for use in searching for latitude and longitudes
+            var locationsSaved = SavePostLocations( ref post );
+            var tagsSaved = SavePostTags( post );
+
+            //We may need to update the display to true for posts that have been imported from a feed and obey the correct logic
+            bool isPostValid = CheckIfPostIsValid( post, locationsSaved.Count > 0, tagsSaved.Count > 0 );
+
+            if ( isPostValid )
+                post.Display = true;
+
+            //Set Latitude and Longitude Properties
+            //Latitude and longitude may have already been set if a proper postcode was found in their post (see "SavePostLocations" method)
+            if ( !post.HaveLatitudeAndLongitudeValuesBeenPopulated )
+            {
+                double[] coordinates = GetLocationCoordinates( locationsSaved );
+                post.Latitude = coordinates[0];
+                post.Longitude = coordinates[1];
+            }
+
+            base.Save( post );
+        }
+
+        //public void Import( Post post )
+        //{
+        //    bool newEntity = IsNew( post );
+        //    bool entityImportedViaFeed = false;
+
+        //    //Set PostCategoryId Property
+        //    if ( post.PostCategoryId == 0 )
+        //    {
+        //        post.PostCategoryId = GetPostCategoryId( post );
+        //        entityImportedViaFeed = true;
+        //    }
+
+        //    //Set LastUpdatedDateTime Property
+        //    post.LastUpdatedDateTime = DateTime.Now;
+
+        //    //Perform our validation
+        //    ValidateDataRules( post );
+        //    ValidateBusinessRules( post );
+
+        //    //We need to save at this point in order to get the new postid for the SavePostLocations and SavePostTags in the next section (if we have a new post)
+        //    base.Save( post );
+
+        //    //If we have a new post then we need to create some postlocations and posttags
+        //    if ( newEntity )
+        //    {
+        //        //Set PostLocations and PostTags Properties and return them for use in searching for latitude and longitudes
+        //        var locationsSaved = SavePostLocations( ref post );
+        //        var tagsSaved = SavePostTags( post );
+
+        //        //We may need to update the display to true for posts that have been imported from a feed and obey the correct logic
+        //        bool updateDisplayToTrue = CheckIfUpdateDisplayToTrueIsNeeded( post, locationsSaved.Count > 0, tagsSaved.Count > 0, post.Category.Name );
+
+        //        if (entityImportedViaFeed && updateDisplayToTrue) 
+        //            post.Display = true;
+
+        //        //Set Latitude and Longitude Properties
+        //        //If the post is not from an anonymous user then use their lat/long from when they registered with a postcode
+        //        if (post.UserId != User.Anonymous.UserId)
+        //        {
+        //            post.Latitude = post.User.Latitude;
+        //            post.Longitude = post.User.Longitude;
+        //        }
+        //        else
+        //        {
+        //            //Latitude and longitude may have already been set if a proper postcode was found in their post (see "SavePostLocations" method)
+        //            if (!post.HaveLatitudeAndLongitudeValuesBeenPopulated)
+        //            {
+        //                double[] coordinates = GetLocationCoordinates( locationsSaved );
+        //                post.Latitude = coordinates[0];
+        //                post.Longitude = coordinates[1];
+        //            }
+        //        }
+
+        //        base.Save( post );
+        //    }
+        //}
 
         public override void Delete( Post post )
         {
@@ -330,15 +360,31 @@ namespace Jumblist.Core.Service
             smtpClient.Send( new MailMessage( defaultEmail, user.Email, mailSubject, body.ToString() ) );
         }
 
+        public int ExtractPostCategoryId( Post post )
+        {
+            string input = post.Title;
+
+            foreach ( PostCategory c in postCategoryDataService.SelectRecordList() )
+            {
+                string pattern = "(" + c.AlternativeSearchText.Replace( ", ", "|" ) + ")";
+                //string pattern = c.Name;
+                if ( Regex.IsMatch( input, pattern, RegexOptions.IgnoreCase ) )
+                {
+                    return c.PostCategoryId;
+                }
+            }
+            return postCategoryDataService.SelectRecord( PostCategory.WhereNameEquals( "Unclassified" ) ).PostCategoryId;
+        }
+
         #endregion
 
-        private bool CheckIfUpdateDisplayToTrueIsNeeded( Post post, bool locationsSaved, bool tagsSaved, string postCategory )
+        private bool CheckIfPostIsValid( Post post, bool locationsSaved, bool tagsSaved )
         {
             bool updateDisplayToTrue = false;
 
-            if (postCategory == "Unclassified") return updateDisplayToTrue;
+            if ( post.Category.Name == "Unclassified" ) return updateDisplayToTrue;
 
-            if (postCategory == "Offered")
+            if ( post.Category.Name == "Offered" )
             {
                 if (!locationsSaved)
                     locationsSaved = post.HaveLatitudeAndLongitudeValuesBeenPopulated;
@@ -356,12 +402,20 @@ namespace Jumblist.Core.Service
 
         private void ValidateBusinessRules( Post post )
         {
-            var list = base.IsNew( post ) ? SelectRecordList() : SelectRecordList( Post.WhereNotEquals( post ) );
+            //These rules are no longer needed - imported posts are checked for url duplication elsewhere and all saved (internal) posts have a url set to null
+            //if ( post.Url == null ) return;
 
-            if ( base.IsDuplicate( list, Post.WhereGuidEquals( post.Guid ) ) )
-            {
-                throw new RulesException( "Name", "Duplicate Post Name", post );
-            }
+            //var list = base.IsNew( post ) ? SelectRecordList() : SelectRecordList( Post.WhereNotEquals( post ) );
+
+            //if ( base.IsDuplicate( list, Post.WhereUrlEquals( post.Url ) ) )
+            //{
+            //    throw new RulesException( "Url", "Duplicate Url", post );
+            //}
+
+            //if ( list.Where( x => x.Url == post.Url ).Any() )
+            //{
+            //    throw new RulesException( "Url", "Duplicate Url", post );
+            //}
         }
 
         private List<PostLocation> SavePostLocations( ref Post post )
@@ -391,7 +445,7 @@ namespace Jumblist.Core.Service
                 if (input.IsPhraseRegexMatch( pattern, RegexOptions.IgnoreCase ))
                 {
                     var postLocationItem = new PostLocation { PostId = post.PostId, LocationId = location.LocationId };
-                    postLocationDataService.Save(postLocationItem);
+                    postLocationDataService.Save( postLocationItem );
                     list.Add( postLocationItem );
                 }
             }
@@ -421,28 +475,14 @@ namespace Jumblist.Core.Service
                 if (input.IsSingularOrPluralPhraseRegexMatch(tag.Name, RegexOptions.IgnoreCase))
                 {
                     var postTagItem = new PostTag { PostId = post.PostId, TagId = tag.TagId };
-                    postTagDataService.Save(postTagItem);
-                    list.Add(postTagItem);
+                    postTagDataService.Save( postTagItem );
+                    list.Add( postTagItem );
                 }
             }
             return list;
         }
 
-        private int GetPostCategoryId( Post post )
-        {
-            string input = post.Title;
 
-            foreach ( PostCategory c in postCategoryDataService.SelectRecordList() )
-            {
-                string pattern = "(" + c.AlternativeSearchText.Replace( ", ", "|" ) + ")";
-                //string pattern = c.Name;
-                if ( Regex.IsMatch( input, pattern, RegexOptions.IgnoreCase ) )
-                {
-                    return c.PostCategoryId;
-                }
-            }
-            return postCategoryDataService.SelectRecord( PostCategory.WhereNameEquals( "Unclassified" ) ).PostCategoryId;
-        }
 
         private double[] GetLocationCoordinates( List<PostLocation> locationsSaved )
         {

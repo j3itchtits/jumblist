@@ -95,22 +95,23 @@ namespace Jumblist.Website.Module
 
             foreach (var item in feedOutput.Items)
             {
-                if (((IDataService<Post>)postService).IsDuplicate( Post.WhereGuidEquals( item.Id ) )) continue;
+                if ( ((IDataService<Post>)postService).IsDuplicate( Post.WhereUrlEquals( item.Links[0].Uri.ToString() ) ) ) 
+                    continue;
 
                 var post = new Post();
-                post.ParentId = 0;
-                post.Guid = item.Id;
+                //post.Guid = item.Id;
                 post.Url = item.Links[0].Uri.ToString();
                 post.Title = item.Title.Text;
                 post.Body = item.Summary.Text;
                 post.PublishDateTime = item.PublishDate.LocalDateTime;
                 post.LastUpdatedDateTime = item.LastUpdatedTime.LocalDateTime;
-                post.PostCategoryId = 0;
                 post.Display = false;
                 post.UserId = User.Anonymous.UserId;
                 post.FeedId = feed.FeedId;
+                post.LastUpdatedDateTime = DateTime.Now;
+                post.PostCategoryId = postService.ExtractPostCategoryId( post );
 
-                postService.Save( post );
+                postService.Import( post );
             }
         }
 

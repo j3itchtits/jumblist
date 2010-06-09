@@ -8,9 +8,9 @@
 
     <%= Html.ClientSideValidation<Post>( "Item" )%>
     
-    <% using ( Html.BeginForm( "post", "users" ) ) { %>
+    <% using ( Html.BeginForm() ) { %>
 
-        <%= Html.Hidden( "id", Model.Item.PostId )%>
+        <%= Html.HiddenFor( m => m.Item.PostId )%>
         
         <table>
         <tr>
@@ -25,17 +25,18 @@
         </tr>
         <tr>
             <td><label for="Item.Body">Body:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Body )%>
-            <%= Html.ValidationMessageFor( m => m.Item.Title )%></td>
+            <td><%= Html.TextAreaFor( m => m.Item.Body, new { @rows = "10", @cols = "100" } )%>
+            <%= Html.ValidationMessageFor( m => m.Item.Body )%></td>
         </tr>
         <tr>
             <td><label for="Item.Display">Display:</label></td>
             <td><%= Html.CheckBoxFor( m => m.Item.Display )%>
-            <%= Html.ValidationMessageFor( m => m.Item.Title )%></td>
+            <%= Html.ValidationMessageFor( m => m.Item.Display )%></td>
         </tr>                
         </table>
         
         <p>
+            <%= Html.AntiForgeryToken() %>
             <%= Html.SubmitButton( "submit", "Save" ) %>
         </p>
         

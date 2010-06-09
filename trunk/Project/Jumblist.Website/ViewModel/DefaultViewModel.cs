@@ -21,6 +21,7 @@ namespace Jumblist.Website.ViewModel
         public int ListCount { get; set; }
         public string EntityName { get { return typeof( T ).Name; } }
         public IPagedList<T> PagedList { get; set; }
+        public string ReturnUrl { get; set; }
 
         public DefaultViewModel<T> With( T item )
         {

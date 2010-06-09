@@ -15,7 +15,8 @@ namespace StuartClode.Mvc.Repository
         //T Select( string name );
         void InsertOnSubmit( T entity );
         void DeleteOnSubmit( T entity );
-        void Save( T entity );
+        //void Save( T entity );
+        void Attach( T entity );
         void SubmitChanges();
     }
 
@@ -27,7 +28,7 @@ namespace StuartClode.Mvc.Repository
         //object Select( string name );
         void InsertOnSubmit( object entity );
         void DeleteOnSubmit( object entity );
-        void Save( object entity );
+        //void Save( object entity );
         void SubmitChanges();
     }
 }

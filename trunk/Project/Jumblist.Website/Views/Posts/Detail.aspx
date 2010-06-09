@@ -18,10 +18,14 @@
             <%= Model.Item.PublishDateTime.ToString( "dddd, dd MMMM yyyy" ) %> at <%= Model.Item.PublishDateTime.ToString( "h:mm tt" )%>. <%= (DateTime.Now.Subtract( Model.Item.PublishDateTime )).ToDateTimeDiff( Model.Item.PublishDateTime, true )%>
         </div> 
 
-        <div>
-            <b>View: </b><br />
-            <a href="<%= Model.Item.Url %>" target="_blank">Original Post on <%= Model.Item.Feed.Name %></a>      
-        </div>
+        <% if ( Model.Item.Url != null )
+           { %>
+                <div>
+                    <b>View: </b><br />
+                    <a href="<%= Model.Item.Url %>" target="_blank">Original Post on <%= Model.Item.Feed.Name %></a>      
+                </div> <%
+           } %>
+
 
 
         <div>
@@ -51,11 +55,14 @@
         <%= Html.ActionLink( Model.Item.Category.Name, "category", new { id = Model.Item.Category.Name.ToFriendlyUrlEncode() } ) %>
     </div>
 
-    <div class="post-group">
-        <b>Group: </b><br />
-        <%= Html.ActionLink( Model.Item.Feed.Name, "group", new { id = Model.Item.Feed.FriendlyUrl } )%>
-    </div>
-    
+    <% if ( Model.Item.Feed != null )
+       { %>
+            <div class="post-group">
+                <b>Group: </b><br />
+                <%= Html.ActionLink( Model.Item.Feed.Name, "group", new { id = Model.Item.Feed.FriendlyUrl } )%>
+            </div>
+    <% } %>
+           
     <div class="post-tags">
         <b>Tags: </b><br />
         <%= Html.TagListLinks( Model.Item.Tags ) %>

@@ -14,7 +14,7 @@ namespace Jumblist.Core.Service
         Feed SelectRecord( Expression<Func<Feed, bool>> whereCondition );
         Feed SelectRecord( string name );
         void Save( Feed entity );
-        void Update( Feed entity );
+        void Save( Feed entity, bool isDetachedFromDatabase );
         void Delete( Feed entity );
     }
 }

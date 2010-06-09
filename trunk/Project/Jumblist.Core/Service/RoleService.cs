@@ -40,13 +40,14 @@ namespace Jumblist.Core.Service
 
         public override void Save( Role role )
         {
-            ValidateBusinessRules( role );
-            base.Save( role );
+            Save( role, false );
         }
 
-        public override void Update( Role role )
+        public override void Save( Role role, bool isDetachedFromDatabase )
         {
-            base.Update( role );
+            ValidateDataRules( role );
+            ValidateBusinessRules( role );
+            base.Save( role, isDetachedFromDatabase );
         }
 
         public override void Delete( Role role )

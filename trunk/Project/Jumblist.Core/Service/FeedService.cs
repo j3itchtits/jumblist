@@ -49,16 +49,16 @@ namespace Jumblist.Core.Service
 
         public override void Save( Feed feed )
         {
-            ValidateBusinessRules( feed );
-
-            feed.FriendlyUrl = feed.Name.ToFriendlyUrlEncode();
-
-            base.Save( feed );
+            Save( feed, false );
         }
 
-        public override void Update( Feed feed )
+        public override void Save( Feed feed, bool isDetachedFromDatabase )
         {
-            base.Update( feed );
+            feed.FriendlyUrl = feed.Name.ToFriendlyUrlEncode();
+
+            ValidateDataRules( feed );
+            ValidateBusinessRules( feed );
+            base.Save( feed, isDetachedFromDatabase );
         }
 
         public override void Delete( Feed feed )

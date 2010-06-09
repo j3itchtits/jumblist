@@ -215,7 +215,7 @@
     <Content Include="Areas\Admin\Views\Posts\Edit.aspx" />
     <Content Include="Areas\Admin\Views\Posts\List.aspx" />
     <Content Include="Areas\Admin\Views\Roles\RoleList.ascx" />
-    <Content Include="Areas\Admin\Views\Shared\Error.aspx" />
+    <Content Include="Areas\Admin\Views\Shared\NotAuthorised.aspx" />
     <Content Include="Areas\Admin\Views\Tags\Edit.aspx" />
     <Content Include="Areas\Admin\Views\Tags\List.aspx" />
     <Content Include="Areas\Admin\Views\Tags\TagPostList.ascx" />
@@ -259,10 +259,12 @@
     <Content Include="Views\Groups\GroupListControl.ascx" />
     <Content Include="Views\Groups\Index.aspx" />
     <Content Include="Views\Home\AnotherJQueryTest.aspx" />
+    <Content Include="Views\Home\EmailTest.aspx" />
     <Content Include="Views\Home\jQueryTest.aspx" />
     <Content Include="Views\Home\SearchControl.ascx" />
     <Content Include="Views\Locations\Index.aspx" />
     <Content Include="Views\Locations\LocationListControl.ascx" />
+    <Content Include="Views\Posts\Add.aspx" />
     <Content Include="Views\Posts\BasicListControl.ascx" />
     <Content Include="Views\Posts\BasicMapListControl.ascx" />
     <Content Include="Views\Posts\GoogleMapControl.ascx" />

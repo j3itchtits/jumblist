@@ -50,6 +50,7 @@
                             <li><%= Html.ActionLink("Wanted", "category", "posts", new { id = "Wanted" }, null ) %></li>
                         </ul>
                     </li>
+                    <li><%= Html.ActionLink( "Add Post", "add", "posts", new { returnUrl = Request.Url.PathAndQuery }, null )%></li>
                     <li><%= Html.ActionLink( "Tags", "index", "tags" ) %></li>
                     <li><%= Html.ActionLink( "Locations", "index", "locations" )%></li>
                     <li><%= Html.ActionLink( "Groups", "index", "groups" )%></li>

@@ -139,6 +139,7 @@
     <Compile Include="Service\Feed\YahooGroupsCustomHttpFeed.cs" />
     <Compile Include="Service\Map\BingLocationService.cs" />
     <Compile Include="Service\Map\DistanceService.cs" />
+    <Compile Include="Service\Serialization\Serializer.cs" />
     <Compile Include="Validation\DataAnnotationsValidationRunner.cs" />
   </ItemGroup>
   <ItemGroup>

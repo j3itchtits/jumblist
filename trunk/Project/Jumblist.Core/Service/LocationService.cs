@@ -45,20 +45,20 @@ namespace Jumblist.Core.Service
 
         public override void Save( Location location )
         {
-            ValidateBusinessRules( location );
+            Save( location, false );
+        }
 
+        public override void Save( Location location, bool isDetachedFromDatabase )
+        {
             var bingLocationService = new BingLocationService( location.BingSearch );
             location.Latitude = bingLocationService.Latitude;
             location.Longitude = bingLocationService.Longitude;
 
             location.FriendlyUrl = location.Name.ToFriendlyUrlEncode();
 
-            base.Save( location );
-        }
-
-        public override void Update( Location location )
-        {
-            base.Update( location );
+            ValidateDataRules( location );
+            ValidateBusinessRules( location );
+            base.Save( location, isDetachedFromDatabase );
         }
 
         public override void Delete( Location location )

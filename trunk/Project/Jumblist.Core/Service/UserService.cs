@@ -5,6 +5,7 @@ using System;
 using xVal.ServerSide;
 using Jumblist.Core.Model;
 using Jumblist.Core.Service;
+using StuartClode.Mvc.Extension;
 using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Repository;
 using StuartClode.Mvc.Validation;
@@ -18,6 +19,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using System.Xml;
 using System.Configuration;
+using System.Net.Mail;
 
 namespace Jumblist.Core.Service
 {
@@ -62,18 +64,10 @@ namespace Jumblist.Core.Service
 
         public override void Save( User user )
         {
-            var bingLocationService = new BingLocationService( user.Postcode );
-
-            user.Latitude = bingLocationService.Latitude;
-            user.Longitude = bingLocationService.Longitude;
-
-            ValidateDataRules( user );
-            ValidateBusinessRules( user );
-
-            base.Save( user );
+            Save( user, false );
         }
 
-        public void Save2( User user )
+        public override void Save( User user, bool isDetachedFromDatabase )
         {
             var bingLocationService = new BingLocationService( user.Postcode );
 
@@ -83,12 +77,12 @@ namespace Jumblist.Core.Service
             ValidateDataRules( user );
             ValidateBusinessRules( user );
 
-            base.Update( user );
+            base.Save( user, isDetachedFromDatabase );
         }
 
-        public override void Update( User user )
+        public override void Delete( User user )
         {
-            base.Update( user );
+            base.Delete( user );
         }
 
         public void ResetPassword( User user, string password, string confirmPassword )
@@ -96,10 +90,10 @@ namespace Jumblist.Core.Service
             ValidateBusinessRules( password, confirmPassword );
             user.Password = HashPassword( password );
 
-            base.Update( user );
+            base.Save( user );
         }
 
-        public void Create( User user, string confirmPassword )
+        public User Create( User user, string confirmPassword )
         {
             var bingLocationService = new BingLocationService( user.Postcode.ToUpper() );
 
@@ -110,27 +104,20 @@ namespace Jumblist.Core.Service
             user.Latitude = bingLocationService.Latitude;
             user.Longitude = bingLocationService.Longitude;
             user.Password = HashPassword( password );
-            user.IsActive = true;
+            user.IsActive = false;
             user.DateCreated = DateTime.Now;
-            user.IsAuthenticated = true;
 
             ValidateDataRules( user );
             ValidateBusinessRules( user.Name, user.Email, password, confirmPassword );
 
             base.Save( user );
+
+            return user;
         }
 
-        //public virtual void SetAuthenticationCookie_Alt( User user, bool rememberMe )
-        //{
-        //    //Just a quick test to see if i can pass the user to controllers via the model binder
-        //    formsAuth.SetAuthCookie( user.Name, rememberMe );
-        //    HttpContext.Current.Session[userKey] = user;
-        //}
-
-        public virtual void SetAuthenticationCookie( User user, bool rememberMe )
+        public void SetAuthenticationCookie( User user, bool rememberMe )
         {
             //Create a cookie to persist the authenticated user across requests
-
             user.IsAuthenticated = true;
             user.Session = new UserSession( user.Postcode, user.Radius, user.Latitude, user.Longitude );
 
@@ -140,97 +127,9 @@ namespace Jumblist.Core.Service
             HttpContext.Current.Response.Cookies.Add( authenticationCookie );
 
             HttpContext.Current.Session[userKey] = user; 
-
-            //HttpCookie userCookie = new HttpCookie( userKey );
-            //userCookie.Value = userData;
-            //userCookie.Expires = DateTime.Now.AddDays( 14 );
-            //HttpContext.Current.Response.Cookies.Add( userCookie );
-
-
-
-            //StringBuilder sb = new StringBuilder();
-            //XmlWriter writer = XmlWriter.Create( sb );
-            //dcs.WriteObject( writer, user );
-            //writer.Close();
-            //var userData = sb.ToString();
-
-            //2. using xml serialization
-
-            //TextWriter outStream = new StringWriter();
-            //XmlSerializer s = new XmlSerializer( typeof( User ) );
-            //s.Serialize( outStream, user );
-            //string xmlResult = outStream.ToString();
-            //var userData1 = xmlResult;
-
-            //XmlSerializer s1 = new XmlSerializer( typeof( User ) );
-            //User user2 = (User)s.Deserialize( new StringReader( userData1 ) );
-
-
-            //SerializableEntity<User> entity = new SerializableEntity<User>(user);
-            //TextWriter tw = new StringWriter();
-            //XmlSerializer serializer = new XmlSerializer(entity.GetType());
-            //serializer.Serialize(tw, entity);
-            //string xmlResult2 = tw.ToString();
-            //var userData = xmlResult2;
-
-
-
-
-
         }
 
-        public virtual HttpCookie CreateAuthenticationCookie( User user, DateTime timeout )
-        {
-            MemoryStream ms = new MemoryStream();
-            DataContractSerializer dcsWrite = new DataContractSerializer(typeof(User));
-            dcsWrite.WriteObject(ms, user);
-            string userData = Encoding.UTF8.GetString(ms.ToArray());
-
-            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, user.Name, DateTime.Now, timeout, true, userData);
-            string encTicket = FormsAuthentication.Encrypt(ticket);
-            HttpCookie authenticationCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
-            authenticationCookie.Expires = timeout;
-
-            return authenticationCookie;
-        }
-
-        //public virtual HttpCookie UpdateAuthenticationCookie( HttpCookie authenticationCookie, User user )
-        //{
-        //    MemoryStream ms = new MemoryStream();
-        //    DataContractSerializer dcsWrite = new DataContractSerializer(typeof(User));
-        //    dcsWrite.WriteObject(ms, user);
-        //    string userData = Encoding.UTF8.GetString(ms.ToArray());
-
-        //    DateTime timeout = DateTime.Now.AddDays(1);
-
-        //    FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, user.Name, DateTime.Now, timeout, true, userData);
-        //    string encTicket = FormsAuthentication.Encrypt(ticket);
-        //    authenticationCookie.Value = encTicket;
-
-        //    return authenticationCookie;
-        //}
-
-        //public virtual HttpCookie FetchAuthenticationCookie()
-        //{
-        //    string cookieName = FormsAuthentication.FormsCookieName;
-        //    HttpCookie authCookie = HttpContext.Current.Request.Cookies[cookieName];
-        //    return authCookie;
-        //}
-
-        //public virtual User DeserializeAuthenticationCookie( string cookieValue )
-        //{
-        //    // Get the authentication ticket
-        //    FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(cookieValue);
-
-        //    // Attach the UserData from the  authTicket to a User object
-        //    XmlReader reader = XmlReader.Create(new StringReader(authTicket.UserData));
-        //    DataContractSerializer dcsRead = new DataContractSerializer(typeof(User));
-        //    User user = dcsRead.ReadObject(reader, true) as User;
-
-        //    return user;
-        //}
-
-        public virtual void RemoveAuthenticationCookie()
+        public void RemoveAuthenticationCookie()
         {
             formsAuth.SignOut();
             HttpContext.Current.Session[userKey] = Jumblist.Core.Model.User.Anonymous;
@@ -241,34 +140,92 @@ namespace Jumblist.Core.Service
             return formsAuth.HashPasswordForStoringInConfigFile( password );
         }
 
-        public User Authenticate( string name, string password )
+        public bool Authenticate( string name, string password )
         {
-            return SelectRecord( User.WhereNamePasswordEquals( name, HashPassword( password ) ) );
+            User user = SelectRecord( User.WhereNamePasswordEquals( name, HashPassword( password ) ) );
+
+            if ( user != null )
+            {
+                SetAuthenticationCookie( user, true );
+            }
+
+            return user != null;
         }
 
-        public override void Delete( User user )
+        public bool Verify( int id, string email )
         {
-            base.Delete( user );
-        }
+            User user = SelectRecord( User.CheckForUnverifiedUser( id, email ) );
 
-        //public virtual User CurrentUser
-        //{
-        //    get
-        //    {
-        //        var user = HttpContext.Current.User as User;
-        //        if (user == null) throw new ApplicationException( "HttpContext.User is not a Jumblist.Website.Model.User" );
-        //        return user;
-        //    }
-        //}
+            if ( user != null )
+            {
+                user.IsActive = true;
+                user.DateVerified = DateTime.Now;
+                base.Save( user );
+                SetAuthenticationCookie( user, true );
+            }
+
+            return user != null;
+        }
 
         public void SaveSession( UserSession userSession )
         {
             (HttpContext.Current.Session[userKey] as User).Session = userSession;
         }
 
+        public void SendVerificationEmail( User user )
+        {
+            const string mailSubject = "Verification Mail";
+            //const string smtpServer = "localhost";
+
+            string encryptedId = user.UserId.ToString().EncryptString();
+            string encryptedUrlEncodedId = HttpUtility.UrlEncode( encryptedId );
+            string urlEncodedEmail = HttpUtility.UrlEncode( user.Email );
+            string linkBack = ConfigurationManager.AppSettings["DefaultUrl"] + "/users/verify?userid=" + encryptedUrlEncodedId + "&useremail=" + urlEncodedEmail;
+
+            StringBuilder body = new StringBuilder();
+
+            body.AppendLine( "Thanks for registering" );
+            body.AppendLine( "---" );
+            body.AppendLine( "Id:" + user.UserId );
+            body.AppendLine( "Encrypted Id:" + encryptedId );
+            body.AppendLine( "Encrypted and UrlEncoded Id:" + encryptedUrlEncodedId );
+            body.AppendLine( "Name:" + user.Name );
+            body.AppendLine( "Email:" + user.Email );
+            body.AppendLine( "UrlEncoded Email:" + urlEncodedEmail );
+            body.AppendLine( "Link:" + linkBack );
+            body.AppendLine( "HTML link: <a href=" + linkBack + ">Link</a>" );
+            body.AppendLine( "---" );
+
+            string emailText = body.ToString();
+
+            //string emailText = "Hello there. I am <b>bold</b>.<br/> Here is the real id " + user.UserId + ". Here is the encrypted id " + encryptedId + ". Here is the encrypted and urlencoded id " + encryptedUrlEncodedId;
+
+            MailMessage message = new MailMessage( ConfigurationManager.AppSettings["DefaultEmail"], user.Email, mailSubject, emailText );
+            message.BodyEncoding = Encoding.Default;
+            message.IsBodyHtml = true;
+
+            SmtpClient smtpClient = new SmtpClient();
+
+            smtpClient.Send( message );
+        }
+
         #endregion
 
 
+        private HttpCookie CreateAuthenticationCookie( User user, DateTime timeout )
+        {
+            MemoryStream ms = new MemoryStream();
+            DataContractSerializer dcsWrite = new DataContractSerializer( typeof( User ) );
+            dcsWrite.WriteObject( ms, user );
+            string userData = Encoding.UTF8.GetString( ms.ToArray() );
+
+            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket( 1, user.Name, DateTime.Now, timeout, true, userData );
+            string encTicket = FormsAuthentication.Encrypt( ticket );
+            HttpCookie authenticationCookie = new HttpCookie( FormsAuthentication.FormsCookieName, encTicket );
+            authenticationCookie.Expires = timeout;
+
+            return authenticationCookie;
+        }
 
         private void ValidateBusinessRules( string name, string email, string password, string confirmpassword )
         {
@@ -312,5 +269,92 @@ namespace Jumblist.Core.Service
             }
 
         }
+
+        //public virtual User CurrentUser
+        //{
+        //    get
+        //    {
+        //        var user = HttpContext.Current.User as User;
+        //        if (user == null) throw new ApplicationException( "HttpContext.User is not a Jumblist.Website.Model.User" );
+        //        return user;
+        //    }
+        //}
+
+        //public virtual void SetAuthenticationCookie_Alt( User user, bool rememberMe )
+        //{
+        //    //Just a quick test to see if i can pass the user to controllers via the model binder
+        //    formsAuth.SetAuthCookie( user.Name, rememberMe );
+        //    HttpContext.Current.Session[userKey] = user;
+        //}
+
+        //public virtual HttpCookie UpdateAuthenticationCookie( HttpCookie authenticationCookie, User user )
+        //{
+        //    MemoryStream ms = new MemoryStream();
+        //    DataContractSerializer dcsWrite = new DataContractSerializer(typeof(User));
+        //    dcsWrite.WriteObject(ms, user);
+        //    string userData = Encoding.UTF8.GetString(ms.ToArray());
+
+        //    DateTime timeout = DateTime.Now.AddDays(1);
+
+        //    FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, user.Name, DateTime.Now, timeout, true, userData);
+        //    string encTicket = FormsAuthentication.Encrypt(ticket);
+        //    authenticationCookie.Value = encTicket;
+
+        //    return authenticationCookie;
+        //}
+
+        //public virtual HttpCookie FetchAuthenticationCookie()
+        //{
+        //    string cookieName = FormsAuthentication.FormsCookieName;
+        //    HttpCookie authCookie = HttpContext.Current.Request.Cookies[cookieName];
+        //    return authCookie;
+        //}
+
+        //public virtual User DeserializeAuthenticationCookie( string cookieValue )
+        //{
+        //    // Get the authentication ticket
+        //    FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(cookieValue);
+
+        //    // Attach the UserData from the  authTicket to a User object
+        //    XmlReader reader = XmlReader.Create(new StringReader(authTicket.UserData));
+        //    DataContractSerializer dcsRead = new DataContractSerializer(typeof(User));
+        //    User user = dcsRead.ReadObject(reader, true) as User;
+
+        //    return user;
+        //}
+
+        //DISCARDED SERIALIZATION OPTIONS
+
+        //HttpCookie userCookie = new HttpCookie( userKey );
+        //userCookie.Value = userData;
+        //userCookie.Expires = DateTime.Now.AddDays( 14 );
+        //HttpContext.Current.Response.Cookies.Add( userCookie );
+
+
+
+        //StringBuilder sb = new StringBuilder();
+        //XmlWriter writer = XmlWriter.Create( sb );
+        //dcs.WriteObject( writer, user );
+        //writer.Close();
+        //var userData = sb.ToString();
+
+        //2. using xml serialization
+
+        //TextWriter outStream = new StringWriter();
+        //XmlSerializer s = new XmlSerializer( typeof( User ) );
+        //s.Serialize( outStream, user );
+        //string xmlResult = outStream.ToString();
+        //var userData1 = xmlResult;
+
+        //XmlSerializer s1 = new XmlSerializer( typeof( User ) );
+        //User user2 = (User)s.Deserialize( new StringReader( userData1 ) );
+
+
+        //SerializableEntity<User> entity = new SerializableEntity<User>(user);
+        //TextWriter tw = new StringWriter();
+        //XmlSerializer serializer = new XmlSerializer(entity.GetType());
+        //serializer.Serialize(tw, entity);
+        //string xmlResult2 = tw.ToString();
+        //var userData = xmlResult2;
     }
 }

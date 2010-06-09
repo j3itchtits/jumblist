@@ -98,25 +98,19 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             try
             {
-                feedService.Save( item );
+                feedService.Save( item, true );
+                Message = new Message { Text = item.Name + " has been saved.", StyleClass = "message" };
+                return RedirectToAction( "list" );
             }
             catch (RulesException ex)
             {
                 ex.AddModelStateErrors( ModelState, "Item" );
             }
 
-            if (ModelState.IsValid)
-            {
-                Message = new Message { Text = item.Name + " has been saved.", StyleClass = "message" };
-                return RedirectToAction( "list" );
-            }
-            else
-            {
-                var model = BuildDataEditDefaultViewModel().With( item );
-                model.PageTitle = string.Format( "Edit - {0}", item.Name );
-                model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
-                return View( "edit", model );
-            }
+            var model = BuildDataEditDefaultViewModel().With( item );
+            model.PageTitle = string.Format( "Edit - {0}", item.Name );
+            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            return View( "edit", model );
         }
 
         [AcceptVerbs( HttpVerbs.Delete )]
@@ -164,29 +158,23 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult CategorySave(FeedCategory item)
+        public ActionResult CategorySave( FeedCategory item )
         {
             try
             {
-                feedCategoryService.Save(item);
+                feedCategoryService.Save( item, true );
+                Message = new Message { Text = item.Name + " has been saved.", StyleClass = "message" };
+                return RedirectToAction( "categorylist" );
             }
             catch (RulesException ex)
             {
                 ex.AddModelStateErrors(ModelState, "Item");
             }
 
-            if (ModelState.IsValid)
-            {
-                Message = new Message { Text = item.Name + " has been saved.", StyleClass = "message" };
-                return RedirectToAction("categorylist");
-            }
-            else
-            {
-                var model = DefaultView.CreateModel<FeedCategory>().With(item);
-                model.PageTitle = string.Format("Edit - {0}", item.Name);
-                model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
-                return View("categoryedit", model);
-            }
+            var model = DefaultView.CreateModel<FeedCategory>().With(item);
+            model.PageTitle = string.Format("Edit - {0}", item.Name);
+            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            return View("categoryedit", model);
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -201,16 +189,16 @@ namespace Jumblist.Website.Areas.Admin.Controllers
                 if ( !existingFeedLocations )
                 {
                     var feedLocationItem = new FeedLocation { FeedId = feedId, LocationId = locationItem.LocationId };
-                    feedLocationService.Save(feedLocationItem);
+                    feedLocationService.Save( feedLocationItem );
                 }
             }
             else
             {
                 var newLocationItem = new Location { Name = locationName, FriendlyUrl = (locationName + ", " + locationArea).ToFriendlyUrlEncode(), Area = locationArea };
-                locationService.Save(newLocationItem);
+                locationService.Save( newLocationItem );
 
                 var feedLocationItem = new FeedLocation { FeedId = feedId, LocationId = newLocationItem.LocationId };
-                feedLocationService.Save(feedLocationItem);
+                feedLocationService.Save( feedLocationItem );
             }
 
             var model = feedLocationService.SelectRecordList( FeedLocation.WhereFeedIdEquals( feedId ) );

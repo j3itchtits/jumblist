@@ -16,17 +16,17 @@ namespace Jumblist.Core.Service
         User SelectRecord( Expression<Func<User, bool>> whereCondition );
         User SelectRecord( string name );
         void Save( User entity );
-        void Save2( User entity );
-        void Update(User entity);
+        void Save( User entity, bool isDetachedFromDatabase );
         void ResetPassword( User entity, string password, string confirmPassword );
-        void Create( User entity, string confirmPassword );
+        User Create( User entity, string confirmPassword );
         void SetAuthenticationCookie( User user, bool rememberMe );
         void RemoveAuthenticationCookie();
         string HashPassword( string password );
-        User Authenticate( string name, string password );
+        bool Authenticate( string name, string password );
         void Delete( User entity );
-        HttpCookie CreateAuthenticationCookie(User user, DateTime timeout);
         //User DeserializeAuthenticationCookie(string cookieValue);
         void SaveSession( UserSession userSession );
+        bool Verify( int id, string email );
+        void SendVerificationEmail( User item );
     }
 }

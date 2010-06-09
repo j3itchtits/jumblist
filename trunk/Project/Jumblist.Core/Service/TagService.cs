@@ -46,14 +46,16 @@ namespace Jumblist.Core.Service
 
         public override void Save( Tag tag )
         {
-            ValidateBusinessRules( tag );
-            tag.FriendlyUrl = tag.Name.ToFriendlyUrlEncode();
-            base.Save( tag );
+            Save( tag, false );
         }
 
-        public override void Update( Tag tag )
+        public override void Save( Tag tag, bool isDetachedFromDatabase )
         {
-            base.Update( tag );
+            tag.FriendlyUrl = tag.Name.ToFriendlyUrlEncode();
+
+            ValidateDataRules( tag );
+            ValidateBusinessRules( tag ); 
+            base.Save( tag, isDetachedFromDatabase );
         }
 
         public override void Delete( Tag tag )

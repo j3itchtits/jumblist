@@ -13,7 +13,7 @@ namespace Jumblist.Core.Service
         Location SelectRecord( int id );
         Location SelectRecord( Expression<Func<Location, bool>> whereCondition );
         void Save( Location entity );
-        void Update( Location entity );
+        void Save( Location entity, bool isDetachedFromDatabase );
         void Delete( Location entity );
         string[] SelectLocationNameTownList();
         string[] SelectLocationNameList( string q );

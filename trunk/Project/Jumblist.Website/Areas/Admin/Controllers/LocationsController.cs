@@ -84,25 +84,19 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         {
             try
             {
-                locationService.Save( item );
+                locationService.Save( item, true );
+                Message = new Message { Text = item.Name + " has been saved.", StyleClass = "message" };
+                return RedirectToAction( "list" );
             }
             catch (RulesException ex)
             {
                 ex.AddModelStateErrors( ModelState, "Item" );
             }
 
-            if (ModelState.IsValid)
-            {
-                Message = new Message { Text = item.Name + " has been saved.", StyleClass = "message" };
-                return RedirectToAction( "list" );
-            }
-            else
-            {
-                var model = BuildDataEditDefaultViewModel().With( item );
-                model.PageTitle = string.Format( "Edit - {0}", item.Name );
-                model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
-                return View( "edit", model );
-            }
+            var model = BuildDataEditDefaultViewModel().With( item );
+            model.PageTitle = string.Format( "Edit - {0}", item.Name );
+            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            return View( "edit", model );
         }
 
         [AcceptVerbs( HttpVerbs.Delete )]

@@ -204,29 +204,31 @@ namespace StuartClode.Mvc.Extension
 
         public static string EncryptString( this string input )
         {
+            if ( input == null ) return string.Empty;
+
             ISettingsProvider _settings = new SettingsProvider();
             //string salt = GetAntiForgeryToken( _settings.SaltGeneratorKey );
             string salt = "a90sf7oj";
 
             IEncryptString _encrypter = new RijndaelStringEncrypter( _settings, salt ); 
-
-            if (input == null) input = string.Empty;
-
             var encryptedValue = _encrypter.Encrypt( input );
+            _encrypter.Dispose();
+
             return encryptedValue;
         }
 
         public static string DecryptString( this string input )
         {
+            if ( input == null ) return string.Empty;
+
             ISettingsProvider _settings = new SettingsProvider();
             //string salt = GetAntiForgeryToken( _settings.SaltGeneratorKey );
             string salt = "a90sf7oj";
 
             IEncryptString _encrypter = new RijndaelStringEncrypter( _settings, salt ); 
-
-            if (input == null) input = string.Empty;
-
             var decryptedValue = _encrypter.Decrypt( input );
+            _encrypter.Dispose();
+
             return decryptedValue;
         }
 
