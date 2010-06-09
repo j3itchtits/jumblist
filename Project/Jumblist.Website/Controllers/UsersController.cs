@@ -14,11 +14,13 @@ using xVal.ServerSide;
 using StuartClode.Mvc.Extension;
 using System.Text;
 using Jumblist.Website.ModelBinder;
+using System.Configuration;
 
 namespace Jumblist.Website.Controllers
 {
     public class UsersController : ViewModelController<User>
     {
+        private readonly string userKey = ConfigurationManager.AppSettings["UserModelBinderKey"]; 
         private IUserService userService;
         private IPostService postService;
 
@@ -69,6 +71,8 @@ namespace Jumblist.Website.Controllers
             try
             {
                 userService.Save( user );
+                userService.SaveSession( new UserSession( user.Postcode, user.Radius, user.Latitude, user.Longitude ) );
+
                 Message = new Message { Text = user.Name + " has been saved.", StyleClass = "message" };
                 return RedirectToAction( "profile" );
             }

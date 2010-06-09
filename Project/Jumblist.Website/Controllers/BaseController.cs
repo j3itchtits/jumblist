@@ -41,6 +41,12 @@ namespace Jumblist.Website.Controllers
             set { TempData["messagelist"] = value; }
         }
 
+        public virtual string ReturnUrl
+        {
+            get { return TempData["returnurl"] as string; }
+            set { TempData["returnurl"] = value; }
+        }
+
         protected internal RssResult Rss( SyndicationFeed feed )
         {
             return Rss( feed, null );

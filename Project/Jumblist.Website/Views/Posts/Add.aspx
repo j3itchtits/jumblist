@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel<Post>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<PostViewModel<Post>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
@@ -9,8 +9,6 @@
     <%= Html.ClientSideValidation<Post>( "Item" )%>
 
         <% using ( Html.BeginForm() ) { %>
-
-        <%= Html.Hidden( "returnUrl", Model.ReturnUrl )%>
 
         <table>
          <tr>
@@ -25,7 +23,7 @@
         </tr>
         <tr>
             <td><label for="Item.PostCategoryId">Post Category:</label></td>
-            <td><%= Html.DropDownListFor( m => m.Item.PostCategoryId, new SelectList( Model.LookupList<PostCategory>(), "PostCategoryId", "Name", Model.Item.PostCategoryId ), "-- Select --" )%>
+            <td><%= Html.DropDownListFor( m => m.Item.PostCategoryId, new SelectList( Model.PostCategoryList, "Value", "Text" ) )%>
             <%= Html.ValidationMessageFor( m => m.Item.PostCategoryId )%></td>
         </tr>   
         <tr>

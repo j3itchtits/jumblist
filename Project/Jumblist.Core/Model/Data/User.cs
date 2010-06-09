@@ -18,6 +18,7 @@ namespace Jumblist.Core.Model
         private EntitySet<Post> posts = new EntitySet<Post>();
 
         [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
+        [DataMember]
         public int UserId { get; set; }
 
         [Column( Name = "UserName" )]

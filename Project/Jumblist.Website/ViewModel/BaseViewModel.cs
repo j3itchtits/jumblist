@@ -12,6 +12,7 @@ namespace Jumblist.Website.ViewModel
         public Message Message { get; set; }
         public List<Message> MessageList { get; set; }
         public User User { get; set; }
+        public string ReturnUrl { get; set; }
 
         public BaseViewModel WithPageTitle( string pageTitle )
         {
@@ -40,6 +41,12 @@ namespace Jumblist.Website.ViewModel
         public BaseViewModel WithUser( User user )
         {
             this.User = user;
+            return this;
+        }
+
+        public BaseViewModel WithReturnUrl( string returnUrl )
+        {
+            this.ReturnUrl = returnUrl;
             return this;
         }
     }

@@ -34,6 +34,11 @@ namespace Jumblist.Website.Filter
                 {
                     model.MessageList = filterContext.Controller.TempData["messagelist"] as List<Message>;
                 }
+
+                if ( model != null && string.IsNullOrEmpty( model.ReturnUrl ) && filterContext.Controller.TempData.ContainsKey( "returnurl" ) )
+                {
+                    model.ReturnUrl = filterContext.Controller.TempData["returnurl"] as string;
+                }
 			}
 		}
 	}

@@ -23,4 +23,13 @@ namespace Jumblist.Core.Model
             return x => x.IsNavigation == isNavigation;
         }
     }
+
+    public enum PostCategoryId
+    {
+        Offered = 1,
+        Wanted = 2,
+        Taken = 3,
+        Unclassified = 4,
+        Received = 5
+    }
 }
