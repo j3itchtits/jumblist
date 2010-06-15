@@ -44,32 +44,6 @@
 
     <% } %>
 
-<%--    <%= Html.ClientSideValidation<User>( "Reset" )%>
-    
-    <b>Reset Password</b>
-    
-    <% using (Html.BeginForm( "resetuserpassword", "users" )) { %>
-        
-        <%= Html.Hidden( "userid", Model.Item.UserId ) %>
-        
-        <table>
-        <tr>
-            <td><label for="Password">Password</label></td>
-            <td><%= Html.Password( "Password" )%>
-            <%= Html.ValidationMessage( "Reset.Password" )%>     </td>       
-        </tr>
-
-        <tr>
-            <td><label for="ConfirmPassword">Confirm Password</label></td>
-            <td><%= Html.Password( "ConfirmPassword" )%>
-            <%= Html.ValidationMessage( "Reset.ConfirmPassword" )%>  </td>
-        </tr>
-        </table>
-        <p>
-            <%= Html.SubmitButton( "submit", "Reset Password" ) %>
-        </p>        
-        
-    <% } %>--%>
     
     <p>
         <%=Html.ActionLink( "View alerts", "alerts" ) %>
@@ -86,6 +60,35 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-
+    <%= Html.ClientSideValidation<User>( "Reset" )%>
+    
+    <b>Reset Password</b>
+    
+    <% using (Html.BeginForm( "savepassword", "users" )) { %>
+        
+        <%= Html.Hidden( "userid", Model.Item.UserId ) %>
+        
+        <table>
+        <tr>
+            <td><label for="Password">Old Password</label></td>
+            <td><%= Html.Password( "OldPassword" )%>
+            <%= Html.ValidationMessage( "Reset.OldPassword" )%>     </td>       
+        </tr>        
+        <tr>
+            <td><label for="Password">New Password</label></td>
+            <td><%= Html.Password( "NewPassword" )%>
+            <%= Html.ValidationMessage( "Reset.NewPassword" )%>     </td>       
+        </tr>
+        <tr>
+            <td><label for="ConfirmPassword">Confirm New Password</label></td>
+            <td><%= Html.Password( "ConfirmNewPassword" )%>
+            <%= Html.ValidationMessage( "Reset.ConfirmNewPassword" )%>  </td>
+        </tr>
+        </table>
+        <p>
+            <%= Html.SubmitButton( "submit", "Reset Password" ) %>
+        </p>        
+        
+    <% } %>
     
 </asp:Content>

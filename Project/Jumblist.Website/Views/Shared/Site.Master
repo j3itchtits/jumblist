@@ -34,8 +34,12 @@
     <div id="header">
         <div id="header-interior">
         
-            <% Html.RenderPartial( "LoginAreaControl" ); %>
-            
+<%--            <% Html.RenderPartial( "LoginAreaControl" ); %>
+--%>            
+            <div id="loginarea">
+                <% Html.RenderAction( "LoginLinks", "Users" ); %>
+            </div>
+                    
             <div id="logo">
                 Hodes Testing
             </div>

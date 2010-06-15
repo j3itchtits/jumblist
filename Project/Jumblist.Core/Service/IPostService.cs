@@ -43,5 +43,7 @@ namespace Jumblist.Core.Service
         void Delete( Post entity );
         void Email( int postId, User user );
         int ExtractPostCategoryId( Post post );
+
+        void SavePostTags( Post post, string tags );
     }
 }

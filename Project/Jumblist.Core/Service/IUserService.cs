@@ -26,7 +26,10 @@ namespace Jumblist.Core.Service
         void Delete( User entity );
         //User DeserializeAuthenticationCookie(string cookieValue);
         void SaveSession( UserSession userSession );
-        bool Verify( int id, string email );
-        void SendVerificationEmail( User item );
+        bool VerifyRegistration( int id, string email );
+        void SendRegistrationVerificationEmail( User item );
+        void SendForgottenPasswordEmail( User item );
+        void SendPasswordResetEmail( User user, string password );
+        string GenerateRandomPassword();
     }
 }

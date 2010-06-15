@@ -326,9 +326,19 @@ namespace Jumblist.Website.Controllers
 
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public void Email( int id, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        public ActionResult Email( int id, string returnUrl, [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
-            postService.Email( id, user );
+            if ( user.IsAuthenticated )
+            {
+                postService.Email( id, user );
+                Message model = new Message { Text = "Please check your inbox for a mails", StyleClass = "message" };
+                return PartialView( "Messages", model );
+            }
+            else
+            {
+                return RedirectToAction( "Login", "Users", new { returnUrl = returnUrl } );
+                //return Redirect( "users/login?returnurl=" + returnUrl );
+            }
         }
 
 
@@ -465,6 +475,9 @@ namespace Jumblist.Website.Controllers
                 item.UserId = user.UserId;
 
                 postService.Save( item, true );
+
+                string tags = string.IsNullOrEmpty( Request.Form["Item.Tags"] ) ? item.Title + ' ' + item.Body : Request.Form["Item.Tags"];
+                postService.SavePostTags( item, tags );
 
                 Message = new Message { Text = item.Title + " has been saved.", StyleClass = "message" };
                 return Redirect( returnUrl ?? "/" );

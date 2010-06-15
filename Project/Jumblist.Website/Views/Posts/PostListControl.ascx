@@ -31,7 +31,7 @@
                 <%= Ajax.SavePostToBasketLink( "Save", new { id = post.PostId, returnUrl = Request.Url.PathAndQuery }, new AjaxOptions { Confirm = "Save?", HttpMethod = "Post" } )%>
             </td>
             <td>
-                <%= Ajax.EmailPostLink( "Email", new { id = post.PostId }, new AjaxOptions { Confirm = "Send?", HttpMethod = "Post" } )%>
+                <%= Ajax.EmailPostLink( "Email", new { id = post.PostId, returnUrl = Request.Url.PathAndQuery }, new AjaxOptions { Confirm = "Send?", HttpMethod = "Post", UpdateTargetId = "messages" } )%>
             </td>
         </tr>            
 <% } %>

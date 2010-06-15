@@ -63,7 +63,7 @@ namespace Jumblist.Website.Controllers
 
             user.Name = item.Name;
             user.Email = item.Email;
-            user.Postcode = item.Postcode;
+            user.Postcode = item.Postcode.ToUpper();
             user.Radius = item.Radius;
 
             //UpdateModel( item, "Item", new[] { "Name", "Email", "Postcode", "Radius" } );
@@ -71,7 +71,11 @@ namespace Jumblist.Website.Controllers
             try
             {
                 userService.Save( user );
-                userService.SaveSession( new UserSession( user.Postcode, user.Radius, user.Latitude, user.Longitude ) );
+
+                userService.RemoveAuthenticationCookie();
+                userService.SetAuthenticationCookie( user, true );
+
+                //userService.SaveSession( new UserSession( user.Postcode, user.Radius, user.Latitude, user.Longitude ) );
 
                 Message = new Message { Text = user.Name + " has been saved.", StyleClass = "message" };
                 return RedirectToAction( "profile" );
@@ -155,7 +159,7 @@ namespace Jumblist.Website.Controllers
         public ViewResult Login()
         {
             var model = BuildDefaultViewModel();
-            model.PageTitle = "Log on";
+            model.PageTitle = "Login";
             return View( model );
         }
 
@@ -167,15 +171,11 @@ namespace Jumblist.Website.Controllers
             if ( success )
             {
                 return Redirect( returnUrl ?? "/" );
-
-                //if ( !string.IsNullOrEmpty( returnUrl ) )
-                //    return Redirect( returnUrl );
-                //else
-                //    return this.RedirectToAction<HomeController>( c => c.Index( user ) );
             }
             else
             {
                 var model = BuildDefaultViewModel();
+                model.PageTitle = "Login";
                 model.Message = new Message { Text = "Unknown username or password", StyleClass = "error" };
 
                 return View( model );
@@ -207,7 +207,7 @@ namespace Jumblist.Website.Controllers
                 User user = userService.Create( item, confirmPassword );
 
                 //userService.SetAuthenticationCookie( item, true );
-                userService.SendVerificationEmail( user );
+                userService.SendRegistrationVerificationEmail( user );
                 Message = new Message { Text = "Thank you for registering. Please click on the link in the email to complete the process", StyleClass = "message" };
 
                 return Redirect( returnUrl ?? "/" );
@@ -228,7 +228,7 @@ namespace Jumblist.Website.Controllers
             userId = userId.DecryptString();
             int id = Int32.Parse( userId );
 
-            bool success = userService.Verify( id, userEmail );
+            bool success = userService.VerifyRegistration( id, userEmail );
 
             if ( success )
             {
@@ -240,6 +240,92 @@ namespace Jumblist.Website.Controllers
             }
 
             return Redirect( "/" );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ActionResult ForgottenPassword()
+        {
+            var model = BuildDefaultViewModel();
+            model.PageTitle = "Forgotten Password";
+            return View( model );
+        }
+
+        [AcceptVerbs( HttpVerbs.Post )]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgottenPassword( User item )
+        {
+            try
+            {
+                User user = userService.SelectRecord( x => x.Email == item.Email );
+
+                userService.SendForgottenPasswordEmail( user );
+                Message = new Message { Text = "Your password will be reset. Please click on the link in the email to complete the process", StyleClass = "message" };
+
+                return Redirect( "/" );
+            }
+            catch ( RulesException ex )
+            {
+                ex.AddModelStateErrors( ModelState, "Item" );
+            }
+
+            var model = BuildDefaultViewModel();
+            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            return View( model );
+        }
+
+        [AcceptVerbs( HttpVerbs.Get )]
+        public RedirectResult PasswordReset( string reset )
+        {
+            string userId = reset.DecryptString();
+            int id = Int32.Parse( userId );
+
+            User user = userService.SelectRecord( id );
+
+            if ( user != null )
+            {
+                //need a random password string generatro here
+                string password = userService.GenerateRandomPassword();
+                user.Password = userService.HashPassword( password );
+                userService.Save( user );
+                userService.SendPasswordResetEmail( user, password );
+
+                Message = new Message { Text = "Please check your email for your new password", StyleClass = "message" };
+            }
+            else
+            {
+                Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            }
+
+            return Redirect( "/" );
+        }
+
+        [AcceptVerbs( HttpVerbs.Post )]
+        public ActionResult SavePassword( int userId, string oldPassword, string newPassword, string confirmNewPassword )
+        {
+            //var user = userService.SelectRecord( userId );
+
+
+            var user = userService.SelectRecord( userId );
+            bool success = userService.Authenticate( user.Name, oldPassword );
+
+            if ( success )
+            {
+                try
+                {
+                    userService.ResetPassword( user, newPassword, confirmNewPassword );
+                    Message = new Message { Text = user.Name + " has changed their password.", StyleClass = "message" };
+                    return RedirectToAction( "profile" );
+                }
+                catch ( RulesException ex )
+                {
+                    ex.AddModelStateErrors( ModelState, "Reset" );
+                }
+            }
+
+            var model = BuildDefaultViewModel().With( user );
+            model.PageTitle = string.Format( "Edit - {0}", user.Name );
+            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            return View( "edit", model );
         }
     }
 }

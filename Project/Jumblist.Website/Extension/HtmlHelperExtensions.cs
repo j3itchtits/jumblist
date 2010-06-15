@@ -79,7 +79,7 @@ namespace Jumblist.Website.Extension
                 return MvcHtmlString.Create( string.Empty ); 
         }
 
-        public static MvcHtmlString MessageBox( this HtmlHelper htmlHelper, IBaseViewModel model )
+        public static MvcHtmlString MessageBox( this HtmlHelper helper, IBaseViewModel model )
         {
             if ( model.Message == null ) return MvcHtmlString.Create( string.Empty );
 
@@ -104,7 +104,21 @@ namespace Jumblist.Website.Extension
             return MvcHtmlString.Create( writer.InnerWriter.ToString() );
         }
 
-        public static MvcHtmlString PageTitle( this HtmlHelper htmlHelper, IBaseViewModel model )
+        public static MvcHtmlString MessageBox( this HtmlHelper helper, Message model )
+        {
+            if ( model == null ) return MvcHtmlString.Create( string.Empty );
+
+            HtmlTextWriter writer = new HtmlTextWriter( new StringWriter() );
+
+            writer.AddAttribute( "class", model.StyleClass );
+            writer.RenderBeginTag( HtmlTextWriterTag.Div );
+            writer.Write( model.Text );
+            writer.RenderEndTag();
+
+            return MvcHtmlString.Create( writer.InnerWriter.ToString() );
+        }
+
+        public static MvcHtmlString PageTitle( this HtmlHelper helper, IBaseViewModel model )
         {
             if ( model.PageTitle == null ) return MvcHtmlString.Create( string.Empty );
 
@@ -114,7 +128,7 @@ namespace Jumblist.Website.Extension
             return  MvcHtmlString.Create( writer.InnerWriter.ToString() );
         }
 
-        public static MvcHtmlString PageTitle( this HtmlHelper htmlHelper, IBaseViewModel model, HtmlTextWriterTag tag )
+        public static MvcHtmlString PageTitle( this HtmlHelper helper, IBaseViewModel model, HtmlTextWriterTag tag )
         {
             if ( model.PageTitle == null ) return MvcHtmlString.Create( string.Empty );
 
@@ -126,18 +140,18 @@ namespace Jumblist.Website.Extension
             return MvcHtmlString.Create( writer.InnerWriter.ToString() );
         }
 
-        public static MvcHtmlString TextBoxFor<TModel, TProperty>( this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string format, object htmlAttributes ) where TModel : class
+        public static MvcHtmlString TextBoxFor<TModel, TProperty>( this HtmlHelper<TModel> helper, Expression<Func<TModel, TProperty>> expression, string format, object htmlAttributes ) where TModel : class
         {
             var inputName = Microsoft.Web.Mvc.Internal.ExpressionHelper.GetInputName( expression );
-            var value = GetValue( htmlHelper, expression );
+            var value = GetValue( helper, expression );
             var formatted = string.Format( CultureInfo.CurrentCulture, format, value );
 
-            return htmlHelper.TextBox( inputName, formatted, htmlAttributes );
+            return helper.TextBox( inputName, formatted, htmlAttributes );
         }
 
-        private static TProperty GetValue<TModel, TProperty>( HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression ) where TModel : class
+        private static TProperty GetValue<TModel, TProperty>( HtmlHelper<TModel> helper, Expression<Func<TModel, TProperty>> expression ) where TModel : class
         {
-            var model = htmlHelper.ViewData.Model;
+            var model = helper.ViewData.Model;
             if ( model == null )
                 return default( TProperty );
 

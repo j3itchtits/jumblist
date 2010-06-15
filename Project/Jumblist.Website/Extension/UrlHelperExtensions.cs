@@ -44,5 +44,6 @@ namespace Jumblist.Website.Extension
         {
             return helper.Content( string.Format( "~/post/{0}/{1}", postId, postTitle.ToFriendlyUrlEncode() ) );
         }
+
     }
 }

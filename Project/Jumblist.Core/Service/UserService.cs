@@ -20,6 +20,7 @@ using System.Runtime.Serialization;
 using System.Xml;
 using System.Configuration;
 using System.Net.Mail;
+using StuartClode.Mvc.Service.Randomize;
 
 namespace Jumblist.Core.Service
 {
@@ -144,6 +145,11 @@ namespace Jumblist.Core.Service
         {
             User user = SelectRecord( User.WhereNamePasswordEquals( name, HashPassword( password ) ) );
 
+            if ( user == null )
+            {
+                user = SelectRecord( User.WhereEmailPasswordEquals( name, HashPassword( password ) ) );
+            }
+
             if ( user != null )
             {
                 SetAuthenticationCookie( user, true );
@@ -152,7 +158,7 @@ namespace Jumblist.Core.Service
             return user != null;
         }
 
-        public bool Verify( int id, string email )
+        public bool VerifyRegistration( int id, string email )
         {
             User user = SelectRecord( User.CheckForUnverifiedUser( id, email ) );
 
@@ -172,7 +178,7 @@ namespace Jumblist.Core.Service
             (HttpContext.Current.Session[userKey] as User).Session = userSession;
         }
 
-        public void SendVerificationEmail( User user )
+        public void SendRegistrationVerificationEmail( User user )
         {
             const string mailSubject = "Verification Mail";
             //const string smtpServer = "localhost";
@@ -207,6 +213,80 @@ namespace Jumblist.Core.Service
             SmtpClient smtpClient = new SmtpClient();
 
             smtpClient.Send( message );
+        }
+
+
+        public void SendForgottenPasswordEmail( User user )
+        {
+            const string mailSubject = "Forgotten Password";
+            //const string smtpServer = "localhost";
+
+            string encryptedId = user.UserId.ToString().EncryptString();
+            string encryptedUrlEncodedId = HttpUtility.UrlEncode( encryptedId );
+            string linkBack = ConfigurationManager.AppSettings["DefaultUrl"] + "/users/passwordreset?reset=" + encryptedUrlEncodedId;
+
+            StringBuilder body = new StringBuilder();
+
+            body.AppendLine( "Please click on the link to reset your password" );
+            body.AppendLine( "---" );
+            body.AppendLine( "HTML link: <a href=" + linkBack + ">Link</a>" );
+            body.AppendLine( "---" );
+
+            string emailText = body.ToString();
+
+            MailMessage message = new MailMessage( ConfigurationManager.AppSettings["DefaultEmail"], user.Email, mailSubject, emailText );
+            message.BodyEncoding = Encoding.Default;
+            message.IsBodyHtml = true;
+
+            SmtpClient smtpClient = new SmtpClient();
+
+            smtpClient.Send( message );
+        }
+
+
+        public void SendPasswordResetEmail( User user, string password )
+        {
+            const string mailSubject = "Your new password";
+            //const string smtpServer = "localhost";
+
+            string linkBack = ConfigurationManager.AppSettings["DefaultUrl"] + "/users/login";
+
+            StringBuilder body = new StringBuilder();
+
+            body.AppendLine( "Please click on the link to login with your new password" );
+            body.AppendLine( "---" );
+            body.AppendLine( "Name: " + user.Name );
+            body.AppendLine( "Password: " + password );
+            body.AppendLine( "HTML link: <a href=" + linkBack + ">Link</a>" );
+            body.AppendLine( "---" );
+
+            string emailText = body.ToString();
+
+            MailMessage message = new MailMessage( ConfigurationManager.AppSettings["DefaultEmail"], user.Email, mailSubject, emailText );
+            message.BodyEncoding = Encoding.Default;
+            message.IsBodyHtml = true;
+
+            SmtpClient smtpClient = new SmtpClient();
+
+            smtpClient.Send( message );
+        }
+
+        public string GenerateRandomPassword()
+        {
+            IPassword target = new Password();
+            int length = 10;
+
+            target.MinLowerCaseChars = 2;
+            target.MinUpperCaseChars = 1;
+            target.MinNumericChars = 3;
+            target.MinSpecialChars = 1;
+            target.FillRest = CharType.LowerCase;
+
+            string actual;
+
+            actual = target.GeneratePassword( length );
+
+            return actual;
         }
 
         #endregion
