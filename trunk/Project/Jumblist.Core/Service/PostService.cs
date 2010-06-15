@@ -356,8 +356,13 @@ namespace Jumblist.Core.Service
             body.AppendLine( "Date:" + post.PublishDateTime.ToLongDateString() );
             body.AppendLine( "---" );
 
+            MailMessage message = new MailMessage( defaultEmail, user.Email, mailSubject, body.ToString() );
+            message.BodyEncoding = Encoding.Default;
+            message.IsBodyHtml = true;
+
             SmtpClient smtpClient = new SmtpClient();
-            smtpClient.Send( new MailMessage( defaultEmail, user.Email, mailSubject, body.ToString() ) );
+
+            smtpClient.Send( message );
         }
 
         public int ExtractPostCategoryId( Post post )
@@ -374,6 +379,20 @@ namespace Jumblist.Core.Service
                 }
             }
             return postCategoryDataService.SelectRecord( PostCategory.WhereNameEquals( "Unclassified" ) ).PostCategoryId;
+        }
+
+        public void SavePostTags( Post post, string tags )
+        {
+            var tagList = tagDataService.SelectRecordList();
+
+            foreach ( Tag tag in tagList )
+            {
+                if ( tags.IsSingularOrPluralPhraseRegexMatch( tag.Name, RegexOptions.IgnoreCase ) )
+                {
+                    var postTagItem = new PostTag { PostId = post.PostId, TagId = tag.TagId };
+                    postTagDataService.Save( postTagItem );
+                }
+            }
         }
 
         #endregion

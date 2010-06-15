@@ -26,6 +26,12 @@
             <td><%= Html.DropDownListFor( m => m.Item.PostCategoryId, new SelectList( Model.PostCategoryList, "Value", "Text" ) )%>
             <%= Html.ValidationMessageFor( m => m.Item.PostCategoryId )%></td>
         </tr>   
+
+<%--         <tr>
+            <td><label for="Item.Tags">Tags:</label></td>
+            <td><%= Html.TextBoxFor( m => m.Item.Tags, new { @size = "40", @value = "" } )%></td>
+        </tr>--%>
+                
         <tr>
             <td><label for="Item.Tags">Tags:</label></td>
             <td><%= Html.TextBox( "Item.Tags", "", new { @size = "40" } )%></td>

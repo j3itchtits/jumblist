@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Text.RegularExpressions;
 using System.Text;
 using StuartClode.Mvc.Service.Encryption;
+using StuartClode.Mvc.Service.Randomize;
 
 namespace StuartClode.Mvc.Extension
 {
@@ -231,6 +232,7 @@ namespace StuartClode.Mvc.Extension
 
             return decryptedValue;
         }
+
 
         //public static string GetAntiForgeryToken( string salt )
         //{

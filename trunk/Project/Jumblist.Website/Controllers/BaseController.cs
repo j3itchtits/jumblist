@@ -47,12 +47,7 @@ namespace Jumblist.Website.Controllers
             set { TempData["returnurl"] = value; }
         }
 
-        protected internal RssResult Rss( SyndicationFeed feed )
-        {
-            return Rss( feed, null );
-        }
-
-        protected internal virtual RssResult Rss( SyndicationFeed feed, string something )
+        protected internal virtual RssResult Rss( SyndicationFeed feed )
         {
             return new RssResult() { Feed = feed };
         }

@@ -4,7 +4,7 @@
     if (!(ViewContext.Controller is UsersController))
     { %>
         <div id="loginarea">
-            <% Html.RenderAction("LoginLinks", "Users"); %>
+            <% Html.RenderAction( "LoginLinks", "Users" ); %>
         </div> <%
     } 
 %>

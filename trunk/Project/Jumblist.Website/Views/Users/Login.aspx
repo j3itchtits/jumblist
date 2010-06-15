@@ -7,7 +7,7 @@
 
     <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
     
-    <p>Please enter your name and password. <%= Html.RegisterLink( "Register" )%> if you don't have an account.</p>
+    <p>Please enter your name or email and password. <%= Html.RegisterLink( "Register" )%> if you don't have an account.</p>
 
     <%= Html.MessageBox( ViewData.Model ) %>
 
@@ -22,7 +22,7 @@
         <p><label for="rememberMe">Remember Me?</label>
         <%= Html.CheckBox( "rememberMe" )%></p>
         
-        <input type="submit" value="Log On" />
+        <input type="submit" value="Log On" /> [ <%= Html.ActionLink( "Forgotten password", "forgottenpassword", "users" ) %> ]
         
 	<% } %>
 

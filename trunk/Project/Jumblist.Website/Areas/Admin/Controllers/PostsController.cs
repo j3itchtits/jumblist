@@ -120,7 +120,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             var model = postService.SelectRecordList().OrderByDescending( t => t.PublishDateTime );
 
-            return PartialView("PostList", model);
+            return PartialView( "PostList", model );
         }
 
         [AcceptVerbs(HttpVerbs.Get)]

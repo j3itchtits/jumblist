@@ -123,12 +123,29 @@ Tags
 
 
 -----
+Analytics
+-----
+
+https://www.google.com/analytics
+theclodes@googlemail.com
+Edinb8rgh
+
+
+-----
 Admin
 -----
 
 Check all fields across all database tables
 
 Paging for list pages
+
+
+-----
+Optimisation
+-----
+http://weblogs.asp.net/rashid/archive/2009/04/01/asp-net-mvc-best-practices-part-1.aspx
+http://weblogs.asp.net/rashid/archive/2009/04/03/asp-net-mvc-best-practices-part-2.aspx
+
 
 
 --------------------------------------------------------------------------------------

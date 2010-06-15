@@ -4,9 +4,11 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
     <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
-    
-    <%= Html.MessageBox( ViewData.Model ) %>
 
+    <div id="messages">
+        <%= Html.MessageBox( ViewData.Model ) %>
+    </div>
+    
     <div class="post-item">
 
         <div style="padding: 20px 0px;">
@@ -27,14 +29,13 @@
            } %>
 
 
-
         <div>
-            <%= Html.SavePostToBasketLink( "Save to my jumblist (HTML)", new { id = Model.Item.PostId, returnUrl = HttpContext.Current.Request.Url.PathAndQuery }, null )%>
-            <%= Ajax.SavePostToBasketLink( "Save to my jumblist (AJAX)", new { id = Model.Item.PostId, returnUrl = HttpContext.Current.Request.Url.PathAndQuery }, new AjaxOptions { Confirm = "Save?", HttpMethod = "Post" } )%>
+            <%= Ajax.SavePostToBasketLink( "Save", new { id = Model.Item.PostId, returnUrl = Request.Url.PathAndQuery }, new AjaxOptions { Confirm = "Save?", HttpMethod = "Post" } )%>
         </div>
 
+
         <div>
-            <%= Ajax.EmailPostLink( "Email", new { id = Model.Item.PostId }, new AjaxOptions { Confirm = "Send?", HttpMethod = "Post" } )%>
+            <%= Ajax.EmailPostLink( "Email", new { id = Model.Item.PostId, returnUrl = Request.Url.PathAndQuery }, new AjaxOptions { Confirm = "Send?", HttpMethod = "Post", UpdateTargetId = "messages" } )%>
         </div>
             
              

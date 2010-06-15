@@ -7,7 +7,6 @@ using Jumblist.Core.Service;
 using System.Security.Principal;
 using Jumblist.Core.Model;
 using StuartClode.Mvc.Extension;
-using Microsoft.Practices.ServiceLocation;
 using System.Web.Routing;
 
 namespace Jumblist.Website.Filter
