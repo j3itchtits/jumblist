@@ -71,11 +71,7 @@ namespace Jumblist.Website.Controllers
             try
             {
                 userService.Save( user );
-
-                userService.RemoveAuthenticationCookie();
-                userService.SetAuthenticationCookie( user, true );
-
-                //userService.SaveSession( new UserSession( user.Postcode, user.Radius, user.Latitude, user.Longitude ) );
+                userService.ResetAuthenticationCookie( user, true );
 
                 Message = new Message { Text = user.Name + " has been saved.", StyleClass = "message" };
                 return RedirectToAction( "profile" );
@@ -134,7 +130,6 @@ namespace Jumblist.Website.Controllers
             return View( model );
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult LoginLinks( [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             return PartialView( "LoginLinksControl", user );
@@ -223,7 +218,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public RedirectResult Verify( string userId, string userEmail )
+        public RedirectResult VerifyRegistration( string userId, string userEmail )
         {
             userId = userId.DecryptString();
             int id = Int32.Parse( userId );
@@ -300,10 +295,10 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
+        [ValidateAntiForgeryToken]
         public ActionResult SavePassword( int userId, string oldPassword, string newPassword, string confirmNewPassword )
         {
             //var user = userService.SelectRecord( userId );
-
 
             var user = userService.SelectRecord( userId );
             bool success = userService.Authenticate( user.Name, oldPassword );
@@ -320,6 +315,10 @@ namespace Jumblist.Website.Controllers
                 {
                     ex.AddModelStateErrors( ModelState, "Reset" );
                 }
+            }
+            else
+            {
+                new RulesException( "OldPassword", "Old password is wrong" ).AddModelStateErrors( ModelState, "Reset" ); ;
             }
 
             var model = BuildDefaultViewModel().With( user );

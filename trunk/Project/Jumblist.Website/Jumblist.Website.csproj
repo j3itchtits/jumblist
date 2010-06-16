@@ -275,9 +275,9 @@
     <Content Include="Views\Posts\SearchControl.ascx" />
     <Content Include="Views\Posts\SelectCategoryControl.ascx" />
     <Content Include="Views\Shared\BasketControl.ascx" />
+    <Content Include="Views\Shared\LoginAreaControl.ascx" />
     <Content Include="Views\Shared\Messages.ascx" />
     <Content Include="Views\Shared\NotAuthorised.aspx" />
-    <Content Include="Views\Shared\LoginAreaControl.ascx" />
     <Content Include="Views\Tags\Index.aspx" />
     <Content Include="Views\Tags\TagListControl.ascx" />
     <Content Include="Views\Users\Edit.aspx" />
@@ -285,6 +285,9 @@
     <Content Include="Views\Users\LoginLinksControl.ascx" />
     <Content Include="Views\Users\Post.aspx" />
     <Content Include="Views\Users\Profile.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Templates\RegistrationVerification.vm" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Assets\Images\" />

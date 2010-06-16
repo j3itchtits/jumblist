@@ -31,6 +31,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Components.Common.TemplateEngine, Version=1.1.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceAssemblies\Castle.Components.Common.TemplateEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Components.Common.TemplateEngine.NVelocityTemplateEngine, Version=1.1.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceAssemblies\Castle.Components.Common.TemplateEngine.NVelocityTemplateEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core, Version=1.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceAssemblies\Castle.Core-1.2\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ReferenceAssemblies\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -109,6 +121,7 @@
     <Compile Include="Service\ITagService.cs" />
     <Compile Include="Service\IUserService.cs" />
     <Compile Include="Service\LocationService.cs" />
+    <Compile Include="Service\MailService.cs" />
     <Compile Include="Service\PostService.cs" />
     <Compile Include="Service\RoleService.cs" />
     <Compile Include="Service\SearchService.cs" />
