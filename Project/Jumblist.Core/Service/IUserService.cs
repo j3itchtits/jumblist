@@ -17,19 +17,19 @@ namespace Jumblist.Core.Service
         User SelectRecord( string name );
         void Save( User entity );
         void Save( User entity, bool isDetachedFromDatabase );
-        void ResetPassword( User entity, string password, string confirmPassword );
+        void Delete( User entity );
         User Create( User entity, string confirmPassword );
         void SetAuthenticationCookie( User user, bool rememberMe );
         void RemoveAuthenticationCookie();
+        void ResetAuthenticationCookie( User user, bool rememberMe );
+        void ResetPassword( User entity, string password, string confirmPassword ); 
         string HashPassword( string password );
+        string GenerateRandomPassword();
         bool Authenticate( string name, string password );
-        void Delete( User entity );
-        //User DeserializeAuthenticationCookie(string cookieValue);
         void SaveSession( UserSession userSession );
         bool VerifyRegistration( int id, string email );
         void SendRegistrationVerificationEmail( User item );
         void SendForgottenPasswordEmail( User item );
         void SendPasswordResetEmail( User user, string password );
-        string GenerateRandomPassword();
     }
 }

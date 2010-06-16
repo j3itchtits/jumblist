@@ -203,7 +203,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             var model = feedLocationService.SelectRecordList( FeedLocation.WhereFeedIdEquals( feedId ) );
 
-            return PartialView("FeedLocationList", model);
+            return PartialView( "FeedLocationList", model );
         }
 
         [AcceptVerbs(HttpVerbs.Delete)]

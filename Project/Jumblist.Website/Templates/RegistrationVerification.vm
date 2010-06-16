@@ -1,0 +1,10 @@
+﻿Hi $user.UserId,
+
+This is your email - $user.Email
+
+Welcome to our shop!
+
+Thanks for registering with us.
+
+Regards
+MyShop

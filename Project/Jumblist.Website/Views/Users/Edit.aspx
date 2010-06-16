@@ -60,7 +60,6 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <%= Html.ClientSideValidation<User>( "Reset" )%>
     
     <b>Reset Password</b>
     
@@ -86,6 +85,7 @@
         </tr>
         </table>
         <p>
+            <%= Html.AntiForgeryToken() %>
             <%= Html.SubmitButton( "submit", "Reset Password" ) %>
         </p>        
         

@@ -21,6 +21,10 @@ using System.Xml;
 using System.Configuration;
 using System.Net.Mail;
 using StuartClode.Mvc.Service.Randomize;
+using Castle.Components.Common.TemplateEngine.NVelocityTemplateEngine;
+using Castle.Components.Common.TemplateEngine;
+using System.ComponentModel;
+using System.Collections;
 
 namespace Jumblist.Core.Service
 {
@@ -86,14 +90,6 @@ namespace Jumblist.Core.Service
             base.Delete( user );
         }
 
-        public void ResetPassword( User user, string password, string confirmPassword )
-        {
-            ValidateBusinessRules( password, confirmPassword );
-            user.Password = HashPassword( password );
-
-            base.Save( user );
-        }
-
         public User Create( User user, string confirmPassword )
         {
             var bingLocationService = new BingLocationService( user.Postcode.ToUpper() );
@@ -136,9 +132,37 @@ namespace Jumblist.Core.Service
             HttpContext.Current.Session[userKey] = Jumblist.Core.Model.User.Anonymous;
         }
 
+        public void ResetAuthenticationCookie( User user, bool rememberMe )
+        {
+            RemoveAuthenticationCookie();
+            SetAuthenticationCookie( user, true );
+        }
+
         public string HashPassword( string password )
         {
             return formsAuth.HashPasswordForStoringInConfigFile( password );
+        }
+
+        public void ResetPassword( User user, string password, string confirmPassword )
+        {
+            ValidateBusinessRules( password, confirmPassword );
+            user.Password = HashPassword( password );
+
+            base.Save( user );
+        }
+
+        public string GenerateRandomPassword()
+        {
+            IPassword target = new Password();
+            int length = 10;
+
+            target.MinLowerCaseChars = 2;
+            target.MinUpperCaseChars = 1;
+            target.MinNumericChars = 3;
+            target.MinSpecialChars = 1;
+            target.FillRest = CharType.LowerCase;
+
+            return target.GeneratePassword( length );
         }
 
         public bool Authenticate( string name, string password )
@@ -186,7 +210,7 @@ namespace Jumblist.Core.Service
             string encryptedId = user.UserId.ToString().EncryptString();
             string encryptedUrlEncodedId = HttpUtility.UrlEncode( encryptedId );
             string urlEncodedEmail = HttpUtility.UrlEncode( user.Email );
-            string linkBack = ConfigurationManager.AppSettings["DefaultUrl"] + "/users/verify?userid=" + encryptedUrlEncodedId + "&useremail=" + urlEncodedEmail;
+            string linkBack = ConfigurationManager.AppSettings["DefaultUrl"] + "/users/verifyregistration?userid=" + encryptedUrlEncodedId + "&useremail=" + urlEncodedEmail;
 
             StringBuilder body = new StringBuilder();
 
@@ -271,23 +295,7 @@ namespace Jumblist.Core.Service
             smtpClient.Send( message );
         }
 
-        public string GenerateRandomPassword()
-        {
-            IPassword target = new Password();
-            int length = 10;
 
-            target.MinLowerCaseChars = 2;
-            target.MinUpperCaseChars = 1;
-            target.MinNumericChars = 3;
-            target.MinSpecialChars = 1;
-            target.FillRest = CharType.LowerCase;
-
-            string actual;
-
-            actual = target.GeneratePassword( length );
-
-            return actual;
-        }
 
         #endregion
 

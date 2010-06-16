@@ -94,11 +94,9 @@ namespace Jumblist.Website.Controllers
             }
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult BasicList( int top )
         {
             var model = postService.SelectRecordList( Post.WhereDisplayEquals( true ) ).OrderByDescending( t => t.PublishDateTime ).Take( top );
-
             return PartialView( "BasicListControl", model );
         }
 
@@ -394,7 +392,6 @@ namespace Jumblist.Website.Controllers
             return Rss( feed );
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult SelectCategory( RouteValueDictionary routeValueDic, string highlightedCategory )
         {
             var postCategoryList = postCategoryService.SelectRecordList(PostCategory.WhereIsNavigationEquals(true));
