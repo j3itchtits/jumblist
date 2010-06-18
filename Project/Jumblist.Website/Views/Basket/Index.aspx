@@ -5,16 +5,18 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
-    <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
+    <h2><%= Html.PageTitle( ViewData.Model )%></h2>
     
-    <%= Html.MessageBox( ViewData.Model ) %>
+    <div id="messages">
+        <%= Html.MessageBox( ViewData.Model ) %>
+    </div>
        
     <table>
         <thead><tr>
             <th align="left" colspan="2">Items</th>
         </tr></thead>
         <tbody>
-            <% foreach(var item in Model.Basket.Items) { %>
+            <% foreach( var item in Model.Basket.Items ) { %>
                 <tr>
                     <td><%= Html.RouteLink(item.Title, "Post-Detail", new { id = item.PostId, name = item.Title.ToFriendlyUrlEncode() }, new { title = item.Body })%></td>
                     <td>
@@ -36,10 +38,11 @@
             </tr>            
         </tbody>
     </table>
-    <p align="center" class="actionButtons">
+    
+    <div class="actionButtons">
         <a href="<%= Html.Encode( Model.ReturnUrl ) %>">Continue browsing</a>
-        <%= Html.ActionLink( "Email Me", "email", new { returnUrl = Request.Url.PathAndQuery } ) %>   
-    </p>
+        <%= Html.ActionLink( "Email Me", "email", new { returnUrl = Model.ReturnUrl } ) %>   
+    </div>
 
 </asp:Content>
 

@@ -315,6 +315,15 @@ p
 {
 }
 
+#messages
+{
+	background-color:Fuchsia;
+}
+
+#basket
+{
+	background-color:Lime;	
+}
 /****************************
  ** Table styles *
  ****************************/

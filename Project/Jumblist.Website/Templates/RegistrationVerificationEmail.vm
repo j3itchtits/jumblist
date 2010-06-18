@@ -1,0 +1,8 @@
+﻿Thanks for registering
+---
+Id: $user.UserId
+Name: $user.Name
+Email: $user.Email
+Link: $linkBack
+HTML link: <a href="$linkBack">Link</a>
+---

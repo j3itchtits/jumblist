@@ -31,7 +31,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult List()
         {
-            var list = tagService.SelectRecordList();
+            var list = tagService.SelectRecordList().OrderBy( x => x.Name );
 
             var model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Tags";

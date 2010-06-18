@@ -1,15 +1,14 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel<Post>>" %>
 
-
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
-    <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
-
+    <h2><%= Html.PageTitle( ViewData.Model )%></h2>
+    
     <div id="messages">
         <%= Html.MessageBox( ViewData.Model ) %>
     </div>
     
-    <div class="post-item">
+    <div class="post-detail">
 
         <div style="padding: 20px 0px;">
             <%= Html.Encode( Model.Item.Body ).ReplaceParagraphBreaksWithHtmlBrTags()%>
@@ -30,12 +29,12 @@
 
 
         <div>
-            <%= Ajax.SavePostToBasketLink( "Save", new { id = Model.Item.PostId, returnUrl = Request.Url.PathAndQuery }, new AjaxOptions { Confirm = "Save?", HttpMethod = "Post" } )%>
+            <%= Ajax.SavePostToBasketLink( "Save", new { id = Model.Item.PostId } )%>
         </div>
 
 
         <div>
-            <%= Ajax.EmailPostLink( "Email", new { id = Model.Item.PostId, returnUrl = Request.Url.PathAndQuery }, new AjaxOptions { Confirm = "Send?", HttpMethod = "Post", UpdateTargetId = "messages" } )%>
+            <%= Ajax.EmailPostLink( "Email", new { id = Model.Item.PostId } )%>
         </div>
             
              

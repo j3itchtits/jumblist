@@ -21,7 +21,7 @@ namespace Jumblist.Tests.Controllers
             //Arrange
             var postRepository = new MockPostRepository().Repository;
             var postCategoryRepository = new MockPostCategoryRepository().Repository;
-            var controller = new PostsController( postRepository, null, null, null, null, null, null );
+            var controller = new PostsController( postRepository, null, null, null, null, null, null, null );
 
             //Act
             var result = controller.Index( string.Empty, null, null, null );
@@ -36,7 +36,7 @@ namespace Jumblist.Tests.Controllers
             //Arrange
             var postRepository = new MockPostRepository().Repository;
             var postCategoryRepository = new MockPostCategoryRepository().Repository;
-            var controller = new PostsController( postRepository, null, null, null, null, null, null );
+            var controller = new PostsController( postRepository, null, null, null, null, null, null, null );
 
             //Act
             var result = controller.Index( string.Empty, null, null, null );
@@ -53,7 +53,7 @@ namespace Jumblist.Tests.Controllers
             //Arrange
             var postRepository = new MockPostRepository().Repository;
             var postCategoryRepository = new MockPostCategoryRepository().Repository;
-            var controller = new PostsController( postRepository, null, null, null, null, null, null );
+            var controller = new PostsController( postRepository, null, null, null, null, null, null, null );
             //controller.PageSize = 3;
 
             //Act

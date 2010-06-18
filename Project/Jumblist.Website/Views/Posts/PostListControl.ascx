@@ -1,9 +1,9 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<PagedList<Post>>" %>
 
-<table class="list">
+<table>
 <% foreach ( var post in Model )
    { %>
-        <tr class="item">
+        <tr>
             <td>
                 <%= Html.RouteLink(post.Title, "Post-Detail", new { id = post.PostId, name = post.Title.ToFriendlyUrlEncode() }, new { title = post.Body })%>
             </td>  
@@ -28,10 +28,10 @@
                 <%= Html.Encode( post.Category.Name ) %>
             </td>
             <td>
-                <%= Ajax.SavePostToBasketLink( "Save", new { id = post.PostId, returnUrl = Request.Url.PathAndQuery }, new AjaxOptions { Confirm = "Save?", HttpMethod = "Post" } )%>
+                <%= Ajax.SavePostToBasketLink( "Save", new { id = post.PostId } )%>
             </td>
             <td>
-                <%= Ajax.EmailPostLink( "Email", new { id = post.PostId, returnUrl = Request.Url.PathAndQuery }, new AjaxOptions { Confirm = "Send?", HttpMethod = "Post", UpdateTargetId = "messages" } )%>
+                <%= Ajax.EmailPostLink( "Email", new { id = post.PostId } )%>
             </td>
         </tr>            
 <% } %>

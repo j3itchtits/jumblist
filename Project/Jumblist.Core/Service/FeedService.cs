@@ -14,7 +14,7 @@ namespace Jumblist.Core.Service
     {
         public IDataService<FeedLocation> feedLocationDataService;
 
-        public FeedService(IRepository<Feed> repository, IDataService<FeedLocation> feedLocationDataService)
+        public FeedService( IRepository<Feed> repository, IDataService<FeedLocation> feedLocationDataService )
             : base( repository )
         {
             this.feedLocationDataService = feedLocationDataService;

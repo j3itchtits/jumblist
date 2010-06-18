@@ -23,11 +23,13 @@ namespace Jumblist.Website.Controllers
         private readonly string userKey = ConfigurationManager.AppSettings["UserModelBinderKey"]; 
         private IUserService userService;
         private IPostService postService;
+        private IMailService mailService;
 
-        public UsersController( IUserService userService, IPostService postService )
+        public UsersController( IUserService userService, IPostService postService, IMailService mailService )
         {
             this.userService = userService;
             this.postService = postService;
+            this.mailService = mailService;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -108,14 +110,20 @@ namespace Jumblist.Website.Controllers
             Post post = postService.SelectRecord( item.PostId );
             //bool success = TryUpdateModel( post, "Item", new[] { "Url", "Title", "Body", "Display" }, collection.ToValueProvider() );
 
-            post.Url = item.Url;
             post.Title = item.Title;
             post.Body = item.Body;
             post.Display = item.Display;
 
+            string tags = Request.Form["Item.Tags"];
+            if ( string.IsNullOrEmpty( tags ) ) tags = post.Title + ' ' + post.Body;
+
             try
             {
+                 
                 postService.Save( post );
+                postService.DeletePostTags( post );
+                postService.SavePostTags( post, tags );
+
                 Message = new Message { Text = post.Title + " has been saved.", StyleClass = "message" };
                 return RedirectToAction( "profile" );
             }
@@ -202,7 +210,7 @@ namespace Jumblist.Website.Controllers
                 User user = userService.Create( item, confirmPassword );
 
                 //userService.SetAuthenticationCookie( item, true );
-                userService.SendRegistrationVerificationEmail( user );
+                mailService.SendRegistrationVerificationEmail( user );
                 Message = new Message { Text = "Thank you for registering. Please click on the link in the email to complete the process", StyleClass = "message" };
 
                 return Redirect( returnUrl ?? "/" );
@@ -253,7 +261,7 @@ namespace Jumblist.Website.Controllers
             {
                 User user = userService.SelectRecord( x => x.Email == item.Email );
 
-                userService.SendForgottenPasswordEmail( user );
+                mailService.SendForgottenPasswordEmail( user );
                 Message = new Message { Text = "Your password will be reset. Please click on the link in the email to complete the process", StyleClass = "message" };
 
                 return Redirect( "/" );
@@ -282,7 +290,7 @@ namespace Jumblist.Website.Controllers
                 string password = userService.GenerateRandomPassword();
                 user.Password = userService.HashPassword( password );
                 userService.Save( user );
-                userService.SendPasswordResetEmail( user, password );
+                mailService.SendPasswordResetEmail( user, password );
 
                 Message = new Message { Text = "Please check your email for your new password", StyleClass = "message" };
             }

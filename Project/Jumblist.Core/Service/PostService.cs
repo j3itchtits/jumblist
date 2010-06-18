@@ -45,8 +45,6 @@ namespace Jumblist.Core.Service
 
         #region IPostService Members
 
-
-
         public override IQueryable<Post> SelectRecordList()
         {
             return base.SelectRecordList();
@@ -258,8 +256,8 @@ namespace Jumblist.Core.Service
 
             //As we have a new post then we need to create some postlocations and posttags
             //Set PostLocations and PostTags Properties and return them for use in searching for latitude and longitudes
-            var locationsSaved = SavePostLocations( ref post );
-            var tagsSaved = SavePostTags( post );
+            IList<PostLocation> locationsSaved = SavePostLocations( ref post );
+            IList<PostTag> tagsSaved = SavePostTags( post, (post.Title + " " + post.Body) );
 
             //We may need to update the display to true for posts that have been imported from a feed and obey the correct logic
             bool isPostValid = CheckIfPostIsValid( post, locationsSaved.Count > 0, tagsSaved.Count > 0 );
@@ -277,6 +275,102 @@ namespace Jumblist.Core.Service
             }
 
             base.Save( post );
+        }
+
+        public override void Delete( Post post )
+        {
+            base.Delete( post );
+        }
+
+        public int ExtractPostCategoryId( Post post )
+        {
+            string input = post.Title;
+
+            foreach ( PostCategory c in postCategoryDataService.SelectRecordList() )
+            {
+                string pattern = "(" + c.AlternativeSearchText.Replace( ", ", "|" ) + ")";
+                //string pattern = c.Name;
+                if ( Regex.IsMatch( input, pattern, RegexOptions.IgnoreCase ) )
+                {
+                    return c.PostCategoryId;
+                }
+            }
+            return postCategoryDataService.SelectRecord( PostCategory.WhereNameEquals( "Unclassified" ) ).PostCategoryId;
+        }
+
+        public IList<PostTag> SavePostTags( Post post, string tagSearch )
+        {
+            IQueryable<Tag> tagList = tagDataService.SelectRecordList();
+            IList<PostTag> postTagList = new List<PostTag>();
+
+            foreach ( Tag tag in tagList )
+            {
+                if ( tagSearch.IsSingularOrPluralPhraseRegexMatch( tag.Name, RegexOptions.IgnoreCase ) )
+                {
+                    postTagList.Add( new PostTag { PostId = post.PostId, TagId = tag.TagId } );
+                }
+            }
+
+            if ( postTagList.Count > 0 )
+            {
+                postTagDataService.InsertAll( postTagList );
+            }
+
+            return postTagList;
+        }
+
+        public void DeletePostTags( Post post )
+        {
+            IQueryable<PostTag> postTags = postTagDataService.SelectRecordList( x => x.PostId == post.PostId );
+
+            if ( postTags.Count() > 0 )
+            {
+                postTagDataService.DeleteAll( postTags );
+            }
+        }
+
+        public IList<PostLocation> SavePostLocations( ref Post post )
+        {
+            IList<PostLocation> list = new List<PostLocation>();
+
+            string input = (post.Title + " " + post.Body).Replace( "'", string.Empty ).Replace( ".", string.Empty );
+
+            //Check whether a full postcode exists in teh input - if it does we simply perform a geocode lookup and then update the post and return
+            var match = Regex.Match( input, StringExtensions.UKPostcodeRegex, RegexOptions.IgnoreCase );
+
+            if ( match.Success )
+            {
+                var bingLocationService = new BingLocationService( match.ToString() );
+                post.Latitude = bingLocationService.Latitude;
+                post.Longitude = bingLocationService.Longitude;
+                return list;
+            }
+
+            //Attempt to match input with locations stored in database
+            var feedLocationList = locationDataService.SelectRecordListByFeed( FeedLocation.WhereFeedIdEquals( post.FeedId ) );
+            var postCodeLocationList = locationDataService.SelectRecordList( Location.WhereLocationAreaIsNull() );
+
+            foreach ( Location location in (feedLocationList.Concat( postCodeLocationList )) )
+            {
+                string pattern = (location.IsPostcode) ? location.NameSearch + ".*" : location.NameSearch;
+                if ( input.IsPhraseRegexMatch( pattern, RegexOptions.IgnoreCase ) )
+                {
+                    var postLocationItem = new PostLocation { PostId = post.PostId, LocationId = location.LocationId };
+                    postLocationDataService.Save( postLocationItem );
+                    list.Add( postLocationItem );
+                }
+            }
+
+            //Last try is to get the Default Location for a feed/group and apply it to the post but only if the item is "offered"
+            if ( list.Count == 0 && post.Category.Name == "Offered" )
+            {
+                var location = locationDataService.SelectRecord( Location.WhereFeedEquals( post.Feed ) );
+                var postLocationItem = new PostLocation { PostId = post.PostId, LocationId = location.LocationId };
+                postLocationDataService.Save( postLocationItem );
+                list.Add( postLocationItem );
+            }
+
+            return list;
         }
 
         //public void Import( Post post )
@@ -336,65 +430,6 @@ namespace Jumblist.Core.Service
         //    }
         //}
 
-        public override void Delete( Post post )
-        {
-            base.Delete( post );
-        }
-
-        public void Email( int postId, User user )
-        {
-            var post = SelectRecord( postId );
-
-            const string mailSubject = "Jumblist post";
-            //const string smtpServer = "localhost";
-
-            StringBuilder body = new StringBuilder();
-            body.AppendLine( "Here is the post you requested" );
-            body.AppendLine( "---" );
-            body.AppendLine( "Title:" + post.Title );
-            body.AppendLine( "Group:" + post.Feed.Name );
-            body.AppendLine( "Date:" + post.PublishDateTime.ToLongDateString() );
-            body.AppendLine( "---" );
-
-            MailMessage message = new MailMessage( defaultEmail, user.Email, mailSubject, body.ToString() );
-            message.BodyEncoding = Encoding.Default;
-            message.IsBodyHtml = true;
-
-            SmtpClient smtpClient = new SmtpClient();
-
-            smtpClient.Send( message );
-        }
-
-        public int ExtractPostCategoryId( Post post )
-        {
-            string input = post.Title;
-
-            foreach ( PostCategory c in postCategoryDataService.SelectRecordList() )
-            {
-                string pattern = "(" + c.AlternativeSearchText.Replace( ", ", "|" ) + ")";
-                //string pattern = c.Name;
-                if ( Regex.IsMatch( input, pattern, RegexOptions.IgnoreCase ) )
-                {
-                    return c.PostCategoryId;
-                }
-            }
-            return postCategoryDataService.SelectRecord( PostCategory.WhereNameEquals( "Unclassified" ) ).PostCategoryId;
-        }
-
-        public void SavePostTags( Post post, string tags )
-        {
-            var tagList = tagDataService.SelectRecordList();
-
-            foreach ( Tag tag in tagList )
-            {
-                if ( tags.IsSingularOrPluralPhraseRegexMatch( tag.Name, RegexOptions.IgnoreCase ) )
-                {
-                    var postTagItem = new PostTag { PostId = post.PostId, TagId = tag.TagId };
-                    postTagDataService.Save( postTagItem );
-                }
-            }
-        }
-
         #endregion
 
         private bool CheckIfPostIsValid( Post post, bool locationsSaved, bool tagsSaved )
@@ -437,73 +472,7 @@ namespace Jumblist.Core.Service
             //}
         }
 
-        private List<PostLocation> SavePostLocations( ref Post post )
-        {
-            var list = new List<PostLocation>();
-
-            string input = (post.Title + " " + post.Body).Replace( "'", string.Empty ).Replace( ".", string.Empty );
-            
-            //Check whether a full postcode exists in teh input - if it does we simply perform a geocode lookup and then update the post and return
-            var match = Regex.Match( input, StringExtensions.UKPostcodeRegex, RegexOptions.IgnoreCase );
-
-            if (match.Success)
-            {
-                var bingLocationService = new BingLocationService( match.ToString() );
-                post.Latitude = bingLocationService.Latitude;
-                post.Longitude = bingLocationService.Longitude;
-                return list;
-            }
-
-            //Attempt to match input with locations stored in database
-            var feedLocationList = locationDataService.SelectRecordListByFeed( FeedLocation.WhereFeedIdEquals( post.FeedId ) );
-            var postCodeLocationList = locationDataService.SelectRecordList( Location.WhereLocationAreaIsNull() );
-
-            foreach ( Location location in ( feedLocationList.Concat( postCodeLocationList ) ) )
-            {
-                string pattern = (location.IsPostcode) ? location.NameSearch + ".*" : location.NameSearch;
-                if (input.IsPhraseRegexMatch( pattern, RegexOptions.IgnoreCase ))
-                {
-                    var postLocationItem = new PostLocation { PostId = post.PostId, LocationId = location.LocationId };
-                    postLocationDataService.Save( postLocationItem );
-                    list.Add( postLocationItem );
-                }
-            }
-
-            //Last try is to get the Default Location for a feed/group and apply it to the post but only if the item is "offered"
-            if (list.Count == 0 && post.Category.Name == "Offered")
-            {
-                var location = locationDataService.SelectRecord( Location.WhereFeedEquals(post.Feed) );
-                var postLocationItem = new PostLocation { PostId = post.PostId, LocationId = location.LocationId };
-                postLocationDataService.Save( postLocationItem );
-                list.Add( postLocationItem );
-            }
-
-            return list;
-        }
-
-        private List<PostTag> SavePostTags( Post post )
-        {
-            var list = new List<PostTag>();
-
-            string input = post.Title + " " + post.Body;
-            
-            var tagList = tagDataService.SelectRecordList();
-
-            foreach (Tag tag in tagList)
-            {
-                if (input.IsSingularOrPluralPhraseRegexMatch(tag.Name, RegexOptions.IgnoreCase))
-                {
-                    var postTagItem = new PostTag { PostId = post.PostId, TagId = tag.TagId };
-                    postTagDataService.Save( postTagItem );
-                    list.Add( postTagItem );
-                }
-            }
-            return list;
-        }
-
-
-
-        private double[] GetLocationCoordinates( List<PostLocation> locationsSaved )
+        private double[] GetLocationCoordinates( IList<PostLocation> locationsSaved )
         {
             double[] coordinates = new Double[2];
 

@@ -100,7 +100,5 @@ namespace Jumblist.Core.Model
             get { return postTags; }
             set { postTags.Assign( value ); }
         }
-
-
     }
 }

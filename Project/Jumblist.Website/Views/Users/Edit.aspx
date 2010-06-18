@@ -43,11 +43,6 @@
 
 
     <% } %>
-
-    
-    <p>
-        <%=Html.ActionLink( "View alerts", "alerts" ) %>
-    </p>
     
     <p>
         <%=Html.ActionLink( "Back to profile", "profile" ) %>

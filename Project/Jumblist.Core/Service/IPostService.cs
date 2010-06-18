@@ -41,9 +41,10 @@ namespace Jumblist.Core.Service
         void Save( Post entity, bool isDetachedFromDatabase );
         void Import( Post entity );
         void Delete( Post entity );
-        void Email( int postId, User user );
         int ExtractPostCategoryId( Post post );
 
-        void SavePostTags( Post post, string tags );
+        IList<PostTag> SavePostTags( Post post, string tagSearch );
+        void DeletePostTags( Post post );
+        IList<PostLocation> SavePostLocations( ref Post post );
     }
 }
