@@ -1,0 +1,6 @@
+﻿Here is the post you requested
+---
+Title: $post.Title
+Group: $post.Feed.Name
+Date: $postdate
+---

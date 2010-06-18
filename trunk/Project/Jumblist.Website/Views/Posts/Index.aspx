@@ -21,26 +21,19 @@
 		
             <div class="postlist">
                 <% Html.RenderPartial( "PostListControl", Model.PagedList ); %>
-            </div><br /><br />
+            </div>
           
-<%--           <div class="paginglinks">
-                <%= Html.PagingLinks( Model.PagedList.PageNumber, Model.PagedList.PageCount, x => Url.Action( ViewContext.RouteData.Values["action"].ToString(), new { id = ViewContext.RouteData.Values["id"].ToString(), page = x } ) )%>
-            </div><br /><br />
-    
-            <div class="nextpreviouspagelinks">
-                <%= Html.NextPreviousPageLinks( Model.PagedList.PageNumber, Model.PagedList.HasPreviousPage, Model.PagedList.HasNextPage, x => Url.Action( ViewContext.RouteData.Values["action"].ToString(), new { id = ViewContext.RouteData.Values["id"].ToString(), page = x } ) )%>
-            </div><br /><br />--%>
-            
             <div class="pagerlinks">
                 <%= Html.Pager( Model.PagedList.PageSize, Model.PagedList.PageNumber, Model.PagedList.TotalItemCount )%>
-            </div><br /><br />
+            </div>
             
-            <div class="page-sizer">
+            <div class="pagesizer">
                 <a href="<%= Url.RouteUrl( ViewContext.RouteData.Values )%>?pagesize=15" title="show 15 items per page" class="<%= ( Model.PagedList.PageSize == 15 ) ? "bold" : "" %>">15</a>
                 <a href="<%= Url.RouteUrl( ViewContext.RouteData.Values )%>?pagesize=30" title="show 30 items per page" class="<%= ( Model.PagedList.PageSize == 30 ) ? "bold" : "" %>">30</a>                
                 <a href="<%= Url.RouteUrl( ViewContext.RouteData.Values )%>?pagesize=50" title="show 50 items per page" class="<%= ( Model.PagedList.PageSize == 50 ) ? "bold" : "" %>">50</a>
                 per page 
-            </div> <br /><br />
+            </div> 
+            
 		</div>
 		
 		<div id="tabs-2">

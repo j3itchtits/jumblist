@@ -8,10 +8,13 @@ namespace Jumblist.Core.Model
     public class Basket
     {
         private List<Post> items = new List<Post>();
-        public IList<Post> Items { get { return items.AsReadOnly(); } }
 
-        //private BasketUser basketUser = new BasketUser();
-        //public BasketUser BasketUser { get { return basketUser; } }
+        public IList<Post> Items 
+        { 
+            get { return items.AsReadOnly(); } 
+        }
+
+        public string ReturnUrl { get; set; }
 
         public void AddItem( Post post )
         {

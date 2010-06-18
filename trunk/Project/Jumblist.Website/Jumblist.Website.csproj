@@ -31,19 +31,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+    <Reference Include="Castle.Core, Version=1.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ReferenceAssemblies\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.DynamicProxy2, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+    <Reference Include="Castle.DynamicProxy2, Version=2.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ReferenceAssemblies\Castle.DynamicProxy2.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.MicroKernel, Version=2.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+    <Reference Include="Castle.MicroKernel, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ReferenceAssemblies\Castle.MicroKernel.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Windsor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+    <Reference Include="Castle.Windsor, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ReferenceAssemblies\Castle.Windsor.dll</HintPath>
     </Reference>
@@ -255,7 +255,7 @@
     <Content Include="Assets\Stylesheets\jquery.autocomplete.css" />
     <Content Include="Assets\Stylesheets\jquery.colorbox.css" />
     <Content Include="Assets\Stylesheets\ui.tabs.css" />
-    <Content Include="Views\Basket\SummaryControl.ascx" />
+    <Content Include="Views\Basket\BasketItemsControl.ascx" />
     <Content Include="Views\Groups\GroupListControl.ascx" />
     <Content Include="Views\Groups\Index.aspx" />
     <Content Include="Views\Home\AnotherJQueryTest.aspx" />
@@ -273,10 +273,9 @@
     <Content Include="Views\Posts\Problem.aspx" />
     <Content Include="Views\Posts\Index.aspx" />
     <Content Include="Views\Posts\SearchControl.ascx" />
-    <Content Include="Views\Posts\SelectCategoryControl.ascx" />
     <Content Include="Views\Shared\BasketControl.ascx" />
     <Content Include="Views\Shared\LoginAreaControl.ascx" />
-    <Content Include="Views\Shared\Messages.ascx" />
+    <Content Include="Views\Shared\MessageControl.ascx" />
     <Content Include="Views\Shared\NotAuthorised.aspx" />
     <Content Include="Views\Tags\Index.aspx" />
     <Content Include="Views\Tags\TagListControl.ascx" />
@@ -287,7 +286,11 @@
     <Content Include="Views\Users\Profile.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Templates\RegistrationVerification.vm" />
+    <None Include="Templates\BasketEmail.vm" />
+    <None Include="Templates\PasswordResetEmail.vm" />
+    <None Include="Templates\ForgottenPasswordEmail.vm" />
+    <None Include="Templates\PostEmail.vm" />
+    <None Include="Templates\RegistrationVerificationEmail.vm" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Assets\Images\" />

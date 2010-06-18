@@ -13,12 +13,14 @@ using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Extension;
 using Jumblist.Website.ViewModel;
 using StuartClode.Mvc.Service.Map;
+using System.Configuration;
 
 namespace Jumblist.Website.Areas.Admin.Controllers
 {
     [CustomAuthorization( RoleLevelMinimum = RoleLevel.Editor )]
     public class PostsController : ViewModelController<Post>
     {
+        private readonly int defaultPageSize = int.Parse( ConfigurationManager.AppSettings["DefaultPageSize"] );
         private IPostService postService;
         private IDataService<PostCategory> postCategoryService;
         private IDataService<Feed> feedService;
@@ -59,11 +61,14 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult List()
+        public ViewResult List( int? page )
         {
-            var list = postService.SelectRecordList().OrderByDescending(t => t.PublishDateTime);
+            var postList = postService.SelectRecordList().OrderByDescending( t => t.PublishDateTime );
 
-            var model = BuildDefaultViewModel().With( list );
+            int currentPage = page.HasValue ? page.Value - 1 : 0;
+            var pagedPostList = postList.ToPagedList( currentPage, defaultPageSize );
+
+            var model = BuildDefaultViewModel().With( pagedPostList );
             model.PageTitle = "All Posts";
 
             return View( model );

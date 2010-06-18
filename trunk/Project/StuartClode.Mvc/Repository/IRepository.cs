@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Data.Linq;
 using System.Linq.Expressions;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace StuartClode.Mvc.Repository
 {
@@ -14,7 +16,9 @@ namespace StuartClode.Mvc.Repository
         T SelectRecord( Expression<Func<T, bool>> whereCondition );
         //T Select( string name );
         void InsertOnSubmit( T entity );
+        void InsertAllOnSubmit( IEnumerable<T> entities );
         void DeleteOnSubmit( T entity );
+        void DeleteAllOnSubmit( IEnumerable<T> entities );
         //void Save( T entity );
         void Attach( T entity );
         void SubmitChanges();
@@ -27,7 +31,9 @@ namespace StuartClode.Mvc.Repository
         object SelectRecord( int id );
         //object Select( string name );
         void InsertOnSubmit( object entity );
+        void InsertAllOnSubmit( IEnumerable entities );
         void DeleteOnSubmit( object entity );
+        void DeleteAllOnSubmit( IEnumerable entities );
         //void Save( object entity );
         void SubmitChanges();
     }

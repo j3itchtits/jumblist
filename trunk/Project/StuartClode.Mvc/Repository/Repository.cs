@@ -4,6 +4,8 @@ using System.Linq.Expressions;
 using System.Data.Linq;
 using System.Runtime.Serialization;
 using StuartClode.Mvc.Extension;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace StuartClode.Mvc.Repository
 {
@@ -58,6 +60,38 @@ namespace StuartClode.Mvc.Repository
             return dataContext.GetTable<T>().SingleOrDefault( whereCondition );
         }
 
+        public void InsertOnSubmit( T entity )
+        {
+            table.InsertOnSubmit( entity );
+        }
+
+        public void InsertAllOnSubmit( IEnumerable<T> entities )
+        {
+            table.InsertAllOnSubmit( entities );
+        }
+
+        public void DeleteOnSubmit( T entity )
+        {
+            table.DeleteOnSubmit( entity );
+        }
+
+        public void DeleteAllOnSubmit( IEnumerable<T> entities )
+        {
+            table.DeleteAllOnSubmit( entities );
+        }
+
+        public void Attach( T entity )
+        {
+            table.Attach( entity );
+            table.Context.Refresh( RefreshMode.KeepCurrentValues, entity );
+        }
+
+        public void SubmitChanges()
+        {
+            table.Context.SubmitChanges();
+        }
+
+
         //public virtual T Select( string name )
         //{
         //    var entityParameter = Expression.Parameter( typeof( T ), "entity" );
@@ -80,32 +114,12 @@ namespace StuartClode.Mvc.Repository
         //    return item;
         //}
 
-        public void InsertOnSubmit( T entity )
-        {
-            table.InsertOnSubmit( entity );
-        }
-
-        public void DeleteOnSubmit( T entity )
-        {
-            table.DeleteOnSubmit( entity );
-        }
-
         //public void Save( T entity )
         //{
         //    table.Attach( entity, true );
         //    table.Context.Refresh( RefreshMode.KeepCurrentValues, entity );
         //}
 
-        public void Attach( T entity )
-        {
-            table.Attach( entity );
-            table.Context.Refresh( RefreshMode.KeepCurrentValues, entity );
-        }
-
-        public void SubmitChanges()
-        {
-            table.Context.SubmitChanges();
-        }
 
         #endregion
 
@@ -131,9 +145,19 @@ namespace StuartClode.Mvc.Repository
             InsertOnSubmit( (T)entity );
         }
 
+        public void InsertAllOnSubmit( IEnumerable entities )
+        {
+            InsertAllOnSubmit( (IEnumerable<T>)entities );
+        }
+
         public void DeleteOnSubmit( object entity )
         {
             DeleteOnSubmit( (T)entity );
+        }
+
+        public void DeleteAllOnSubmit( IEnumerable entities )
+        {
+            DeleteAllOnSubmit( (IEnumerable<T>)entities );
         }
 
         //public void Save( object entity )

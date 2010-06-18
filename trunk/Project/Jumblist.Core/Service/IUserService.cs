@@ -28,8 +28,5 @@ namespace Jumblist.Core.Service
         bool Authenticate( string name, string password );
         void SaveSession( UserSession userSession );
         bool VerifyRegistration( int id, string email );
-        void SendRegistrationVerificationEmail( User item );
-        void SendForgottenPasswordEmail( User item );
-        void SendPasswordResetEmail( User user, string password );
     }
 }

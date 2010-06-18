@@ -41,8 +41,9 @@ namespace Jumblist.Website.Controllers
         private readonly IDataService<PostCategory> postCategoryService;
         private readonly ISearchService searchService;
         private readonly IUserService userService;
+        private readonly IMailService mailService;
 
-        public PostsController( IPostService postService, ILocationService locationService, ITagService tagService, IDataService<Feed> feedService, IDataService<PostCategory> postCategoryService, ISearchService searchService, IUserService userService )
+        public PostsController( IPostService postService, ILocationService locationService, ITagService tagService, IDataService<Feed> feedService, IDataService<PostCategory> postCategoryService, ISearchService searchService, IUserService userService, IMailService mailService )
         {
             this.postService = postService;
             this.locationService = locationService;
@@ -51,6 +52,7 @@ namespace Jumblist.Website.Controllers
             this.postCategoryService = postCategoryService;
             this.searchService = searchService;
             this.userService = userService;
+            this.mailService = mailService;
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -63,6 +65,7 @@ namespace Jumblist.Website.Controllers
 
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
                 int currentPageSize = CalculatePageSize( pageSize, user.Session );
+
                 string pageTitle = "All Posts";
                 if (!string.IsNullOrEmpty(q)) pageTitle += " - with search term " + q;
 
@@ -175,7 +178,7 @@ namespace Jumblist.Website.Controllers
                 if ( model.ListCount == 0 )
                     model.Message = new Message { Text = "No posts from this group - " + id + " with search term " + q, StyleClass = "message" };
 
-                return View("index", model);
+                return View( "index", model );
             }
             catch ( Exception ex )
             {
@@ -324,19 +327,25 @@ namespace Jumblist.Website.Controllers
 
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Email( int id, string returnUrl, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        public ActionResult Email( int id, [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
-            if ( user.IsAuthenticated )
-            {
-                postService.Email( id, user );
-                Message model = new Message { Text = "Please check your inbox for a mails", StyleClass = "message" };
-                return PartialView( "Messages", model );
-            }
-            else
-            {
-                return RedirectToAction( "Login", "Users", new { returnUrl = returnUrl } );
-                //return Redirect( "users/login?returnurl=" + returnUrl );
-            }
+            Post post = postService.SelectRecord( id );
+            mailService.SendPostEmail( post, user );
+
+            //postService.SendPostEmail( id, user );
+            Message model = new Message { Text = "Please check your inbox for a mails", StyleClass = "message" };
+            return PartialView( "MessageControl", model );
+
+            //if ( user.IsAuthenticated )
+            //{
+            //    postService.Email( id, user );
+            //    Message model = new Message { Text = "Please check your inbox for a mails", StyleClass = "message" };
+            //    return PartialView( "Messages", model );
+            //}
+            //else
+            //{
+            //    return RedirectToAction( "Login", "Users", new { returnUrl = returnUrl } );
+            //}
         }
 
 
@@ -353,6 +362,57 @@ namespace Jumblist.Website.Controllers
             }
         }
 
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ActionResult Add( [ModelBinder( typeof( UserModelBinder ) )] User user )
+        {
+            if ( !user.IsAuthenticated )
+            {
+                return RedirectToAction( "login", "users", new { returnUrl = Url.Action( "add", "posts" ) } );
+            }
+
+            var model = BuildPostViewModel();
+
+            model.Item = new Post();
+            //model.PostCategoryList = BuildSelectList( new[] { "Offered", "Wanted" } );
+            model.PostCategoryList = BuildPostCategoryAddPostList();
+            model.PageTitle = "Create a new post";
+            model.Message = new Message { Text = "You are about to create a post", StyleClass = "message" };
+
+            return View( model );
+        }
+
+        [AcceptVerbs( HttpVerbs.Post )]
+        [ValidateAntiForgeryToken]
+        public ActionResult Add( Post item, string returnUrl, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        {
+            item.PublishDateTime = DateTime.Now;
+            item.LastUpdatedDateTime = DateTime.Now;
+            item.Display = true;
+            item.Latitude = user.Latitude;
+            item.Longitude = user.Longitude;
+            item.UserId = user.UserId;
+            
+            string tags = Request.Form["Item.Tags"];
+            if ( string.IsNullOrEmpty( tags ) ) tags = item.Title + ' ' + item.Body; 
+
+            try
+            {
+                postService.Save( item, true );
+                postService.SavePostTags( item, tags );
+
+                Message = new Message { Text = item.Title + " has been saved.", StyleClass = "message" };
+                return Redirect( returnUrl ?? "/" );
+            }
+            catch ( RulesException ex )
+            {
+                ex.AddModelStateErrors( ModelState, "Item" );
+            }
+
+            var model = BuildDefaultViewModel().With( item );
+            model.PageTitle = string.Format( "Edit - {0}", item.Title );
+            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            return View( model );
+        }
 
         [AcceptVerbs( HttpVerbs.Get )]
         public RssResult Rss( string rssActionName, string rssActionId, string rssActionCategory, string q, [ModelBinder( typeof( UserModelBinder ) )] User user )
@@ -392,22 +452,6 @@ namespace Jumblist.Website.Controllers
             return Rss( feed );
         }
 
-        public ActionResult SelectCategory( RouteValueDictionary routeValueDic, string highlightedCategory )
-        {
-            var postCategoryList = postCategoryService.SelectRecordList(PostCategory.WhereIsNavigationEquals(true));
-
-            List<Link> model = new List<Link>();
-
-            model.Add(new CategoryLink(null, routeValueDic) { IsSelected = (string.IsNullOrEmpty(highlightedCategory)) });
-
-            foreach (var category in postCategoryList)
-            {
-                model.Add(new CategoryLink(category.Name, routeValueDic) { IsSelected = (highlightedCategory.Equals(category.Name, StringComparison.OrdinalIgnoreCase)) });
-            }
-
-            return PartialView("SelectCategoryControl",model);
-        }
-
         [AcceptVerbs(HttpVerbs.Get)]
         public ViewResult Problem()
         {
@@ -438,56 +482,6 @@ namespace Jumblist.Website.Controllers
         public ViewResult TabTest()
         {
             return View();
-        }
-
-        [AcceptVerbs( HttpVerbs.Get )]
-        public ActionResult Add( [ModelBinder( typeof( UserModelBinder ) )] User user )
-        {
-            if ( !user.IsAuthenticated )
-            {
-                return RedirectToAction( "login", "users", new { returnUrl = Url.Action( "add", "posts" ) } );
-            }
-
-            var model = BuildPostViewModel();
-
-            model.Item = new Post();
-            //model.PostCategoryList = BuildSelectList( new[] { "Offered", "Wanted" } );
-            model.PostCategoryList = BuildPostCategoryAddPostList();
-            model.PageTitle = "Create a new post";
-            model.Message = new Message { Text = "You are about to create a post", StyleClass = "message" };
-
-            return View( model );
-        }
-
-        [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Add( Post item, string returnUrl, [ModelBinder( typeof( UserModelBinder ) )] User user )
-        {
-            try
-            {
-                item.PublishDateTime = DateTime.Now;
-                item.LastUpdatedDateTime = DateTime.Now;
-                item.Display = true;
-                item.Latitude = user.Latitude;
-                item.Longitude = user.Longitude;
-                item.UserId = user.UserId;
-
-                postService.Save( item, true );
-
-                string tags = string.IsNullOrEmpty( Request.Form["Item.Tags"] ) ? item.Title + ' ' + item.Body : Request.Form["Item.Tags"];
-                postService.SavePostTags( item, tags );
-
-                Message = new Message { Text = item.Title + " has been saved.", StyleClass = "message" };
-                return Redirect( returnUrl ?? "/" );
-            }
-            catch ( RulesException ex )
-            {
-                ex.AddModelStateErrors( ModelState, "Item" );
-            }
-
-            var model = BuildDefaultViewModel().With( item );
-            model.PageTitle = string.Format( "Edit - {0}", item.Title );
-            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
-            return View( model );
         }
 
         [NonAction]
@@ -685,5 +679,20 @@ namespace Jumblist.Website.Controllers
 
         //}
 
+        //public ActionResult SelectCategory( RouteValueDictionary routeValueDic, string highlightedCategory )
+        //{
+        //    var postCategoryList = postCategoryService.SelectRecordList(PostCategory.WhereIsNavigationEquals(true));
+
+        //    List<Link> model = new List<Link>();
+
+        //    model.Add(new CategoryLink(null, routeValueDic) { IsSelected = (string.IsNullOrEmpty(highlightedCategory)) });
+
+        //    foreach (var category in postCategoryList)
+        //    {
+        //        model.Add(new CategoryLink(category.Name, routeValueDic) { IsSelected = (highlightedCategory.Equals(category.Name, StringComparison.OrdinalIgnoreCase)) });
+        //    }
+
+        //    return PartialView("SelectCategoryControl",model);
+        //}
     }
 }

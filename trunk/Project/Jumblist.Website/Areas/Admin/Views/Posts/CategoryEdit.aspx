@@ -8,7 +8,7 @@
 
     <%= Html.ClientSideValidation<PostCategory>( "Item" )%>
 
-        <% using ( Html.BeginForm( "categorysave", "posts" ) ) { %>
+    <% using ( Html.BeginForm( "categorysave", "posts" ) ) { %>
 
         <%= Html.HiddenFor( m => m.Item.PostCategoryId )%>
         
@@ -19,9 +19,14 @@
             <%= Html.ValidationMessageFor(m => m.Item.Name)%></td>
         </tr>
         <tr>
-            <td><label for="Item.Search">Search:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Search, new { @size = "100" } )%>
-            <%= Html.ValidationMessageFor( m => m.Item.Search )%></td>
+            <td><label for="Item.AlternativeSearchText">Alternative Search Text:</label></td>
+            <td><%= Html.TextBoxFor( m => m.Item.AlternativeSearchText, new { @size = "100" } )%>
+            <%= Html.ValidationMessageFor( m => m.Item.AlternativeSearchText )%></td>
+        </tr>
+        <tr>
+            <td><label for="Item.IsNavigation">Is Navigation ?:</label></td>
+            <td><%= Html.CheckBoxFor( m => m.Item.IsNavigation )%>
+            <%= Html.ValidationMessageFor( m => m.Item.IsNavigation )%></td>
         </tr>
         </table>
                  

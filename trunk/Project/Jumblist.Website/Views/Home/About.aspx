@@ -2,9 +2,11 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
-    <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
+    <h2><%= Html.PageTitle( ViewData.Model )%></h2>
     
-    <%= Html.MessageBox( ViewData.Model ) %>
+    <div id="messages">
+        <%= Html.MessageBox( ViewData.Model ) %>
+    </div>
 
 <%
     DateTime nowTime = DateTime.Now;

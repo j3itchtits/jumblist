@@ -60,7 +60,7 @@ namespace StuartClode.Mvc.Service.Data
             {
                 repository.InsertOnSubmit( entity );
             }
-                //Update
+            //Update
             else
             {
                 if ( isDetachedFromDatabase ) repository.Attach( entity );
@@ -69,9 +69,21 @@ namespace StuartClode.Mvc.Service.Data
             repository.SubmitChanges();
         }
 
+        public virtual void InsertAll( IEnumerable<T> entities )
+        {
+            repository.InsertAllOnSubmit( entities );
+            repository.SubmitChanges();
+        }
+
         public virtual void Delete( T entity )
         {
             repository.DeleteOnSubmit( entity );
+            repository.SubmitChanges();
+        }
+
+        public virtual void DeleteAll( IEnumerable<T> entities )
+        {
+            repository.DeleteAllOnSubmit( entities );
             repository.SubmitChanges();
         }
 
@@ -126,9 +138,19 @@ namespace StuartClode.Mvc.Service.Data
             Save( entity, isDetachedFromDatabase );
         }
 
+        public virtual void InsertAll( IEnumerable entities )
+        {
+            InsertAll( (IEnumerable<T>)entities );
+        }
+
         public void Delete( object entity )
         {
             Delete( entity );
+        }
+
+        public virtual void DeleteAll( IEnumerable entities )
+        {
+            DeleteAll( (IEnumerable<T>)entities );
         }
 
         #endregion

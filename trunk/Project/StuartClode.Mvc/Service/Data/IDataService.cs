@@ -17,7 +17,9 @@ namespace StuartClode.Mvc.Service.Data
         T SelectRecord( Expression<Func<T, bool>> whereCondition );
         void Save( T entity );
         void Save( T entity, bool isDetachedFromDatabase );
+        void InsertAll( IEnumerable<T> entities );
         void Delete( T entity );
+        void DeleteAll( IEnumerable<T> entities );
         bool IsNew( T entity );
         bool IsDuplicate( Expression<Func<T, bool>> whereCondition );
         bool IsDuplicate( IQueryable<T> list, Expression<Func<T, bool>> whereCondition );
@@ -31,6 +33,8 @@ namespace StuartClode.Mvc.Service.Data
         object SelectRecord( int id );
         void Save( object entity );
         void Save( object entity, bool isDetachedFromDatabase );
+        void InsertAll( IEnumerable entities );
         void Delete( object entity );
+        void DeleteAll( IEnumerable entities );
     }
 }

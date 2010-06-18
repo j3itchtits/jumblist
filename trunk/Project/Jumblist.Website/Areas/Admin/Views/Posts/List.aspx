@@ -15,12 +15,22 @@
     </p> 
     
     <div id="itemsList">
-        <% Html.RenderPartial( "PostList", Model.List ); %>
+        <% Html.RenderPartial( "PostList", Model.PagedList ); %>
     </div>
-    
+
     <p>
         <%= Html.ActionLink( "Create", "create" )%>
     </p> 
+    
+    <div class="nextpreviouspagelinks">
+        <%= Html.NextPreviousPageLinks( Model.PagedList.PageNumber, Model.PagedList.HasPreviousPage, Model.PagedList.HasNextPage, x => Url.Action( ViewContext.RouteData.Values["action"].ToString(), new { id = ViewContext.RouteData.Values["id"].ToString(), page = x } ) )%>
+    </div>
+
+    <div class="paginglinks">
+        <%= Html.PagingLinks( Model.PagedList.PageNumber, Model.PagedList.PageCount, x => Url.Action( ViewContext.RouteData.Values["action"].ToString(), new { id = ViewContext.RouteData.Values["id"].ToString(), page = x } ) )%>
+    </div>
+                 
+
 
 </asp:Content>
 

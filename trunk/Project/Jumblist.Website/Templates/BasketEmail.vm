@@ -1,0 +1,12 @@
+﻿Here is the contents of your basket
+---
+Items:
+#foreach($item in $user.Session.Basket.Items)
+    $item.Title
+#end
+---
+Ship to:
+$user.Name
+$user.Email
+$user.Postcode
+---
