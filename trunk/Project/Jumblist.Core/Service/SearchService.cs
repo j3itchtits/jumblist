@@ -11,11 +11,14 @@ using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Model;
 using StuartClode.Mvc.Service.Map;
 using System.Web;
+using System.Web.Routing;
+using System.Configuration;
 
 namespace Jumblist.Core.Service
 {
     public class SearchService : ISearchService
     {
+        private readonly string searchResultKey = ConfigurationManager.AppSettings["SearchResultModelBinderKey"];
         //private string[] tags;
         //private string[] locations;
         public ITagService tagService;
@@ -44,7 +47,7 @@ namespace Jumblist.Core.Service
         //    set { locations = value; }
         //}
 
-        public SearchResult ProcessSearch()
+        public PostListRouteValues ExecuteSearch()
         {
             string q = string.Empty;
             string tagRegex = TagSearch.ToSearchRegexPattern();
@@ -53,23 +56,25 @@ namespace Jumblist.Core.Service
             bool isCompleteSearchMatch = IsSearchCompleteMatch( tagMatches, out q );
             string tagPath = ((IEnumerable)tagMatches).ToFriendlyUrlEncode();
 
+            PostListRouteValues postListRouteValues;
+
             if ( tagPath.Length == 0 )
             {
                 if ( GroupHidden.Length > 0 )
                 {
-                    return new SearchResult { ActionName = "group", RouteValues = new { id = GroupHidden, category = PostCategorySelection, q = q } };
+                    postListRouteValues = new PostListRouteValues { Action = "group", Id = GroupHidden, Category = PostCategorySelection, Q = q };
                 }
                 else if ( LocationHidden.Length > 0 )
                 {
-                    return new SearchResult { ActionName = "located", RouteValues = new { id = LocationHidden, category = PostCategorySelection, q = q } };
+                    postListRouteValues = new PostListRouteValues { Action = "located", Id = LocationHidden, Category = PostCategorySelection, Q = q };
                 }
                 else if ( PostCategorySelection.Length > 0 )
                 {
-                    return new SearchResult { ActionName = "category", RouteValues = new { id = PostCategorySelection, q = q } };
+                    postListRouteValues = new PostListRouteValues { Action = "category", Id = PostCategorySelection, Q = q };
                 }
                 else
                 {
-                    return new SearchResult { ActionName = "index", RouteValues = new { q = q } };
+                    postListRouteValues = new PostListRouteValues { Action = "index", Q = q };
                 }
             }
             else
@@ -77,18 +82,20 @@ namespace Jumblist.Core.Service
                 if ( GroupHidden.Length > 0 )
                 {
                     q = (((IEnumerable)tagMatches).ToFriendlyQueryStringEncode() + ' ' + q).Trim();
-                    return new SearchResult { ActionName = "group", RouteValues = new { id = GroupHidden, category = PostCategorySelection, q = q } };
+                    postListRouteValues = new PostListRouteValues { Action = "group", Id = GroupHidden, Category = PostCategorySelection, Q = q };
                 }
                 else if ( LocationHidden.Length > 0 )
                 {
                     q = (((IEnumerable)tagMatches).ToFriendlyQueryStringEncode() + ' ' + q).Trim();
-                    return new SearchResult { ActionName = "located", RouteValues = new { id = LocationHidden, category = PostCategorySelection, q = q } };
+                    postListRouteValues = new PostListRouteValues { Action = "located", Id = LocationHidden, Category = PostCategorySelection, Q = q };
                 }
                 else
                 {
-                    return new SearchResult { ActionName = "tagged", RouteValues = new { id = tagPath, category = PostCategorySelection, q = q } };
+                    postListRouteValues = new PostListRouteValues { Action = "tagged", Id = tagPath, Category = PostCategorySelection, Q = q };
                 }
             }
+
+            return postListRouteValues;
         }
 
 

@@ -23,51 +23,51 @@ namespace Jumblist.Website.Controllers
             this.mailService = mailService;
         }
 
-        public ViewResult Index( [ModelBinder( typeof( UserModelBinder ) )] User user, string returnUrl )
+        public ViewResult Index( JumblistSession jumblistSession, string returnUrl )
         {
             var model = DefaultView.CreateModel();
             model.PageTitle = "Basket";
-            model.Basket = user.Session.Basket;
+            model.Basket = jumblistSession.Basket;
             model.ReturnUrl = returnUrl;
 
             return View( model );
         }
 
-        public ActionResult Summary( [ModelBinder( typeof( UserModelBinder ) )] User user )
+        public ActionResult Summary( JumblistSession jumblistSession )
         {
-            return PartialView( "BasketItemsControl", user.Session.Basket );
+            return PartialView( "BasketItemsControl", jumblistSession.Basket );
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult AddItem( [ModelBinder( typeof( UserModelBinder ) )] User user, int id )
+        public ActionResult AddItem( JumblistSession jumblistSession, int id )
         {
             Post post = postService.SelectRecord( id );
             string returnUrl = (Request.IsAjaxRequest()) ? Request.UrlReferrer.PathAndQuery : Request.Url.PathAndQuery;
 
-            user.Session.Basket.AddItem( post );
-            user.Session.Basket.ReturnUrl = returnUrl;
+            jumblistSession.Basket.AddItem( post );
+            jumblistSession.Basket.ReturnUrl = returnUrl;
 
-            return PartialView( "BasketItemsControl", user.Session.Basket );
+            return PartialView( "BasketItemsControl", jumblistSession.Basket );
         }
 
-        public RedirectToRouteResult ClearItem( [ModelBinder( typeof( UserModelBinder ) )] User user, int postId, string returnUrl )
+        public RedirectToRouteResult ClearItem( JumblistSession jumblistSession, int postId, string returnUrl )
         {
             Post post = postService.SelectRecord( postId );
-            user.Session.Basket.ClearItem( post );
+            jumblistSession.Basket.ClearItem( post );
             return RedirectToAction( "Index", new { returnUrl = returnUrl } );
         }
 
-        public RedirectToRouteResult ClearAll( [ModelBinder( typeof( UserModelBinder ) )] User user, string returnUrl )
+        public RedirectToRouteResult ClearAll( JumblistSession jumblistSession, string returnUrl )
         {
-            user.Session.Basket.ClearAll();
+            jumblistSession.Basket.ClearAll();
             return RedirectToAction( "Index", new { returnUrl = returnUrl } );
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ActionResult Email( [ModelBinder( typeof( UserModelBinder ) )] User user, string returnUrl )
+        public ActionResult Email( [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession, string returnUrl )
         {
             // Empty carts can't be checked out
-            if (user.Session.Basket.Items.Count == 0)
+            if ( jumblistSession.Basket.Items.Count == 0 )
             {
                 //ModelState.AddModelError( "Basket", "Sorry, your basket is empty!" );
                 Message = new Message { Text = "Sorry, your basket is empty!", StyleClass = "message" };
@@ -76,7 +76,7 @@ namespace Jumblist.Website.Controllers
 
             mailService.SendBasketEmail( user );
 
-            user.Session.Basket.ClearAll();
+            jumblistSession.Basket.ClearAll();
             Message = new Message { Text = "Message sent", StyleClass = "message" };
 
             return Redirect( returnUrl ?? "/" );

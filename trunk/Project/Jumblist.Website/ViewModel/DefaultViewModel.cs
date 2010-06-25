@@ -14,7 +14,7 @@ namespace Jumblist.Website.ViewModel
     public class DefaultViewModel<T> : BaseViewModel
     {
         //public IDataServiceResolver DataServiceResolver { get; set; }
-        private readonly Dictionary<Type, object> lookupLists = new Dictionary<Type, object>();
+        private readonly Dictionary<Type, object> selectLists = new Dictionary<Type, object>();
 
         public IEnumerable<T> List { get; set; }
         public T Item { get; set; }
@@ -40,9 +40,9 @@ namespace Jumblist.Website.ViewModel
             return this;
         }
 
-        public DefaultViewModel<T> WithLookupList( Type entityType, object items )
+        public DefaultViewModel<T> WithSelectList( Type entityType, object items )
         {
-            lookupLists.Add( entityType, items );
+            selectLists.Add( entityType, items );
             return this;
         }
 
@@ -52,18 +52,17 @@ namespace Jumblist.Website.ViewModel
             return this;
         }
 
-		public IEnumerable<TLookup> LookupList<TLookup>()
-		{
-            return GetLookupList( typeof( TLookup ) ) as IEnumerable<TLookup>;
-		}
 
-        private IEnumerable GetLookupList( Type lookupType )
-        {
-            if ( !lookupLists.ContainsKey( lookupType ) )
+        //This method is called from a view
+		public IEnumerable<TLookup> SelectList<TLookup>()
+		{
+            Type lookupType = typeof( TLookup );
+
+            if ( !selectLists.ContainsKey( lookupType ) )
                 throw new ApplicationException( string.Format( "List of type {0} does not exist in lookup list", lookupType.Name ) );
 
-            return lookupLists[lookupType] as IEnumerable;
-        }
+            return selectLists[lookupType] as IEnumerable<TLookup>;
+		}
     }
 
 
@@ -84,9 +83,15 @@ namespace Jumblist.Website.ViewModel
             HttpResponse = httpResponse;
             return this;
         }
+
+        public DefaultViewModel With( Basket basket )
+        {
+            Basket = basket;
+            return this;
+        }
     }
 
-    public static class DefaultView
+    public class DefaultView
     {
         public static DefaultViewModel<T> CreateModel<T>()
         {

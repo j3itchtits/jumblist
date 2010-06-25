@@ -3,7 +3,7 @@ using Jumblist.Core.Model;
 using System.Collections.Generic;
 using Jumblist.Website.ViewModel;
 
-namespace Jumblist.Website
+namespace Jumblist.Website.ViewModel
 {
     public interface IBaseViewModel
     {
@@ -13,5 +13,8 @@ namespace Jumblist.Website
         List<Message> MessageList { get; set; }
         User User { get; set; }
         string ReturnUrl { get; set; }
+        PostListRouteValues PostListRouteValues { get; set; }
+        Location UserLocation { get; set; }
+
     }
 }

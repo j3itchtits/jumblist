@@ -51,7 +51,7 @@
         </tr>
         <tr>
             <td><label for="Item.FeedCategoryId">Feed Category:</label></td>
-            <td><%= Html.DropDownListFor( m => m.Item.FeedCategoryId, new SelectList( Model.LookupList<FeedCategory>(), "FeedCategoryId", "Name", Model.Item.FeedCategoryId ), "-- Select --" )%>
+            <td><%= Html.DropDownListFor( m => m.Item.FeedCategoryId, new SelectList( Model.SelectList<FeedCategory>(), "FeedCategoryId", "Name", Model.Item.FeedCategoryId ), "-- Select --" )%>
             <%= Html.ValidationMessageFor( m => m.Item.FeedCategoryId )%></td>
         </tr>   
         <tr>

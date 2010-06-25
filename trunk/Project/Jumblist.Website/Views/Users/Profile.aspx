@@ -28,7 +28,10 @@
         
     <div class="user-alerts">
         <div><b>Your alerts</b><br />
-
+        <% foreach ( var alert in Model.Item.UserAlerts )
+           { %>
+                <%= alert.Name %> <%= Html.ActionLink( "[Edit]", "alert", new { id = alert.UserAlertId } ) %><br /><%
+           } %>
         </div>
     </div>
                 

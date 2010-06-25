@@ -42,7 +42,7 @@
         </tr>
         <tr>
             <td><label for="Item.RoleId">RoleId</label></td>
-            <td><%= Html.DropDownList( "Item.RoleId", new SelectList( Model.LookupList<Role>(), "RoleId", "Name", Model.Item.RoleId ), "-- Select --" )%>
+            <td><%= Html.DropDownList( "Item.RoleId", new SelectList( Model.SelectList<Role>(), "RoleId", "Name", Model.Item.RoleId ), "-- Select --" )%>
             <%= Html.ValidationMessage( "Item.RoleId" )%>  </td>
         </tr>
         </table>

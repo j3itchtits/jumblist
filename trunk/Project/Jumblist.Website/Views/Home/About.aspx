@@ -17,8 +17,13 @@
     int id = 35;
     string encId = "oxFM+PrbBSMOMy+0MsGw4w==";
     string encUrlEncodedId = "oxFM%2bPrbBSMOMy%2b0MsGw4w%3d%3d";
-
+    string serialized = StuartClode.Mvc.Service.Serialization.Serializer.Serialize( 32 );
+    object deSerialized = StuartClode.Mvc.Service.Serialization.Serializer.Deserialize( serialized );
      %>
+     
+     Serialized: <%= serialized %><br />
+     deSerialized: <%= deSerialized.ToString() %><br /><br />
+          
      Alphabetical: <%= alpha.ToAlphabetical() %><br />
      Encrypted: <%= alpha.EncryptString()%><br />
      Decrypted: <%= alpha.EncryptString().DecryptString()%><br /><br />

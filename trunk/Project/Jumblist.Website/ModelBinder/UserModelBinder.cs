@@ -19,17 +19,6 @@ namespace Jumblist.Website.ModelBinder
     {
         private readonly string userKey = ConfigurationManager.AppSettings["UserModelBinderKey"];
 
-        //private readonly IUserService userService;
-
-        //public UserModelBinder()
-        //{
-        //}
-
-        //public UserModelBinder(IUserService userService)
-        //{
-        //    this.userService = userService;
-        //}
-
         #region IModelBinder Members
 
         [ValidateInput( false )]
@@ -68,7 +57,6 @@ namespace Jumblist.Website.ModelBinder
             if (authCookie != null)
             {
                 user = DeserializeAuthenticationCookie( authCookie.Value );
-                user.Session = ( controllerContext.HttpContext.Session[userKey] as User ).Session;
             }
             else
             {

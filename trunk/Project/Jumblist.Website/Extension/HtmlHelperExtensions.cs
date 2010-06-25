@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using Jumblist.Core.Model;
 using System.Linq;
 using StuartClode.Mvc.Extension;
+using Jumblist.Website.ViewModel;
 
 namespace Jumblist.Website.Extension
 {

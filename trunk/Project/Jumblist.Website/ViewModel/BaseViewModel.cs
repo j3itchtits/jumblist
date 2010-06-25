@@ -13,6 +13,8 @@ namespace Jumblist.Website.ViewModel
         public List<Message> MessageList { get; set; }
         public User User { get; set; }
         public string ReturnUrl { get; set; }
+        public PostListRouteValues PostListRouteValues { get; set; }
+        public Location UserLocation { get; set; }
 
         public BaseViewModel WithPageTitle( string pageTitle )
         {
@@ -26,19 +28,19 @@ namespace Jumblist.Website.ViewModel
             return this;
         }
 
-        public BaseViewModel WithMessage( Message message )
+        public BaseViewModel With( Message message )
         {
             this.Message = message;
             return this;
         }
 
-        public BaseViewModel WithMessageList( List<Message> messages )
+        public BaseViewModel With( List<Message> messages )
         {
             this.MessageList = messages;
             return this;
         }
 
-        public BaseViewModel WithUser( User user )
+        public BaseViewModel With( User user )
         {
             this.User = user;
             return this;
@@ -47,6 +49,18 @@ namespace Jumblist.Website.ViewModel
         public BaseViewModel WithReturnUrl( string returnUrl )
         {
             this.ReturnUrl = returnUrl;
+            return this;
+        }
+
+        public BaseViewModel With( PostListRouteValues postListRouteValues )
+        {
+            PostListRouteValues = postListRouteValues;
+            return this;
+        }
+
+        public BaseViewModel With( Location location )
+        {
+            UserLocation = location;
             return this;
         }
     }
