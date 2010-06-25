@@ -265,11 +265,10 @@ namespace Jumblist.Website
         public static void RegisterModelBinders()
         {
             var binders = ModelBinders.Binders;
-
+            
+            binders.Add( typeof( JumblistSession ), new JumblistSessionModelBinder() );
             //binders.DefaultBinder = new SomeCustomDefaultBinder();
 
-            //binders[typeof(Basket)] = new BasketModelBinder();
-            //binders.Add( typeof(User), new UserModelBinder() );
         }
 
         //protected void Application_AuthenticateRequest( object sender, EventArgs e )

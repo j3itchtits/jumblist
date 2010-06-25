@@ -116,14 +116,11 @@ namespace Jumblist.Core.Service
         {
             //Create a cookie to persist the authenticated user across requests
             user.IsAuthenticated = true;
-            user.Session = new UserSession( user.Postcode, user.Radius, user.Latitude, user.Longitude );
 
             //1. using datacontract serialization
             var timeout = (rememberMe) ? DateTime.Now.AddDays(14) : DateTime.Now.AddMinutes(30);
             HttpCookie authenticationCookie = CreateAuthenticationCookie( user, timeout );
             HttpContext.Current.Response.Cookies.Add( authenticationCookie );
-
-            HttpContext.Current.Session[userKey] = user; 
         }
 
         public void RemoveAuthenticationCookie()
@@ -165,7 +162,7 @@ namespace Jumblist.Core.Service
             return target.GeneratePassword( length );
         }
 
-        public bool Authenticate( string name, string password )
+        public User Authenticate( string name, string password )
         {
             User user = SelectRecord( User.WhereNamePasswordEquals( name, HashPassword( password ) ) );
 
@@ -179,7 +176,7 @@ namespace Jumblist.Core.Service
                 SetAuthenticationCookie( user, true );
             }
 
-            return user != null;
+            return user;
         }
 
         public bool VerifyRegistration( int id, string email )
@@ -197,10 +194,6 @@ namespace Jumblist.Core.Service
             return user != null;
         }
 
-        public void SaveSession( UserSession userSession )
-        {
-            (HttpContext.Current.Session[userKey] as User).Session = userSession;
-        }
 
         #endregion
 

@@ -8,6 +8,7 @@ using StuartClode.Mvc.Extension;
 using StuartClode.Mvc.Service.Data;
 using System.Collections.Generic;
 using System.Linq;
+using Jumblist.Core.Model;
 
 namespace Jumblist.Website.Controllers
 {
@@ -25,60 +26,35 @@ namespace Jumblist.Website.Controllers
         public virtual DefaultViewModel<T> BuildDataEditDefaultViewModel()
         {
             var viewModel = DefaultView.CreateModel<T>();
-            AddLookupListsToModel( viewModel );
+            AddSelectListsToModel( viewModel );
             return viewModel;
         }
 
         [NonAction]
-        public virtual PostViewModel<T> BuildPostViewModel()
+        public virtual PostViewModel BuildPostViewModel()
         {
-            return PostView.CreateModel<T>();
-        }
-
-        [NonAction]
-        public IEnumerable<SelectListItem> BuildSelectList( string[] array )
-        {
-            IEnumerable<SelectListItem> items = ( (IEnumerable<string>)array ).Select( x => new SelectListItem() { Text = x, Value = x.ToLower() } );
-            return items;
-
-            //List<SelectListItem> selectList = new List<SelectListItem>();
-
-            //foreach ( var p in array )
-            //{
-            //    selectList.Add( new SelectListItem() { Text = p, Value = p.ToLower() } );
-            //}
-
-            //return selectList;
+            return PostView.CreateModel();
         }
 
         /// <summary>
-        /// Appends any lookup lists T might need for editing
+        /// Add all select lists available to T
         /// </summary>
-        /// <param name="viewData"></param>
+        /// <param name="viewModel"></param>
         [NonAction]
-        public virtual void AddLookupListsToModel( DefaultViewModel<T> viewModel )
+        private void AddSelectListsToModel( DefaultViewModel<T> viewModel )
         {
             // find any properties that are attributed as a linq entity
             foreach ( var property in typeof(T).GetProperties( BindingFlags.Public | BindingFlags.Instance ) )
             {
                 if (property.PropertyType.IsLinqEntity())
                 {
-                    AppendLookupList( viewModel, property );
+                    // get the items
+                    var dataService = DataServiceResolver.GetDataService( property.PropertyType );
+                    var list = dataService.SelectRecordList();
+                    // add the items to the viewData
+                    viewModel.WithSelectList( property.PropertyType, list );
                 }
             }
-        }
-
-
-        //Helper methods
-        private void AppendLookupList( DefaultViewModel<T> viewModel, PropertyInfo property )
-        {
-            var dataService = DataServiceResolver.GetDataService( property.PropertyType );
-
-            // get the items
-            var list = dataService.SelectRecordList();
-
-            // add the items to the viewData
-            viewModel.WithLookupList( property.PropertyType, list );
         }
     }
 

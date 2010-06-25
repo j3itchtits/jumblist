@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<PostViewModel<Post>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<PostViewModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
@@ -13,7 +13,7 @@
         <% using ( Html.BeginForm() ) { %>
 
         <table>
-         <tr>
+        <tr>
             <td><label for="Item.Title">Title:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Title, new { @size = "40" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.Title )%></td>
@@ -25,7 +25,7 @@
         </tr>
         <tr>
             <td><label for="Item.PostCategoryId">Post Category:</label></td>
-            <td><%= Html.DropDownListFor( m => m.Item.PostCategoryId, new SelectList( Model.PostCategoryList, "Value", "Text" ) )%>
+            <td><%= Html.DropDownListFor( m => m.Item.PostCategoryId, new SelectList( Model.PostCategorySelectList, "Value", "Text" ) )%>
             <%= Html.ValidationMessageFor( m => m.Item.PostCategoryId )%></td>
         </tr>   
                 

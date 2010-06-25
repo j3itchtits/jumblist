@@ -1,7 +1,7 @@
 ﻿Here is the contents of your basket
 ---
 Items:
-#foreach($item in $user.Session.Basket.Items)
+#foreach($item in $jumblistSession.Basket.Items)
     $item.Title
 #end
 ---

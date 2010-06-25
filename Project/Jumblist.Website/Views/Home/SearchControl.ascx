@@ -32,13 +32,7 @@
         <input type="radio" name="postCategorySelection" value="offered" /> Offered 
         <input type="radio" name="postCategorySelection" value="wanted" /> Wanted        
                 
-        <br /><br />Testing: <br />
-        PageIsAuth: <%= Page.User.Identity.IsAuthenticated %><br />
-        UserCookieIsAuth: <%= Model.IsAuthenticated %><br />
-        UserCookieName: <%= Model.Name %><br />
-        UserCookieLocation: <%= Model.Postcode %>, <%= Model.Radius %> - <%= Model.Latitude %> | <%= Model.Longitude %><br />
-        UserSessionLocation: <%= Model.Session.LocationName %>, <%= Model.Session.LocationRadius%> - <%= Model.Session.LocationLatitude%> | <%= Model.Session.LocationLongitude%><br />
-        UserSessionPageSize: <%= Model.Session.PageSize%><br />
+
         
         <%
     }

@@ -9,6 +9,6 @@ namespace Jumblist.Core.Service
         string PostCategorySelection { get; set; }
         string LocationHidden { get; set; }
 
-        SearchResult ProcessSearch();
+        PostListRouteValues ExecuteSearch();
     }
 }

@@ -55,17 +55,17 @@
         </tr>
         <tr>
             <td><label for="Item.PostCategoryId">Post Category:</label></td>
-            <td><%= Html.DropDownListFor( m => m.Item.PostCategoryId, new SelectList( Model.LookupList<PostCategory>(), "PostCategoryId", "Name", Model.Item.PostCategoryId ), "-- Select --" )%>
+            <td><%= Html.DropDownListFor( m => m.Item.PostCategoryId, new SelectList( Model.SelectList<PostCategory>(), "PostCategoryId", "Name", Model.Item.PostCategoryId ), "-- Select --" )%>
             <%= Html.ValidationMessageFor( m => m.Item.PostCategoryId )%></td>
         </tr>   
         <tr>
             <td><label for="Item.UserId">User:</label></td>
-            <td><%= Html.DropDownListFor( m => m.Item.UserId, new SelectList( Model.LookupList<User>(), "UserId", "Name", Model.Item.UserId ), "-- Select --" )%>
+            <td><%= Html.DropDownListFor( m => m.Item.UserId, new SelectList( Model.SelectList<User>(), "UserId", "Name", Model.Item.UserId ), "-- Select --" )%>
             <%= Html.ValidationMessageFor( m => m.Item.UserId )%></td>
         </tr> 
         <tr>
             <td><label for="Item.FeedId">Feed:</label></td>
-            <td><%= Html.DropDownListFor( m => m.Item.FeedId, new SelectList( Model.LookupList<Feed>(), "FeedId", "Name", Model.Item.FeedId ), "-- Select --" )%>
+            <td><%= Html.DropDownListFor( m => m.Item.FeedId, new SelectList( Model.SelectList<Feed>(), "FeedId", "Name", Model.Item.FeedId ), "-- Select --" )%>
             <%= Html.ValidationMessageFor( m => m.Item.FeedId )%></td>
         </tr> 
         

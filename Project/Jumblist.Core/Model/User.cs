@@ -11,12 +11,17 @@ namespace Jumblist.Core.Model
         { 
             get 
             { 
-                return new User() { UserId = (int)UserUniqueId.Anonymous, IsAuthenticated = false, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Anonymous, "g" ), Role = Role.AnonymousUser, Session = new UserSession()}; 
+                return new 
+                    User() 
+                    { 
+                        UserId = (int)UserUniqueId.Anonymous, 
+                        IsAuthenticated = false, 
+                        Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Anonymous, "g" ), 
+                        Role = Role.AnonymousUser 
+                    }; 
             } 
         }
         //public static User Administrator { get { return new User() { UserId = (int)UserUniqueId.Administrator, IsAuthenticated = true, Name = Enum.Format( typeof( UserUniqueId ), UserUniqueId.Administrator, "g" ) }; } }
-
-        public UserSession Session { get; set; }
 
         [DataMember]
         public bool IsAuthenticated { get; set; }

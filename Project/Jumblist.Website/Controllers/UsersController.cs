@@ -15,6 +15,7 @@ using StuartClode.Mvc.Extension;
 using System.Text;
 using Jumblist.Website.ModelBinder;
 using System.Configuration;
+using StuartClode.Mvc.Service.Serialization;
 
 namespace Jumblist.Website.Controllers
 {
@@ -24,12 +25,14 @@ namespace Jumblist.Website.Controllers
         private IUserService userService;
         private IPostService postService;
         private IMailService mailService;
+        private IDataService<UserAlert> userAlertService;
 
-        public UsersController( IUserService userService, IPostService postService, IMailService mailService )
+        public UsersController( IUserService userService, IPostService postService, IMailService mailService, IDataService<UserAlert> userAlertService )
         {
             this.userService = userService;
             this.postService = postService;
             this.mailService = mailService;
+            this.userAlertService = userAlertService;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -138,6 +141,20 @@ namespace Jumblist.Website.Controllers
             return View( model );
         }
 
+        [AcceptVerbs( HttpVerbs.Get )]
+        [CustomAuthorization( RoleLevelMinimum = RoleLevel.AnonymousUser )]
+        public ViewResult Alert( int id )
+        {
+            UserAlert userAlert = userAlertService.SelectRecord( id );
+
+            var model = DefaultView.CreateModel<UserAlert>().With( userAlert );
+
+            model.PageTitle = string.Format( "Edit - {0}", userAlert.Name );
+            model.PostListRouteValues = (PostListRouteValues)Serializer.Deserialize( userAlert.PostListRouteValues );
+
+            return View( model );
+        }
+
         public ActionResult LoginLinks( [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             return PartialView( "LoginLinksControl", user );
@@ -167,12 +184,13 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Login( string name, string password, bool rememberMe, string returnUrl )
+        public ActionResult Login( string name, string password, bool rememberMe, string returnUrl, JumblistSession jumblistSession )
         {
-            bool success = userService.Authenticate( name, password );
+            User user = userService.Authenticate( name, password );
 
-            if ( success )
+            if ( user != null )
             {
+                jumblistSession.Location.Update( user.Postcode, user.Radius, user.Latitude, user.Longitude );
                 return Redirect( returnUrl ?? "/" );
             }
             else
@@ -202,16 +220,21 @@ namespace Jumblist.Website.Controllers
 
         [AcceptVerbs( HttpVerbs.Post )]
         [ValidateAntiForgeryToken]
-        public ActionResult Register( User item, string confirmPassword, string returnUrl )
+        public ActionResult Register( User item, string confirmPassword, string returnUrl, JumblistSession jumblistSession )
         {
             try
             {
                 item.RoleId = Role.RegisteredUser.RoleId;
                 User user = userService.Create( item, confirmPassword );
 
-                //userService.SetAuthenticationCookie( item, true );
-                mailService.SendRegistrationVerificationEmail( user );
-                Message = new Message { Text = "Thank you for registering. Please click on the link in the email to complete the process", StyleClass = "message" };
+                if ( user != null )
+                {
+                    jumblistSession.Location.Update( user.Postcode, user.Radius, user.Latitude, user.Longitude );
+                    //userService.SetAuthenticationCookie( item, true );
+                    mailService.SendRegistrationVerificationEmail( user );
+                    Message = new Message { Text = "Thank you for registering. Please click on the link in the email to complete the process", StyleClass = "message" };
+
+                }
 
                 return Redirect( returnUrl ?? "/" );
             }
@@ -308,10 +331,10 @@ namespace Jumblist.Website.Controllers
         {
             //var user = userService.SelectRecord( userId );
 
-            var user = userService.SelectRecord( userId );
-            bool success = userService.Authenticate( user.Name, oldPassword );
+            User user = userService.SelectRecord( userId );
+            user = userService.Authenticate( user.Name, oldPassword );
 
-            if ( success )
+            if ( user != null )
             {
                 try
                 {

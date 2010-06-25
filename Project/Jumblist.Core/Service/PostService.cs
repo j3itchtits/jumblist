@@ -19,28 +19,32 @@ namespace Jumblist.Core.Service
 {
     public class PostService : DataService<Post>, IPostService
     {
-        public IDataService<PostLocation> postLocationDataService;
-        public ILocationService locationDataService;
-        public IDataService<PostTag> postTagDataService;
-        public IDataService<Tag> tagDataService;
-        public IDataService<PostCategory> postCategoryDataService;
         private readonly string defaultEmail = ConfigurationManager.AppSettings["DefaultEmail"];
+
+        private IDataService<PostLocation> postLocationService;
+        private ILocationService locationService;
+        private IDataService<PostTag> postTagService;
+        private IDataService<Tag> tagService;
+        private IDataService<PostCategory> postCategoryService;
+        private IDataService<Feed> feedService;
 
         public PostService(
             IRepository<Post> repository, 
-            IDataService<PostLocation> postLocationDataService,
-            ILocationService locationDataService,
-            IDataService<PostTag> postTagDataService,
-            IDataService<Tag> tagDataService,
-            IDataService<PostCategory> postCategoryDataService
+            IDataService<PostLocation> postLocationService,
+            ILocationService locationService,
+            IDataService<PostTag> postTagService,
+            IDataService<Tag> tagService,
+            IDataService<PostCategory> postCategoryService,
+            IDataService<Feed> feedService
             )
             : base( repository )
         {
-            this.postLocationDataService = postLocationDataService;
-            this.locationDataService = locationDataService;
-            this.postTagDataService = postTagDataService;
-            this.tagDataService = tagDataService;
-            this.postCategoryDataService = postCategoryDataService;
+            this.postLocationService = postLocationService;
+            this.locationService = locationService;
+            this.postTagService = postTagService;
+            this.tagService = tagService;
+            this.postCategoryService = postCategoryService;
+            this.feedService = feedService;
         }
 
         #region IPostService Members
@@ -58,14 +62,14 @@ namespace Jumblist.Core.Service
         public IEnumerable<Post> SelectRecordList( Expression<Func<PostLocation, bool>> wherePostLocationCondition )
         {
             return from p in SelectRecordList().AsEnumerable()
-                   join pl in postLocationDataService.SelectRecordList( wherePostLocationCondition ).AsEnumerable() on p.PostId equals pl.PostId
+                   join pl in postLocationService.SelectRecordList( wherePostLocationCondition ).AsEnumerable() on p.PostId equals pl.PostId
                    select p;
         }
 
         public IEnumerable<Post> SelectRecordList( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostLocation, bool>> wherePostLocationCondition )
         {
             return from p in SelectRecordList( wherePostCondition ).AsEnumerable()
-                   join pl in postLocationDataService.SelectRecordList( wherePostLocationCondition ).AsEnumerable() on p.PostId equals pl.PostId
+                   join pl in postLocationService.SelectRecordList( wherePostLocationCondition ).AsEnumerable() on p.PostId equals pl.PostId
                    select p;
         }
 
@@ -73,7 +77,7 @@ namespace Jumblist.Core.Service
         public IEnumerable<Post> SelectRecordList( Expression<Func<PostTag, bool>> wherePostTagCondition )
         {
             return from p in SelectRecordList().AsEnumerable()
-                   join pt in postTagDataService.SelectRecordList( wherePostTagCondition ).AsEnumerable() on p.PostId equals pt.PostId
+                   join pt in postTagService.SelectRecordList( wherePostTagCondition ).AsEnumerable() on p.PostId equals pt.PostId
                    select p;
         }
 
@@ -81,32 +85,28 @@ namespace Jumblist.Core.Service
         public IEnumerable<Post> SelectRecordList( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition )
         {
             return from p in SelectRecordList( wherePostCondition ).AsEnumerable()
-                   join pt in postTagDataService.SelectRecordList( wherePostTagCondition ).AsEnumerable() on p.PostId equals pt.PostId
+                   join pt in postTagService.SelectRecordList( wherePostTagCondition ).AsEnumerable() on p.PostId equals pt.PostId
                    select p;
         }
 
 
+
         public IEnumerable<Post> SelectRecordList( string[] searchParams )
         {
-            return SelectRecordList( null, searchParams, null ); ;
+            return SelectRecordList( null, searchParams, null );
         }
 
-        public IEnumerable<Post> SelectRecordList( User user )
+        public IEnumerable<Post> SelectRecordList( string[] searchParams, Location location )
         {
-            return SelectRecordList( null, null, user ); ;
-        }
-
-        public IEnumerable<Post> SelectRecordList( string[] searchParams, User user )
-        {
-            return SelectRecordList( null, searchParams, user ); ;
+            return SelectRecordList( null, searchParams, location );
         }
 
         public IEnumerable<Post> SelectRecordList( PostCategory category, string[] searchParams )
         {
-            return SelectRecordList( category, searchParams, null ); ;
+            return SelectRecordList( category, searchParams, null );
         }
 
-        public IEnumerable<Post> SelectRecordList( PostCategory category, string[] searchParams, User user )
+        public IEnumerable<Post> SelectRecordList( PostCategory category, string[] searchParams, Location location )
         {
             IEnumerable<Post> postList;
 
@@ -127,9 +127,9 @@ namespace Jumblist.Core.Service
                 postList = SelectRecordList( Post.WhereDisplayEquals( true ) );
             }
 
-            if ( !string.IsNullOrEmpty( user.Session.LocationName ) )
+            if ( !string.IsNullOrEmpty( location.Name ) )
             {
-                postList = postList.ToFilteredList( Post.WhereLocationEquals( user.Session.LocationLatitude, user.Session.LocationLongitude, user.Session.LocationRadius ) );
+                postList = postList.ToFilteredList( Post.WhereLocationEquals( location.Latitude, location.Longitude, location.Radius ) );
             }
 
             return postList;
@@ -169,7 +169,7 @@ namespace Jumblist.Core.Service
             return SelectRecordList( tagList, category, q, null );
         }
 
-        public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string[] searchParams, User user )
+        public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string[] searchParams, Location location )
         {
             IEnumerable<Post> postList;
 
@@ -190,9 +190,9 @@ namespace Jumblist.Core.Service
                 postList = SelectRecordList( Post.WhereDisplayEquals( true ).And( Post.WhereTagNameListEqualsAnd( tagList ) ) ).OrderByDescending( t => t.PublishDateTime );
             }
 
-            if ( !string.IsNullOrEmpty( user.Session.LocationName ) )
+            if ( !string.IsNullOrEmpty( location.Name ) )
             {
-                postList = postList.ToFilteredList( Post.WhereLocationEquals( user.Session.LocationLatitude, user.Session.LocationLongitude, user.Session.LocationRadius ) );
+                postList = postList.ToFilteredList( Post.WhereLocationEquals( location.Latitude, location.Longitude, location.Radius ) );
             }
 
             return postList;
@@ -226,6 +226,66 @@ namespace Jumblist.Core.Service
 
             return postList;
         }
+
+        public IEnumerable<Post> GetPostList( string action, string id, string category, string q, Location location )
+        {
+            IEnumerable<Post> postList;
+
+            switch ( action )
+            {
+                case "category":
+                    postList = GetPostsByCategory( id, q, location );
+                    break;
+                case "group":
+                    postList = GetPostsByGroup( id, category, q );
+                    break;
+                case "located":
+                    postList = GetPostsByLocation( id, category );
+                    break;
+                case "tagged":
+                    postList = GetPostsByTag( id, category, q, location );
+                    break;
+                default:
+                    postList = GetPosts( q, location );
+                    break;
+            }
+
+            return postList;
+        }
+
+        private IEnumerable<Post> GetPosts( string q, Location location )
+        {
+            return SelectRecordList( q.ToFriendlyQueryStringDecode(), location ).OrderByDescending( t => t.PublishDateTime );
+        }
+
+        private IEnumerable<Post> GetPostsByTag( string tags, string category, string q, Location location )
+        {
+            var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( tags.ToFriendlyUrlDecode() ) );
+            var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
+            return SelectRecordList( tagList, postCategory, q.ToFriendlyQueryStringDecode(), location ).OrderByDescending( t => t.PublishDateTime ); ;
+        }
+
+        private IEnumerable<Post> GetPostsByLocation( string locations, string category )
+        {
+            var locationList = locationService.SelectRecordList( Location.WhereFriendlyUrlListEqualsOr( locations.ToFriendlyUrlDecode() ) );
+            var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
+            return SelectRecordList( locationList, postCategory ).OrderByDescending( t => t.PublishDateTime ); ;
+        }
+
+        private IEnumerable<Post> GetPostsByGroup( string feed, string category, string q )
+        {
+            var group = feedService.SelectRecord( Feed.WhereFriendlyUrlEquals( feed ) );
+            var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
+            return SelectRecordList( group, postCategory, q.ToFriendlyQueryStringDecode() ).OrderByDescending( t => t.PublishDateTime ); ;
+        }
+
+        private IEnumerable<Post> GetPostsByCategory( string category, string q, Location location )
+        {
+            var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
+            return SelectRecordList( postCategory, q.ToFriendlyQueryStringDecode(), location ).OrderByDescending( t => t.PublishDateTime ); ;
+        }
+
+
 
         public override Post SelectRecord( int id )
         {
@@ -286,7 +346,7 @@ namespace Jumblist.Core.Service
         {
             string input = post.Title;
 
-            foreach ( PostCategory c in postCategoryDataService.SelectRecordList() )
+            foreach ( PostCategory c in postCategoryService.SelectRecordList() )
             {
                 string pattern = "(" + c.AlternativeSearchText.Replace( ", ", "|" ) + ")";
                 //string pattern = c.Name;
@@ -295,12 +355,12 @@ namespace Jumblist.Core.Service
                     return c.PostCategoryId;
                 }
             }
-            return postCategoryDataService.SelectRecord( PostCategory.WhereNameEquals( "Unclassified" ) ).PostCategoryId;
+            return postCategoryService.SelectRecord( PostCategory.WhereNameEquals( "Unclassified" ) ).PostCategoryId;
         }
 
         public IList<PostTag> SavePostTags( Post post, string tagSearch )
         {
-            IQueryable<Tag> tagList = tagDataService.SelectRecordList();
+            IQueryable<Tag> tagList = tagService.SelectRecordList();
             IList<PostTag> postTagList = new List<PostTag>();
 
             foreach ( Tag tag in tagList )
@@ -313,7 +373,7 @@ namespace Jumblist.Core.Service
 
             if ( postTagList.Count > 0 )
             {
-                postTagDataService.InsertAll( postTagList );
+                postTagService.InsertAll( postTagList );
             }
 
             return postTagList;
@@ -321,11 +381,11 @@ namespace Jumblist.Core.Service
 
         public void DeletePostTags( Post post )
         {
-            IQueryable<PostTag> postTags = postTagDataService.SelectRecordList( x => x.PostId == post.PostId );
+            IQueryable<PostTag> postTags = postTagService.SelectRecordList( x => x.PostId == post.PostId );
 
             if ( postTags.Count() > 0 )
             {
-                postTagDataService.DeleteAll( postTags );
+                postTagService.DeleteAll( postTags );
             }
         }
 
@@ -347,8 +407,8 @@ namespace Jumblist.Core.Service
             }
 
             //Attempt to match input with locations stored in database
-            var feedLocationList = locationDataService.SelectRecordListByFeed( FeedLocation.WhereFeedIdEquals( post.FeedId ) );
-            var postCodeLocationList = locationDataService.SelectRecordList( Location.WhereLocationAreaIsNull() );
+            var feedLocationList = locationService.SelectRecordListByFeed( FeedLocation.WhereFeedIdEquals( post.FeedId ) );
+            var postCodeLocationList = locationService.SelectRecordList( Location.WhereLocationAreaIsNull() );
 
             foreach ( Location location in (feedLocationList.Concat( postCodeLocationList )) )
             {
@@ -356,17 +416,17 @@ namespace Jumblist.Core.Service
                 if ( input.IsPhraseRegexMatch( pattern, RegexOptions.IgnoreCase ) )
                 {
                     var postLocationItem = new PostLocation { PostId = post.PostId, LocationId = location.LocationId };
-                    postLocationDataService.Save( postLocationItem );
+                    postLocationService.Save( postLocationItem );
                     list.Add( postLocationItem );
                 }
             }
 
             //Last try is to get the Default Location for a feed/group and apply it to the post but only if the item is "offered"
-            if ( list.Count == 0 && post.Category.Name == "Offered" )
+            if ( list.Count == 0 && post.Category.Name == PostCategoryId.Offered.ToString() )
             {
-                var location = locationDataService.SelectRecord( Location.WhereFeedEquals( post.Feed ) );
+                var location = locationService.SelectRecord( Location.WhereFeedEquals( post.Feed ) );
                 var postLocationItem = new PostLocation { PostId = post.PostId, LocationId = location.LocationId };
-                postLocationDataService.Save( postLocationItem );
+                postLocationService.Save( postLocationItem );
                 list.Add( postLocationItem );
             }
 
@@ -436,9 +496,9 @@ namespace Jumblist.Core.Service
         {
             bool updateDisplayToTrue = false;
 
-            if ( post.Category.Name == "Unclassified" ) return updateDisplayToTrue;
+            if ( post.Category.Name == PostCategoryId.Unclassified.ToString() ) return updateDisplayToTrue;
 
-            if ( post.Category.Name == "Offered" )
+            if ( post.Category.Name == PostCategoryId.Offered.ToString() )
             {
                 if (!locationsSaved)
                     locationsSaved = post.HaveLatitudeAndLongitudeValuesBeenPopulated;

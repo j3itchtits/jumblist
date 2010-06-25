@@ -7,83 +7,47 @@ using System.Web.Mvc;
 using Jumblist.Core.Service;
 using MvcMaps;
 using Microsoft.Practices.ServiceLocation;
+using System.Collections;
 
 namespace Jumblist.Website.ViewModel
 {
-    public class PostViewModel<T> : DefaultViewModel<T>
+    public class PostViewModel : DefaultViewModel<Post>
     {
-        public PostViewModel() 
-        {
-            PostCategoryList = BuildPostCategorySelectList();
-        }
-
-        //private PostCategory postCategory;
-        //private IEnumerable<Tag> tags;
-
-        //public PostCategory PostCategory
-        //{
-        //    get { return postCategory; }
-        //    set { postCategory = (value != null) ? value : new PostCategory(); }
-        //}
-
         public PostCategory PostCategory { get; set; }
         public IEnumerable<Tag> Tags { get; set; }
-
-        //public IEnumerable<Tag> Tags 
-        //{
-        //    get { return tags; }
-        //    set { tags = (value != null) ? value : new List<Tag>() as IEnumerable<Tag>; }
-        //}
-
         public Feed Group { get; set; }
         public IEnumerable<Location> Locations { get; set; }
-        //public Pushpin Pushpin { get; set; }
         public IEnumerable<Pushpin> Pushpins { get; set; }
-        public IEnumerable<SelectListItem> PostCategoryList { get; set; }
+        public IEnumerable PostCategorySelectList { get; set; }
         public string Q { get; set; }
 
-        public PostViewModel<T> With( PostCategory postCategory )
+        public PostViewModel With( PostCategory postCategory )
         {
             this.PostCategory = postCategory;
             return this;
         }
 
-        public PostViewModel<T> With( IEnumerable<Tag> tags )
+        public PostViewModel With( IEnumerable<Tag> tags )
         {
             this.Tags = tags;
             return this;
         }
 
-        //public PostViewModel<T> With(Pushpin pushpin)
-        //{
-        //    this.Pushpin = pushpin;
-        //    return this;
-        //}
-
-        public PostViewModel<T> With(IEnumerable<Pushpin> pushpins)
+        public PostViewModel With(IEnumerable<Pushpin> pushpins)
         {
             this.Pushpins = pushpins;
             return this;
         }
-
-        private IEnumerable<SelectListItem> BuildPostCategorySelectList()
-        {
-            SelectListItem all = new SelectListItem() { Text = "All", Value = "" };
-            SelectListItem offered = new SelectListItem() { Text = "Offered", Value = "offered" };
-            SelectListItem wanted = new SelectListItem() { Text = "Wanted", Value = "wanted" };
-            return new[] { all, offered, wanted };
-        }
     }
 
     /// <summary>
-    /// So you can write 
-    /// PostView.CreateModel.WithUser(user);
+    /// 
     /// </summary>
     public class PostView
     {
-        public static PostViewModel<T> CreateModel<T>()
+        public static PostViewModel CreateModel()
         {
-            return new PostViewModel<T>();
+            return new PostViewModel();
         }
     }
 }

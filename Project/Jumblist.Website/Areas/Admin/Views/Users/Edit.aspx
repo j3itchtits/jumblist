@@ -56,7 +56,7 @@
         </tr>
         <tr>
             <td><label for="Item.RoleId">RoleId:</label></td>
-            <td><%= Html.DropDownListFor( m => m.Item.RoleId, new SelectList( Model.LookupList<Role>(), "RoleId", "Name", Model.Item.RoleId ), "-- Select --" )%>
+            <td><%= Html.DropDownListFor( m => m.Item.RoleId, new SelectList( Model.SelectList<Role>(), "RoleId", "Name", Model.Item.RoleId ), "-- Select --" )%>
             <%= Html.ValidationMessageFor( m => m.Item.RoleId )%></td>
         </tr>
         </table>

@@ -25,6 +25,7 @@ using System.ServiceModel.Syndication;
 using Jumblist.Website.Result;
 using Jumblist.Website.ModelBinder;
 using xVal.ServerSide;
+using StuartClode.Mvc.Service.Serialization;
 
 namespace Jumblist.Website.Controllers
 {
@@ -42,8 +43,9 @@ namespace Jumblist.Website.Controllers
         private readonly ISearchService searchService;
         private readonly IUserService userService;
         private readonly IMailService mailService;
+        private readonly IDataService<UserAlert> userAlertService;
 
-        public PostsController( IPostService postService, ILocationService locationService, ITagService tagService, IDataService<Feed> feedService, IDataService<PostCategory> postCategoryService, ISearchService searchService, IUserService userService, IMailService mailService )
+        public PostsController( IPostService postService, ILocationService locationService, ITagService tagService, IDataService<Feed> feedService, IDataService<PostCategory> postCategoryService, ISearchService searchService, IUserService userService, IMailService mailService, IDataService<UserAlert> userAlertService )
         {
             this.postService = postService;
             this.locationService = locationService;
@@ -53,31 +55,32 @@ namespace Jumblist.Website.Controllers
             this.searchService = searchService;
             this.userService = userService;
             this.mailService = mailService;
+            this.userAlertService = userAlertService;
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Index( string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        public ActionResult Index( string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
             try
             {
-                string[] searchQuerystring = q.ToFriendlyQueryStringDecode();
-                var postList = postService.SelectRecordList( searchQuerystring, user ).OrderByDescending( t => t.PublishDateTime );
+                IEnumerable<Post> postList = postService.SelectRecordList( q.ToFriendlyQueryStringDecode(), jumblistSession.Location ).OrderByDescending( t => t.PublishDateTime );
 
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
-                int currentPageSize = CalculatePageSize( pageSize, user.Session );
+                int currentPageSize = CalculatePageSize( pageSize, jumblistSession.PageSize );
 
                 string pageTitle = "All Posts";
-                if (!string.IsNullOrEmpty(q)) pageTitle += " - with search term " + q;
+                if ( !string.IsNullOrEmpty( q ) ) pageTitle += " - with search term " + q;
 
-                var pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExistFunc() ).Take( currentPageSize );
+                IPagedList<Post> pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
+                IEnumerable<Pushpin> pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExistFunc() ).Take( currentPageSize );
 
                 var model = BuildPostViewModel();
 
                 model.Q = q; 
                 model.User = user;
+                model.UserLocation = jumblistSession.Location;
                 model.PostCategory = new PostCategory();
-                model.PostCategoryList = BuildPostCategorySearchList();
+                model.PostCategorySelectList = PostCategorySearchSelectList();
                 model.Tags = new List<Tag>();
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
@@ -85,7 +88,12 @@ namespace Jumblist.Website.Controllers
                 model.ListCount = postList.Count();
 
                 if ( model.ListCount == 0 )
+                {
                     model.Message = new Message { Text = "No posts with this search term - " + q, StyleClass = "message" };
+                }
+
+                jumblistSession.PostListRouteValues.Update( "Index", q );
+                jumblistSession.PageSize = currentPageSize;
 
                 return View( model );
             }
@@ -104,28 +112,29 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Category( string id, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        public ActionResult Category( string id, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
             try
             {
-                string[] searchQuerystring = q.ToFriendlyQueryStringDecode();
-                var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( id ) );
-                var postList = postService.SelectRecordList( postCategory, searchQuerystring, user ).OrderByDescending( t => t.PublishDateTime ); ;
+                PostCategory postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( id ) );
+                IEnumerable<Post> postList = postService.SelectRecordList( postCategory, q.ToFriendlyQueryStringDecode(), jumblistSession.Location ).OrderByDescending( t => t.PublishDateTime );
 
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
-                int currentPageSize = CalculatePageSize( pageSize, user.Session );
+                int currentPageSize = CalculatePageSize( pageSize, jumblistSession.PageSize );
+
                 string pageTitle = postCategory.Name + " Posts";
                 if ( !string.IsNullOrEmpty( q ) ) pageTitle += " - with search term " + q;
 
-                var pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
+                IPagedList<Post> pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
+                IEnumerable<Pushpin> pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
                 var model = BuildPostViewModel();
 
                 model.Q = q;
                 model.User = user;
+                model.UserLocation = jumblistSession.Location;
                 model.PostCategory = postCategory;
-                model.PostCategoryList = BuildPostCategorySearchList();
+                model.PostCategorySelectList = PostCategorySearchSelectList();
                 model.Tags = new List<Tag>();
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
@@ -133,9 +142,14 @@ namespace Jumblist.Website.Controllers
                 model.ListCount = postList.Count();
 
                 if ( model.ListCount == 0 )
+                {
                     model.Message = new Message { Text = "No posts categorised by " + id + " with this search term - " + q, StyleClass = "message" };
+                }
 
-                return View("index", model);
+                jumblistSession.PostListRouteValues.Update( "Category", id, q );
+                jumblistSession.PageSize = currentPageSize;
+
+                return View( "index", model );
             }
             catch ( Exception ex )
             {
@@ -146,29 +160,31 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Group( string id, string category, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        public ActionResult Group( string id, string category, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
             try
             {
-                string[] searchQuerystring = q.ToFriendlyQueryStringDecode();
-                var group = feedService.SelectRecord( Feed.WhereFriendlyUrlEquals( id ) );
-                var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-                var postList = postService.SelectRecordList( group, postCategory, searchQuerystring ).OrderByDescending( t => t.PublishDateTime ); ;
+                Feed feed = feedService.SelectRecord( Feed.WhereFriendlyUrlEquals( id ) );
+                PostCategory postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
+                IEnumerable<Post> postList = postService.SelectRecordList( feed, postCategory, q.ToFriendlyQueryStringDecode() ).OrderByDescending( t => t.PublishDateTime ); ;
 
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
-                int currentPageSize = CalculatePageSize( pageSize, user.Session );
-                string pageTitle = "All " + category + " Posts by Group - " + group.Name;
+                int currentPageSize = CalculatePageSize( pageSize, jumblistSession.PageSize );
+
+                string pageTitle = "All " + category + " Posts by Group - " + feed.Name;
                 if ( !string.IsNullOrEmpty( q ) ) pageTitle += " - with search term " + q;
 
-                var pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
+                IPagedList<Post> pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
+                IEnumerable<Pushpin> pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
                 var model = BuildPostViewModel();
 
-                model.Group = group;
+                model.Group = feed;
                 model.Q = q;
+                model.User = user;
+                model.UserLocation = jumblistSession.Location;
                 model.PostCategory = postCategory ?? new PostCategory();
-                model.PostCategoryList = BuildPostCategorySearchList();
+                model.PostCategorySelectList = PostCategorySearchSelectList();
                 model.Tags = new List<Tag>();
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
@@ -176,7 +192,12 @@ namespace Jumblist.Website.Controllers
                 model.ListCount = postList.Count();
 
                 if ( model.ListCount == 0 )
+                {
                     model.Message = new Message { Text = "No posts from this group - " + id + " with search term " + q, StyleClass = "message" };
+                }
+
+                jumblistSession.PostListRouteValues.Update( "Group", id, category, q );
+                jumblistSession.PageSize = currentPageSize;
 
                 return View( "index", model );
             }
@@ -189,31 +210,29 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Located( string id, string category, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        public ActionResult Located( string id, string category, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
             try
             {
-                string[] searchQuerystring = q.ToFriendlyQueryStringDecode();
-                string[] locationsUrl = id.ToFriendlyUrlDecode();
-
-                var locationList = locationService.SelectRecordList( Location.WhereFriendlyUrlListEqualsOr( locationsUrl ) );
-                var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-
-                var postList = postService.SelectRecordList( locationList, postCategory, searchQuerystring ).OrderByDescending( t => t.PublishDateTime ); ;
+                IEnumerable<Location> locationList = locationService.SelectRecordList( Location.WhereFriendlyUrlListEqualsOr( id.ToFriendlyUrlDecode() ) );
+                PostCategory postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
+                IEnumerable<Post> postList = postService.SelectRecordList( locationList, postCategory, q.ToFriendlyQueryStringDecode() ).OrderByDescending( t => t.PublishDateTime ); ;
 
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
-                int currentPageSize = CalculatePageSize( pageSize, user.Session );
-                var pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
+                int currentPageSize = CalculatePageSize( pageSize, jumblistSession.PageSize );
 
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
+                IPagedList<Post> pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
+
+                IEnumerable<Pushpin> pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
                 var model = BuildPostViewModel();
 
                 model.Locations = locationList;
                 model.Q = q;
                 model.User = user;
+                model.UserLocation = jumblistSession.Location;
                 model.PostCategory = postCategory ?? new PostCategory();
-                model.PostCategoryList = BuildPostCategorySearchList();
+                model.PostCategorySelectList = PostCategorySearchSelectList();
                 model.Tags = new List<Tag>();                
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
@@ -221,9 +240,14 @@ namespace Jumblist.Website.Controllers
                 model.ListCount = postList.Count();
 
                 if ( model.ListCount == 0 )
+                {
                     model.Message = new Message { Text = "No posts from this location - " + id, StyleClass = "message" };
+                }
 
-                return View("index", model);
+                jumblistSession.PostListRouteValues.Update( "Located", id, category, q );
+                jumblistSession.PageSize = currentPageSize;
+
+                return View( "index", model );
             }
             catch (Exception ex)
             {
@@ -234,31 +258,30 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Tagged( string id, string category, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        public ActionResult Tagged( string id, string category, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
             try
             {
-                string[] searchQuerystring = q.ToFriendlyQueryStringDecode();
-                string[] tagsUrl = id.ToFriendlyUrlDecode();
-
-                var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( tagsUrl ) );
-                var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-                var postList = postService.SelectRecordList( tagList, postCategory, searchQuerystring, user ).OrderByDescending( t => t.PublishDateTime ); ;
+                IEnumerable<Tag> tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( id.ToFriendlyUrlDecode() ) );
+                PostCategory postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
+                IEnumerable<Post> postList = postService.SelectRecordList( tagList, postCategory, q.ToFriendlyQueryStringDecode(), jumblistSession.Location ).OrderByDescending( t => t.PublishDateTime ); ;
 
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
-                int currentPageSize = CalculatePageSize( pageSize, user.Session );
+                int currentPageSize = CalculatePageSize( pageSize, jumblistSession.PageSize );
+
                 string pageTitle = "All " + category + " Posts by Tag - " + tagList.Select( x => x.Name ).ToFormattedStringList( "{0}, ", 2 );
                 if ( !string.IsNullOrEmpty( q ) ) pageTitle += " - with search term " + q;
 
-                var pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
-                var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
+                IPagedList<Post> pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
+                IEnumerable<Pushpin> pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
                 var model = BuildPostViewModel();
 
                 model.Q = q;
                 model.User = user;
+                model.UserLocation = jumblistSession.Location;
                 model.PostCategory = postCategory ?? new PostCategory();
-                model.PostCategoryList = BuildPostCategorySearchList();
+                model.PostCategorySelectList = PostCategorySearchSelectList();
                 model.Tags = tagList; 
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
@@ -271,6 +294,9 @@ namespace Jumblist.Website.Controllers
                     if (!string.IsNullOrEmpty(q)) contains = " containing the search terms " + q;
                     model.Message = new Message { Text = "No posts tagged with " + tagList.Select( x => x.Name ).ToFormattedStringList("{0}, ", 2) + contains, StyleClass = "message" };
                 }
+
+                jumblistSession.PostListRouteValues.Update( "Tagged", id, category, q );
+                jumblistSession.PageSize = currentPageSize;
 
                 return View( "index", model );
             }
@@ -295,34 +321,28 @@ namespace Jumblist.Website.Controllers
 
         [AcceptVerbs( HttpVerbs.Post )]
         [ValidateInput( true )]
-        public RedirectToRouteResult Search( string postCategorySelection, string tagSearch, string locationSearch, int? locationRadius, string groupHidden, string locationHidden, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        public RedirectToRouteResult Search( string postCategorySelection, string tagSearch, string locationSearch, int? locationRadius, string groupHidden, string locationHidden, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
             if ( !string.IsNullOrEmpty( locationSearch ) )
             {
                 locationSearch = locationSearch.ToCleanSearchString() + ", UK";
                 int radius = (locationRadius.HasValue) ? (int)locationRadius : defaultLocationRadius;
                 BingLocationService locationSearchCoordinates = new BingLocationService( locationSearch );
-
-                user.Session.LocationName = locationSearch;
-                user.Session.LocationRadius = radius;
-                user.Session.LocationLatitude = locationSearchCoordinates.Latitude;
-                user.Session.LocationLongitude = locationSearchCoordinates.Longitude;
+                jumblistSession.Location.Update( locationSearch, radius, locationSearchCoordinates.Latitude, locationSearchCoordinates.Longitude );
             }
             else
             {
-                user.Session = new UserSession( user.Session.PageSize );
+                jumblistSession.Location.Reset();
             }
-
-            userService.SaveSession( user.Session );
-
+ 
             searchService.TagSearch = tagSearch.ToCleanSearchString();
             searchService.PostCategorySelection = postCategorySelection ?? string.Empty;
             searchService.GroupHidden = groupHidden ?? string.Empty;
             searchService.LocationHidden = locationHidden ?? string.Empty;
 
-            var searchResult = searchService.ProcessSearch();
+            PostListRouteValues postListRouteValues = searchService.ExecuteSearch();
 
-            return RedirectToAction( searchResult.ActionName, searchResult.RouteValues );
+            return RedirectToAction( postListRouteValues.Action, new RouteValueDictionary( new { id = postListRouteValues.Id, category = postListRouteValues.Category, q = postListRouteValues.Q } ) );
         }
 
 
@@ -350,16 +370,48 @@ namespace Jumblist.Website.Controllers
 
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public RedirectToRouteResult EmailAlert( string postcategory, string tags, string locations, string group, string q, string returnUrl, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        public ActionResult EmailAlert( string returnUrl, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
             if ( user.IsAuthenticated )
             {
-                return RedirectToAction( "EditEmailAlert", "Users", new { postcategory = postcategory, tags = tags, locations = locations, group = group, q = q, returnUrl = returnUrl } );
+                var model = DefaultView.CreateModel<UserAlert>();
+                model.PageTitle = "Edit Alert";
+                model.PostListRouteValues = jumblistSession.PostListRouteValues;
+
+                return View( model );
             }
             else
             {
                 return RedirectToAction( "Login", "Users", new { returnUrl = returnUrl } );
             }
+        }
+
+        [AcceptVerbs( HttpVerbs.Post )]
+        [ValidateAntiForgeryToken]
+        public ActionResult EmailAlert( UserAlert item, string returnUrl, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
+        {
+            item.PostListRouteValues = Serializer.Serialize( jumblistSession.PostListRouteValues );
+            item.DateTimeCreated = DateTime.Now;
+            item.DateTimeLastSent = DateTime.Now;
+            item.IsActive = true;
+            item.UserId = user.UserId;
+
+            try
+            {
+                userAlertService.Save( item, true );
+
+                Message = new Message { Text = "Your alert has been saved.", StyleClass = "message" };
+                return Redirect( returnUrl ?? "/" );
+            }
+            catch ( RulesException ex )
+            {
+                ex.AddModelStateErrors( ModelState, "Item" );
+            }
+
+            var model = DefaultView.CreateModel<UserAlert>().With( item );
+            model.PageTitle = "Edit alert";
+            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            return View( model );
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -374,7 +426,7 @@ namespace Jumblist.Website.Controllers
 
             model.Item = new Post();
             //model.PostCategoryList = BuildSelectList( new[] { "Offered", "Wanted" } );
-            model.PostCategoryList = BuildPostCategoryAddPostList();
+            model.PostCategorySelectList = PostCategoryAddPostSelectList();
             model.PageTitle = "Create a new post";
             model.Message = new Message { Text = "You are about to create a post", StyleClass = "message" };
 
@@ -415,7 +467,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public RssResult Rss( string rssActionName, string rssActionId, string rssActionCategory, string q, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        public RssResult Rss( string rssActionName, string rssActionId, string rssActionCategory, string q, JumblistSession jumblistSession )
         {
             SyndicationFeed feed =
                 new SyndicationFeed( "Jumblist Feed",
@@ -424,26 +476,8 @@ namespace Jumblist.Website.Controllers
                                     "TestFeedID",
                                     DateTime.Now );
 
-            IEnumerable<Post> postList;
-
-            switch ( rssActionName )
-            {
-                case "category":
-                    postList = GetPostsByCategory( rssActionId, q, user );
-                    break;
-                case "group":
-                    postList = GetPostsByGroup( rssActionId, rssActionCategory, q );
-                    break;
-                case "located":
-                    postList = GetPostsByLocation( rssActionId, rssActionCategory );
-                    break;
-                case "tagged":
-                    postList = GetPostsByTag( rssActionId, rssActionCategory, q, user );
-                    break;
-                default:
-                    postList = GetPosts( q, user );
-                    break;
-            } 
+            IEnumerable<Post> postList = postService.GetPostList( rssActionName, rssActionId, rssActionCategory, q, jumblistSession.Location );
+            //postList = postList.Where( x => x.LastUpdatedDateTime > DateTime.Now.AddDays( -1 ) );
 
             IEnumerable<SyndicationItem> items = postList.Select( x => (new SyndicationItem( x.Title, x.Body.ToShortDescription(), new Uri( defaultUrl + Url.PostUrl( x.PostId, x.Title ) ), x.PostId.ToString(), x.PublishDateTime )) );
           
@@ -485,77 +519,21 @@ namespace Jumblist.Website.Controllers
         }
 
         [NonAction]
-        private int CalculatePageSize( int? pageSize, UserSession userSession )
+        private int CalculatePageSize( int? QuerystringPageSize, int? SessionPageSize )
         {
-            if ( pageSize.HasValue )
+            if ( QuerystringPageSize.HasValue )
             {
-                userSession.PageSize = pageSize;
-                userService.SaveSession( userSession );
-                return (int)pageSize;
+                return (int)QuerystringPageSize;
             }
             else
             {
-                return userSession.PageSize.HasValue ? userSession.PageSize.Value : defaultPageSize;
+                return SessionPageSize ?? defaultPageSize;
             }
         }
 
-        [NonAction]
-        private IEnumerable<Post> GetPosts( string q, User user )
-        {
-            return postService.SelectRecordList( q.ToFriendlyQueryStringDecode(), user ).OrderByDescending( t => t.PublishDateTime );
-        }
 
-        [NonAction]
-        private IEnumerable<Post> GetPostsByTag( string tags, string category, string q, User user )
-        {
-            var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( tags.ToFriendlyUrlDecode() ) );
-            var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-            return postService.SelectRecordList( tagList, postCategory, q.ToFriendlyQueryStringDecode(), user ).OrderByDescending( t => t.PublishDateTime ); ;
-        }
 
-        [NonAction]
-        private IEnumerable<Post> GetPostsByLocation( string locations, string category )
-        {
-            var locationList = locationService.SelectRecordList( Location.WhereFriendlyUrlListEqualsOr( locations.ToFriendlyUrlDecode() ) );
-            var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-            return postService.SelectRecordList( locationList, postCategory ).OrderByDescending( t => t.PublishDateTime ); ;
-        }
 
-        [NonAction]
-        private IEnumerable<Post> GetPostsByGroup( string feed, string category, string q )
-        {
-            var group = feedService.SelectRecord( Feed.WhereFriendlyUrlEquals( feed ) );
-            var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-            return postService.SelectRecordList( group, postCategory, q.ToFriendlyQueryStringDecode() ).OrderByDescending( t => t.PublishDateTime ); ;
-        }
-
-        [NonAction]
-        private IEnumerable<Post> GetPostsByCategory( string category, string q, User user )
-        {
-            var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-            return postService.SelectRecordList( postCategory, q.ToFriendlyQueryStringDecode(), user ).OrderByDescending( t => t.PublishDateTime ); ;
-        }
-
-        [NonAction]
-        private IEnumerable<SelectListItem> BuildPostCategorySearchList()
-        {
-            return new[] 
-            { 
-                new SelectListItem() { Text = "All", Value = "" }, 
-                new SelectListItem() { Text = "Offered", Value = "offered" }, 
-                new SelectListItem() { Text = "Wanted", Value = "wanted" } 
-            };
-        }
-
-        [NonAction]
-        private IEnumerable<SelectListItem> BuildPostCategoryAddPostList()
-        {
-            return new[] 
-            { 
-                new SelectListItem() { Text = "Offered", Value = ((int)PostCategoryId.Offered).ToString() }, 
-                new SelectListItem() { Text = "Wanted", Value = ((int)PostCategoryId.Wanted).ToString() } 
-            };
-        }
         //[AcceptVerbs( HttpVerbs.Get )]
         //public ActionResult SearchResult( string q, string category, User user, int? page, int? pageSize )
         //{
@@ -566,9 +544,9 @@ namespace Jumblist.Website.Controllers
 
         //        int currentPage = page.HasValue ? page.Value - 1 : 0;
         //        int currentPageSize = CalculatePageSize( pageSize, user.Session );
-        //        var pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
+        //        IPagedList<Post> pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
 
-        //        var pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
+        //        IEnumerable<Pushpin> pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
         //        var model = BuildPostViewModel();
 

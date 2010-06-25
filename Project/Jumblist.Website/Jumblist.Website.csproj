@@ -134,12 +134,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ModelBinder\JumblistSessionModelBinder.cs" />
     <Compile Include="ModelBinder\UserModelBinder.cs" />
     <Compile Include="Module\FeedProcessingHttpModule.cs" />
     <Compile Include="Result\RssResult.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\DefaultViewModel.cs" />
-    <Compile Include="ViewModel\IBaseViewModel.cs" />
+    <Compile Include="ViewModel\IBaseViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ViewModel\PostViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -267,6 +270,7 @@
     <Content Include="Views\Posts\Add.aspx" />
     <Content Include="Views\Posts\BasicListControl.ascx" />
     <Content Include="Views\Posts\BasicMapListControl.ascx" />
+    <Content Include="Views\Posts\EmailAlert.aspx" />
     <Content Include="Views\Posts\GoogleMapControl.ascx" />
     <Content Include="Views\Posts\MapTest.aspx" />
     <Content Include="Views\Posts\PostListControl.ascx" />
@@ -279,6 +283,7 @@
     <Content Include="Views\Shared\NotAuthorised.aspx" />
     <Content Include="Views\Tags\Index.aspx" />
     <Content Include="Views\Tags\TagListControl.ascx" />
+    <Content Include="Views\Users\Alert.aspx" />
     <Content Include="Views\Users\Edit.aspx" />
     <Content Include="Views\Users\ForgottenPassword.aspx" />
     <Content Include="Views\Users\LoginLinksControl.ascx" />

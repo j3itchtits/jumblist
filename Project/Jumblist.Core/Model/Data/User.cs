@@ -16,6 +16,7 @@ namespace Jumblist.Core.Model
     {
         private EntityRef<Role> role;
         private EntitySet<Post> posts = new EntitySet<Post>();
+        private EntitySet<UserAlert> userAlerts = new EntitySet<UserAlert>();
 
         [Column( IsPrimaryKey = true, IsDbGenerated = true, AutoSync = AutoSync.OnInsert )]
         [DataMember]
@@ -93,6 +94,13 @@ namespace Jumblist.Core.Model
         {
             get { return posts; }
             set { posts.Assign( value ); }
+        }
+
+        [Association( Name = "FK_UserAlerts_Users", Storage = "userAlerts", ThisKey = "UserId", OtherKey = "UserId", IsForeignKey = true )]
+        public EntitySet<UserAlert> UserAlerts
+        {
+            get { return userAlerts; }
+            set { userAlerts.Assign( value ); }
         }
     }
 }

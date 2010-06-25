@@ -25,8 +25,7 @@ namespace Jumblist.Core.Service
         void ResetPassword( User entity, string password, string confirmPassword ); 
         string HashPassword( string password );
         string GenerateRandomPassword();
-        bool Authenticate( string name, string password );
-        void SaveSession( UserSession userSession );
+        User Authenticate( string name, string password );
         bool VerifyRegistration( int id, string email );
     }
 }
