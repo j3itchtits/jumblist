@@ -2,6 +2,21 @@ Colour palettes
 
 http://www.colourlovers.com
 
+colors (darkest to lightest)
+300018
+5A3D31
+837B47
+ADB85F
+E5EDB8
+
+
+Layout
+
+Main - 980
+container - 10 + 10 = 20
+Left col - 640 + 20 + 20 = 680
+Right col - 242 + 8 + 8 + 20 + 2 = 280
+
 Design inspiration (collections)
 
 http://spyrestudios.com/light-clean-designs-using-minimalist-color-scheme/
