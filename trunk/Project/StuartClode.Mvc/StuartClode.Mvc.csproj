@@ -33,15 +33,15 @@
   <ItemGroup>
     <Reference Include="Castle.Core, Version=1.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\downloads\Castle-Windsor-2.1.1\Castle-Windsor-2.1.1\bin\net-3.5\Castle.Core.dll</HintPath>
+      <HintPath>..\ReferenceAssemblies\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Castle.MicroKernel, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\downloads\Castle-Windsor-2.1.1\Castle-Windsor-2.1.1\bin\net-3.5\Castle.MicroKernel.dll</HintPath>
+      <HintPath>..\ReferenceAssemblies\Castle.MicroKernel.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Windsor, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\downloads\Castle-Windsor-2.1.1\Castle-Windsor-2.1.1\bin\net-3.5\Castle.Windsor.dll</HintPath>
+      <HintPath>..\ReferenceAssemblies\Castle.Windsor.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

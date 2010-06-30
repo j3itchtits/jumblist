@@ -1,42 +1,41 @@
-﻿/*   
-
-Jumblist styles
-
-*/
-
-/****************************
- **   General
- ****************************/
-
 html
 {
-	height: 101%;
+	height: 100%;
+	margin-bottom:1px;
 }
 
 body 
 {
-	background-color:#fff;
+	margin: 0px auto;
+	padding: 0px;
 	color: #000;	
-	font-family: "Lucida Grande", "Lucida Sans Unicode", sans-serif;
-	font-size: 123.1%;
+	font-family: CantarellRegular, Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 1.15em;
+	width: 980px;
+	background: #F0F0F0 url(/assets/images/background.jpg) repeat-x scroll center top;
 }
 
 a 
 {
 	text-decoration: none;
-	color: #927B51;
+	color: #837B47;
 	display:inline;
 }
 
 a:hover
 {
 	text-decoration: underline;
-	color: #927B51;
+	color: #5A3D31;
 }
 
-img 
+fieldset, img 
 {
-	border: 0px;
+	border-width: 0px;
+}
+
+fieldset *
+{
+	padding: 5px;
 }
 
 td
@@ -45,9 +44,19 @@ td
   padding: 2px;
 }
 
-.bold
+b, strong, .bold
 {
-    font-weight: bold;
+	font-family: CantarellBold;	
+}
+
+i, .italic
+{
+	font-family: CantarellOblique;	
+}
+
+.bolditalic
+{
+	font-family: CantarellBoldOblique
 }
 
 .red, .red a
@@ -60,15 +69,14 @@ div
 	border: 0px solid black;
 }
 
-h2
+h1
 {
-	font-size: 130%;
-	font-weight: bold;
+
 }
 
-fieldset *
+h2
 {
-	padding: 5px;
+
 }
 
 p
@@ -78,7 +86,7 @@ p
 
 .message
 {
-	color: Green;
+	color: green;
 	padding: 10px 0px;
 }
 
@@ -90,44 +98,51 @@ p
 
 .text-upper 
 {
-        text-transform: uppercase;
+	text-transform: uppercase;
 }
 
 .text-lower 
 {
-        text-transform: lowercase;
-}
-
-.field-validation-error
-{
-	color: Red;
-	font-size: 80%;
+	text-transform: lowercase;
 }
 
 .hidden
 {
 	visibility:hidden;
 }
+
+input, textarea
+{
+	-moz-border-radius:5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid #ddd;
+}
+
+input:focus, textarea:focus
+{
+	background-color: #fafafa;
+	border: 1px solid #000;
+}
+
 /****************************
  ** Layout *
  ****************************/
 
 #header
 {
-	/*background: #927B51;*/
-	color: #000;
+	padding: 10px 10px 0px;
+	overflow: hidden;
 }
 
 #header-interior
 {
-	margin: 0px auto;
-	padding: 20px 0px 10px 0px;
-	width: 980px;		
+
+
 }
 
 #logo
 {
-	font-size: 180%;
+
 }
 
 #basket
@@ -137,8 +152,7 @@ p
 
 #menu 
 {
-	border-bottom: 2px solid #373737;
-	height: 50px;
+	margin-top: 10px;
 }
 
 #loginarea
@@ -146,19 +160,22 @@ p
     float: right;
 }
 
+
 #container 
 {
-	margin: 10px auto;
+	margin: 10px 0px;
 	padding: 10px;
-	width: 980px;
 	overflow: hidden;
 }
 
 #container-leftcolumn
 {
-	width: 760px;
+	width: 640px;
 	float: left;
-
+	padding: 20px;
+	background-color: #fff;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
 }
 
 #tabs
@@ -175,119 +192,33 @@ p
 
 #container-rightcolumn
 {
-	width: 200px;
-	float: left;
+	-moz-border-radius:5px;
+	-webkit-border-radius: 5px;
+	-moz-box-shadow: 1px 1px 0px #837B47;
+	-webkit-box-shadow: 1px 1px 0px #837B47;
+	width: 242px;
+  float: left;
+	font-size: 0.9em;
+	background-color: #E5EDB8;
+	border: 1px solid #ADB85F;
+	padding: 8px;
 	margin-left: 20px;
 }
 
 #footer
 {
-	clear: left;
-	/*background: #BCDD5A;*/
+	font-size: 0.75em;
+	clear: both;
 	height: 430px;
+	margin: 10px 0px;
+	padding: 10px;
 }
 
 #footer-interior
 {
-	margin: 0px auto;
-	padding: 20px;
-	width: 980px;
-}
-
-/****************************
- ** Menu *
- ****************************/
-
-#menu ul 
-{
-	margin: auto;
-  margin: 0px;
-	padding: 0px;
-	list-style: none;
-}
-
-#menu li 
-{
-  float: left;
-}
-
-#menu a 
-{
-	display: block;
-  padding-left: 10px;
-	padding-right: 12px;
-	line-height: 2.3em;
-	color: #92AC94;
-	text-decoration: none;
-  font-size: 1.1em;
 
 }
 
-#menu .current_page_item a, 
-#menu a:hover 
-{
-  color: #fff;
-}
-
-#menu li:hover
-{
-  background:#3E6641;
-}
-
-/** First level nav **/
-
-#menu li ul
-{
-  position:absolute;
-  display:none;
-  width: 161px;
-  margin:0;
-  border:0;
-  border-top:1px solid #666;
-  background:#444;
-}
-
-#menu li:hover ul
-{
-  display: block;
-}
-
-#menu li li 
-{
-  width:159px;
-  border-bottom:1px solid #666;
-  border-left:1px solid #666;
-  border-right:1px solid #666;
-}
-
-#menu li li a 
-{
-  font-size: 0.9em;
-  line-height: 2.0em;
-  color: #ddd;
-}
-
-#menu li li:hover 
-{
-  background:#2B533C;
-}
-
-/** Second level nav **/
-
-#menu li ul ul 
-{
-	margin: -1.5em 0 0 157px;
-}
-
-#menu li:hover ul ul 
-{
-  display:none;
-}
-
-#menu li li:hover ul
-{
-  display: block;
-}
 
 
 /****************************
@@ -315,22 +246,31 @@ p
 {
 }
 
-#messages
+
+
+
+/****************************
+ ** Form styles *
+ ****************************/
+
+.input-form td .tos 
 {
-	background-color:Fuchsia;
+	-moz-border-radius:5px;
+	-webkit-border-radius: 5px;
+	border:1px solid #ddd;
+	display:block;
+	height:5em;
+	overflow-x:hidden;
+	overflow-y:auto;
+	padding:8px 0 8px 8px;
 }
 
-#basket
-{
-	background-color:Lime;	
-}
 /****************************
  ** Table styles *
  ****************************/
  
 table.list
 {
-	font-size: 80%;
 	width: 100%;
 }
 
@@ -361,6 +301,7 @@ tr.item a.selected:hover
 	background-color: #666;
 	color: #fff;
 }
+
 
 /****************************
  ** Mapping *
@@ -393,4 +334,98 @@ img.progress
 {
 	vertical-align: middle;
 	padding: 0 10px;
+}
+
+
+
+/****************************
+ ** Menu *
+ ****************************/
+
+#menu ul 
+{
+	margin: auto;
+  margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+
+#menu li 
+{
+  float: left;
+}
+
+#menu a 
+{
+	display: block;
+  padding-left: 10px;
+	padding-right: 12px;
+	line-height: 2em;
+	text-decoration: none;
+	font-size: 1.2em;
+}
+
+#menu .current_page_item a, 
+#menu a:hover 
+{
+
+}
+
+#menu li:hover
+{
+	-moz-border-radius-topleft:5px;
+	-webkit-border-top-left-radius: 5px;
+	-moz-border-radius-topright:5px;
+	-webkit-border-top-right-radius: 5px;
+	background-color: #E5EDB8;
+}
+
+/** First level nav **/
+
+#menu li ul
+{
+  position:absolute;
+  display:none;
+  width: 161px;
+  margin:0;
+	border-right:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+	background-color: #E5EDB8;
+}
+
+#menu li:hover ul
+{
+  display: block;
+}
+
+#menu li li 
+{
+
+}
+
+#menu li li a 
+{
+	font-size: 1em;
+}
+
+#menu li li:hover 
+{
+
+}
+
+/** Second level nav **/
+
+#menu li ul ul 
+{
+	margin: -1.5em 0 0 157px;
+}
+
+#menu li:hover ul ul 
+{
+  display:none;
+}
+
+#menu li li:hover ul
+{
+  display: block;
 }
