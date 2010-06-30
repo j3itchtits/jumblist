@@ -4,7 +4,9 @@ Twitter
 Registration
 ------------
 
-
+stuartclode
+stuartclode@idnet.com
+Edinb8rgh
 
 
 
@@ -28,9 +30,8 @@ Developer
 
 http://dev.twitter.com/
 http://apiwiki.twitter.com/
+http://www.newwebplatform.com/tips-and-tutorials/Twitter
 
-
-I can't decide which satanic card game to play. Oh well - better the devil Uno.
 
 <!-- AddThis Button BEGIN -->
 <div class="addthis_toolbox addthis_default_style">

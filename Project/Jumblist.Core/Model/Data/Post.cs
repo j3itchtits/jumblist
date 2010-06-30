@@ -52,6 +52,9 @@ namespace Jumblist.Core.Model
         [Column( Name = "PostLongitude" )]
         public double Longitude { get; set; }
 
+        [Column( Name = "PostNumberofViews" )]
+        public int NumberofViews { get; set; }
+
         [Column( Name = "PostDisplay" )]
         public bool Display { get; set; }
 

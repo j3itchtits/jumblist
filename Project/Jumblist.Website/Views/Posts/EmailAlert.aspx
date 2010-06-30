@@ -19,6 +19,7 @@
             Id: <%= Model.PostListRouteValues.Id %><br />
             Category: <%= Model.PostListRouteValues.Category %><br />
             Q: <%= Model.PostListRouteValues.Q %><br />
+            Location: Within <%= Model.UserSearchArea.Radius%> miles of <%= Model.UserSearchArea.Name%><br />            
         </p>        
         
         <table>

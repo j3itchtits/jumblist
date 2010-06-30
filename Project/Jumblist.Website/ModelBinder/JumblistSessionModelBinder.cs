@@ -39,7 +39,7 @@ namespace Jumblist.Website.ModelBinder
                     JumblistSession()
                     {
                         Basket = new Basket(),
-                        Location = new Location(),
+                        UserSearchArea = new UserSearchArea(),
                         PageSize = null,
                         PostListRouteValues = new PostListRouteValues()
                     };

@@ -151,6 +151,7 @@ namespace Jumblist.Website.Controllers
 
             model.PageTitle = string.Format( "Edit - {0}", userAlert.Name );
             model.PostListRouteValues = (PostListRouteValues)Serializer.Deserialize( userAlert.PostListRouteValues );
+            model.UserSearchArea = (UserSearchArea)Serializer.Deserialize( userAlert.SearchArea );
 
             return View( model );
         }
@@ -190,7 +191,7 @@ namespace Jumblist.Website.Controllers
 
             if ( user != null )
             {
-                jumblistSession.Location.Update( user.Postcode, user.Radius, user.Latitude, user.Longitude );
+                jumblistSession.UserSearchArea.Update( user.Postcode, user.Radius, user.Latitude, user.Longitude );
                 return Redirect( returnUrl ?? "/" );
             }
             else
@@ -229,7 +230,7 @@ namespace Jumblist.Website.Controllers
 
                 if ( user != null )
                 {
-                    jumblistSession.Location.Update( user.Postcode, user.Radius, user.Latitude, user.Longitude );
+                    jumblistSession.UserSearchArea.Update( user.Postcode, user.Radius, user.Latitude, user.Longitude );
                     //userService.SetAuthenticationCookie( item, true );
                     mailService.SendRegistrationVerificationEmail( user );
                     Message = new Message { Text = "Thank you for registering. Please click on the link in the email to complete the process", StyleClass = "message" };

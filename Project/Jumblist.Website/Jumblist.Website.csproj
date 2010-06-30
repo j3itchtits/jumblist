@@ -136,7 +136,8 @@
     </Compile>
     <Compile Include="ModelBinder\JumblistSessionModelBinder.cs" />
     <Compile Include="ModelBinder\UserModelBinder.cs" />
-    <Compile Include="Module\FeedProcessingHttpModule.cs" />
+    <Compile Include="Module\ImportPostsFromFeedsHttpModule.cs" />
+    <Compile Include="Module\SendEmailAlertsHttpModule.cs" />
     <Compile Include="Result\RssResult.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\DefaultViewModel.cs" />
@@ -258,6 +259,7 @@
     <Content Include="Assets\Stylesheets\jquery.autocomplete.css" />
     <Content Include="Assets\Stylesheets\jquery.colorbox.css" />
     <Content Include="Assets\Stylesheets\ui.tabs.css" />
+    <Content Include="Views\Basket\BasketWidgetControl.ascx" />
     <Content Include="Views\Basket\BasketItemsControl.ascx" />
     <Content Include="Views\Groups\GroupListControl.ascx" />
     <Content Include="Views\Groups\Index.aspx" />
@@ -292,6 +294,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Templates\BasketEmail.vm" />
+    <None Include="Templates\EmailAlert.vm" />
     <None Include="Templates\PasswordResetEmail.vm" />
     <None Include="Templates\ForgottenPasswordEmail.vm" />
     <None Include="Templates\PostEmail.vm" />

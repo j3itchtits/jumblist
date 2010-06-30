@@ -21,6 +21,8 @@ namespace Jumblist.Website.ViewModel
         public int ListCount { get; set; }
         public string EntityName { get { return typeof( T ).Name; } }
         public IPagedList<T> PagedList { get; set; }
+        public PostListRouteValues PostListRouteValues { get; set; }
+        public UserSearchArea UserSearchArea { get; set; }
 
         public DefaultViewModel<T> With( T item )
         {
@@ -52,6 +54,17 @@ namespace Jumblist.Website.ViewModel
             return this;
         }
 
+        public DefaultViewModel<T> With( PostListRouteValues postListRouteValues )
+        {
+            this.PostListRouteValues = postListRouteValues;
+            return this;
+        }
+
+        public DefaultViewModel<T> With( UserSearchArea userSearchArea )
+        {
+            this.UserSearchArea = userSearchArea;
+            return this;
+        }
 
         //This method is called from a view
 		public IEnumerable<TLookup> SelectList<TLookup>()

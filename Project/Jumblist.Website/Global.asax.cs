@@ -130,7 +130,7 @@ namespace Jumblist.Website
             );
 
             //container.Register(
-            //    Component.For<IHttpModule>().ImplementedBy<FeedProcessingHttpModule>().LifeStyle.Custom<PerHttpApplicationLifestyleManager>()
+            //    Component.For<IHttpModule>().ImplementedBy<ImportPostsFromFeedsHttpModule>().LifeStyle.Custom<PerHttpApplicationLifestyleManager>()
             //);
         }
 

@@ -19,7 +19,11 @@ namespace StuartClode.Mvc.Extension
             double d = 1;
             double days = 5;
 
-            if ( timeSpan.TotalMinutes < d )
+            if ( timeSpan.TotalMinutes < 0 )
+            {
+                return "Now";
+            }
+            else if ( timeSpan.TotalMinutes < d )
             {
                 string time = (timeSpan.Seconds == 1) ? "sec" : "secs";
                 return timeSpan.Seconds.ToString() + " " + time + " ago";

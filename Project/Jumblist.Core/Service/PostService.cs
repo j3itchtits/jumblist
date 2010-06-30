@@ -96,9 +96,9 @@ namespace Jumblist.Core.Service
             return SelectRecordList( null, searchParams, null );
         }
 
-        public IEnumerable<Post> SelectRecordList( string[] searchParams, Location location )
+        public IEnumerable<Post> SelectRecordList( string[] searchParams, UserSearchArea userSearchArea )
         {
-            return SelectRecordList( null, searchParams, location );
+            return SelectRecordList( null, searchParams, userSearchArea );
         }
 
         public IEnumerable<Post> SelectRecordList( PostCategory category, string[] searchParams )
@@ -106,7 +106,7 @@ namespace Jumblist.Core.Service
             return SelectRecordList( category, searchParams, null );
         }
 
-        public IEnumerable<Post> SelectRecordList( PostCategory category, string[] searchParams, Location location )
+        public IEnumerable<Post> SelectRecordList( PostCategory category, string[] searchParams, UserSearchArea userSearchArea )
         {
             IEnumerable<Post> postList;
 
@@ -127,9 +127,9 @@ namespace Jumblist.Core.Service
                 postList = SelectRecordList( Post.WhereDisplayEquals( true ) );
             }
 
-            if ( !string.IsNullOrEmpty( location.Name ) )
+            if ( !string.IsNullOrEmpty( userSearchArea.Name ) )
             {
-                postList = postList.ToFilteredList( Post.WhereLocationEquals( location.Latitude, location.Longitude, location.Radius ) );
+                postList = postList.ToFilteredList( Post.WhereLocationEquals( userSearchArea.Latitude, userSearchArea.Longitude, userSearchArea.Radius ) );
             }
 
             return postList;
@@ -141,6 +141,11 @@ namespace Jumblist.Core.Service
         }
 
         public IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category, string[] searchParams )
+        {
+            return SelectRecordList( feed, category, searchParams, null );
+        }
+
+        public IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category, string[] searchParams, UserSearchArea userSearchArea )
         {
             IEnumerable<Post> postList;
 
@@ -161,6 +166,11 @@ namespace Jumblist.Core.Service
                 postList = SelectRecordList( Post.WhereFeedEquals( feed ).And( Post.WhereDisplayEquals( true ) ) );
             }
 
+            if ( !string.IsNullOrEmpty( userSearchArea.Name ) )
+            {
+                postList = postList.ToFilteredList( Post.WhereLocationEquals( userSearchArea.Latitude, userSearchArea.Longitude, userSearchArea.Radius ) );
+            }
+
             return postList;
         }
 
@@ -169,7 +179,7 @@ namespace Jumblist.Core.Service
             return SelectRecordList( tagList, category, q, null );
         }
 
-        public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string[] searchParams, Location location )
+        public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string[] searchParams, UserSearchArea userSearchArea )
         {
             IEnumerable<Post> postList;
 
@@ -190,9 +200,9 @@ namespace Jumblist.Core.Service
                 postList = SelectRecordList( Post.WhereDisplayEquals( true ).And( Post.WhereTagNameListEqualsAnd( tagList ) ) ).OrderByDescending( t => t.PublishDateTime );
             }
 
-            if ( !string.IsNullOrEmpty( location.Name ) )
+            if ( !string.IsNullOrEmpty( userSearchArea.Name ) )
             {
-                postList = postList.ToFilteredList( Post.WhereLocationEquals( location.Latitude, location.Longitude, location.Radius ) );
+                postList = postList.ToFilteredList( Post.WhereLocationEquals( userSearchArea.Latitude, userSearchArea.Longitude, userSearchArea.Radius ) );
             }
 
             return postList;
@@ -227,14 +237,19 @@ namespace Jumblist.Core.Service
             return postList;
         }
 
-        public IEnumerable<Post> GetPostList( string action, string id, string category, string q, Location location )
+        public IEnumerable<Post> GetPostList( PostListRouteValues postListRouteValues, UserSearchArea userSearchArea )
+        {
+            return GetPostList( postListRouteValues.Action, postListRouteValues.Id, postListRouteValues.Category, postListRouteValues.Q, userSearchArea );
+        }
+
+        public IEnumerable<Post> GetPostList( string action, string id, string category, string q, UserSearchArea userSearchArea )
         {
             IEnumerable<Post> postList;
 
             switch ( action )
             {
                 case "category":
-                    postList = GetPostsByCategory( id, q, location );
+                    postList = GetPostsByCategory( id, q, userSearchArea );
                     break;
                 case "group":
                     postList = GetPostsByGroup( id, category, q );
@@ -243,26 +258,26 @@ namespace Jumblist.Core.Service
                     postList = GetPostsByLocation( id, category );
                     break;
                 case "tagged":
-                    postList = GetPostsByTag( id, category, q, location );
+                    postList = GetPostsByTag( id, category, q, userSearchArea );
                     break;
                 default:
-                    postList = GetPosts( q, location );
+                    postList = GetPosts( q, userSearchArea );
                     break;
             }
 
             return postList;
         }
 
-        private IEnumerable<Post> GetPosts( string q, Location location )
+        private IEnumerable<Post> GetPosts( string q, UserSearchArea userSearchArea )
         {
-            return SelectRecordList( q.ToFriendlyQueryStringDecode(), location ).OrderByDescending( t => t.PublishDateTime );
+            return SelectRecordList( q.ToFriendlyQueryStringDecode(), userSearchArea ).OrderByDescending( t => t.PublishDateTime );
         }
 
-        private IEnumerable<Post> GetPostsByTag( string tags, string category, string q, Location location )
+        private IEnumerable<Post> GetPostsByTag( string tags, string category, string q, UserSearchArea userSearchArea )
         {
             var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( tags.ToFriendlyUrlDecode() ) );
             var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-            return SelectRecordList( tagList, postCategory, q.ToFriendlyQueryStringDecode(), location ).OrderByDescending( t => t.PublishDateTime ); ;
+            return SelectRecordList( tagList, postCategory, q.ToFriendlyQueryStringDecode(), userSearchArea ).OrderByDescending( t => t.PublishDateTime ); ;
         }
 
         private IEnumerable<Post> GetPostsByLocation( string locations, string category )
@@ -279,10 +294,10 @@ namespace Jumblist.Core.Service
             return SelectRecordList( group, postCategory, q.ToFriendlyQueryStringDecode() ).OrderByDescending( t => t.PublishDateTime ); ;
         }
 
-        private IEnumerable<Post> GetPostsByCategory( string category, string q, Location location )
+        private IEnumerable<Post> GetPostsByCategory( string category, string q, UserSearchArea userSearchArea )
         {
             var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-            return SelectRecordList( postCategory, q.ToFriendlyQueryStringDecode(), location ).OrderByDescending( t => t.PublishDateTime ); ;
+            return SelectRecordList( postCategory, q.ToFriendlyQueryStringDecode(), userSearchArea ).OrderByDescending( t => t.PublishDateTime ); ;
         }
 
 

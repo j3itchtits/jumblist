@@ -20,6 +20,11 @@ namespace Jumblist.Core.Model
             get { return this.Latitude != 0 && this.Longitude != 0; }
         }
 
+        public string LinkbackUrl
+        {
+            get { return string.Format( "/post/{0}/{1}", PostId, Title.ToFriendlyUrlEncode() ); }
+        }
+
         public IList<Location> Locations
         {
             get { return postLocations.Select( l => l.Location ).ToList().AsReadOnly(); }

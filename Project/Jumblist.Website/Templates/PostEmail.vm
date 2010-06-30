@@ -1,6 +1,6 @@
 ﻿Here is the post you requested
 ---
-Title: $post.Title
+Title: <a href="$homeurl$post.LinkbackUrl">$post.Title</a>
 Group: $post.Feed.Name
 Date: $postdate
 ---

@@ -13,33 +13,25 @@
        
     <table>
         <thead><tr>
-            <th align="left" colspan="2">Items</th>
+            <th align="left">Items</th>
         </tr></thead>
         <tbody>
-            <% foreach( var item in Model.Basket.Items ) { %>
-                <tr>
-                    <td><%= Html.RouteLink(item.Title, "Post-Detail", new { id = item.PostId, name = item.Title.ToFriendlyUrlEncode() }, new { title = item.Body })%></td>
-                    <td>
-                        <% using(Html.BeginForm("clearitem", "basket")) { %>
-                            <%= Html.Hidden("postId", item.PostId) %>
-                            <%= Html.Hidden( "returnUrl", Model.ReturnUrl )%>
-                            <input type="submit" value="Remove" />
-                        <% } %>
-                    </td>                    
-                </tr>
-            <% } %>
             <tr>
-                <td colspan="2" align="right">
-                    <% using(Html.BeginForm("clearall", "basket")) { %>
-                        <%= Html.Hidden( "returnUrl", Model.ReturnUrl )%>
-                        <input type="submit" value="Remove All" />
-                    <% } %>
+            <td>
+                <div id="basket-items">
+                    <% Html.RenderPartial( "BasketItemsControl", Model.Basket.Items ); %>
+                </div>
+            </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    <%= Html.ActionLink( "Remove All", "removeall", new { returnUrl = Model.ReturnUrl } ) %>
                 </td>
             </tr>            
         </tbody>
     </table>
     
-    <div class="actionButtons">
+    <div>
         <a href="<%= Html.Encode( Model.ReturnUrl ) %>">Continue browsing</a>
         <%= Html.ActionLink( "Email Me", "email", new { returnUrl = Model.ReturnUrl } ) %>   
     </div>

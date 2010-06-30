@@ -32,6 +32,10 @@ namespace Jumblist.Core.Model
         [Required]
         public string PostListRouteValues { get; set; }
 
+        [Column( Name = "UserAlertSearchArea" )]
+        [Required]
+        public string SearchArea { get; set; }
+
         [Column( Name = "UserAlertIsImmediateSend" )]
         public bool IsImmediateSend { get; set; }
 

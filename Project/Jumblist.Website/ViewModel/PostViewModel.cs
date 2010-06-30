@@ -21,6 +21,7 @@ namespace Jumblist.Website.ViewModel
         public IEnumerable PostCategorySelectList { get; set; }
         public string Q { get; set; }
 
+
         public PostViewModel With( PostCategory postCategory )
         {
             this.PostCategory = postCategory;
@@ -33,9 +34,21 @@ namespace Jumblist.Website.ViewModel
             return this;
         }
 
-        public PostViewModel With(IEnumerable<Pushpin> pushpins)
+        public PostViewModel With( IEnumerable<Pushpin> pushpins )
         {
             this.Pushpins = pushpins;
+            return this;
+        }
+
+        public PostViewModel With( PostListRouteValues postListRouteValues )
+        {
+            this.PostListRouteValues = postListRouteValues;
+            return this;
+        }
+
+        public PostViewModel With( UserSearchArea userSearchArea )
+        {
+            this.UserSearchArea = userSearchArea;
             return this;
         }
     }

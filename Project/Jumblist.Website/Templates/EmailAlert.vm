@@ -1,0 +1,13 @@
+﻿Here is your latest alert - $userAlert.Name
+---
+Posts:
+#foreach($post in $postList)
+    <a href="$homeurl$post.LinkbackUrl">$post.Title</a>
+#end
+---
+Sent to:
+$userAlert.User.Name
+$userAlert.User.Email
+$userAlert.User.Postcode
+---
+HTML link: <a href="$homeurl">Home</a>
