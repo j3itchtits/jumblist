@@ -8,7 +8,7 @@ namespace Jumblist.Core.Model
     public class JumblistSession
     {
         public Basket Basket { get; set; }
-        public Location Location { get; set; }
+        public UserSearchArea UserSearchArea { get; set; }
         public int? PageSize { get; set; }
         public PostListRouteValues PostListRouteValues { get; set; }
     }

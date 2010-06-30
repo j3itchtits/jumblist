@@ -76,8 +76,6 @@
             Html.RenderPartial( "SearchControl", Model );
     %>
     
-    <a href="">Send to facebook</a><br />
-    <a href="">Send to twitter</a><br />
 <%--    <%= Html.ActionLink<PostsController>( x => x.Rss( ViewContext.RouteData.Values["action"], ViewContext.RouteData.Values["id"], Model.PostCategory.Name, Model.Q, Model.User ), "RSS feed" ) %>
 --%>    
 

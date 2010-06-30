@@ -19,8 +19,9 @@ namespace Jumblist.Core.Service
     {
         ITemplateEngine engine;
         string templatesPath = Path.Combine( AppDomain.CurrentDomain.BaseDirectory, "Templates" );
+        string homeUrl = ConfigurationManager.AppSettings["DefaultUrl"];
 
-        #region IPostService Members
+        #region IMailService Members
 
         public void SendRegistrationVerificationEmail( User user )
         {
@@ -29,7 +30,7 @@ namespace Jumblist.Core.Service
             string encryptedId = user.UserId.ToString().EncryptString();
             string encryptedUrlEncodedId = HttpUtility.UrlEncode( encryptedId );
             string urlEncodedEmail = HttpUtility.UrlEncode( user.Email );
-            string linkBack = ConfigurationManager.AppSettings["DefaultUrl"] + "/users/verifyregistration?userid=" + encryptedUrlEncodedId + "&useremail=" + urlEncodedEmail;
+            string linkBack = homeUrl + "/users/verifyregistration?userid=" + encryptedUrlEncodedId + "&useremail=" + urlEncodedEmail;
 
             IDictionary tokens = new Hashtable();
             tokens.Add( "user", user );
@@ -47,18 +48,21 @@ namespace Jumblist.Core.Service
             IDictionary tokens = new Hashtable();
             tokens.Add( "post", post );
             tokens.Add( "postdate", post.PublishDateTime.ToLongDateString() );
+            tokens.Add( "homeurl", homeUrl );
 
             string emailBody = GenerateEmailText( tokens, "PostEmail.vm" );
 
             SendMail( user.Email, emailSubject, emailBody );
         }
 
-        public void SendBasketEmail( User user )
+        public void SendBasketEmail( Basket basket, User user )
         {
             string emailSubject = "Basket Mail";
 
             IDictionary tokens = new Hashtable();
+            tokens.Add( "basket", basket );
             tokens.Add( "user", user );
+            tokens.Add( "homeurl", homeUrl );
 
             string emailBody = GenerateEmailText( tokens, "BasketEmail.vm" );
 
@@ -71,7 +75,7 @@ namespace Jumblist.Core.Service
 
             string encryptedId = user.UserId.ToString().EncryptString();
             string encryptedUrlEncodedId = HttpUtility.UrlEncode( encryptedId );
-            string linkBack = ConfigurationManager.AppSettings["DefaultUrl"] + "/users/passwordreset?reset=" + encryptedUrlEncodedId;
+            string linkBack = homeUrl + "/users/passwordreset?reset=" + encryptedUrlEncodedId;
 
             IDictionary tokens = new Hashtable();
             tokens.Add( "user", user );
@@ -82,12 +86,11 @@ namespace Jumblist.Core.Service
             SendMail( user.Email, emailSubject, emailBody );
         }
 
-
         public void SendPasswordResetEmail( User user, string password )
         {
             string emailSubject = "Your new password";
 
-            string linkBack = ConfigurationManager.AppSettings["DefaultUrl"] + "/users/login";
+            string linkBack = homeUrl + "/users/login";
 
             IDictionary tokens = new Hashtable();
             tokens.Add( "user", user );
@@ -97,6 +100,20 @@ namespace Jumblist.Core.Service
             string emailBody = GenerateEmailText( tokens, "PasswordResetEmail.vm" );
 
             SendMail( user.Email, emailSubject, emailBody );
+        }
+
+        public void SendEmailAlert( UserAlert userAlert, IEnumerable<Post> postList )
+        {
+            string emailSubject = "Email Alerter";
+
+            IDictionary tokens = new Hashtable();
+            tokens.Add( "userAlert", userAlert );
+            tokens.Add( "postList", postList );
+            tokens.Add( "homeurl", homeUrl );
+
+            string emailBody = GenerateEmailText( tokens, "EmailAlert.vm" );
+
+            SendMail( userAlert.User.Email, emailSubject, emailBody );
         }
 
         #endregion
@@ -117,11 +134,11 @@ namespace Jumblist.Core.Service
             }
         }
 
-        private void SendMail( string fromEmail, string toEmail, string emailSubject, string emailBody )
+        private void SendMail( string fromEmail, string toEmail, string emailSubject, string emailBody, bool isBodyHtml )
         {
             MailMessage message = new MailMessage( fromEmail, toEmail, emailSubject, emailBody );
             message.BodyEncoding = Encoding.Default;
-            message.IsBodyHtml = true;
+            message.IsBodyHtml = isBodyHtml;
 
             SmtpClient smtpClient = new SmtpClient();
 
@@ -130,7 +147,12 @@ namespace Jumblist.Core.Service
 
         private void SendMail( string toEmail, string emailSubject, string emailBody )
         {
-            SendMail( ConfigurationManager.AppSettings["DefaultEmail"], toEmail, emailSubject, emailBody );
+            SendMail( ConfigurationManager.AppSettings["DefaultEmail"], toEmail, emailSubject, emailBody, false );
+        }
+
+        private void SendMail( string fromEmail, string toEmail, string emailSubject, string emailBody )
+        {
+            SendMail( fromEmail, toEmail, emailSubject, emailBody, false );
         }
     }
 }

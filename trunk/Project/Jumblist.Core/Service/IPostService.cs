@@ -17,21 +17,23 @@ namespace Jumblist.Core.Service
         IEnumerable<Post> SelectRecordList( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition );
 
         IEnumerable<Post> SelectRecordList( string[] q );
-        IEnumerable<Post> SelectRecordList( string[] q, Location location );
+        IEnumerable<Post> SelectRecordList( string[] q, UserSearchArea userSearchArea );
  
         IEnumerable<Post> SelectRecordList( PostCategory category, string[] q );
-        IEnumerable<Post> SelectRecordList( PostCategory category, string[] q, Location location );
+        IEnumerable<Post> SelectRecordList( PostCategory category, string[] q, UserSearchArea userSearchArea );
 
         IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category );
         IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category, string[] q );
+        IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category, string[] q, UserSearchArea userSearchArea );
 
         IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string[] q );
-        IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string[] q, Location location );
+        IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string[] q, UserSearchArea userSearchArea );
 
         IEnumerable<Post> SelectRecordList( IEnumerable<Location> locationList, PostCategory category );
         IEnumerable<Post> SelectRecordList( IEnumerable<Location> locationList, PostCategory category, string[] q );
 
-        IEnumerable<Post> GetPostList( string action, string id, string category, string q, Location location );
+        IEnumerable<Post> GetPostList( PostListRouteValues postListRouteValues, UserSearchArea userSearchArea );
+        IEnumerable<Post> GetPostList( string action, string id, string category, string q, UserSearchArea userSearchArea );
 
         Post SelectRecord( int id );
         Post SelectRecord( Expression<Func<Post, bool>> whereCondition );

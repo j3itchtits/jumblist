@@ -13,12 +13,15 @@
     <% using ( Html.BeginForm() ) { %>
 
         <%= Html.HiddenFor( m => m.Item.UserAlertId )%>
+        <%= Html.HiddenFor( m => m.Item.PostListRouteValues )%>
+        <%= Html.HiddenFor( m => m.Item.SearchArea )%>
 
         <p>
             Action: <%= Model.PostListRouteValues.Action %><br />
             Id: <%= Model.PostListRouteValues.Id %><br />
             Category: <%= Model.PostListRouteValues.Category %><br />
             Q: <%= Model.PostListRouteValues.Q %><br />
+            Location: Within <%= Model.UserSearchArea.Radius%> miles of <%= Model.UserSearchArea.Name %><br /> 
         </p>   
                 
         <table>
@@ -27,11 +30,6 @@
             <td><%= Html.TextBoxFor( m => m.Item.Name )%>
             <%= Html.ValidationMessageFor( m => m.Item.Name )%></td>
         </tr>
-        <tr>
-            <td><label for="Item.PostListRouteValues">PostListRouteValues:</label></td>
-            <td><%= Html.TextAreaFor( m => m.Item.PostListRouteValues )%>
-            <%= Html.ValidationMessageFor( m => m.Item.PostListRouteValues )%></td>
-        </tr>   
         <tr>
             <td><label for="Item.IsImmediateSend">IsImmediateSend:</label></td>
             <td><%= Html.CheckBoxFor( m => m.Item.IsImmediateSend )%></td>

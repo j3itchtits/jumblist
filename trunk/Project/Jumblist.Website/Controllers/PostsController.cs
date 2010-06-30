@@ -63,7 +63,24 @@ namespace Jumblist.Website.Controllers
         {
             try
             {
-                IEnumerable<Post> postList = postService.SelectRecordList( q.ToFriendlyQueryStringDecode(), jumblistSession.Location ).OrderByDescending( t => t.PublishDateTime );
+                //UserAlert alert = userAlertService.SelectRecord( 2 );
+                //PostListRouteValues postListRouteValues = (PostListRouteValues)Serializer.Deserialize( alert.PostListRouteValues );
+                //UserSearchArea userSearchArea2 = (UserSearchArea)Serializer.Deserialize( alert.SearchArea );
+
+                //IEnumerable<Post> anotherPostList = postService.GetPostList( postListRouteValues, userSearchArea2 );
+                //anotherPostList = anotherPostList.Where( x => x.LastUpdatedDateTime > alert.DateTimeLastSent );
+
+                //if ( anotherPostList.Count() > 0 )
+                //{
+                //    mailService.SendEmailAlert( alert, anotherPostList );
+                //}
+                //mailService.SendEmailAlert( userAlertService.SelectRecord( 2 ), postList.Take( 5 ) );
+
+
+                UserSearchArea userSearchArea = jumblistSession.UserSearchArea;
+                UpdateUserSearchArea( ref userSearchArea, user );
+
+                IEnumerable<Post> postList = postService.SelectRecordList( q.ToFriendlyQueryStringDecode(), userSearchArea ).OrderByDescending( t => t.PublishDateTime );
 
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
                 int currentPageSize = CalculatePageSize( pageSize, jumblistSession.PageSize );
@@ -78,7 +95,7 @@ namespace Jumblist.Website.Controllers
 
                 model.Q = q; 
                 model.User = user;
-                model.UserLocation = jumblistSession.Location;
+                model.UserSearchArea = userSearchArea;
                 model.PostCategory = new PostCategory();
                 model.PostCategorySelectList = PostCategorySearchSelectList();
                 model.Tags = new List<Tag>();
@@ -116,8 +133,11 @@ namespace Jumblist.Website.Controllers
         {
             try
             {
+                UserSearchArea userSearchArea = jumblistSession.UserSearchArea;
+                UpdateUserSearchArea( ref userSearchArea, user );
+
                 PostCategory postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( id ) );
-                IEnumerable<Post> postList = postService.SelectRecordList( postCategory, q.ToFriendlyQueryStringDecode(), jumblistSession.Location ).OrderByDescending( t => t.PublishDateTime );
+                IEnumerable<Post> postList = postService.SelectRecordList( postCategory, q.ToFriendlyQueryStringDecode(), userSearchArea ).OrderByDescending( t => t.PublishDateTime );
 
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
                 int currentPageSize = CalculatePageSize( pageSize, jumblistSession.PageSize );
@@ -132,7 +152,7 @@ namespace Jumblist.Website.Controllers
 
                 model.Q = q;
                 model.User = user;
-                model.UserLocation = jumblistSession.Location;
+                model.UserSearchArea = userSearchArea;
                 model.PostCategory = postCategory;
                 model.PostCategorySelectList = PostCategorySearchSelectList();
                 model.Tags = new List<Tag>();
@@ -164,9 +184,12 @@ namespace Jumblist.Website.Controllers
         {
             try
             {
+                UserSearchArea userSearchArea = jumblistSession.UserSearchArea;
+                UpdateUserSearchArea( ref userSearchArea, user );
+
                 Feed feed = feedService.SelectRecord( Feed.WhereFriendlyUrlEquals( id ) );
                 PostCategory postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-                IEnumerable<Post> postList = postService.SelectRecordList( feed, postCategory, q.ToFriendlyQueryStringDecode() ).OrderByDescending( t => t.PublishDateTime ); ;
+                IEnumerable<Post> postList = postService.SelectRecordList( feed, postCategory, q.ToFriendlyQueryStringDecode(), userSearchArea ).OrderByDescending( t => t.PublishDateTime ); ;
 
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
                 int currentPageSize = CalculatePageSize( pageSize, jumblistSession.PageSize );
@@ -182,7 +205,7 @@ namespace Jumblist.Website.Controllers
                 model.Group = feed;
                 model.Q = q;
                 model.User = user;
-                model.UserLocation = jumblistSession.Location;
+                model.UserSearchArea = userSearchArea;
                 model.PostCategory = postCategory ?? new PostCategory();
                 model.PostCategorySelectList = PostCategorySearchSelectList();
                 model.Tags = new List<Tag>();
@@ -214,6 +237,9 @@ namespace Jumblist.Website.Controllers
         {
             try
             {
+                //UserSearchArea userSearchArea = jumblistSession.UserSearchArea;
+                //UpdateUserSearchArea( ref userSearchArea, user );
+
                 IEnumerable<Location> locationList = locationService.SelectRecordList( Location.WhereFriendlyUrlListEqualsOr( id.ToFriendlyUrlDecode() ) );
                 PostCategory postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
                 IEnumerable<Post> postList = postService.SelectRecordList( locationList, postCategory, q.ToFriendlyQueryStringDecode() ).OrderByDescending( t => t.PublishDateTime ); ;
@@ -230,7 +256,7 @@ namespace Jumblist.Website.Controllers
                 model.Locations = locationList;
                 model.Q = q;
                 model.User = user;
-                model.UserLocation = jumblistSession.Location;
+                //model.UserSearchArea = userSearchArea;
                 model.PostCategory = postCategory ?? new PostCategory();
                 model.PostCategorySelectList = PostCategorySearchSelectList();
                 model.Tags = new List<Tag>();                
@@ -262,9 +288,12 @@ namespace Jumblist.Website.Controllers
         {
             try
             {
+                UserSearchArea userSearchArea = jumblistSession.UserSearchArea;
+                UpdateUserSearchArea( ref userSearchArea, user );
+
                 IEnumerable<Tag> tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( id.ToFriendlyUrlDecode() ) );
                 PostCategory postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-                IEnumerable<Post> postList = postService.SelectRecordList( tagList, postCategory, q.ToFriendlyQueryStringDecode(), jumblistSession.Location ).OrderByDescending( t => t.PublishDateTime ); ;
+                IEnumerable<Post> postList = postService.SelectRecordList( tagList, postCategory, q.ToFriendlyQueryStringDecode(), userSearchArea ).OrderByDescending( t => t.PublishDateTime ); ;
 
                 int currentPage = page.HasValue ? page.Value - 1 : 0;
                 int currentPageSize = CalculatePageSize( pageSize, jumblistSession.PageSize );
@@ -279,7 +308,7 @@ namespace Jumblist.Website.Controllers
 
                 model.Q = q;
                 model.User = user;
-                model.UserLocation = jumblistSession.Location;
+                model.UserSearchArea = userSearchArea;
                 model.PostCategory = postCategory ?? new PostCategory();
                 model.PostCategorySelectList = PostCategorySearchSelectList();
                 model.Tags = tagList; 
@@ -312,6 +341,10 @@ namespace Jumblist.Website.Controllers
         public ViewResult Detail( int id, string name )
         {
             var item = postService.SelectRecord( id );
+
+            item.NumberofViews += 1;
+            postService.Save( item );
+
             var model = BuildDefaultViewModel().With( item );
 
             model.PageTitle = item.Title;
@@ -325,14 +358,14 @@ namespace Jumblist.Website.Controllers
         {
             if ( !string.IsNullOrEmpty( locationSearch ) )
             {
-                locationSearch = locationSearch.ToCleanSearchString() + ", UK";
+                locationSearch = locationSearch.ToCleanSearchString();
                 int radius = (locationRadius.HasValue) ? (int)locationRadius : defaultLocationRadius;
-                BingLocationService locationSearchCoordinates = new BingLocationService( locationSearch );
-                jumblistSession.Location.Update( locationSearch, radius, locationSearchCoordinates.Latitude, locationSearchCoordinates.Longitude );
+                BingLocationService locationSearchCoordinates = new BingLocationService( locationSearch + ", UK" );
+                jumblistSession.UserSearchArea.Update( locationSearch, radius, locationSearchCoordinates.Latitude, locationSearchCoordinates.Longitude );
             }
             else
             {
-                jumblistSession.Location.Reset();
+                jumblistSession.UserSearchArea.Reset();
             }
  
             searchService.TagSearch = tagSearch.ToCleanSearchString();
@@ -377,6 +410,7 @@ namespace Jumblist.Website.Controllers
                 var model = DefaultView.CreateModel<UserAlert>();
                 model.PageTitle = "Edit Alert";
                 model.PostListRouteValues = jumblistSession.PostListRouteValues;
+                model.UserSearchArea = jumblistSession.UserSearchArea;
 
                 return View( model );
             }
@@ -391,6 +425,7 @@ namespace Jumblist.Website.Controllers
         public ActionResult EmailAlert( UserAlert item, string returnUrl, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
             item.PostListRouteValues = Serializer.Serialize( jumblistSession.PostListRouteValues );
+            item.SearchArea = Serializer.Serialize( jumblistSession.UserSearchArea );
             item.DateTimeCreated = DateTime.Now;
             item.DateTimeLastSent = DateTime.Now;
             item.IsActive = true;
@@ -419,6 +454,7 @@ namespace Jumblist.Website.Controllers
         {
             if ( !user.IsAuthenticated )
             {
+                Message = new Message { Text = "You need to  be logged-in to create a post", StyleClass = "message" };
                 return RedirectToAction( "login", "users", new { returnUrl = Url.Action( "add", "posts" ) } );
             }
 
@@ -467,8 +503,11 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public RssResult Rss( string rssActionName, string rssActionId, string rssActionCategory, string q, JumblistSession jumblistSession )
+        public RssResult Rss( string rssActionName, string rssActionId, string rssActionCategory, string q, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
+            UserSearchArea userSearchArea = jumblistSession.UserSearchArea;
+            UpdateUserSearchArea( ref userSearchArea, user );
+
             SyndicationFeed feed =
                 new SyndicationFeed( "Jumblist Feed",
                                     "This is a jumblist feed",
@@ -476,10 +515,10 @@ namespace Jumblist.Website.Controllers
                                     "TestFeedID",
                                     DateTime.Now );
 
-            IEnumerable<Post> postList = postService.GetPostList( rssActionName, rssActionId, rssActionCategory, q, jumblistSession.Location );
+            IEnumerable<Post> postList = postService.GetPostList( rssActionName, rssActionId, rssActionCategory, q, userSearchArea );
             //postList = postList.Where( x => x.LastUpdatedDateTime > DateTime.Now.AddDays( -1 ) );
 
-            IEnumerable<SyndicationItem> items = postList.Select( x => (new SyndicationItem( x.Title, x.Body.ToShortDescription(), new Uri( defaultUrl + Url.PostUrl( x.PostId, x.Title ) ), x.PostId.ToString(), x.PublishDateTime )) );
+            IEnumerable<SyndicationItem> items = postList.Select( x => (new SyndicationItem( x.Title, x.Body.ToShortDescription(), new Uri( defaultUrl + x.LinkbackUrl ), x.PostId.ToString(), x.PublishDateTime )) );
           
             feed.Items = items;
 
@@ -531,7 +570,14 @@ namespace Jumblist.Website.Controllers
             }
         }
 
-
+        [NonAction]
+        private void UpdateUserSearchArea( ref UserSearchArea userSearchArea, User user )
+        {
+            if ( user.IsAuthenticated && string.IsNullOrEmpty( userSearchArea.Name ) )
+            {
+                userSearchArea.Update( user.Postcode, user.Radius, user.Latitude, user.Longitude );
+            }
+        }
 
 
         //[AcceptVerbs( HttpVerbs.Get )]

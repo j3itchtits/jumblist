@@ -7,9 +7,12 @@
 
     <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
     
+    <div id="messages">
+        <%= Html.MessageBox( ViewData.Model )%>
+    </div>
+    
     <p>Please enter your name or email and password. <%= Html.RegisterLink( "Register" )%> if you don't have an account.</p>
 
-    <%= Html.MessageBox( ViewData.Model ) %>
 
 	<% using( Html.BeginForm() ) { %>
 	

@@ -193,7 +193,12 @@ function convertLinksToLowerCase() {
     });
 }
 
-
+function getTinyURL(longURL, success) {
+    var API = 'http://json-tinyurl.appspot.com/?url=', URL = API + encodeURIComponent(longURL) + '&callback=?';
+    $.getJSON(URL, function(data) {
+        success && success(data.tinyurl);
+    });
+}
 
 function mapPopup(latitude, longitude, title) {
     var w = window.screen.width;

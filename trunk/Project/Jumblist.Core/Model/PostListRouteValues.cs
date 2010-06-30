@@ -9,7 +9,6 @@ namespace Jumblist.Core.Model
     public class PostListRouteValues
     {
         public string Action { get; set; }
-        //public RouteValueDictionary RouteValues { get; set; }
         public string Id { get; set; }
         public string Category { get; set; }
         public string Q { get; set; }

@@ -23,6 +23,7 @@ namespace Jumblist.Website.Controllers
             this.mailService = mailService;
         }
 
+        [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Index( JumblistSession jumblistSession, string returnUrl )
         {
             var model = DefaultView.CreateModel();
@@ -33,9 +34,10 @@ namespace Jumblist.Website.Controllers
             return View( model );
         }
 
-        public ActionResult Summary( JumblistSession jumblistSession )
+        [AcceptVerbs( HttpVerbs.Get )]
+        public ActionResult Widget( JumblistSession jumblistSession )
         {
-            return PartialView( "BasketItemsControl", jumblistSession.Basket );
+            return PartialView( "BasketWidgetControl", jumblistSession.Basket );
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
@@ -47,20 +49,24 @@ namespace Jumblist.Website.Controllers
             jumblistSession.Basket.AddItem( post );
             jumblistSession.Basket.ReturnUrl = returnUrl;
 
-            return PartialView( "BasketItemsControl", jumblistSession.Basket );
+            return PartialView( "BasketWidgetControl", jumblistSession.Basket );
         }
 
-        public RedirectToRouteResult ClearItem( JumblistSession jumblistSession, int postId, string returnUrl )
+        [AcceptVerbs( HttpVerbs.Post )]
+        public ActionResult RemoveItem( JumblistSession jumblistSession, int postId )
         {
             Post post = postService.SelectRecord( postId );
             jumblistSession.Basket.ClearItem( post );
-            return RedirectToAction( "Index", new { returnUrl = returnUrl } );
+
+            return PartialView( "BasketItemsControl", jumblistSession.Basket.Items );
         }
 
-        public RedirectToRouteResult ClearAll( JumblistSession jumblistSession, string returnUrl )
+        [AcceptVerbs( HttpVerbs.Get )]
+        public RedirectResult RemoveAll( JumblistSession jumblistSession, string returnUrl )
         {
             jumblistSession.Basket.ClearAll();
-            return RedirectToAction( "Index", new { returnUrl = returnUrl } );
+            Message = new Message { Text = "All items removed from basket", StyleClass = "message" };
+            return Redirect( returnUrl ?? "/" );
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
@@ -74,7 +80,7 @@ namespace Jumblist.Website.Controllers
                 return RedirectToAction( "Index", new { returnUrl = returnUrl } );
             }
 
-            mailService.SendBasketEmail( user );
+            mailService.SendBasketEmail( jumblistSession.Basket, user );
 
             jumblistSession.Basket.ClearAll();
             Message = new Message { Text = "Message sent", StyleClass = "message" };

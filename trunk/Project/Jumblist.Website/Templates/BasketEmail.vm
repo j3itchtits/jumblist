@@ -1,8 +1,8 @@
 ﻿Here is the contents of your basket
 ---
 Items:
-#foreach($item in $jumblistSession.Basket.Items)
-    $item.Title
+#foreach($item in $basket.Items)
+	<a href="$homeurl$item.LinkbackUrl">$item.Title</a>    
 #end
 ---
 Ship to:

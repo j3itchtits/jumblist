@@ -31,20 +31,18 @@ Functionality
 Logged in user
 --------------
 
-Box
-- Add
-- Delete
-- Email box to me
+Basket
+- Remove item - DONE
+- Remove all - DONE
+- Email basket items to me - DONE
 
 Post
-- Add post (facebook/twitter integration is for version 2 i think)
-- Email post to me
-- Save post to basket
+- Add post - DONE
+- Email post to me - DONE
+- Save post to basket - DONE
 
 Post lists
-- Save lists as email alerts
-- Distance 
-- Sort by (nearest, newest)
+- Save lists as email alerts - DONE
 
 Profile
 - Edit personal profile
@@ -56,8 +54,8 @@ Registration
 - Use email confirmation strategy
 - Forgotten password
 
-Search (see Search options.txt)
-
+Home page search (by user location) - DONE
+Search widget (by user location) - DONE
 
 
 
@@ -74,14 +72,14 @@ Post List tab
 -- Date or Time since posted (DONE)
 -- Post Category (DONE)
 -- View map (DONE)
+-- View RSS feed - DONE
 - Paging for list pages (like stackoverflow) (DONE)
 - Change number of posts per page (like stackoverflow) - add this value to user session (DONE)
 
+
 Map List tab
 - Map position and zoom level to reflect visible pushpins (DONE)
-- Different style pushpins dependant on post category
 - Enhanced mouseover on each pushpin (DONE?)
-- Mini post list next to map (with connection to pushpin mouseover)
 - Randomize positions (DONE)
 
 List Right Hand Column
@@ -89,7 +87,7 @@ List Right Hand Column
 -- by category (DONE)
 -- by tag (DONE)
 -- by location (DONE)
--- by search radius (DONE)
+-- by search location and radius (DONE)
 
 Post Detail
 - Fields to include on each post record (left column)
@@ -102,11 +100,11 @@ Post Detail
 -- Group link (DONE)
 -- Tags link (DONE)
 -- Locations link + Map (DONE)
--- Share on facebook (DONE?)
--- Share on twitter (DONE?)
+-- Share on facebook (DONE)
+-- Share on twitter (DONE)
 
 RSS Feeds
-- Dynamic feed construction based on list properties (routedata)
+- Dynamic feed construction based on list properties (routedata) - DONE
 
 Facebook integration
 - Add list (feed) to facebook
@@ -120,6 +118,8 @@ Tags
 - Popularity field (number of views)
 - Popularity field (number of posts) (DONE)
 - Sort list of tags by popularity
+
+Search (by location) - DONE
 
 
 -----
@@ -154,7 +154,16 @@ http://weblogs.asp.net/rashid/archive/2009/04/03/asp-net-mvc-best-practices-part
 Still to do - Version 2.0
 
 Post listing
--- Number of views (popularity)
+- Number of views (popularity)
+- Sort by (eg. most popular, nearest, newest)
+
+Map listing
+- Different style pushpins dependant on post category
+- Mini post list next to map (with connection to pushpin mouseover)
+
+Posts
+- Add post to facebook/twitter as part of "add post" process
+- Show distances from user to post
 
 Advanced post functionality
 - Respond to post
@@ -167,4 +176,6 @@ JQuery effects on "home page search box" and "right column search filter box"
 
 User rating functionality
 - Registered users can rate others when they recieve an offer or response to a wanted post
+
+
 

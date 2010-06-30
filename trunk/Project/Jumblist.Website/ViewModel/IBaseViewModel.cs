@@ -13,8 +13,5 @@ namespace Jumblist.Website.ViewModel
         List<Message> MessageList { get; set; }
         User User { get; set; }
         string ReturnUrl { get; set; }
-        PostListRouteValues PostListRouteValues { get; set; }
-        Location UserLocation { get; set; }
-
     }
 }

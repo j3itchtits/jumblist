@@ -43,18 +43,35 @@ http://www.facebook.com/pages/create.php
 http://www.facebook.com/advertising/?pages
 
 
-Links
------
+Vanity Urls (eg. http://wwww.facebook.com/jumblist)
+http://blog.facebook.com/blog.php?post=90316352130
+http://mashable.com/2009/06/09/facebook-vanity-urls/
+http://www.facebook.com/note.php?note_id=91106469821&ref=blog
 
-1. With a web page (or post)
 
-Facebook widgets
-http://www.facebook.com/facebook-widgets/ 
-(eg. Share this Page - http://wiki.developers.facebook.com/index.php/Facebook_Share)
-<a onclick="window.open('http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.imdb.com%2Frg%2Fs%2F3%2Ftitle%2Ftt1250777%2F', 'newWindow', 'width=626, height=436'); return false;" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.imdb.com%2Frg%2Fs%2F3%2Ftitle%2Ftt1250777%2F" target="_blank" title="Share on Facebook" class="share_icon facebook"></a>
+Posting to Facebook
+-------------------
 
-Facebook plugins
+1. From a web page (or post)
+
+Basic
+
+Facebook share
+http://wiki.developers.facebook.com/index.php/Facebook_Share
+http://www.facebook.com/share/
+
+<a name="fb_share" type="button_count" share_url="http://localhost:53362/banking"></a> 
+<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script> 
+
+
+Advanced
+
+Facebook plugins (based on open graph api - xfbml)
+http://www.facebook.com/badges/
 http://developers.facebook.com/plugins 
+http://developers.facebook.com/docs/
+http://developers.facebook.com/docs/guides/web
+
 (eg. Like Button - http://developers.facebook.com/docs/reference/plugins/like)
 <iframe id="iframe_like" name="fbLikeIFrame_0" class="social-iframe" scrolling="no" frameborder="0" src="http://www.facebook.com/widgets/like.php?width=300&amp;show_faces=1&amp;layout=standard&amp;href=http%3A%2F%2Fwww.imdb.com%2Ftitle%2Ftt1250777%2F" width=300 height=81></iframe>
 
@@ -63,7 +80,7 @@ http://developers.facebook.com/plugins
 
 TBC
 http://hubpages.com/hub/How-to-Add-your-RSS-Feed-to-Your-Facebook-Page
-
+http://apps.facebook.com/rssgraffiti/
 
 Developer
 ---------
@@ -75,7 +92,3 @@ http://wiki.developers.facebook.com/index.php
 http://www.facebook.com/facebook-widgets/
 
 
-Vanity Urls
-http://blog.facebook.com/blog.php?post=90316352130
-http://mashable.com/2009/06/09/facebook-vanity-urls/
-http://www.facebook.com/note.php?note_id=91106469821&ref=blog

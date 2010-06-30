@@ -10,6 +10,14 @@
     
     <div class="post-detail">
 
+        <div>
+            <%= Ajax.SavePostToBasketLink( "Save", new { id = Model.Item.PostId } )%>
+        </div>
+
+        <div>
+            <%= Ajax.EmailPostLink( "Email", new { id = Model.Item.PostId } )%>
+        </div>
+        
         <div style="padding: 20px 0px;">
             <%= Html.Encode( Model.Item.Body ).ReplaceParagraphBreaksWithHtmlBrTags()%>
         </div>
@@ -18,6 +26,10 @@
             <b>Publish Date: </b><br />
             <%= Model.Item.PublishDateTime.ToString( "dddd, dd MMMM yyyy" ) %> at <%= Model.Item.PublishDateTime.ToString( "h:mm tt" )%>. <%= (DateTime.Now.Subtract( Model.Item.PublishDateTime )).ToDateTimeDiff( Model.Item.PublishDateTime, true )%>
         </div> 
+        
+        <div>
+            <b>Number of Views: </b><%= Model.Item.NumberofViews.ToString() %><br />
+        </div>         
 
         <% if ( Model.Item.Url != null )
            { %>
@@ -28,14 +40,7 @@
            } %>
 
 
-        <div>
-            <%= Ajax.SavePostToBasketLink( "Save", new { id = Model.Item.PostId } )%>
-        </div>
 
-
-        <div>
-            <%= Ajax.EmailPostLink( "Email", new { id = Model.Item.PostId } )%>
-        </div>
             
              
     </div>
@@ -44,6 +49,20 @@
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="HeadContentJavascript" runat="server">
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+        getTinyURL('<%= Request.Url.AbsoluteUri %>', function(tinyurl) {
+            // Do something with tinyurl:
+            $('#twitter-share').attr('href', 'http://twitter.com/home?status=@jumblist: <%= Html.PageTitle( ViewData.Model )%> ' + tinyurl);
+        });
+
+    });
+        
+</script> 
+
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentRight" runat="server">
@@ -79,14 +98,13 @@
             
     </div>
 
-    <div class="socialmedia">
-        <a name="fb_share" type="button" href="http://www.facebook.com/sharer.php">Share</a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script><br />
-        <a href="http://twitter.com/home?status=Currently reading <%= Request.Url.ToString()  %>" title="Click to share this post on Twitter" target="_blank">Share on Twitter</a>       <br /><br /><br />
-        
-        <a class="addthis_button_twitter"><img src="http://www.jhuskisson.com/wp-content/themes/freelance-freedom/images/share/twitter.gif" alt="Share on Twitter" /></a>        
-        <a class="addthis_button_facebook"><img src="http://www.jhuskisson.com/wp-content/themes/freelance-freedom/images/share/facebook.gif" alt="Share on Facebook" /></a>        
-        <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=xa-4bd95caa15382da2"></script>
-    </div>
+    <div class="post-socialmedia"> 
+        <b>Share: </b><br />
+        <a href="http://www.facebook.com/sharer.php?u=<%= Request.Url.AbsoluteUri %>&t=<%= Html.PageTitle( ViewData.Model )%>" title="Share on Facebook" target="_blank"><img src="/assets/images/facebook-icon.png" width="25" height="25" alt="Share on Facebook" /></a> 
+        <a id="twitter-share" title="Share on Twitter" target="_blank"><img src="/assets/images/twittericon.png" width="25" height="25" alt="Share on Twitter" /></a>
+    </div> 
+    
+
     
 </asp:Content>
 

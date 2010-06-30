@@ -38,10 +38,6 @@ namespace Jumblist.Core.Model
             }
         }
 
-        public string FullLocationName { get; set; }
-
-        public int Radius { get; set; }
-
         public string NamePartOfTown
         {
             get
@@ -85,19 +81,6 @@ namespace Jumblist.Core.Model
                 string[] locationArray = Area.Split( new string[] { ", " }, StringSplitOptions.None );
                 return (locationArray.Length > 1) ? locationArray[1] : locationArray[0];
             }
-        }
-
-        public void Update( string locationName, int locationRadius, double locationLatitude, double locationLongitude )
-        {
-            this.Name = locationName;
-            this.Radius = locationRadius;
-            this.Latitude = locationLatitude;
-            this.Longitude = locationLongitude;
-        }
-
-        public void Reset()
-        {
-            Update( string.Empty, 0, 0, 0 );
         }
 
         public static Expression<Func<Location, bool>> WhereEquals(string name)
