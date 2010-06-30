@@ -246,6 +246,7 @@
     <Content Include="Assets\Scripts\jquery.jsonviewer.js" />
     <Content Include="Assets\Scripts\jquery.jumblist.js" />
     <Content Include="Assets\Scripts\jquery.timer.js" />
+    <Content Include="Assets\Stylesheets\fonts\Abattis Cantarell GPL License.txt" />
     <Content Include="Assets\Stylesheets\Images\alerts.help.gif" />
     <Content Include="Assets\Stylesheets\Images\alerts.important.gif" />
     <Content Include="Assets\Stylesheets\Images\alerts.info.gif" />
@@ -258,6 +259,7 @@
     <Content Include="Assets\Stylesheets\jquery.alerts.css" />
     <Content Include="Assets\Stylesheets\jquery.autocomplete.css" />
     <Content Include="Assets\Stylesheets\jquery.colorbox.css" />
+    <Content Include="Assets\Stylesheets\jumblist.fonts.css" />
     <Content Include="Assets\Stylesheets\ui.tabs.css" />
     <Content Include="Views\Basket\BasketWidgetControl.ascx" />
     <Content Include="Views\Basket\BasketItemsControl.ascx" />
@@ -293,6 +295,14 @@
     <Content Include="Views\Users\Profile.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Stylesheets\fonts\Cantarell-Bold.eot" />
+    <None Include="Assets\Stylesheets\fonts\Cantarell-Bold.ttf" />
+    <None Include="Assets\Stylesheets\fonts\Cantarell-BoldOblique.eot" />
+    <None Include="Assets\Stylesheets\fonts\Cantarell-BoldOblique.ttf" />
+    <None Include="Assets\Stylesheets\fonts\Cantarell-Oblique.eot" />
+    <None Include="Assets\Stylesheets\fonts\Cantarell-Oblique.ttf" />
+    <None Include="Assets\Stylesheets\fonts\Cantarell-Regular.eot" />
+    <None Include="Assets\Stylesheets\fonts\Cantarell-Regular.ttf" />
     <None Include="Templates\BasketEmail.vm" />
     <None Include="Templates\EmailAlert.vm" />
     <None Include="Templates\PasswordResetEmail.vm" />
