@@ -10,10 +10,8 @@
 
     <%= Html.ClientSideValidation<UserAlert>( "Item" )%>
 
-        <% using ( Html.BeginForm() ) { %>
+    <% using ( Html.BeginForm() ) { %>
 
-        <%= Html.Hidden( "searchResult", ViewData["searchResult"] ) %>
-                
         <p>
             Action: <%= Model.PostListRouteValues.Action %><br />
             Id: <%= Model.PostListRouteValues.Id %><br />
@@ -23,26 +21,58 @@
         </p>        
         
         <table>
+        
         <tr>
             <td><label for="Item.Name">Name:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Name, new { @size = "40" } )%>
-            <%= Html.ValidationMessageFor( m => m.Item.Name )%></td>
+            <td><%= Html.TextBoxFor( m => m.Item.Name, new { @size = "40" } )%></td>
+            <td>
+                <div class="label-box info" style="display: none;">
+                   Please enter a name for your alert
+                </div>
+                <div class="label-box good" style="display: none;">
+                    Ok
+                </div>
+                <div class="label-box error" style="display: none;">
+                    <%= Html.ValidationMessageFor( m => m.Item.Name )%>
+			    </div>
+            </td>
         </tr>
+        
         <tr>
             <td><label for="Item.IsImmediateSend">IsImmediateSend:</label></td>
             <td><%= Html.CheckBoxFor( m => m.Item.IsImmediateSend )%></td>
+            <td>
+                <div class="label-box info" style="display: none;">
+                   Remember the details on this computure?
+                </div>
+                <div class="label-box good" style="display: none;">
+                    Ok
+                </div>
+            </td>
         </tr>  
+        
         <tr>
             <td><label for="Item.TimetoSend">TimetoSend:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.TimetoSend )%>
-            <%= Html.ValidationMessageFor( m => m.Item.TimetoSend )%></td>
+            <td><%= Html.TextBoxFor( m => m.Item.TimetoSend )%></td>
+            <td>
+                <div class="label-box info" style="display: none;">
+                   Please enter a time on the 24 hour clock
+                </div>
+                <div class="label-box good" style="display: none;">
+                    Ok
+                </div>
+                <div class="label-box error" style="display: none;">
+                    <%= Html.ValidationMessageFor( m => m.Item.TimetoSend )%>
+			    </div>
+            </td>            
         </tr>
+        
         </table>
                    
-        <p>
+        <div>
             <%= Html.AntiForgeryToken() %>
             <%= Html.SubmitButton( "submit", "Save" ) %>
-        </p>
+        </div>
 
     <% } %>        
         

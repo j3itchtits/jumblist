@@ -8,8 +8,10 @@
         <%= Html.MessageBox( ViewData.Model ) %>
     </div>
     
-    Number of items: <%= Model.ListCount %>
-
+    <div>
+        Number of items: <%= Model.ListCount %>
+    </div>
+    
 	<div id="tabs">
 		
 		<ul>
@@ -19,9 +21,7 @@
 		
 		<div id="tabs-1">
 		
-            <div class="postlist">
-                <% Html.RenderPartial( "PostListControl", Model.PagedList ); %>
-            </div>
+            <% Html.RenderPartial( "PostListControl", Model.PagedList ); %>
           
             <div class="pagerlinks">
                 <%= Html.Pager( Model.PagedList.PageSize, Model.PagedList.PageNumber, Model.PagedList.TotalItemCount )%>
@@ -40,11 +40,7 @@
     
             <% Html.RenderPartial( "GoogleMapControl", Model.Pushpins ); %>
 
-            <br /><br />
-            
-            <div class="basicmaplist">
-                <% Html.RenderPartial( "BasicMapListControl", Model.Pushpins ); %>
-            </div>
+            <% Html.RenderPartial( "BasicMapListControl", Model.Pushpins ); %>
                     
 		</div>
 	</div>

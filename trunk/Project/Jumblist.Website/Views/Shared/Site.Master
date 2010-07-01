@@ -6,10 +6,6 @@
 
     <title><%= Html.PageTitle( ViewData.Model )%> | Jumblist</title>
     
-<%--  Facebook specific tags  <meta name="title" content="title" />
-    <meta name="description" content="description" />--%>
-    <link rel="image_src" href="http://www.onjd.com/design05/images/PH2/WableAFC205.jpg" />
-    
     <link href="<%= Url.Stylesheet( "yui-reset.css" )%>" rel="stylesheet" type="text/css"/>
     <link href="<%= Url.Stylesheet( "yui-reset.css" )%>" rel="stylesheet" type="text/css"/>
     <link href="<%= Url.Stylesheet( "yui-fonts-min.css" )%>" rel="stylesheet" type="text/css"/>
@@ -34,57 +30,53 @@
   
     <div id="header">
         <div id="header-interior">
-        
-<%--            <% Html.RenderPartial( "LoginAreaControl" ); %>
---%>            
+          
+            <div id="logo">
+                <a href="/"><img src="/assets/images/logo4.gif" alt="Jumblist" width="291" height="60" /></a>
+            </div>
+
             <div id="loginarea">
                 <% Html.RenderAction( "LoginLinks", "Users" ); %>
             </div>
-                    
-            <div id="logo">
-                <a href="/"><img src="/assets/images/logo3.gif" alt="Jumblist" /></a>
-            </div>
-
-            <div id="menu">
-                <ul>
-                    <li><%= Html.HomepageLink( "Home" ) %></li>
-                    <li>
-                        <%= Html.ActionLink( "Posts", "index", "posts" ) %>
-                        <ul>
-                            <li><%= Html.ActionLink( "Offered", "category", "posts", new { id = "Offered" }, null )%></li>
-                            <li><%= Html.ActionLink("Wanted", "category", "posts", new { id = "Wanted" }, null ) %></li>
-                        </ul>
-                    </li>
-                    <li><%= Html.ActionLink( "Add Post", "add", "posts", new { returnUrl = Request.Url.PathAndQuery }, null )%></li>
-                    <li><%= Html.ActionLink( "Tags", "index", "tags" ) %></li>
-                    <li><%= Html.ActionLink( "Locations", "index", "locations" )%></li>
-                    <li><%= Html.ActionLink( "Groups", "index", "groups" )%></li>
-                    <li><%= Html.ActionLink( "About", "About", "Home" )%></li>
-                </ul>
-            </div>
             
+            <% Html.RenderPartial( "BasketControl" ); %><br />
+                   
         </div>
     </div>
 
-
-
     <div id="container">        
+    
+        <div id="menu">
+            <ul>
+                <li><%= Html.HomepageLink( "Home" ) %></li>
+                <li>
+                    <%= Html.ActionLink( "Posts", "index", "posts" ) %>
+                    <ul>
+                        <li><%= Html.ActionLink( "Offered", "category", "posts", new { id = "Offered" }, null )%></li>
+                        <li><%= Html.ActionLink("Wanted", "category", "posts", new { id = "Wanted" }, null ) %></li>
+                    </ul>
+                </li>
+                <li><%= Html.ActionLink( "Add Post", "add", "posts", new { returnUrl = Request.Url.PathAndQuery }, null )%></li>
+                <li><%= Html.ActionLink( "Tags", "index", "tags" ) %></li>
+                <li><%= Html.ActionLink( "Locations", "index", "locations" )%></li>
+                <li><%= Html.ActionLink( "Groups", "index", "groups" )%></li>
+                <li><%= Html.ActionLink( "About", "About", "Home" )%></li>
+            </ul>
+        </div>    
+    
         <div id="container-leftcolumn">
             <asp:ContentPlaceHolder ID="BodyContentLeft" runat="server" />
         </div>
         
         <div id="container-rightcolumn">
-            <% Html.RenderPartial( "BasketControl" ); %><br />
             <asp:ContentPlaceHolder ID="BodyContentRight" runat="server" />
         </div>
+        
+        <div id="footer">
+            <span>Copyright notice etc</span>
+        </div>          
+        
     </div>     
        
-    <div id="footer">
-        <div id="footer-interior">
-            <span>Copyright notice etc</span>
-        </div>
-    </div>                                
-       
-
 </body>
 </html>

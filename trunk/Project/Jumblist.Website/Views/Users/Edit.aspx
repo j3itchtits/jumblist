@@ -4,7 +4,9 @@
 
     <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
     
-    <%= Html.MessageBox( ViewData.Model )%>
+    <div id="messages">
+        <%= Html.MessageBox( ViewData.Model )%>
+    </div>
 
     <%= Html.ClientSideValidation<User>( "Item" )%>
 
@@ -15,31 +17,31 @@
         <table>
         <tr>
             <td><label for="Item.Name">Name:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Name ) %>
-            <%= Html.ValidationMessageFor( m => m.Item.Name )%></td>
+            <td><%= Html.TextBoxFor( m => m.Item.Name ) %></td>
+            <td><%= Html.ValidationMessageFor( m => m.Item.Name )%></td>
         </tr>
         <tr>
             <td><label for="Item.Email">Email:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Email ) %>
-            <%= Html.ValidationMessageFor( m => m.Item.Email )%></td>
+            <td><%= Html.TextBoxFor( m => m.Item.Email ) %></td>
+            <td><%= Html.ValidationMessageFor( m => m.Item.Email )%></td>
         </tr>
         <tr>
             <td><label for="Item.Postcode">Postcode:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Postcode, new { @class = "text-upper" } )%>
-            <%= Html.ValidationMessageFor( m => m.Item.Postcode )%></td>
+            <td><%= Html.TextBoxFor( m => m.Item.Postcode, new { @class = "text-upper" } )%></td>
+            <td><%= Html.ValidationMessageFor( m => m.Item.Postcode )%></td>
         </tr>      
         <tr>
             <td><label for="Item.Radius">Radius:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Radius )%>
-            <%= Html.ValidationMessageFor( m => m.Item.Radius )%></td>
+            <td><%= Html.TextBoxFor( m => m.Item.Radius )%></td>
+            <td><%= Html.ValidationMessageFor( m => m.Item.Radius )%></td>
         </tr> 
 
         </table>
         
-        <p>
+        <div>
             <%= Html.AntiForgeryToken() %>
             <%= Html.SubmitButton( "submit", "Save" ) %>
-        </p>
+        </div>
 
 
     <% } %>

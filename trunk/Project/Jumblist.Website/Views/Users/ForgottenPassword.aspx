@@ -15,13 +15,25 @@
         <table>
         <tr>
             <td><label for="Item.Email">Email:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Email ) %>
-            <%= Html.ValidationMessageFor( m => m.Item.Email )%></td>
+            <td><%= Html.TextBoxFor( m => m.Item.Email ) %></td>
+            <td>
+                <div class="label-box info" style="display: none;">
+                   Please enter your email address
+                </div>
+                <div class="label-box good" style="display: none;">
+                    Ok
+                </div>
+                <div class="label-box error" style="display: none;">
+                    <%= Html.ValidationMessageFor( m => m.Item.Email )%>
+			    </div>
+            </td>
         </tr>
         </table>
 
-        <%= Html.AntiForgeryToken() %>
-        <%= Html.SubmitButton( "submit", "Send" ) %>
+        <div>
+            <%= Html.AntiForgeryToken() %>
+            <%= Html.SubmitButton( "submit", "Send" ) %>
+        </div>
         
 	<% } %>
 

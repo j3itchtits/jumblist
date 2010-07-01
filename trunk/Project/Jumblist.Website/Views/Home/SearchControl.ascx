@@ -1,28 +1,46 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<User>" %>
 
-<div class="homepagesearch">
 <%
     using (Html.BeginForm("search", "posts"))
     {
         if (Model.IsAuthenticated)
         { %>
-            <div>
-                <%= Html.TextBox( "tagSearch" ) %><br />
-                Within <%= Model.Radius%> miles of <%= Model.Postcode %><br />
-                <%= Html.Hidden( "locationRadius", Model.Radius )%>
-                <%= Html.Hidden( "locationSearch", Model.Postcode )%>
-                <%= Html.SubmitButton( "submit", "Search" ) %>
-            </div> <%
+            <%= Html.Hidden( "locationRadius", Model.Radius )%>
+            <%= Html.Hidden( "locationSearch", Model.Postcode )%>
+            <table>
+            <tr>
+                <td>
+                    <div><%= Html.TextBox( "tagSearch" ) %></div>
+                    <div>Within <%= Model.Radius%> miles of <%= Model.Postcode %></div>
+                 </td>
+                <td>
+                    <%= Html.SubmitButton( "submit", "Search" ) %>
+                </td>
+            </tr>
+            </table> <%
         }
         else
         { 
-            %><div>
-                What <%= Html.TextBox( "tagSearch" ) %><br />
-                Where <%= Html.TextBox( "locationSearch" ) %> <br />
-                <%= Html.Hidden( "locationRadius", 5 ) %>
-                <%= Html.SubmitButton( "submit", "Search" ) %>
-            </div>
-            
+            %>
+            <%= Html.Hidden( "locationRadius", 5 ) %>
+            <table>
+            <tr>
+                <td>
+                    <label for="tagSearch">What?</label>
+                </td>
+                <td>
+                    <%= Html.TextBox( "tagSearch" ) %></td><td> <%= Html.SubmitButton( "submit", "Search" ) %>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="locationSearch">Where?</label>
+                </td>
+                <td>
+                    <%= Html.TextBox( "locationSearch" ) %>
+                </td>
+            </tr>
+            </table>
             <% 
         }
         
@@ -31,12 +49,9 @@
         <input type="radio" name="postCategorySelection" value="" checked="checked" /> All 
         <input type="radio" name="postCategorySelection" value="offered" /> Offered 
         <input type="radio" name="postCategorySelection" value="wanted" /> Wanted        
-                
-
         
         <%
     }
  
 %>
 
-</div>

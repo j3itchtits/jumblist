@@ -13,33 +13,75 @@
         <% using ( Html.BeginForm() ) { %>
 
         <table>
+        
         <tr>
             <td><label for="Item.Title">Title:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Title, new { @size = "40" } )%>
-            <%= Html.ValidationMessageFor( m => m.Item.Title )%></td>
+            <td><%= Html.TextBoxFor( m => m.Item.Title, new { @size = "40" } )%></td>
+            <td>
+                <div class="label-box info" style="display: none;">
+                   Please enter a title for your post
+                </div>
+                <div class="label-box good" style="display: none;">
+                    Ok
+                </div>
+                <div class="label-box error" style="display: none;">
+                    <%= Html.ValidationMessageFor( m => m.Item.Title )%>
+			    </div>
+            </td>            
         </tr>
+        
         <tr>
             <td><label for="Item.Body">Body:</label></td>
-            <td><%= Html.TextAreaFor( m => m.Item.Body, new { @rows = "10", @cols = "40" } )%>
-            <%= Html.ValidationMessageFor( m => m.Item.Body )%></td>
+            <td><%= Html.TextAreaFor( m => m.Item.Body, new { @rows = "10", @cols = "40" } )%></td>
+            <td>
+                <div class="label-box info" style="display: none;">
+                   Please enter a title for your post
+                </div>
+                <div class="label-box good" style="display: none;">
+                    Ok
+                </div>
+                <div class="label-box error" style="display: none;">
+                   <%= Html.ValidationMessageFor( m => m.Item.Body )%>
+			    </div>
+            </td>               
         </tr>
+        
         <tr>
             <td><label for="Item.PostCategoryId">Post Category:</label></td>
-            <td><%= Html.DropDownListFor( m => m.Item.PostCategoryId, new SelectList( Model.PostCategorySelectList, "Value", "Text" ) )%>
-            <%= Html.ValidationMessageFor( m => m.Item.PostCategoryId )%></td>
+            <td><%= Html.DropDownListFor( m => m.Item.PostCategoryId, new SelectList( Model.PostCategorySelectList, "Value", "Text" ) )%></td>
+            <td>
+                <div class="label-box info" style="display: none;">
+                   Please select a category
+                </div>
+                <div class="label-box good" style="display: none;">
+                    Ok
+                </div>
+                <div class="label-box error" style="display: none;">
+                   <%= Html.ValidationMessageFor( m => m.Item.PostCategoryId )%>
+			    </div>
+            </td>             
         </tr>   
                 
         <tr>
             <td><label for="Item.Tags">Tags:</label></td>
             <td><%= Html.TextBox( "Item.Tags", "", new { @size = "40" } )%></td>
+            <td>
+                <div class="label-box info" style="display: none;">
+                   Please select some tags
+                </div>
+                <div class="label-box good" style="display: none;">
+                    Ok
+                </div>
+            </td>             
         </tr>           
+        
         </table>
 
                    
-        <p>
+        <div>
             <%= Html.AntiForgeryToken() %>
             <%= Html.SubmitButton( "submit", "Save" ) %>
-        </p>
+        </div>
 
     <% } %>
 
@@ -61,6 +103,6 @@
 
 <asp:Content ID="Content4" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-
+Please create a new post
     
 </asp:Content>

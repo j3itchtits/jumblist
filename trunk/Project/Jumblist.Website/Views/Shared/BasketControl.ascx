@@ -3,7 +3,7 @@
 <% 
     if (!((ViewContext.Controller is BasketController) || (ViewContext.Controller is UsersController)) && (Page.Request.IsAuthenticated))
     { %>
-        <div id="basket-widget">
+        <div id="basket">
             <% Html.RenderAction( "Widget", "Basket" ); %>
         </div> <%
     } 

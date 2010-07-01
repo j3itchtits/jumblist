@@ -125,7 +125,7 @@ namespace Jumblist.Website.Controllers
         public ActionResult BasicList( int top )
         {
             var model = postService.SelectRecordList( Post.WhereDisplayEquals( true ) ).OrderByDescending( t => t.PublishDateTime ).Take( top );
-            return PartialView( "BasicListControl", model );
+            return PartialView( "BasicPostListControl", model );
         }
 
         [AcceptVerbs(HttpVerbs.Get)]

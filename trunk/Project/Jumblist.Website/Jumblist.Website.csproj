@@ -168,7 +168,6 @@
     <Content Include="Assets\Scripts\MicrosoftAjax.debug.js" />
     <Content Include="Assets\Scripts\MicrosoftMvcAjax.js" />
     <Content Include="Assets\Scripts\MicrosoftMvcAjax.debug.js" />
-    <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -272,7 +271,6 @@
     <Content Include="Views\Locations\Index.aspx" />
     <Content Include="Views\Locations\LocationListControl.ascx" />
     <Content Include="Views\Posts\Add.aspx" />
-    <Content Include="Views\Posts\BasicListControl.ascx" />
     <Content Include="Views\Posts\BasicMapListControl.ascx" />
     <Content Include="Views\Posts\EmailAlert.aspx" />
     <Content Include="Views\Posts\GoogleMapControl.ascx" />
@@ -309,6 +307,10 @@
     <None Include="Templates\ForgottenPasswordEmail.vm" />
     <None Include="Templates\PostEmail.vm" />
     <None Include="Templates\RegistrationVerificationEmail.vm" />
+    <Content Include="Assets\Stylesheets\jumblist2.css" />
+    <Content Include="Views\Posts\BasicPostListControl.ascx" />
+    <Content Include="Views\Shared\Site.Master" />
+    <Content Include="Views\Shared\Site2.Master" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Assets\Images\" />
