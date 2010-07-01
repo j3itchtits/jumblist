@@ -220,7 +220,7 @@ namespace Jumblist.Website.Extension
             return MvcHtmlString.Create( locationName );
         }
 
-        public static MvcHtmlString TagListLinks( this HtmlHelper helper, IEnumerable<Tag> tags )
+        public static MvcHtmlString PostTagListLinks( this HtmlHelper helper, IEnumerable<Tag> tags )
         {
             if ( tags == null ) return MvcHtmlString.Create( "No Tags" );
 
@@ -235,7 +235,7 @@ namespace Jumblist.Website.Extension
             return MvcHtmlString.Create( sb.ToString().Trim() );
         }
 
-        public static MvcHtmlString LocationListLinks( this HtmlHelper helper, IEnumerable<Location> locations )
+        public static MvcHtmlString PostLocationListLinks( this HtmlHelper helper, IEnumerable<Location> locations )
         {
             var sb = new StringBuilder();
             //locations.ToList().ForEach( x => helper.ActionLink( x.Name, "located", "posts", new { id = x.FriendlyUrl }, null ) );
@@ -249,6 +249,16 @@ namespace Jumblist.Website.Extension
             return MvcHtmlString.Create( sb.ToString().Trim() );
         }
 
-        
+        public static MvcHtmlString PostOriginLink( this HtmlHelper helper, Post post )
+        {
+            if ( post.Feed != null )
+            {
+                return helper.ActionLink( post.Feed.Name, "group", new { id = post.Feed.Name.ToFriendlyUrlEncode() } );
+            }
+            else
+            {
+                return MvcHtmlString.Create( post.User.Name );
+            }
+        }
     }
 }

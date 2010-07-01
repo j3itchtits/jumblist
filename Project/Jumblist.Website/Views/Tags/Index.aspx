@@ -4,15 +4,15 @@
 
     <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
     
-    <%= Html.MessageBox( ViewData.Model )%>
-    
-    <div id="taglist">
-        <% Html.RenderPartial( "TagListControl", Model.PagedList ); %>
+    <div id="messages">
+        <%= Html.MessageBox( ViewData.Model ) %>
     </div>
+    
+    <% Html.RenderPartial( "TagListControl", Model.PagedList ); %>
 
     <div class="pagerlinks">
         <%= Html.Pager( Model.PagedList.PageSize, Model.PagedList.PageNumber, Model.PagedList.TotalItemCount )%>
-    </div><br /><br />
+    </div>
                 
 </asp:Content>
 

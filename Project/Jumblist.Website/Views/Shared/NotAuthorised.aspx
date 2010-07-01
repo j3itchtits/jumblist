@@ -12,6 +12,7 @@
         <p><%= ViewData["Message"] %></p> 
         
         <p>You will need to contact the administrator if you think this is a mistake or <a href="/">return home</a>.</p> 
+        
     </div>
 </body>
 </html>

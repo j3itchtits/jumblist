@@ -4,7 +4,9 @@
    
     <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%> <%=Html.ActionLink( "[Edit]", "edit" ) %>
     
-    <%= Html.MessageBox( ViewData.Model ) %>
+    <div id="messages">
+        <%= Html.MessageBox( ViewData.Model )%>
+    </div>
     
     <p>
         Name:

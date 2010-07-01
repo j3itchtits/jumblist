@@ -36,14 +36,14 @@
         </tr>                
         </table>
         
-        <p>
+        <div>
             <%= Html.AntiForgeryToken() %>
             <%= Html.SubmitButton( "submit", "Save" ) %>
-        </p>
+        </div>
         
-        <p>
+        <div>
             <%= Html.ActionLink( "Back to profile", "profile" ) %>
-        </p>
+        </div>
 
     <% } %>
     

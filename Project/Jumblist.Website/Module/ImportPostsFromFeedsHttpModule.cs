@@ -10,6 +10,7 @@ using System.ServiceModel.Syndication;
 using Jumblist.Core.Service;
 using StuartClode.Mvc.Service.Data;
 using StuartClode.Mvc.Repository;
+using StuartClode.Mvc.Extension;
 using Microsoft.Practices.ServiceLocation;
 using Jumblist.Core.Model;
 using StuartClode.Mvc.Service.Feed;
@@ -109,7 +110,13 @@ namespace Jumblist.Website.Module
                 post.LastUpdatedDateTime = DateTime.Now;
                 post.PostCategoryId = postService.ExtractPostCategoryId( post );
 
-                postService.Import( post );
+                if ( PostCategoryId.Wanted.Is( post.PostCategoryId ) || PostCategoryId.Offered.Is( post.PostCategoryId ) )
+                {
+                    postService.Import( post );
+                }
+
+                
+                
             }
         }
 

@@ -11,13 +11,14 @@
     <div class="post-detail">
 
         <div>
-            <%= Ajax.SavePostToBasketLink( "Save", new { id = Model.Item.PostId } )%>
-        </div>
-
-        <div>
-            <%= Ajax.EmailPostLink( "Email", new { id = Model.Item.PostId } )%>
-        </div>
+            <b>Category: </b><%= Model.Item.Category.Name %><br />
+        </div>  
         
+        <div>
+            <b>Number of Views: </b><%= Model.Item.NumberofViews.ToString() %><br />
+        </div>  
+        
+                
         <div style="padding: 20px 0px;">
             <%= Html.Encode( Model.Item.Body ).ReplaceParagraphBreaksWithHtmlBrTags()%>
         </div>
@@ -28,8 +29,12 @@
         </div> 
         
         <div>
-            <b>Number of Views: </b><%= Model.Item.NumberofViews.ToString() %><br />
-        </div>         
+            <%= Ajax.SavePostToBasketLink( "Save", new { id = Model.Item.PostId } )%>
+        </div>
+
+        <div>
+            <%= Ajax.EmailPostLink( "Email", new { id = Model.Item.PostId } )%>
+        </div>
 
         <% if ( Model.Item.Url != null )
            { %>
@@ -84,12 +89,12 @@
            
     <div class="post-tags">
         <b>Tags: </b><br />
-        <%= Html.TagListLinks( Model.Item.Tags ) %>
+        <%= Html.PostTagListLinks( Model.Item.Tags ) %>
     </div>
     
     <div class="post-locations">
         <b>Location: </b><br />
-        <%= Html.LocationListLinks( Model.Item.Locations )%>
+        <%= Html.PostLocationListLinks( Model.Item.Locations )%>
 
         <%  if ( Model.Item.HaveLatitudeAndLongitudeValuesBeenPopulated ) 
            { %>

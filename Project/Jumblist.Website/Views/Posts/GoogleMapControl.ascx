@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IEnumerable<Pushpin>>" %>
 
-<script type="text/javascript">
+<%--<script type="text/javascript">
 
     function DynamicMap_DisplayData_Handler(data) {
 
@@ -26,7 +26,8 @@
         //$('#lblPushpinCount').html(data.pushpins.length);
     }
     
-</script>  
+</script>  --%>
+
 
 <% 
     Ajax.GoogleMap( "map" )
@@ -37,5 +38,5 @@
     //.DynamicMap( new DynamicMapOptions() { DisplayData = "DynamicMap_DisplayData_Handler" } )
     .AddPushpin( Model )
     .Render();
-    %>
+%>
 

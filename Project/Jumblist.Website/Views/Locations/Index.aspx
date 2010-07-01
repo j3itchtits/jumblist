@@ -9,10 +9,7 @@
         <%= Html.MessageBox( ViewData.Model ) %>
     </div>
     
-    <div id="locationlist">
-        <% Html.RenderPartial( "LocationListControl", Model.List ); %>
-    </div>
-
+    <% Html.RenderPartial( "LocationListControl", Model.List ); %>
 
 </asp:Content>
 

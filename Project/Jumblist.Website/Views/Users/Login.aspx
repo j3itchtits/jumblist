@@ -15,17 +15,59 @@
 
 
 	<% using( Html.BeginForm() ) { %>
-	
-        <p><label for="name">Name</label>
-        <%= Html.TextBox("name") %></p>
+
+        <table>
+        <tr>
+            <td><label for="name">Name/Email</label></td>
+            <td><%= Html.TextBox("name") %></td>
+            <td>
+                <div class="label-box info" style="display: none;">
+                   Please enter your name or email
+                </div>
+                <div class="label-box good" style="display: none;">
+                    Ok
+                </div>
+                <div class="label-box error" style="display: none;">
+                    <%= Html.ValidationMessage( "name" )%>
+			    </div>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="password">Password</label></td>
+            <td><%= Html.Password("password") %></td>
+            <td>
+                <div class="label-box info" style="display: none;">
+                   Please enter your password
+                </div>
+                <div class="label-box good" style="display: none;">
+                    Ok
+                </div>
+                <div class="label-box error" style="display: none;">
+                    <%= Html.ValidationMessage( "password" )%>
+			    </div>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="rememberMe">Remember Me?</label></td>
+            <td><%= Html.CheckBox( "rememberMe" )%></td>
+            <td>
+                <div class="label-box info" style="display: none;">
+                   Remember the details on this computure?
+                </div>
+                <div class="label-box good" style="display: none;">
+                    Ok
+                </div>
+            </td>
+        </tr>
+        </table>
+        	
+        <div>
+            <input type="submit" value="Log On" />
+        </div>
         
-        <p><label for="password">Password</label>
-        <%= Html.Password("password") %></p>
-        
-        <p><label for="rememberMe">Remember Me?</label>
-        <%= Html.CheckBox( "rememberMe" )%></p>
-        
-        <input type="submit" value="Log On" /> [ <%= Html.ActionLink( "Forgotten password", "forgottenpassword", "users" ) %> ]
+        <div>
+            [ <%= Html.ActionLink( "Forgotten password", "forgottenpassword", "users" ) %> ]
+        </div>
         
 	<% } %>
 
