@@ -97,7 +97,7 @@ namespace Jumblist.Website.Controllers
                 model.User = user;
                 model.UserSearchArea = userSearchArea;
                 model.PostCategory = new PostCategory();
-                model.PostCategorySelectList = PostCategorySearchSelectList();
+                model.WithSelectList( typeof( PostCategory ), PostCategorySearchSelectList() );
                 model.Tags = new List<Tag>();
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
@@ -154,7 +154,7 @@ namespace Jumblist.Website.Controllers
                 model.User = user;
                 model.UserSearchArea = userSearchArea;
                 model.PostCategory = postCategory;
-                model.PostCategorySelectList = PostCategorySearchSelectList();
+                model.WithSelectList( typeof( PostCategory ), PostCategorySearchSelectList() );
                 model.Tags = new List<Tag>();
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
@@ -207,7 +207,7 @@ namespace Jumblist.Website.Controllers
                 model.User = user;
                 model.UserSearchArea = userSearchArea;
                 model.PostCategory = postCategory ?? new PostCategory();
-                model.PostCategorySelectList = PostCategorySearchSelectList();
+                model.WithSelectList( typeof( PostCategory ), PostCategorySearchSelectList() );
                 model.Tags = new List<Tag>();
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
@@ -258,7 +258,7 @@ namespace Jumblist.Website.Controllers
                 model.User = user;
                 //model.UserSearchArea = userSearchArea;
                 model.PostCategory = postCategory ?? new PostCategory();
-                model.PostCategorySelectList = PostCategorySearchSelectList();
+                model.WithSelectList( typeof( PostCategory ), PostCategorySearchSelectList() );
                 model.Tags = new List<Tag>();                
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
@@ -310,7 +310,7 @@ namespace Jumblist.Website.Controllers
                 model.User = user;
                 model.UserSearchArea = userSearchArea;
                 model.PostCategory = postCategory ?? new PostCategory();
-                model.PostCategorySelectList = PostCategorySearchSelectList();
+                model.WithSelectList( typeof( PostCategory ), PostCategorySearchSelectList() );
                 model.Tags = tagList; 
                 model.Pushpins = pushpinList;
                 model.PagedList = pagedPostList;
@@ -408,7 +408,7 @@ namespace Jumblist.Website.Controllers
             if ( user.IsAuthenticated )
             {
                 var model = DefaultView.CreateModel<UserAlert>();
-                model.PageTitle = "Edit Alert";
+                model.PageTitle = "Create Email Alert";
                 model.PostListRouteValues = jumblistSession.PostListRouteValues;
                 model.UserSearchArea = jumblistSession.UserSearchArea;
 
@@ -461,8 +461,7 @@ namespace Jumblist.Website.Controllers
             var model = BuildPostViewModel();
 
             model.Item = new Post();
-            //model.PostCategoryList = BuildSelectList( new[] { "Offered", "Wanted" } );
-            model.PostCategorySelectList = PostCategoryAddPostSelectList();
+            model.WithSelectList( typeof( Post ), PostCategoryAddPostSelectList() );
             model.PageTitle = "Create a new post";
             model.Message = new Message { Text = "You are about to create a post", StyleClass = "message" };
 
@@ -577,6 +576,29 @@ namespace Jumblist.Website.Controllers
             {
                 userSearchArea.Update( user.Postcode, user.Radius, user.Latitude, user.Longitude );
             }
+        }
+
+        [NonAction]
+        private IList<PostCategory> PostCategorySearchSelectList()
+        {
+            IList<PostCategory> list = new List<PostCategory>();
+
+            list.Add( new PostCategory() { Name = "All", SelectListValue = "" } );
+            list.Add( new PostCategory() { Name = PostCategoryId.Offered.ToString(), SelectListValue = PostCategoryId.Offered.ToString().ToLower() } );
+            list.Add( new PostCategory() { Name = PostCategoryId.Wanted.ToString(), SelectListValue = PostCategoryId.Wanted.ToString().ToLower() } );
+
+            return list;
+        }
+
+        [NonAction]
+        private IList<PostCategory> PostCategoryAddPostSelectList()
+        {
+            IList<PostCategory> list = new List<PostCategory>();
+
+            list.Add( new PostCategory() { Name = PostCategoryId.Offered.ToString(), SelectListValue = PostCategoryId.Offered.ToString().ToLower() } );
+            list.Add( new PostCategory() { Name = PostCategoryId.Wanted.ToString(), SelectListValue = PostCategoryId.Wanted.ToString().ToLower() } );
+
+            return list;
         }
 
 

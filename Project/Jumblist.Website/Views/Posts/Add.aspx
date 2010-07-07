@@ -48,7 +48,7 @@
         
         <tr>
             <td><label for="Item.PostCategoryId">Post Category:</label></td>
-            <td><%= Html.DropDownListFor( m => m.Item.PostCategoryId, new SelectList( Model.PostCategorySelectList, "Value", "Text" ) )%></td>
+            <td><%= Html.DropDownListFor( m => m.Item.PostCategoryId, new SelectList( Model.SelectList<PostCategory>(), "SelectListValue", "Name" ) )%></td>
             <td>
                 <div class="label-box info" style="display: none;">
                    Please select a category

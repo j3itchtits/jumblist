@@ -14,84 +14,70 @@
 
 	<% using( Html.BeginForm() ) { %>
 	
-        <table>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
         
         <tr>
-            <td><label for="Item.Name">Name:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Name ) %></td>
-            <td>
-                <div class="label-box info" style="display: none;">
+            <td width="30%" class="field-label"><label for="Item_Name">Name:</label></td>
+            <td width="40%" class="field-input"><%= Html.TextBoxFor( m => m.Item.Name, new { @class = "fancy-field" } )%></td>
+            <td width="30%" class="field-helptext">
+                <span class="field-info" style="display: none;">
                    Please enter a username
-                </div>
-                <div class="label-box good" style="display: none;">
-                    Ok
-                </div>
-                <div class="label-box error" style="display: none;">
+                </span>
+                <span class="field-validation-error">
                     <%= Html.ValidationMessageFor( m => m.Item.Name )%>
-			    </div>
+                </span>
             </td>
         </tr>
         
         <tr>
-            <td><label for="Item.Email">Email:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Email ) %></td>
-            <td>
-                <div class="label-box info" style="display: none;">
+            <td class="field-label"><label for="Item_Email">Email:</label></td>
+            <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Email, new { @class = "fancy-field" } )%></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
                    Please enter your email address
-                </div>
-                <div class="label-box good" style="display: none;">
-                    Ok
-                </div>
-                <div class="label-box error" style="display: none;">
+                </span>            
+                <span class="field-validation-error">
                     <%= Html.ValidationMessageFor( m => m.Item.Email )%>
-			    </div>
+			    </span>                
+
             </td>
         </tr>
         
         <tr>
-            <td><label for="Item.Postcode">Postcode:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Postcode )%></td>
-            <td>
-                <div class="label-box info" style="display: none;">
-                   Please enter your postcode
-                </div>
-                <div class="label-box good" style="display: none;">
-                    Ok
-                </div>
-                <div class="label-box error" style="display: none;">
+            <td class="field-label"><label for="Item_Postcode">Postcode:</label></td>
+            <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Postcode, new { @class = "fancy-field" } )%></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
+                   Please enter a valid UK postcode
+                </span> 
+                <span class="field-validation-error">
                     <%= Html.ValidationMessageFor( m => m.Item.Postcode )%>
-			    </div>
+                </span>
             </td>            
         </tr> 
 
         <tr>
-            <td><label for="Item.Password">Password:</label></td>
-            <td><%= Html.PasswordFor( m => m.Item.Password )%></td>
-            <td>
-                <div class="label-box info" style="display: none;">
-                   Please enter your postcode
-                </div>
-                <div class="label-box good" style="display: none;">
-                    Ok
-                </div>
-                <div class="label-box error" style="display: none;">
+            <td class="field-label"><label for="Item_Password">Password:</label></td>
+            <td class="field-input"><%= Html.PasswordFor( m => m.Item.Password, new { @class = "fancy-field" } )%></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
+                   Please enter a password of more than 6 characters
+                </span>             
+                <span class="field-validation-error">
                     <%= Html.ValidationMessageFor( m => m.Item.Password )%>
-			    </div>
+                </span>
             </td>                
         </tr>
         <tr>
-            <td><label for="ConfirmPassword">Confirm Password</label></td>
-            <td><%= Html.Password( "ConfirmPassword" )%></td> 
-            <td>
-                <div class="label-box info" style="display: none;">
+            <td class="field-label"><label for="ConfirmPassword">Confirm Password</label></td>
+            <td class="field-input"><%= Html.Password( "ConfirmPassword", string.Empty, new { @class = "fancy-field" } )%></td> 
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
                    Please confirm your password
-                </div>
-                <div class="label-box good" style="display: none;">
-                    Ok
-                </div>
-                <div class="label-box error" style="display: none;">
-                    <%= Html.ValidationMessage( "Item.ConfirmPassword" )%> 
-			    </div>
+                </span>             
+                <span class="field-validation-error">
+                    <%= Html.ValidationMessage( "ConfirmPassword" )%> 
+                </span>
             </td>               
             
         </tr>

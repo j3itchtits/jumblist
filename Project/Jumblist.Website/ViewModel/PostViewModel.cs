@@ -18,7 +18,6 @@ namespace Jumblist.Website.ViewModel
         public Feed Group { get; set; }
         public IEnumerable<Location> Locations { get; set; }
         public IEnumerable<Pushpin> Pushpins { get; set; }
-        public IEnumerable PostCategorySelectList { get; set; }
         public string Q { get; set; }
 
 
@@ -40,17 +39,7 @@ namespace Jumblist.Website.ViewModel
             return this;
         }
 
-        public PostViewModel With( PostListRouteValues postListRouteValues )
-        {
-            this.PostListRouteValues = postListRouteValues;
-            return this;
-        }
 
-        public PostViewModel With( UserSearchArea userSearchArea )
-        {
-            this.UserSearchArea = userSearchArea;
-            return this;
-        }
     }
 
     /// <summary>

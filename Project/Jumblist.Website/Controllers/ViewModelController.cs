@@ -9,6 +9,8 @@ using StuartClode.Mvc.Service.Data;
 using System.Collections.Generic;
 using System.Linq;
 using Jumblist.Core.Model;
+using Jumblist.Website.Result;
+using System.ServiceModel.Syndication;
 
 namespace Jumblist.Website.Controllers
 {
@@ -17,13 +19,13 @@ namespace Jumblist.Website.Controllers
         public IDataServiceResolver DataServiceResolver { get; set; }
 
         [NonAction]
-        public virtual DefaultViewModel<T> BuildDefaultViewModel()
+        protected internal virtual DefaultViewModel<T> BuildDefaultViewModel()
         {
             return DefaultView.CreateModel<T>();
         }
 
         [NonAction]
-        public virtual DefaultViewModel<T> BuildDataEditDefaultViewModel()
+        protected internal virtual DefaultViewModel<T> BuildDataEditDefaultViewModel()
         {
             var viewModel = DefaultView.CreateModel<T>();
             AddSelectListsToModel( viewModel );
@@ -31,9 +33,15 @@ namespace Jumblist.Website.Controllers
         }
 
         [NonAction]
-        public virtual PostViewModel BuildPostViewModel()
+        protected internal virtual PostViewModel BuildPostViewModel()
         {
             return PostView.CreateModel();
+        }
+
+        [NonAction]
+        protected internal virtual RssResult Rss( SyndicationFeed feed )
+        {
+            return new RssResult() { Feed = feed };
         }
 
         /// <summary>
@@ -56,6 +64,8 @@ namespace Jumblist.Website.Controllers
                 }
             }
         }
+
+
     }
 
 

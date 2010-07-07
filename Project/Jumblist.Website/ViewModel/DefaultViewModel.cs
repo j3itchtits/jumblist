@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using StuartClode.Mvc.Extension;
 using System.Reflection;
 using StuartClode.Mvc.Service.Data;
-
 using StuartClode.Mvc.Model;
 using System.ServiceModel.Syndication;
 using Jumblist.Core.Model;
@@ -13,7 +12,6 @@ namespace Jumblist.Website.ViewModel
 {
     public class DefaultViewModel<T> : BaseViewModel
     {
-        //public IDataServiceResolver DataServiceResolver { get; set; }
         private readonly Dictionary<Type, object> selectLists = new Dictionary<Type, object>();
 
         public IEnumerable<T> List { get; set; }
@@ -67,15 +65,15 @@ namespace Jumblist.Website.ViewModel
         }
 
         //This method is called from a view
-		public IEnumerable<TLookup> SelectList<TLookup>()
-		{
+        public IEnumerable<TLookup> SelectList<TLookup>()
+        {
             Type lookupType = typeof( TLookup );
 
             if ( !selectLists.ContainsKey( lookupType ) )
                 throw new ApplicationException( string.Format( "List of type {0} does not exist in lookup list", lookupType.Name ) );
 
             return selectLists[lookupType] as IEnumerable<TLookup>;
-		}
+        }
     }
 
 

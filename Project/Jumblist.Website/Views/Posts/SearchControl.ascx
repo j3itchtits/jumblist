@@ -7,8 +7,11 @@
         //PostCategory
 %>
         <b>Category</b><br />
-        <%= Html.DropDownList( "postCategorySelection", new SelectList( Model.PostCategorySelectList, "Value", "Text", Model.PostCategory.Name ) )%><br /><br />
+        <%= Html.DropDownList( "postCategorySelection", new SelectList( Model.SelectList<PostCategory>(), "SelectListValue", "Name", Model.PostCategory.Name ) )%><br /><br />
 
+<%--<%= Html.DropDownList( "postCategorySelection", Model.BuildSelectList( new[] { "hello", "arse" }, "arse" ) )%><br /><br />
+<%= Html.DropDownList( "postCategorySelection", Model.BuildSelectList( new[] { new[] { "0", "yes" }, new[] { "1", "no" } }, "1" ) )%><br /><br />
+--%>
         <b>Tags</b><br />
         <%= Html.TextBox( "tagSearch", (Model.Tags.Select( x => x.Name ).ToFormattedStringList( "{0} " ) + Model.Q).Trim() )%><br /><br /> <%
 

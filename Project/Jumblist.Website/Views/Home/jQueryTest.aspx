@@ -27,6 +27,7 @@
     <link href="<%= Url.Stylesheet( "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
     <link href="<%= Url.Stylesheet( "jquery.colorbox.css" )%>" rel="stylesheet" type="text/css"/>
     <link href="<%= Url.Stylesheet( "jquery.alerts.css" )%>" rel="stylesheet" type="text/css"/>
+    <link href="<%= Url.Stylesheet( "jumblist.css" )%>" rel="stylesheet" type="text/css"/>
         
     <style type="text/css">
         .highlight { background-color: yellow; }
@@ -90,6 +91,38 @@
     <script type="text/javascript">
 
         $(document).ready(function() {
+
+            $("div.test-background").click(function() {
+                //$(this).addClass("selected");
+                $(this).css("color", "yellow");
+            });
+
+            $(".field").focus(function() {
+                $(this).parent().parent().addClass("selected");
+                $(this).parent().parent().find("div.info").css("display", "block");
+            });
+
+            $(".field").blur(function() {
+                $(this).parent().parent().removeClass("selected");
+                $(this).parent().parent().find("div.info").css("display", "none");
+            });
+
+            $(".validation-failed").click(function() {
+                $(this).parent().find("div.error").css("display", "block");
+                $(this).parent().find("div.good").css("display", "none");
+                $(this).parent().find("div.info").css("display", "none");
+            });
+
+            $(".validation-passed").click(function() {
+                $(this).parent().find("div.good").css("display", "block");
+                $(this).parent().find("div.error").css("display", "none");
+                $(this).parent().find("div.info").css("display", "none");
+            });
+            
+            //        $("tr#row-input").click(function() {
+            //            $(this).addClass("selected");
+            //            //$(this).css("background-color", "yellow");
+            //        });
 
             $('div.tabs').tabs();
 
@@ -294,6 +327,51 @@
 <body>
     <div>
         <h2><%= Model.PageTitle %></h2>
+
+        <p><strong>Validation styling</strong></p> 
+
+        <div class="test-background">Hello</div>    
+        
+        <ul>
+            <li class="tester">Burger off!</li>
+        </ul>
+        
+        <table style="width:600px;" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+            <td width="100"><label for="name">Name:</label></td>
+            <td width="200"><input name="name" id="name" class="field" /></td>
+            <td width="300">
+                <button class="validation-failed">Validation failed</button>
+                <button class="validation-passed">Validation passed</button>
+                <div class="label-box info" style="display: none;">
+                   Please enter a username
+                </div>
+                <div class="label-box good" style="display: none;">
+                    Ok
+                </div>
+                <div class="label-box error" style="display: none;">
+                    This went wrong
+			    </div>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="email">Email:</label></td>
+            <td><input name="email" id="email" class="field" /></td>
+            <td>
+                <button class="validation-failed">Validation failed</button>
+                <button class="validation-passed">Validation passed</button>            
+                <div class="label-box info" style="display: none;">
+                   Please enter an email
+                </div>
+                <div class="label-box good" style="display: none;">
+                    Ok
+                </div>
+                <div class="label-box error" style="display: none;">
+                    This went wrong
+			    </div>
+            </td>
+        </tr>
+        </table>
 
         <p><strong>Client-side JSON</strong></p> 
         <div id="basic_usage"></div> 
