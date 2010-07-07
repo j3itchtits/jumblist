@@ -13,10 +13,12 @@
     <% using ( Html.BeginForm() ) { %>
 
         <p>
-            Action: <%= Model.PostListRouteValues.Action %><br />
-            Id: <%= Model.PostListRouteValues.Id %><br />
-            Category: <%= Model.PostListRouteValues.Category %><br />
-            Q: <%= Model.PostListRouteValues.Q %><br />
+            You are about to create an email alert base on the following criteria:<br />
+            Posts: 
+            <%= !string.IsNullOrEmpty( Model.PostListRouteValues.Action ) ? Model.PostListRouteValues.Action + ", " : string.Empty %>
+            <%= !string.IsNullOrEmpty( Model.PostListRouteValues.Id ) ? Model.PostListRouteValues.Id + ", " : string.Empty%>
+            <%= !string.IsNullOrEmpty( Model.PostListRouteValues.Category ) ? Model.PostListRouteValues.Category + ", " : string.Empty%>
+            <%= !string.IsNullOrEmpty( Model.PostListRouteValues.Q ) ? Model.PostListRouteValues.Q + ", " : string.Empty%><br />
             Location: Within <%= Model.UserSearchArea.Radius%> miles of <%= Model.UserSearchArea.Name%><br />            
         </p>        
         
@@ -39,11 +41,11 @@
         </tr>
         
         <tr>
-            <td><label for="Item.IsImmediateSend">IsImmediateSend:</label></td>
+            <td><label for="Item.IsImmediateSend">Send Immediately?:</label></td>
             <td><%= Html.CheckBoxFor( m => m.Item.IsImmediateSend )%></td>
             <td>
                 <div class="label-box info" style="display: none;">
-                   Remember the details on this computure?
+                   Send an email as soon as a new post matching your criteria is found?
                 </div>
                 <div class="label-box good" style="display: none;">
                     Ok
@@ -52,8 +54,9 @@
         </tr>  
         
         <tr>
-            <td><label for="Item.TimetoSend">TimetoSend:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.TimetoSend )%></td>
+            <td><label for="Item.TimetoSend">Send Daily:</label></td>
+            
+            <td><%= Html.DropDownListFor( m => m.Item.TimetoSend, Model.BuildHoursSelectList( "9" ) )%></td>
             <td>
                 <div class="label-box info" style="display: none;">
                    Please enter a time on the 24 hour clock

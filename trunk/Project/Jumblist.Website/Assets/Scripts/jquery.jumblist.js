@@ -1,7 +1,18 @@
 ﻿/* all initial functionality goes here - like window.onload() */
 
 $(document).ready(function() {
-    convertLinksToLowerCase();
+
+convertLinksToLowerCase();
+
+$(".fancy-field").focus(function() {
+    $(this).parent().parent().addClass("selected");
+    $(this).parent().parent().find(".field-info").css("display", "block");
+});
+
+$(".fancy-field").blur(function() {
+    $(this).parent().parent().removeClass("selected");
+    $(this).parent().parent().find(".field-info").css("display", "none");
+});    
 });
 
 

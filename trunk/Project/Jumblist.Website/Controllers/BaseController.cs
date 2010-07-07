@@ -2,11 +2,6 @@
 using Jumblist.Website.Filter;
 using Jumblist.Core.Model;
 using System.Collections.Generic;
-using Jumblist.Website.Result;
-using System.ServiceModel.Syndication;
-using System.Linq;
-using System;
-using System.Collections;
 
 namespace Jumblist.Website.Controllers
 {
@@ -50,67 +45,68 @@ namespace Jumblist.Website.Controllers
             set { TempData["returnurl"] = value; }
         }
 
-        protected internal virtual RssResult Rss( SyndicationFeed feed )
-        {
-            return new RssResult() { Feed = feed };
-        }
 
-        [NonAction]
-        protected internal virtual IEnumerable<SelectListItem> BuildSelectList( IEnumerable<string> ienum )
-        {
-            IEnumerable<SelectListItem> items = ienum.Select( x => new SelectListItem() { Text = x, Value = x.ToLower() } );
-            return items;
 
-            //List<SelectListItem> selectList = new List<SelectListItem>();
 
-            //foreach ( var p in array )
-            //{
-            //    selectList.Add( new SelectListItem() { Text = p, Value = p.ToLower() } );
-            //}
 
-            //return selectList;
-        }
 
-        [NonAction]
-        protected internal virtual IEnumerable SelectList( IEnumerable<string> ienum )
-        {
-            IEnumerable items = ienum.Select( x => new { Text = x, Value = x.ToLower() } );
-            return items;
-        }
 
-        [NonAction]
-        protected internal virtual IEnumerable<SelectListItem> BuildSelectList( IDictionary<string, string> idic )
-        {
-            IEnumerable<SelectListItem> items = idic.Select( x => new SelectListItem() { Text = x.Key, Value = x.Value.ToLower() } );
-            return items;
-        }
+        //[NonAction]
+        //protected internal virtual IEnumerable<SelectListItem> BuildSelectList( IEnumerable<string> ienum )
+        //{
+        //    IEnumerable<SelectListItem> items = ienum.Select( x => new SelectListItem() { Text = x, Value = x.ToLower() } );
+        //    return items;
 
-        [NonAction]
-        protected internal virtual IEnumerable SelectList( IDictionary<string, string> idic )
-        {
-            IEnumerable items = idic.Select( x => new { Text = x.Key, Value = x.Value.ToLower() } );
-            return items;
-        }
+        //    //List<SelectListItem> selectList = new List<SelectListItem>();
 
-        [NonAction]
-        protected internal IEnumerable PostCategoryAddPostSelectList()
-        {
-            return new[] 
-            { 
-                new { Text = PostCategoryId.Offered.ToString(), Value = ((int)PostCategoryId.Offered).ToString() }, 
-                new { Text = PostCategoryId.Wanted.ToString(), Value = ((int)PostCategoryId.Wanted).ToString() } 
-            };
-        }
+        //    //foreach ( var p in array )
+        //    //{
+        //    //    selectList.Add( new SelectListItem() { Text = p, Value = p.ToLower() } );
+        //    //}
 
-        [NonAction]
-        protected internal IEnumerable PostCategorySearchSelectList()
-        {
-            return new[] 
-            { 
-                new { Text = "All", Value = "" }, 
-                new { Text = PostCategoryId.Offered.ToString(), Value = PostCategoryId.Offered.ToString().ToLower() }, 
-                new { Text = PostCategoryId.Wanted.ToString(), Value = PostCategoryId.Wanted.ToString().ToLower() } 
-            };
-        }
+        //    //return selectList;
+        //}
+
+        //[NonAction]
+        //protected internal virtual IEnumerable SelectList( IEnumerable<string> ienum )
+        //{
+        //    IEnumerable items = ienum.Select( x => new { Text = x, Value = x.ToLower() } );
+        //    return items;
+        //}
+
+        //[NonAction]
+        //protected internal virtual IEnumerable<SelectListItem> BuildSelectList( IDictionary<string, string> idic )
+        //{
+        //    IEnumerable<SelectListItem> items = idic.Select( x => new SelectListItem() { Text = x.Key, Value = x.Value.ToLower() } );
+        //    return items;
+        //}
+
+        //[NonAction]
+        //protected internal virtual IEnumerable SelectList( IDictionary<string, string> idic )
+        //{
+        //    IEnumerable items = idic.Select( x => new { Text = x.Key, Value = x.Value.ToLower() } );
+        //    return items;
+        //}
+
+        //[NonAction]
+        //protected internal IEnumerable PostCategoryAddPostSelectList()
+        //{
+        //    return new[] 
+        //    { 
+        //        new { Text = PostCategoryId.Offered.ToString(), Value = ((int)PostCategoryId.Offered).ToString() }, 
+        //        new { Text = PostCategoryId.Wanted.ToString(), Value = ((int)PostCategoryId.Wanted).ToString() } 
+        //    };
+        //}
+
+        //[NonAction]
+        //protected internal IEnumerable PostCategorySearchSelectList()
+        //{
+        //    return new[] 
+        //    { 
+        //        new { Text = "All", Value = "" }, 
+        //        new { Text = PostCategoryId.Offered.ToString(), Value = PostCategoryId.Offered.ToString().ToLower() }, 
+        //        new { Text = PostCategoryId.Wanted.ToString(), Value = PostCategoryId.Wanted.ToString().ToLower() } 
+        //    };
+        //}
     }
 }

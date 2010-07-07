@@ -22,6 +22,8 @@ namespace Jumblist.Core.Model
         {
             return x => x.IsNavigation == isNavigation;
         }
+
+        public string SelectListValue { get; set; }
     }
 
     public enum PostCategoryId

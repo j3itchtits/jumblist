@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Web;
 using Jumblist.Core.Service;
+using System;
+using System.Web.Mvc;
+using System.Linq;
 
 namespace Jumblist.Website.ViewModel
 {
@@ -50,6 +53,44 @@ namespace Jumblist.Website.ViewModel
             return this;
         }
 
+        public SelectList BuildSelectList( IEnumerable<string> ienum )
+        {
+            return BuildSelectList( ienum, null );
+        }
 
+        public SelectList BuildSelectList( IEnumerable<string> ienum, object defaultValue )
+        {
+            IEnumerable<SelectListItem> items = ienum.Select( x => new SelectListItem() { Text = x, Value = x.ToLower() } );
+            return new SelectList( items, "Value", "Text", defaultValue );
+        }
+
+        public SelectList BuildSelectList( IEnumerable<string[]> ienum, object defaultValue )
+        {
+            IEnumerable<SelectListItem> items = ienum.Select( x => new SelectListItem() { Text = x[1], Value = x[0].ToLower() } );
+            return new SelectList( items, "Value", "Text", defaultValue );
+        }
+
+        public SelectList BuildSelectList( IDictionary<string, string> idic )
+        {
+            return BuildSelectList( idic, null );
+        }
+
+        public SelectList BuildSelectList( IDictionary<string, string> idic, object defaultValue )
+        {
+            IEnumerable<SelectListItem> items = idic.Select( x => new SelectListItem() { Text = x.Key, Value = x.Value.ToLower() } );
+            return new SelectList( items, "Value", "Text", defaultValue );
+        }
+
+        public SelectList BuildHoursSelectList( object defaultValue )
+        {
+            IList<string> list = new List<string>();
+
+            for ( int i = 0; i < 24; i++ )
+            {
+                list.Add( i.ToString() );
+            }
+
+            return BuildSelectList( list, defaultValue );
+        }
     }
 }
