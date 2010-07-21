@@ -45,7 +45,7 @@ namespace Jumblist.Website.Controllers
             //var list = tagService.SelectList( Tag.WhereTagNameListOr( tags ) ).OrderBy( x => x.Name );
             //var list = tagService.SelectList( Tag.WhereTagNameListEqualsOr( tags ) ).OrderBy( x => x.Name );
 
-            IQueryable<Tag> tagList = tagService.SelectRecordList().OrderByDescending( t => t.PostTags.Count( pt => pt.Post.Display == true ) );
+            IEnumerable<Tag> tagList = tagService.SelectRecordList().OrderByDescending( t => t.PostTags.Count( pt => pt.Post.Display == true ) );
 
             int currentPage = page.HasValue ? page.Value - 1 : 0;
             int currentPageSize = 50;

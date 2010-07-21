@@ -7,8 +7,6 @@
     <title><%= Html.PageTitle( ViewData.Model )%> | Jumblist</title>
     
     <link href="<%= Url.Stylesheet( "yui-reset.css" )%>" rel="stylesheet" type="text/css"/>
-    <link href="<%= Url.Stylesheet( "yui-reset.css" )%>" rel="stylesheet" type="text/css"/>
-    <link href="<%= Url.Stylesheet( "yui-fonts-min.css" )%>" rel="stylesheet" type="text/css"/>
     <link href="<%= Url.Stylesheet( "jumblist.fonts.css" )%>" rel="stylesheet" type="text/css"/>
     <link href="<%= Url.Stylesheet( "jumblist.css" )%>" rel="stylesheet" type="text/css"/>
 
@@ -31,36 +29,43 @@
     <div id="header">
         <div id="header-interior">
           
-            <table>
-            <tr><td>
+            <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+            <td colspan="2">
+                <div id="loginarea">
+                    <span class="logindetails"><% Html.RenderAction( "LoginLinks", "Users" ); %></span>
+                </div>
+            </td>
+            </tr>
+            <tr>
+            <td width="300">
                 <div id="logo">
                     <a href="/"><img src="/assets/images/logo.png" alt="Jumblist" width="300" height="60" /></a>
                 </div>
-            </td><td>
-                <div id="loginarea">
-                    <% Html.RenderAction( "LoginLinks", "Users" ); %>
-                </div>
-                <% Html.RenderPartial( "BasketControl" ); %>
+            </td>
+            <td>
+                <div id="menu">
+                    <ul>
+                        <li><%= Html.HomepageLink( "HOME" ) %></li>
+                        <li>
+                            <%= Html.ActionLink( "POSTS", "index", "posts" ) %>
+                            <ul style="width: 67px;">
+                                <li><%= Html.ActionLink( "OFFERED", "category", "posts", new { id = "Offered" }, null )%></li>
+                                <li><%= Html.ActionLink( "WANTED", "category", "posts", new { id = "Wanted" }, null ) %></li>
+                            </ul>
+                        </li>
+                        <li><%= Html.ActionLink( "ADD POST", "add", "posts", new { returnUrl = Request.Url.PathAndQuery }, null )%></li>
+                        <li><%= Html.ActionLink( "TAGS", "index", "tags" ) %></li>
+                        <li><%= Html.ActionLink( "LOCATIONS", "index", "locations" )%></li>
+                        <li><%= Html.ActionLink( "GROUPS", "index", "groups" )%></li>
+                    </ul>
+                </div>  
+                            
+                
             </td></tr>
             </table>
                    
-            <div id="menu">
-                <ul>
-                    <li><%= Html.HomepageLink( "HOME" ) %></li>
-                    <li>
-                        <%= Html.ActionLink( "POSTS", "index", "posts" ) %>
-                        <ul style="width: 67px;">
-                            <li><%= Html.ActionLink( "OFFERED", "category", "posts", new { id = "Offered" }, null )%></li>
-                            <li><%= Html.ActionLink( "WANTED", "category", "posts", new { id = "Wanted" }, null ) %></li>
-                        </ul>
-                    </li>
-                    <li><%= Html.ActionLink( "ADD POST", "add", "posts", new { returnUrl = Request.Url.PathAndQuery }, null )%></li>
-                    <li><%= Html.ActionLink( "TAGS", "index", "tags" ) %></li>
-                    <li><%= Html.ActionLink( "LOCATIONS", "index", "locations" )%></li>
-                    <li><%= Html.ActionLink( "GROUPS", "index", "groups" )%></li>
-                    <li><%= Html.ActionLink( "ABOUT", "About", "Home" )%></li>
-                </ul>
-            </div>                    
+                  
         </div>
     </div>
 
@@ -70,10 +75,15 @@
             <asp:ContentPlaceHolder ID="BodyContentLeft" runat="server" />
         </div>
         
-        <asp:ContentPlaceHolder ID="BodyContentRight" runat="server" />
+        <div id="container-rightcolumn">
+            <asp:ContentPlaceHolder ID="BodyContentRight" runat="server" />
+        </div>
         
         <div id="footer">
-            <span>Copyright notice etc</span>
+            <%= Html.ActionLink( "About Us", "About", "Home" )%> | 
+            <%= Html.ActionLink( "Privacy", "Privacy", "Home" )%> |
+            <%= Html.ActionLink( "Terms", "Terms", "Home" )%> | 
+            <%= Html.ActionLink( "FAQ", "Faq", "Home" )%>
         </div>          
         
     </div>     

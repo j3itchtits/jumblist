@@ -12,20 +12,17 @@
         Number of items: <%= Model.ListCount %><br />
         <%= Html.ActionLink( "RSS Feed", "Rss", new { rssActionName = ViewContext.RouteData.Values["action"], rssActionId = ViewContext.RouteData.Values["id"], rssActionCategory = ViewContext.RouteData.Values["category"], q = Model.Q } )%><br />
         <%= Html.ActionLink( "Email alert", "EmailAlert", new { returnUrl = Request.Url.PathAndQuery } )%><br />
-            
     </div>
-    
-
 
 	<div id="tabs">
 		
-		<ul class="tab-navigation">
-			<li><a href="#tab-postlist">Listing</a></li>
-			<li><a href="#tab-map">Map</a></li>
+		<ul class="tabNavigation">
+			<li><a href="#tabbedpostlist">Listing</a></li>
+			<li><a href="#tabbedmaplist">Map</a></li>
 		</ul>
-		
-		<div id="tab-postlist">
-		
+
+		<div id="tabbedpostlist">
+    
             <% Html.RenderPartial( "PostListControl", Model.PagedList ); %>
           
             <div class="pagerlinks">
@@ -40,14 +37,15 @@
             </div> 
             
 		</div>
+				
+		<div id="tabbedmaplist">
 		
-		<div id="tab-map">
-    
             <% Html.RenderPartial( "GoogleMapControl", Model.Pushpins ); %>
-
             <% Html.RenderPartial( "BasicMapListControl", Model.Pushpins ); %>
-                    
+
 		</div>
+		
+
 	</div>
 
 </asp:Content>
@@ -57,9 +55,12 @@
     <link href="<%= Url.Stylesheet( "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
     <script src="<%= Url.Script( "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
     
+    <link href="<%= Url.Stylesheet( "ui.tabs.css" )%>" rel="stylesheet" type="text/css"/>
+    <script src="<%= Url.Script( "jquery-ui-1.7.2.custom.min.js" )%>" type="text/javascript"></script>
+
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#tabs').tabs();
+            $('div#tabs').tabs();
             $("input#tagSearch").autocomplete('<%= Url.Action( "AjaxFindTags", "Tags", new { area = "" } ) %>', { minChars: 1, multiple: true, multipleSeparator: " " });
         });
     </script>   
@@ -68,7 +69,7 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <div id="container-rightcolumn">
+    <div id="fancy-greenbox">
 
     <% 
         //string actionName = ViewContext.RouteData.Values["action"].ToString();

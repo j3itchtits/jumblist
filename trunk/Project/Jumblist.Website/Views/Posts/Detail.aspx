@@ -72,7 +72,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <div id="container-rightcolumn">
+    <div id="fancy-greenbox">
 
         <div class="post-category">
             <p class="heading">Category</p>

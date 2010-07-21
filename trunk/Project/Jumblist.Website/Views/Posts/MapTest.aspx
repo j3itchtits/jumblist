@@ -5,8 +5,6 @@
 <head runat="server">
     <title>MapTest</title>
     <link href="<%= Url.Stylesheet( "yui-reset.css" )%>" rel="stylesheet" type="text/css"/>
-    <link href="<%= Url.Stylesheet( "yui-reset.css" )%>" rel="stylesheet" type="text/css"/>
-    <link href="<%= Url.Stylesheet( "yui-fonts-min.css" )%>" rel="stylesheet" type="text/css"/>
     <link href="<%= Url.Stylesheet( "jumblist.css" )%>" rel="stylesheet" type="text/css"/>
     <script src="<%= Url.Script( "jquery-1.3.2.min.js" )%>" type="text/javascript"></script>
     

@@ -27,9 +27,13 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <div id="container-rightcolumn">
+    <div id="fancy-greenbox">
         <p class="heading">Latest Posts</p>
         <% Html.RenderAction( "BasicPostList", "posts", new { top = 5 } ); %>
+    </div>
+    
+    <div id="plain-box">
+        <% Html.RenderPartial( "BasketControl" ); %>
     </div>
     
 </asp:Content>

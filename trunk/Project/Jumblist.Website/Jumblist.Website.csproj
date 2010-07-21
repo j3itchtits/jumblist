@@ -149,8 +149,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Stylesheets\jumblist.css" />
-    <Content Include="Assets\Stylesheets\yui-base.css" />
-    <Content Include="Assets\Stylesheets\yui-fonts-min.css" />
     <Content Include="Assets\Stylesheets\yui-reset.css" />
     <Content Include="Global.asax" />
     <Content Include="Assets\Scripts\jquery.validate.min.js" />
@@ -304,7 +302,9 @@
     <Content Include="Assets\Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Assets\Scripts\jquery-1.4.1.js" />
     <Content Include="Assets\Scripts\jquery-1.4.1.min.js" />
+    <Content Include="Assets\Scripts\jquery-ui-1.7.2.custom.min.js" />
     <Content Include="Assets\Scripts\jquery.color.js" />
+    <Content Include="Assets\Stylesheets\ui.tabs.css" />
     <Content Include="Views\Posts\BasicPostListControl.ascx" />
     <Content Include="Views\Shared\Site.Master" />
   </ItemGroup>

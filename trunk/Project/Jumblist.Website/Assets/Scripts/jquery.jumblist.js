@@ -31,7 +31,7 @@ $(document).ready(function() {
     });
 
     $(".fancy-field").blur(function() {
-        $(this).parent().parent().removeClass("selected");
+        $(this).parent().parent().removeClass("field-selected");
         $(this).parent().parent().find(".field-info").css("display", "none");
     });
 });

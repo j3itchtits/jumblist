@@ -93,7 +93,7 @@
 
 <asp:Content ID="Content4" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <div id="container-rightcolumn">
+    <div id="fancy-greenbox">
         <p class="heading">Please create a new post</p>
     </div>
     
