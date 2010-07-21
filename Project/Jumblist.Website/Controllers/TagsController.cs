@@ -59,6 +59,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
+        [OutputCache( CacheProfile = "AjaxLookup" )]
         public ContentResult AjaxFindTags( string q )
         {
             string[] tags = tagService.SelectTagNameList( q );
@@ -68,6 +69,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
+        [OutputCache( CacheProfile = "AjaxLookup" )]
         public ContentResult AjaxTags()
         {
             string[] tags = tagService.SelectTagNameList();

@@ -72,42 +72,46 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentRight" runat="server">
 
+    <div id="container-rightcolumn">
 
+        <div class="post-category">
+            <p class="heading">Category</p>
+            <%= Html.ActionLink( Model.Item.Category.Name, "category", new { id = Model.Item.Category.Name.ToFriendlyUrlEncode() } ) %>
+        </div>
 
-    <div class="post-category">
-        <b>Category: </b><br />
-        <%= Html.ActionLink( Model.Item.Category.Name, "category", new { id = Model.Item.Category.Name.ToFriendlyUrlEncode() } ) %>
-    </div>
-
-    <% if ( Model.Item.Feed != null )
-       { %>
-            <div class="post-group">
-                <b>Group: </b><br />
-                <%= Html.ActionLink( Model.Item.Feed.Name, "group", new { id = Model.Item.Feed.FriendlyUrl } )%>
-            </div>
-    <% } %>
-           
-    <div class="post-tags">
-        <b>Tags: </b><br />
-        <%= Html.PostTagListLinks( Model.Item.Tags ) %>
-    </div>
-    
-    <div class="post-locations">
-        <b>Location: </b><br />
-        <%= Html.PostLocationListLinks( Model.Item.Locations )%>
-
-        <%  if ( Model.Item.HaveLatitudeAndLongitudeValuesBeenPopulated ) 
+        <% if ( Model.Item.Feed != null )
            { %>
-                [ <a title="Approximate location of <%= Html.Encode( Model.Item.Title ) %>" href="#" onclick="mapPopup( <%= Model.Item.Latitude %>, <%= Model.Item.Longitude %>, '<%= Html.Encode( Model.Item.Title ) %>' );">Map</a> ]<% 
-           } %>
-            
+                <div class="post-group">
+                    <p class="heading">Group</p>
+                    <%= Html.ActionLink( Model.Item.Feed.Name, "group", new { id = Model.Item.Feed.FriendlyUrl } )%>
+                </div>
+        <% } %>
+               
+        <div class="post-tags">
+            <p class="heading">Tags</p>
+            <%= Html.PostTagListLinks( Model.Item.Tags ) %>
+        </div>
+        
+        <div class="post-locations">
+            <p class="heading">Location</p>
+            <%= Html.PostLocationListLinks( Model.Item.Locations )%>
+
+            <%  if ( Model.Item.HaveLatitudeAndLongitudeValuesBeenPopulated ) 
+               { %>
+                    [ <a title="Approximate location of <%= Html.Encode( Model.Item.Title ) %>" href="#" onclick="mapPopup( <%= Model.Item.Latitude %>, <%= Model.Item.Longitude %>, '<%= Html.Encode( Model.Item.Title ) %>' );">Map</a> ]<% 
+               } %>
+                
+        </div>
+
+        <div class="post-socialmedia"> 
+            <p class="heading">Share</p>
+            <a href="http://www.facebook.com/sharer.php?u=<%= Request.Url.AbsoluteUri %>&t=<%= Html.PageTitle( ViewData.Model )%>" title="Share on Facebook" target="_blank"><img src="/assets/images/facebook-icon.png" width="25" height="25" alt="Share on Facebook" /></a> 
+            <a id="twitter-share" title="Share on Twitter" target="_blank"><img src="/assets/images/twittericon.png" width="25" height="25" alt="Share on Twitter" /></a>
+        </div> 
+
     </div>
 
-    <div class="post-socialmedia"> 
-        <b>Share: </b><br />
-        <a href="http://www.facebook.com/sharer.php?u=<%= Request.Url.AbsoluteUri %>&t=<%= Html.PageTitle( ViewData.Model )%>" title="Share on Facebook" target="_blank"><img src="/assets/images/facebook-icon.png" width="25" height="25" alt="Share on Facebook" /></a> 
-        <a id="twitter-share" title="Share on Twitter" target="_blank"><img src="/assets/images/twittericon.png" width="25" height="25" alt="Share on Twitter" /></a>
-    </div> 
+
     
 
     

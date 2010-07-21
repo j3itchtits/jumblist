@@ -145,8 +145,8 @@ Optimisation
 -----
 http://weblogs.asp.net/rashid/archive/2009/04/01/asp-net-mvc-best-practices-part-1.aspx
 http://weblogs.asp.net/rashid/archive/2009/04/03/asp-net-mvc-best-practices-part-2.aspx
-
-
+http://www.codeproject.com/KB/aspnet/How_to_improve_performanc.aspx
+http://weblogs.asp.net/rashid/archive/2008/03/28/asp-net-mvc-action-filter-caching-and-compression.aspx
 
 --------------------------------------------------------------------------------------
 

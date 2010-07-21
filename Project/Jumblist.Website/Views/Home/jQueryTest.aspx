@@ -8,7 +8,7 @@
 
     <title>jQueryTest</title>
 
-    <script src="../../Assets/Scripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+    <script src="../../Assets/Scripts/jquery-1.4.1.min.js" type="text/javascript"></script>
 
     <script src="<%= Url.Script( "MicrosoftAjax.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "MicrosoftMvcAjax.js" )%>" type="text/javascript"></script>
@@ -20,7 +20,7 @@
     <script src="<%= Url.Script( "jquery.alerts.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.customdata.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.jsonviewer.js" )%>" type="text/javascript"></script>
-    
+    <script src="<%= Url.Script( "jquery.color.js" )%>" type="text/javascript"></script>
     
     <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
 
@@ -84,7 +84,30 @@
 		#third {
 		    background-color: #00f;
 		}
-		        
+
+        .pane {
+	        background: #edf5e1;
+	        padding: 10px 20px 10px;
+	        position: relative;
+	        border-top: solid 2px #c4df9b;
+        }
+        .pane .delete {
+	        position: absolute;
+	        top: 10px;
+	        right: 10px;
+	        cursor: pointer;
+        }
+        .pane .colour {
+	        position: absolute;
+	        top: 30px;
+	        right: 10px;
+	        cursor: pointer;
+        }
+        
+        .spam {
+	        color: #999999;
+        }
+        		        
     </style>
 
 
@@ -92,18 +115,57 @@
 
         $(document).ready(function() {
 
+            $(".pane .delete").click(function() {
+                $(this).parents(".pane").animate({ opacity: 'hide' }, "slow");
+            });
+
+            $(".pane .colour").click(function() {
+                $(this).parents(".pane").animate({ backgroundColor: "#fff568" }, "fast");
+            });
+
+            $(".pane .btn-delete").click(function() {
+                alert("This comment will be deleted!");
+
+                $(this).parents(".pane").animate({ backgroundColor: "#fbc7c7" }, "fast")
+		        .animate({ opacity: "hide" }, "slow")
+                return false;
+            });
+
+            $(".pane .btn-unapprove").click(function() {
+                $(this).parents(".pane").animate({ backgroundColor: "#fff568" }, "fast")
+		        .animate({ backgroundColor: "#ffffff" }, "slow")
+		        .addClass("spam")
+                return false;
+            });
+
+            $(".pane .btn-approve").click(function() {
+                $(this).parents(".pane").animate({ backgroundColor: "#dafda5" }, "fast")
+		        .animate({ backgroundColor: "#ffffff" }, "slow")
+		        .removeClass("spam")
+                return false;
+            });
+
+            $(".pane .btn-spam").click(function() {
+                $(this).parents(".pane").animate({ backgroundColor: "#fbc7c7" }, "fast")
+		        .animate({ opacity: "hide" }, "slow")
+                return false;
+            });            
+            
+            
+            
+            
             $("div.test-background").click(function() {
                 //$(this).addClass("selected");
                 $(this).css("color", "yellow");
             });
 
             $(".field").focus(function() {
-                $(this).parent().parent().addClass("selected");
+                $(this).parent().parent().addClass("highlight");
                 $(this).parent().parent().find("div.info").css("display", "block");
             });
 
             $(".field").blur(function() {
-                $(this).parent().parent().removeClass("selected");
+                $(this).parent().parent().removeClass("highlight");
                 $(this).parent().parent().find("div.info").css("display", "none");
             });
 
@@ -118,7 +180,7 @@
                 $(this).parent().find("div.error").css("display", "none");
                 $(this).parent().find("div.info").css("display", "none");
             });
-            
+
             //        $("tr#row-input").click(function() {
             //            $(this).addClass("selected");
             //            //$(this).css("background-color", "yellow");
@@ -327,6 +389,51 @@
 <body>
     <div>
         <h2><%= Model.PageTitle %></h2>
+
+        <div id="container">        
+            <div id="menu">
+                <ul>
+                    <li><%= Html.HomepageLink( "HOME" ) %></li>
+                    <li>
+                        <%= Html.ActionLink( "POSTS", "index", "posts" ) %>
+                        <ul>
+                            <li><%= Html.ActionLink( "OFFERED", "category", "posts", new { id = "Offered" }, null )%></li>
+                            <li><%= Html.ActionLink( "WANTED", "category", "posts", new { id = "Wanted" }, null ) %></li>
+                        </ul>
+                    </li>
+                    <li><%= Html.ActionLink( "ADD POST", "add", "posts", new { returnUrl = Request.Url.PathAndQuery }, null )%></li>
+                    <li><%= Html.ActionLink( "TAGS", "index", "tags" ) %></li>
+                    <li><%= Html.ActionLink( "LOCATIONS", "index", "locations" )%></li>
+                    <li><%= Html.ActionLink( "GROUPS", "index", "groups" )%></li>
+                    <li><%= Html.ActionLink( "ABOUT", "About", "Home" )%></li>
+                </ul>
+            </div>    
+        </div>
+        
+        
+        <p><strong>Animations etc</strong></p>
+        
+        <div class="pane"> 
+	        <h3>Cameron launching 'big society'</h3> 
+	        <p>Prime Minister David Cameron is launching the Conservatives' "big society" drive, which he says will empower individuals.</p> 
+	        <span class="delete">delete</span>
+	        <span class="colour">colour</span>
+        </div> 
+        <div class="pane"> 
+	        <h3>US fears Gulf seabed oil seepage</h3> 
+	        <p>US officials fear oil may be seeping from the ocean floor near the stricken Gulf of Mexico well, and order BP to submit a plan to lessen wellhead pressure.</p> 
+	        <span class="delete">delete</span> 
+        </div> 
+        <div class="pane"> 
+	        <h3>Protest over school building cuts</h3> 
+	        <p>School staff and pupils are to join a Westminster rally over the axing of England's school rebuilding scheme.</p> 
+	        <span class="delete">delete</span>
+        </div> 
+        <div class="pane"> 
+	        <h3>Nick says:</h3> 
+	        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi malesuada, ante at feugiat tincidunt, enim massa gravida metus, commodo lacinia massa diam vel eros. Proin eget urna. Nunc fringilla neque vitae odio. Vivamus vitae ligula.</p> 
+	        <p><a href="#" class="btn-delete">Delete</a> | <a href="#" class="btn-unapprove">Unapprove</a> | <a href="#" class="btn-spam">Spam</a></p> 
+        </div> 
 
         <p><strong>Validation styling</strong></p> 
 

@@ -185,6 +185,7 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
+        [ValidateAntiForgeryToken]
         public ActionResult Login( string name, string password, bool rememberMe, string returnUrl, JumblistSession jumblistSession )
         {
             User user = userService.Authenticate( name, password );

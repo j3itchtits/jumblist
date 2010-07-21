@@ -6,19 +6,19 @@
        
         //PostCategory
 %>
-        <b>Category</b><br />
+        <p class="heading">Category</p>
         <%= Html.DropDownList( "postCategorySelection", new SelectList( Model.SelectList<PostCategory>(), "SelectListValue", "Name", Model.PostCategory.Name ) )%><br /><br />
 
 <%--<%= Html.DropDownList( "postCategorySelection", Model.BuildSelectList( new[] { "hello", "arse" }, "arse" ) )%><br /><br />
 <%= Html.DropDownList( "postCategorySelection", Model.BuildSelectList( new[] { new[] { "0", "yes" }, new[] { "1", "no" } }, "1" ) )%><br /><br />
 --%>
-        <b>Tags</b><br />
+        <p class="heading">Tags</p>
         <%= Html.TextBox( "tagSearch", (Model.Tags.Select( x => x.Name ).ToFormattedStringList( "{0} " ) + Model.Q).Trim() )%><br /><br /> <%
 
         //User/Location
         if ((Model.User != null) && (ViewContext.RouteData.Values["action"].ToString() != "located") ) 
         { %>
-            <b>Location</b><br />
+            <p class="heading">Location</p>
             Within <%= Html.TextBox( "locationRadius", Html.LocationRadius( Model.UserSearchArea.Radius ) )%> miles of <%= Html.TextBox( "locationSearch", Html.LocationName( Model.UserSearchArea.Name ) )%><br /><br /> <% 
         }
         

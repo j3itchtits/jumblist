@@ -25,26 +25,37 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Index()
         {
-            var list = locationService.SelectRecordList().OrderBy(x => x.Name);
+            IQueryable<Location> list = locationService.SelectRecordList().OrderBy(x => x.Name);
 
-            var model = BuildDefaultViewModel().With( list );
+            DefaultViewModel<Location> model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Locations";
 
             return View( model );
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
+        [OutputCache( CacheProfile = "AjaxLookup" )]
         public ContentResult AjaxFindLocationNames( string q )
         {
-            var locations = locationService.SelectLocationNameList( q );
+            string[] locations = locationService.SelectLocationNameList( q );
 
             return Content( locations.ToNewLineDelimitedString() );
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
+        [OutputCache( CacheProfile = "AjaxLookup" )]
+        public ContentResult AjaxLocations()
+        {
+            string[] locations = locationService.SelectLocationNameTownList();
+
+            //return raw text, one result on each line
+            return Content( locations.ToNewLineDelimitedString() );
+        } 
+
+        [AcceptVerbs( HttpVerbs.Get )]
         public ContentResult AjaxFindLocationNameAndAreas( string q )
         {
-            var locations = locationService.SelectLocationNameAndAreaList( q );
+            string[] locations = locationService.SelectLocationNameAndAreaList( q );
 
             return Content( locations.ToNewLineDelimitedString() );
         }
@@ -52,18 +63,9 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ContentResult AjaxFindLocationAreas( string q )
         {
-            var locations = locationService.SelectLocationAreaList( q );
+            string[] locations = locationService.SelectLocationAreaList( q );
 
             return Content( locations.ToNewLineDelimitedString() );
         }
-
-        [AcceptVerbs( HttpVerbs.Get )]
-        public ContentResult AjaxLocations()
-        {
-            var locations = locationService.SelectLocationNameTownList();
-
-            //return raw text, one result on each line
-            return Content( locations.ToNewLineDelimitedString() );
-        } 
     }
 }
