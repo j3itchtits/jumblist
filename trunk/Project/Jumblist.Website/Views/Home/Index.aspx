@@ -2,13 +2,16 @@
 
 <asp:Content ID="Content4" ContentPlaceHolderID="HeadContentJavascript" runat="server">
 
-    <script type="text/javascript">
+    <link href="<%= Url.Stylesheet( "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
+    <script src="<%= Url.Script( "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
 
+    <script type="text/javascript">
+    
         $(document).ready(function() {
-        
-    });
-       
-    </script>  
+            $("input#tagSearch").autocomplete('<%= Url.Action( "AjaxFindTags", "Tags", new { area = "" } ) %>', { minChars: 1, multiple: true, multipleSeparator: " " });
+        });
+    
+    </script> 
 
 </asp:Content>
 
@@ -17,20 +20,17 @@
     <div id="messages">
         <%= Html.MessageBox( ViewData.Model ) %>
     </div>
-        
+    
     <% Html.RenderPartial( "SearchControl", Model.User ); %>
           
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <p>Quick View</p>
-    <p><%= Html.ActionLink("Everything", "index", "posts")%><br />
-    <%= Html.ActionLink("Wanted", "category", "posts", new { id = "Wanted" }, null ) %><br />
-    <%= Html.ActionLink( "Offered", "category", "posts", new { id = "Offered" }, null )%></p>
-     
-     <p>Latest Items</p>
-     <% Html.RenderAction("BasicList", "posts", new { top = 5 } ); %>
-
+    <div id="container-rightcolumn">
+        <p class="heading">Latest Posts</p>
+        <% Html.RenderAction( "BasicPostList", "posts", new { top = 5 } ); %>
+    </div>
+    
 </asp:Content>
 

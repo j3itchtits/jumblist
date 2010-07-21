@@ -17,14 +17,14 @@ body
 a 
 {
 	text-decoration: none;
-	color: #837B47;
+	color: #436b0c;
 	display:inline;
 }
 
 a:hover
 {
 	text-decoration: underline;
-	color: #5A3D31;
+	color: #3C7DC4;
 }
 
 fieldset, img 
@@ -111,12 +111,6 @@ p
 	visibility:hidden;
 }
 
-.selected
-{
-	background-color: #fee;
-}
-
-
 
 /****************************
  ** Layout *
@@ -125,15 +119,14 @@ p
 #header
 {
 	width: 100%;
-	height: 80px;
-	background-color: #300018;
+	background-color: #2B2B2B;
 }
 
 #header-interior
 {
 	width: 980px;
 	margin: 0px auto;
-	padding: 10px;
+	padding: 10px 0px;
 	overflow: hidden;
 	color: #fff;
 	font-size: 0.75em;	
@@ -141,8 +134,7 @@ p
 
 #logo
 {
-	width: 540px;
-	float: left;
+
 }
 
 #loginarea
@@ -150,24 +142,24 @@ p
 
 }
 
-#loginarea a 
-{
-	color: #fff;
-}
-
-#loginarea a:hover
-{
-	text-decoration: underline;
-}
-
 #basket
 {
     
 }
 
+#loginarea a, #basket a, #container-rightcolumn a
+{
+	color: #fff;
+}
+
+#loginarea a:hover, #basket a:hover, #container-rightcolumn a:hover
+{
+	text-decoration: underline;
+}
+
 #menu 
 {
-
+	font-family: Trebuchet MS Gothic, Helvetica, Arial, sans-serif;
 }
 
 #container 
@@ -186,6 +178,8 @@ p
 	background-color: #fff;
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
+	-moz-border-radius-topleft:0px;
+	-webkit-border-top-left-radius: 0px;	
 }
 
 #tabs
@@ -204,15 +198,20 @@ p
 {
 	-moz-border-radius:5px;
 	-webkit-border-radius: 5px;
-	-moz-box-shadow: 1px 1px 0px #837B47;
-	-webkit-box-shadow: 1px 1px 0px #837B47;
+	-webkit-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
 	width: 202px;
 	float: left;
 	font-size: 0.9em;
-	background-color: #E5EDB8;
+	background-color: #7db72f;
 	border: 1px solid #ADB85F;
 	padding: 8px;
 	margin-left: 20px;
+}
+
+#container-rightcolumn p.heading
+{
+	font-size: 1.25em;
 }
 
 #footer
@@ -248,7 +247,10 @@ p
 {
 }
 
-
+.basiclist li
+{
+	padding-bottom: 6px;
+}
 
 
 /****************************
@@ -275,37 +277,30 @@ label
 	display:block;
 }
 
-input, textarea
+input, textarea, select
 {
-	-moz-border-radius:5px;
-	-webkit-border-radius: 5px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
 	border: 1px solid #999;
-	padding: 5px;
+	padding: 6px;
 }
 
-input:focus, textarea:focus
+input:focus, textarea:focus, select:focus
 {
 	background-color: #fafafa;
 	border: 1px solid #000;
 }
 
-input[type="submit"]
+
+
+option
 {
-	cursor:pointer;
-	background-image: -moz-linear-gradient(100% 100% 90deg, #999, #eee);
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eee), to(#999));
+	padding: 2px 20px 2px 6px;
 }
 
-.input-form td .tos 
+.field-selected
 {
-	-moz-border-radius:5px;
-	-webkit-border-radius: 5px;
-	border:1px solid #ddd;
-	display:block;
-	height:40px;
-	overflow-x:hidden;
-	overflow-y:auto;
-	padding:8px 0 8px 8px;
+	background-color: #fee;
 }
 
 .field-validation-error 
@@ -323,6 +318,25 @@ input[type="submit"]
 { 
 	font-weight: bold; 
 	color: red; 
+}
+
+.input-left
+{
+	-moz-border-radius-topright:0px;
+	-webkit-border-top-right-radius: 0px;
+	-moz-border-radius-bottomright:0px;
+	-webkit-border-bottom-right-radius: 0px;	
+	border-right: 0px;
+}
+
+.button-right
+{
+	-moz-border-radius-topleft:0px;
+	-webkit-border-top-left-radius: 0px;
+	-moz-border-radius-bottomleft:0px;
+	-webkit-border-bottom-left-radius: 0px;	
+	border-left: 0px;		
+	
 }
 
 /****************************
@@ -404,49 +418,60 @@ img.progress
 #menu li 
 {
 	float: left;
+	margin-right: 4px;
 }
 
 #menu a 
 {
 	display: block;
-	padding-left: 10px;
-	padding-right: 12px;
-	line-height: 2em;
+	padding: 0px 10px;
+	line-height: 2.2em;
 	text-decoration: none;
-	font-size: 1.2em;
+	color: #fff;
 }
 
-#menu .current_page_item a, 
+#menu li.current-page a, 
 #menu a:hover 
 {
+	color: #2B2B2B;
+}
 
+#menu li.current-page,
+#menu li:hover
+{
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+}
+
+#menu li.current-page
+{
+	background-color: #fff;
 }
 
 #menu li:hover
 {
-	-moz-border-radius-topleft:5px;
-	-webkit-border-top-left-radius: 5px;
-	-moz-border-radius-topright:5px;
-	-webkit-border-top-right-radius: 5px;
-	background-color: #E5EDB8;
+	background-color: #444;
+}
+
+#menu li:hover a
+{
+	color: #fff;
 }
 
 /** First level nav **/
 
-#menu li ul
-{
-	position:absolute;
-	display:none;
-	width: 161px;
-	margin:0;
-	border-right:1px solid #ccc;
-	border-bottom:1px solid #ccc;
-	background-color: #E5EDB8;
-}
-
 #menu li:hover ul
 {
   display: block;
+}
+
+#menu li ul
+{
+	position: absolute;
+	display: none;
+	margin: 0;
+	background-color: #444;
 }
 
 #menu li li 
@@ -456,7 +481,8 @@ img.progress
 
 #menu li li a 
 {
-	font-size: 1em;
+	color: #fff;
+	font-size: 0.75em;
 }
 
 #menu li li:hover 
@@ -481,3 +507,47 @@ img.progress
   display: block;
 }
 
+
+/****************************
+ ** Tabs *
+ ****************************/
+		
+ul.tab-navigation 
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.tab-navigation li 
+{
+    display: inline;
+}
+
+ul.tab-navigation li a 
+{
+    padding: 3px 5px;
+    background-color: #ccc;
+    color: #000;
+    text-decoration: none;
+}
+
+ul.tab-navigation li a.selected,
+ul.tab-navigation li a:hover 
+{
+    background-color: #333;
+    color: #fff;
+    padding-top: 7px;
+}
+
+ul.tab-navigation li a:focus 
+{
+	outline: 0;
+}        
+
+div.tabs > div 
+{
+	padding: 5px;
+	margin-top: 3px;
+	border: 5px solid #333;
+}

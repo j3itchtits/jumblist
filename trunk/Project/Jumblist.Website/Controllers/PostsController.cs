@@ -26,9 +26,11 @@ using Jumblist.Website.Result;
 using Jumblist.Website.ModelBinder;
 using xVal.ServerSide;
 using StuartClode.Mvc.Service.Serialization;
+using Jumblist.Website.Filter;
 
 namespace Jumblist.Website.Controllers
 {
+    [CompressResponse]
     public class PostsController : ViewModelController<Post>
     {
         private readonly int defaultPageSize = int.Parse( ConfigurationManager.AppSettings["DefaultPageSize"] );
@@ -58,7 +60,7 @@ namespace Jumblist.Website.Controllers
             this.userAlertService = userAlertService;
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
+        [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult Index( string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
             try
@@ -91,7 +93,7 @@ namespace Jumblist.Website.Controllers
                 IPagedList<Post> pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
                 IEnumerable<Pushpin> pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExistFunc() ).Take( currentPageSize );
 
-                var model = BuildPostViewModel();
+                PostViewModel model = BuildPostViewModel();
 
                 model.Q = q; 
                 model.User = user;
@@ -122,13 +124,15 @@ namespace Jumblist.Website.Controllers
             }
         }
 
-        public ActionResult BasicList( int top )
+        [AcceptVerbs( HttpVerbs.Get )]
+        [OutputCache( CacheProfile = "Dashboard" )]
+        public ActionResult BasicPostList( int top )
         {
-            var model = postService.SelectRecordList( Post.WhereDisplayEquals( true ) ).OrderByDescending( t => t.PublishDateTime ).Take( top );
+            IQueryable<Post> model = postService.SelectRecordList( Post.WhereDisplayEquals( true ) ).OrderByDescending( t => t.PublishDateTime ).Take( top );
             return PartialView( "BasicPostListControl", model );
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
+        [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult Category( string id, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
             try
@@ -148,7 +152,7 @@ namespace Jumblist.Website.Controllers
                 IPagedList<Post> pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
                 IEnumerable<Pushpin> pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
-                var model = BuildPostViewModel();
+                PostViewModel model = BuildPostViewModel();
 
                 model.Q = q;
                 model.User = user;
@@ -179,7 +183,7 @@ namespace Jumblist.Website.Controllers
             }
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
+        [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult Group( string id, string category, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
             try
@@ -200,7 +204,7 @@ namespace Jumblist.Website.Controllers
                 IPagedList<Post> pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
                 IEnumerable<Pushpin> pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
-                var model = BuildPostViewModel();
+                PostViewModel model = BuildPostViewModel();
 
                 model.Group = feed;
                 model.Q = q;
@@ -232,7 +236,7 @@ namespace Jumblist.Website.Controllers
             }
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
+        [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult Located( string id, string category, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
             try
@@ -251,7 +255,7 @@ namespace Jumblist.Website.Controllers
 
                 IEnumerable<Pushpin> pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
-                var model = BuildPostViewModel();
+                PostViewModel model = BuildPostViewModel();
 
                 model.Locations = locationList;
                 model.Q = q;
@@ -283,7 +287,7 @@ namespace Jumblist.Website.Controllers
             }
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
+        [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult Tagged( string id, string category, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
             try
@@ -304,7 +308,7 @@ namespace Jumblist.Website.Controllers
                 IPagedList<Post> pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
                 IEnumerable<Pushpin> pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
-                var model = BuildPostViewModel();
+                PostViewModel model = BuildPostViewModel();
 
                 model.Q = q;
                 model.User = user;
@@ -458,10 +462,10 @@ namespace Jumblist.Website.Controllers
                 return RedirectToAction( "login", "users", new { returnUrl = Url.Action( "add", "posts" ) } );
             }
 
-            var model = BuildPostViewModel();
+            PostViewModel model = BuildPostViewModel();
 
             model.Item = new Post();
-            model.WithSelectList( typeof( Post ), PostCategoryAddPostSelectList() );
+            model.WithSelectList( typeof( PostCategory ), PostCategoryAddPostSelectList() );
             model.PageTitle = "Create a new post";
             model.Message = new Message { Text = "You are about to create a post", StyleClass = "message" };
 
@@ -501,7 +505,7 @@ namespace Jumblist.Website.Controllers
             return View( model );
         }
 
-        [AcceptVerbs( HttpVerbs.Get )]
+        [AcceptVerbs( HttpVerbs.Get ), OutputCache( CacheProfile = "Dashboard" )]
         public RssResult Rss( string rssActionName, string rssActionId, string rssActionCategory, string q, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
             UserSearchArea userSearchArea = jumblistSession.UserSearchArea;

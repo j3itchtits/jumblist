@@ -173,7 +173,23 @@ namespace Jumblist.Website
         {
             if (routes == null) throw new ArgumentNullException( "routes" );
 
+            routes.Clear();
+
+            // Turns off the unnecessary file exists check
+            routes.RouteExistingFiles = true;
+
+            // Ignore text, html, files.
+            routes.IgnoreRoute( "{file}.txt" );
+            routes.IgnoreRoute( "{file}.htm" );
+            routes.IgnoreRoute( "{file}.html" );
+
+            // Ignore the assets directory which contains images, js, css & html
+            routes.IgnoreRoute( "assets/{*pathInfo}" );
+
+            // Ignore axd files such as assest, image, sitemap etc
             routes.IgnoreRoute( "{resource}.axd/{*pathInfo}" );
+
+            //Exclude favicon (google toolbar request gif file as fav icon which is weird)
             routes.IgnoreRoute( "{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" } );
 
             //// Routing config for the admin area

@@ -26,7 +26,7 @@ namespace Jumblist.Website.Extension
         public static MvcHtmlString SavePostToBasketLink( this AjaxHelper helper, string linkText, object routeValues )
         {
             if ( HttpContext.Current.Request.IsAuthenticated )
-                return helper.ActionLink( linkText, "additem", "basket", routeValues, new AjaxOptions { Confirm = "Save?", HttpMethod = "Post", UpdateTargetId = "basket-widget" } );
+                return helper.ActionLink( linkText, "additem", "basket", routeValues, new AjaxOptions { Confirm = "Save?", HttpMethod = "Post", UpdateTargetId = "basket" } );
             else
                 //return MvcHtmlString.Create( "<a href='/users/login?returnurl='" + helper.ViewContext.RouteData.Values["returnUrl"].ToString() + ">Save</a>" );
                 //return MvcHtmlString.Create( UrlHelper.GenerateUrl( null, "login", "users", new RouteValueDictionary( routeValues ), helper.RouteCollection, helper.ViewContext.RequestContext, true ) );

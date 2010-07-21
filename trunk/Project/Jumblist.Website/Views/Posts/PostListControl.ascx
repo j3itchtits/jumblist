@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<PagedList<Post>>" %>
 
+
 <table class="post-list">
 <% foreach ( var post in Model )
    { %>

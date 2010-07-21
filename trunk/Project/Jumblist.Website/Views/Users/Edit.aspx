@@ -57,35 +57,38 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
+    <div id="container-rightcolumn">
     
-    <b>Reset Password</b>
+        <p class="heading">Reset Password</p>
+        
+        <% using (Html.BeginForm( "savepassword", "users" )) { %>
+            
+            <%= Html.Hidden( "userid", Model.Item.UserId ) %>
+            
+            <table>
+            <tr>
+                <td><label for="Password">Old Password</label></td>
+                <td><%= Html.Password( "OldPassword" )%>
+                <%= Html.ValidationMessage( "Reset.OldPassword" )%>     </td>       
+            </tr>        
+            <tr>
+                <td><label for="Password">New Password</label></td>
+                <td><%= Html.Password( "NewPassword" )%>
+                <%= Html.ValidationMessage( "Reset.NewPassword" )%>     </td>       
+            </tr>
+            <tr>
+                <td><label for="ConfirmPassword">Confirm New Password</label></td>
+                <td><%= Html.Password( "ConfirmNewPassword" )%>
+                <%= Html.ValidationMessage( "Reset.ConfirmNewPassword" )%>  </td>
+            </tr>
+            </table>
+            <p>
+                <%= Html.AntiForgeryToken() %>
+                <%= Html.SubmitButton( "submit", "Reset Password" ) %>
+            </p>        
+            
+        <% } %>
     
-    <% using (Html.BeginForm( "savepassword", "users" )) { %>
-        
-        <%= Html.Hidden( "userid", Model.Item.UserId ) %>
-        
-        <table>
-        <tr>
-            <td><label for="Password">Old Password</label></td>
-            <td><%= Html.Password( "OldPassword" )%>
-            <%= Html.ValidationMessage( "Reset.OldPassword" )%>     </td>       
-        </tr>        
-        <tr>
-            <td><label for="Password">New Password</label></td>
-            <td><%= Html.Password( "NewPassword" )%>
-            <%= Html.ValidationMessage( "Reset.NewPassword" )%>     </td>       
-        </tr>
-        <tr>
-            <td><label for="ConfirmPassword">Confirm New Password</label></td>
-            <td><%= Html.Password( "ConfirmNewPassword" )%>
-            <%= Html.ValidationMessage( "Reset.ConfirmNewPassword" )%>  </td>
-        </tr>
-        </table>
-        <p>
-            <%= Html.AntiForgeryToken() %>
-            <%= Html.SubmitButton( "submit", "Reset Password" ) %>
-        </p>        
-        
-    <% } %>
+    </div>
     
 </asp:Content>

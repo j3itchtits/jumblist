@@ -16,60 +16,56 @@
 
 	<% using( Html.BeginForm() ) { %>
 
-        <table>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        
         <tr>
-            <td><label for="name">Name/Email</label></td>
-            <td><%= Html.TextBox("name") %></td>
-            <td>
-                <div class="label-box info" style="display: none;">
-                   Please enter your name or email
-                </div>
-                <div class="label-box good" style="display: none;">
-                    Ok
-                </div>
-                <div class="label-box error" style="display: none;">
+            <td width="30%" class="field-label"><label for="Item_Name">Name/Email</label></td>
+            <td width="40%" class="field-input"><%= Html.TextBox( "name", string.Empty, new { @class = "fancy-field" } )%></td>
+            <td width="30%" class="field-helptext">
+                <span class="field-info" style="display: none;">
+                   Please enter your username or email address
+                </span>
+                <span class="field-validation-error">
                     <%= Html.ValidationMessage( "name" )%>
-			    </div>
+                </span>
             </td>
         </tr>
+        
         <tr>
-            <td><label for="password">Password</label></td>
-            <td><%= Html.Password("password") %></td>
-            <td>
-                <div class="label-box info" style="display: none;">
+            <td class="field-label"><label for="password">Password</label></td>
+            <td class="field-input"><%= Html.Password( "password", string.Empty, new { @class = "fancy-field" } ) %></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
                    Please enter your password
-                </div>
-                <div class="label-box good" style="display: none;">
-                    Ok
-                </div>
-                <div class="label-box error" style="display: none;">
+                </span>
+                <span class="field-validation-error">
                     <%= Html.ValidationMessage( "password" )%>
-			    </div>
+			    </span>
             </td>
         </tr>
+        
         <tr>
-            <td><label for="rememberMe">Remember Me?</label></td>
-            <td><%= Html.CheckBox( "rememberMe" )%></td>
-            <td>
-                <div class="label-box info" style="display: none;">
-                   Remember the details on this computure?
-                </div>
-                <div class="label-box good" style="display: none;">
-                    Ok
-                </div>
+            <td class="field-label"><label for="rememberMe">Remember Me?</label></td>
+            <td class="field-input"><%= Html.CheckBox( "rememberMe", false, new { @class = "fancy-field" } )%></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
+                   Tick this to be remembered on this site
+                </span>
             </td>
         </tr>
         </table>
         	
         <div>
-            <input type="submit" value="Log On" />
+            <%= Html.AntiForgeryToken() %>
+            <%= Html.SubmitButton( "submit", "Log On" )%>
         </div>
-        
-        <div>
-            [ <%= Html.ActionLink( "Forgotten password", "forgottenpassword", "users" ) %> ]
-        </div>
-        
 	<% } %>
+	        
+    <div>
+        [ <%= Html.ActionLink( "Forgotten password", "forgottenpassword", "users" ) %> ]
+    </div>
+        
+
 
 </asp:Content>
 

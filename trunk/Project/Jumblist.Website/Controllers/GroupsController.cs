@@ -10,24 +10,28 @@ using StuartClode.Mvc.Service.Data;
 using xVal.ServerSide;
 using StuartClode.Mvc.Extension;
 using Jumblist.Website.Filter;
+using Jumblist.Website.ViewModel;
 
 namespace Jumblist.Website.Controllers
 {
     public class GroupsController : ViewModelController<Feed>
     {
         private IFeedService feedService;
+        private ICacheService cacheService;
 
-        public GroupsController( IFeedService feedService )
+        public GroupsController( IFeedService feedService, ICacheService cacheService )
         {
             this.feedService = feedService;
+            this.cacheService = cacheService;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Index()
         {
-            var list = feedService.SelectRecordList().OrderBy(x => x.Name);
+            IQueryable<Feed> list = feedService.SelectRecordList().OrderBy( x => x.Name );
+            //IQueryable<Feed> list = cacheService.Get( "feed.lista", () => feedService.SelectRecordList().OrderBy( x => x.Name ) );
 
-            var model = BuildDefaultViewModel().With( list );
+            DefaultViewModel<Feed> model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Groups";
 
             return View( model );

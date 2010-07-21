@@ -2,17 +2,38 @@
 
 $(document).ready(function() {
 
-convertLinksToLowerCase();
+    convertLinksToLowerCase();
 
-$(".fancy-field").focus(function() {
-    $(this).parent().parent().addClass("selected");
-    $(this).parent().parent().find(".field-info").css("display", "block");
-});
+    var path = location.pathname;
+    var first = path.split('/')[1];
+    var second = path.split('/')[2];
 
-$(".fancy-field").blur(function() {
-    $(this).parent().parent().removeClass("selected");
-    $(this).parent().parent().find(".field-info").css("display", "none");
-});    
+    //alert(path == "/posts/add");
+
+    //alert($('#nav ul a[href$="/vacancies/igh"]').parent().parent().html());
+
+    if (path) 
+    {
+        if (path == "/posts/add" || path == "/home/about") 
+        {
+            $('#menu li a[href*="' + path + '"]').parent().attr('class', 'current-page');
+        }
+        else 
+        {
+            $('#menu li a[href$="/' + first + '"]').parent().attr('class', 'current-page');
+        }
+    }
+
+
+    $(".fancy-field").focus(function() {
+        $(this).parent().parent().addClass("field-selected");
+        $(this).parent().parent().find(".field-info").css("display", "block");
+    });
+
+    $(".fancy-field").blur(function() {
+        $(this).parent().parent().removeClass("selected");
+        $(this).parent().parent().find(".field-info").css("display", "none");
+    });
 });
 
 

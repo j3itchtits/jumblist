@@ -161,7 +161,7 @@
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Posts\Detail.aspx" />
     <Content Include="Views\Users\Login.aspx" />
-    <Content Include="Web.config" />
+    <None Include="Web.config" />
     <Content Include="Assets\Scripts\jquery-1.3.2.min.js" />
     <Content Include="Assets\Scripts\jquery-1.3.2.min-vsdoc.js" />
     <Content Include="Assets\Scripts\MicrosoftAjax.js" />
@@ -228,13 +228,7 @@
     <Content Include="Areas\Admin\Views\Users\List.aspx" />
     <Content Include="Areas\Admin\Views\Users\UserList.ascx" />
     <Content Include="Areas\Admin\Views\Web.config" />
-    <Content Include="Assets\Images\background-bottom.gif" />
-    <Content Include="Assets\Images\background-bottom.jpg" />
-    <Content Include="Assets\Images\background-top.gif" />
-    <Content Include="Assets\Images\background-top.jpg" />
     <Content Include="Assets\Images\background.jpg" />
-    <Content Include="Assets\Images\logo.gif" />
-    <Content Include="Assets\Images\logo.jpg" />
     <Content Include="Assets\Scripts\jquery-1.3.2-vsdoc.js" />
     <Content Include="Assets\Scripts\jquery-1.3.2.js" />
     <Content Include="Assets\Scripts\jquery.alerts.js" />
@@ -253,13 +247,11 @@
     <Content Include="Assets\Stylesheets\Images\colorbox.controls.png" />
     <Content Include="Assets\Stylesheets\Images\colorbox.loading.gif" />
     <Content Include="Assets\Stylesheets\indicator.gif" />
-    <Content Include="Assets\Scripts\jquery-ui-1.7.2.custom.min.js" />
     <Content Include="Assets\Scripts\jquery.autocomplete.min.js" />
     <Content Include="Assets\Stylesheets\jquery.alerts.css" />
     <Content Include="Assets\Stylesheets\jquery.autocomplete.css" />
     <Content Include="Assets\Stylesheets\jquery.colorbox.css" />
     <Content Include="Assets\Stylesheets\jumblist.fonts.css" />
-    <Content Include="Assets\Stylesheets\ui.tabs.css" />
     <Content Include="Views\Basket\BasketWidgetControl.ascx" />
     <Content Include="Views\Basket\BasketItemsControl.ascx" />
     <Content Include="Views\Groups\GroupListControl.ascx" />
@@ -306,10 +298,15 @@
     <None Include="Templates\ForgottenPasswordEmail.vm" />
     <None Include="Templates\PostEmail.vm" />
     <None Include="Templates\RegistrationVerificationEmail.vm" />
-    <Content Include="Assets\Stylesheets\jumblist2.css" />
+    <Content Include="Assets\Images\facebook-icon.png" />
+    <Content Include="Assets\Images\logo.png" />
+    <Content Include="Assets\Images\twittericon.png" />
+    <Content Include="Assets\Scripts\jquery-1.4.1-vsdoc.js" />
+    <Content Include="Assets\Scripts\jquery-1.4.1.js" />
+    <Content Include="Assets\Scripts\jquery-1.4.1.min.js" />
+    <Content Include="Assets\Scripts\jquery.color.js" />
     <Content Include="Views\Posts\BasicPostListControl.ascx" />
     <Content Include="Views\Shared\Site.Master" />
-    <Content Include="Views\Shared\Site2.Master" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Assets\Images\" />
