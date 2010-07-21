@@ -126,10 +126,11 @@ p
 {
 	width: 980px;
 	margin: 0px auto;
-	padding: 10px 0px;
+	padding: 0px;
 	overflow: hidden;
 	color: #fff;
 	font-size: 0.75em;	
+
 }
 
 #logo
@@ -139,7 +140,26 @@ p
 
 #loginarea
 {
+	text-align: right;
+	margin-right: 18px;
+}
 
+#loginarea .logindetails
+{
+	background-color: #7db72f; 
+	padding: 5px;
+	-moz-border-radius-bottomright: 3px;
+	-webkit-border-bottom-right-radius: 3px;	
+	-moz-border-radius-bottomleft: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+}
+
+.button-right
+{
+	-moz-border-radius-topleft:0px;
+	-webkit-border-top-left-radius: 0px;
+	-moz-border-radius-bottomleft:0px;
+	-webkit-border-bottom-left-radius: 0px;	
 }
 
 #basket
@@ -160,6 +180,8 @@ p
 #menu 
 {
 	font-family: Trebuchet MS Gothic, Helvetica, Arial, sans-serif;
+	margin-top: 26px;
+	font-weight: bold;
 }
 
 #container 
@@ -196,17 +218,50 @@ p
 
 #container-rightcolumn
 {
+	width: 202px;
+	float: left;
+	font-size: 0.9em;
+	margin-left: 20px;
+}
+
+#container-rightcolumn #fancy-greenbox
+{
 	-moz-border-radius:5px;
 	-webkit-border-radius: 5px;
 	-webkit-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
 	-moz-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
-	width: 202px;
-	float: left;
-	font-size: 0.9em;
+	width: 100%;
 	background-color: #7db72f;
 	border: 1px solid #ADB85F;
-	padding: 8px;
-	margin-left: 20px;
+	padding: 8px;	
+	margin-bottom: 12px;
+}
+
+#container-rightcolumn #plain-box
+{
+	-moz-border-radius:5px;
+	-webkit-border-radius: 5px;
+	-webkit-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
+	width: 100%;
+	border: 1px solid #ADB85F;
+	padding: 8px;	
+	margin-bottom: 12px;
+}
+
+#container-rightcolumn input
+{
+	width: 91%;
+}
+
+#container-rightcolumn input[type="submit"]
+{
+	width: 99%;
+}
+
+#container-rightcolumn select
+{
+	width: 100%;
 }
 
 #container-rightcolumn p.heading
@@ -282,7 +337,14 @@ input, textarea, select
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	border: 1px solid #999;
-	padding: 6px;
+	padding:6px 10px 2px 6px;
+	margin: 0px;
+	font-size: 1em;
+}
+
+input
+{
+	height:26px;
 }
 
 input:focus, textarea:focus, select:focus
@@ -293,10 +355,11 @@ input:focus, textarea:focus, select:focus
 
 input[type="submit"]
 {
+	height:36px;
 	cursor: pointer;
-	padding-left: 20px;
-	padding-right: 20px;
-	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+	padding: 0px 20px;
+	margin: 0px;
+	text-shadow: 0 1px 2px #666;
 	-webkit-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
 	-moz-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
 	box-shadow: 1px 1px 2px rgba(0,0,0,.2);
@@ -327,6 +390,11 @@ input[type="submit"]:active
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#4e7d0e', endColorstr='#7db72f');
 }
 
+input[type="radio"]
+{
+	vertical-align: text-bottom;
+}
+
 option
 {
 	padding: 2px 20px 2px 6px;
@@ -334,7 +402,7 @@ option
 
 .field-selected
 {
-	background-color: #fee;
+	background-color: #ffe;
 }
 
 .field-validation-error 
@@ -354,7 +422,7 @@ option
 	color: red; 
 }
 
-.input-left
+.input-left, .input-left:focus
 {
 	-moz-border-radius-topright:0px;
 	-webkit-border-top-right-radius: 0px;
@@ -369,8 +437,6 @@ option
 	-webkit-border-top-left-radius: 0px;
 	-moz-border-radius-bottomleft:0px;
 	-webkit-border-bottom-left-radius: 0px;	
-	border-left: 0px;		
-	
 }
 
 /****************************
@@ -516,7 +582,7 @@ img.progress
 #menu li li a 
 {
 	color: #fff;
-	font-size: 0.75em;
+	font-size: 0.8em;
 }
 
 #menu li li:hover 
@@ -546,19 +612,19 @@ img.progress
  ** Tabs *
  ****************************/
 		
-ul.tab-navigation 
+ul.tabNavigation 
 {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-ul.tab-navigation li 
+ul.tabNavigation li 
 {
     display: inline;
 }
 
-ul.tab-navigation li a 
+ul.tabNavigation li a 
 {
     padding: 3px 5px;
     background-color: #ccc;
@@ -566,22 +632,16 @@ ul.tab-navigation li a
     text-decoration: none;
 }
 
-ul.tab-navigation li a.selected,
-ul.tab-navigation li a:hover 
+ul.tabNavigation li a.selected,
+ul.tabNavigation li a:hover 
 {
     background-color: #333;
     color: #fff;
-    padding-top: 7px;
+
 }
 
-ul.tab-navigation li a:focus 
+ul.tabNavigation li a:focus 
 {
 	outline: 0;
 }        
 
-div.tabs > div 
-{
-	padding: 5px;
-	margin-top: 3px;
-	border: 5px solid #333;
-}

@@ -17,19 +17,17 @@ namespace Jumblist.Website.Controllers
     public class GroupsController : ViewModelController<Feed>
     {
         private IFeedService feedService;
-        private ICacheService cacheService;
 
-        public GroupsController( IFeedService feedService, ICacheService cacheService )
+        public GroupsController( IFeedService feedService )
         {
             this.feedService = feedService;
-            this.cacheService = cacheService;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Index()
         {
-            IQueryable<Feed> list = feedService.SelectRecordList().OrderBy( x => x.Name );
-            //IQueryable<Feed> list = cacheService.Get( "feed.lista", () => feedService.SelectRecordList().OrderBy( x => x.Name ) );
+            IEnumerable<Feed> list = feedService.SelectRecordList().OrderBy( x => x.Name );
+            //IEnumerable<Feed> list = cacheService.Get( "feed.list", () => feedService.SelectRecordList().OrderBy( x => x.Name ) );
 
             DefaultViewModel<Feed> model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Groups";

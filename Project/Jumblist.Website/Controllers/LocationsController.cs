@@ -25,7 +25,7 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Index()
         {
-            IQueryable<Location> list = locationService.SelectRecordList().OrderBy(x => x.Name);
+            IEnumerable<Location> list = locationService.SelectRecordList().OrderBy( x => x.Name );
 
             DefaultViewModel<Location> model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Locations";

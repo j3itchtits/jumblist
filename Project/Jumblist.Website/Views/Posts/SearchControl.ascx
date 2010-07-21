@@ -13,7 +13,7 @@
 <%= Html.DropDownList( "postCategorySelection", Model.BuildSelectList( new[] { new[] { "0", "yes" }, new[] { "1", "no" } }, "1" ) )%><br /><br />
 --%>
         <p class="heading">Tags</p>
-        <%= Html.TextBox( "tagSearch", (Model.Tags.Select( x => x.Name ).ToFormattedStringList( "{0} " ) + Model.Q).Trim() )%><br /><br /> <%
+        <%= Html.TextBox( "tagSearch", ( Model.Tags.Select( x => x.Name ).ToFormattedStringList( "{0} " ) + Model.Q ).Trim() )%><br /><br /> <%
 
         //User/Location
         if ((Model.User != null) && (ViewContext.RouteData.Values["action"].ToString() != "located") ) 
