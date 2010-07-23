@@ -167,7 +167,7 @@ p
     
 }
 
-#loginarea a, #basket a, #container-rightcolumn a
+#loginarea a, #basket a
 {
 	color: #fff;
 }
@@ -235,6 +235,11 @@ p
 	border: 1px solid #ADB85F;
 	padding: 8px;	
 	margin-bottom: 12px;
+}
+
+#container-rightcolumn #fancy-greenbox a
+{
+	color: #fff;
 }
 
 #container-rightcolumn #plain-box
@@ -342,6 +347,11 @@ input, textarea, select
 	font-size: 1em;
 }
 
+select
+{
+	padding: 2px 2px 2px 6px;
+}
+
 input
 {
 	height:26px;
@@ -397,7 +407,7 @@ input[type="radio"]
 
 option
 {
-	padding: 2px 20px 2px 6px;
+	padding-bottom: 2px;
 }
 
 .field-selected
@@ -450,12 +460,12 @@ table
 
 table.post-list td
 {
-	padding: 5px 8px 8px 0px;
+	padding: 8px 8px 8px 0px;
 }
 
 tr.post-item
 {
-	border-bottom: dotted 1px #000;
+	border-bottom: dotted 1px #999;
 }
 
 table.post-detail td
@@ -466,6 +476,45 @@ table.post-detail td
 td.post-tags, td.post-time, td.post-groupuser
 {
 	font-size:0.75em;
+}
+
+/****************************
+ ** Search *
+ ****************************/
+
+table.home-searchcriteria-tag, table.home-searchcriteria-taglocation
+{
+	margin: 80px auto 0px;
+	width:40%;
+}
+
+table.home-searchcriteria-tag input[type="text"], table.home-searchcriteria-taglocation input[type="text"]
+{
+	width: 250px;
+}
+
+table.home-searchcriteria-tag td
+{
+	padding: 0px;
+}
+
+table.home-searchcriteria-taglocation td
+{
+	padding: 4px;
+}
+
+.home-searchlocation
+{
+	width: 100%; 
+	text-align: center; 
+	margin-top: 20px;
+}
+
+.home-searchcategory
+{
+	width: 100%; 
+	text-align: center; 
+	margin-top: 20px;
 }
 
 /****************************

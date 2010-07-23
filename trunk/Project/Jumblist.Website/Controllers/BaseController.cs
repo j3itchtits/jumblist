@@ -10,7 +10,10 @@ namespace Jumblist.Website.Controllers
     //[HandleError( ExceptionType = typeof( ResourceNotFoundException ), View = "NotFound" )]
     //[HandleError]
 
+    //Note - we do not need the ElmahHandleError attribute as we don't want the standard asp.net mvc error handling
+    //Elmah will still log the errors and the user will see the correct response thanks to Application_Error in global.asax
     //[ElmahHandleError]
+
     //[CompressResponse]
     [CopyTempDataToViewData]
     public abstract class BaseController : Controller

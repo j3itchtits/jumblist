@@ -45,14 +45,14 @@ Post lists
 - Save lists as email alerts - DONE
 
 Profile
-- Edit personal profile
-- Edit search profile
-- Edit email alerts
+- Edit personal profile - DONE
+- Edit search profile - DONE
+- Edit email alerts - DONE
 
 Registration
 - Lock down security (see Steve Sanderson)
-- Use email confirmation strategy
-- Forgotten password
+- Use email confirmation strategy - DONE
+- Forgotten password - DONE
 
 Home page search (by user location) - DONE
 Search widget (by user location) - DONE
@@ -108,11 +108,11 @@ RSS Feeds
 
 Facebook integration
 - Add list (feed) to facebook
-- Add post to facebook
+- Add post to facebook - DONE
 
 Twitter integration
 - Add list (feed) to twitter
-- Add post to twitter
+- Add post to twitter - DONE
 
 Tags
 - Popularity field (number of views)
