@@ -34,6 +34,13 @@ $(document).ready(function() {
         $(this).parent().parent().removeClass("field-selected");
         $(this).parent().parent().find(".field-info").css("display", "none");
     });
+
+    $('tr.post-item').click(function() {
+        var href = $(this).find("a.post-link").attr("href");
+        if (href) {
+            window.location = href;
+        }
+    });
 });
 
 
