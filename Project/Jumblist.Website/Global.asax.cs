@@ -360,8 +360,8 @@ namespace Jumblist.Website
 
         protected void Application_Error( object sender, EventArgs e )
         {
-            // If custom errors are disabled, we need to let the normal ASP.NET exception handler
-            // execute so that the user can see useful debugging information.
+            // If custom errors are off, we need to let the normal ASP.NET exception handler
+            // execute so that a developer can see useful debugging information.
             if (!this.Context.IsCustomErrorEnabled)
             {
                 return;

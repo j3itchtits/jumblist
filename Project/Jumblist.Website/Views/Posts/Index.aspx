@@ -1,5 +1,27 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<PostViewModel>" %>
 
+<asp:Content ID="Content1" ContentPlaceHolderID="HeadContentTitle" runat="server">
+    <%= Html.PageTitle( ViewData.Model )%>
+</asp:Content>
+
+<asp:Content ID="Content4" ContentPlaceHolderID="HeadContentJavascript" runat="server">
+
+    <link href="<%= Url.Stylesheet( "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
+    <script src="<%= Url.Script( "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
+    
+    <link href="<%= Url.Stylesheet( "ui.tabs.css" )%>" rel="stylesheet" type="text/css"/>
+    <script src="<%= Url.Script( "jquery-ui-1.7.2.custom.min.js" )%>" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() 
+        {
+            $('div#tabs').tabs();
+            $("input#tagSearch").autocomplete('<%= Url.Action( "AjaxFindTags", "Tags", new { area = "" } ) %>', { minChars: 1, multiple: true, multipleSeparator: " " });
+        });
+    </script>   
+                 
+</asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
     <h2><%= Html.PageTitle( ViewData.Model )%></h2>
@@ -8,11 +30,19 @@
         <%= Html.MessageBox( ViewData.Model ) %>
     </div>
     
-    <div>
+    <table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+    <td>
         Number of items: <%= Model.ListCount %><br />
+    </td>
+    <td>
         <%= Html.ActionLink( "RSS Feed", "Rss", new { rssActionName = ViewContext.RouteData.Values["action"], rssActionId = ViewContext.RouteData.Values["id"], rssActionCategory = ViewContext.RouteData.Values["category"], q = Model.Q } )%><br />
+    </td>
+    <td>
         <%= Html.ActionLink( "Email alert", "EmailAlert", new { returnUrl = Request.Url.PathAndQuery } )%><br />
-    </div>
+    </td>
+    </tr>
+    </table>
 
 	<div id="tabs">
 		
@@ -50,22 +80,7 @@
 
 </asp:Content>
 
-<asp:Content ID="Content4" ContentPlaceHolderID="HeadContentJavascript" runat="server">
 
-    <link href="<%= Url.Stylesheet( "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
-    <script src="<%= Url.Script( "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
-    
-    <link href="<%= Url.Stylesheet( "ui.tabs.css" )%>" rel="stylesheet" type="text/css"/>
-    <script src="<%= Url.Script( "jquery-ui-1.7.2.custom.min.js" )%>" type="text/javascript"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('div#tabs').tabs();
-            $("input#tagSearch").autocomplete('<%= Url.Action( "AjaxFindTags", "Tags", new { area = "" } ) %>', { minChars: 1, multiple: true, multipleSeparator: " " });
-        });
-    </script>   
-                 
-</asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 

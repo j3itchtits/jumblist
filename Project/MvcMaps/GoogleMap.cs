@@ -9,6 +9,7 @@
 using System.IO;
 using System.Web.Mvc;
 using MvcMaps.Utils;
+using System.Configuration;
 
 // http://code.google.com/apis/maps/documentation/
 // http://code.google.com/apis/maps/documentation/v3/
@@ -22,11 +23,13 @@ namespace MvcMaps
     /// </summary>
     public class GoogleMap : Map<GoogleMap>
     {
+        private readonly string mapKey = ConfigurationManager.AppSettings["GoogleMapsApiKey"];
+
         public GoogleMap(AjaxHelper helper, string mapID)
             : base(helper, mapID, "MvcMaps.GoogleMap")
         {
             //this.ScriptInclude("main", "http://maps.google.com/maps/api/js?sensor=false");
-            this.ScriptInclude("main", "http://maps.google.com/maps?file=api&v=2&key=abcdefg&sensor=false");
+            this.ScriptInclude("main", "http://maps.google.com/maps?file=api&v=2&key=" + mapKey + "&sensor=false");
             this.ScriptInclude("gmap.js", WebUtils.GetWebResourceUrl<BingMap>("MvcMaps.GoogleMap.js"));
         }
 

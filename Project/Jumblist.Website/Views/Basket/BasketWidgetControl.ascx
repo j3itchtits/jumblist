@@ -7,5 +7,5 @@
 <%  }
     else
     { %> 
-        Your jumblist is empty   
+        Your basket is empty   
 <%  } %>

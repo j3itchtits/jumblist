@@ -129,7 +129,6 @@
     <Compile Include="Filter\CopyTempDataToViewDataAttribute.cs" />
     <Compile Include="Extension\HtmlHelperExtensions.cs" />
     <Compile Include="Filter\CustomAuthorizationAttribute.cs" />
-    <Compile Include="Filter\ElmahHandleErrorAttribute.cs" />
     <Compile Include="Filter\LoadFeedsAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -1,5 +1,9 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel>" %>
 
+<asp:Content ID="Content1" ContentPlaceHolderID="HeadContentTitle" runat="server">
+    <%= Html.PageTitle( ViewData.Model )%>
+</asp:Content>
+
 <asp:Content ID="Content4" ContentPlaceHolderID="HeadContentJavascript" runat="server">
 
     <link href="<%= Url.Stylesheet( "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>

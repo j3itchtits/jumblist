@@ -1,5 +1,23 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel<UserAlert>>" %>
 
+<asp:Content ID="Content4" ContentPlaceHolderID="HeadContentTitle" runat="server">
+    <%= Html.PageTitle( ViewData.Model )%>
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="HeadContentJavascript" runat="server">
+
+    <link href="<%= Url.Stylesheet( "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
+    <script src="<%= Url.Script( "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() 
+        {
+            $("input#Item_Tags").autocomplete('<%= Url.Action( "AjaxFindTags", "Tags", new { area = "" } ) %>', { minChars: 2, multiple: true, multipleSeparator: " " });
+        });
+    </script> 
+    
+</asp:Content>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
     <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
@@ -63,19 +81,6 @@
         </div>
 
     <% } %>
-    
-</asp:Content>
-
-<asp:Content ID="Content2" ContentPlaceHolderID="HeadContentJavascript" runat="server">
-
-    <link href="<%= Url.Stylesheet( "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
-    <script src="<%= Url.Script( "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-        $("input#Item_Tags").autocomplete('<%= Url.Action( "AjaxFindTags", "Tags", new { area = "" } ) %>', { minChars: 2, multiple: true, multipleSeparator: " " });
-        });
-    </script> 
     
 </asp:Content>
 

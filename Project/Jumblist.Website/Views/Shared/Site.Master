@@ -1,10 +1,10 @@
-<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<BaseViewModel>" %>
+<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
-    <title><%= Html.PageTitle( ViewData.Model )%> | Jumblist</title>
+    <title><asp:ContentPlaceHolder ID="HeadContentTitle" runat="server" /> | Jumblist</title>
     
     <link href="<%= Url.Stylesheet( "yui-reset.css" )%>" rel="stylesheet" type="text/css"/>
     <link href="<%= Url.Stylesheet( "jumblist.fonts.css" )%>" rel="stylesheet" type="text/css"/>

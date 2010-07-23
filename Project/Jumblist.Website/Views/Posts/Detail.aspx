@@ -1,5 +1,9 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel<Post>>" %>
 
+<asp:Content ID="Content3" ContentPlaceHolderID="HeadContentTitle" runat="server">
+    <%= Html.PageTitle( ViewData.Model )%>
+</asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
     <h2><%= Html.PageTitle( ViewData.Model )%></h2>
@@ -43,10 +47,6 @@
                     <a href="<%= Model.Item.Url %>" target="_blank">Original Post on <%= Model.Item.Feed.Name %></a>      
                 </div> <%
            } %>
-
-
-
-            
              
     </div>
    
@@ -72,7 +72,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <div id="fancy-greenbox">
+    <div id="plain-box">
 
         <div class="post-category">
             <p class="heading">Category</p>
@@ -110,10 +110,6 @@
         </div> 
 
     </div>
-
-
-    
-
-    
+ 
 </asp:Content>
 
