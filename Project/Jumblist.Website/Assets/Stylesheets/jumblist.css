@@ -233,7 +233,8 @@ p
 	width: 100%;
 	background-color: #7db72f;
 	border: 1px solid #ADB85F;
-	padding: 8px;	
+	padding: 8px;
+	padding-bottom: 16px;	
 	margin-bottom: 12px;
 }
 
@@ -271,6 +272,7 @@ p
 
 #container-rightcolumn p.heading
 {
+	margin-top: 10px;
 	font-size: 1.25em;
 }
 
@@ -349,7 +351,7 @@ input, textarea, select
 
 select
 {
-	padding: 2px 2px 2px 6px;
+	padding: 6px;
 }
 
 input
@@ -466,6 +468,12 @@ table.post-list td
 tr.post-item
 {
 	border-bottom: dotted 1px #999;
+}
+
+tr.post-item:hover 
+{
+    background-color: #ffe;
+    cursor: pointer;
 }
 
 table.post-detail td
@@ -666,6 +674,7 @@ ul.tabNavigation
     list-style: none;
     margin: 0;
     padding: 0;
+    border-bottom: dotted 1px #999;
 }
 
 ul.tabNavigation li 
@@ -675,13 +684,23 @@ ul.tabNavigation li
 
 ul.tabNavigation li a 
 {
-    padding: 3px 5px;
+	-moz-border-radius-topright:2px;
+	-webkit-border-top-right-radius: 2px;
+	-moz-border-radius-topleft:2px;
+	-webkit-border-top-left-radius: 2px;	
+    padding: 0px;
     background-color: #ccc;
     color: #000;
     text-decoration: none;
+  
 }
 
-ul.tabNavigation li a.selected,
+ul.tabNavigation li.ui-tabs-selected a, ul.tabNavigation li.ui-tabs-selected a:hover
+{
+    background-color: #777;
+    color: #000;
+}
+
 ul.tabNavigation li a:hover 
 {
     background-color: #333;
