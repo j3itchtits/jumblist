@@ -1,11 +1,13 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<PostViewModel>" %>
 
 <% 
+    
     using (Html.BeginForm( "search", "posts" ))
     { 
        
         //PostCategory
 %>
+
         <p class="heading">Category</p>
         <%= Html.DropDownList( "postCategorySelection", new SelectList( Model.SelectList<PostCategory>(), "SelectListValue", "Name", Model.PostCategory.Name ) )%><br /><br />
 
@@ -37,6 +39,7 @@
         %>
         
         <%= Html.SubmitButton( "submit", "Search" ) %> <%
+        
         
      }
 %>    

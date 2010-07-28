@@ -4,6 +4,24 @@
     <%= Html.PageTitle( ViewData.Model )%>
 </asp:Content>
 
+<asp:Content ID="Content4" ContentPlaceHolderID="HeadContentJavascript" runat="server">
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            getTinyURL('<%= Request.Url.AbsoluteUri %>', function(tinyurl) {
+                // Do something with tinyurl:
+                $('#twitter-share').attr('href', 'http://twitter.com/home?status=@jumblist: <%= Html.PageTitle( ViewData.Model )%> ' + tinyurl);
+            });
+
+            //$('.post-body').highlight('<%= Model.Item.Tags.Select( x => x.Name ).ToFormattedStringList( "{0}+", 1 ) %>');
+        });
+            
+    </script> 
+
+</asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
     <h2><%= Html.PageTitle( ViewData.Model )%></h2>
@@ -23,7 +41,7 @@
         </div>  
         
                 
-        <div style="padding: 20px 0px;">
+        <div style="padding: 20px 0px;" class="post-body">
             <%= Html.Encode( Model.Item.Body ).ReplaceParagraphBreaksWithHtmlBrTags()%>
         </div>
         
@@ -53,22 +71,7 @@
     
 </asp:Content>
 
-<asp:Content ID="Content4" ContentPlaceHolderID="HeadContentJavascript" runat="server">
 
-<script type="text/javascript">
-
-    $(document).ready(function() {
-
-        getTinyURL('<%= Request.Url.AbsoluteUri %>', function(tinyurl) {
-            // Do something with tinyurl:
-            $('#twitter-share').attr('href', 'http://twitter.com/home?status=@jumblist: <%= Html.PageTitle( ViewData.Model )%> ' + tinyurl);
-        });
-
-    });
-        
-</script> 
-
-</asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentRight" runat="server">
 

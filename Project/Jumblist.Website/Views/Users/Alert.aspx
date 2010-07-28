@@ -31,8 +31,6 @@
     <% using ( Html.BeginForm() ) { %>
 
         <%= Html.HiddenFor( m => m.Item.UserAlertId )%>
-        <%= Html.HiddenFor( m => m.Item.PostListRouteValues )%>
-        <%= Html.HiddenFor( m => m.Item.SearchArea )%>
 
         <p>
             Action: <%= Model.PostListRouteValues.Action %><br />

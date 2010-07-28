@@ -246,7 +246,7 @@ namespace Jumblist.Core.Service
         {
             IEnumerable<Post> postList;
 
-            switch ( action )
+            switch ( action.ToLower() )
             {
                 case "category":
                     postList = GetPostsByCategory( id, q, userSearchArea );

@@ -26,7 +26,7 @@
     </div>
     
     <% Html.RenderPartial( "SearchControl", Model.User ); %>
-          
+
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">

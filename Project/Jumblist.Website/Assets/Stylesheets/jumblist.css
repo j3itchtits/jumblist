@@ -363,6 +363,7 @@ input, textarea, select
 	margin: 0px;
 	margin-bottom: 5px;
 	font-size: 1em;
+	background-color: #fafafa;
 }
 
 select
@@ -383,7 +384,7 @@ textarea
 
 input:focus, textarea:focus, select:focus
 {
-	background-color: #fafafa;
+	background-color: #fff;
 	border: 1px solid #000;
 }
 
@@ -427,6 +428,12 @@ input[type="submit"]:active
 input[type="radio"]
 {
 	vertical-align: middle;
+}
+
+input[readonly="true"]
+{
+	background-color: #ccc;
+	color: #999;
 }
 
 option
