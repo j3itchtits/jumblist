@@ -12,7 +12,7 @@
     <script type="text/javascript">
     
         $(document).ready(function() {
-            $("input#Item_Tags").autocomplete('<%= Url.Action( "AjaxFindTags", "Tags", new { area = "" } ) %>', { minChars: 2, multiple: true, multipleSeparator: " " });
+            $("input#Item_Tags").autocomplete('<%= Url.Action( "AjaxFindTags", "Tags", new { area = "" } ) %>', { minChars: 1, multiple: true, multipleSeparator: " " });
         });
         
     </script> 
@@ -34,9 +34,9 @@
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
         
         <tr>
-            <td width="30%" class="field-label"><label for="Item_Title">Title</label></td>
-            <td width="40%" class="field-input"><%= Html.TextBoxFor( m => m.Item.Title, new { @class = "fancy-field", @size = "40" } )%></td>
-            <td width="30%" class="field-helptext">
+            <td width="20%" class="field-label"><label for="Item_Title">Title</label></td>
+            <td width="45%" class="field-input"><%= Html.TextBoxFor( m => m.Item.Title, new { @class = "fancy-field", @size = "40" } )%></td>
+            <td width="35%" class="field-helptext">
                 <span class="field-info" style="display: none;">
                    Please enter a title for your post
                 </span>
@@ -47,8 +47,8 @@
         </tr>
         
         <tr>
-            <td class="field-label"><label for="Item_Body">Body:</label></td>
-            <td class="field-input"><%= Html.TextAreaFor( m => m.Item.Body, new { @class = "fancy-field", @rows = "10", @cols = "40" } )%></td>
+            <td class="field-label"><label for="Item_Body">Body</label></td>
+            <td class="field-input"><%= Html.TextAreaFor( m => m.Item.Body, new { @class = "fancy-field" } )%></td>
             <td class="field-helptext">
                 <span class="field-info" style="display: none;">
                    Please enter some text for your post
@@ -60,7 +60,7 @@
         </tr>
         
         <tr>
-            <td class="field-label"><label for="Item_PostCategoryId">Post Category:</label></td>
+            <td class="field-label"><label for="Item_PostCategoryId">Category</label></td>
             <td class="field-input"><%= Html.DropDownListFor( m => m.Item.PostCategoryId, new SelectList( Model.SelectList<PostCategory>(), "SelectListValue", "Name" ), new { @class = "fancy-field" } )%></td>
             <td class="field-helptext">
                 <span class="field-info" style="display: none;">
@@ -73,7 +73,7 @@
         </tr>   
                 
         <tr>
-            <td class="field-label"><label for="Item_Tags">Tags:</label></td>
+            <td class="field-label"><label for="Item_Tags">Tags (optional)</label></td>
             <td class="field-input"><%= Html.TextBox( "Item.Tags", string.Empty, new { @class = "fancy-field", @size = "40" } )%></td>
             <td class="field-helptext">
                 <span class="field-info" style="display: none;">
@@ -87,7 +87,7 @@
                    
         <div>
             <%= Html.AntiForgeryToken() %>
-            <%= Html.SubmitButton( "submit", "Save" ) %>
+            <%= Html.SubmitButton( "submit", "Create" ) %>
         </div>
 
     <% } %>
@@ -96,8 +96,5 @@
 
 <asp:Content ID="Content4" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <div id="fancy-greenbox">
-        <p class="heading">Please create a new post</p>
-    </div>
     
 </asp:Content>

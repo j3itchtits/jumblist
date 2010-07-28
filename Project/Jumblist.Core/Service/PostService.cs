@@ -127,7 +127,7 @@ namespace Jumblist.Core.Service
                 postList = SelectRecordList( Post.WhereDisplayEquals( true ) );
             }
 
-            if ( !string.IsNullOrEmpty( userSearchArea.Name ) )
+            if ( !string.IsNullOrEmpty( userSearchArea.LocationName ) )
             {
                 postList = postList.ToFilteredList( Post.WhereLocationEquals( userSearchArea.Latitude, userSearchArea.Longitude, userSearchArea.Radius ) );
             }
@@ -166,7 +166,7 @@ namespace Jumblist.Core.Service
                 postList = SelectRecordList( Post.WhereFeedEquals( feed ).And( Post.WhereDisplayEquals( true ) ) );
             }
 
-            if ( !string.IsNullOrEmpty( userSearchArea.Name ) )
+            if ( !string.IsNullOrEmpty( userSearchArea.LocationName ) )
             {
                 postList = postList.ToFilteredList( Post.WhereLocationEquals( userSearchArea.Latitude, userSearchArea.Longitude, userSearchArea.Radius ) );
             }
@@ -200,7 +200,7 @@ namespace Jumblist.Core.Service
                 postList = SelectRecordList( Post.WhereDisplayEquals( true ).And( Post.WhereTagNameListEqualsAnd( tagList ) ) ).OrderByDescending( t => t.PublishDateTime );
             }
 
-            if ( !string.IsNullOrEmpty( userSearchArea.Name ) )
+            if ( !string.IsNullOrEmpty( userSearchArea.LocationName ) )
             {
                 postList = postList.ToFilteredList( Post.WhereLocationEquals( userSearchArea.Latitude, userSearchArea.Longitude, userSearchArea.Radius ) );
             }

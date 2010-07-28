@@ -122,14 +122,22 @@ Tags
 Search (by location) - DONE
 
 
------
-Analytics
------
+------------
+Google tools
+------------
 
-https://www.google.com/analytics
-theclodes@googlemail.com
-Edinb8rgh
+Webmaster
+https://www.google.com/webmasters
 
+Promotion
+http://www.google.com/submityourcontent/index.html
+
+Robots.txt
+http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449&from=40360
+
+Sitemap
+http://www.google.com/support/webmasters/bin/answer.py?answer=183668
+http://joelabrahamsson.com/entry/xml-sitemap-with-aspnet-mvc
 
 -----
 Admin
@@ -143,15 +151,26 @@ Paging for list pages
 -----
 Optimisation
 -----
+
+ASP.NET MVC
 http://weblogs.asp.net/rashid/archive/2009/04/01/asp-net-mvc-best-practices-part-1.aspx
 http://weblogs.asp.net/rashid/archive/2009/04/03/asp-net-mvc-best-practices-part-2.aspx
 http://www.codeproject.com/KB/aspnet/How_to_improve_performanc.aspx
 http://weblogs.asp.net/rashid/archive/2008/03/28/asp-net-mvc-action-filter-caching-and-compression.aspx
 
+General
+http://developer.yahoo.com/performance/rules.html
+
 --------------------------------------------------------------------------------------
 
 
 Still to do - Version 2.0
+
+Login/Registration across social media
+- Janrain (http://www.janrain.com)
+
+Customer feedback and community
+- Get Satisfaction (http://getsatisfaction.com)
 
 Post listing
 - Number of views (popularity)

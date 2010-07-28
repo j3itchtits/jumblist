@@ -37,12 +37,11 @@
                     <label for="tagSearch">What?</label>
                 </td>
                 <td>
-<%--                    <%= Html.TextBox( "tagSearch" ) %>
-                    <%= Html.SubmitButton( "submit", "Search" ) %>--%>
-                    <input id="tagSearch" name="tagSearch" type="text" value="" />
+                    <%= Html.TextBox( "tagSearch", string.Empty, new { tabindex = "1" } )%>
+
                 </td>
                 <td>
-                    <input id="submit" name="submit" type="submit" value="Search" />
+                    <%= Html.SubmitButton( "submit", "Search", new { tabindex = "3" } )%>
                 </td>
             </tr>
             <tr>
@@ -50,7 +49,7 @@
                     <label for="locationSearch">Where?</label>
                 </td>
                 <td>
-                    <%= Html.TextBox( "locationSearch" ) %>
+                    <%= Html.TextBox( "locationSearch", string.Empty, new { tabindex = "2" } )%>
                 </td>
                 <td>
                 </td>

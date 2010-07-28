@@ -12,11 +12,15 @@
     <link href="<%= Url.Stylesheet( "ui.tabs.css" )%>" rel="stylesheet" type="text/css"/>
     <script src="<%= Url.Script( "jquery-ui-1.7.2.custom.min.js" )%>" type="text/javascript"></script>
 
+    <script src="<%= Url.Script( "jquery.highlight-3.js" )%>" type="text/javascript"></script>
+
     <script type="text/javascript">
         $(document).ready(function() 
         {
             $('div#tabs').tabs();
             $("input#tagSearch").autocomplete('<%= Url.Action( "AjaxFindTags", "Tags", new { area = "" } ) %>', { minChars: 1, multiple: true, multipleSeparator: " " });
+            $('.post-link').highlight('<%= Model.Tags.Select( x => x.Name ).ToFormattedStringList( "{0}+", 1 ) %>');
+            $('.post-link').highlight('<%= Model.Q %>');
         });
     </script>   
                  
@@ -84,7 +88,7 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <div id="fancy-greenbox">
+    <div class="fancy-greenbox">
 
     <% 
         //string actionName = ViewContext.RouteData.Values["action"].ToString();
@@ -105,4 +109,8 @@
 
     </div>
 
+    <div class="plain-box">
+        <% Html.RenderPartial( "BasketControl" ); %>
+    </div>
+    
 </asp:Content>

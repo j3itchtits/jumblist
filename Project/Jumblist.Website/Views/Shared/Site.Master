@@ -21,7 +21,21 @@
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
     <link href="/favicon.ico" rel="icon" type="image/x-icon"/>
  
-    <asp:ContentPlaceHolder ID="HeadContentJavascript" runat="server" />    
+    <asp:ContentPlaceHolder ID="HeadContentJavascript" runat="server" />  
+
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-17665541-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>      
 </head>
 
 <body>
@@ -54,7 +68,8 @@
                                 <li><%= Html.ActionLink( "WANTED", "category", "posts", new { id = "Wanted" }, null ) %></li>
                             </ul>
                         </li>
-                        <li><%= Html.ActionLink( "ADD POST", "add", "posts", new { returnUrl = Request.Url.PathAndQuery }, null )%></li>
+<%--                        <li><%= Html.ActionLink( "ADD POST", "add", "posts", new { returnUrl = Request.Url.PathAndQuery }, null )%></li>--%>
+                        <li><%= Html.ActionLink( "ADD POST", "add", "posts" )%></li>
                         <li><%= Html.ActionLink( "TAGS", "index", "tags" ) %></li>
                         <li><%= Html.ActionLink( "LOCATIONS", "index", "locations" )%></li>
                         <li><%= Html.ActionLink( "GROUPS", "index", "groups" )%></li>

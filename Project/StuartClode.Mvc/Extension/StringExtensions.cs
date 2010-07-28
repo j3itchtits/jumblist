@@ -7,6 +7,8 @@ using System.Text.RegularExpressions;
 using System.Text;
 using StuartClode.Mvc.Service.Encryption;
 using StuartClode.Mvc.Service.Randomize;
+using System.Globalization;
+using System.Threading;
 
 namespace StuartClode.Mvc.Extension
 {
@@ -234,6 +236,46 @@ namespace StuartClode.Mvc.Extension
         }
 
 
+        /// <summary>
+        /// An Extension Method to allow us t odo "The Title Of It".asTitleCase()
+        /// which would return a TitleCased string.
+        /// </summary>
+        /// <param name="title">Title to work with.</param>
+        /// <returns>Output title as TitleCase</returns>
+        public static string ToTitleCase( this string title )
+        {
+            if ( string.IsNullOrEmpty( title ) ) return string.Empty;
+            
+            char[] space = new char[] { ' ' };
+
+            List<string> artsAndPreps = new List<string>() { "a", "an", "and", "any", "at", "from", "into", "of", "on", "or", "some", "the", "to", };
+
+            //Get the culture property of the thread.
+            CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
+            //Create TextInfo object.
+            TextInfo textInfo = cultureInfo.TextInfo;
+
+            //Convert to title case.
+            title = textInfo.ToTitleCase( title.ToLower() );
+
+            List<string> tokens = title.Split( space, StringSplitOptions.RemoveEmptyEntries ).ToList();
+
+            title = tokens[0];
+
+            tokens.RemoveAt( 0 );
+
+            title += tokens.Aggregate<String, String>( String.Empty, ( String prev, String input )
+                                    => prev +
+                                        (artsAndPreps.Contains( input.ToLower() ) // If True
+                                            ? " " + input.ToLower()              // Return the prep/art lowercase
+                                            : " " + input) );                   // Otherwise return the valid word.
+
+            // Handle an "Out Of" but not in the start of the sentance
+            title = Regex.Replace( title, @"(?!^Out)(Out\s+Of)", "out of" );
+
+            return title;
+
+        }
         //public static string GetAntiForgeryToken( string salt )
         //{
         //    var input = _helper.AntiForgeryToken( salt ).ToString();
