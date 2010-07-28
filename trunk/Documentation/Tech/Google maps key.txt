@@ -1,0 +1,14 @@
+Google Maps API Keys
+
+Only needed for version 2. 
+NB. MVCMaps uses version 2 so we need this for jumblist.
+
+http://code.google.com/apis/maps/signup.html
+
+-------------
+
+http://staging.hodes.co.uk
+ABQIAAAA7qAsTvSYIKkctPKy5ifHixTZdU8T27mPpGTFDg_07kP1Ti6MjhTaOH0V5spt85_Fs60bETwZ3UBGfQ
+
+http://jumblist.co.uk
+ABQIAAAA7qAsTvSYIKkctPKy5ifHixS93tJ8t6fd2kPNW5w_K_q418abbxROpxlgGaEzIXjb7OWtblu16YOg9g

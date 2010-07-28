@@ -129,7 +129,6 @@
     <Compile Include="Filter\CopyTempDataToViewDataAttribute.cs" />
     <Compile Include="Extension\HtmlHelperExtensions.cs" />
     <Compile Include="Filter\CustomAuthorizationAttribute.cs" />
-    <Compile Include="Filter\LoadFeedsAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -138,6 +137,7 @@
     <Compile Include="Module\ImportPostsFromFeedsHttpModule.cs" />
     <Compile Include="Module\SendEmailAlertsHttpModule.cs" />
     <Compile Include="Result\RssResult.cs" />
+    <Compile Include="Result\XmlSitemapResult.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\DefaultViewModel.cs" />
     <Compile Include="ViewModel\IBaseViewModel.cs">
@@ -304,6 +304,7 @@
     <Content Include="Assets\Scripts\jquery-ui-1.7.2.custom.min.js" />
     <Content Include="Assets\Scripts\jquery.color.js" />
     <Content Include="Assets\Stylesheets\ui.tabs.css" />
+    <Content Include="robots.txt" />
     <Content Include="Views\Posts\BasicPostListControl.ascx" />
     <Content Include="Views\Shared\Site.Master" />
   </ItemGroup>

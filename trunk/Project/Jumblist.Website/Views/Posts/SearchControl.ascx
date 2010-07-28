@@ -19,7 +19,7 @@
         if ((Model.User != null) && (ViewContext.RouteData.Values["action"].ToString() != "located") ) 
         { %>
             <p class="heading">Location</p>
-            Within <%= Html.TextBox( "locationRadius", Html.LocationRadius( Model.UserSearchArea.Radius ) )%> miles of <%= Html.TextBox( "locationSearch", Html.LocationName( Model.UserSearchArea.Name ) )%><br /><br /> <% 
+            Within <%= Html.TextBox( "locationRadius", Html.LocationRadius( Model.UserSearchArea.Radius ) )%> miles of <%= Html.TextBox( "locationSearch", Html.LocationName( Model.UserSearchArea.LocationName ) )%><br /><br /> <% 
         }
         
         //Group

@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <td><label for="Item.Body">Body:</label></td>
-            <td><%= Html.TextAreaFor( m => m.Item.Body, new { @rows = "10", @cols = "100" } )%>
+            <td><%= Html.TextAreaFor( m => m.Item.Body, new { @rows = "10", @cols = "75" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.Body )%></td>
         </tr>
         <tr>

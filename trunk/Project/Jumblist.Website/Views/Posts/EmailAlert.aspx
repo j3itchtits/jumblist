@@ -26,7 +26,7 @@
             <%= !string.IsNullOrEmpty( Model.PostListRouteValues.Id ) ? Model.PostListRouteValues.Id + ", " : string.Empty%>
             <%= !string.IsNullOrEmpty( Model.PostListRouteValues.Category ) ? Model.PostListRouteValues.Category + ", " : string.Empty%>
             <%= !string.IsNullOrEmpty( Model.PostListRouteValues.Q ) ? Model.PostListRouteValues.Q + ", " : string.Empty%><br />
-            Location: Within <%= Model.UserSearchArea.Radius%> miles of <%= Model.UserSearchArea.Name%><br />            
+            Location: Within <%= Model.UserSearchArea.Radius%> miles of <%= Model.UserSearchArea.LocationName%><br />            
         </p>        
         
         <table>

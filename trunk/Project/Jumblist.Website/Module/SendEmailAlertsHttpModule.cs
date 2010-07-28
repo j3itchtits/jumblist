@@ -42,14 +42,14 @@ namespace Jumblist.Website.Module
 
         private void SendTimedEmailAlerts()
         {
-            IQueryable<UserAlert> alerts = userAlertService.SelectRecordList( x => x.IsActive == true && x.IsImmediateSend == false && x.TimetoSend == DateTime.Now.Hour && x.DateTimeLastSent.DayOfYear != DateTime.Now.DayOfYear );
+            IEnumerable<UserAlert> alerts = userAlertService.SelectRecordList( x => x.IsActive == true && x.IsImmediateSend == false && x.TimetoSend == DateTime.Now.Hour && x.DateTimeLastSent.DayOfYear != DateTime.Now.DayOfYear );
             SendEmailAlerts( alerts );
         }
 
         private void SendImmediateEmailAlerts()
         {
             //First we need a list of all the active alerts
-            IQueryable<UserAlert> alerts = userAlertService.SelectRecordList( x => x.IsActive == true && x.IsImmediateSend == true );
+            IEnumerable<UserAlert> alerts = userAlertService.SelectRecordList( x => x.IsActive == true && x.IsImmediateSend == true );
             SendEmailAlerts( alerts );
         }
 

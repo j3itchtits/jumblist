@@ -1,0 +1,70 @@
+User-Agent: *
+Disallow: /areas/admin
+Disallow: /areas/admin/
+Disallow: /assets
+Disallow: /assets/
+Disallow: /templates
+Disallow: /templates/
+Disallow: /basket
+Disallow: /basket/
+Disallow: /error
+Disallow: /error/
+Disallow: /groups
+Disallow: /groups/
+Disallow: /locations
+Disallow: /locations/
+Disallow: /tags
+Disallow: /tags/
+Disallow: /users
+Disallow: /users/
+Disallow: /*?
+Allow: /
+
+# for "/*?", refer to http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=40360
+
+#
+# beware, the sections below WILL NOT INHERIT from the above!
+# http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=40360
+#
+
+#
+# disallow adsense bot, as we no longer do adsense.
+#
+User-agent: Mediapartners-Google
+Disallow: / 
+
+#
+# Yahoo bot is evil.
+#
+User-agent: Slurp
+Disallow: /
+
+#
+# Spinn3r is also evil.
+#
+User-agent: Spinn3r
+Disallow: /
+
+#
+# Yahoo Pipes is for feeds not web pages.
+#
+User-agent: Yahoo Pipes 1.0
+Disallow: /
+
+#
+# No images needed
+#
+User-agent: Googlebot-Image
+Disallow: /
+
+#
+# KSCrawler - we don't need help from you
+#
+User-agent: KSCrawler
+Disallow: /
+
+#
+# this technically isn't valid, since for some godforsaken reason 
+# sitemap paths must be ABSOLUTE and not relative. 
+#
+Sitemap: /sitemap.xml

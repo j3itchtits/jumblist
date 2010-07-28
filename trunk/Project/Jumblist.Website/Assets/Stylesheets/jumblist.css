@@ -111,6 +111,10 @@ p
 	visibility:hidden;
 }
 
+.highlight 
+{ 
+	background-color: yellow; 
+}
 
 /****************************
  ** Layout *
@@ -167,12 +171,12 @@ p
     
 }
 
-#loginarea a, #basket a
+#loginarea a
 {
 	color: #fff;
 }
 
-#loginarea a:hover, #basket a:hover, #container-rightcolumn a:hover
+#loginarea a:hover, #container-rightcolumn a:hover
 {
 	text-decoration: underline;
 }
@@ -224,7 +228,7 @@ p
 	margin-left: 20px;
 }
 
-#container-rightcolumn #fancy-greenbox
+#container-rightcolumn .fancy-greenbox
 {
 	-moz-border-radius:5px;
 	-webkit-border-radius: 5px;
@@ -238,19 +242,30 @@ p
 	margin-bottom: 12px;
 }
 
-#container-rightcolumn #fancy-greenbox a
+#container-rightcolumn .fancy-greenbox a
 {
 	color: #fff;
 }
 
-#container-rightcolumn #plain-box
+#container-rightcolumn .plain-box
+{
+	-moz-border-radius:5px;
+	-webkit-border-radius: 5px;
+	width: 100%;
+	border: 1px solid #ADB85F;
+	padding: 8px;	
+	margin-bottom: 12px;
+}
+
+#container-rightcolumn .socialmedia
 {
 	-moz-border-radius:5px;
 	-webkit-border-radius: 5px;
 	-webkit-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
 	-moz-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
 	width: 100%;
-	border: 1px solid #ADB85F;
+	border: 1px solid #05A3FF;
+	background-color: #8ED5FF;
 	padding: 8px;	
 	margin-bottom: 12px;
 }
@@ -346,6 +361,7 @@ input, textarea, select
 	border: 1px solid #999;
 	padding:6px 10px 2px 6px;
 	margin: 0px;
+	margin-bottom: 5px;
 	font-size: 1em;
 }
 
@@ -357,6 +373,12 @@ select
 input
 {
 	height:26px;
+}
+
+textarea
+{
+	width: 400px;
+	height: 150px;
 }
 
 input:focus, textarea:focus, select:focus
@@ -404,7 +426,7 @@ input[type="submit"]:active
 
 input[type="radio"]
 {
-	vertical-align: text-bottom;
+	vertical-align: middle;
 }
 
 option
@@ -415,6 +437,11 @@ option
 .field-selected
 {
 	background-color: #ffe;
+}
+
+.field-info, .field-validation-error
+{
+	font-size: 0.9em;
 }
 
 .field-validation-error 

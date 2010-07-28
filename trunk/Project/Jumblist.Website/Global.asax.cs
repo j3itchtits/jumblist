@@ -224,6 +224,13 @@ namespace Jumblist.Website
             );
 
             routes.JumblistMapRoute(
+                "XMLSitemap",                                              // Route name
+                "sitemap.xml",                           // URL with parameters
+                new { controller = "posts", action = "xmlsitemap" },  // Parameter defaults
+                new string[] { "Jumblist.Website.Controllers" }
+            );
+
+            routes.JumblistMapRoute(
                 "Rss-WithCategory",                                              // Route name
                 "{controller}/{rssactionname}/{rssactionid}/{rssactioncategory}/rss",                           // URL with parameters
                 new { controller = "posts", action = "rss", rssactionname = "index" },  // Parameter defaults

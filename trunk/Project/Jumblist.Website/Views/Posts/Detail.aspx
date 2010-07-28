@@ -72,7 +72,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <div id="plain-box">
+    <div class="plain-box">
 
         <div class="post-category">
             <p class="heading">Category</p>
@@ -103,13 +103,17 @@
                 
         </div>
 
-        <div class="post-socialmedia"> 
-            <p class="heading">Share</p>
-            <a href="http://www.facebook.com/sharer.php?u=<%= Request.Url.AbsoluteUri %>&t=<%= Html.PageTitle( ViewData.Model )%>" title="Share on Facebook" target="_blank"><img src="/assets/images/facebook-icon.png" width="25" height="25" alt="Share on Facebook" /></a> 
-            <a id="twitter-share" title="Share on Twitter" target="_blank"><img src="/assets/images/twittericon.png" width="25" height="25" alt="Share on Twitter" /></a>
-        </div> 
-
     </div>
- 
+
+    <div class="socialmedia"> 
+        <p class="heading">Share</p>
+        <a href="http://www.facebook.com/sharer.php?u=<%= Request.Url.AbsoluteUri %>&t=<%= Html.PageTitle( ViewData.Model )%>" title="Share on Facebook" target="_blank"><img src="/assets/images/facebook-icon.png" width="25" height="25" alt="Share on Facebook" /></a> 
+        <a id="twitter-share" title="Share on Twitter" target="_blank"><img src="/assets/images/twittericon.png" width="25" height="25" alt="Share on Twitter" /></a>
+    </div>
+        
+    <div class="plain-box">
+        <% Html.RenderPartial( "BasketControl" ); %>
+    </div>
+     
 </asp:Content>
 

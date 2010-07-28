@@ -63,7 +63,7 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <div id="fancy-greenbox">
+    <div class="fancy-greenbox">
     
         <p class="heading">Reset Password</p>
         

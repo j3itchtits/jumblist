@@ -115,6 +115,7 @@
 
         $(document).ready(function() {
 
+            //http://www.webdesignerwall.com/tutorials/jquery-tutorials-for-designers/
             $(".pane .delete").click(function() {
                 $(this).parents(".pane").animate({ opacity: 'hide' }, "slow");
             });
