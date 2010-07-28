@@ -18,7 +18,6 @@ namespace Jumblist.Core.Service
 {
     public class SearchService : ISearchService
     {
-        private readonly string searchResultKey = ConfigurationManager.AppSettings["SearchResultModelBinderKey"];
         //private string[] tags;
         //private string[] locations;
         public ITagService tagService;

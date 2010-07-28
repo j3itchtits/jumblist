@@ -64,8 +64,8 @@ namespace Jumblist.Website.Controllers
         //[ResetAuthUserSearchDetails]
         public ActionResult Index( string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
-            //UserSearchArea userSearchArea = jumblistSession.UserSearchArea;
-            //ResetAuthUserSearchDetails( ref userSearchArea, user );
+            UserSearchArea userSearchArea = jumblistSession.UserSearchArea;
+            ResetAuthUserSearchDetails( ref userSearchArea, user );
 
             int currentPage = page.HasValue ? page.Value - 1 : 0;
             int currentPageSize = CalculatePageSize( pageSize, jumblistSession.PageSize );
@@ -113,8 +113,8 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult Category( string id, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
-            //UserSearchArea userSearchArea = jumblistSession.UserSearchArea;
-            //ResetAuthUserSearchDetails( ref userSearchArea, user );
+            UserSearchArea userSearchArea = jumblistSession.UserSearchArea;
+            ResetAuthUserSearchDetails( ref userSearchArea, user );
 
             PostCategory postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( id ) );
 
@@ -155,8 +155,8 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult Group( string id, string category, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
-            //UserSearchArea userSearchArea = jumblistSession.UserSearchArea;
-            //ResetAuthUserSearchDetails( ref userSearchArea, user );
+            UserSearchArea userSearchArea = jumblistSession.UserSearchArea;
+            ResetAuthUserSearchDetails( ref userSearchArea, user );
 
             Feed feed = feedService.SelectRecord( Feed.WhereFriendlyUrlEquals( id ) );
             PostCategory postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
@@ -239,8 +239,8 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult Tagged( string id, string category, string q, int? page, int? pageSize, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
-            //UserSearchArea userSearchArea = jumblistSession.UserSearchArea;
-            //ResetAuthUserSearchDetails( ref userSearchArea, user );
+            UserSearchArea userSearchArea = jumblistSession.UserSearchArea;
+            ResetAuthUserSearchDetails( ref userSearchArea, user );
 
             IEnumerable<Tag> tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( id.ToFriendlyUrlDecode() ) );
             PostCategory postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
@@ -437,11 +437,14 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get ), OutputCache( CacheProfile = "Dashboard" )]
         public RssResult Rss( string rssActionName, string rssActionId, string rssActionCategory, string q, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
-            //UserSearchArea userSearchArea = jumblistSession.UserSearchArea;
-            //ResetAuthUserSearchDetails( ref userSearchArea, user );
+            UserSearchArea userSearchArea = jumblistSession.UserSearchArea;
+            ResetAuthUserSearchDetails( ref userSearchArea, user );
 
-            PostListRouteValues postListRouteValues = (PostListRouteValues)Serializer.Deserialize( "AAEAAAD/////AQAAAAAAAAAMAgAAAERKdW1ibGlzdC5Db3JlLCBWZXJzaW9uPTEuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49bnVsbAUBAAAAJ0p1bWJsaXN0LkNvcmUuTW9kZWwuUG9zdExpc3RSb3V0ZVZhbHVlcwQAAAAXPEFjdGlvbj5rX19CYWNraW5nRmllbGQTPElkPmtfX0JhY2tpbmdGaWVsZBk8Q2F0ZWdvcnk+a19fQmFja2luZ0ZpZWxkEjxRPmtfX0JhY2tpbmdGaWVsZAEBAQECAAAABgMAAAAGVGFnZ2VkBgQAAAAEYmFieQoKCw==" );
-            UserSearchArea userSearchArea = (UserSearchArea)Serializer.Deserialize( "AAEAAAD/////AQAAAAAAAAAMAgAAAERKdW1ibGlzdC5Db3JlLCBWZXJzaW9uPTEuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49bnVsbAUBAAAAIkp1bWJsaXN0LkNvcmUuTW9kZWwuVXNlclNlYXJjaEFyZWEEAAAAHTxMb2NhdGlvbk5hbWU+a19fQmFja2luZ0ZpZWxkFzxSYWRpdXM+a19fQmFja2luZ0ZpZWxkGTxMYXRpdHVkZT5rX19CYWNraW5nRmllbGQaPExvbmdpdHVkZT5rX19CYWNraW5nRmllbGQBAAAACAYGAgAAAAYDAAAACHRuMzEgNmhnBAAAAAAAAAAAAAAAAAAAAAAAAAAL" );
+            //PostListRouteValues postListRouteValues = (PostListRouteValues)Serializer.Deserialize( "AAEAAAD/////AQAAAAAAAAAMAgAAAERKdW1ibGlzdC5Db3JlLCBWZXJzaW9uPTEuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49bnVsbAUBAAAAJ0p1bWJsaXN0LkNvcmUuTW9kZWwuUG9zdExpc3RSb3V0ZVZhbHVlcwQAAAAXPEFjdGlvbj5rX19CYWNraW5nRmllbGQTPElkPmtfX0JhY2tpbmdGaWVsZBk8Q2F0ZWdvcnk+a19fQmFja2luZ0ZpZWxkEjxRPmtfX0JhY2tpbmdGaWVsZAEBAQECAAAABgMAAAAGVGFnZ2VkBgQAAAAEYmFieQoKCw==" );
+            //UserSearchArea userSearchArea = (UserSearchArea)Serializer.Deserialize( "AAEAAAD/////AQAAAAAAAAAMAgAAAERKdW1ibGlzdC5Db3JlLCBWZXJzaW9uPTEuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49bnVsbAUBAAAAIkp1bWJsaXN0LkNvcmUuTW9kZWwuVXNlclNlYXJjaEFyZWEEAAAAHTxMb2NhdGlvbk5hbWU+a19fQmFja2luZ0ZpZWxkFzxSYWRpdXM+a19fQmFja2luZ0ZpZWxkGTxMYXRpdHVkZT5rX19CYWNraW5nRmllbGQaPExvbmdpdHVkZT5rX19CYWNraW5nRmllbGQBAAAACAYGAgAAAAYDAAAACHRuMzEgNmhnBQAAAAAAQPtRd0lAAAAAAO2W4j8L" );
+
+            //IEnumerable<Post> postList = postService.GetPostList( postListRouteValues, userSearchArea )
+            //    .Where( x => x.LastUpdatedDateTime > DateTime.Now.AddDays( -5 ) );
 
             SyndicationFeed feed =
                 new SyndicationFeed( "Jumblist Feed",
@@ -450,11 +453,10 @@ namespace Jumblist.Website.Controllers
                                     "TestFeedID",
                                     DateTime.Now );
 
-            IEnumerable<Post> postList = postService.GetPostList( postListRouteValues, userSearchArea )
-                .Where( x => x.LastUpdatedDateTime > DateTime.Now.AddDays( -1 ) );
 
-            //IEnumerable<Post> postList = postService.GetPostList( rssActionName, rssActionId, rssActionCategory, q, jumblistSession.UserSearchArea );
-                //.Where( x => x.LastUpdatedDateTime > DateTime.Now.AddDays( -1 ) );
+
+            IEnumerable<Post> postList = postService.GetPostList( rssActionName, rssActionId, rssActionCategory, q, jumblistSession.UserSearchArea )
+                .Where( x => x.LastUpdatedDateTime > DateTime.Now.AddDays( -30 ) );
 
             IEnumerable<SyndicationItem> items = postList.Select( x => (new SyndicationItem( x.Title, x.Body.ToShortDescription(), new Uri( defaultUrl + x.LinkbackUrl ), x.PostId.ToString(), x.PublishDateTime )) );
           

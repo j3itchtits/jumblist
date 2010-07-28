@@ -62,6 +62,7 @@ namespace Jumblist.Website.Controllers
 
         [AcceptVerbs( HttpVerbs.Post )]
         [ValidateAntiForgeryToken]
+        [CustomAuthorization( RoleLevelMinimum = RoleLevel.AnonymousUser )]
         public ActionResult Save( User item )
         {
             User user = userService.SelectRecord( item.UserId );
@@ -99,7 +100,7 @@ namespace Jumblist.Website.Controllers
         {
             Post post = postService.SelectRecord( id );
 
-            var model = DefaultView.CreateModel<Post>().With( post );
+            DefaultViewModel<Post> model = DefaultView.CreateModel<Post>().With( post );
 
             model.PageTitle = string.Format( "Edit - {0}", post.Title );
 
@@ -108,6 +109,7 @@ namespace Jumblist.Website.Controllers
 
         [AcceptVerbs( HttpVerbs.Post )]
         [ValidateAntiForgeryToken]
+        [CustomAuthorization( RoleLevelMinimum = RoleLevel.AnonymousUser )]
         public ActionResult Post( Post item )
         {
             Post post = postService.SelectRecord( item.PostId );
@@ -135,7 +137,7 @@ namespace Jumblist.Website.Controllers
                 ex.AddModelStateErrors( ModelState, "Item" );
             }
 
-            var model = DefaultView.CreateModel<Post>().With( post );
+            DefaultViewModel<Post> model = DefaultView.CreateModel<Post>().With( post );
             model.PageTitle = string.Format( "Edit - {0}", post.Title );
             model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
             return View( model );
@@ -147,12 +149,42 @@ namespace Jumblist.Website.Controllers
         {
             UserAlert userAlert = userAlertService.SelectRecord( id );
 
-            var model = DefaultView.CreateModel<UserAlert>().With( userAlert );
+            DefaultViewModel<UserAlert> model = DefaultView.CreateModel<UserAlert>().With( userAlert );
 
             model.PageTitle = string.Format( "Edit - {0}", userAlert.Name );
             model.PostListRouteValues = (PostListRouteValues)Serializer.Deserialize( userAlert.PostListRouteValues );
             model.UserSearchArea = (UserSearchArea)Serializer.Deserialize( userAlert.SearchArea );
 
+            return View( model );
+        }
+
+        [AcceptVerbs( HttpVerbs.Post )]
+        [ValidateAntiForgeryToken]
+        [CustomAuthorization( RoleLevelMinimum = RoleLevel.AnonymousUser )]
+        public ActionResult Alert( UserAlert item )
+        {
+            UserAlert userAlert = userAlertService.SelectRecord( item.UserAlertId );
+
+            userAlert.Name = item.Name;
+            userAlert.IsImmediateSend = item.IsImmediateSend;
+            userAlert.TimetoSend = item.TimetoSend;
+            userAlert.IsActive = item.IsActive;
+
+            try
+            {
+                userAlertService.Save( userAlert );
+
+                Message = new Message { Text = userAlert.Name + " has been saved.", StyleClass = "message" };
+                return RedirectToAction( "alert" );
+            }
+            catch ( RulesException ex )
+            {
+                ex.AddModelStateErrors( ModelState, "Item" );
+            }
+
+            DefaultViewModel<UserAlert> model = DefaultView.CreateModel<UserAlert>().With( userAlert );
+            model.PageTitle = string.Format( "Edit - {0}", userAlert.Name );
+            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
             return View( model );
         }
 

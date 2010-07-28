@@ -5,6 +5,7 @@ using System.Text;
 using System.Web.Mvc;
 using Jumblist.Core.Model;
 using System.Configuration;
+using System.Web;
 
 namespace Jumblist.Website.ModelBinder
 {
@@ -35,6 +36,8 @@ namespace Jumblist.Website.ModelBinder
 
             if ( jumblistSession == null )
             {
+                //if the user is authenticated then perhaps we could grab the user object somehow and use it to update teh UserSearchArea
+
                 jumblistSession = new 
                     JumblistSession()
                     {

@@ -46,7 +46,7 @@
                 
     <div class="user-posts">
         <div><b>Your posts</b><br />
-        <% foreach ( var post in Model.Item.Posts )
+        <% foreach ( var post in Model.Item.Posts.OrderByDescending( t => t.PublishDateTime ) )
            { %>
                 <%= post.Title %> <%= Html.ActionLink( "[Edit]", "post", new { id = post.PostId } ) %><br /><%
            } %>

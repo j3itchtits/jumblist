@@ -62,9 +62,9 @@ namespace StuartClode.Mvc.Extension
 
         public static string ToCleanSearchString( this string helper )
         {
-            helper = (helper ?? "").Trim().ToLower();
+            helper = (helper ?? string.Empty).Trim();
             helper = Regex.Replace( helper, @",", " " );        
-            helper = Regex.Replace( helper, @"[^a-z0-9\s]", "" ); //remove punctuation 
+            helper = Regex.Replace( helper, @"[^A-Za-z0-9\s]", "" ); //remove punctuation 
             helper = Regex.Replace( helper, @"\sand\s", " " ); 
             helper = Regex.Replace( helper, @"\sor\s", " " );
             helper = Regex.Replace( helper, @"\s+", " " ); // convert multiple spaces into one
