@@ -86,7 +86,9 @@
     <Compile Include="Model\Basket.cs" />
     <Compile Include="Model\CategoryLink.cs" />
     <Compile Include="Model\Data\UserAlert.cs" />
-    <Compile Include="Model\ISitemapItem.cs" />
+    <Compile Include="Model\ISitemapItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Model\JumblistSession.cs" />
     <Compile Include="Model\Link.cs" />
     <Compile Include="Model\PostCategory.cs" />
