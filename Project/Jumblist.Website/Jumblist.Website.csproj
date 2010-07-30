@@ -305,6 +305,9 @@
     <Content Include="Assets\Scripts\jquery.color.js" />
     <Content Include="Assets\Stylesheets\ui.tabs.css" />
     <Content Include="robots.txt" />
+    <Content Include="Views\Home\Faq.aspx" />
+    <Content Include="Views\Home\Privacy.aspx" />
+    <Content Include="Views\Home\Terms.aspx" />
     <Content Include="Views\Posts\BasicPostListControl.ascx" />
     <Content Include="Views\Shared\Site.Master" />
   </ItemGroup>

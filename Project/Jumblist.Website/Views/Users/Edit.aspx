@@ -23,29 +23,57 @@
         
         <table>
         <tr>
-            <td><label for="Item.Name">Name:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Name ) %></td>
-            <td><%= Html.ValidationMessageFor( m => m.Item.Name )%></td>
+            <td class="field-label"><label for="Item.Name">Name:</label></td>
+            <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Name, new { @class = "fancy-field" } )%></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
+                   Your username
+                </span>
+                <span class="field-validation-error">
+                    <%= Html.ValidationMessageFor( m => m.Item.Name )%>
+                </span>            
+            </td>
         </tr>
         <tr>
-            <td><label for="Item.Email">Email:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Email ) %></td>
-            <td><%= Html.ValidationMessageFor( m => m.Item.Email )%></td>
+            <td class="field-label"><label for="Item.Email">Email:</label></td>
+            <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Email, new { @class = "fancy-field" } )%></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
+                   Your email address
+                </span>
+                <span class="field-validation-error">
+                    <%= Html.ValidationMessageFor( m => m.Item.Email )%>
+                </span>            
+            </td>
         </tr>
         <tr>
-            <td><label for="Item.Postcode">Postcode:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Postcode, new { @class = "text-upper" } )%></td>
-            <td><%= Html.ValidationMessageFor( m => m.Item.Postcode )%></td>
+            <td class="field-label"><label for="Item.Postcode">Postcode:</label></td>
+            <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Postcode, new { @class = "fancy-field text-upper" } )%></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
+                   Your postcode
+                </span>
+                <span class="field-validation-error">
+                    <%= Html.ValidationMessageFor( m => m.Item.Postcode )%>
+                </span>            
+            </td>
         </tr>      
         <tr>
-            <td><label for="Item.Radius">Radius:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Radius )%></td>
-            <td><%= Html.ValidationMessageFor( m => m.Item.Radius )%></td>
+            <td class="field-label"><label for="Item.Radius">Radius:</label></td>
+            <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Radius, new { @class = "fancy-field" } )%></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
+                   Search radius in miles centered on your postcode
+                </span>
+                <span class="field-validation-error">
+                    <%= Html.ValidationMessageFor( m => m.Item.Radius )%>
+                </span>            
+            </td>
         </tr> 
 
         </table>
         
-        <div>
+        <div class="button-submit">
             <%= Html.AntiForgeryToken() %>
             <%= Html.SubmitButton( "submit", "Save" ) %>
         </div>
@@ -53,9 +81,9 @@
 
     <% } %>
     
-    <p>
-        <%=Html.ActionLink( "Back to profile", "profile" ) %>
-    </p>
+    <div>
+        [ <%=Html.ActionLink( "Back to profile", "profile" ) %> ]
+    </div>
 
 </asp:Content>
 
@@ -65,7 +93,7 @@
 
     <div class="fancy-greenbox">
     
-        <p class="heading">Reset Password</p>
+        <h3>Reset Password</h3>
         
         <% using (Html.BeginForm( "savepassword", "users" )) { %>
             

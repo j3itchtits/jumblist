@@ -9,10 +9,10 @@
             <%= Html.Hidden( "locationSearch", Model.Postcode )%>
 
 
-                <table border="0" cellpadding="0" cellspacing="0" class="home-searchcriteria-tag">
+                <table class="home-searchcriteria-tag" title="Search for Posts">
                 <tr>
-                <td width="80">
-	                <%= Html.TextBox( "tagSearch", string.Empty, new { title = "Please enter your search term", @class = "input-left" } )%>
+                <td style="width: 80px;">
+	                <label for="tagSearch" style="display:none;">Search</label><%= Html.TextBox( "tagSearch", string.Empty, new { title = "Please enter your search term", @class = "input-left" } )%>
                 </td>
                 <td>
 	                <%= Html.SubmitButton( "submit", "Search", new { @class = "button-right" } )%>
@@ -30,41 +30,52 @@
         { 
             %>
             <%= Html.Hidden( "locationRadius", 5 ) %>
-            
-            <table border="0" cellpadding="0" cellspacing="0" class="home-searchcriteria-taglocation">
-            <tr>
-                <td>
-                    <label for="tagSearch">What?</label>
-                </td>
-                <td>
-                    <%= Html.TextBox( "tagSearch", string.Empty, new { tabindex = "1" } )%>
 
-                </td>
-                <td>
-                    <%= Html.SubmitButton( "submit", "Search", new { tabindex = "3" } )%>
-                </td>
-            </tr>
+            <table title="Search for Posts">
             <tr>
-                <td>
-                    <label for="locationSearch">Where?</label>
-                </td>
-                <td>
-                    <%= Html.TextBox( "locationSearch", string.Empty, new { tabindex = "2" } )%>
-                </td>
-                <td>
-                </td>
+            <td>
+
+                <table class="home-searchcriteria-taglocation" title="Search for Posts by Tag and Location">
+                <tr>
+                    <td>
+                        <label for="tagSearch">What?</label>
+                    </td>
+                    <td>
+                        <%= Html.TextBox( "tagSearch", string.Empty, new { tabindex = "1" } )%>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="locationSearch">Where?</label>
+                    </td>
+                    <td>
+                        <%= Html.TextBox( "locationSearch", string.Empty, new { tabindex = "2" } )%>
+                    </td>
+                </tr>
+                </table>
+                        
+            </td>
+            <td style="padding-top: 85px">
+                <%= Html.SubmitButton( "submit", "Search", new { tabindex = "3" } )%>
+            </td>
             </tr>
             </table>
+ 
             <% 
         }
         
         %>
         
-        <div class="home-searchcategory">
-            <input type="radio" name="postCategorySelection" value="" checked="checked" /> All &nbsp;
-            <input type="radio" name="postCategorySelection" value="offered" /> Offered &nbsp;
-            <input type="radio" name="postCategorySelection" value="wanted" /> Wanted   &nbsp;     
-        </div>
+        <fieldset class="home-searchcategory">
+            <legend>Please select a post category to filter your search by</legend>
+            <input id="categoryAll" type="radio" name="postCategorySelection" value="" checked="checked" />
+            <label for="categoryAll">All</label>  &nbsp;
+            <input id="categoryOffered" type="radio" name="postCategorySelection" value="offered" />
+            <label for="categoryOffered">Offered</label>  &nbsp;
+            <input id="categoryWanted" type="radio" name="postCategorySelection" value="wanted" />
+            <label for="categoryWanted">Wanted</label>  &nbsp;   
+        </fieldset>
         
         <%
     }

@@ -28,19 +28,20 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 <% UserSearchArea usa = ( (JumblistSession)HttpContext.Current.Session["_jumblist"] ).UserSearchArea; %>
+
     <h2><%= Html.PageTitle( ViewData.Model )%></h2>
 
-        <div style="margin: 20px;">
+<%--        <div style="margin: 20px;">
             User: <%= Model.User.Postcode %>, <%= Model.User.Radius %>, <%= Model.User.Latitude %>, <%= Model.User.Longitude %><br />
             UserSearchArea: <%= Model.UserSearchArea.LocationName %>, <%= Model.UserSearchArea.Radius %>, <%= Model.UserSearchArea.Latitude %>, <%= Model.UserSearchArea.Longitude %><br />
             Session: <%= usa.LocationName%>, <%= usa.Radius%>, <%= usa.Latitude%>, <%= usa.Longitude%><br />
-        </div>
+        </div>--%>
             
     <div id="messages">
         <%= Html.MessageBox( ViewData.Model ) %>
     </div>
     
-    <table border="0" cellpadding="0" cellspacing="0">
+    <table>
     <tr>
     <td>
         Number of items: <%= Model.ListCount %><br />

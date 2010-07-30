@@ -17,6 +17,8 @@ Disallow: /tags
 Disallow: /tags/
 Disallow: /users
 Disallow: /users/
+Disallow: /posts/add
+Disallow: /posts/add/
 Disallow: /*?
 Allow: /
 
@@ -67,4 +69,4 @@ Disallow: /
 # this technically isn't valid, since for some godforsaken reason 
 # sitemap paths must be ABSOLUTE and not relative. 
 #
-Sitemap: /sitemap.xml
+Sitemap: http://www.jumblist.co.uk/sitemap.xml

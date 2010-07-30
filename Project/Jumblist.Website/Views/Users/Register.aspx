@@ -19,14 +19,15 @@
         
     <p>Please submit your details. <%= Html.LoginLink( "Log In" )%> if you already have an account.</p>
 
-	<% using( Html.BeginForm() ) { %>
+
+	<% using ( Html.BeginForm() ) { %>
 	
-        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <table>
         
         <tr>
-            <td width="30%" class="field-label"><label for="Item_Name">Name</label></td>
-            <td width="40%" class="field-input"><%= Html.TextBoxFor( m => m.Item.Name, new { @class = "fancy-field" } )%></td>
-            <td width="30%" class="field-helptext">
+            <td class="field-label"><label for="Item_Name">Name</label></td>
+            <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Name, new { @class = "fancy-field" } )%></td>
+            <td class="field-helptext">
                 <span class="field-info" style="display: none;">
                    Please enter a username
                 </span>
@@ -90,9 +91,9 @@
         </tr>
         </table>
 
-        <div>
-            <%= Html.AntiForgeryToken() %>
-            <%= Html.SubmitButton( "submit", "Register" ) %>
+        <div class="button-submit">
+            <%= Html.AntiForgeryToken()%>
+            <%= Html.SubmitButton( "submit", "Register" )%>
         </div>
        
 	<% } %>
