@@ -21,23 +21,20 @@
 	
         <table>
         <tr>
-            <td><label for="Item.Email">Email:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Email ) %></td>
-            <td>
-                <div class="label-box info" style="display: none;">
-                   Please enter your email address
-                </div>
-                <div class="label-box good" style="display: none;">
-                    Ok
-                </div>
-                <div class="label-box error" style="display: none;">
+            <td class="field-label"><label for="Item.Email">Email:</label></td>
+            <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Email, new { @class = "fancy-field" } )%></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
+                   Your email address
+                </span>
+                <span class="field-validation-error">
                     <%= Html.ValidationMessageFor( m => m.Item.Email )%>
-			    </div>
+                </span>            
             </td>
         </tr>
         </table>
 
-        <div>
+        <div class="button-submit">
             <%= Html.AntiForgeryToken() %>
             <%= Html.SubmitButton( "submit", "Send" ) %>
         </div>

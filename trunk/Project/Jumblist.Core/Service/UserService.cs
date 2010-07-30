@@ -31,7 +31,8 @@ namespace Jumblist.Core.Service
     public class UserService : DataService<User>, IUserService
     {
         private readonly int defaultLocationRadius = int.Parse( ConfigurationManager.AppSettings["DefaultLocationRadius"] );
-        private readonly string userKey = ConfigurationManager.AppSettings["UserModelBinderKey"]; 
+        private readonly string userKey = ConfigurationManager.AppSettings["UserModelBinderKey"];
+        private readonly string jumblistSessionKey = ConfigurationManager.AppSettings["JumblistSessionModelBinderKey"];
         private readonly IFormsAuthenticationService formsAuth;
 
         public UserService( IRepository<User> repository, IFormsAuthenticationService formsAuth )
@@ -127,6 +128,7 @@ namespace Jumblist.Core.Service
         {
             formsAuth.SignOut();
             HttpContext.Current.Session[userKey] = Jumblist.Core.Model.User.Anonymous;
+            HttpContext.Current.Session[jumblistSessionKey] = null;
         }
 
         public void ResetAuthenticationCookie( User user, bool rememberMe )

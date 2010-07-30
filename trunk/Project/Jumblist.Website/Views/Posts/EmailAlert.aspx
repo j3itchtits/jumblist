@@ -32,54 +32,47 @@
         <table>
         
         <tr>
-            <td><label for="Item.Name">Name:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Name, new { @size = "40" } )%></td>
-            <td>
-                <div class="label-box info" style="display: none;">
+            <td class="field-label"><label for="Item.Name">Name</label></td>
+            <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Name, new { @class = "fancy-field" } )%></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
                    Please enter a name for your alert
-                </div>
-                <div class="label-box good" style="display: none;">
-                    Ok
-                </div>
-                <div class="label-box error" style="display: none;">
+                </span>
+                <span class="field-validation-error">
                     <%= Html.ValidationMessageFor( m => m.Item.Name )%>
-			    </div>
+                </span>
             </td>
         </tr>
         
         <tr>
-            <td><label for="Item.IsImmediateSend">Send Immediately?:</label></td>
-            <td><%= Html.CheckBoxFor( m => m.Item.IsImmediateSend )%></td>
-            <td>
-                <div class="label-box info" style="display: none;">
+            <td class="field-label"><label for="Item.IsImmediateSend">Send Immediately ?</label></td>
+            <td class="field-input"><%= Html.CheckBoxFor( m => m.Item.IsImmediateSend, new { @class = "fancy-field" } )%></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
                    Send an email as soon as a new post matching your criteria is found?
-                </div>
-                <div class="label-box good" style="display: none;">
-                    Ok
-                </div>
+                </span>
+                <span class="field-validation-error">
+                    <%= Html.ValidationMessageFor( m => m.Item.IsImmediateSend )%>
+                </span>
             </td>
         </tr>  
         
         <tr>
-            <td><label for="Item.TimetoSend">Send Daily:</label></td>
-            
-            <td><%= Html.DropDownListFor( m => m.Item.TimetoSend, Model.BuildHoursSelectList( "9" ) )%></td>
-            <td>
-                <div class="label-box info" style="display: none;">
+            <td class="field-label"><label for="Item.TimetoSend">Time to Send</label></td>
+            <td class="field-input"><%= Html.DropDownListFor( m => m.Item.TimetoSend, Model.BuildHoursSelectList( "9" ), new { @class = "fancy-field" } )%></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
                    Please enter a time on the 24 hour clock
-                </div>
-                <div class="label-box good" style="display: none;">
-                    Ok
-                </div>
-                <div class="label-box error" style="display: none;">
+                </span>
+                <span class="field-validation-error">
                     <%= Html.ValidationMessageFor( m => m.Item.TimetoSend )%>
-			    </div>
+                </span>
             </td>            
         </tr>
         
         </table>
                    
-        <div>
+        <div class="button-submit">
             <%= Html.AntiForgeryToken() %>
             <%= Html.SubmitButton( "submit", "Save" ) %>
         </div>

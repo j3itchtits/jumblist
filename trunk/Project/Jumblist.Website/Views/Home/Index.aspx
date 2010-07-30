@@ -21,10 +21,13 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
+    <h1 style="display: none;">Jumblist Home Page</h1>
+    <h2 style="display: none;">Freecycling made easy</h2>
+
     <div id="messages">
         <%= Html.MessageBox( ViewData.Model ) %>
     </div>
-    
+        
     <% Html.RenderPartial( "SearchControl", Model.User ); %>
 
 </asp:Content>
@@ -32,7 +35,7 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
     <div class="fancy-greenbox">
-        <p class="heading">Latest Posts</p>
+        <h3>Latest Posts</h3>
         <% Html.RenderAction( "BasicPostList", "posts", new { top = 5 } ); %>
     </div>
     

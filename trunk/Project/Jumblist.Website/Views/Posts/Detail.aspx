@@ -78,25 +78,25 @@
     <div class="plain-box">
 
         <div class="post-category">
-            <p class="heading">Category</p>
+            <h3>Category</h3>
             <%= Html.ActionLink( Model.Item.Category.Name, "category", new { id = Model.Item.Category.Name.ToFriendlyUrlEncode() } ) %>
         </div>
 
         <% if ( Model.Item.Feed != null )
            { %>
                 <div class="post-group">
-                    <p class="heading">Group</p>
+                    <h3>Group</h3>
                     <%= Html.ActionLink( Model.Item.Feed.Name, "group", new { id = Model.Item.Feed.FriendlyUrl } )%>
                 </div>
         <% } %>
                
         <div class="post-tags">
-            <p class="heading">Tags</p>
+            <h3>Tags</h3>
             <%= Html.PostTagListLinks( Model.Item.Tags ) %>
         </div>
         
         <div class="post-locations">
-            <p class="heading">Location</p>
+            <h3>Location</h3>
             <%= Html.PostLocationListLinks( Model.Item.Locations )%>
 
             <%  if ( Model.Item.HaveLatitudeAndLongitudeValuesBeenPopulated ) 
@@ -109,7 +109,7 @@
     </div>
 
     <div class="socialmedia"> 
-        <p class="heading">Share</p>
+        <h3>Share</h3>
         <a href="http://www.facebook.com/sharer.php?u=<%= Request.Url.AbsoluteUri %>&t=<%= Html.PageTitle( ViewData.Model )%>" title="Share on Facebook" target="_blank"><img src="/assets/images/facebook-icon.png" width="25" height="25" alt="Share on Facebook" /></a> 
         <a id="twitter-share" title="Share on Twitter" target="_blank"><img src="/assets/images/twittericon.png" width="25" height="25" alt="Share on Twitter" /></a>
     </div>

@@ -1,10 +1,11 @@
-<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
-
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %><!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
 
     <title><asp:ContentPlaceHolder ID="HeadContentTitle" runat="server" /> | Jumblist</title>
+
+    <meta name="description" content="Jumblist. Freecycling made easy." /> 
+    <meta name="keywords" content="Jumblist Free Recycling Freecycle Freegle Jumble" /> 
     
     <link href="<%= Url.Stylesheet( "yui-reset.css" )%>" rel="stylesheet" type="text/css"/>
     <link href="<%= Url.Stylesheet( "jumblist.fonts.css" )%>" rel="stylesheet" type="text/css"/>
@@ -39,11 +40,11 @@
 </head>
 
 <body>
-  
+    <a href="#content" id="skiplink">Skip to content</a>
     <div id="header">
         <div id="header-interior">
           
-            <table border="0" cellpadding="0" cellspacing="0">
+            <table title="Login Area, Logo and Menu">
             <tr>
             <td colspan="2">
                 <div id="loginarea">
@@ -52,7 +53,7 @@
             </td>
             </tr>
             <tr>
-            <td width="300">
+            <td style="width:300px">
                 <div id="logo">
                     <a href="/"><img src="/assets/images/logo.png" alt="Jumblist" width="300" height="60" /></a>
                 </div>
@@ -84,6 +85,7 @@
         </div>
     </div>
 
+    <a id="content"></a> 
     <div id="container">        
     
         <div id="container-leftcolumn">
@@ -103,5 +105,20 @@
         
     </div>     
        
+    <script type="text/javascript" charset="utf-8">
+        var is_ssl = ("https:" == document.location.protocol);
+        var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
+        document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+
+    <script type="text/javascript" charset="utf-8">
+        var feedback_widget_options = {};
+        feedback_widget_options.display = "overlay";
+        feedback_widget_options.company = "jumblist";
+        feedback_widget_options.placement = "left";
+        feedback_widget_options.color = "#2B2B2B";
+        feedback_widget_options.style = "idea";
+        var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
+    </script>       
 </body>
 </html>

@@ -18,14 +18,14 @@
     <p>Please enter your name or email and password. <%= Html.RegisterLink( "Register" )%> if you don't have an account.</p>
 
 
-	<% using( Html.BeginForm() ) { %>
+	<% using ( Html.BeginForm() ) { %>
 
-        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <table class="form-thin">
         
         <tr>
-            <td width="30%" class="field-label"><label for="Item_Name">Name/Email</label></td>
-            <td width="40%" class="field-input"><%= Html.TextBox( "name", string.Empty, new { @class = "fancy-field" } )%></td>
-            <td width="30%" class="field-helptext">
+            <td class="field-label"><label for="name">Name/Email</label></td>
+            <td class="field-input"><%= Html.TextBox( "name", string.Empty, new { @class = "fancy-field" } )%></td>
+            <td class="field-helptext">
                 <span class="field-info" style="display: none;">
                    Please enter your username or email address
                 </span>
@@ -59,10 +59,11 @@
         </tr>
         </table>
         	
-        <div>
+        <div class="button-submit">
             <%= Html.AntiForgeryToken() %>
             <%= Html.SubmitButton( "submit", "Log On" )%>
         </div>
+        
 	<% } %>
 	        
     <div>

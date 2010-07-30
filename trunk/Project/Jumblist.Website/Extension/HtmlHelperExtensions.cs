@@ -14,6 +14,7 @@ using Jumblist.Core.Model;
 using System.Linq;
 using StuartClode.Mvc.Extension;
 using Jumblist.Website.ViewModel;
+using System.Web.Routing;
 
 namespace Jumblist.Website.Extension
 {
@@ -259,6 +260,19 @@ namespace Jumblist.Website.Extension
             {
                 return MvcHtmlString.Create( post.User.Name );
             }
+        }
+
+        public static MvcForm BeginUploadForm( this HtmlHelper htmlHelper )
+        {
+            return htmlHelper.BeginForm( null, null, FormMethod.Post, new Dictionary<string, object> { { "enctype", "multipart/form-data" } } );
+        }
+
+        public static MvcForm BeginStyledForm( this HtmlHelper htmlHelper, string cssClass )
+        {
+            //string formAction = htmlHelper.ViewContext.HttpContext.Request.RawUrl;
+            //return FormHelper( htmlHelper, formAction, FormMethod.Post, new Dictionary<string, object> { { "class", cssClass } } );
+
+            return htmlHelper.BeginForm( null, null, FormMethod.Post, new Dictionary<string, object> { { "class", cssClass } } );
         }
     }
 }

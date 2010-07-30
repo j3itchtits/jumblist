@@ -33,38 +33,69 @@
         <%= Html.HiddenFor( m => m.Item.PostId )%>
         
         <table>
+        
         <tr>
-            <td><label for="Item.Title">Title:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Title )%>
-            <%= Html.ValidationMessageFor( m => m.Item.Title )%></td>
+            <td class="field-label"><label for="Item_Title">Title</label></td>
+            <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Title, new { @class = "fancy-field", @size = "40" } )%></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
+                   Please enter a title
+                </span>
+                <span class="field-validation-error">
+                    <%= Html.ValidationMessageFor( m => m.Item.Title )%>
+                </span>
+            </td>
         </tr>
+        
         <tr>
-            <td><label for="Item.Body">Body:</label></td>
-            <td><%= Html.TextAreaFor( m => m.Item.Body, new { @rows = "10", @cols = "75" } )%>
-            <%= Html.ValidationMessageFor( m => m.Item.Body )%></td>
+            <td class="field-label"><label for="Item_Body">Body</label></td>
+            <td class="field-input"><%= Html.TextAreaFor( m => m.Item.Body, new { @class = "fancy-field" } )%></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
+                   Please enter some text for your post
+                </span>
+                <span class="field-validation-error">
+                   <%= Html.ValidationMessageFor( m => m.Item.Body )%>
+			    </span>
+            </td>               
         </tr>
+        
         <tr>
-            <td><label for="Item.Tags">Tags:</label></td>
-            <td><%= Html.TextBox( "Item.Tags", Model.Item.Tags.Select( x => x.Name ).ToFormattedStringList( "{0} ", 1 ), new { @size = "40" } )%></td>
-        </tr>            
+            <td class="field-label"><label for="Item_Tags">Tags (optional)</label></td>
+            <td class="field-input"><%= Html.TextBox( "Item.Tags", Model.Item.Tags.Select( x => x.Name ).ToFormattedStringList( "{0} ", 1 ), new { @class = "fancy-field" } )%></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
+                   Please select some tags
+                </span>             
+            </td>             
+        </tr>   
+        
         <tr>
-            <td><label for="Item.Display">Display:</label></td>
-            <td><%= Html.CheckBoxFor( m => m.Item.Display )%>
-            <%= Html.ValidationMessageFor( m => m.Item.Display )%></td>
-        </tr>                
+            <td class="field-label"><label for="Item_Display">Display ?</label></td>
+            <td class="field-input"><%= Html.CheckBoxFor( m => m.Item.Display, new { @class = "fancy-field" } )%></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
+                   Do you want your post to be visible?
+                </span>   
+                <span class="field-validation-error">
+                   <%= Html.ValidationMessageFor( m => m.Item.Display )%>
+			    </span>                          
+            </td>             
+        </tr>         
+
         </table>
         
-        <div>
+        <div class="button-submit">
             <%= Html.AntiForgeryToken() %>
             <%= Html.SubmitButton( "submit", "Save" ) %>
         </div>
         
-        <div>
-            <%= Html.ActionLink( "Back to profile", "profile" ) %>
-        </div>
-
     <% } %>
-    
+
+    <div>
+        [ <%= Html.ActionLink( "Back to profile", "profile" ) %> ]
+    </div>
+            
 </asp:Content>
 
 

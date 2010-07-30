@@ -42,44 +42,80 @@
                 
         <table>
         <tr>
-            <td><label for="Item.Name">Name:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.Name )%>
-            <%= Html.ValidationMessageFor( m => m.Item.Name )%></td>
+            <td class="field-label"><label for="Item.Name">Name</label></td>
+            <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Name, new { @class = "fancy-field" } )%>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
+                   Please enter a name for your alert
+                </span>
+                <span class="field-validation-error">
+                    <%= Html.ValidationMessageFor( m => m.Item.Name )%>
+                </span>
+            </td>
         </tr>
         <tr>
-            <td><label for="Item.IsImmediateSend">IsImmediateSend:</label></td>
-            <td><%= Html.CheckBoxFor( m => m.Item.IsImmediateSend )%></td>
+            <td class="field-label"><label for="Item.IsImmediateSend">Send Immediately ?</label></td>
+            <td class="field-input"><%= Html.CheckBoxFor( m => m.Item.IsImmediateSend, new { @class = "fancy-field" } )%></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
+                   Send an email as soon as a new post matching your criteria is found?
+                </span>
+                <span class="field-validation-error">
+                    <%= Html.ValidationMessageFor( m => m.Item.IsImmediateSend )%>
+                </span>
+            </td>            
         </tr>  
         <tr>
-            <td><label for="Item.TimetoSend">TimetoSend:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.TimetoSend )%>
-            <%= Html.ValidationMessageFor( m => m.Item.TimetoSend )%></td>
+            <td class="field-label"><label for="Item.TimetoSend">Time to Send</label></td>
+            <td class="field-input"><%= Html.TextBoxFor( m => m.Item.TimetoSend, new { @class = "fancy-field" } )%>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
+                   Please enter a time on the 24 hour clock
+                </span>
+                <span class="field-validation-error">
+                    <%= Html.ValidationMessageFor( m => m.Item.TimetoSend )%>
+                </span>
+            </td>   
         </tr>         
         <tr>
-            <td><label for="Item.IsActive">IsActive:</label></td>
-            <td><%= Html.CheckBoxFor( m => m.Item.IsActive )%></td>
+            <td class="field-label"><label for="Item.IsActive">Is Active ?</label></td>
+            <td class="field-input"><%= Html.CheckBoxFor( m => m.Item.IsActive, new { @class = "fancy-field" } )%></td>
+            <td class="field-helptext">
+                <span class="field-info" style="display: none;">
+                   Is this alert active?
+                </span>
+                <span class="field-validation-error">
+                    <%= Html.ValidationMessageFor( m => m.Item.IsActive )%>
+                </span>
+            </td>               
         </tr>              
         <tr>
-            <td><label for="Item.DateTimeLastSent">DateTimeLastSent:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.DateTimeLastSent, "{0:g}", new { @readonly = "true" } )%></td>
+            <td class="field-label"><label for="Item.DateTimeLastSent">Last Sent</label></td>
+            <td class="field-input"><%= Html.TextBoxFor( m => m.Item.DateTimeLastSent, "{0:g}", new { @readonly = "true" } )%></td>
+            <td class="field-helptext">
+
+            </td>              
         </tr>  
         <tr>
-            <td><label for="Item.DateTimeCreated">DateTimeCreated:</label></td>
-            <td><%= Html.TextBoxFor( m => m.Item.DateTimeCreated, "{0:g}", new { @readonly = "true" } )%></td>
+            <td class="field-label"><label for="Item.DateTimeCreated">Created</label></td>
+            <td class="field-input"><%= Html.TextBoxFor( m => m.Item.DateTimeCreated, "{0:g}", new { @readonly = "true" } )%></td>
+            <td class="field-helptext">
+
+            </td>              
         </tr>                     
         </table>
         
-        <div>
+        <div class="button-submit">
             <%= Html.AntiForgeryToken() %>
             <%= Html.SubmitButton( "submit", "Save" ) %>
         </div>
-        
-        <div>
-            <%= Html.ActionLink( "Back to profile", "profile" ) %>
-        </div>
 
     <% } %>
-    
+
+    <div>
+        [ <%= Html.ActionLink( "Back to profile", "profile" ) %> ]
+    </div>
+            
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
