@@ -19,16 +19,16 @@
         {
             $('div#tabs').tabs();
             $("input#tagSearch").autocomplete('<%= Url.Action( "AjaxFindTags", "Tags", new { area = "" } ) %>', { minChars: 1, multiple: true, multipleSeparator: " " });
-            $('.post-link').highlight('<%= Model.Tags.Select( x => x.Name ).ToFormattedStringList( "{0}+", 1 ) %>');
-            $('.post-link').highlight('<%= Model.Q %>');
+            $('a.post-link').highlight('<%= Model.Tags.Select( x => x.Name ).ToFormattedStringList( "{0}+", 1 ) %>');
+            $('a.post-link').highlight('<%= Model.Q %>');
         });
     </script>   
                  
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
-<% UserSearchArea usa = ( (JumblistSession)HttpContext.Current.Session["_jumblist"] ).UserSearchArea; %>
-
+<%--<% UserSearchArea usa = ( (JumblistSession)HttpContext.Current.Session["_jumblist"] ).UserSearchArea; %>
+--%>
     <h2><%= Html.PageTitle( ViewData.Model )%></h2>
 
 <%--        <div style="margin: 20px;">
@@ -95,7 +95,7 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <div class="fancy-greenbox">
+    <div class="widget-green">
 
     <% 
         //string actionName = ViewContext.RouteData.Values["action"].ToString();
@@ -116,8 +116,5 @@
 
     </div>
 
-    <div class="plain-box">
-        <% Html.RenderPartial( "BasketControl" ); %>
-    </div>
     
 </asp:Content>

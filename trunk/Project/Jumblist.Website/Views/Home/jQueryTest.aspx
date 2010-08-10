@@ -115,6 +115,8 @@
 
         $(document).ready(function() {
 
+            //$("a.icon").text("arse");
+
             //http://www.webdesignerwall.com/tutorials/jquery-tutorials-for-designers/
             $(".pane .delete").click(function() {
                 $(this).parents(".pane").animate({ opacity: 'hide' }, "slow");
@@ -150,11 +152,11 @@
                 $(this).parents(".pane").animate({ backgroundColor: "#fbc7c7" }, "fast")
 		        .animate({ opacity: "hide" }, "slow")
                 return false;
-            });            
-            
-            
-            
-            
+            });
+
+
+
+
             $("div.test-background").click(function() {
                 //$(this).addClass("selected");
                 $(this).css("color", "yellow");
@@ -256,8 +258,17 @@
 
             });
 
-            $('p.para').highlightlink('ipsum', 'highlightedlink');
-            $('p.para').highlight('dolor');
+
+            $('p.para').highlight('Adipiscing+Elit+Dolor');
+
+            //            var myString = "Adipiscing+Elit";
+            //            myArray = myString.split("+");
+            //            for (i = 0; i < myArray.length; i++) {
+            //                $('p.para').highlight(myArray[i]);
+            //            }
+
+
+
 
             $('.tip').truncate({ moreText: "some more please" });
 
@@ -411,6 +422,13 @@
             </div>    
         </div>
         
+        <p><strong>Replace text with image</strong></p>
+        <h2 class="alt">Map</h2><br />
+        <a href="/posts" class="alt">Map</a><br /><br />
+        
+        <a href="/posts" class="icon">Save</a><br />
+        <a href="/posts" class="icon">Email</a><br />
+        <a href="/posts"><img src='/assets/images/save-icon.png' width='25' height='25' alt='save' /></a><br />
         
         <p><strong>Animations etc</strong></p>
         

@@ -14,22 +14,22 @@
         
         <table>
         <tr>
-            <td><label for="Item.Name">Name:</label></td>
+            <td><label for="Item_Name">Name:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Name, new { @size = "100" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.Name )%></td>
         </tr>
         <tr>
-            <td><label for="Item.Area">Area:</label></td>
+            <td><label for="Item_Area">Area:</label></td>
             <td><%= Html.TextBoxFor(m => m.Item.Area, new { @size = "100" })%>
             <%= Html.ValidationMessageFor(m => m.Item.Area)%></td>
         </tr>
         <tr>
-            <td><label for="Item.Latitude">Latitude:</label></td>
+            <td><label for="Item_Latitude">Latitude:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Latitude, new { @readonly = "true" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.Latitude )%></td>
         </tr>
         <tr>
-            <td><label for="Item.Longitude">Longitude:</label></td>
+            <td><label for="Item_Longitude">Longitude:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Longitude, new { @readonly = "true" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.Longitude )%></td>
         </tr>        

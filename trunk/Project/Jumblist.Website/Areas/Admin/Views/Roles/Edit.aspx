@@ -14,12 +14,12 @@
         
         <table>
         <tr>
-            <td><label for="Item.Name">Name:</label></td>
+            <td><label for="Item_Name">Name:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Name, new { @size = "100" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.Name )%></td>
         </tr>
         <tr>
-            <td><label for="Item.Level">Level:</label></td>
+            <td><label for="Item_Level">Level:</label></td>
             <td><%= Html.TextBoxFor(m => m.Item.Level)%>
             <%= Html.ValidationMessageFor(m => m.Item.Level)%></td>
         </tr>

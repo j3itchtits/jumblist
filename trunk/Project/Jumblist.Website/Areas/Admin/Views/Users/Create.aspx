@@ -16,22 +16,22 @@
 	
         <table>
         <tr>
-            <td><label for="Item.Name">Name:</label></td>
+            <td><label for="Item_Name">Name:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Name ) %>
             <%= Html.ValidationMessageFor( m => m.Item.Name )%></td>
         </tr>
         <tr>
-            <td><label for="Item.Email">Email:</label></td>
+            <td><label for="Item_Email">Email:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Email ) %>
             <%= Html.ValidationMessageFor( m => m.Item.Email )%></td>
         </tr>
         <tr>
-            <td><label for="Item.Postcode">Postcode:</label></td>
+            <td><label for="Item_Postcode">Postcode:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Postcode, new { @class = "text-upper" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.Postcode )%></td>
         </tr>     
         <tr>
-            <td><label for="Item.Password">Password:</label></td>
+            <td><label for="Item_Password">Password:</label></td>
             <td><%= Html.PasswordFor( m => m.Item.Password )%>
             <%= Html.ValidationMessageFor( m => m.Item.Password )%></td>
         </tr>
@@ -41,7 +41,7 @@
             <%= Html.ValidationMessage( "Item.ConfirmPassword" )%></td>  
         </tr>
         <tr>
-            <td><label for="Item.RoleId">RoleId</label></td>
+            <td><label for="Item_RoleId">RoleId</label></td>
             <td><%= Html.DropDownList( "Item.RoleId", new SelectList( Model.SelectList<Role>(), "RoleId", "Name", Model.Item.RoleId ), "-- Select --" )%>
             <%= Html.ValidationMessage( "Item.RoleId" )%>  </td>
         </tr>

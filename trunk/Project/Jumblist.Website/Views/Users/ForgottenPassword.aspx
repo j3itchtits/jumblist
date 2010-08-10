@@ -21,7 +21,7 @@
 	
         <table>
         <tr>
-            <td class="field-label"><label for="Item.Email">Email:</label></td>
+            <td class="field-label"><label for="Item_Email">Email:</label></td>
             <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Email, new { @class = "fancy-field" } )%></td>
             <td class="field-helptext">
                 <span class="field-info" style="display: none;">

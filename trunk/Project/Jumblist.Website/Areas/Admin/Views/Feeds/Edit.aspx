@@ -14,48 +14,48 @@
         
         <table>
         <tr>
-            <td><label for="Item.Name">Name:</label></td>
+            <td><label for="Item_Name">Name:</label></td>
             <td><%= Html.TextBoxFor(m => m.Item.Name)%>
             <%= Html.ValidationMessageFor(m => m.Item.Name)%></td>
         </tr>
         <tr>
-            <td><label for="Item.Url">Url:</label></td>
+            <td><label for="Item_Url">Url:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Url )%>
             <%= Html.ValidationMessageFor( m => m.Item.Url )%></td>
         </tr>
         <tr>
-            <td><label for="Item.Username">Username:</label></td>
+            <td><label for="Item_Username">Username:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Username )%>
             <%= Html.ValidationMessageFor( m => m.Item.Username )%></td>
         </tr>
         <tr>
-            <td><label for="Item.Password">Password:</label></td>
+            <td><label for="Item_Password">Password:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Password )%>
             <%= Html.ValidationMessageFor( m => m.Item.Password )%></td>
         </tr>
         <tr>
-            <td><label for="Item.CheckIntervalTicks">CheckIntervalTicks:</label></td>
+            <td><label for="Item_CheckIntervalTicks">CheckIntervalTicks:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.CheckIntervalTicks )%>
             <%= Html.ValidationMessageFor( m => m.Item.CheckIntervalTicks )%></td>
         </tr>
         
         <tr>
-            <td><label for="Item.LastUpdateHttpStatus">LastUpdateHttpStatus:</label></td>
+            <td><label for="Item_LastUpdateHttpStatus">LastUpdateHttpStatus:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.LastUpdateHttpStatus, new { @readonly = "true" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.LastUpdateHttpStatus )%></td>
         </tr>
         <tr>
-            <td><label for="Item.LastUpdateDateTime">LastUpdateDateTime:</label></td>
+            <td><label for="Item_LastUpdateDateTime">LastUpdateDateTime:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.LastUpdateDateTime, "{0:g}", new { @readonly = "true" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.LastUpdateDateTime )%></td>
         </tr>
         <tr>
-            <td><label for="Item.FeedCategoryId">Feed Category:</label></td>
+            <td><label for="Item_FeedCategoryId">Feed Category:</label></td>
             <td><%= Html.DropDownListFor( m => m.Item.FeedCategoryId, new SelectList( Model.SelectList<FeedCategory>(), "FeedCategoryId", "Name", Model.Item.FeedCategoryId ), "-- Select --" )%>
             <%= Html.ValidationMessageFor( m => m.Item.FeedCategoryId )%></td>
         </tr>   
         <tr>
-            <td><label for="Item.IsActive">Is Active ?:</label></td>
+            <td><label for="Item_IsActive">Is Active ?:</label></td>
             <td><%= Html.CheckBoxFor( m => m.Item.IsActive )%>
             <%= Html.ValidationMessageFor( m => m.Item.IsActive )%></td>
         </tr>

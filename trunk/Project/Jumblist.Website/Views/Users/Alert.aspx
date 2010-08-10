@@ -42,7 +42,7 @@
                 
         <table>
         <tr>
-            <td class="field-label"><label for="Item.Name">Name</label></td>
+            <td class="field-label"><label for="Item_Name">Name</label></td>
             <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Name, new { @class = "fancy-field" } )%>
             <td class="field-helptext">
                 <span class="field-info" style="display: none;">
@@ -54,7 +54,7 @@
             </td>
         </tr>
         <tr>
-            <td class="field-label"><label for="Item.IsImmediateSend">Send Immediately ?</label></td>
+            <td class="field-label"><label for="Item_IsImmediateSend">Send Immediately ?</label></td>
             <td class="field-input"><%= Html.CheckBoxFor( m => m.Item.IsImmediateSend, new { @class = "fancy-field" } )%></td>
             <td class="field-helptext">
                 <span class="field-info" style="display: none;">
@@ -66,7 +66,7 @@
             </td>            
         </tr>  
         <tr>
-            <td class="field-label"><label for="Item.TimetoSend">Time to Send</label></td>
+            <td class="field-label"><label for="Item_TimetoSend">Time to Send</label></td>
             <td class="field-input"><%= Html.TextBoxFor( m => m.Item.TimetoSend, new { @class = "fancy-field" } )%>
             <td class="field-helptext">
                 <span class="field-info" style="display: none;">
@@ -78,7 +78,7 @@
             </td>   
         </tr>         
         <tr>
-            <td class="field-label"><label for="Item.IsActive">Is Active ?</label></td>
+            <td class="field-label"><label for="Item_IsActive">Is Active ?</label></td>
             <td class="field-input"><%= Html.CheckBoxFor( m => m.Item.IsActive, new { @class = "fancy-field" } )%></td>
             <td class="field-helptext">
                 <span class="field-info" style="display: none;">
@@ -90,14 +90,14 @@
             </td>               
         </tr>              
         <tr>
-            <td class="field-label"><label for="Item.DateTimeLastSent">Last Sent</label></td>
+            <td class="field-label"><label for="Item_DateTimeLastSent">Last Sent</label></td>
             <td class="field-input"><%= Html.TextBoxFor( m => m.Item.DateTimeLastSent, "{0:g}", new { @readonly = "true" } )%></td>
             <td class="field-helptext">
 
             </td>              
         </tr>  
         <tr>
-            <td class="field-label"><label for="Item.DateTimeCreated">Created</label></td>
+            <td class="field-label"><label for="Item_DateTimeCreated">Created</label></td>
             <td class="field-input"><%= Html.TextBoxFor( m => m.Item.DateTimeCreated, "{0:g}", new { @readonly = "true" } )%></td>
             <td class="field-helptext">
 
