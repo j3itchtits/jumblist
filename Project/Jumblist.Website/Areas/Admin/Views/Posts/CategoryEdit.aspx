@@ -14,17 +14,17 @@
         
         <table>
         <tr>
-            <td><label for="Item.Name">Name:</label></td>
+            <td><label for="Item_Name">Name:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Name, new { @size = "100" } )%>
             <%= Html.ValidationMessageFor(m => m.Item.Name)%></td>
         </tr>
         <tr>
-            <td><label for="Item.AlternativeSearchText">Alternative Search Text:</label></td>
+            <td><label for="Item_AlternativeSearchText">Alternative Search Text:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.AlternativeSearchText, new { @size = "100" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.AlternativeSearchText )%></td>
         </tr>
         <tr>
-            <td><label for="Item.IsNavigation">Is Navigation ?:</label></td>
+            <td><label for="Item_IsNavigation">Is Navigation ?:</label></td>
             <td><%= Html.CheckBoxFor( m => m.Item.IsNavigation )%>
             <%= Html.ValidationMessageFor( m => m.Item.IsNavigation )%></td>
         </tr>

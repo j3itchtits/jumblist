@@ -25,13 +25,26 @@ Admin area
 
 4. Infrastructure
 
-ASP.NET MVC
-Castle Windsor
+ASP.NET MVC2
+Linq
+Castle
+Google Maps
+Bing Maps
+NVelocity
+Elmah
+xVal
+
 N2 CMS
 Spark View Engine
 SolrNet Search Engine
 NHibernate ??
 LAF
+
+5. Testing
+Moq
+NUnit
+
+
 
 
 

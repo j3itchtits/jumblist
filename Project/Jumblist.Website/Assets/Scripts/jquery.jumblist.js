@@ -3,7 +3,8 @@
 $(document).ready(function() {
 
     convertLinksToLowerCase();
-
+    replaceAnchorTextWithIcon();
+    
     var path = location.pathname;
     var first = path.split('/')[1];
     var second = path.split('/')[2];
@@ -12,15 +13,12 @@ $(document).ready(function() {
 
     //alert($('#nav ul a[href$="/vacancies/igh"]').parent().parent().html());
 
-    if (path) 
-    {
-        if (path == "/posts/add" || path == "/home/about") 
-        {
-            $('#menu li a[href*="' + path + '"]').parent().attr('class', 'current-page');
+    if (path) {
+        if (path == "/posts/add" || path == "/home/about") {
+            $('#topnavmenu li a[href*="' + path + '"]').parent().attr('class', 'current-page');
         }
-        else 
-        {
-            $('#menu li a[href$="/' + first + '"]').parent().attr('class', 'current-page');
+        else {
+            $('#topnavmenu li a[href$="/' + first + '"]').parent().attr('class', 'current-page');
         }
     }
 
@@ -225,6 +223,37 @@ jQuery.fn.gmap = function(options) {
 /*
 General javascript functions
 */
+
+function replaceAnchorTextWithIcon() {
+
+    //$("a.icon").each(function() {
+        //var anchorText = this.text();
+        //this.text("<img src='/assets/images/" + anchorText + "-icon.png' width='25' height='25' alt='" + anchorText + "' />");
+        //this.text("arse");
+    //});
+
+//    $("a.icon").each(function() {
+//        this.text("arse");
+//    });
+
+//    $('h2.img').each(function() {
+//        string = $(this).text();
+//        filename = string.toLowerCase().replace(/ /g, '-').replace(/([^0-9a-z-])/g, '');
+//        $(this).html('<img src="/assets/images/' + filename + '-icon.png" width="25" height="25" alt="' + string + '" />');
+//    });
+
+//    $('a.alt').each(function() {
+//        $(this).html('Hello');
+//    });
+
+    $('a.icon').each(function() {
+        string = $(this).text();
+        filename = string.toLowerCase().replace(/ /g, '-').replace(/([^0-9a-z-])/g, '');
+        $(this).html('<img src="/assets/images/' + filename + '-icon.png" width="25" height="25" alt="' + string + '" />');
+    });
+        
+    //$("a.icon").text("arse");
+}
 
 function convertLinksToLowerCase() {
     $("a").not('.normalcase').each(function() {

@@ -73,12 +73,11 @@ namespace Jumblist.Website.Extension
                 return MvcHtmlString.Create( string.Empty ); 
         }
 
-        public static MvcHtmlString MapLink( this HtmlHelper helper, Post post )
+        public static MvcHtmlString MapLink( this HtmlHelper helper, string linkText, string linkClass, Post post )
         {
-            if ( post.HaveLatitudeAndLongitudeValuesBeenPopulated )
-                return MvcHtmlString.Create( "<a class=\"map\" title=\"Approximate location of " + HttpUtility.HtmlEncode( post.Title ) + "\" href=\"#\" onclick=\"mapPopup( " + post.Latitude + ", " + post.Longitude + ", '" + HttpUtility.HtmlEncode( post.Title ) + "');\">Map</a>" ); 
-            else
-                return MvcHtmlString.Create( string.Empty ); 
+            if ( !post.HaveLatitudeAndLongitudeValuesBeenPopulated ) return MvcHtmlString.Create( string.Empty );
+
+            return MvcHtmlString.Create( "<a class=\"" + linkClass + "\" title=\"Approximate location of " + HttpUtility.HtmlEncode( post.Title ) + "\" href=\"#\" onclick=\"mapPopup( " + post.Latitude + ", " + post.Longitude + ", '" + HttpUtility.HtmlEncode( post.Title ) + "');\">" + linkText + "</a>" );
         }
 
         public static MvcHtmlString MessageBox( this HtmlHelper helper, IBaseViewModel model )
@@ -127,7 +126,7 @@ namespace Jumblist.Website.Extension
             HtmlTextWriter writer = new HtmlTextWriter( new StringWriter() );
             writer.Write( model.PageTitle );
 
-            return  MvcHtmlString.Create( writer.InnerWriter.ToString() );
+            return  MvcHtmlString.Create( writer.InnerWriter.ToString().Trim() );
         }
 
         public static MvcHtmlString PageTitle( this HtmlHelper helper, IBaseViewModel model, HtmlTextWriterTag tag )

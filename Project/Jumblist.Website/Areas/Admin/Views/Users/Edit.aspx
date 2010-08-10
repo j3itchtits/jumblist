@@ -15,47 +15,47 @@
         
         <table>
         <tr>
-            <td><label for="Item.Name">Name:</label></td>
+            <td><label for="Item_Name">Name:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Name ) %>
             <%= Html.ValidationMessageFor( m => m.Item.Name )%></td>
         </tr>
         <tr>
-            <td><label for="Item.Email">Email:</label></td>
+            <td><label for="Item_Email">Email:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Email ) %>
             <%= Html.ValidationMessageFor( m => m.Item.Email )%></td>
         </tr>
         <tr>
-            <td><label for="Item.Postcode">Postcode:</label></td>
+            <td><label for="Item_Postcode">Postcode:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Postcode, new { @class = "text-upper" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.Postcode )%></td>
         </tr>      
         <tr>
-            <td><label for="Item.Radius">Radius:</label></td>
+            <td><label for="Item_Radius">Radius:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Radius )%>
             <%= Html.ValidationMessageFor( m => m.Item.Radius )%></td>
         </tr> 
         <tr>
-            <td><label for="Item.Latitude">Latitude:</label></td>
+            <td><label for="Item_Latitude">Latitude:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Latitude, new { @readonly = "true" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.Latitude )%></td>
         </tr>
         <tr>
-            <td><label for="Item.Longitude">Longitude:</label></td>
+            <td><label for="Item_Longitude">Longitude:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.Longitude, new { @readonly = "true" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.Longitude )%></td>
         </tr>           
         <tr>
-            <td><label for="Item.IsActive">IsActive:</label></td>
+            <td><label for="Item_IsActive">IsActive:</label></td>
             <td><%= Html.CheckBoxFor( m => m.Item.IsActive )%>
             <%= Html.ValidationMessageFor( m => m.Item.IsActive )%></td>
         </tr>
         <tr>
-            <td><label for="Item.DateCreated">DateCreated:</label></td>
+            <td><label for="Item_DateCreated">DateCreated:</label></td>
             <td><%= Html.TextBoxFor( m => m.Item.DateCreated, new { @readonly = "true" } )%>
             <%= Html.ValidationMessageFor( m => m.Item.DateCreated )%></td>
         </tr>
         <tr>
-            <td><label for="Item.RoleId">RoleId:</label></td>
+            <td><label for="Item_RoleId">RoleId:</label></td>
             <td><%= Html.DropDownListFor( m => m.Item.RoleId, new SelectList( Model.SelectList<Role>(), "RoleId", "Name", Model.Item.RoleId ), "-- Select --" )%>
             <%= Html.ValidationMessageFor( m => m.Item.RoleId )%></td>
         </tr>

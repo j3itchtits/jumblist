@@ -32,7 +32,7 @@
         <table>
         
         <tr>
-            <td class="field-label"><label for="Item.Name">Name</label></td>
+            <td class="field-label"><label for="Item_Name">Name</label></td>
             <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Name, new { @class = "fancy-field" } )%></td>
             <td class="field-helptext">
                 <span class="field-info" style="display: none;">
@@ -45,7 +45,7 @@
         </tr>
         
         <tr>
-            <td class="field-label"><label for="Item.IsImmediateSend">Send Immediately ?</label></td>
+            <td class="field-label"><label for="Item_IsImmediateSend">Send Immediately ?</label></td>
             <td class="field-input"><%= Html.CheckBoxFor( m => m.Item.IsImmediateSend, new { @class = "fancy-field" } )%></td>
             <td class="field-helptext">
                 <span class="field-info" style="display: none;">
@@ -58,7 +58,7 @@
         </tr>  
         
         <tr>
-            <td class="field-label"><label for="Item.TimetoSend">Time to Send</label></td>
+            <td class="field-label"><label for="Item_TimetoSend">Time to Send</label></td>
             <td class="field-input"><%= Html.DropDownListFor( m => m.Item.TimetoSend, Model.BuildHoursSelectList( "9" ), new { @class = "fancy-field" } )%></td>
             <td class="field-helptext">
                 <span class="field-info" style="display: none;">
