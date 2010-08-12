@@ -77,8 +77,16 @@ namespace Jumblist.Website.Extension
         {
             if ( !post.HaveLatitudeAndLongitudeValuesBeenPopulated ) return MvcHtmlString.Create( string.Empty );
 
-            return MvcHtmlString.Create( "<a class=\"" + linkClass + "\" title=\"Approximate location of " + HttpUtility.HtmlEncode( post.Title ) + "\" href=\"#\" onclick=\"mapPopup( " + post.Latitude + ", " + post.Longitude + ", '" + HttpUtility.HtmlEncode( post.Title ) + "');\">" + linkText + "</a>" );
+            return MvcHtmlString.Create( "<a class=\"" + linkClass + "\" title=\"Approximate map location of " + HttpUtility.HtmlEncode( post.Title ) + "\" href=\"#\" onclick=\"mapPopup( " + post.Latitude + ", " + post.Longitude + ", '" + HttpUtility.HtmlEncode( post.Title ) + "');\">" + linkText + "</a>" );
         }
+
+        public static MvcHtmlString EditPostLink( this HtmlHelper helper, string linkText, Post post, User user )
+        {
+            if ( user.UserId == User.Anonymous.UserId || post.User.UserId != user.UserId ) return MvcHtmlString.Create( string.Empty );
+
+            return helper.ActionLink( linkText, "post", "users", new { id = post.PostId }, null );
+        }        
+   
 
         public static MvcHtmlString MessageBox( this HtmlHelper helper, IBaseViewModel model )
         {

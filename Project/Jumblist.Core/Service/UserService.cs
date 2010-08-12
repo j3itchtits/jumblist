@@ -236,13 +236,13 @@ namespace Jumblist.Core.Service
         private void CheckPasswords( string password, string confirmpassword )
         {
             if (string.IsNullOrEmpty( password ))
-                throw new RulesException( "password", "You must enter a password", "user" );
+                throw new RulesException( "Password", "You must enter a password", "User" );
 
             if (password.Length < 6)
-                throw new RulesException( "password", "Password must be at least 6 characters", "user" );
+                throw new RulesException( "Password", "Password must be at least 6 characters", "User" );
 
             if (password != confirmpassword)
-                throw new RulesException( "ConfirmPassword", "The passwords must be the same", "User" );
+                throw new RulesException( "Password", "The passwords must be the same", "User" );
         }
 
         private void CheckforDatabaseDuplicates( IQueryable<User> list, string name, string email )

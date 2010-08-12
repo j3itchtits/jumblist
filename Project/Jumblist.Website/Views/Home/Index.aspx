@@ -24,7 +24,7 @@
     <h1 style="display: none;">Jumblist Home Page</h1>
     <h2 style="display: none;">Freecycling made easy</h2>
 
-    <div id="messages">
+    <div id="system-message">
         <%= Html.MessageBox( ViewData.Model ) %>
     </div>
         

@@ -46,11 +46,11 @@
 
             <div id="loginarea">
                 <span class="logindetails"><% Html.RenderAction( "LoginLinks", "Users" ); %></span>
-                <span id="basket"><% Html.RenderPartial( "BasketControl" ); %></span>
+                <% Html.RenderPartial( "BasketControl" ); %>
             </div>
 
             <div id="logo">
-                <a href="/"><img src="/assets/images/logo.png" alt="Jumblist" width="300" height="60" /></a>
+                <a href="/"><img src="/assets/images/logo2.png" alt="Jumblist" width="300" height="60" /></a>
             </div>
 
             <div id="topnavmenu">
