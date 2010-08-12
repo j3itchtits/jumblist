@@ -52,7 +52,7 @@ namespace Jumblist.Core.Service
 
             string emailBody = GenerateEmailText( tokens, "PostEmail.vm" );
 
-            SendMail( user.Email, emailSubject, emailBody );
+            SendMail( user.Email, emailSubject, emailBody, true );
         }
 
         public void SendBasketEmail( Basket basket, User user )
@@ -153,6 +153,11 @@ namespace Jumblist.Core.Service
         private void SendMail( string fromEmail, string toEmail, string emailSubject, string emailBody )
         {
             SendMail( fromEmail, toEmail, emailSubject, emailBody, false );
+        }
+
+        private void SendMail( string toEmail, string emailSubject, string emailBody, bool isHtml )
+        {
+            SendMail( ConfigurationManager.AppSettings["DefaultEmail"], toEmail, emailSubject, emailBody, isHtml );
         }
     }
 }

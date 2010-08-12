@@ -92,7 +92,7 @@ namespace Jumblist.Website.Controllers
 
             if ( model.ListCount == 0 )
             {
-                model.Message = new Message { Text = "No posts with this search term - " + q, StyleClass = "message" };
+                model.Message = new Message { Text = "Sorry, there are no posts with this search term - " + q + ".", StyleClass = "message" };
             }
 
             jumblistSession.PostListRouteValues.Update( "Index", q );
@@ -143,7 +143,7 @@ namespace Jumblist.Website.Controllers
 
             if ( model.ListCount == 0 )
             {
-                model.Message = new Message { Text = "No posts categorised by " + id + " with this search term - " + q, StyleClass = "message" };
+                model.Message = new Message { Text = "Sorry, there are no posts categorised by " + id + " with this search term - " + q + ".", StyleClass = "message" };
             }
 
             jumblistSession.PostListRouteValues.Update( "Category", id, q );
@@ -187,7 +187,7 @@ namespace Jumblist.Website.Controllers
 
             if ( model.ListCount == 0 )
             {
-                model.Message = new Message { Text = "No posts from this group - " + id + " with search term " + q, StyleClass = "message" };
+                model.Message = new Message { Text = "Sorry, there are no posts from this group - " + id + " with search term " + q + ".", StyleClass = "message" };
             }
 
             jumblistSession.PostListRouteValues.Update( "Group", id, category, q );
@@ -227,7 +227,7 @@ namespace Jumblist.Website.Controllers
 
             if ( model.ListCount == 0 )
             {
-                model.Message = new Message { Text = "No posts from this location - " + id, StyleClass = "message" };
+                model.Message = new Message { Text = "Sorry, there are no posts from this location - " + id + ".", StyleClass = "message" };
             }
 
             jumblistSession.PostListRouteValues.Update( "Located", id, category, q );
@@ -270,9 +270,8 @@ namespace Jumblist.Website.Controllers
 
             if ( model.ListCount == 0 )
             {
-                string contains = string.Empty;
-                if ( !string.IsNullOrEmpty(q) ) contains = " containing the search terms " + q;
-                model.Message = new Message { Text = "No posts tagged with " + tagList.Select( x => x.Name ).ToFormattedStringList("{0}, ", 2) + contains, StyleClass = "message" };
+                string contains = (!string.IsNullOrEmpty(q)) ? " containing the search terms " + q : string.Empty;
+                model.Message = new Message { Text = "Sorry, there are no posts tagged with <span class='highlight'>" + tagList.Select( x => x.Name ).ToFormattedStringList("{0}, ", 2) + "</span>" + contains, StyleClass = "message" };
             }
 
             jumblistSession.PostListRouteValues.Update( "Tagged", id, category, q );
@@ -282,7 +281,7 @@ namespace Jumblist.Website.Controllers
          }
 
         [AcceptVerbs( HttpVerbs.Get )]
-        public ViewResult Detail( int id, string name )
+        public ViewResult Detail( int id, string name, [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             var item = postService.SelectRecord( id );
 
@@ -291,6 +290,7 @@ namespace Jumblist.Website.Controllers
 
             var model = BuildDefaultViewModel().With( item );
 
+            model.User = user;
             model.PageTitle = item.Title;
 
             return View( model );
@@ -330,7 +330,7 @@ namespace Jumblist.Website.Controllers
             mailService.SendPostEmail( post, user );
 
             //postService.SendPostEmail( id, user );
-            Message model = new Message { Text = "Please check your inbox for a mails", StyleClass = "message" };
+            Message model = new Message { Text = "The post details have been emailed to you.", StyleClass = "message" };
             return PartialView( "MessageControl", model );
         }
 
@@ -368,7 +368,7 @@ namespace Jumblist.Website.Controllers
             {
                 userAlertService.Save( item, true );
 
-                Message = new Message { Text = "Your alert has been saved.", StyleClass = "message" };
+                Message = new Message { Text = "Your email alert has been saved.", StyleClass = "message" };
                 return Redirect( returnUrl ?? "/" );
             }
             catch ( RulesException ex )
@@ -378,7 +378,7 @@ namespace Jumblist.Website.Controllers
 
             var model = DefaultView.CreateModel<UserAlert>().With( item );
             model.PageTitle = "Edit alert";
-            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            model.Message = new Message { Text = "Sorry, there was a problem. Please try again.", StyleClass = "error" };
             return View( model );
         }
 
@@ -387,7 +387,7 @@ namespace Jumblist.Website.Controllers
         {
             if ( !user.IsAuthenticated )
             {
-                Message = new Message { Text = "You need to  be logged-in to create a post", StyleClass = "message" };
+                Message = new Message { Text = "You need to be logged in to create a post.", StyleClass = "message" };
                 return RedirectToAction( "login", "users", new { returnUrl = Url.Action( "add", "posts" ) } );
             }
 
@@ -420,7 +420,7 @@ namespace Jumblist.Website.Controllers
                 postService.Save( item, true );
                 postService.SavePostTags( item, tags );
 
-                Message = new Message { Text = item.Title + " has been saved.", StyleClass = "message" };
+                Message = new Message { Text = "Your post '" + item.Title + "' has been saved.", StyleClass = "message" };
                 return Redirect( returnUrl ?? "/" );
             }
             catch ( RulesException ex )
@@ -430,7 +430,7 @@ namespace Jumblist.Website.Controllers
 
             var model = BuildDefaultViewModel().With( item );
             model.PageTitle = string.Format( "Edit - {0}", item.Title );
-            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            model.Message = new Message { Text = "Sorry, there was a problem. Please try again.", StyleClass = "error" };
             return View( model );
         }
 

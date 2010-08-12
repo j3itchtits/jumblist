@@ -5,13 +5,29 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="HeadContentJavascript" runat="server">
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $('#Item_IsImmediateSend').change(function() {
+                if ($(this).attr("checked")) {
+                    $('#timetosend').hide();
+                    return;
+                }
+                $('#timetosend').show();
+            });
+
+
+        });
+    </script>  
+    
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
     <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
     
-    <div id="messages">
+    <div id="system-message">
         <%= Html.MessageBox( ViewData.Model )%>
     </div>
 
@@ -20,7 +36,10 @@
     <% using ( Html.BeginForm() ) { %>
 
         <p>
-            You are about to create an email alert base on the following criteria:<br />
+            You are about to create an email alert based on the following criteria.
+        </p>
+            
+        <p>    
             Posts: 
             <%= !string.IsNullOrEmpty( Model.PostListRouteValues.Action ) ? Model.PostListRouteValues.Action + ", " : string.Empty %>
             <%= !string.IsNullOrEmpty( Model.PostListRouteValues.Id ) ? Model.PostListRouteValues.Id + ", " : string.Empty%>
@@ -46,7 +65,7 @@
         
         <tr>
             <td class="field-label"><label for="Item_IsImmediateSend">Send Immediately ?</label></td>
-            <td class="field-input"><%= Html.CheckBoxFor( m => m.Item.IsImmediateSend, new { @class = "fancy-field" } )%></td>
+            <td class="field-input"><%= Html.CheckBoxFor( m => m.Item.IsImmediateSend, new { @class = "fancy-field", @checked = "true" } )%></td>
             <td class="field-helptext">
                 <span class="field-info" style="display: none;">
                    Send an email as soon as a new post matching your criteria is found?
@@ -57,7 +76,7 @@
             </td>
         </tr>  
         
-        <tr>
+        <tr id="timetosend" style="display:none;">
             <td class="field-label"><label for="Item_TimetoSend">Time to Send</label></td>
             <td class="field-input"><%= Html.DropDownListFor( m => m.Item.TimetoSend, Model.BuildHoursSelectList( "9" ), new { @class = "fancy-field" } )%></td>
             <td class="field-helptext">

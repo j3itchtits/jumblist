@@ -3,9 +3,9 @@
 
 <% if (Model.Items.Count > 0) 
     { %>
-        <%= Html.ActionLink( "Your jumblist", "index", "basket", new { returnUrl = Model.ReturnUrl }, null )%> : <%= Model.Items.Count %> items
+        <%= Html.ActionLink( "Your basket", "index", "basket", new { returnUrl = Model.ReturnUrl }, null )%> : <%= Model.Items.Count %> items
 <%  }
     else
     { %> 
-        Your basket is empty   
+        Basket empty   
 <%  } %>

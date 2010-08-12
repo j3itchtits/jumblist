@@ -26,6 +26,7 @@ namespace Jumblist.Website.Filter
 
             //Custom user authorisation against assigned roles
             var user = UserService.SelectRecord( httpContext.User.Identity.Name );
+            
 
             if ( ( RoleLevelMinimum > 0 ) && ( user.Role.Level > (int)RoleLevelMinimum ) )
             {

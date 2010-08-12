@@ -65,7 +65,7 @@ namespace Jumblist.Website.Controllers
         public RedirectResult RemoveAll( JumblistSession jumblistSession, string returnUrl )
         {
             jumblistSession.Basket.ClearAll();
-            Message = new Message { Text = "All items removed from basket", StyleClass = "message" };
+            Message = new Message { Text = "All posts removed from basket.", StyleClass = "message" };
             return Redirect( returnUrl ?? "/" );
         }
 
@@ -83,7 +83,7 @@ namespace Jumblist.Website.Controllers
             mailService.SendBasketEmail( jumblistSession.Basket, user );
 
             jumblistSession.Basket.ClearAll();
-            Message = new Message { Text = "Message sent", StyleClass = "message" };
+            Message = new Message { Text = "The post details have been emailed to you.", StyleClass = "message" };
 
             return Redirect( returnUrl ?? "/" );
         }

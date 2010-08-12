@@ -11,7 +11,7 @@
 
     <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%>
     
-    <div id="messages">
+    <div id="system-message">
         <%= Html.MessageBox( ViewData.Model ) %>
     </div>
     

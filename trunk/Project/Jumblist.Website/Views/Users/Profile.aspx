@@ -9,12 +9,14 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentLeft" runat="server">
    
-    <%= Html.PageTitle( ViewData.Model, HtmlTextWriterTag.H2 )%> <%=Html.ActionLink( "[Edit]", "edit" ) %>
-    
-    <div id="messages">
+    <h2><%= Html.PageTitle( ViewData.Model )%></h2>
+
+    <div id="system-message">
         <%= Html.MessageBox( ViewData.Model )%>
     </div>
-    
+        
+    <p><%=Html.ActionLink( "[Edit]", "edit" ) %></p>
+   
     <p>
         Name:
         <%= Html.Encode( Model.Item.Name )%>
@@ -36,21 +38,19 @@
     </p>
         
     <div class="user-alerts">
-        <div><b>Your alerts</b><br />
+       <b>Your alerts</b><br />
         <% foreach ( var alert in Model.Item.UserAlerts )
            { %>
                 <%= alert.Name %> <%= Html.ActionLink( "[Edit]", "alert", new { id = alert.UserAlertId } ) %><br /><%
            } %>
-        </div>
     </div>
                 
     <div class="user-posts">
-        <div><b>Your posts</b><br />
+        <b>Your posts</b><br />
         <% foreach ( var post in Model.Item.Posts.OrderByDescending( t => t.PublishDateTime ) )
            { %>
-                <%= post.Title %> <%= Html.ActionLink( "[Edit]", "post", new { id = post.PostId } ) %><br /><%
+                <%= post.Title %> <%= Html.RouteLink( "[View]", "Post-Detail", new { id = post.PostId, name = post.Title.ToFriendlyUrlEncode() } ) %> <%= Html.ActionLink( "[Edit]", "post", new { id = post.PostId } ) %><br /><%
            } %>
-        </div>
     </div>
       
 

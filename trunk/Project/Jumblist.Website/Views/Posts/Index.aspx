@@ -21,6 +21,13 @@
             $("input#tagSearch").autocomplete('<%= Url.Action( "AjaxFindTags", "Tags", new { area = "" } ) %>', { minChars: 1, multiple: true, multipleSeparator: " " });
             $('a.post-link').highlight('<%= Model.Tags.Select( x => x.Name ).ToFormattedStringList( "{0}+", 1 ) %>');
             $('a.post-link').highlight('<%= Model.Q %>');
+
+            $('td.post-title ').click(function() {
+                var href = $(this).find("a.post-link").attr("href");
+                if (href) {
+                    window.location = href;
+                }
+            });            
         });
     </script>   
                  
@@ -29,31 +36,27 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 <%--<% UserSearchArea usa = ( (JumblistSession)HttpContext.Current.Session["_jumblist"] ).UserSearchArea; %>
 --%>
-    <h2><%= Html.PageTitle( ViewData.Model )%></h2>
 
+    <h2 class="postlist-title"><%= Html.PageTitle( ViewData.Model )%></h2>
+    
+    <div class="postlist-functions">
+        <%= Html.ActionLink( "Email alert", "EmailAlert", new { returnUrl = Request.Url.PathAndQuery }, new { @class = "icon", title = "Setup an email alert for this list" } )%>
+        <%= Html.ActionLink( "RSS Feed", "Rss", new { rssActionName = ViewContext.RouteData.Values["action"], rssActionId = ViewContext.RouteData.Values["id"], rssActionCategory = ViewContext.RouteData.Values["category"], q = Model.Q }, new { @class = "icon", title = "View RSS Feed" } )%>
+    </div>
+    
 <%--        <div style="margin: 20px;">
             User: <%= Model.User.Postcode %>, <%= Model.User.Radius %>, <%= Model.User.Latitude %>, <%= Model.User.Longitude %><br />
             UserSearchArea: <%= Model.UserSearchArea.LocationName %>, <%= Model.UserSearchArea.Radius %>, <%= Model.UserSearchArea.Latitude %>, <%= Model.UserSearchArea.Longitude %><br />
             Session: <%= usa.LocationName%>, <%= usa.Radius%>, <%= usa.Latitude%>, <%= usa.Longitude%><br />
         </div>--%>
             
-    <div id="messages">
+    <div id="system-message">
         <%= Html.MessageBox( ViewData.Model ) %>
     </div>
     
-    <table>
-    <tr>
-    <td>
+    <div>
         Number of items: <%= Model.ListCount %><br />
-    </td>
-    <td>
-        <%= Html.ActionLink( "RSS Feed", "Rss", new { rssActionName = ViewContext.RouteData.Values["action"], rssActionId = ViewContext.RouteData.Values["id"], rssActionCategory = ViewContext.RouteData.Values["category"], q = Model.Q } )%><br />
-    </td>
-    <td>
-        <%= Html.ActionLink( "Email alert", "EmailAlert", new { returnUrl = Request.Url.PathAndQuery } )%><br />
-    </td>
-    </tr>
-    </table>
+    </div>
 
 	<div id="tabs">
 		

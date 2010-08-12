@@ -109,7 +109,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             var model = BuildDataEditDefaultViewModel().With( item );
             model.PageTitle = string.Format( "Edit - {0}", item.Name );
-            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            model.Message = new Message { Text = "Sorry, there was a problem. Please try again.", StyleClass = "error" };
             return View( "edit", model );
         }
 
@@ -173,7 +173,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
 
             var model = DefaultView.CreateModel<FeedCategory>().With(item);
             model.PageTitle = string.Format("Edit - {0}", item.Name);
-            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            model.Message = new Message { Text = "Sorry, there was a problem. Please try again.", StyleClass = "error" };
             return View("categoryedit", model);
         }
 

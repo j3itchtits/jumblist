@@ -3,6 +3,6 @@
 <% 
     if (!((ViewContext.Controller is BasketController) || (ViewContext.Controller is UsersController)))
     {         
-        Html.RenderAction( "Widget", "Basket" );
+        %><span id="basket"><% Html.RenderAction( "Widget", "Basket" ); %></span><%
     } 
 %>

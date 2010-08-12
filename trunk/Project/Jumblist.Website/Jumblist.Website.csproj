@@ -291,10 +291,13 @@
     <None Include="Templates\ForgottenPasswordEmail.vm" />
     <None Include="Templates\PostEmail.vm" />
     <None Include="Templates\RegistrationVerificationEmail.vm" />
+    <Content Include="Assets\Images\email-alert-icon.png" />
     <Content Include="Assets\Images\email-icon.png" />
     <Content Include="Assets\Images\facebook-icon.png" />
     <Content Include="Assets\Images\logo.png" />
+    <Content Include="Assets\Images\logo2.png" />
     <Content Include="Assets\Images\map-icon.png" />
+    <Content Include="Assets\Images\rss-feed-icon.png" />
     <Content Include="Assets\Images\save-icon.png" />
     <Content Include="Assets\Images\twitter-icon.png" />
     <Content Include="Assets\Scripts\jquery-1.4.1-vsdoc.js" />

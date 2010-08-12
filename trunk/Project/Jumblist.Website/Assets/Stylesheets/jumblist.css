@@ -86,14 +86,20 @@ p
 
 .message
 {
+	border: 1px solid green;
 	color: green;
-	padding: 10px 0px;
+	background-color: #CFD;
+	margin: 12px 0px;
+	padding: 10px;
 }
 
 .error
 {
+	border: 1px solid red;
 	color: red;
-	padding: 10px 0px;
+	background-color: #FDD;
+	margin: 12px 0px;
+	padding: 10px;
 }
 
 .text-upper 
@@ -113,12 +119,17 @@ p
 
 .highlight 
 { 
-	background-color: yellow; 
+	background-color: #ffb; 
 }
 
 #skiplink 
 {
 	display:none;
+}
+
+a.icon
+{
+	margin: 0px 2px;
 }
 
 /****************************
@@ -152,7 +163,6 @@ p
 	line-height: 2em;
 	background-color: #7db72f; 
 	padding: 10px 14px;
-	
 	-moz-border-radius-bottomleft: 3px;
 	-webkit-border-bottom-left-radius: 3px;
 }
@@ -187,11 +197,15 @@ p
 #topnavmenu 
 {
 	font-family: Trebuchet MS Gothic, Helvetica, Arial, sans-serif;
-	margin-top: 26px;
+	margin-left: 20px;
+	margin-top: 24px;
 	font-weight: bold;
 	float:left;
+}
 
-
+#system-message
+{
+	clear:both;
 }
 
 #container 
@@ -321,6 +335,11 @@ p
 .basiclist li
 {
 	padding-bottom: 6px;
+}
+
+.user-alerts, .user-posts
+{
+	margin-top: 16px;
 }
 
 .pagerlinks
@@ -565,6 +584,10 @@ tr.post-item
 tr.post-item:hover 
 {
     background-color: #ffe;
+}
+
+td.post-title
+{
     cursor: pointer;
 }
 
@@ -582,13 +605,13 @@ td.post-tags, td.post-time, td.post-groupuser
  ** Post Item *
  ****************************/
  
- h2.post-title
+ h2.post-title,  h2.postlist-title
  {
- 	width: 570px;
+ 	width: 560px;
  	float: left;
  }
  
- #post-functions
+ .post-functions, .postlist-functions
  {
  	float: right;
  	padding: 4px 6px 0px;
@@ -599,7 +622,7 @@ td.post-tags, td.post-time, td.post-groupuser
 
 .post-originallink
 {
-	clear:both;
+	
 }
 
 .post-originallink, .post-views, .post-date

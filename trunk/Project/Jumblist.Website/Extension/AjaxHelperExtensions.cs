@@ -17,7 +17,7 @@ namespace Jumblist.Website.Extension
 
             if ( HttpContext.Current.Request.IsAuthenticated )
             {
-                return helper.ActionLink( linkText, "email", routeValues, new AjaxOptions { Confirm = "Send?", HttpMethod = "Post", UpdateTargetId = "messages" }, htmlAttributes );
+                return helper.ActionLink( linkText, "email", routeValues, new AjaxOptions { Confirm = "Send Email?", HttpMethod = "Post", UpdateTargetId = "system-message" }, htmlAttributes );
             }
             else
             {
@@ -37,7 +37,7 @@ namespace Jumblist.Website.Extension
 
             if ( HttpContext.Current.Request.IsAuthenticated )
             {
-                return helper.ActionLink( linkText, "additem", "basket", routeValues, new AjaxOptions { Confirm = "Save?", HttpMethod = "Post", UpdateTargetId = "basket" }, htmlAttributes );
+                return helper.ActionLink( linkText, "additem", "basket", routeValues, new AjaxOptions { Confirm = "Save Post to Basket?", HttpMethod = "Post", UpdateTargetId = "basket" }, htmlAttributes );
             }
             else
             {

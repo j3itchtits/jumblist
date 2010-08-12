@@ -27,23 +27,25 @@
 
     <h2 class="post-title"><%= Html.PageTitle( ViewData.Model )%></h2>
     
-    <div id="post-functions">
-        <%= Ajax.SavePostToBasketLink( "Save", new { id = Model.Item.PostId }, new { @class = "icon", title = "Save post to your basket" } )%>
-        <%= Ajax.EmailPostLink( "Email", new { id = Model.Item.PostId }, new { @class = "icon", title = "Email post details to yourself" } )%>
-        <%= Html.MapLink( "Map", "icon", Model.Item )%>         
+    <div class="post-functions">
+        <%= Ajax.SavePostToBasketLink( "Save", new { id = Model.Item.PostId }, new { @class = "icon", title = "Save post to my basket" } )%>
+        <%= Ajax.EmailPostLink( "Email", new { id = Model.Item.PostId }, new { @class = "icon", title = "Email me the post details" } )%>
+        <%= Html.MapLink( "Map", "icon", Model.Item )%> 
     </div>
     
-    <div id="messages">
+    <div id="system-message">
         <%= Html.MessageBox( ViewData.Model ) %>
     </div>
 
     <% if ( Model.Item.Url != null )
        { %>
             <div class="post-originallink">
-                <a href="<%= Model.Item.Url %>" target="_blank">Link to original post on <%= Model.Item.Feed.Name %></a>      
+                <a href="<%= Model.Item.Url %>" target="_blank" class="red">Link to original post on <%= Model.Item.Feed.Name %></a>      
             </div> <%
        } %>
            
+    <%= Html.EditPostLink( "[Edit]", Model.Item, Model.User ) %>
+    
     <div class="post-bodytext">
         <%= Html.Encode( Model.Item.Body ).ReplaceParagraphBreaksWithHtmlBrTags()%>
     </div>

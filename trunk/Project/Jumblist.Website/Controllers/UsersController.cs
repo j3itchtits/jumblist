@@ -72,8 +72,6 @@ namespace Jumblist.Website.Controllers
             user.Postcode = item.Postcode.ToUpper();
             user.Radius = item.Radius;
 
-            //UpdateModel( item, "Item", new[] { "Name", "Email", "Postcode", "Radius" } );
-
             try
             {
                 userService.Save( user );
@@ -89,16 +87,24 @@ namespace Jumblist.Website.Controllers
 
             var model = BuildDefaultViewModel().With( user );
             model.PageTitle = string.Format( "Edit - {0}", user.Name );
-            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            model.Message = new Message { Text = "Sorry, there was a problem. Please try again.", StyleClass = "error" };
             return View( "edit", model );
         }
 
 
         [AcceptVerbs( HttpVerbs.Get )]
         [CustomAuthorization( RoleLevelMinimum = RoleLevel.AnonymousUser )]
-        public ViewResult Post( int id )
+        public ViewResult Post( int id, [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             Post post = postService.SelectRecord( id );
+
+            //Should probably incorporate this into the CustomAuthorization attribute
+            if ( post.User.UserId != user.UserId )
+            {
+                ViewData["PageTitle"] = "Not Authorised";
+                ViewData["Message"] = "Sorry, you do not own this post";
+                return View( "NotAuthorised" );
+            }
 
             DefaultViewModel<Post> model = DefaultView.CreateModel<Post>().With( post );
 
@@ -129,7 +135,7 @@ namespace Jumblist.Website.Controllers
                 postService.DeletePostTags( post );
                 postService.SavePostTags( post, tags );
 
-                Message = new Message { Text = post.Title + " has been saved.", StyleClass = "message" };
+                Message = new Message { Text = "Your post '" + post.Title + "' has been saved.", StyleClass = "message" };
                 return RedirectToAction( "profile" );
             }
             catch ( RulesException ex )
@@ -139,15 +145,22 @@ namespace Jumblist.Website.Controllers
 
             DefaultViewModel<Post> model = DefaultView.CreateModel<Post>().With( post );
             model.PageTitle = string.Format( "Edit - {0}", post.Title );
-            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            model.Message = new Message { Text = "Sorry, there was a problem. Please try again.", StyleClass = "error" };
             return View( model );
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
         [CustomAuthorization( RoleLevelMinimum = RoleLevel.AnonymousUser )]
-        public ViewResult Alert( int id )
+        public ViewResult Alert( int id, [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             UserAlert userAlert = userAlertService.SelectRecord( id );
+
+            if ( userAlert.User.UserId != user.UserId )
+            {
+                ViewData["PageTitle"] = "Not Authorised";
+                ViewData["Message"] = "Sorry, you do not own this alert";
+                return View( "NotAuthorised" );
+            }
 
             DefaultViewModel<UserAlert> model = DefaultView.CreateModel<UserAlert>().With( userAlert );
 
@@ -184,7 +197,7 @@ namespace Jumblist.Website.Controllers
 
             DefaultViewModel<UserAlert> model = DefaultView.CreateModel<UserAlert>().With( userAlert );
             model.PageTitle = string.Format( "Edit - {0}", userAlert.Name );
-            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            model.Message = new Message { Text = "Sorry, there was a problem. Please try again.", StyleClass = "error" };
             return View( model );
         }
 
@@ -231,7 +244,7 @@ namespace Jumblist.Website.Controllers
             {
                 var model = BuildDefaultViewModel();
                 model.PageTitle = "Login";
-                model.Message = new Message { Text = "Unknown username or password", StyleClass = "error" };
+                model.Message = new Message { Text = "Sorry, that was an unknown username or incorrect password.", StyleClass = "error" };
 
                 return View( model );
             }
@@ -266,7 +279,7 @@ namespace Jumblist.Website.Controllers
                     jumblistSession.UserSearchArea.Update( user.Postcode, user.Radius, user.Latitude, user.Longitude );
                     //userService.SetAuthenticationCookie( item, true );
                     mailService.SendRegistrationVerificationEmail( user );
-                    Message = new Message { Text = "Thank you for registering. Please click on the link in the email to complete the process", StyleClass = "message" };
+                    Message = new Message { Text = "Thank you for registering. You have been sent a confirmation email. Please click on the link in the email to complete the process.", StyleClass = "message" };
 
                 }
 
@@ -278,7 +291,8 @@ namespace Jumblist.Website.Controllers
             }
 
             var model = BuildDefaultViewModel();
-            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            model.PageTitle = "Register";
+            model.Message = new Message { Text = "Sorry, there was a problem. Please try again.", StyleClass = "error" };
             return View( model );
         }
 
@@ -292,11 +306,11 @@ namespace Jumblist.Website.Controllers
 
             if ( success )
             {
-                Message = new Message { Text = "Thank you for registering", StyleClass = "message" };
+                Message = new Message { Text = "Thank you for registering. We hope you find the site useful.", StyleClass = "message" };
             }
             else
             {
-                Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+                Message = new Message { Text = "Sorry, there was a problem. Please try again.", StyleClass = "error" };
             }
 
             return Redirect( "/" );
@@ -319,7 +333,7 @@ namespace Jumblist.Website.Controllers
                 User user = userService.SelectRecord( x => x.Email == item.Email );
 
                 mailService.SendForgottenPasswordEmail( user );
-                Message = new Message { Text = "Your password will be reset. Please click on the link in the email to complete the process", StyleClass = "message" };
+                Message = new Message { Text = "Your password will be reset. We have sent you an email to confirm. Please click on the link in the email to complete the process.", StyleClass = "message" };
 
                 return Redirect( "/" );
             }
@@ -329,7 +343,8 @@ namespace Jumblist.Website.Controllers
             }
 
             var model = BuildDefaultViewModel();
-            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            model.PageTitle = "Forgotten Password";
+            model.Message = new Message { Text = "Sorry, there was a problem. Please try again.", StyleClass = "error" };
             return View( model );
         }
 
@@ -349,11 +364,11 @@ namespace Jumblist.Website.Controllers
                 userService.Save( user );
                 mailService.SendPasswordResetEmail( user, password );
 
-                Message = new Message { Text = "Please check your email for your new password", StyleClass = "message" };
+                Message = new Message { Text = "Please check your email for notification of your new password.", StyleClass = "message" };
             }
             else
             {
-                Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+                Message = new Message { Text = "Sorry, there was a problem. Please try again.", StyleClass = "error" };
             }
 
             return Redirect( "/" );
@@ -388,7 +403,7 @@ namespace Jumblist.Website.Controllers
 
             var model = BuildDefaultViewModel().With( user );
             model.PageTitle = string.Format( "Edit - {0}", user.Name );
-            model.Message = new Message { Text = "Something went wrong", StyleClass = "error" };
+            model.Message = new Message { Text = "Sorry, there was a problem. Please try again.", StyleClass = "error" };
             return View( "edit", model );
         }
     }
