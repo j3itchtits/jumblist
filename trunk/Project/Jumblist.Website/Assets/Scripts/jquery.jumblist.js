@@ -244,7 +244,7 @@ function replaceAnchorTextWithIcon() {
     $('a.icon').each(function() {
         string = $(this).text();
         filename = string.toLowerCase().replace(/ /g, '-').replace(/([^0-9a-z-])/g, '');
-        $(this).html('<img src="/assets/images/' + filename + '-icon.png" width="25" height="25" alt="' + string + '" />');
+        $(this).html('<img src="/assets/images/' + filename + '-icon.png" alt="' + string + '" />');
     });
         
     //$("a.icon").text("arse");

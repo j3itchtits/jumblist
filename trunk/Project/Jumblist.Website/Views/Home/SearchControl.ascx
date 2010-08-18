@@ -5,7 +5,7 @@
     {
         if (Model.IsAuthenticated)
         { %>
-            <%= Html.Hidden( "locationRadius", Model.Radius )%>
+
             <%= Html.Hidden( "locationSearch", Model.Postcode )%>
 
 
@@ -21,7 +21,9 @@
                 </table>
 
                 <div class="home-searchlocation">
-                    Within <%= Model.Radius%> miles of <%= Model.Postcode %>
+                    Within 
+                    <span id="radius-value"><%= Model.Radius%></span><input id="locationRadius" name="locationRadius" value="<%= Model.Radius%>" style="display:none;width:1.5em;" /> <a href="#" id="show-radius-edit" style="font-size:0.75em;">[Edit]</a> miles of 
+                    <%= Model.Postcode %>
                 </div>
 
             <%
@@ -33,7 +35,7 @@
 
             <table title="Search for Posts">
             <tr>
-            <td>
+            <td style="width: 470px;">
 
                 <table class="home-searchcriteria-taglocation" title="Search for Posts by Tag and Location">
                 <tr>

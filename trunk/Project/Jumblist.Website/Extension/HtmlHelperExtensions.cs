@@ -40,6 +40,11 @@ namespace Jumblist.Website.Extension
             return RegisterLink( helper, linkText, new { area = "", controller = "Users", returnUrl = returnUrl }, null );
         }
 
+        public static MvcHtmlString RegisterLink( this HtmlHelper helper, string linkText, string returnUrl, object htmlAttributes )
+        {
+            return RegisterLink( helper, linkText, new { area = "", controller = "Users", returnUrl = returnUrl }, htmlAttributes );
+        }
+
         public static MvcHtmlString RegisterLink( this HtmlHelper helper, string linkText, object routeValues, object htmlAttributes )
         {
             return helper.ActionLink( linkText, "register", routeValues, htmlAttributes );

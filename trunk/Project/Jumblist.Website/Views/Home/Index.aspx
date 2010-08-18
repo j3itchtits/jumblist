@@ -1,8 +1,6 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel>" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="HeadContentTitle" runat="server">
-    <%= Html.PageTitle( ViewData.Model )%>
-</asp:Content>
+<asp:Content ID="Content1" ContentPlaceHolderID="HeadContentTitle" runat="server"><%= Html.PageTitle( ViewData.Model )%></asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="HeadContentJavascript" runat="server">
 
@@ -13,7 +11,24 @@
     
         $(document).ready(function() {
             $("input#tagSearch").autocomplete('<%= Url.Action( "AjaxFindTags", "Tags", new { area = "" } ) %>', { minChars: 1, multiple: true, multipleSeparator: " " });
+
+            $('a#show-radius-edit').click(function() {
+                $('#radius-value').hide();
+                $('#show-radius-edit').hide();
+                $('#locationRadius').fadeIn();
+                $('#locationRadius').focus();
+                return false;
+            });
+
+            $('input#locationRadius').blur(function() {
+                $('#locationRadius').hide();
+                    //need to pass the value from input to span
+                $('#radius-value').html($('#locationRadius').val()).fadeIn();
+                $('#show-radius-edit').fadeIn();
+                return false;
+            });            
         });
+    
     
     </script> 
 
@@ -34,6 +49,8 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
+    <% Html.RenderPartial( "JoinNowControl", Model.User ); %>
+    
     <div class="widget-green">
         <h3>Latest Posts</h3>
         <% Html.RenderAction( "BasicPostList", "posts", new { top = 5 } ); %>

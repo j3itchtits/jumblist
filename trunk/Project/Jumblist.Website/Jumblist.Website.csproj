@@ -294,6 +294,7 @@
     <Content Include="Assets\Images\email-alert-icon.png" />
     <Content Include="Assets\Images\email-icon.png" />
     <Content Include="Assets\Images\facebook-icon.png" />
+    <Content Include="Assets\Images\join-now-icon.png" />
     <Content Include="Assets\Images\logo.png" />
     <Content Include="Assets\Images\logo2.png" />
     <Content Include="Assets\Images\map-icon.png" />
@@ -308,6 +309,7 @@
     <Content Include="Assets\Stylesheets\ui.tabs.css" />
     <Content Include="robots.txt" />
     <Content Include="Views\Home\Faq.aspx" />
+    <Content Include="Views\Home\JoinNowControl.ascx" />
     <Content Include="Views\Home\Privacy.aspx" />
     <Content Include="Views\Home\Terms.aspx" />
     <Content Include="Views\Posts\BasicPostListControl.ascx" />
