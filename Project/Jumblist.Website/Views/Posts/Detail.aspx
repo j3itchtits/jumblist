@@ -1,8 +1,8 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel<Post>>" %>
 
-<asp:Content ID="Content3" ContentPlaceHolderID="HeadContentTitle" runat="server">
-    <%= Html.PageTitle( ViewData.Model )%>
-</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="HeadContentTitle" runat="server"><%= Html.PageTitle( ViewData.Model )%></asp:Content>
+
+<asp:Content ID="Content5" ContentPlaceHolderID="HeadContentDescription" runat="server"><%= Html.Encode( Model.Item.Body ).ToShortDescription() %></asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="HeadContentJavascript" runat="server">
 
@@ -58,7 +58,6 @@
         <b>Publish Date: </b><%= Model.Item.PublishDateTime.ToString( "dddd, dd MMMM yyyy" ) %> at <%= Model.Item.PublishDateTime.ToString( "h:mm tt" )%>. <%= (DateTime.Now.Subtract( Model.Item.PublishDateTime )).ToDateTimeDiff( Model.Item.PublishDateTime, true )%>
     </div>        
    
-    
 </asp:Content>
 
 
@@ -93,9 +92,12 @@
     </div>
 
     <div class="widget-plain">
-        <h3>Share</h3>
-        <a href="http://www.facebook.com/sharer.php?u=<%= Request.Url.AbsoluteUri %>&t=<%= Html.PageTitle( ViewData.Model )%>" title="Share on Facebook" target="_blank"><img src="/assets/images/facebook-icon.png" width="25" height="25" alt="Share on Facebook" /></a> 
-        <a id="twitter-share" title="Share on Twitter" target="_blank"><img src="/assets/images/twitter-icon.png" width="25" height="25" alt="Share on Twitter" /></a>
+        <h3>Share with friends</h3>
+
+        <div class="facebook-share-button"><fb:share-button href="<%= Request.Url.AbsoluteUri %>" type="button"></fb:share-button></div>
+        <a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-via="jumblistuk">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+
+        
     </div>
     
    

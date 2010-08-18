@@ -68,7 +68,7 @@ Post List tab
 -- Title (DONE)
 -- Feed Name (DONE)
 -- Tags (DONE)
--- Number of views (popularity)
+-- Number of views (popularity) (DONE)
 -- Date or Time since posted (DONE)
 -- Post Category (DONE)
 -- View map (DONE)
@@ -121,6 +121,8 @@ Tags
 
 Search (by location) - DONE
 
+Customer feedback and community
+- Get Satisfaction (http://getsatisfaction.com) (DONE)
 
 ------------
 Google tools
@@ -169,11 +171,8 @@ Still to do - Version 2.0
 Login/Registration across social media
 - Janrain (http://www.janrain.com)
 
-Customer feedback and community
-- Get Satisfaction (http://getsatisfaction.com)
 
 Post listing
-- Number of views (popularity)
 - Sort by (eg. most popular, nearest, newest)
 
 Map listing

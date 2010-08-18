@@ -38,12 +38,16 @@
 --%>
 
     <h2 class="postlist-title"><%= Html.PageTitle( ViewData.Model )%></h2>
-    
-    <div class="postlist-functions">
+
+    <div class="postlist-functions postlist-functions-right" style="border-color:Red;">
         <%= Html.ActionLink( "Email alert", "EmailAlert", new { returnUrl = Request.Url.PathAndQuery }, new { @class = "icon", title = "Setup an email alert for this list" } )%>
         <%= Html.ActionLink( "RSS Feed", "Rss", new { rssActionName = ViewContext.RouteData.Values["action"], rssActionId = ViewContext.RouteData.Values["id"], rssActionCategory = ViewContext.RouteData.Values["category"], q = Model.Q }, new { @class = "icon", title = "View RSS Feed" } )%>
     </div>
     
+    <div class="postlist-functions postlist-functions-left" style="background-color:Red;border-color:Red;">
+        <%= Html.ActionLink( "Alerts", "EmailAlert", new { returnUrl = Request.Url.PathAndQuery }, new { title = "Setup an email alert for this list" } )%>
+    </div>
+        
 <%--        <div style="margin: 20px;">
             User: <%= Model.User.Postcode %>, <%= Model.User.Radius %>, <%= Model.User.Latitude %>, <%= Model.User.Longitude %><br />
             UserSearchArea: <%= Model.UserSearchArea.LocationName %>, <%= Model.UserSearchArea.Radius %>, <%= Model.UserSearchArea.Latitude %>, <%= Model.UserSearchArea.Longitude %><br />

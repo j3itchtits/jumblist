@@ -411,21 +411,40 @@ namespace Jumblist.Core.Service
             string input = (post.Title + " " + post.Body).Replace( "'", string.Empty ).Replace( ".", string.Empty );
 
             //Check whether a full postcode exists in teh input - if it does we simply perform a geocode lookup and then update the post and return
-            var match = Regex.Match( input, StringExtensions.UKPostcodeRegex, RegexOptions.IgnoreCase );
+            Match match = Regex.Match( input, StringExtensions.UKPostcodeRegex, RegexOptions.IgnoreCase );
 
             if ( match.Success )
             {
-                var bingLocationService = new BingLocationService( match.ToString() );
-                post.Latitude = bingLocationService.Latitude;
-                post.Longitude = bingLocationService.Longitude;
-                return list;
+                BingLocationService bingLocationService = new BingLocationService( match.ToString() );
+                if ( bingLocationService != null )
+                {
+                    post.Latitude = bingLocationService.Latitude;
+                    post.Longitude = bingLocationService.Longitude;
+                    return list;                    
+                }
             }
 
-            //Attempt to match input with locations stored in database
-            var feedLocationList = locationService.SelectRecordListByFeed( FeedLocation.WhereFeedIdEquals( post.FeedId ) );
-            var postCodeLocationList = locationService.SelectRecordList( Location.WhereLocationAreaIsNull() );
+            //Perhaps the next step should be to parse the input looking for "road", "street", "avenue", "drive" etc
+            //Then get the previous word and send it to BingLocationService combined with the town name from the feed
+            //eg. var bingLocationService = new BingLocationService( "rodney avenue, hastings, uk" );
 
-            foreach ( Location location in (feedLocationList.Concat( postCodeLocationList )) )
+            //string address = "rodney avenue, hastings, uk";
+            //if ( address )
+            //{
+            //    BingLocationService bingLocationService = new BingLocationService( address );
+            //    if ( bingLocationService != null )
+            //    {
+            //        post.Latitude = bingLocationService.Latitude;
+            //        post.Longitude = bingLocationService.Longitude;
+            //        return list;
+            //    }
+            //}
+
+            //Attempt to match input with locations stored in database
+            IEnumerable<Location> locationListByFeed = locationService.SelectRecordListByFeed( FeedLocation.WhereFeedIdEquals( post.FeedId ) );
+            IEnumerable<Location> locationListPostcodes = locationService.SelectRecordList( Location.WhereLocationAreaIsNull() );
+
+            foreach ( Location location in (locationListByFeed.Concat( locationListPostcodes )) )
             {
                 string pattern = (location.IsPostcode) ? location.NameSearch + ".*" : location.NameSearch;
                 if ( input.IsPhraseRegexMatch( pattern, RegexOptions.IgnoreCase ) )
@@ -439,10 +458,10 @@ namespace Jumblist.Core.Service
             //Last try is to get the Default Location for a feed/group and apply it to the post but only if the item is "offered"
             if ( list.Count == 0 && post.Category.Name == PostCategoryId.Offered.ToString() )
             {
-                var location = locationService.SelectRecord( Location.WhereFeedEquals( post.Feed ) );
-                var postLocationItem = new PostLocation { PostId = post.PostId, LocationId = location.LocationId };
-                postLocationService.Save( postLocationItem );
-                list.Add( postLocationItem );
+                Location location = locationService.SelectRecord( Location.WhereFeedEquals( post.Feed ) );
+                PostLocation postLocation = new PostLocation { PostId = post.PostId, LocationId = location.LocationId };
+                postLocationService.Save( postLocation );
+                list.Add( postLocation );
             }
 
             return list;

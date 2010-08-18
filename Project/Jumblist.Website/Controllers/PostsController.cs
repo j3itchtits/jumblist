@@ -338,19 +338,19 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult EmailAlert( string returnUrl, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )
         {
-            if ( user.IsAuthenticated )
+            if ( !user.IsAuthenticated )
             {
-                var model = DefaultView.CreateModel<UserAlert>();
-                model.PageTitle = "Create Email Alert";
-                model.PostListRouteValues = jumblistSession.PostListRouteValues;
-                model.UserSearchArea = jumblistSession.UserSearchArea;
-
-                return View( model );
-            }
-            else
-            {
+                Message = new Message { Text = "You need to be registered/logged-in to create an email alert.", StyleClass = "message" };
                 return RedirectToAction( "login", "users", new { returnUrl = returnUrl } );
             }
+
+            var model = DefaultView.CreateModel<UserAlert>();
+            model.PageTitle = "Create Email Alert";
+            model.PostListRouteValues = jumblistSession.PostListRouteValues;
+            model.UserSearchArea = jumblistSession.UserSearchArea;
+
+            return View( model );
+
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
@@ -387,7 +387,7 @@ namespace Jumblist.Website.Controllers
         {
             if ( !user.IsAuthenticated )
             {
-                Message = new Message { Text = "You need to be logged in to create a post.", StyleClass = "message" };
+                Message = new Message { Text = "You need to be registered/logged-in to create a post.", StyleClass = "message" };
                 return RedirectToAction( "login", "users", new { returnUrl = Url.Action( "add", "posts" ) } );
             }
 
@@ -453,13 +453,16 @@ namespace Jumblist.Website.Controllers
                                     "TestFeedID",
                                     DateTime.Now );
 
-
-
             IEnumerable<Post> postList = postService.GetPostList( rssActionName, rssActionId, rssActionCategory, q, jumblistSession.UserSearchArea )
                 .Where( x => x.LastUpdatedDateTime > DateTime.Now.AddDays( -30 ) );
 
-            IEnumerable<SyndicationItem> items = postList.Select( x => (new SyndicationItem( x.Title, x.Body.ToShortDescription(), new Uri( defaultUrl + x.LinkbackUrl ), x.PostId.ToString(), x.PublishDateTime )) );
-          
+            IEnumerable<SyndicationItem> items = postList.Select( x => (
+                new SyndicationItem( x.Title, x.Body.ToShortDescription(), new Uri( defaultUrl + x.LinkbackUrl ), x.PostId.ToString(), x.PublishDateTime ) 
+                { 
+                    PublishDate = x.PublishDateTime 
+                }
+            ));
+            
             feed.Items = items;
 
             return Rss( feed );

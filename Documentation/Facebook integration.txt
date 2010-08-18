@@ -30,7 +30,7 @@ Configure your profile - add friends etc
 4. Step 4
 
 Confirm account via clicking on link in email
-http://www.facebook.com/confirmemail.php?e=stuartclode%40idnet.com&c=2073462222
+http://www.facebook.com/confirmemail.php?e=sclode%40hodes.co.uk&c=2073462222
 
 
 Facebook page
@@ -63,11 +63,27 @@ http://www.facebook.com/share/
 <a name="fb_share" type="button_count" share_url="http://localhost:53362/banking"></a> 
 <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script> 
 
+This kind of code does not appear to work very well anymore - need to use the xfbml type code (ie. <fb:...) - this requires an api key
+http://developers.facebook.com/docs/reference/javascript/
+See below for more details
+
 
 Advanced
 
+
+Jumblist is now registered with Facebook. You can edit your application settings at any time in your Developer dashboard.
+
+App name:	Jumblist
+App URL:	http://www.jumblist.co.uk/
+App ID:	117636311620378
+App secret:	2f12289c4b9c1e174208d67d6fd05827
+
+
+
 Facebook plugins (based on open graph api - xfbml)
 http://www.facebook.com/badges/
+http://www.facebook.com/share/
+
 http://developers.facebook.com/plugins 
 http://developers.facebook.com/docs/
 http://developers.facebook.com/docs/guides/web
