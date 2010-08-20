@@ -144,7 +144,7 @@ a.icon
 
 #header-interior
 {
-	width: 980px;
+	width: 960px;
 	margin: 0px auto;
 	padding: 0px;
 	overflow: hidden;
@@ -190,6 +190,7 @@ a.icon
 
 #logo
 {
+	padding-left: 20px;
 	width:300px;
 	float:left;
 }
@@ -210,7 +211,7 @@ a.icon
 
 #container 
 {
-	width: 980px;	
+	width: 960px;	
 	margin: 20px auto;
 	padding: 0px;
 	overflow: hidden;
@@ -242,7 +243,7 @@ a.icon
 
 #container-rightcolumn
 {
-	width: 240px;
+	width: 220px;
 	float: left;
 	font-size: 0.9em;
 	margin-left: 20px;
@@ -290,6 +291,12 @@ a.icon
 	padding: 60px 120px;
 }
 
+.widget
+{
+	padding: 8px 12px;	
+	margin-bottom: 12px;
+}
+
 .widget-green
 {
 	-moz-border-radius:5px;
@@ -298,8 +305,6 @@ a.icon
 	-moz-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
 	background-color: #7db72f;
 	border: 1px solid #ADB85F;
-	padding: 8px 16px 16px;	
-	margin-bottom: 12px;
 }
 
 .widget-green a
@@ -312,8 +317,6 @@ a.icon
 	-moz-border-radius:5px;
 	-webkit-border-radius: 5px;
 	border: 1px solid #ADB85F;
-	padding: 8px 16px;	
-	margin-bottom: 12px;
 }
 
 .widget-socialmedia
@@ -324,14 +327,11 @@ a.icon
 	-moz-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
 	border: 1px solid #05A3FF;
 	background-color: #8ED5FF;
-	padding: 8px 16px;	
-	margin-bottom: 12px;
 }
 
 .join-now
 {
-	padding-top: 14px;
-	padding-bottom: 14px;
+	padding-top: 12px;
 	-webkit-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
 	-moz-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
 	box-shadow: 1px 1px 2px rgba(0,0,0,.2);
@@ -698,13 +698,8 @@ h2.post-title,  h2.postlist-title
 
 table.home-searchcriteria-tag, table.home-searchcriteria-taglocation
 {
-	margin: 80px auto 0px auto;
+	margin: 40px auto 0px;
 	width:40%;
-}
-
-table.home-searchcriteria-taglocation
-{
-	margin-right: 0px;
 }
 
 table.home-searchcriteria-tag input[type="text"], table.home-searchcriteria-taglocation input[type="text"]

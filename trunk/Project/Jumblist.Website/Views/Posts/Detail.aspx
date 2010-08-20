@@ -64,7 +64,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContentRight" runat="server">
       
-    <div class="widget-green">
+    <div class="widget widget-green">
 
         <div class="post-category">
             <h3>Category</h3>
@@ -91,7 +91,7 @@
 
     </div>
 
-    <div class="widget-plain">
+    <div class="widget widget-plain">
         <h3>Share with friends</h3>
 
         <div class="facebook-share-button"><fb:share-button href="<%= Request.Url.AbsoluteUri %>" type="button"></fb:share-button></div>

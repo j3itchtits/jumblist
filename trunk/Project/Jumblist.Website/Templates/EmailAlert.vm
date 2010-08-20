@@ -1,13 +1,21 @@
-﻿Here is your latest alert - $userAlert.Name
----
-Posts:
+﻿#parse("Shared/HtmlHeader.vm")
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Hi $userAlert.User.Name</font></p>
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Here is your latest alert - $userAlert.Name.</font></p>
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+<strong>Posts:</strong><br/>
 #foreach($post in $postList)
-    <a href="$homeurl$post.LinkbackUrl">$post.Title</a>
+	<a href="$homeurl$post.LinkbackUrl" style="text-decoration:none;"><font color="#436b0c">$post.Title</font></a><br/> 
 #end
----
-Sent to:
-$userAlert.User.Name
-$userAlert.User.Email
-$userAlert.User.Postcode
----
-HTML link: <a href="$homeurl">Home</a>
+</font></p>
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+<strong>Sent to:</strong><br/>
+$userAlert.User.Name<br/>
+$userAlert.User.Email<br/>
+$userAlert.User.Postcode<br/>
+</font></p>
+
+#parse("Shared/HtmlFooter.vm")

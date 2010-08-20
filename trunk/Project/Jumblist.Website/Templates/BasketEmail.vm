@@ -1,12 +1,14 @@
-﻿Here is the contents of your basket
----
-Items:
+﻿#parse("Shared/HtmlHeader.vm")
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Hi $user.Name</font></p>
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"Here are the contents of your basket.</font></p>
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+<strong>Posts:</strong><br/>
 #foreach($item in $basket.Items)
-	<a href="$homeurl$item.LinkbackUrl">$item.Title</a>    
+	<a href="$homeurl$item.LinkbackUrl" style="text-decoration:none;"><font color="#436b0c">$item.Title</font></a><br/> 
 #end
----
-Ship to:
-$user.Name
-$user.Email
-$user.Postcode
----
+</font></p>
+
+#parse("Shared/HtmlFooter.vm")

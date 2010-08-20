@@ -119,6 +119,7 @@
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ViewModelController.cs" />
     <Compile Include="Extension\AjaxHelperExtensions.cs" />
@@ -249,8 +250,8 @@
     <Content Include="Views\Basket\BasketItemsControl.ascx" />
     <Content Include="Views\Groups\GroupListControl.ascx" />
     <Content Include="Views\Groups\Index.aspx" />
-    <Content Include="Views\Home\EmailTest.aspx" />
-    <Content Include="Views\Home\jQueryTest.aspx" />
+    <Content Include="Views\Test\EmailTest.aspx" />
+    <Content Include="Views\Test\jQueryTest.aspx" />
     <Content Include="Views\Home\SearchControl.ascx" />
     <Content Include="Views\Locations\Index.aspx" />
     <Content Include="Views\Locations\LocationListControl.ascx" />
@@ -291,6 +292,8 @@
     <None Include="Templates\ForgottenPasswordEmail.vm" />
     <None Include="Templates\PostEmail.vm" />
     <None Include="Templates\RegistrationVerificationEmail.vm" />
+    <None Include="Templates\Shared\HtmlFooter.vm" />
+    <None Include="Templates\Shared\HtmlHeader.vm" />
     <Content Include="Assets\Images\email-alert-icon.png" />
     <Content Include="Assets\Images\email-icon.png" />
     <Content Include="Assets\Images\facebook-icon.png" />
@@ -314,6 +317,7 @@
     <Content Include="Views\Home\Terms.aspx" />
     <Content Include="Views\Posts\BasicPostListControl.ascx" />
     <Content Include="Views\Shared\Site.Master" />
+    <Content Include="Views\Test\Index.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Assets\Images\" />
