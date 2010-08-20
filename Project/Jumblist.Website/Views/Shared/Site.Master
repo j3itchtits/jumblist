@@ -91,7 +91,7 @@
         </div>
         
         <div id="footer">
-            <%= Html.ActionLink( "About Us", "About", "Home" )%> | 
+            <%= Html.ActionLink( "About", "About", "Home" )%> | 
             <%= Html.ActionLink( "Privacy", "Privacy", "Home" )%> |
             <%= Html.ActionLink( "Terms", "Terms", "Home" )%> | 
             <%= Html.ActionLink( "FAQ", "Faq", "Home" )%>

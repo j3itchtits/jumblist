@@ -5,7 +5,7 @@
     if (!Model.IsAuthenticated)
     { %>
 
-        <div class="widget-green join-now">
+        <div class="widget widget-green join-now">
             <%= Html.RegisterLink( "Join now", Page.Request.Url.PathAndQuery, new { @class = "icon" } )%>
         </div>
 

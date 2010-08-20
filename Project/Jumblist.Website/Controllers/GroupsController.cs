@@ -26,8 +26,9 @@ namespace Jumblist.Website.Controllers
         [AcceptVerbs( HttpVerbs.Get )]
         public ViewResult Index()
         {
-            IEnumerable<Feed> list = feedService.SelectRecordList().OrderBy( x => x.Name );
+            IEnumerable<Feed> list = feedService.SelectRecordList().OrderByDescending( f => f.Posts.Count( p => p.Display == true ) );
             //IEnumerable<Feed> list = cacheService.Get( "feed.list", () => feedService.SelectRecordList().OrderBy( x => x.Name ) );
+            //OrderBy( x => x.Name );
 
             DefaultViewModel<Feed> model = BuildDefaultViewModel().With( list );
             model.PageTitle = "All Groups";

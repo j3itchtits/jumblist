@@ -38,7 +38,7 @@ namespace Jumblist.Core.Service
 
             string emailBody = GenerateEmailText( tokens, "RegistrationVerificationEmail.vm" );
 
-            SendMail( user.Email, emailSubject, emailBody );
+            SendMail( user.Email, emailSubject, emailBody, true );
         }
 
         public void SendPostEmail( Post post, User user )
@@ -47,7 +47,8 @@ namespace Jumblist.Core.Service
 
             IDictionary tokens = new Hashtable();
             tokens.Add( "post", post );
-            tokens.Add( "postdate", post.PublishDateTime.ToLongDateString() );
+            tokens.Add( "user", user );
+            tokens.Add( "postdate", post.PublishDateTime.ToString( "dddd, dd MMMM yyyy" ) + " at " + post.PublishDateTime.ToString( "h:mm tt" ) + ". " + (DateTime.Now.Subtract( post.PublishDateTime )).ToDateTimeDiff( post.PublishDateTime, true ) );
             tokens.Add( "homeurl", homeUrl );
 
             string emailBody = GenerateEmailText( tokens, "PostEmail.vm" );
@@ -66,7 +67,7 @@ namespace Jumblist.Core.Service
 
             string emailBody = GenerateEmailText( tokens, "BasketEmail.vm" );
 
-            SendMail( user.Email, emailSubject, emailBody );
+            SendMail( user.Email, emailSubject, emailBody, true );
         }
 
         public void SendForgottenPasswordEmail( User user )
@@ -83,7 +84,7 @@ namespace Jumblist.Core.Service
 
             string emailBody = GenerateEmailText( tokens, "ForgottenPasswordEmail.vm" );
 
-            SendMail( user.Email, emailSubject, emailBody );
+            SendMail( user.Email, emailSubject, emailBody, true );
         }
 
         public void SendPasswordResetEmail( User user, string password )
@@ -99,7 +100,7 @@ namespace Jumblist.Core.Service
 
             string emailBody = GenerateEmailText( tokens, "PasswordResetEmail.vm" );
 
-            SendMail( user.Email, emailSubject, emailBody );
+            SendMail( user.Email, emailSubject, emailBody, true );
         }
 
         public void SendEmailAlert( UserAlert userAlert, IEnumerable<Post> postList )
@@ -113,7 +114,7 @@ namespace Jumblist.Core.Service
 
             string emailBody = GenerateEmailText( tokens, "EmailAlert.vm" );
 
-            SendMail( userAlert.User.Email, emailSubject, emailBody );
+            SendMail( userAlert.User.Email, emailSubject, emailBody, true );
         }
 
         #endregion
@@ -136,8 +137,17 @@ namespace Jumblist.Core.Service
 
         private void SendMail( string fromEmail, string toEmail, string emailSubject, string emailBody, bool isBodyHtml )
         {
-            MailMessage message = new MailMessage( fromEmail, toEmail, emailSubject, emailBody );
-            message.BodyEncoding = Encoding.Default;
+            //MailMessage message = new MailMessage( fromEmail, toEmail, emailSubject, emailBody );
+
+            MailMessage message = new MailMessage();
+
+            message.From = new MailAddress( fromEmail, "Jumblist" );
+            message.To.Add( toEmail );
+            message.Bcc.Add( ConfigurationManager.AppSettings["AdminEmail"] );
+            message.Subject = emailSubject;
+            message.Body = emailBody;
+
+            //message.BodyEncoding = Encoding.Default;
             message.IsBodyHtml = isBodyHtml;
 
             SmtpClient smtpClient = new SmtpClient();

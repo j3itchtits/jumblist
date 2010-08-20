@@ -1,8 +1,18 @@
-﻿Thanks for registering
----
-Id: $user.UserId
-Name: $user.Name
-Email: $user.Email
-Link: $linkBack
-HTML link: <a href="$linkBack">Link</a>
----
+﻿#parse("Shared/HtmlHeader.vm")
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Hi $user.Name</font></p>
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Thanks for registering. We now need to verify your email address and complete the registration.</font></p>
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="$linkBack" style="text-decoration:none;"><font color="#436b0c">Please click on this link to complete the process</font></a></font></p>
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+<strong>Your details</strong><br/>
+Name: $user.Name<br/>
+Email: $user.Email<br/>
+Postcode: $user.Postcode<br/>
+</font></p>
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">You can change these settings after completing registration by clicking on your profile.</font></p>
+
+#parse("Shared/HtmlFooter.vm")

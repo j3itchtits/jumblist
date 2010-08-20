@@ -8,61 +8,62 @@
 
             <%= Html.Hidden( "locationSearch", Model.Postcode )%>
 
+            <table class="home-searchcriteria-tag" title="Search for Posts">
+            <tr>
+            <td style="width: 80px;">
+                <label for="tagSearch" style="display:none;">Search</label><%= Html.TextBox( "tagSearch", string.Empty, new { title = "Please enter your search term", @class = "input-left" } )%>
+            </td>
+            <td>
+                <%= Html.SubmitButton( "submit", "Search", new { @class = "button-right" } )%>
+            </td>
+            </tr>
+            </table>
 
-                <table class="home-searchcriteria-tag" title="Search for Posts">
-                <tr>
-                <td style="width: 80px;">
-	                <label for="tagSearch" style="display:none;">Search</label><%= Html.TextBox( "tagSearch", string.Empty, new { title = "Please enter your search term", @class = "input-left" } )%>
-                </td>
-                <td>
-	                <%= Html.SubmitButton( "submit", "Search", new { @class = "button-right" } )%>
-                </td>
-                </tr>
-                </table>
-
-                <div class="home-searchlocation">
-                    Within 
-                    <span id="radius-value"><%= Model.Radius%></span><input id="locationRadius" name="locationRadius" value="<%= Model.Radius%>" style="display:none;width:1.5em;" /> <a href="#" id="show-radius-edit" style="font-size:0.75em;">[Edit]</a> miles of 
-                    <%= Model.Postcode %>
-                </div>
+            <div class="home-searchlocation">
+                Within 
+                <span id="radius-value"><%= Model.Radius%></span><input id="locationRadius" name="locationRadius" value="<%= Model.Radius%>" style="display:none;width:1.5em;" /> <a href="#" id="show-radius-edit" style="font-size:0.75em;">[Edit]</a> miles of 
+                <%= Model.Postcode %>
+            </div>
+            
 
             <%
         }
         else
         { 
             %>
+            
+            <div style="padding: 10px 40px 0px">
+                Welcome to Jumblist, an open service allowing you to perform location-based searches of UK Freecycle and Freegle groups. If you <%= Html.RegisterLink( "register" ) %>, you can also setup email alerts to let you know when new posts matching your search have been posted.
+                <%= Html.ActionLink( "More details...", "about" ) %>
+            </div>           
+             
             <%= Html.Hidden( "locationRadius", 5 ) %>
 
-            <table title="Search for Posts">
+            <table class="home-searchcriteria-taglocation" title="Search for Posts by Tag and Location">
             <tr>
-            <td style="width: 470px;">
-
-                <table class="home-searchcriteria-taglocation" title="Search for Posts by Tag and Location">
-                <tr>
-                    <td>
-                        <label for="tagSearch">What?</label>
-                    </td>
-                    <td>
-                        <%= Html.TextBox( "tagSearch", string.Empty, new { tabindex = "1" } )%>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="locationSearch">Where?</label>
-                    </td>
-                    <td>
-                        <%= Html.TextBox( "locationSearch", string.Empty, new { tabindex = "2" } )%>
-                    </td>
-                </tr>
-                </table>
-                        
-            </td>
-            <td style="padding-top: 85px">
-                <%= Html.SubmitButton( "submit", "Search", new { tabindex = "3" } )%>
-            </td>
+                <td>
+                    <label for="tagSearch">Tagged</label>
+                </td>
+                <td>
+                    <%= Html.TextBox( "tagSearch", string.Empty, new { tabindex = "1" } )%>
+                </td>
+                <td>
+                    <%= Html.SubmitButton( "submit", "Search", new { tabindex = "3" } )%>
+                </td>                    
+            </tr>
+            <tr>
+                <td>
+                    <label for="locationSearch">Location</label>
+                </td>
+                <td>
+                    <%= Html.TextBox( "locationSearch", string.Empty, new { tabindex = "2" } )%>
+                </td>
+                <td>
+                </td>                    
             </tr>
             </table>
+                        
+
  
             <% 
         }

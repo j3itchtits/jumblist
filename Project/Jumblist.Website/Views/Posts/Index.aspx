@@ -102,7 +102,7 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
 
-    <div class="widget-green">
+    <div class="widget widget-green">
 
     <% 
         //string actionName = ViewContext.RouteData.Values["action"].ToString();

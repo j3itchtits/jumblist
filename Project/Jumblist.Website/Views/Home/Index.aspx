@@ -42,7 +42,7 @@
     <div id="system-message">
         <%= Html.MessageBox( ViewData.Model ) %>
     </div>
-        
+    
     <% Html.RenderPartial( "SearchControl", Model.User ); %>
 
 </asp:Content>
@@ -51,7 +51,7 @@
 
     <% Html.RenderPartial( "JoinNowControl", Model.User ); %>
     
-    <div class="widget-green">
+    <div class="widget widget-green">
         <h3>Latest Posts</h3>
         <% Html.RenderAction( "BasicPostList", "posts", new { top = 5 } ); %>
     </div>
