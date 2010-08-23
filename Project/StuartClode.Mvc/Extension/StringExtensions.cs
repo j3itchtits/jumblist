@@ -109,7 +109,7 @@ namespace StuartClode.Mvc.Extension
 
         public static string ReplaceParagraphBreaksWithHtmlBrTags( this string lines )
         {
-            return lines.Replace( "\r\n\r\n", "<br/><br/>" ).Replace( "\n\n", "<br/><br/>" );
+            return lines.Replace( "\r\n", "<br/>" ).Replace( "\n", "<br/>" );
         }
 
         public static bool IsPhraseRegexMatch( this string input, string pattern, RegexOptions options )

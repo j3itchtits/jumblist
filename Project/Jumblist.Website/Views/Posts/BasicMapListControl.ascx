@@ -3,6 +3,6 @@
 <ul class="basicmaplist">
 <% foreach ( Pushpin p in Model )
    { %>
-    <li><%= p.Title %></li>            
+    <li><%= p.Description %></li>            
 <% } %>
 </ul>

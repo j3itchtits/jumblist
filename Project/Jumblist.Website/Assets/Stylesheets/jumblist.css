@@ -160,7 +160,6 @@ a.icon
 
 #loginarea .logindetails
 {
-	line-height: 2em;
 	background-color: #7db72f; 
 	padding: 10px 14px;
 	-moz-border-radius-bottomleft: 3px;
@@ -199,9 +198,9 @@ a.icon
 {
 	font-family: Trebuchet MS Gothic, Helvetica, Arial, sans-serif;
 	margin-left: 20px;
-	margin-top: 24px;
+	margin-top: 30px;
 	font-weight: bold;
-	float:left;
+	float:right;
 }
 
 #system-message
@@ -386,6 +385,11 @@ a.icon
 .twitter-share-button
 {
 	margin-top: 3px;
+}
+
+ul.basicmaplist li
+{
+	margin-bottom: 4px;
 }
 
 /****************************
@@ -797,13 +801,13 @@ img.progress
 #topnavmenu li 
 {
 	float: left;
-	margin-right: 4px;
+	margin-left: 18px;
 }
 
 #topnavmenu a 
 {
 	display: block;
-	padding: 0px 10px;
+	padding: 0px 14px;
 	line-height: 2.2em;
 	text-decoration: none;
 	color: #fff;
@@ -842,7 +846,7 @@ img.progress
 
 #topnavmenu li:hover ul
 {
-  display: block;
+	display: block;
 }
 
 #topnavmenu li ul
@@ -855,13 +859,15 @@ img.progress
 
 #topnavmenu li li 
 {
-
+	float:none;
+	margin: 0;
 }
 
 #topnavmenu li li a 
 {
 	color: #fff;
 	font-size: 0.8em;
+	padding: 0 14px;
 }
 
 #topnavmenu li li:hover 
