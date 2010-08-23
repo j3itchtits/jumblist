@@ -40,7 +40,7 @@
     <% if ( Model.Item.Url != null )
        { %>
             <div class="post-originallink">
-                <a href="<%= Model.Item.Url %>" target="_blank" class="red">Link to original post on <%= Model.Item.Feed.Name %></a>      
+                <a href="<%= Model.Item.Url %>" target="_blank" class="red">Contact original poster via <%= Model.Item.Feed.Name %></a>      
             </div> <%
        } %>
            

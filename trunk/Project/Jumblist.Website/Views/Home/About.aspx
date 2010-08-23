@@ -15,7 +15,15 @@
         <%= Html.MessageBox( ViewData.Model ) %>
     </div>
 
+    <p>Jumblist is a free and open service which provides details of all UK Freecycle/Freegle posts and allows them to be fully searchable by keyword (tag), location or group.</p>
+    
+    <p>Search results are made available as both lists and maps.</p>
 
+    <p>Registered users can save and email individual posts or keep track of new posts by saving searches as email alerts or using the rss feeds.</p>
+    
+    <p>Registered users can also post their own offers or requests to the community.</p>
+    
+            
 
 </asp:Content>
 

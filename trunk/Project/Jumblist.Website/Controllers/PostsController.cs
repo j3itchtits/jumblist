@@ -340,7 +340,7 @@ namespace Jumblist.Website.Controllers
         {
             if ( !user.IsAuthenticated )
             {
-                Message = new Message { Text = "You need to be registered/logged-in to create an email alert.", StyleClass = "message" };
+                Message = new Message { Text = "You need to be registered and logged in to create an email alert.", StyleClass = "message" };
                 return RedirectToAction( "login", "users", new { returnUrl = returnUrl } );
             }
 
@@ -387,7 +387,7 @@ namespace Jumblist.Website.Controllers
         {
             if ( !user.IsAuthenticated )
             {
-                Message = new Message { Text = "You need to be registered/logged-in to create a post.", StyleClass = "message" };
+                Message = new Message { Text = "You need to be registered and logged in to create a post.", StyleClass = "message" };
                 return RedirectToAction( "login", "users", new { returnUrl = Url.Action( "add", "posts" ) } );
             }
 
