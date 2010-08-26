@@ -48,7 +48,7 @@ namespace Jumblist.Core.Service
             IDictionary tokens = new Hashtable();
             tokens.Add( "post", post );
             tokens.Add( "user", user );
-            tokens.Add( "postdate", post.PublishDateTime.ToString( "dddd, dd MMMM yyyy" ) + " at " + post.PublishDateTime.ToString( "h:mm tt" ) + ". " + (DateTime.Now.Subtract( post.PublishDateTime )).ToDateTimeDiff( post.PublishDateTime, true ) );
+            tokens.Add( "postdate", post.PublishDateTime.ToFriendlyJumblistLongDateTimeString( false ) );
             tokens.Add( "homeurl", homeUrl );
 
             string emailBody = GenerateEmailText( tokens, "PostEmail.vm" );
@@ -106,6 +106,8 @@ namespace Jumblist.Core.Service
         public void SendEmailAlert( UserAlert userAlert, IEnumerable<Post> postList )
         {
             string emailSubject = "Email Alerter";
+
+            postList.ToList().ForEach( x => x.TimeSincePublished = x.PublishDateTime.ToFriendlyJumblistAlternateShortDateTimeString() );
 
             IDictionary tokens = new Hashtable();
             tokens.Add( "userAlert", userAlert );

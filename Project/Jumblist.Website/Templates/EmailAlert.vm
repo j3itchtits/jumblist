@@ -4,15 +4,16 @@
 
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Here is your latest alert - $userAlert.Name.</font></p>
 
-<p style="margin-left: 4px;">
+<p>
 <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>Posts:</strong></font>
 </p>
 
-<table cellpadding="4">
+<table cellpadding="0" cellspacing="0" border="0">
 #foreach($post in $postList)
 	<tr>
-		<td valign="top"><a href="$homeurl$post.LinkbackUrl" style="text-decoration:none;"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#436b0c">$post.Title</font></a></td>
-		<td valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">$post.PublishDateTime</font></td>		
+		<td valign="top" style="padding-bottom:4px;padding-right:4px;"><a href="$homeurl$post.LinkbackUrl" style="text-decoration:none;"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#436b0c">$post.Title</font></a></td>
+		<td valign="top" style="padding-bottom:4px;padding-right:4px;">#if( $post.Feed.Name )<font face="Verdana, Arial, Helvetica, sans-serif" size="2">$post.Feed.Name</font>#end</td>
+		<td valign="top" style="padding-bottom:4px;padding-right:4px;"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">$post.TimeSincePublished</font></td>		
 	</tr>		 
 #end
 </table>

@@ -55,7 +55,7 @@
     </div>  
     
     <div class="post-date">
-        <b>Publish Date: </b><%= Model.Item.PublishDateTime.ToString( "dddd, dd MMMM yyyy" ) %> at <%= Model.Item.PublishDateTime.ToString( "h:mm tt" )%>. <%= (DateTime.Now.Subtract( Model.Item.PublishDateTime )).ToDateTimeDiff( Model.Item.PublishDateTime, true )%>
+        <b>Publish Date: </b><%= Model.Item.PublishDateTime.ToFriendlyJumblistLongDateTimeString( true ) %>
     </div>        
    
 </asp:Content>

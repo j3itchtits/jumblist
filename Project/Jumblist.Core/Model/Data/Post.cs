@@ -33,7 +33,6 @@ namespace Jumblist.Core.Model
         public string Title { get; set; }
 
         [Column( Name = "PostBody" )]
-        [Required]
         public string Body { get; set; }
 
         [Column( Name = "PostPublishDateTime" )]

@@ -12,7 +12,9 @@
 
 <table width="550" cellpadding="0" cellspacing="0" border="0" align="center">
 <tr><td>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" color="#ffffff" size="6">Jumblist Mail</font></p>
+<font face="Verdana, Arial, Helvetica, sans-serif" color="#ffffff" size="6">Jumblist Mail</font>&nbsp;&nbsp;&nbsp;
+<a href="$homeurl" style="text-decoration:none;"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#ffffff">Home</font></a>&nbsp;&nbsp;&nbsp;
+<a href="$homeurl/posts" style="text-decoration:none;"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#ffffff">Posts</font></a>&nbsp;&nbsp;&nbsp;
 </td></tr>
 </table>
 

@@ -69,11 +69,18 @@ namespace Jumblist.Core.Service
                     select t.Name).ToArray();
         }
 
-        public string[] SelectTagNameList(string q)
+        public string[] SelectTagNameList( string q )
         {
-            return (from t in SelectRecordList()
-                    where t.Name.StartsWith(q)
-                    select t.Name).ToArray();
+            if ( string.IsNullOrEmpty( q ) )
+            {
+                return SelectTagNameList();
+            }
+            else
+            {
+                return (from t in SelectRecordList()
+                        where t.Name.StartsWith( q )
+                        select t.Name).ToArray();
+            }
         }
 
         #endregion

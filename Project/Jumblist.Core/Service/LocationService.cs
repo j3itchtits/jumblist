@@ -66,31 +66,31 @@ namespace Jumblist.Core.Service
             base.Delete( location );
         }
 
-        public string[] SelectLocationNameTownList()
-        {
-            var locationList = from l in SelectRecordList()
-                               select l.NameSearch;
+        //public string[] SelectLocationNameTownList()
+        //{
+        //    var locationList = from l in SelectRecordList()
+        //                       select l.NameSearch;
 
-            return locationList.Distinct().ToArray();
-        }
+        //    return locationList.Distinct().ToArray();
+        //}
 
-        public string[] SelectLocationNameList( string q )
-        {
-            var locationList = from l in SelectRecordList()
-                               where l.Name.StartsWith( q ) && (l.Area != null)
-                               select l.Name;
+        //public string[] SelectLocationNameList( string q )
+        //{
+        //    var locationList = from l in SelectRecordList()
+        //                       where l.Name.StartsWith( q ) && (l.Area != null)
+        //                       select l.Name;
 
-            return locationList.Distinct().ToArray();
-        }
+        //    return locationList.Distinct().ToArray();
+        //}
 
-        public string[] SelectLocationAreaList( string q )
-        {
-            var locationList = from l in SelectRecordList()
-                               where l.Area.StartsWith( q )
-                               select l.Area;
+        //public string[] SelectLocationAreaList( string q )
+        //{
+        //    var locationList = from l in SelectRecordList()
+        //                       where l.Area.StartsWith( q )
+        //                       select l.Area;
 
-            return locationList.Distinct().ToArray();
-        }
+        //    return locationList.Distinct().ToArray();
+        //}
 
         public string[] SelectLocationNameAndAreaList( string q )
         {

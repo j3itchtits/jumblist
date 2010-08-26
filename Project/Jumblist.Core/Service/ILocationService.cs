@@ -15,9 +15,9 @@ namespace Jumblist.Core.Service
         void Save( Location entity );
         void Save( Location entity, bool isDetachedFromDatabase );
         void Delete( Location entity );
-        string[] SelectLocationNameTownList();
-        string[] SelectLocationNameList( string q );
-        string[] SelectLocationAreaList( string q );
+        //string[] SelectLocationNameTownList();
+        //string[] SelectLocationNameList( string q );
+        //string[] SelectLocationAreaList( string q );
         string[] SelectLocationNameAndAreaList( string q );
         IEnumerable<Location> SelectRecordListByFeed( Expression<Func<FeedLocation, bool>> whereCondition );
     }

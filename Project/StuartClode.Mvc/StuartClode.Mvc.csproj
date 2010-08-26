@@ -93,11 +93,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extension\DateTimeExtensions.cs" />
     <Compile Include="Extension\DoubleExtensions.cs" />
     <Compile Include="Extension\EnumerationExtensions.cs" />
     <Compile Include="Extension\IEnumerableExtensions.cs" />
     <Compile Include="Extension\PagingExtensions.cs" />
-    <Compile Include="Extension\TimeSpanExtensions.cs" />
+    <Compile Include="Extension\TimeSpanExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Model\IPagedList.cs" />
     <Compile Include="Model\PagedList.cs" />
     <Compile Include="Model\Pager.cs" />
