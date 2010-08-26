@@ -25,6 +25,8 @@ namespace Jumblist.Core.Model
             get { return string.Format( "/post/{0}/{1}", PostId, Title.ToFriendlyUrlEncode() ); }
         }
 
+        public string TimeSincePublished { get; set; }
+
         public IList<Location> Locations
         {
             get { return postLocations.Select( l => l.Location ).ToList().AsReadOnly(); }

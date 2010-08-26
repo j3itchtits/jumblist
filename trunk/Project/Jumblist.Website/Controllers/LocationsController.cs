@@ -33,39 +33,41 @@ namespace Jumblist.Website.Controllers
             return View( model );
         }
 
-        [AcceptVerbs( HttpVerbs.Get )]
-        [OutputCache( CacheProfile = "AjaxLookup" )]
-        public ContentResult AjaxFindLocationNames( string q )
-        {
-            string[] locations = locationService.SelectLocationNameList( q );
+        //[AcceptVerbs( HttpVerbs.Get )]
+        //[OutputCache( CacheProfile = "AjaxLookup" )]
+        //public ContentResult AjaxFindLocationNames( string q )
+        //{
+        //    string[] locations = locationService.SelectLocationNameList( q );
 
-            return Content( locations.ToNewLineDelimitedString() );
-        }
+        //    return Content( locations.ToNewLineDelimitedString() );
+        //}
 
-        [AcceptVerbs( HttpVerbs.Get )]
-        [OutputCache( CacheProfile = "AjaxLookup" )]
-        public ContentResult AjaxLocations()
-        {
-            string[] locations = locationService.SelectLocationNameTownList();
+        //[AcceptVerbs( HttpVerbs.Get )]
+        //[OutputCache( CacheProfile = "AjaxLookup" )]
+        //public ContentResult AjaxLocations()
+        //{
+        //    string[] locations = locationService.SelectLocationNameTownList();
 
-            //return raw text, one result on each line
-            return Content( locations.ToNewLineDelimitedString() );
-        } 
+        //    //return raw text, one result on each line
+        //    return Content( locations.ToNewLineDelimitedString() );
+        //} 
 
-        [AcceptVerbs( HttpVerbs.Get )]
-        public ContentResult AjaxFindLocationNameAndAreas( string q )
-        {
-            string[] locations = locationService.SelectLocationNameAndAreaList( q );
+        //[AcceptVerbs( HttpVerbs.Get )]
+        //[OutputCache( CacheProfile = "AjaxLookup" )]
+        //public ContentResult AjaxFindLocationNameAndAreas( string q )
+        //{
+        //    string[] locations = locationService.SelectLocationNameAndAreaList( q );
 
-            return Content( locations.ToNewLineDelimitedString() );
-        }
+        //    return Content( locations.ToNewLineDelimitedString() );
+        //}
 
-        [AcceptVerbs( HttpVerbs.Get )]
-        public ContentResult AjaxFindLocationAreas( string q )
-        {
-            string[] locations = locationService.SelectLocationAreaList( q );
+        //[AcceptVerbs( HttpVerbs.Get )]
+        //[OutputCache( CacheProfile = "AjaxLookup" )]
+        //public ContentResult AjaxFindLocationAreas( string q )
+        //{
+        //    string[] locations = locationService.SelectLocationAreaList( q );
 
-            return Content( locations.ToNewLineDelimitedString() );
-        }
+        //    return Content( locations.ToNewLineDelimitedString() );
+        //}
     }
 }

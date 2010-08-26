@@ -55,7 +55,7 @@ i, .italic
 
 .bolditalic
 {
-	font-family: CantarellBoldOblique
+	font-family: CantarellBoldOblique;
 }
 
 .red, .red a
@@ -156,6 +156,7 @@ a.icon
 #loginarea
 {
 	text-align: right;
+	line-height: 2em;
 }
 
 #loginarea .logindetails
@@ -164,17 +165,17 @@ a.icon
 	padding: 10px 14px;
 	-moz-border-radius-bottomleft: 3px;
 	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 3px;
 }
 
 #loginarea #basket
 {
-	line-height: 2em;
 	color: #000;
 	background-color: #fff; 
 	padding: 10px 14px;
 	-moz-border-radius-bottomright: 3px;
 	-webkit-border-bottom-right-radius: 3px;	
-
+	border-bottom-right-radius: 3px;
 }
 
 #loginarea .logindetails a
@@ -224,8 +225,10 @@ a.icon
 	background-color: #fff;
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
+	border-radius: 10px;
 	-moz-border-radius-topleft:0px;
-	-webkit-border-top-left-radius: 0px;	
+	-webkit-border-top-left-radius: 0px;
+	border-top-left-radius: 10px;	
 }
 
 #tabs
@@ -300,8 +303,10 @@ a.icon
 {
 	-moz-border-radius:5px;
 	-webkit-border-radius: 5px;
+	border-radius: 5px;
 	-webkit-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
 	-moz-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
+	box-shadow: 1px 1px 2px rgba(0,0,0,.2);
 	background-color: #7db72f;
 	border: 1px solid #ADB85F;
 }
@@ -315,6 +320,7 @@ a.icon
 {
 	-moz-border-radius:5px;
 	-webkit-border-radius: 5px;
+	border-radius: 5px;
 	border: 1px solid #ADB85F;
 }
 
@@ -322,8 +328,10 @@ a.icon
 {
 	-moz-border-radius:5px;
 	-webkit-border-radius: 5px;
+	border-radius: 5px;
 	-webkit-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
 	-moz-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
+	box-shadow: 1px 1px 2px rgba(0,0,0,.2);
 	border: 1px solid #05A3FF;
 	background-color: #8ED5FF;
 }
@@ -420,6 +428,7 @@ input, textarea, select
 {
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
+	border-radius: 2px;
 	border: 1px solid #999;
 	padding:6px 10px 2px 6px;
 	margin: 0px;
@@ -545,8 +554,10 @@ option
 {
 	-moz-border-radius-topright:0px;
 	-webkit-border-top-right-radius: 0px;
+	border-top-right-radius: 0px;
 	-moz-border-radius-bottomright:0px;
-	-webkit-border-bottom-right-radius: 0px;	
+	-webkit-border-bottom-right-radius: 0px;
+	border-bottom-right-radius: 0px;	
 	border-right: 0px;
 }
 
@@ -554,8 +565,10 @@ option
 {
 	-moz-border-radius-topleft:0px;
 	-webkit-border-top-left-radius: 0px;
+	border-top-left-radius: 0px;
 	-moz-border-radius-bottomleft:0px;
 	-webkit-border-bottom-left-radius: 0px;	
+	border-bottom-left-radius: 0px;
 }
 
 .button-submit
@@ -653,23 +666,28 @@ h2.post-title,  h2.postlist-title
 	padding: 4px 6px 0px;
 	-moz-border-radius:5px;
 	-webkit-border-radius: 5px;
+	border-radius:5px;
 	border: 1px solid #ADB85F;	
 }
 
 .postlist-functions-right
 {
 	-moz-border-radius-topleft: 0px;
-	-webkit-border-top-left-radius: 0px;	
+	-webkit-border-top-left-radius: 0px;
+	border-top-left-radius: 0px;	
 	-moz-border-radius-bottomleft: 0px;
-	-webkit-border-bottom-left-radius: 0px;		
+	-webkit-border-bottom-left-radius: 0px;	
+	border-bottom-left-radius: 0px;		
 }
  
 .postlist-functions-left
 {
 	-moz-border-radius-topright: 0px;
 	-webkit-border-top-right-radius: 0px;	
+	border-top-right-radius: 0px;
 	-moz-border-radius-bottomright: 0px;
-	-webkit-border-bottom-right-radius: 0px;	
+	-webkit-border-bottom-right-radius: 0px;
+	border-bottom-right-radius: 0px;	
 	background-color: #ADB85F;	
 	color: #fff;	
 	vertical-align: middle;
@@ -914,8 +932,10 @@ ul.tabNavigation li a
 {
 	-moz-border-radius-topright:2px;
 	-webkit-border-top-right-radius: 2px;
+	border-top-right-radius: 2px;
 	-moz-border-radius-topleft:2px;
-	-webkit-border-top-left-radius: 2px;	
+	-webkit-border-top-left-radius: 2px;
+	border-top-left-radius: 2px;	
     background-color: #7db72f;
     color: #666;
     text-decoration: none;

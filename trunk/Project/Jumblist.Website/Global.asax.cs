@@ -67,6 +67,13 @@ namespace Jumblist.Website
 
         protected void Session_Start()
         {
+            //Ensure SessionID exists when the application pool recycles
+            string sessionId = Session.SessionID;
+            if ( string.IsNullOrEmpty(sessionId) )
+            {
+                throw new Exception( "SessionId is null" );
+            }
+
             Session[userKey] = Jumblist.Core.Model.User.Anonymous;
 
             //Create a session variable to persist the anonymous user across requests
@@ -414,7 +421,7 @@ namespace Jumblist.Website
             }
 
             // Pass exception details to the target error View.
-            routeData.Values.Add( "error", exception );
+            routeData.Values.Add( "error", exception.Message );
 
             // Clear the error on server.
             Server.ClearError();

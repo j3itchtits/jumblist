@@ -34,7 +34,7 @@
             Tags: <%= Html.PostTagListLinks( post.Tags )%>
         </td>
         <td class="post-time" width="10%">
-            <%= (DateTime.Now.Subtract( post.PublishDateTime )).ToDateTimeDiff( post.PublishDateTime )%>
+           <%= post.PublishDateTime.ToFriendlyJumblistAlternateShortDateTimeString()%>
         </td>
         <td class="post-groupuser" width="14%">
             <%= Html.PostOriginLink( post )%>

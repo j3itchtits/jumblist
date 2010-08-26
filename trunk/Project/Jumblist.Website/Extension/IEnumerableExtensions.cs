@@ -17,7 +17,7 @@ namespace Jumblist.Website.Extension
         {
             return list.AsQueryable()
                 .Where( filter )
-                .Select( p => (new Pushpin( p.Latitude.Randomize(), p.Longitude.Randomize(), HttpUtility.HtmlEncode( p.Title ), HttpUtility.HtmlEncode( p.Title ) )) );
+                .Select( p => (new Pushpin( p.Latitude.Randomize(), p.Longitude.Randomize(), HttpUtility.HtmlEncode( p.Title ), "<a href=\'" + string.Format( "/post/{0}/{1}", p.PostId, p.Title.ToFriendlyUrlEncode() ) + "\'>" + HttpUtility.HtmlEncode( p.Title ) + "</a>" )) );
         }
 
         public static IEnumerable<Pushpin> ToFilteredPushPinList( this IEnumerable<Post> list, Func<Post, bool> filter )
