@@ -28,9 +28,9 @@
     <h2 class="post-title"><%= Html.PageTitle( ViewData.Model )%></h2>
     
     <div class="post-functions">
-        <%= Ajax.SavePostToBasketLink( "Save", new { id = Model.Item.PostId }, new { @class = "icon", title = "Save post to my basket" } )%>
-        <%= Ajax.EmailPostLink( "Email", new { id = Model.Item.PostId }, new { @class = "icon", title = "Email me the post details" } )%>
-        <%= Html.MapLink( "Map", "icon", Model.Item )%> 
+        <%= Ajax.SavePostToBasketImageLink( "Save", new { id = Model.Item.PostId }, new { title = "Save post to my basket" } )%>
+        <%= Ajax.EmailPostImageLink( "Email", new { id = Model.Item.PostId }, new { title = "Email me the post details" } )%>
+        <%= Html.MapImageLink( "Map", Model.Item )%> 
     </div>
     
     <div id="system-message">

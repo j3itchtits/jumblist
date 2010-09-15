@@ -1,6 +1,6 @@
 ﻿#parse("Shared/HtmlHeader.vm")
 
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Hi $userAlert.User.Name</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Hi $user.Name</font></p>
 
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Here is your latest alert - $userAlert.Name.</font></p>
 
@@ -18,11 +18,6 @@
 #end
 </table>
 
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
-<strong>Sent to:</strong><br/>
-$userAlert.User.Name<br/>
-$userAlert.User.Email<br/>
-$userAlert.User.Postcode<br/>
-</font></p>
+#parse("Shared/UserDetails.vm")
 
 #parse("Shared/HtmlFooter.vm")

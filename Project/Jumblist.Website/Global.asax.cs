@@ -226,35 +226,35 @@ namespace Jumblist.Website
             routes.JumblistMapRoute(
                 "Post-Detail",                                              // Route name
                 "post/{id}/{name}",                           // URL with parameters
-                new { controller = "posts", action = "detail", id = "", name = "" },  // Parameter defaults
+                new { controller = "Posts", action = "Detail", id = "", name = "" },  // Parameter defaults
                 new string[] { "Jumblist.Website.Controllers" }
             );
 
             routes.JumblistMapRoute(
                 "XMLSitemap",                                              // Route name
                 "sitemap.xml",                           // URL with parameters
-                new { controller = "posts", action = "xmlsitemap" },  // Parameter defaults
+                new { controller = "Posts", action = "XmlSiteMap" },  // Parameter defaults
                 new string[] { "Jumblist.Website.Controllers" }
             );
 
             routes.JumblistMapRoute(
                 "Rss-WithCategory",                                              // Route name
                 "{controller}/{rssactionname}/{rssactionid}/{rssactioncategory}/rss",                           // URL with parameters
-                new { controller = "posts", action = "rss", rssactionname = "index" },  // Parameter defaults
+                new { controller = "Posts", action = "Rss", rssactionname = "Index" },  // Parameter defaults
                 new string[] { "Jumblist.Website.Controllers" }
             );
 
             routes.JumblistMapRoute(
                 "Rss-WithAction",                                              // Route name
                 "{controller}/{rssactionname}/{rssactionid}/rss",                           // URL with parameters
-                new { controller = "posts", action = "rss", rssactionname = "index" },  // Parameter defaults
+                new { controller = "Posts", action = "Rss", rssactionname = "Index" },  // Parameter defaults
                 new string[] { "Jumblist.Website.Controllers" }
             );
 
             routes.JumblistMapRoute(
                 "Rss",                                              // Route name
                 "{controller}/rss",                           // URL with parameters
-                new { controller = "posts", action = "rss", rssactionname = "index" },  // Parameter defaults
+                new { controller = "Posts", action = "Rss", rssactionname = "Index" },  // Parameter defaults
                 new string[] { "Jumblist.Website.Controllers" }
             );
 

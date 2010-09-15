@@ -9,7 +9,7 @@
 <body>
     <div>
 
-    <h2>EmailTest</h2>
+    <h2><%= Html.PageTitle( ViewData.Model )%></h2>
 
     <div id="system-message">
         <%= Html.MessageBox( ViewData.Model ) %>

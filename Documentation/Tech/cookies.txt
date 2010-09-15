@@ -1,0 +1,216 @@
+On this page I give three functions to save, read and erase cookies. Using these functions you can manage cookies on your site.
+
+First an introduction to cookies, and a summary of document.cookie, followed by an example. Then come the three functions and their explanation.
+
+Cookies
+
+Cookies were originally invented by Netscape to give 'memory' to web servers and browsers. The HTTP protocol, which arranges for the transfer of web pages to your browser and browser requests for pages to servers, is state-less, which means that once the server has sent a page to a browser requesting it, it doesn't remember a thing about it. So if you come to the same web page a second, third, hundredth or millionth time, the server once again considers it the very first time you ever came there.
+
+This can be annoying in a number of ways. The server cannot remember if you identified yourself when you want to access protected pages, it cannot remember your user preferences, it cannot remember anything. As soon as personalization was invented, this became a major problem.
+
+Cookies were invented to solve this problem. There are other ways to solve it, but cookies are easy to maintain and very versatile.
+
+How cookies work
+
+A cookie is nothing but a small text file that's stored in your browser. It contains some data:
+
+A name-value pair containing the actual data
+An expiry date after which it is no longer valid
+The domain and path of the server it should be sent to
+As soon as you request a page from a server to which a cookie should be sent, the cookie is added to the HTTP header. Server side programs can then read out the information and decide that you have the right to view the page you requested or that you want your links to be yellow on a green background.
+
+So every time you visit the site the cookie comes from, information about you is available. This is very nice sometimes, at other times it may somewhat endanger your privacy. Fortunately more and more browsers give you the opportunity to manage your cookies (deleting the one from the big ad site, for example).
+
+Cookies can be read by JavaScript too. They're mostly used for storing user preferences.
+
+name-value
+
+Each cookie has a name-value pair that contains the actual information. The name of the cookie is for your benefit, you will search for this name when reading out the cookie information.
+
+If you want to read out the cookie you search for the name and see what value is attached to it. Read out this value. Of course you yourself have to decide which value(s) the cookie can have and to write the scripts to deal with these value(s).
+
+Expiry date
+
+Each cookie has an expiry date after which it is trashed. If you don't specify the expiry date the cookie is trashed when you close the browser. This expiry date should be in UTC (Greenwich) time.
+
+Domain and path
+
+Each cookie also has a domain and a path. The domain tells the browser to which domain the cookie should be sent. If you don't specify it, it becomes the domain of the page that sets the cookie, in the case of this page www.quirksmode.org.
+Please note that the purpose of the domain is to allow cookies to cross sub-domains. My cookie will not be read by search.quirksmode.org because its domain is www.quirksmode.org . When I set the domain to quirksmode.org, the search sub-domain may also read the cookie.
+I cannot set the cookie domain to a domain I'm not in, I cannot make the domain www.microsoft.com . Only quirksmode.org is allowed, in this case.
+
+The path gives you the chance to specify a directory where the cookie is active. So if you want the cookie to be only sent to pages in the directory cgi-bin, set the path to /cgi-bin. Usually the path is set to /, which means the cookie is valid throughout the entire domain.
+This script does so, so the cookies you can set on this page will be sent to any page in the www.quirksmode.org domain (though only this page has a script that searches for the cookies and does something with them).
+
+document.cookie
+
+Cookies can be created, read and erased by JavaScript. They are accessible through the property document.cookie. Though you can treat document.cookie as if it's a string, it isn't really, and you have only access to the name-value pairs.
+
+If I want to set a cookie for this domain with a name-value pair 'ppkcookie1=testcookie' that expires in seven days from the moment I write this sentence, I do
+
+document.cookie =
+  'ppkcookie1=testcookie; expires=Thu, 2 Aug 2001 20:47:11 UTC; path=/'
+First the name-value pair ('ppkcookie1=testcookie')
+then a semicolon and a space
+then the expiry date in the correct format ('expires=Thu, 2 Aug 2001 20:47:11 UTC')
+again a semicolon and a space
+then the path (path=/)
+This is a very strict syntax, don't change it! (Of course the script manages these dirty bits for you)
+
+Also, even though it looks like I'm writing this whole string to the string document.cookie, as soon as I read it out again I only see the name-value pair:
+
+ppkcookie1=testcookie
+If I want to set another cookie, I again do
+
+document.cookie =
+  'ppkcookie2=another test; expires=Fri, 3 Aug 2001 20:47:11 UTC; path=/'
+The first cookie is not overwritten, as it would when document.cookie would be a real string. Instead the second one is added to document.cookie, so if we read it out we get
+
+ppkcookie1=testcookie; ppkcookie2=another test
+If I reset a cookie
+
+document.cookie =
+  'ppkcookie2=yet another test; expires=Fri, 3 Aug 2001 20:47:11 UTC; path=/'
+the old cookie is overwritten and document.cookie reads
+
+ppkcookie1=testcookie; ppkcookie2=yet another test
+To read out a cookie you have to treat document.cookie as a string and search for certain characters (semicolons, for instance) and for the cookie name. I'll explain how to do it below.
+
+Finally, to remove a cookie, set it with an expiry date before today. The browser sees that the cookie has expired and removes it.
+
+document.cookie =
+  'ppkcookie2=yet another test; expires=Fri, 27 Jul 2001 02:47:11 UTC; path=/'
+Example
+
+If you're thoroughly confused by all this strange syntax, try the example below. You can set two cookies, ppkcookie1 and ppkcookie2. Fill in the desired value in the text box.
+
+The value of the cookie should be 
+
+Create cookie 1
+Read cookie 1
+Erase cookie 1.
+
+Create cookie 2
+Read cookie 2
+Erase cookie 2.
+
+For comparision, read out document.cookie.
+
+I set the cookies to remain active for seven days. If you return to this page within that time, you'll get an alert that the cookie(s) is/are still active. Try it by setting a cookie, then reloading this page.
+
+The scripts
+
+These are the three scripts you need.
+
+function createCookie(name,value,days) {
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
+
+function eraseCookie(name) {
+	createCookie(name,"",-1);
+}
+Explanation
+
+The functions are not very difficult, the hardest part is creating the correct syntax for setting a cookie.
+
+createCookie
+
+When calling createCookie() you have to give it three bits of information: the name and value of the cookie and the number of days it is to remain active. In this case the name-value pair should become ppkcookie=testcookie and it should be active for 7 days.
+
+createCookie('ppkcookie','testcookie',7)
+If you set the number of days to 0 the cookie is trashed when the user closes the browser. If you set the days to a negative number the cookie is trashed immediately.
+
+The function receives the arguments and starts doing its job.
+
+function createCookie(name,value,days) {
+First of all see if there is a days value. If there isn't we don't need to do the time calculation.
+
+	if (days) {
+If there is, create a new Date object containing the current date.
+
+		var date = new Date();
+Now get the current Time (in milliseconds) and add the required number of days (in milliseconds). Set the Time of the date to this new value, so that it now contains the date in milliseconds that the cookie should expire.
+
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+Set the variable expires to this date in the UTC/GMT format required by cookies.
+
+		var expires = "; expires="+date.toGMTString();
+	}
+If 0 is passed to the function, expires is not set and the cookie expires when the user closes his browser..
+
+	else var expires = "";
+Finally write the new cookie into document.cookie in the correct syntax.
+
+	document.cookie = name+"="+value+expires+"; path=/";
+}
+Cookie created.
+
+readCookie
+
+To read out a cookie, call this function and pass the name of the cookie. Put the name in a variable. First check if this variable has a value (if the cookie does not exist the variable becomes null, which might upset the rest of your function), then do whatever is necessary.
+
+var x = readCookie('ppkcookie1')
+if (x) {
+	[do something with x]
+}
+The function receives the argument and starts.
+
+function readCookie(name) {
+We're going to search for the name of the cookie, followed by an =. So create this new string and put it in nameEQ:
+
+	var nameEQ = name + "=";
+Then split document.cookie on semicolons. ca becomes an array containing all cookies that are set for this domain and path.
+
+	var ca = document.cookie.split(';');
+Then we go through the array (so through all cookies):
+
+	for(var i=0;i < ca.length;i++) {
+Set c to the cookie to be checked.
+
+		var c = ca[i];
+If the first character is a space, remove it by using the substring() method. Continue doing this until the first character is not a space.
+
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+Now string c begins with the name of the current cookie. If this is the name of the desired cookie
+
+		if (c.indexOf(nameEQ) == 0)
+we've found what we were looking for. We now only need to return the value of the cookie, which is the part of c that comes after nameEQ. By returning this value we also end the function: mission accomplished.
+
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+If, after having gone through all cookies, we haven't found the name we're looking for, the cookie is not present. We return null.
+
+	return null;
+}
+Cookie read.
+
+eraseCookie
+
+Erasing is extremely simple.
+
+eraseCookie('ppkcookie')
+Pass the name of the cookie to be erased
+
+function eraseCookie(name) {
+and call createCookie() to set the cookie with an expiry date of one day ago.
+
+	createCookie(name,"",-1);
+}
+The browser, seeing that the expiry date has passed, immediately removes the cookie.

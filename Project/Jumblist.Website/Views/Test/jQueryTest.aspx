@@ -8,26 +8,34 @@
 
     <title>jQueryTest</title>
 
-    <script src="../../Assets/Scripts/jquery-1.4.1.min.js" type="text/javascript"></script>
+    
+    <script src="<%= Url.ImportedAsset( "Jquery", "jquery-1.4.1.min.js" ) %>" type="text/javascript"></script>
+    <script src="<%= Url.ImportedAsset( "Jquery", "jquery.color.js" ) %>" type="text/javascript"></script>
+        
+    <script src="<%= Url.ImportedAsset( "MicrosoftAjax", "MicrosoftAjax.js" )%>" type="text/javascript"></script>
+    <script src="<%= Url.ImportedAsset( "MicrosoftAjax", "MicrosoftMvcAjax.js" )%>" type="text/javascript"></script>
 
-    <script src="<%= Url.Script( "MicrosoftAjax.js" )%>" type="text/javascript"></script>
-    <script src="<%= Url.Script( "MicrosoftMvcAjax.js" )%>" type="text/javascript"></script>
-    <script src="<%= Url.Script( "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
-    <script src="<%= Url.Script( "jquery.highlight-3.js" )%>" type="text/javascript"></script>
+    <link href="<%= Url.ImportedAsset( "Autocomplete", "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
+    <script src="<%= Url.ImportedAsset( "Autocomplete", "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
+
+    <script src="<%= Url.ImportedAsset( "Colorbox", "jquery.colorbox-min.js" ) %>" type="text/javascript"></script>
+    <link href="<%= Url.ImportedAsset( "Colorbox", "colorbox.css" ) %>" rel="stylesheet" type="text/css"/>
+
+    <script src="<%= Url.Script( "jquery.gmap.js" )%>" type="text/javascript"></script>    
     <script src="<%= Url.Script( "jquery.jumblist.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.timer.js" )%>" type="text/javascript"></script>
-    <script src="<%= Url.Script( "jquery.colorbox-min.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.alerts.js" )%>" type="text/javascript"></script>
+    <link href="<%= Url.Stylesheet( "jquery.alerts.css" )%>" rel="stylesheet" type="text/css"/>
     <script src="<%= Url.Script( "jquery.customdata.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.jsonviewer.js" )%>" type="text/javascript"></script>
-    <script src="<%= Url.Script( "jquery.color.js" )%>" type="text/javascript"></script>
-    
+    <script src="<%= Url.Script( "jquery.truncate.js" )%>" type="text/javascript"></script>
+    <script src="<%= Url.Script( "jquery.autoupdate.js" )%>" type="text/javascript"></script>
+    <script src="<%= Url.Script( "jquery.simpletabs.js" )%>" type="text/javascript"></script>
+        
     <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
 
-    <link href="<%= Url.Stylesheet( "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
-    <link href="<%= Url.Stylesheet( "jquery.colorbox.css" )%>" rel="stylesheet" type="text/css"/>
-    <link href="<%= Url.Stylesheet( "jquery.alerts.css" )%>" rel="stylesheet" type="text/css"/>
     <link href="<%= Url.Stylesheet( "jumblist.css" )%>" rel="stylesheet" type="text/css"/>
+
         
     <style type="text/css">
         .highlight { background-color: yellow; }
@@ -115,6 +123,18 @@
 
         $(document).ready(function() {
 
+
+            $(".example8").colorbox({ width: "50%", inline: true, href: "#inline_example1" });
+
+
+            
+            $("#launchMapColorbox").colorbox({
+                width: "50%",
+                inline: true,
+                href: "#colorboxMapContent",
+                onComplete: function() { $("#colorboxMap").gmap({ latitude: 50.9645, longitude: 0.553, zoom: 11, title: "arse" }); }
+            });
+
             //$("a.icon").text("arse");
 
             //http://www.webdesignerwall.com/tutorials/jquery-tutorials-for-designers/
@@ -189,7 +209,7 @@
             //            //$(this).css("background-color", "yellow");
             //        });
 
-            $('div.tabs').tabs();
+            $('div.tabs').simpletabs();
 
             $.fn.autoUpdate('<%= Url.Action( "AjaxTags", "Tags" ) %>');
 
@@ -272,17 +292,9 @@
 
             $('.tip').truncate({ moreText: "some more please" });
 
-            $("#launchColorbox").colorbox({
-                width: "50%",
-                inline: true,
-                href: "#colorboxContent",
-                onComplete: function() { $("#colorboxMap").gmap({ latitude: 50.9645, longitude: 0.553, zoom: 11, title: "arse" }); }
-            });
-
-            $("#map_canvas2").gmap({ latitude: 50.9645, longitude: 0.553, zoom: 14, title: "hello" });
-
             $("#alert_button").click(function() {
-                jAlert('This is a custom alert box', 'Alert Dialog');
+                //jAlert('This is a custom alert box', 'Alert Dialog');
+                alert("hello");
             });
 
             $("#confirm_button").click(function() {
@@ -423,9 +435,6 @@
         </div>
         
         <p><strong>Replace text with image</strong></p>
-        <h2 class="alt">Map</h2><br />
-        <a href="/posts" class="alt">Map</a><br /><br />
-        
         <a href="/posts" class="icon">Save</a><br />
         <a href="/posts" class="icon">Email</a><br />
         <a href="/posts"><img src='/assets/images/save-icon.png' width='25' height='25' alt='save' /></a><br />
@@ -437,16 +446,6 @@
 	        <p>Prime Minister David Cameron is launching the Conservatives' "big society" drive, which he says will empower individuals.</p> 
 	        <span class="delete">delete</span>
 	        <span class="colour">colour</span>
-        </div> 
-        <div class="pane"> 
-	        <h3>US fears Gulf seabed oil seepage</h3> 
-	        <p>US officials fear oil may be seeping from the ocean floor near the stricken Gulf of Mexico well, and order BP to submit a plan to lessen wellhead pressure.</p> 
-	        <span class="delete">delete</span> 
-        </div> 
-        <div class="pane"> 
-	        <h3>Protest over school building cuts</h3> 
-	        <p>School staff and pupils are to join a Westminster rally over the axing of England's school rebuilding scheme.</p> 
-	        <span class="delete">delete</span>
         </div> 
         <div class="pane"> 
 	        <h3>Nick says:</h3> 
@@ -527,21 +526,91 @@
         <input id="prompt_button" type="button" value="Show Prompt" /> 
         <input id="alert_button_with_html" type="button" value="Show Alert" />
         <input id="style_1" class="alert_style_example" type="button" value="Style 1" /> 
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        $("#mapCanvas").gmap({ latitude: 50.9645, longitude: 0.553, zoom: 14, title: "hello" });
+    });
+    
+</script> 
         
         <p><strong>Map</strong></p>
-        <div id="map_canvas2" style="width:400px;height:300px;border:1px solid black;"></div>
+        <div id="mapCanvas" style="width:400px;height:300px;border:1px solid black;"></div>
         
-        <p><strong>Popup</strong></p>
-        <p><a id="launchColorbox" href="#">Inline HTML</a></p> 
+        
+<script type="text/javascript">
 
-		<!-- This contains the hidden content for inline calls --> 
+    function setMap($latitude, $longitude, $title) {
+        //$("#video_player").html('<embed src="/wp-content/flash/video/videoplayer.swf" quality="high" pluginspage="http://www.adobe.com/go/getflashplayer" play="true" loop="true" scale="showall" wmode="transparent" devicefont="false" bgcolor="#ffffff" id="videoplayer" menu="true" allowfullscreen="true" allowscriptaccess="sameDomain" salign="" flashvars="employeeID=' + vidID + '&amp;xmlFile=/wp-content/flash/video/' + xmlFile + '.xml" type="application/x-shockwave-flash" align="middle" width="785" height="585">');
+        $(".launchMapLink").colorbox({
+            width: "50%",
+            inline: true,
+            href: "#colorboxMapContent",
+            onComplete: function() { $("#colorboxMap").gmap({ latitude: $latitude, longitude: $longitude, zoom: 11, title: $title }); }
+        });
+    }
+
+    function setEmail($postid, $posttitle) {
+        //$("#video_player").html('<embed src="/wp-content/flash/video/videoplayer.swf" quality="high" pluginspage="http://www.adobe.com/go/getflashplayer" play="true" loop="true" scale="showall" wmode="transparent" devicefont="false" bgcolor="#ffffff" id="videoplayer" menu="true" allowfullscreen="true" allowscriptaccess="sameDomain" salign="" flashvars="employeeID=' + vidID + '&amp;xmlFile=/wp-content/flash/video/' + xmlFile + '.xml" type="application/x-shockwave-flash" align="middle" width="785" height="585">');
+        $(".launchSendEmailLink").colorbox({
+            width: "50%",
+            inline: true,
+            href: "#colorboxSendEmailContent",
+            onComplete: function() { $("#postid").html($postid); $("#posttitle").html($posttitle); }
+        });
+    }
+
+    $(document).ready(function() {
+
+    });
+</script>                 
+
+        <p><strong>Map Popup</strong></p>
+        <p><a id="launchMapColorbox" href="#">Popup with inline HTML</a><a class="example8" href="#">(Test)</a></p> 
+
+        <p><strong>Dynamic Map Popup</strong></p>
+        <p><a class="launchMapLink" href="#" onclick="setMap( 52.34545, 0.1324234, 'My Cool Map - #1');">1st map</a><br />
+        <a class="launchMapLink" href="#" onclick="setMap( 51.34545, 0.2324234, 'My Cool Map - #2');">2nd map</a></p>
+        
+		<!-- This contains the hidden content for inline calls -->
+		<div style='display:none'>
+			<div id='inline_example1' style='padding:10px; background:#fff;'>
+			<p><strong>This content comes from a hidden element on this page.</strong></p>
+			<p>The inline option preserves bound JavaScript events and changes, and it puts the content back where it came from when it is closed.<br />
+			<a id="click" href="#" style='padding:5px; background:#ccc;'>Click me, it will be preserved!</a></p>
+			
+			<p><strong>If you try to open a new ColorBox while it is already open, it will update itself with the new content.</strong></p>
+			<p>Updating Content Example:<br />
+			<a class="example5" href="../content/flash.html">Click here to load new content</a></p>
+			</div>
+		</div>
+		        
+		<!-- This contains the hidden content for inline map calls --> 
 		<div style="display:none"> 
-			<div id="colorboxContent" style="padding:10px; background:#fff;"> 
-			<p><strong>Map</strong></p> 
-			<div id="colorboxMap" style="width:400px;height:300px;border:1px solid black;"></div>
+			<div id="colorboxMapContent" style="padding:10px; background:#fff;"> 
+			    <p><strong>Map</strong></p> 
+			    <div id="colorboxMap" style="width:400px;height:300px;border:1px solid black;"></div>
 			</div> 
 		</div> 
-		        
+
+        <p><strong>Dynamic Send Email Popup</strong></p>
+        <p><a class="launchSendEmailLink" href="#" onclick="setEmail( 5000, 'Some kind of title' );">1st post</a><br />
+        <a class="launchSendEmailLink" href="#" onclick="setEmail( 5001, 'Another title' );">2nd post</a></p>
+
+		<!-- This contains the hidden content for inline send email calls --> 
+		<div style="display:none"> 
+			<div id="colorboxSendEmailContent" style="padding:10px; background:#fff;"> 
+			    <form action="/posts/EmailUnauthenticated" method="post">
+			    <p>Post: <span id="posttitle"></span><br />
+			    <strong>Enter your email address details</strong><br />
+			    <input id="postid" type="hidden" />
+			    <label for="email">Email</label><input id="email" type="text" />
+			    <input id="submit" type="submit" value="Send" /> </p> 
+			    </form>
+			</div> 
+		</div> 
+				        
         <p><strong>Auto-update 1</strong></p>
         <div id="updatenotice"></div>
         <div id="updatetext"></div>

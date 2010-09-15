@@ -1,8 +1,6 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<DefaultViewModel<User>>" %>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="HeadContentTitle" runat="server">
-    <%= Html.PageTitle( ViewData.Model )%>
-</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="HeadContentTitle" runat="server"><%= Html.PageTitle( ViewData.Model )%></asp:Content>
 
 <asp:Content ID="Content5" ContentPlaceHolderID="HeadContentJavascript" runat="server">
 </asp:Content>

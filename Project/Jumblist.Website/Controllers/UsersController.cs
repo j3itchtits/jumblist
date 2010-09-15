@@ -201,6 +201,7 @@ namespace Jumblist.Website.Controllers
             return View( model );
         }
 
+        //Needs to be accessible to all types of requests, get, head, post etc
         public ActionResult LoginLinks( [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             return PartialView( "LoginLinksControl", user );

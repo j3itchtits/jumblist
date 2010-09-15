@@ -1,0 +1,12 @@
+﻿#parse("Shared/HtmlHeader.vm")
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Here is the post you requested.</font></p>
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+<strong>Post details</strong><br/>
+Title: <a href="$homeurl$post.LinkbackUrl" style="text-decoration:none;"><font color="#436b0c">$post.Title</font></a><br/>
+Group: $post.Feed.Name<br/>
+Posted: $postdate<br/>
+</font></p>
+
+#parse("Shared/HtmlFooter.vm")

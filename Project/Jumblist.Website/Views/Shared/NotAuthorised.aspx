@@ -1,18 +1,24 @@
-﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
 
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title><%= ViewData["PageTitle"] %></title>
-</head>
-<body>
-    <div>
-        <h2><%= ViewData["PageTitle"]%></h2>
-        
-        <p><%= ViewData["Message"] %></p> 
-        
-        <p>You will need to contact the administrator if you think this is a mistake or <a href="/">return home</a>.</p> 
-        
-    </div>
-</body>
-</html>
+<asp:Content ID="Content4" ContentPlaceHolderID="HeadContentTitle" runat="server"><%= ViewData["PageTitle"] %></asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="HeadContentJavascript" runat="server">
+</asp:Content>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="BodyContentLeft" runat="server">
+
+    <h2><%= ViewData["PageTitle"]%></h2>
+    
+    <p><%= ViewData["Message"] %></p> 
+    
+    <p>You may have been logged out. <%= Html.LoginLink( "Please log back in to view the page", Page.Request.Url.PathAndQuery )%>.</p>
+    
+    <p>If you think there has been a mistake, please leave some feedback using the tab to the left.</p> 
+
+</asp:Content>
+
+
+
+<asp:Content ID="Content3" ContentPlaceHolderID="BodyContentRight" runat="server">
+</asp:Content>
+

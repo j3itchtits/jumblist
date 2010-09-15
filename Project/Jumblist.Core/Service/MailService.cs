@@ -25,7 +25,7 @@ namespace Jumblist.Core.Service
 
         public void SendRegistrationVerificationEmail( User user )
         {
-            string emailSubject = "Verification Mail";
+            string emailSubject = "Registration Verification Mail";
 
             string encryptedId = user.UserId.ToString().EncryptString();
             string encryptedUrlEncodedId = HttpUtility.UrlEncode( encryptedId );
@@ -35,6 +35,36 @@ namespace Jumblist.Core.Service
             IDictionary tokens = new Hashtable();
             tokens.Add( "user", user );
             tokens.Add( "linkBack", linkBack );
+            tokens.Add( "homeurl", homeUrl );
+
+            string emailBody = GenerateEmailText( tokens, "RegistrationVerificationEmail.vm" );
+
+            SendMail( user.Email, emailSubject, emailBody, true );
+        }
+
+        public void SendTestEmail( Post post, User user )
+        {
+            string emailSubject = "Test PostMail";
+
+            IDictionary tokens = new Hashtable();
+            tokens.Add( "post", post );
+            tokens.Add( "user", user );
+            tokens.Add( "postdate", post.PublishDateTime.ToFriendlyJumblistLongDateTimeString( false ) );
+            tokens.Add( "homeurl", homeUrl );
+
+            string emailBody = GenerateEmailText( tokens, "TestEmail.vm" );
+
+            SendMail( user.Email, emailSubject, emailBody, true );
+        }
+
+        public void SendTestEmail( User user )
+        {
+            string emailSubject = "Test RegistrationVerificationEmail";
+
+            IDictionary tokens = new Hashtable();
+            tokens.Add( "user", user );
+            tokens.Add( "linkBack", "linkbackUrl" );
+            tokens.Add( "homeurl", homeUrl );
 
             string emailBody = GenerateEmailText( tokens, "RegistrationVerificationEmail.vm" );
 
@@ -53,7 +83,21 @@ namespace Jumblist.Core.Service
 
             string emailBody = GenerateEmailText( tokens, "PostEmail.vm" );
 
-            SendMail( user.Email, emailSubject, emailBody, true );
+            SendMailAsync( user.Email, emailSubject, emailBody, true );
+        }
+
+        public void SendPostEmail( Post post, string email )
+        {
+            string emailSubject = "Post Mail";
+
+            IDictionary tokens = new Hashtable();
+            tokens.Add( "post", post );
+            tokens.Add( "postdate", post.PublishDateTime.ToFriendlyJumblistLongDateTimeString( false ) );
+            tokens.Add( "homeurl", homeUrl );
+
+            string emailBody = GenerateEmailText( tokens, "PostEmailUnauthenticated.vm" );
+
+            SendMailAsync( email, emailSubject, emailBody, true );
         }
 
         public void SendBasketEmail( Basket basket, User user )
@@ -81,6 +125,7 @@ namespace Jumblist.Core.Service
             IDictionary tokens = new Hashtable();
             tokens.Add( "user", user );
             tokens.Add( "linkBack", linkBack );
+            tokens.Add( "homeurl", homeUrl );
 
             string emailBody = GenerateEmailText( tokens, "ForgottenPasswordEmail.vm" );
 
@@ -111,6 +156,7 @@ namespace Jumblist.Core.Service
 
             IDictionary tokens = new Hashtable();
             tokens.Add( "userAlert", userAlert );
+            tokens.Add( "user", userAlert.User );
             tokens.Add( "postList", postList );
             tokens.Add( "homeurl", homeUrl );
 
@@ -143,13 +189,14 @@ namespace Jumblist.Core.Service
 
             MailMessage message = new MailMessage();
 
-            message.From = new MailAddress( fromEmail, "Jumblist" );
+            message.From = new MailAddress( fromEmail, "Jumblist", System.Text.Encoding.UTF8 );
             message.To.Add( toEmail );
-            message.Bcc.Add( ConfigurationManager.AppSettings["AdminEmail"] );
+            //message.Bcc.Add( ConfigurationManager.AppSettings["AdminEmail"] );
             message.Subject = emailSubject;
-            message.Body = emailBody;
+            message.SubjectEncoding = System.Text.Encoding.UTF8;
 
-            //message.BodyEncoding = Encoding.Default;
+            message.Body = emailBody;
+            message.BodyEncoding = System.Text.Encoding.UTF8;
             message.IsBodyHtml = isBodyHtml;
 
             SmtpClient smtpClient = new SmtpClient();
@@ -170,6 +217,63 @@ namespace Jumblist.Core.Service
         private void SendMail( string toEmail, string emailSubject, string emailBody, bool isHtml )
         {
             SendMail( ConfigurationManager.AppSettings["DefaultEmail"], toEmail, emailSubject, emailBody, isHtml );
+        }
+
+
+        private void SendMailAsync( string fromEmail, string toEmail, string emailSubject, string emailBody, bool isBodyHtml )
+        {
+            //Create smtpClient
+            SmtpClient client = new SmtpClient();
+
+            // Specify the e-mail sender.
+            // Create a mailing address that includes a UTF8 character
+            // in the display name.
+            MailAddress from = new MailAddress( fromEmail, "Jumblist Mail", System.Text.Encoding.UTF8 );
+
+            // Set destinations for the e-mail message.
+            MailAddress to = new MailAddress( toEmail );
+
+            // Specify the message details.
+            MailMessage message = new MailMessage( from, to );
+
+            //message.Bcc.Add( ConfigurationManager.AppSettings["AdminEmail"] );
+            message.Subject = emailSubject;
+            message.SubjectEncoding = System.Text.Encoding.UTF8;
+
+            message.Body = emailBody;
+            message.Body += Environment.NewLine;
+            message.BodyEncoding = System.Text.Encoding.UTF8;
+            message.IsBodyHtml = isBodyHtml;
+
+            // Set the method that is called back when the send operation ends.
+            client.SendCompleted += new SendCompletedEventHandler( SendCompletedCallback );
+
+            // The userState can be any object that allows your callback 
+            // method to identify this send operation.
+            // For this example, the userToken is a string constant.
+            string userState = toEmail + " " + emailSubject + " " + DateTime.Now.ToFriendlyDateTimeString();
+            client.SendAsync( message, userState );
+        }
+
+        private void SendMailAsync( string toEmail, string emailSubject, string emailBody, bool isBodyHtml )
+        {
+            SendMailAsync( ConfigurationManager.AppSettings["DefaultEmail"], toEmail, emailSubject, emailBody, isBodyHtml );
+        }
+
+        private static void SendCompletedCallback( object sender, AsyncCompletedEventArgs e )
+        {
+            // Get the unique identifier for this asynchronous operation.
+            String token = (string)e.UserState;
+
+            if ( e.Cancelled )
+            {
+                throw new SmtpException( string.Format( "[{0}] Send canceled.", token ) );
+            }
+            if ( e.Error != null )
+            {
+                throw new SmtpException( string.Format( "[{0}] {1}", token, e.Error.ToString() ) );
+            }
+
         }
     }
 }

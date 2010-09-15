@@ -280,7 +280,8 @@ namespace Jumblist.Website.Controllers
             return View( "index", model );
          }
 
-        [AcceptVerbs( HttpVerbs.Get )]
+        //[AcceptVerbs( new string[] { "Get", "Head" } )]
+        [AcceptVerbs( HttpVerbs.Get | HttpVerbs.Head )]
         public ViewResult Detail( int id, string name, [ModelBinder( typeof( UserModelBinder ) )] User user )
         {
             var item = postService.SelectRecord( id );
@@ -330,10 +331,19 @@ namespace Jumblist.Website.Controllers
             mailService.SendPostEmail( post, user );
 
             //postService.SendPostEmail( id, user );
-            Message model = new Message { Text = "The post details have been emailed to you.", StyleClass = "message" };
+            Message model = new Message { Text = "The post details have been emailed to you at " + user.Email + ".", StyleClass = "message" };
             return PartialView( "MessageControl", model );
         }
 
+        [AcceptVerbs( HttpVerbs.Post )]
+        public ActionResult EmailUnauthenticated( int postid, string email )
+        {
+            Post post = postService.SelectRecord( postid );
+            mailService.SendPostEmail( post, email );
+
+            Message model = new Message { Text = "The post details have been emailed to you at " + email + ".", StyleClass = "message" };
+            return PartialView( "MessageControl", model );
+        }
 
         [AcceptVerbs( HttpVerbs.Get )]
         public ActionResult EmailAlert( string returnUrl, [ModelBinder( typeof( UserModelBinder ) )] User user, JumblistSession jumblistSession )

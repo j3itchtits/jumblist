@@ -124,6 +124,7 @@
     <Compile Include="Controllers\ViewModelController.cs" />
     <Compile Include="Extension\AjaxHelperExtensions.cs" />
     <Compile Include="Extension\IEnumerableExtensions.cs" />
+    <Compile Include="Extension\ImageHelperExtensions.cs" />
     <Compile Include="Extension\RouteCollectionExtensions.cs" />
     <Compile Include="Extension\UrlHelperExtensions.cs" />
     <Compile Include="Filter\CompressResponseAttribute.cs" />
@@ -151,8 +152,6 @@
     <Content Include="Assets\Stylesheets\jumblist.css" />
     <Content Include="Assets\Stylesheets\yui-reset.css" />
     <Content Include="Global.asax" />
-    <Content Include="Assets\Scripts\jquery.validate.min.js" />
-    <Content Include="Assets\Scripts\xVal.jquery.validate.js" />
     <Content Include="Views\Users\Register.aspx" />
     <Content Include="Views\Home\About.aspx" />
     <Content Include="Views\Home\Help.aspx" />
@@ -160,10 +159,6 @@
     <Content Include="Views\Posts\Detail.aspx" />
     <Content Include="Views\Users\Login.aspx" />
     <None Include="Web.config" />
-    <Content Include="Assets\Scripts\MicrosoftAjax.js" />
-    <Content Include="Assets\Scripts\MicrosoftAjax.debug.js" />
-    <Content Include="Assets\Scripts\MicrosoftMvcAjax.js" />
-    <Content Include="Assets\Scripts\MicrosoftMvcAjax.debug.js" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -226,8 +221,6 @@
     <Content Include="Areas\Admin\Views\Web.config" />
     <Content Include="Assets\Images\background.jpg" />
     <Content Include="Assets\Scripts\jquery.alerts.js" />
-    <Content Include="Assets\Scripts\jquery.colorbox-min.js" />
-    <Content Include="Assets\Scripts\jquery.colorbox.js" />
     <Content Include="Assets\Scripts\jquery.customdata.js" />
     <Content Include="Assets\Scripts\jquery.highlight-3.js" />
     <Content Include="Assets\Scripts\jquery.jsonviewer.js" />
@@ -238,13 +231,8 @@
     <Content Include="Assets\Stylesheets\Images\alerts.important.gif" />
     <Content Include="Assets\Stylesheets\Images\alerts.info.gif" />
     <Content Include="Assets\Stylesheets\Images\alerts.title.gif" />
-    <Content Include="Assets\Stylesheets\Images\colorbox.controls.png" />
-    <Content Include="Assets\Stylesheets\Images\colorbox.loading.gif" />
     <Content Include="Assets\Stylesheets\indicator.gif" />
-    <Content Include="Assets\Scripts\jquery.autocomplete.min.js" />
     <Content Include="Assets\Stylesheets\jquery.alerts.css" />
-    <Content Include="Assets\Stylesheets\jquery.autocomplete.css" />
-    <Content Include="Assets\Stylesheets\jquery.colorbox.css" />
     <Content Include="Assets\Stylesheets\jumblist.fonts.css" />
     <Content Include="Views\Basket\BasketWidgetControl.ascx" />
     <Content Include="Views\Basket\BasketItemsControl.ascx" />
@@ -287,6 +275,7 @@
     <None Include="Assets\Stylesheets\fonts\Cantarell-Regular.eot" />
     <None Include="Assets\Stylesheets\fonts\Cantarell-Regular.ttf" />
     <None Include="Templates\BasketEmail.vm" />
+    <None Include="Templates\PostEmailUnauthenticated.vm" />
     <None Include="Templates\EmailAlert.vm" />
     <None Include="Templates\PasswordResetEmail.vm" />
     <None Include="Templates\ForgottenPasswordEmail.vm" />
@@ -294,6 +283,17 @@
     <None Include="Templates\RegistrationVerificationEmail.vm" />
     <None Include="Templates\Shared\HtmlFooter.vm" />
     <None Include="Templates\Shared\HtmlHeader.vm" />
+    <None Include="Templates\TestEmail.vm" />
+    <None Include="Templates\Shared\UserDetails.vm" />
+    <Content Include="Assets\Autocomplete\jquery.autocomplete.css" />
+    <Content Include="Assets\Autocomplete\jquery.autocomplete.min.js" />
+    <Content Include="Assets\Colorbox\colorbox.css" />
+    <Content Include="Assets\Colorbox\images\border.png" />
+    <Content Include="Assets\Colorbox\images\controls.png" />
+    <Content Include="Assets\Colorbox\images\loading.gif" />
+    <Content Include="Assets\Colorbox\images\loading_background.png" />
+    <Content Include="Assets\Colorbox\jquery.colorbox-min.js" />
+    <Content Include="Assets\Colorbox\jquery.colorbox.js" />
     <Content Include="Assets\Images\email-alert-icon.png" />
     <Content Include="Assets\Images\email-icon.png" />
     <Content Include="Assets\Images\facebook-icon.png" />
@@ -304,12 +304,23 @@
     <Content Include="Assets\Images\rss-feed-icon.png" />
     <Content Include="Assets\Images\save-icon.png" />
     <Content Include="Assets\Images\twitter-icon.png" />
-    <Content Include="Assets\Scripts\jquery-1.4.1-vsdoc.js" />
-    <Content Include="Assets\Scripts\jquery-1.4.1.js" />
-    <Content Include="Assets\Scripts\jquery-1.4.1.min.js" />
-    <Content Include="Assets\Scripts\jquery-ui-1.7.2.custom.min.js" />
-    <Content Include="Assets\Scripts\jquery.color.js" />
-    <Content Include="Assets\Stylesheets\ui.tabs.css" />
+    <Content Include="Assets\Jquery\jquery-1.4.1-vsdoc.js" />
+    <Content Include="Assets\Jquery\jquery-1.4.1.js" />
+    <Content Include="Assets\Jquery\jquery-1.4.1.min.js" />
+    <Content Include="Assets\Jquery\jquery-ui-1.7.2.custom.min.js" />
+    <Content Include="Assets\Jquery\jquery-ui.tabs.css" />
+    <Content Include="Assets\Jquery\jquery.color.js" />
+    <Content Include="Assets\MicrosoftAjax\MicrosoftAjax.debug.js" />
+    <Content Include="Assets\MicrosoftAjax\MicrosoftAjax.js" />
+    <Content Include="Assets\MicrosoftAjax\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Assets\MicrosoftAjax\MicrosoftMvcAjax.js" />
+    <Content Include="Assets\Scripts\jquery.autoupdate.js" />
+    <Content Include="Assets\Scripts\jquery.cookie.js" />
+    <Content Include="Assets\Scripts\jquery.gmap.js" />
+    <Content Include="Assets\Scripts\jquery.truncate.js" />
+    <Content Include="Assets\Scripts\jquery.simpletabs.js" />
+    <Content Include="Assets\Validate\jquery.validate.min.js" />
+    <Content Include="Assets\Validate\xVal.jquery.validate.js" />
     <Content Include="robots.txt" />
     <Content Include="Views\Home\Faq.aspx" />
     <Content Include="Views\Home\JoinNowControl.ascx" />
@@ -318,6 +329,7 @@
     <Content Include="Views\Posts\BasicPostListControl.ascx" />
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Test\Index.aspx" />
+    <Content Include="jquerytest.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Assets\Images\" />

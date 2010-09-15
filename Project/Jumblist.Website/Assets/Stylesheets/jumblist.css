@@ -14,7 +14,7 @@ body
 	background: #F0F0F0 url(/assets/images/background.jpg) repeat-x scroll center top;
 }
 
-a 
+a
 {
 	text-decoration: none;
 	color: #436b0c;
@@ -41,21 +41,6 @@ td
 {
   vertical-align: top;
   padding: 2px;
-}
-
-b, strong, .bold
-{
-	font-family: CantarellBold;	
-}
-
-i, .italic
-{
-	font-family: CantarellOblique;	
-}
-
-.bolditalic
-{
-	font-family: CantarellBoldOblique;
 }
 
 .red, .red a
@@ -231,6 +216,11 @@ a.icon
 	border-top-left-radius: 10px;	
 }
 
+#container-leftcolumn form
+{
+	margin-top: 50px;
+}
+
 #tabs
 {
 }
@@ -400,6 +390,25 @@ ul.basicmaplist li
 	margin-bottom: 4px;
 }
 
+#pane-tempmessage
+{
+	border: 1px solid #aaa;
+	background: #CAF78A;
+	margin: 20px 40px;
+	padding: 12px;
+    position: relative;
+
+}
+
+#pane-tempmessage .hide
+{
+	font-size: 80%;
+    position: absolute;
+    top: -20px;
+    right: 20px;
+    cursor: pointer;
+}
+        
 /****************************
  ** Form styles *
  ****************************/
@@ -464,7 +473,7 @@ input[type="text"]
 	width: 380px;
 }
 
-input[type="submit"]
+input[type="submit"], input[type="button"]
 {
 	height:36px;
 	cursor: pointer;
@@ -656,11 +665,11 @@ td.post-tags, td.post-time, td.post-groupuser
  
 h2.post-title,  h2.postlist-title
 {
-	width: 530px;
+	width: 520px;
 	float: left;
 }
  
-.post-functions, .postlist-functions
+.post-functions
 {
 	float: right;
 	padding: 4px 6px 0px;
@@ -670,35 +679,6 @@ h2.post-title,  h2.postlist-title
 	border: 1px solid #ADB85F;	
 }
 
-.postlist-functions-right
-{
-	-moz-border-radius-topleft: 0px;
-	-webkit-border-top-left-radius: 0px;
-	border-top-left-radius: 0px;	
-	-moz-border-radius-bottomleft: 0px;
-	-webkit-border-bottom-left-radius: 0px;	
-	border-bottom-left-radius: 0px;		
-}
- 
-.postlist-functions-left
-{
-	-moz-border-radius-topright: 0px;
-	-webkit-border-top-right-radius: 0px;	
-	border-top-right-radius: 0px;
-	-moz-border-radius-bottomright: 0px;
-	-webkit-border-bottom-right-radius: 0px;
-	border-bottom-right-radius: 0px;	
-	background-color: #ADB85F;	
-	color: #fff;	
-	vertical-align: middle;
-	height: 31px;
-}
-
-.postlist-functions-left a
-{
-	color: #fff;	
-}
- 
 .post-originallink
 {
 	
@@ -712,6 +692,46 @@ h2.post-title,  h2.postlist-title
 .post-bodytext
 {
 	padding: 20px 0px;
+}
+
+
+/****************************
+ ** Post list *
+ ****************************/
+
+#postlist-header-icons
+{
+	float:right;
+}
+
+#postlist-header-icons .icons-title
+{
+	-moz-border-radius: 5px 0px 0px 5px;
+	-webkit-border-radius: 5px 0px 0px 5px;
+	border-radius: 5px 0px 0px 5px;	
+	color: #fff;	
+	background-color:Red;
+	border: 1px solid red;
+	padding: 6px 10px;
+}
+
+#postlist-header-icons .icons-title a
+{
+	color: #fff;	
+}
+
+#postlist-header-icons .icons
+{
+	-moz-border-radius: 0px 5px 5px 0px;
+	-webkit-border-radius: 0px 5px 5px 0px;
+	border-radius: 0px 5px 5px 0px;	
+	border: 1px solid red;
+	padding: 6px 10px;
+}
+
+#postlist-header-icons .icons img
+{
+	vertical-align: top;
 }
 
 /****************************

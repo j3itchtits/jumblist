@@ -28,5 +28,10 @@ namespace StuartClode.Mvc.Extension
         {
             return DateTime.Now.Subtract( dateTime ).ToDateTimeDiff( dateTime, false );
         }
+
+        public static string ToFriendlyDateTimeString( this DateTime dateTime )
+        {
+            return dateTime.ToString( "dd/MMM/yyyy - h:mm:tt" );
+        }
     }
 }
