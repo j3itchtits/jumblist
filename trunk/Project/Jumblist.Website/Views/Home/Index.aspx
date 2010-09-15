@@ -4,29 +4,41 @@
 
 <asp:Content ID="Content4" ContentPlaceHolderID="HeadContentJavascript" runat="server">
 
-    <link href="<%= Url.Stylesheet( "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
-    <script src="<%= Url.Script( "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
+    <link href="<%= Url.ImportedAsset( "Autocomplete", "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
+    <script src="<%= Url.ImportedAsset( "Autocomplete", "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
 
-    <script type="text/javascript">
+    <script src="<%= Url.Script( "jquery.cookie.js" )%>" type="text/javascript"></script>
     
-        $(document).ready(function() {
-            $("input#tagSearch").autocomplete('<%= Url.Action( "AjaxFindTags", "Tags", new { area = "" } ) %>', { minChars: 1, multiple: true, multipleSeparator: " " });
+    <script type="text/javascript">
 
-            $('a#show-radius-edit').click(function() {
+        $(document).ready(function() {
+
+            $("#tagSearch").autocomplete('<%= Url.Action( "AjaxFindTags", "Tags", new { area = "" } ) %>', { minChars: 1, multiple: true, multipleSeparator: " " });
+
+            $('#radius-edit').click(function() {
                 $('#radius-value').hide();
-                $('#show-radius-edit').hide();
-                $('#locationRadius').fadeIn();
-                $('#locationRadius').focus();
+                $('#radius-edit').hide();
+                $('#locationRadius').fadeIn().focus();
                 return false;
             });
 
-            $('input#locationRadius').blur(function() {
+            $('#locationRadius').blur(function() {
                 $('#locationRadius').hide();
-                    //need to pass the value from input to span
+                //need to pass the value from input to span
                 $('#radius-value').html($('#locationRadius').val()).fadeIn();
-                $('#show-radius-edit').fadeIn();
+                $('#radius-edit').fadeIn();
                 return false;
-            });            
+            });
+
+            $("#pane-tempmessage .hide").click(function() {
+                $(this).parent()
+                    .animate({ backgroundColor: "#eee" }, "fast")
+                    .animate({ opacity: "hide" }, "slow");
+                $.cookie('hide-welcomemessage', '1', { expires: 365 });
+                return false;
+            });
+
+            if ($.cookie('hide-welcomemessage') == '1') $("#pane-tempmessage").hide();
         });
     
     

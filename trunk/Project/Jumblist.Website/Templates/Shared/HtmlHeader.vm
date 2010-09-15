@@ -15,6 +15,9 @@
 <font face="Verdana, Arial, Helvetica, sans-serif" color="#ffffff" size="6">Jumblist Mail</font>&nbsp;&nbsp;&nbsp;
 <a href="$homeurl" style="text-decoration:none;"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#ffffff">Home</font></a>&nbsp;&nbsp;&nbsp;
 <a href="$homeurl/posts" style="text-decoration:none;"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#ffffff">Posts</font></a>&nbsp;&nbsp;&nbsp;
+<a href="$homeurl/posts/add" style="text-decoration:none;"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#ffffff">Add Post</font></a>&nbsp;&nbsp;&nbsp;
+<a href="$homeurl/tags" style="text-decoration:none;"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#ffffff">Tags</font></a>&nbsp;&nbsp;&nbsp;
+<a href="$homeurl/groups" style="text-decoration:none;"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#ffffff">Groups</font></a>&nbsp;&nbsp;&nbsp;
 </td></tr>
 </table>
 

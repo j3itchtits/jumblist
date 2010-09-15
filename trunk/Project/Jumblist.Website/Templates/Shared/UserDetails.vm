@@ -1,0 +1,6 @@
+﻿<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+<strong>Sent to:</strong><br/>
+<a href="$homeurl/users/profile" style="text-decoration:none;color:#436b0c;">$user.Name</a> [ <a href="$homeurl/users/profile" style="text-decoration:none;color:#436b0c;">View Profile</a> ]<br/>
+$user.Email<br/>
+$user.Postcode<br/>
+</font></p>

@@ -105,13 +105,14 @@ namespace Jumblist.Website.Controllers
         public ActionResult EmailTest()
         {
             string recipientEmail  = "sclode@hodes.co.uk";
+            //string recipientEmail = "stuartclode@idnet.com";
             User user = new User();
             user.UserId = 35;
             user.Name = "Stuart";
             user.Email = recipientEmail;
             user.Postcode = "TN31 6HG";
 
-            Post post = postService.SelectRecord( 5000 );
+            Post post = postService.SelectRecord( 5001 );
 
             UserAlert userAlert = new UserAlert();
             userAlert.Name = "My great alert";
@@ -119,16 +120,17 @@ namespace Jumblist.Website.Controllers
 
             IQueryable<Post> postList = postService.SelectRecordList( Post.WhereDisplayEquals( true ) ).OrderByDescending( t => t.PublishDateTime ).Take( 5 );
 
-
-            mailService.SendRegistrationVerificationEmail( user );
+            //mailService.SendTestEmail( post, user );
+            //mailService.SendTestEmail( user );
+            //mailService.SendRegistrationVerificationEmail( user );
             mailService.SendPostEmail( post, user );
-            mailService.SendForgottenPasswordEmail( user );
-            mailService.SendPasswordResetEmail( user, "newpassword" );
-            mailService.SendEmailAlert( userAlert, postList );
+            //mailService.SendForgottenPasswordEmail( user );
+            //mailService.SendPasswordResetEmail( user, "newpassword" );
+            //mailService.SendEmailAlert( userAlert, postList );
 
             var model = DefaultView.CreateModel();
-            model.PageTitle = "Email Sent";
-            model.Message = new Message() { Text = "Recipient email address was " + recipientEmail + " and the CC was " + ConfigurationManager.AppSettings["AdminEmail"], StyleClass = "message" };
+            model.PageTitle = "2 Test Emails Sent";
+            model.Message = new Message() { Text = "The recipient email address was " + recipientEmail + " and the BCC was " + ConfigurationManager.AppSettings["AdminEmail"], StyleClass = "message" };
             return View( model );
         }
     }

@@ -11,4 +11,6 @@
 #end
 </font></p>
 
+#parse("Shared/UserDetails.vm")
+
 #parse("Shared/HtmlFooter.vm")

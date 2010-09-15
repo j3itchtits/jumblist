@@ -11,42 +11,62 @@ namespace Jumblist.Website.Extension
 {
     public static class AjaxHelperExtensions
     {
-        public static MvcHtmlString EmailPostLink( this AjaxHelper helper, string linkText, object routeValues, object htmlAttributes )
+        public static MvcHtmlString ImageLink( this AjaxHelper ajaxHelper, string imageUrl, string altText, string actionName, string controllerName, object routeValues, AjaxOptions ajaxOptions, object htmlAttributes )
         {
-            if ( string.IsNullOrEmpty( linkText ) ) linkText = "<img src='assets/images/email-icon.png' width='25' height='25' alt='Email' />";
+            TagBuilder imageTag = new TagBuilder( "img" );
+            imageTag.MergeAttribute( "src", imageUrl );
+            imageTag.MergeAttribute( "alt", altText );
+            string image = imageTag.ToString( TagRenderMode.SelfClosing );
 
-            if ( HttpContext.Current.Request.IsAuthenticated )
-            {
-                return helper.ActionLink( linkText, "email", routeValues, new AjaxOptions { Confirm = "Send Email?", HttpMethod = "Post", UpdateTargetId = "system-message" }, htmlAttributes );
-            }
-            else
-            {
-                //return MvcHtmlString.Create( "<a href='/users/login?returnurl='" + helper.ViewContext.RouteData.Values["returnUrl"].ToString() + ">Email</a>" );
-                //return MvcHtmlString.Create( UrlHelper.GenerateUrl( null, "login", "users", new RouteValueDictionary( routeValues ), helper.RouteCollection, helper.ViewContext.RequestContext, true ) );
+            //TagBuilder anchorTag = new TagBuilder( "a" );
+            //anchorTag.MergeAttribute( "href", urlHelper.Action( actionName, controllerName, routeValues ) );
+            //anchorTag.InnerHtml = image;
+            //anchorTag.MergeAttributes( new RouteValueDictionary( anchorHtmlAttributes ), true );
+            //string anchor = anchorTag.ToString();
 
-                //this will not work as we do not want an ajax helper to be retured in this instance - probably needs to be sorted out at some point
-                //return helper.ActionLink( linkText, "login", "users", new { returnUrl = HttpContext.Current.Request.Url.PathAndQuery }, null, htmlAttributes );
-                return MvcHtmlString.Create( "<a class='icon' href='/users/login?returnurl=" + HttpContext.Current.Request.Url.PathAndQuery + "'>" + linkText + "</a>" );
-            }
-            //return helper.ActionLink( linkText, "email", routeValues, ajaxOptions );
+            string anchor = ajaxHelper.ActionLink( "[replaceme]", actionName, controllerName, routeValues, ajaxOptions, htmlAttributes ).ToString();
+
+            return MvcHtmlString.Create( anchor.Replace( "[replaceme]", image ) );
         }
 
-        public static MvcHtmlString SavePostToBasketLink( this AjaxHelper helper, string linkText, object routeValues, object htmlAttributes )
+        public static MvcHtmlString EmailPostImageLink( this AjaxHelper ajaxHelper, string linkText, object routeValues, object htmlAttributes )
         {
-            if ( string.IsNullOrEmpty( linkText ) ) linkText = "<img src='assets/images/save-icon.png' width='25' height='25' alt='Save' />";
+            //HtmlHelper htmlHelper = new HtmlHelper( ajaxHelper.ViewContext, ); ;
+
+            //if ( string.IsNullOrEmpty( linkText ) ) linkText = "<img src='assets/images/email-icon.png' width='25' height='25' alt='Email' />";
 
             if ( HttpContext.Current.Request.IsAuthenticated )
             {
-                return helper.ActionLink( linkText, "additem", "basket", routeValues, new AjaxOptions { Confirm = "Save Post to Basket?", HttpMethod = "Post", UpdateTargetId = "basket" }, htmlAttributes );
+                return ImageLink( ajaxHelper, "/assets/images/email-icon.png", "Email Post", "Link", "Posts", routeValues, new AjaxOptions { Confirm = "Send Email?", HttpMethod = "Post", UpdateTargetId = "system-message" }, htmlAttributes );
+                //return ajaxHelper.ActionLink( linkText, "email", routeValues, new AjaxOptions { Confirm = "Send Email?", HttpMethod = "Post", UpdateTargetId = "system-message" }, htmlAttributes );
             }
             else
             {
-                //return MvcHtmlString.Create( "<a href='/users/login?returnurl='" + helper.ViewContext.RouteData.Values["returnUrl"].ToString() + ">Save</a>" );
-                //return MvcHtmlString.Create( UrlHelper.GenerateUrl( null, "login", "users", new RouteValueDictionary( routeValues ), helper.RouteCollection, helper.ViewContext.RequestContext, true ) );
-                return MvcHtmlString.Create( "<a class='icon' href='/users/login?returnurl=" + HttpContext.Current.Request.Url.PathAndQuery + "'>" + linkText + "</a>" );
-            }
+                RouteValueDictionary newValues = new RouteValueDictionary( routeValues );
+                return MvcHtmlString.Create( "<a class='icon launchSendEmailLink' onclick=\"setEmail( " + newValues["id"] + ", '" + newValues["title"] + "' );\" href='#' title='" + newValues["title"] + "'>" + linkText + "</a>" );
+                //return MvcHtmlString.Create( "<a class='icon launchSendEmailLink' onclick=\"setEmail( 5000, 'Some kind of title' );\" href='/users/login?returnurl=" + HttpContext.Current.Request.Url.PathAndQuery + "' title='" + linkText + "'>" + linkText + "</a>" );
 
-            //return helper.ActionLink( linkText, "additem", "basket", routeValues, ajaxOptions );
+
+                //return MvcHtmlString.Create( "<a href='/users/login?returnurl='" + ajaxHelper.ViewContext.RouteData.Values["returnUrl"].ToString() + ">Email</a>" );
+                //return MvcHtmlString.Create( UrlHelper.GenerateUrl( null, "login", "users", new RouteValueDictionary( routeValues ), ajaxHelper.RouteCollection, ajaxHelper.ViewContext.RequestContext, true ) );
+
+                //this will not work as we do not want an ajax ajaxHelper to be retured in this instance - probably needs to be sorted out at some point
+                //return ajaxHelper.ActionLink( linkText, "login", "users", new { returnUrl = HttpContext.Current.Request.Url.PathAndQuery }, null, htmlAttributes );
+                //return MvcHtmlString.Create( "<a class='icon' href='/users/login?returnurl=" + HttpContext.Current.Request.Url.PathAndQuery + "' title='" + linkText + "'>" + linkText + "</a>" );
+            }
+            //return ajaxHelper.ActionLink( linkText, "email", routeValues, ajaxOptions );
+        }
+
+        public static MvcHtmlString SavePostToBasketImageLink( this AjaxHelper ajaxHelper, string linkText, object routeValues, object htmlAttributes )
+        {
+            if ( HttpContext.Current.Request.IsAuthenticated )
+            {
+                return ImageLink( ajaxHelper, "/assets/images/save-icon.png", "Save Post to Basket", "AddItem", "Basket", routeValues, new AjaxOptions { Confirm = "Send Post to Basket?", HttpMethod = "Post", UpdateTargetId = "basket" }, htmlAttributes );
+            }
+            else
+            {
+                return MvcHtmlString.Create( "<a class='icon' href='/users/login?returnurl=" + HttpContext.Current.Request.Url.PathAndQuery + "' title='" + linkText + "'>" + linkText + "</a>" );
+            }
         }
     }
 }

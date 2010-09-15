@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+		<title>ColorBox Examples</title>
+
+    <script src="/Assets/jquery/jquery-1.4.1.min.js" type="text/javascript"></script> 
+ 
+
+ 
+    <link href="/assets/stylesheets/jquery.alerts.css" rel="stylesheet" type="text/css"/> 
+    <link href="/assets/stylesheets/jumblist.css" rel="stylesheet" type="text/css"/> 
+ 
+ 
+    <script src="/assets/colorbox/jquery.colorbox-min.js" type="text/javascript"></script> 
+    <link href="/assets/colorbox/colorbox.css" rel="stylesheet" type="text/css"/> 
+
+
+		<script>
+		    $(document).ready(function() {
+		        //Examples of how to assign the ColorBox event to elements
+		        $(".example8").colorbox({ width: "50%", inline: true, href: "#inline_example1" });
+		    });
+		</script>
+	</head>
+	<body>
+		<h1>ColorBox Demonstration</h1>
+		
+		<p><a class='example8' href="#">Inline HTML</a></p>
+		
+		<!-- This contains the hidden content for inline calls -->
+		<div style='display:none'>
+			<div id='inline_example1' style='padding:10px; background:#fff;'>
+			<p><strong>This content comes from a hidden element on this page.</strong></p>
+			<p>The inline option preserves bound JavaScript events and changes, and it puts the content back where it came from when it is closed.<br />
+			</div>
+		</div>
+	</body>
+</html>

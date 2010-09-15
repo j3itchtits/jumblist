@@ -1,20 +1,44 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<PostViewModel>" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="HeadContentTitle" runat="server">
-    <%= Html.PageTitle( ViewData.Model )%>
-</asp:Content>
+<asp:Content ID="Content1" ContentPlaceHolderID="HeadContentTitle" runat="server"><%= Html.PageTitle( ViewData.Model )%></asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="HeadContentJavascript" runat="server">
 
-    <link href="<%= Url.Stylesheet( "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
-    <script src="<%= Url.Script( "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
-    
-    <link href="<%= Url.Stylesheet( "ui.tabs.css" )%>" rel="stylesheet" type="text/css"/>
-    <script src="<%= Url.Script( "jquery-ui-1.7.2.custom.min.js" )%>" type="text/javascript"></script>
+    <script src="<%= Url.ImportedAsset( "Jquery", "jquery-ui-1.7.2.custom.min.js" )%>" type="text/javascript"></script>
+    <link href="<%= Url.ImportedAsset( "Jquery", "jquery-ui.tabs.css" )%>" rel="stylesheet" type="text/css"/>
+        
+    <link href="<%= Url.ImportedAsset( "Autocomplete", "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
+    <script src="<%= Url.ImportedAsset( "Autocomplete", "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
 
+    <script src="<%= Url.ImportedAsset( "Colorbox", "jquery.colorbox-min.js" ) %>" type="text/javascript"></script>
+    <link href="<%= Url.ImportedAsset( "Colorbox", "colorbox.css" ) %>" rel="stylesheet" type="text/css"/>
+
+    <script src="<%= Url.Script( "jquery.gmap.js" )%>" type="text/javascript"></script>    
     <script src="<%= Url.Script( "jquery.highlight-3.js" )%>" type="text/javascript"></script>
+    <script src="<%= Url.Script( "jquery.cookie.js" )%>" type="text/javascript"></script>
 
+  
     <script type="text/javascript">
+
+        function setMap($latitude, $longitude, $title) {
+            $(".launchMapLink").colorbox({
+                width: "650",
+                height: "400",
+                inline: true,
+                href: "#colorboxMapContent",
+                onComplete: function() { $("#colorboxMap").gmap({ latitude: $latitude, longitude: $longitude, zoom: 11, title: $title }); }
+            });
+        }
+
+        function setEmail($postid, $posttitle) {
+            $(".launchSendEmailLink").colorbox({
+                width: "50%",
+                inline: true,
+                href: "#colorboxSendEmailContent",
+                onComplete: function() { $("#postid").val($postid); $("#posttitle").html($posttitle); }
+            });
+        } 
+        
         $(document).ready(function() 
         {
             $('div#tabs').tabs();
@@ -27,8 +51,19 @@
                 if (href) {
                     window.location = href;
                 }
-            });            
+            });
+
+            $("#pane-tempmessage .hide").click(function() {
+                $(this).parent()
+                    .animate({ backgroundColor: "#eee" }, "fast")
+                    .animate({ opacity: "hide" }, "slow");
+                $.cookie('hide-alertsmessage', '1', { expires: 365 });
+                return false;
+            });
+
+            if ($.cookie('hide-alertsmessage') == '1') $("#pane-tempmessage").hide();
         });
+        
     </script>   
                  
 </asp:Content>
@@ -39,14 +74,17 @@
 
     <h2 class="postlist-title"><%= Html.PageTitle( ViewData.Model )%></h2>
 
-    <div class="postlist-functions postlist-functions-right" style="border-color:Red;">
-        <%= Html.ActionLink( "Email alert", "EmailAlert", new { returnUrl = Request.Url.PathAndQuery }, new { @class = "icon", title = "Setup an email alert for this list" } )%>
-        <%= Html.ActionLink( "RSS Feed", "Rss", new { rssActionName = ViewContext.RouteData.Values["action"], rssActionId = ViewContext.RouteData.Values["id"], rssActionCategory = ViewContext.RouteData.Values["category"], q = Model.Q }, new { @class = "icon", title = "View RSS Feed" } )%>
+    <div id="postlist-header-icons">
+        <span class="icons-title">
+            <%= Html.ActionLink( "Alerts", "EmailAlert", new { returnUrl = Request.Url.PathAndQuery }, new { title = "Setup an email alert for this list" } )%>
+        </span>
+        <span class="icons">
+            <%= Html.ImageLink( "/assets/images/email-alert-icon.png", "Email Alert", "EmailAlert", "Posts", new { returnUrl = Request.Url.PathAndQuery }, new { title = "Setup an email alert for this list" }, null ) %>
+            <%= Html.ImageLink( "/assets/images/rss-feed-icon.png", "RSS Feed", "Rss", "Posts", new { rssActionName = ViewContext.RouteData.Values["action"], rssActionId = ViewContext.RouteData.Values["id"], rssActionCategory = ViewContext.RouteData.Values["category"], q = Model.Q }, new { title = "View RSS Feed" }, null )%>
+        </span>
     </div>
-    
-    <div class="postlist-functions postlist-functions-left" style="background-color:Red;border-color:Red;">
-        <%= Html.ActionLink( "Alerts", "EmailAlert", new { returnUrl = Request.Url.PathAndQuery }, new { title = "Setup an email alert for this list" } )%>
-    </div>
+
+
         
 <%--        <div style="margin: 20px;">
             User: <%= Model.User.Postcode %>, <%= Model.User.Radius %>, <%= Model.User.Latitude %>, <%= Model.User.Longitude %><br />
@@ -59,8 +97,16 @@
     </div>
     
     <div>
-        Number of items: <%= Model.ListCount %><br />
+        <b>Number of items: <%= Model.ListCount %></b>
     </div>
+
+<%  if ( !Model.User.IsAuthenticated )
+    { %>
+        <div id="pane-tempmessage">
+            You can set-up email alerts for any list generated by a search. However you will need to <%= Html.RegisterLink( "register first" ) %>.
+            <a href="#" class="hide">Hide</a>
+        </div>   
+<%  } %>
 
 	<div id="tabs">
 		
@@ -96,6 +142,25 @@
 
 	</div>
 
+	<!-- This contains the hidden content for inline map calls --> 
+	<div style="display:none"> 
+		<div id="colorboxMapContent" style="padding:10px; background:#fff;"> 
+		    <div id="colorboxMap" style="width:600px;height:300px;border:1px solid black;"></div>
+		</div> 
+	</div> 
+		
+	<!-- This contains the hidden content for inline send email calls --> 
+	<div style="display:none"> 
+		<div id="colorboxSendEmailContent" style="padding:10px; background:#fff;"> 
+		    <form action="/posts/emailunauthenticated" method="post">
+		    <strong>Enter your email address details to receive details on the following post - "<span id="posttitle"></span>"</strong><br />
+		    <input name="postid" type="hidden" />
+		    <label for="email" style="display:none;">Email address</label><input name="email" type="text" />
+		    <input type="submit" value="Send" />  
+		    </form>
+		</div> 
+	</div> 
+		
 </asp:Content>
 
 

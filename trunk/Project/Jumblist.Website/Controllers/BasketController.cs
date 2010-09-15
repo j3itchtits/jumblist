@@ -34,7 +34,7 @@ namespace Jumblist.Website.Controllers
             return View( model );
         }
 
-        [AcceptVerbs( HttpVerbs.Get )]
+        [AcceptVerbs( HttpVerbs.Get | HttpVerbs.Head )]
         public ActionResult Widget( JumblistSession jumblistSession )
         {
             return PartialView( "BasketWidgetControl", jumblistSession.Basket );
