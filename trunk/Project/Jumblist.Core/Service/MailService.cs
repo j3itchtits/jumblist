@@ -83,7 +83,8 @@ namespace Jumblist.Core.Service
 
             string emailBody = GenerateEmailText( tokens, "PostEmail.vm" );
 
-            SendMailAsync( user.Email, emailSubject, emailBody, true );
+            //SendMailAsync( user.Email, emailSubject, emailBody, true );
+            SendMail( user.Email, emailSubject, emailBody, true );
         }
 
         public void SendPostEmail( Post post, string email )
@@ -97,7 +98,8 @@ namespace Jumblist.Core.Service
 
             string emailBody = GenerateEmailText( tokens, "PostEmailUnauthenticated.vm" );
 
-            SendMailAsync( email, emailSubject, emailBody, true );
+            //SendMailAsync( email, emailSubject, emailBody, true );
+            SendMail( email, emailSubject, emailBody, true );
         }
 
         public void SendBasketEmail( Basket basket, User user )

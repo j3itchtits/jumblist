@@ -4,9 +4,8 @@
 
 <asp:Content ID="Content4" ContentPlaceHolderID="HeadContentJavascript" runat="server">
 
-    <link href="<%= Url.ImportedAsset( "Autocomplete", "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
-    <script src="<%= Url.ImportedAsset( "Autocomplete", "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
-
+    <%= Html.AutocompleteProjectRefs()%>
+    
     <script src="<%= Url.Script( "jquery.cookie.js" )%>" type="text/javascript"></script>
     
     <script type="text/javascript">

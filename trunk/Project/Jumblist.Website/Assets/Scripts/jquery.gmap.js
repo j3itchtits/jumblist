@@ -1,6 +1,6 @@
 ﻿/*
 gmap
-This plugin gives you a basic google map.
+This plugin gives you a basic google map with Google Maps API3.
 http://awardwinningfjords.com/2009/07/22/google-maps-with-jquery.html
 */
 
@@ -28,3 +28,4 @@ jQuery.fn.gmap = function(options) {
     var map = new google.maps.Map(obj, myOptions);
     var marker = new google.maps.Marker({ position: latlng, map: map, title: options.title });
 }
+

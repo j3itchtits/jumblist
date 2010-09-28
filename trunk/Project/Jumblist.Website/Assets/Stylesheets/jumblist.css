@@ -9,8 +9,8 @@ body
 	margin: 0px auto;
 	padding: 0px;
 	color: #000;	
-	font-family: CantarellRegular, Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 1.15em;
+	font-family: /*CantarellRegular,*/ Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 1.2em;
 	background: #F0F0F0 url(/assets/images/background.jpg) repeat-x scroll center top;
 }
 
