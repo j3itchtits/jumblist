@@ -20,9 +20,9 @@
             <%= Html.RouteLink( post.Title, "Post-Detail", new { id = post.PostId, name = post.Title.ToFriendlyUrlEncode() }, new { title = post.Body, @class = "post-link" } ) %>
         </td>        
         <td width="24%" colspan="2">
-            <%= Ajax.SavePostToBasketImageLink( "Save", new { id = post.PostId }, new { title = "Save post to my basket" } )%>
-            <%= Ajax.EmailPostImageLink( "Email", new { id = post.PostId, title = post.Title }, new { title = "Email me the post details" } )%>
-            <%= Html.MapImageLink( "Map", post )%>
+            <%= Ajax.SavePostToBasketImageLink( "Save post to basket", new { id = post.PostId }, new { title = "Save post to my basket" } )%>
+            <%= Ajax.EmailPostImageLink( "Email post", new { id = post.PostId, title = post.Title }, new { title = "Email me the post details" } )%>
+            <%= Html.MapPostImageLink( "/assets/images/map-icon.png", "Location of post on map", "setMapV2", post )%>
         </td>
         </tr>
         

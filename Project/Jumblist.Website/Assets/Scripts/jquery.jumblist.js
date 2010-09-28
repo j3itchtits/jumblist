@@ -55,6 +55,50 @@ http://colorpowered.com/colorbox/core/example1/index.html
 General javascript functions
 */
 
+function setMapV2($latitude, $longitude, $title) {
+    $(".launchMapLink").colorbox({
+        width: "650",
+        height: "450",
+        inline: true,
+        href: "#colorboxMapContent",
+        //onComplete: function() { $("#colorboxMap").gmap({ latitude: $latitude, longitude: $longitude, zoom: 16, title: $title }); }
+        //onComplete: function() { $("#colorboxMap").gMapV2({ markers: [{ latitude: $latitude, longitude: $longitude, html: $title, popup: true}], zoom: 16 }); }
+        onComplete: function() { $("#colorboxMap").gmapapi2({ latitude: $latitude, longitude: $longitude, zoom: 16, title: $title }); }
+    });
+}
+
+function setMapV3($latitude, $longitude, $title) {
+    //$("#video_player").html('<embed src="/wp-content/flash/video/videoplayer.swf" quality="high" pluginspage="http://www.adobe.com/go/getflashplayer" play="true" loop="true" scale="showall" wmode="transparent" devicefont="false" bgcolor="#ffffff" id="videoplayer" menu="true" allowfullscreen="true" allowscriptaccess="sameDomain" salign="" flashvars="employeeID=' + vidID + '&amp;xmlFile=/wp-content/flash/video/' + xmlFile + '.xml" type="application/x-shockwave-flash" align="middle" width="785" height="585">');
+    $(".launchMapLink").colorbox({
+        //width: "50%",
+        width: "650",
+        height: "450",
+        inline: true,
+        href: "#colorboxMapContent",
+        onComplete: function() { $("#colorboxMap").gmap({ latitude: $latitude, longitude: $longitude, zoom: 16, title: $title }); }
+    });
+}
+    
+function setEmail($postid, $posttitle) {
+    $(".launchSendEmailLink").colorbox({
+        width: "50%",
+        height: "180",
+        inline: true,
+        href: "#colorboxSendEmailContent",
+        onComplete: function() { $("#postid").val($postid); $("#posttitle").html($posttitle); }
+    });
+}
+
+function setEmail_Delete($postid, $posttitle) {
+    //$("#video_player").html('<embed src="/wp-content/flash/video/videoplayer.swf" quality="high" pluginspage="http://www.adobe.com/go/getflashplayer" play="true" loop="true" scale="showall" wmode="transparent" devicefont="false" bgcolor="#ffffff" id="videoplayer" menu="true" allowfullscreen="true" allowscriptaccess="sameDomain" salign="" flashvars="employeeID=' + vidID + '&amp;xmlFile=/wp-content/flash/video/' + xmlFile + '.xml" type="application/x-shockwave-flash" align="middle" width="785" height="585">');
+    $(".launchSendEmailLink").colorbox({
+        width: "50%",
+        inline: true,
+        href: "#colorboxSendEmailContent",
+        onComplete: function() { $("#postid").html($postid); $("#posttitle").html($posttitle); }
+    });
+}
+
 function replaceAnchorTextWithIcon() {
 
     //$("a.icon").each(function() {

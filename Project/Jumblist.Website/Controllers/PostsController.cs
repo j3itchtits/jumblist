@@ -336,12 +336,12 @@ namespace Jumblist.Website.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult EmailUnauthenticated( int postid, string email )
+        public ActionResult EmailUnauthenticated( string postid, string postemailaddress )
         {
-            Post post = postService.SelectRecord( postid );
-            mailService.SendPostEmail( post, email );
+            Post post = postService.SelectRecord( int.Parse( postid ) );
+            mailService.SendPostEmail( post, postemailaddress );
 
-            Message model = new Message { Text = "The post details have been emailed to you at " + email + ".", StyleClass = "message" };
+            Message model = new Message { Text = "The post details have been emailed to you at " + postemailaddress + ".", StyleClass = "message" };
             return PartialView( "MessageControl", model );
         }
 

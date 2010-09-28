@@ -82,6 +82,8 @@
     <link href="<%= Url.ImportedAsset( "Autocomplete", "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
     <script src="<%= Url.ImportedAsset( "Autocomplete", "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
 
+    <%= Html.AutocompleteProjectRefs()%>
+
     <script type="text/javascript">
         $(document).ready(function() {
 

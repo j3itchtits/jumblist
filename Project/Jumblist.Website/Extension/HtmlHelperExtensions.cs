@@ -70,17 +70,14 @@ namespace Jumblist.Website.Extension
             return htmlHelper.ActionLink( linkText, "Logout", new { area = "", controller = "Users" } );
         }
 
-        public static MvcHtmlString MapImageLink( this HtmlHelper htmlHelper, string linkText, Post post )
+        public static MvcHtmlString MapPostImageLink( this HtmlHelper htmlHelper, string imgSrc, string altText, string jsFunc, Post post )
         {
-            if ( !post.HaveLatitudeAndLongitudeValuesBeenPopulated )
-            {
-                return MvcHtmlString.Create( string.Empty );
-            }
-            else
-            {
-                return MvcHtmlString.Create( "<a class=\"launchMapLink\" title=\"Location on map\" href=\"#\" onclick=\"setMap( " + post.Latitude + ", " + post.Longitude + ", '" + HttpUtility.HtmlEncode( post.Title ) + "');\"><img src=\"/assets/images/map-icon.png\" width=\"25\" height=\"25\" alt=\"Map\" /></a>" );
-                //return MvcHtmlString.Create( "<a class=\"" + linkClass + "\" title=\"Map\" href=\"#\" onclick=\"mapPopup( " + post.Latitude + ", " + post.Longitude + ", '" + HttpUtility.HtmlEncode( post.Title ) + "');\">" + linkText + "</a>" );
-            }
+            if ( !post.HaveLatitudeAndLongitudeValuesBeenPopulated ) return MvcHtmlString.Create( string.Empty );
+
+            //Cannot use the ImageLink method below because of the onclick event attached to the anchor link - this could be sorted in the future
+            return MvcHtmlString.Create( "<a class=\"launchMapLink\" title='" + altText + "' href=\"#\" onclick=\"" + jsFunc + "( " + post.Latitude + ", " + post.Longitude + ", '" + HttpUtility.HtmlEncode( post.Title ) + "');\"><img src='" + imgSrc + "' width=\"25\" height=\"25\" alt='" + altText + "' /></a>" );
+            //return MvcHtmlString.Create( "<a class=\"" + linkClass + "\" title=\"Map\" href=\"#\" onclick=\"mapPopup( " + post.Latitude + ", " + post.Longitude + ", '" + HttpUtility.HtmlEncode( post.Title ) + "');\">" + linkText + "</a>" );
+
         }
 
         public static MvcHtmlString ImageLink( this HtmlHelper htmlHelper, string imgSrc, string altText, string actionName, string controllerName, object routeValues, object anchorHtmlAttributes, object imageHtmlAttributes )
@@ -112,8 +109,93 @@ namespace Jumblist.Website.Extension
             if ( user.UserId == User.Anonymous.UserId || post.User.UserId != user.UserId ) return MvcHtmlString.Create( string.Empty );
 
             return htmlHelper.ActionLink( linkText, "post", "users", new { id = post.PostId }, null );
-        }        
-   
+        }
+
+        public static MvcHtmlString JQueryProjectRefs( this HtmlHelper htmlHelper )
+        {
+            UrlHelper urlHelper = ((Controller)htmlHelper.ViewContext.Controller).Url;
+
+            string ret = string.Empty;
+            ret += "<script src=\"" + urlHelper.ImportedAsset( "Jquery", "jquery-1.4.1.min.js" ) + "\" type=\"text/javascript\"></script>";
+            ret += "<script src=\"" + urlHelper.ImportedAsset( "Jquery", "jquery.color.js" ) + "\" type=\"text/javascript\"></script>";
+
+            return MvcHtmlString.Create( ret );
+        }
+
+        public static MvcHtmlString JQueryExternalProjectRefs( this HtmlHelper htmlHelper )
+        {
+            UrlHelper urlHelper = ((Controller)htmlHelper.ViewContext.Controller).Url;
+
+            string ret = string.Empty;
+            ret += "<script src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js\" type=\"text/javascript\"></script>";
+            ret += "<script src=\"" + urlHelper.ImportedAsset( "Jquery", "jquery.color.js" ) + "\" type=\"text/javascript\"></script>";
+
+            return MvcHtmlString.Create( ret );
+        }
+
+        public static MvcHtmlString MicrosoftAjaxProjectRefs( this HtmlHelper htmlHelper )
+        {
+            UrlHelper urlHelper = ((Controller)htmlHelper.ViewContext.Controller).Url;
+
+            string ret = string.Empty;
+            ret += "<script src=\"" + urlHelper.ImportedAsset( "MicrosoftAjax", "MicrosoftAjax.js" ) + "\" type=\"text/javascript\"></script>";
+            ret += "<script src=\"" + urlHelper.ImportedAsset( "MicrosoftAjax", "MicrosoftMvcAjax.js" ) + "\" type=\"text/javascript\"></script>";
+
+            return MvcHtmlString.Create( ret );
+        }
+
+        public static MvcHtmlString MicrosoftAjaxExternalProjectRefs( this HtmlHelper htmlHelper )
+        {
+            string ret = string.Empty;
+            ret += "<script src=\"http://ajax.microsoft.com/ajax/4.0/1/MicrosoftAjax.js\" type=\"text/javascript\"></script>";
+            ret += "<script src=\"http://ajax.microsoft.com/ajax/mvc/1.0/MicrosoftMvcAjax.js\" type=\"text/javascript\"></script>";
+
+            return MvcHtmlString.Create( ret );
+        }
+            
+        public static MvcHtmlString ValidateProjectRefs( this HtmlHelper htmlHelper )
+        {
+            UrlHelper urlHelper = ((Controller)htmlHelper.ViewContext.Controller).Url;
+
+            string ret = string.Empty;
+            ret += "<script src=\"" + urlHelper.ImportedAsset( "Validate", "jquery.validate.min.js" ) + "\" type=\"text/javascript\"></script>";
+            ret += "<script src=\"" + urlHelper.ImportedAsset( "Validate", "xVal.jquery.validate.js" ) + "\" type=\"text/javascript\"></script>";
+
+            return MvcHtmlString.Create( ret );
+        }
+
+        public static MvcHtmlString AutocompleteProjectRefs( this HtmlHelper htmlHelper )
+        {
+            UrlHelper urlHelper = ((Controller)htmlHelper.ViewContext.Controller).Url;
+
+            string ret = string.Empty;
+            ret += "<script src=\"" + urlHelper.ImportedAsset( "Autocomplete", "jquery.autocomplete.min.js" ) + "\" type=\"text/javascript\"></script>";
+            ret += "<link href=\"" + urlHelper.ImportedAsset( "Autocomplete", "jquery.autocomplete.css" ) + "\" rel=\"stylesheet\" type=\"text/css\"/>";
+
+            return MvcHtmlString.Create( ret );
+        }
+
+        public static MvcHtmlString ColorboxProjectRefs( this HtmlHelper htmlHelper )
+        {
+            UrlHelper urlHelper = ((Controller)htmlHelper.ViewContext.Controller).Url;
+
+            string ret = string.Empty;
+            ret += "<script src=\"" + urlHelper.ImportedAsset( "Colorbox", "jquery.colorbox-min.js" ) + "\" type=\"text/javascript\"></script>";
+            ret += "<link href=\"" + urlHelper.ImportedAsset( "Colorbox", "colorbox.css" ) + "\" rel=\"stylesheet\" type=\"text/css\"/>";
+
+            return MvcHtmlString.Create( ret );
+        }   
+
+        public static MvcHtmlString JQueryUIProjectRefs( this HtmlHelper htmlHelper )
+        {
+            UrlHelper urlHelper = ((Controller)htmlHelper.ViewContext.Controller).Url;
+
+            string ret = string.Empty;
+            ret += "<script src=\"" + urlHelper.ImportedAsset( "Jquery", "jquery-ui-1.7.2.custom.min.js" ) + "\" type=\"text/javascript\"></script>";
+            ret += "<link href=\"" + urlHelper.ImportedAsset( "Jquery", "jquery-ui.tabs.css" ) + "\" rel=\"stylesheet\" type=\"text/css\"/>";
+
+            return MvcHtmlString.Create( ret );
+        }   
 
         public static MvcHtmlString MessageBox( this HtmlHelper htmlHelper, IBaseViewModel model )
         {

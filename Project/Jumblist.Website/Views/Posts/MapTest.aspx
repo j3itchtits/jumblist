@@ -6,8 +6,8 @@
     <title>MapTest</title>
     <link href="<%= Url.Stylesheet( "yui-reset.css" )%>" rel="stylesheet" type="text/css"/>
     <link href="<%= Url.Stylesheet( "jumblist.css" )%>" rel="stylesheet" type="text/css"/>
-    <script src="<%= Url.ImportedAsset( "Jquery", "jquery-1.4.1.min.js" )%>" type="text/javascript"></script>
     
+    <%= Html.JQueryProjectRefs()%>
 
     <script type="text/javascript">
         $(document).ready(function() {

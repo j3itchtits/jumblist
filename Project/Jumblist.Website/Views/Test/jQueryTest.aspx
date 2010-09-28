@@ -7,21 +7,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     <title>jQueryTest</title>
-
     
-    <script src="<%= Url.ImportedAsset( "Jquery", "jquery-1.4.1.min.js" ) %>" type="text/javascript"></script>
-    <script src="<%= Url.ImportedAsset( "Jquery", "jquery.color.js" ) %>" type="text/javascript"></script>
-        
-    <script src="<%= Url.ImportedAsset( "MicrosoftAjax", "MicrosoftAjax.js" )%>" type="text/javascript"></script>
-    <script src="<%= Url.ImportedAsset( "MicrosoftAjax", "MicrosoftMvcAjax.js" )%>" type="text/javascript"></script>
+    <%= Html.JQueryProjectRefs()%>
+    <%= Html.MicrosoftAjaxProjectRefs()%>
+    <%= Html.AutocompleteProjectRefs()%>
+    <%= Html.ColorboxProjectRefs()%>
 
-    <link href="<%= Url.ImportedAsset( "Autocomplete", "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
-    <script src="<%= Url.ImportedAsset( "Autocomplete", "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
-
-    <script src="<%= Url.ImportedAsset( "Colorbox", "jquery.colorbox-min.js" ) %>" type="text/javascript"></script>
-    <link href="<%= Url.ImportedAsset( "Colorbox", "colorbox.css" ) %>" rel="stylesheet" type="text/css"/>
-
-    <script src="<%= Url.Script( "jquery.gmap.js" )%>" type="text/javascript"></script>    
     <script src="<%= Url.Script( "jquery.jumblist.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.timer.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.alerts.js" )%>" type="text/javascript"></script>
@@ -32,7 +23,11 @@
     <script src="<%= Url.Script( "jquery.autoupdate.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.simpletabs.js" )%>" type="text/javascript"></script>
         
+    <script src="http://maps.google.com/maps?file=api&v=2&key=devapikey&sensor=false" type="text/javascript"></script> 
+    <script src="<%= Url.Script( "jquery.gmap-v2.js" )%>" type="text/javascript"></script> 
+    
     <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+    <script src="<%= Url.Script( "jquery.gmap.js" )%>" type="text/javascript"></script> 
 
     <link href="<%= Url.Stylesheet( "jumblist.css" )%>" rel="stylesheet" type="text/css"/>
 
@@ -538,41 +533,16 @@
         <p><strong>Map</strong></p>
         <div id="mapCanvas" style="width:400px;height:300px;border:1px solid black;"></div>
         
-        
-<script type="text/javascript">
-
-    function setMap($latitude, $longitude, $title) {
-        //$("#video_player").html('<embed src="/wp-content/flash/video/videoplayer.swf" quality="high" pluginspage="http://www.adobe.com/go/getflashplayer" play="true" loop="true" scale="showall" wmode="transparent" devicefont="false" bgcolor="#ffffff" id="videoplayer" menu="true" allowfullscreen="true" allowscriptaccess="sameDomain" salign="" flashvars="employeeID=' + vidID + '&amp;xmlFile=/wp-content/flash/video/' + xmlFile + '.xml" type="application/x-shockwave-flash" align="middle" width="785" height="585">');
-        $(".launchMapLink").colorbox({
-            width: "50%",
-            inline: true,
-            href: "#colorboxMapContent",
-            onComplete: function() { $("#colorboxMap").gmap({ latitude: $latitude, longitude: $longitude, zoom: 11, title: $title }); }
-        });
-    }
-
-    function setEmail($postid, $posttitle) {
-        //$("#video_player").html('<embed src="/wp-content/flash/video/videoplayer.swf" quality="high" pluginspage="http://www.adobe.com/go/getflashplayer" play="true" loop="true" scale="showall" wmode="transparent" devicefont="false" bgcolor="#ffffff" id="videoplayer" menu="true" allowfullscreen="true" allowscriptaccess="sameDomain" salign="" flashvars="employeeID=' + vidID + '&amp;xmlFile=/wp-content/flash/video/' + xmlFile + '.xml" type="application/x-shockwave-flash" align="middle" width="785" height="585">');
-        $(".launchSendEmailLink").colorbox({
-            width: "50%",
-            inline: true,
-            href: "#colorboxSendEmailContent",
-            onComplete: function() { $("#postid").html($postid); $("#posttitle").html($posttitle); }
-        });
-    }
-
-    $(document).ready(function() {
-
-    });
-</script>                 
-
         <p><strong>Map Popup</strong></p>
         <p><a id="launchMapColorbox" href="#">Popup with inline HTML</a><a class="example8" href="#">(Test)</a></p> 
 
         <p><strong>Dynamic Map Popup</strong></p>
-        <p><a class="launchMapLink" href="#" onclick="setMap( 52.34545, 0.1324234, 'My Cool Map - #1');">1st map</a><br />
-        <a class="launchMapLink" href="#" onclick="setMap( 51.34545, 0.2324234, 'My Cool Map - #2');">2nd map</a></p>
-        
+        <p><a class="launchMapLink" href="#" onclick="setMapV3( 51.34545, 0.1324234, 'My Cool Map - #1');">1st map - using Google Maps V3</a><br />
+        <a class="launchMapLink" href="#" onclick="setMapV3( 50.9645, 0.5534, 'Coolio Map - #2');">2nd map - using Google Maps V3</a></p>
+
+        <p><a class="launchMapLink" href="#" onclick="setMapV2( 51.34545, 0.1324234, 'Version 2 - Map1');">1st map - using Google Maps V2</a><br />
+        <a class="launchMapLink" href="#" onclick="setMapV2( 51.4554, 0.0001, 'Version 2 - Map2');">2nd map - using Google Maps V2</a></p>
+           
 		<!-- This contains the hidden content for inline calls -->
 		<div style='display:none'>
 			<div id='inline_example1' style='padding:10px; background:#fff;'>
@@ -589,8 +559,7 @@
 		<!-- This contains the hidden content for inline map calls --> 
 		<div style="display:none"> 
 			<div id="colorboxMapContent" style="padding:10px; background:#fff;"> 
-			    <p><strong>Map</strong></p> 
-			    <div id="colorboxMap" style="width:400px;height:300px;border:1px solid black;"></div>
+			    <div id="colorboxMap" style="width:595px;height:365px;border:1px solid black;"></div>
 			</div> 
 		</div> 
 

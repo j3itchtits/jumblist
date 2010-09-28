@@ -6,15 +6,25 @@
 
 <asp:Content ID="Content4" ContentPlaceHolderID="HeadContentJavascript" runat="server">
 
+    <%= Html.ColorboxProjectRefs()%>
+
+    <script src="http://maps.google.com/maps?file=api&v=2&key=devapikey&sensor=false" type="text/javascript"></script> 
+<%--    <script src="<%= Url.Script( "jquery.gmap-v2.js" )%>" type="text/javascript"></script> --%>
+    <script src="<%= Url.Script( "jquery.gmap-v2-alt.js" )%>" type="text/javascript"></script> 
+    
+<%--    <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+    <script src="<%= Url.Script( "jquery.gmap.js" )%>" type="text/javascript"></script>  --%> 
+     
     <script src="<%= Url.Script( "jquery.highlight-3.js" )%>" type="text/javascript"></script>
+
     <script type="text/javascript">
 
         $(document).ready(function() {
 
-            getTinyURL('<%= Request.Url.AbsoluteUri %>', function(tinyurl) {
-                // Do something with tinyurl:
-                $('#twitter-share').attr('href', 'http://twitter.com/home?status=@jumblist: <%= Html.PageTitle( ViewData.Model ) %>' + tinyurl);
-            });
+//            getTinyURL('<%= Request.Url.AbsoluteUri %>', function(tinyurl) {
+//                // Do something with tinyurl:
+//                $('#twitter-share').attr('href', 'http://twitter.com/home?status=@jumblist: <%= Html.PageTitle( ViewData.Model ) %>' + tinyurl);
+//            });
 
             $('h2.post-title').highlight('<%= Model.Item.Tags.Select( x => x.Name ).ToFormattedStringList( "{0}+", 1 ) %>');
         });
@@ -28,9 +38,9 @@
     <h2 class="post-title"><%= Html.PageTitle( ViewData.Model )%></h2>
     
     <div class="post-functions">
-        <%= Ajax.SavePostToBasketImageLink( "Save", new { id = Model.Item.PostId }, new { title = "Save post to my basket" } )%>
-        <%= Ajax.EmailPostImageLink( "Email", new { id = Model.Item.PostId }, new { title = "Email me the post details" } )%>
-        <%= Html.MapImageLink( "Map", Model.Item )%> 
+        <%= Ajax.SavePostToBasketImageLink( "Save post to basket", new { id = Model.Item.PostId }, new { title = "Save post to my basket" } )%>
+        <%= Ajax.EmailPostImageLink( "Email post", new { id = Model.Item.PostId, title = Model.Item.Title }, new { title = "Email me the post details" } )%>
+        <%= Html.MapPostImageLink( "/assets/images/map-icon.png", "Location of post on map", "setMapV2", Model.Item )%> 
     </div>
     
     <div id="system-message">
@@ -51,13 +61,27 @@
     </div>
 
     <div class="post-views">
-        <b>Number of Views: </b><%= Model.Item.NumberofViews.ToString() %>
+        <b><%= Model.Item.NumberofViews.ToString() %></b> views
     </div>  
     
     <div class="post-date">
-        <b>Publish Date: </b><%= Model.Item.PublishDateTime.ToFriendlyJumblistLongDateTimeString( true ) %>
+        <b>Posted</b> <%= Model.Item.PublishDateTime.ToFriendlyJumblistLongDateTimeString( true ) %>
     </div>        
-   
+
+	<% Html.RenderPartial( "GoogleMapPopupControl" ); %>
+	
+	<!-- This contains the hidden content for inline send email calls --> 
+	<div style="display:none"> 
+		<div id="colorboxSendEmailContent" style="padding:10px; background:#fff;"> 
+		    <form action="/posts/emailunauthenticated" method="post">
+		    <p><strong><span id="posttitle"></span></strong></p>
+		    <input id="postid" name="postid" type="hidden" />
+		    <label for="email" style="display:none;">Email address</label><input id="postemailaddress" name="postemailaddress" type="text" value="Enter Email Address" />
+		    <input type="submit" value="Send" />  
+		    </form>
+		</div> 
+	</div> 
+		   
 </asp:Content>
 
 

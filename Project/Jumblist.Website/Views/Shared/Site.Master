@@ -4,23 +4,16 @@
 
     <title><asp:ContentPlaceHolder ID="HeadContentTitle" runat="server" /> | Jumblist</title>
 
-    <meta name="description" content="<asp:ContentPlaceHolder ID=HeadContentDescription runat=server />Jumblist. Freecycling made easy." />
+    <meta name="description" content="<asp:ContentPlaceHolder ID='HeadContentDescription' runat='server' />Jumblist. Freecycling made easy." />
     <meta name="keywords" content="Jumblist Free Recycling Freecycle Freegle Jumble" /> 
    
-    <script src="<%= Url.ImportedAsset( "Jquery", "jquery-1.4.1.min.js" )%>" type="text/javascript"></script>
-    <script src="<%= Url.ImportedAsset( "Jquery", "jquery.color.js" ) %>" type="text/javascript"></script>
-   
-    <script src="<%= Url.ImportedAsset( "MicrosoftAjax", "MicrosoftAjax.js" )%>" type="text/javascript"></script>
-    <script src="<%= Url.ImportedAsset( "MicrosoftAjax", "MicrosoftMvcAjax.js" )%>" type="text/javascript"></script>
+    <%= Html.JQueryProjectRefs()%>
+    <%= Html.MicrosoftAjaxProjectRefs()%>
+       
+<%--    <%= Html.JQueryExternalProjectRefs()%>
+    <%= Html.MicrosoftAjaxExternalProjectRefs()%>--%>
 
-      <%-- 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js" type="text/javascript"></script>
-    <script src="http://ajax.microsoft.com/ajax/4.0/1/MicrosoftAjax.js" type="text/javascript"></script>
-    <script src="http://ajax.microsoft.com/ajax/mvc/1.0/MicrosoftMvcAjax.js" type="text/javascript"></script>      
-     --%> 
- 
-    <script src="<%= Url.ImportedAsset( "Validate", "jquery.validate.min.js" )%>" type="text/javascript"></script>
-    <script src="<%= Url.ImportedAsset( "Validate", "xVal.jquery.validate.js" )%>" type="text/javascript"></script>
+    <%= Html.ValidateProjectRefs()%>
 
     <script src="<%= Url.Script( "jquery.jumblist.js" )%>" type="text/javascript"></script>
     <link href="<%= Url.Stylesheet( "yui-reset.css" )%>" rel="stylesheet" type="text/css"/>

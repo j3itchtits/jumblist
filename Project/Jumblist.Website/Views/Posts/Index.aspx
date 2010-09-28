@@ -4,41 +4,21 @@
 
 <asp:Content ID="Content4" ContentPlaceHolderID="HeadContentJavascript" runat="server">
 
-    <script src="<%= Url.ImportedAsset( "Jquery", "jquery-ui-1.7.2.custom.min.js" )%>" type="text/javascript"></script>
-    <link href="<%= Url.ImportedAsset( "Jquery", "jquery-ui.tabs.css" )%>" rel="stylesheet" type="text/css"/>
-        
-    <link href="<%= Url.ImportedAsset( "Autocomplete", "jquery.autocomplete.css" )%>" rel="stylesheet" type="text/css"/>
-    <script src="<%= Url.ImportedAsset( "Autocomplete", "jquery.autocomplete.min.js" )%>" type="text/javascript"></script>
+    <%= Html.JQueryUIProjectRefs()%>
+    <%= Html.AutocompleteProjectRefs()%>
+    <%= Html.ColorboxProjectRefs()%>
 
-    <script src="<%= Url.ImportedAsset( "Colorbox", "jquery.colorbox-min.js" ) %>" type="text/javascript"></script>
-    <link href="<%= Url.ImportedAsset( "Colorbox", "colorbox.css" ) %>" rel="stylesheet" type="text/css"/>
-
-    <script src="<%= Url.Script( "jquery.gmap.js" )%>" type="text/javascript"></script>    
+<%--    <script src="http://maps.google.com/maps?file=api&v=2&key=devapikey&sensor=false" type="text/javascript"></script> 
+--%>    <script src="<%= Url.Script( "jquery.gmap-v2-alt.js" )%>" type="text/javascript"></script> 
+    
+<%--    <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+    <script src="<%= Url.Script( "jquery.gmap.js" )%>" type="text/javascript"></script>    --%> 
+         
     <script src="<%= Url.Script( "jquery.highlight-3.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.cookie.js" )%>" type="text/javascript"></script>
-
   
     <script type="text/javascript">
 
-        function setMap($latitude, $longitude, $title) {
-            $(".launchMapLink").colorbox({
-                width: "650",
-                height: "400",
-                inline: true,
-                href: "#colorboxMapContent",
-                onComplete: function() { $("#colorboxMap").gmap({ latitude: $latitude, longitude: $longitude, zoom: 11, title: $title }); }
-            });
-        }
-
-        function setEmail($postid, $posttitle) {
-            $(".launchSendEmailLink").colorbox({
-                width: "50%",
-                inline: true,
-                href: "#colorboxSendEmailContent",
-                onComplete: function() { $("#postid").val($postid); $("#posttitle").html($posttitle); }
-            });
-        } 
-        
         $(document).ready(function() 
         {
             $('div#tabs').tabs();
@@ -142,20 +122,15 @@
 
 	</div>
 
-	<!-- This contains the hidden content for inline map calls --> 
-	<div style="display:none"> 
-		<div id="colorboxMapContent" style="padding:10px; background:#fff;"> 
-		    <div id="colorboxMap" style="width:600px;height:300px;border:1px solid black;"></div>
-		</div> 
-	</div> 
-		
+	<% Html.RenderPartial( "GoogleMapPopupControl" ); %>
+	
 	<!-- This contains the hidden content for inline send email calls --> 
 	<div style="display:none"> 
 		<div id="colorboxSendEmailContent" style="padding:10px; background:#fff;"> 
 		    <form action="/posts/emailunauthenticated" method="post">
-		    <strong>Enter your email address details to receive details on the following post - "<span id="posttitle"></span>"</strong><br />
-		    <input name="postid" type="hidden" />
-		    <label for="email" style="display:none;">Email address</label><input name="email" type="text" />
+		    <p><strong><span id="posttitle"></span></strong></p>
+		    <input id="postid" name="postid" type="hidden" />
+		    <label for="email" style="display:none;">Email address</label><input id="postemailaddress" name="postemailaddress" type="text" value="Enter Email Address" />
 		    <input type="submit" value="Send" />  
 		    </form>
 		</div> 

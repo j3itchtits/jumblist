@@ -29,21 +29,23 @@ namespace Jumblist.Website.Extension
             return MvcHtmlString.Create( anchor.Replace( "[replaceme]", image ) );
         }
 
-        public static MvcHtmlString EmailPostImageLink( this AjaxHelper ajaxHelper, string linkText, object routeValues, object htmlAttributes )
+        public static MvcHtmlString EmailPostImageLink( this AjaxHelper ajaxHelper, string altText, object routeValues, object htmlAttributes )
         {
             //HtmlHelper htmlHelper = new HtmlHelper( ajaxHelper.ViewContext, ); ;
 
             //if ( string.IsNullOrEmpty( linkText ) ) linkText = "<img src='assets/images/email-icon.png' width='25' height='25' alt='Email' />";
 
+            string imgSrc = "/assets/images/email-icon.png";
+
             if ( HttpContext.Current.Request.IsAuthenticated )
             {
-                return ImageLink( ajaxHelper, "/assets/images/email-icon.png", "Email Post", "Link", "Posts", routeValues, new AjaxOptions { Confirm = "Send Email?", HttpMethod = "Post", UpdateTargetId = "system-message" }, htmlAttributes );
+                return ImageLink( ajaxHelper, imgSrc, altText, "Email", "Posts", routeValues, new AjaxOptions { Confirm = "Send Email?", HttpMethod = "Post", UpdateTargetId = "system-message" }, htmlAttributes );
                 //return ajaxHelper.ActionLink( linkText, "email", routeValues, new AjaxOptions { Confirm = "Send Email?", HttpMethod = "Post", UpdateTargetId = "system-message" }, htmlAttributes );
             }
             else
             {
                 RouteValueDictionary newValues = new RouteValueDictionary( routeValues );
-                return MvcHtmlString.Create( "<a class='icon launchSendEmailLink' onclick=\"setEmail( " + newValues["id"] + ", '" + newValues["title"] + "' );\" href='#' title='" + newValues["title"] + "'>" + linkText + "</a>" );
+                return MvcHtmlString.Create( "<a class='launchSendEmailLink' onclick=\"setEmail( " + newValues["id"] + ", '" + newValues["title"] + "' );\" href='#' title='" + altText + "'><img src='" + imgSrc + "' width='25' height='25' alt='" + altText + "' /></a>" );
                 //return MvcHtmlString.Create( "<a class='icon launchSendEmailLink' onclick=\"setEmail( 5000, 'Some kind of title' );\" href='/users/login?returnurl=" + HttpContext.Current.Request.Url.PathAndQuery + "' title='" + linkText + "'>" + linkText + "</a>" );
 
 
@@ -57,11 +59,38 @@ namespace Jumblist.Website.Extension
             //return ajaxHelper.ActionLink( linkText, "email", routeValues, ajaxOptions );
         }
 
-        public static MvcHtmlString SavePostToBasketImageLink( this AjaxHelper ajaxHelper, string linkText, object routeValues, object htmlAttributes )
+        public static MvcHtmlString EmailPostLink( this AjaxHelper ajaxHelper, string linkText, object routeValues, object htmlAttributes )
         {
             if ( HttpContext.Current.Request.IsAuthenticated )
             {
-                return ImageLink( ajaxHelper, "/assets/images/save-icon.png", "Save Post to Basket", "AddItem", "Basket", routeValues, new AjaxOptions { Confirm = "Send Post to Basket?", HttpMethod = "Post", UpdateTargetId = "basket" }, htmlAttributes );
+                return ajaxHelper.ActionLink( linkText, "Email", routeValues, new AjaxOptions { Confirm = "Send Email?", HttpMethod = "Post", UpdateTargetId = "system-message" }, htmlAttributes );
+            }
+            else
+            {
+                RouteValueDictionary newValues = new RouteValueDictionary( routeValues );
+                return MvcHtmlString.Create( "<a class='icon launchSendEmailLink' onclick=\"setEmail( " + newValues["id"] + ", '" + newValues["title"] + "' );\" href='#' title='" + linkText + "'>" + linkText + "</a>" );
+            }
+        }
+
+        public static MvcHtmlString SavePostToBasketImageLink( this AjaxHelper ajaxHelper, string altText, object routeValues, object htmlAttributes )
+        {
+            string imgSrc = "/assets/images/save-icon.png";
+
+            if ( HttpContext.Current.Request.IsAuthenticated )
+            {
+                return ImageLink( ajaxHelper, imgSrc, altText, "AddItem", "Basket", routeValues, new AjaxOptions { Confirm = "Add Post to Basket?", HttpMethod = "Post", UpdateTargetId = "basket" }, htmlAttributes );
+            }
+            else
+            {
+                return MvcHtmlString.Create( "<a href='/users/login?returnurl=" + HttpContext.Current.Request.Url.PathAndQuery + "' title='" + altText + "'><img src='" + imgSrc + "' width='25' height='25' alt='" + altText + "' /></a>" );
+            }
+        }
+
+        public static MvcHtmlString SavePostToBasketLink( this AjaxHelper ajaxHelper, string linkText, object routeValues, object htmlAttributes )
+        {
+            if ( HttpContext.Current.Request.IsAuthenticated )
+            {
+                return ajaxHelper.ActionLink( linkText, "AddItem", "Basket", routeValues, new AjaxOptions { Confirm = "Add Post to Basket?", HttpMethod = "Post", UpdateTargetId = "basket" }, htmlAttributes );
             }
             else
             {
