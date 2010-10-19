@@ -310,7 +310,7 @@ namespace Jumblist.Website.Areas.Admin.Controllers
         }
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult PostTagCreate( int postId, string tagName )
+        public PartialViewResult PostTagCreate( int postId, string tagName )
         {
             var tag = tagService.SelectRecord( tagName );
 

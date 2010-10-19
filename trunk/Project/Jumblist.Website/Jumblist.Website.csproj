@@ -319,6 +319,7 @@
     <Content Include="Assets\Scripts\jquery.gmap-v2-alt.js" />
     <Content Include="Assets\Scripts\jquery.gmap.js" />
     <Content Include="Assets\Scripts\jquery.gmap-v2.js" />
+    <Content Include="Assets\Scripts\jquery.sendemailpopup.js" />
     <Content Include="Assets\Scripts\jquery.truncate.js" />
     <Content Include="Assets\Scripts\jquery.simpletabs.js" />
     <Content Include="Assets\Validate\jquery.validate.min.js" />
@@ -330,6 +331,7 @@
     <Content Include="Views\Home\Terms.aspx" />
     <Content Include="Views\Posts\BasicPostListControl.ascx" />
     <Content Include="Views\Posts\GoogleMapPopupControl.ascx" />
+    <Content Include="Views\Posts\SendEmailControl.ascx" />
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Test\Index.aspx" />
     <Content Include="jquerytest.html" />

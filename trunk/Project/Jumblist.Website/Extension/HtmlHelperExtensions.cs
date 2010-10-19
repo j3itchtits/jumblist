@@ -70,6 +70,11 @@ namespace Jumblist.Website.Extension
             return htmlHelper.ActionLink( linkText, "Logout", new { area = "", controller = "Users" } );
         }
 
+        public static MvcHtmlString SendEmailImageLink( this HtmlHelper htmlHelper, Post post )
+        {
+            return MvcHtmlString.Create( "<span class=\"hide\">" + post.Title.ToShortDescription( 40 ) + "</span><span class=\"hide\">" + post.PostId + "</span><img alt=\"Email post\" title=\"Email post\" src=\"/assets/images/email-icon.png\" class=\"emailPostLink\" style=\"cursor: pointer;\" />" );
+        }
+
         public static MvcHtmlString MapPostImageLink( this HtmlHelper htmlHelper, string imgSrc, string altText, string jsFunc, Post post )
         {
             if ( !post.HaveLatitudeAndLongitudeValuesBeenPopulated ) return MvcHtmlString.Create( string.Empty );

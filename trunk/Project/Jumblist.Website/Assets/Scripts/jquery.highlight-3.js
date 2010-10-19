@@ -46,11 +46,6 @@ jQuery.fn.highlight = function(pat) {
         }
         return skip;
     }
-    
-
-    
-    
-        //innerHighlight(this, pat.toUpperCase());
     });
 };
 

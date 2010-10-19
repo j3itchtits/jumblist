@@ -24,7 +24,7 @@
             <td class="field-label"><label for="name">Name/Email</label></td>
             <td class="field-input"><%= Html.TextBox( "name", string.Empty, new { @class = "fancy-field" } )%></td>
             <td class="field-helptext">
-                <span class="field-info" style="display: none;">
+                <span class="field-info hide">
                    Please enter your username or email address
                 </span>
                 <span class="field-validation-error">
@@ -37,7 +37,7 @@
             <td class="field-label"><label for="password">Password</label></td>
             <td class="field-input"><%= Html.Password( "password", string.Empty, new { @class = "fancy-field" } ) %></td>
             <td class="field-helptext">
-                <span class="field-info" style="display: none;">
+                <span class="field-info hide">
                    Please enter your password
                 </span>
                 <span class="field-validation-error">
@@ -50,7 +50,7 @@
             <td class="field-label"><label for="rememberMe">Remember Me?</label></td>
             <td class="field-input"><%= Html.CheckBox( "rememberMe", false, new { @class = "fancy-field" } )%></td>
             <td class="field-helptext">
-                <span class="field-info" style="display: none;">
+                <span class="field-info hide">
                    Tick this to be remembered on this site
                 </span>
             </td>

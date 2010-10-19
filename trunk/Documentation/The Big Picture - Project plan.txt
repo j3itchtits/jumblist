@@ -27,18 +27,24 @@ Admin area
 
 ASP.NET MVC2
 Linq
-Castle
+Castle Components
 Google Maps
 Bing Maps
 NVelocity
 Elmah
 xVal
+LAF
+
+JSON
+Ajax
+JQuery
+
 
 N2 CMS
 Spark View Engine
 SolrNet Search Engine
 NHibernate ??
-LAF
+
 
 5. Testing
 Moq
