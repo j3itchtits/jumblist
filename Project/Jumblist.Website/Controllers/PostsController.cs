@@ -324,24 +324,42 @@ namespace Jumblist.Website.Controllers
         }
 
 
+        //[AcceptVerbs( HttpVerbs.Post )]
+        //public PartialViewResult Email( int id, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        //{
+        //    Post post = postService.SelectRecord( id );
+        //    mailService.SendPostEmail( post, user );
+
+        //    //postService.SendPostEmail( id, user );
+        //    Message model = new Message { Text = "The post details have been emailed to you at " + user.Email + ".", StyleClass = "message" };
+        //    return PartialView( "MessageControl", model );
+        //}
+
         [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult Email( int id, [ModelBinder( typeof( UserModelBinder ) )] User user )
+        public PartialViewResult Email( string postId, string emailAddress )
         {
-            Post post = postService.SelectRecord( id );
-            mailService.SendPostEmail( post, user );
+            //need to check that postid is an int and emailaddress is an email string
+            Message model;
 
-            //postService.SendPostEmail( id, user );
-            Message model = new Message { Text = "The post details have been emailed to you at " + user.Email + ".", StyleClass = "message" };
-            return PartialView( "MessageControl", model );
-        }
+            int validPostId;
+            bool isPostIdValid = Int32.TryParse( postId, out validPostId );
 
-        [AcceptVerbs( HttpVerbs.Post )]
-        public ActionResult EmailUnauthenticated( string postid, string postemailaddress )
-        {
-            Post post = postService.SelectRecord( int.Parse( postid ) );
-            mailService.SendPostEmail( post, postemailaddress );
+            if ( !isPostIdValid )
+            {
+                model = new Message { Text = "Please select a valid post", StyleClass = "message" };
+                return PartialView( "MessageControl", model );
+            }
 
-            Message model = new Message { Text = "The post details have been emailed to you at " + postemailaddress + ".", StyleClass = "message" };
+            if ( !Regex.IsMatch( emailAddress, StringExtensions.EmailOnlyRegex, RegexOptions.IgnoreCase ) )
+            {
+                model = new Message { Text = "Please enter a valid email.", StyleClass = "message" };
+                return PartialView( "MessageControl", model );
+            }
+
+            //Post post = postService.SelectRecord( validPostId );
+            //mailService.SendPostEmail( post, emailAddress );
+
+            model = new Message { Text = "The post details have been emailed to you at " + emailAddress + ".", StyleClass = "message" };
             return PartialView( "MessageControl", model );
         }
 

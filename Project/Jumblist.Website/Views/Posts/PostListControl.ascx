@@ -21,7 +21,8 @@
         </td>        
         <td width="24%" colspan="2">
             <%= Ajax.SavePostToBasketImageLink( "Save post to basket", new { id = post.PostId }, new { title = "Save post to my basket" } )%>
-            <%= Ajax.EmailPostImageLink( "Email post", new { id = post.PostId, title = post.Title }, new { title = "Email me the post details" } )%>
+            <%= Html.SendEmailImageLink( post ) %>
+            <%--<%= Ajax.EmailPostImageLink( "Email post", new { id = post.PostId, title = post.Title }, new { title = "Email me the post details" } )%>--%>
             <%= Html.MapPostImageLink( "/assets/images/map-icon.png", "Location of post on map", "setMapV2", post )%>
         </td>
         </tr>

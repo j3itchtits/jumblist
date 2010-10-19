@@ -570,7 +570,7 @@
 		<!-- This contains the hidden content for inline send email calls --> 
 		<div style="display:none"> 
 			<div id="colorboxSendEmailContent" style="padding:10px; background:#fff;"> 
-			    <form action="/posts/EmailUnauthenticated" method="post">
+			    <form action="/posts/email" method="post">
 			    <p>Post: <span id="posttitle"></span><br />
 			    <strong>Enter your email address details</strong><br />
 			    <input id="postid" type="hidden" />

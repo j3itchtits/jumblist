@@ -48,6 +48,11 @@ td
     color: red;
 }
 
+.hide
+{
+	display: none;
+}
+
 div
 {
 	border: 0px solid black;
@@ -271,8 +276,52 @@ a.icon
 	padding: 10px;
 }
 
+/****************************
+ ** Javascript divs *
+ ****************************/
 
+#sendEmailForm
+{
+	position:absolute; 
+	padding: 20px;
+	width: 300px;
+	height: 160px;
+}
 
+#sendEmailForm #messageSendEmailForm
+{
+	margin: 10px 0px;
+}
+
+#sendEmailForm #emailAddress
+{
+	width:240px;
+	margin-bottom: 10px;
+}
+
+#sendEmailForm form
+{
+	display:inline;
+}
+
+#pane-tempmessage
+{
+	border: 1px solid #aaa;
+	background: #CAF78A;
+	margin: 20px 40px;
+	padding: 12px;
+    position: relative;
+
+}
+
+#pane-tempmessage .hidetext
+{
+	font-size: 80%;
+    position: absolute;
+    top: -20px;
+    right: 20px;
+    cursor: pointer;
+}
 
 /****************************
  ** Div styles *
@@ -388,25 +437,6 @@ a.icon
 ul.basicmaplist li
 {
 	margin-bottom: 4px;
-}
-
-#pane-tempmessage
-{
-	border: 1px solid #aaa;
-	background: #CAF78A;
-	margin: 20px 40px;
-	padding: 12px;
-    position: relative;
-
-}
-
-#pane-tempmessage .hide
-{
-	font-size: 80%;
-    position: absolute;
-    top: -20px;
-    right: 20px;
-    cursor: pointer;
 }
         
 /****************************

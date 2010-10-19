@@ -1,0 +1,11 @@
+Yahoo GeoServices API Key
+
+http://developer.yahoo.com/geo
+http://developer.yahoo.com/geo/placemaker/
+
+
+Developer portal - https://developer.apps.yahoo.com/projects?
+
+Congratulations, noostu, your application is now registered! Yeah!
+Your application id is ggw9aCTV34Gh6grhodAkHeavbOP2K9bUeikrK9Ja0Wu_MIbjk0JvmC1yHmMd
+For application entrypoint -> http://www.hodes.co.uk

@@ -85,6 +85,15 @@ namespace StuartClode.Mvc.Extension
             return ReplaceLineBreaks( ret, " " );
         }
 
+        public static string ToShortDescription( this string input, int chars )
+        {
+            if ( string.IsNullOrEmpty( input ) ) return string.Empty;
+
+            string ret = (input.Length < chars) ? input : input.Substring( 0, chars ) + "...";
+
+            return ReplaceLineBreaks( ret, " " );
+        }
+
         public static string AlterIfNotNullOrEmpty(this string input, string prepend, string postpend)
         {
             if (!string.IsNullOrEmpty(input))

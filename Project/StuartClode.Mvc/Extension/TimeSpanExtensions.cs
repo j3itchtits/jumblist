@@ -60,7 +60,7 @@ namespace StuartClode.Mvc.Extension
             }
             else
             {
-                return "<span class='highlight'>" + timeSpan.ToDateTimeDiff( dateTime ) + "</span>.";
+                return "<span class='highlight'>" + timeSpan.ToDateTimeDiff( dateTime ) + "</span>";
             }
         }
     }

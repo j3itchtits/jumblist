@@ -24,7 +24,7 @@
             <td class="field-label"><label for="Item_Name">Name:</label></td>
             <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Name, new { @class = "fancy-field" } )%></td>
             <td class="field-helptext">
-                <span class="field-info" style="display: none;">
+                <span class="field-info hide">
                    Your username
                 </span>
                 <span class="field-validation-error">
@@ -36,7 +36,7 @@
             <td class="field-label"><label for="Item_Email">Email:</label></td>
             <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Email, new { @class = "fancy-field" } )%></td>
             <td class="field-helptext">
-                <span class="field-info" style="display: none;">
+                <span class="field-info hide">
                    Your email address
                 </span>
                 <span class="field-validation-error">
@@ -48,7 +48,7 @@
             <td class="field-label"><label for="Item_Postcode">Postcode:</label></td>
             <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Postcode, new { @class = "fancy-field text-upper" } )%></td>
             <td class="field-helptext">
-                <span class="field-info" style="display: none;">
+                <span class="field-info hide">
                    Your postcode
                 </span>
                 <span class="field-validation-error">
@@ -60,7 +60,7 @@
             <td class="field-label"><label for="Item_Radius">Radius:</label></td>
             <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Radius, new { @class = "fancy-field" } )%></td>
             <td class="field-helptext">
-                <span class="field-info" style="display: none;">
+                <span class="field-info hide">
                    Search radius in miles centered on your postcode
                 </span>
                 <span class="field-validation-error">
@@ -99,12 +99,12 @@
             
             <table>
             <tr>
-                <td><label for="Password">Old Password</label></td>
+                <td><label for="OldPassword">Old Password</label></td>
                 <td><%= Html.Password( "OldPassword" )%>
                 <%= Html.ValidationMessage( "Reset.OldPassword" )%>     </td>       
             </tr>        
             <tr>
-                <td><label for="Password">New Password</label></td>
+                <td><label for="NewPassword">New Password</label></td>
                 <td><%= Html.Password( "NewPassword" )%>
                 <%= Html.ValidationMessage( "Reset.NewPassword" )%>     </td>       
             </tr>

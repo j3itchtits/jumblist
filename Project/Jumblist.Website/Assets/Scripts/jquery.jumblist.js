@@ -89,16 +89,6 @@ function setEmail($postid, $posttitle) {
     });
 }
 
-function setEmail_Delete($postid, $posttitle) {
-    //$("#video_player").html('<embed src="/wp-content/flash/video/videoplayer.swf" quality="high" pluginspage="http://www.adobe.com/go/getflashplayer" play="true" loop="true" scale="showall" wmode="transparent" devicefont="false" bgcolor="#ffffff" id="videoplayer" menu="true" allowfullscreen="true" allowscriptaccess="sameDomain" salign="" flashvars="employeeID=' + vidID + '&amp;xmlFile=/wp-content/flash/video/' + xmlFile + '.xml" type="application/x-shockwave-flash" align="middle" width="785" height="585">');
-    $(".launchSendEmailLink").colorbox({
-        width: "50%",
-        inline: true,
-        href: "#colorboxSendEmailContent",
-        onComplete: function() { $("#postid").html($postid); $("#posttitle").html($posttitle); }
-    });
-}
-
 function replaceAnchorTextWithIcon() {
 
     //$("a.icon").each(function() {

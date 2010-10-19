@@ -29,7 +29,7 @@
                 return false;
             });
 
-            $("#pane-tempmessage .hide").click(function() {
+            $("#pane-tempmessage .hidetext").click(function() {
                 $(this).parent()
                     .animate({ backgroundColor: "#eee" }, "fast")
                     .animate({ opacity: "hide" }, "slow");
@@ -47,8 +47,8 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyContentLeft" runat="server">
 
-    <h1 style="display: none;">Jumblist Home Page</h1>
-    <h2 style="display: none;">Freecycling made easy</h2>
+    <h1 class="hide">Jumblist Home Page</h1>
+    <h2 class="hide">Freecycling made easy</h2>
 
     <div id="system-message">
         <%= Html.MessageBox( ViewData.Model ) %>

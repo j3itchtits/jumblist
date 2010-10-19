@@ -27,43 +27,34 @@ Design/Layout and Copy
 Functionality
 =============
 
---------------
-Logged in user
---------------
 
-Basket
-- Remove item - DONE
-- Remove all - DONE
-- Email basket items to me - DONE
-
-Post
-- Add post - DONE
-- Email post to me - DONE
-- Save post to basket - DONE
-
-Post lists
-- Save lists as email alerts - DONE
-
-Profile
-- Edit personal profile - DONE
-- Edit search profile - DONE
-- Edit email alerts - DONE
-
-Registration
+Registration process
 - Lock down security (see Steve Sanderson)
 - Use email confirmation strategy - DONE
 - Forgotten password - DONE
 
-Home page search (by user location) - DONE
-Search widget (by user location) - DONE
+Search process
+- Home page search by tag/location (DONE)
+- Home page search by tag  - USER LOGGED IN - (DONE)
+- Right hand column search by category, tags, location (DONE)
 
+Profile page - USER LOGGED IN
+- Edit personal profile - DONE
+- Edit search profile - DONE
+- Edit email alerts - DONE
 
+Basket widget - USER LOGGED IN
+- Remove item - DONE
+- Remove all - DONE
+- Email basket items to me - DONE
 
---------
-Everyone
---------
+Add Post page (topnav)
+- Add post - USER LOGGED IN - (DONE)
 
-Post List tab
+Posts page (topnav)
+
+Post list tab
+
 - Fields to include on each post record
 -- Title (DONE)
 -- Feed Name (DONE)
@@ -71,13 +62,19 @@ Post List tab
 -- Number of views (popularity) (DONE)
 -- Date or Time since posted (DONE)
 -- Post Category (DONE)
--- View map (DONE)
+-- View post on map (DONE)
+-- Save post to basket - USER LOGGED IN - (DONE)
+-- Email post  (DONE)
+
+- Functionality on page
+-- Number of posts (DONE)
 -- View RSS feed - DONE
-- Paging for list pages (like stackoverflow) (DONE)
-- Change number of posts per page (like stackoverflow) - add this value to user session (DONE)
+-- Setup email alert - USER LOGGED IN -  (DONE)
+-- Paging for list pages (like stackoverflow) (DONE)
+-- Change number of posts per page (like stackoverflow) - add this value to user session (DONE)
 
 
-Map List tab
+Map list tab
 - Map position and zoom level to reflect visible pushpins (DONE)
 - Enhanced mouseover on each pushpin (DONE?)
 - Randomize positions (DONE)
@@ -89,13 +86,15 @@ List Right Hand Column
 -- by location (DONE)
 -- by search location and radius (DONE)
 
-Post Detail
+Post Detail page
 - Fields to include on each post record (left column)
 -- Title (DONE)
+-- Link back to freecycle/freegle (DONE)
 -- Body (DONE)
 -- Publish Date and TimeDiff (DONE)
+-- Number of views (DONE)
+
 - Fields to include on each post record (right column)
--- Link back to freecycle/freegle (DONE)
 -- Post Category link (DONE)
 -- Group link (DONE)
 -- Tags link (DONE)
@@ -114,15 +113,21 @@ Twitter integration
 - Add list (feed) to twitter
 - Add post to twitter - DONE
 
-Tags
+Tags page (topnav)
 - Popularity field (number of views)
 - Popularity field (number of posts) (DONE)
 - Sort list of tags by popularity
 
-Search (by location) - DONE
+Locations page (topnav) (NB. NEEDS TO BE DELETED ALONG WITH ALL LOCATION/POSTLOCATION INF0)
+- List of locations sorted alphabetically (DONE)
+
+Groups page (topnav)
+- List of groups sorted by popularity (DONE)
 
 Customer feedback and community
 - Get Satisfaction (http://getsatisfaction.com) (DONE)
+
+
 
 ------------
 Google tools
@@ -168,9 +173,11 @@ http://developer.yahoo.com/performance/rules.html
 
 Still to do - Version 2.0
 
+Post Location
+- Need to use some kind of web service (perhaps Yahoo geolocate) in order to parse a bunch of text and return a lat/long. My current algoritm relies on a list of locations which we want to get rid of as it is too much work to maintain. eg. http://developer.yahoo.com/geo/
+
 Login/Registration across social media
 - Janrain (http://www.janrain.com)
-
 
 Post listing
 - Sort by (eg. most popular, nearest, newest)
@@ -189,8 +196,6 @@ Advanced post functionality
 - Report post
 - Vote post up/down
 - Popularity (combination of votes/post views)
-
-JQuery effects on "home page search box" and "right column search filter box"
 
 User rating functionality
 - Registered users can rate others when they recieve an offer or response to a wanted post

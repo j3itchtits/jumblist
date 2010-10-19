@@ -26,7 +26,7 @@
             <td class="field-label"><label for="Item_Name">Name</label></td>
             <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Name, new { @class = "fancy-field" } )%></td>
             <td class="field-helptext">
-                <span class="field-info" style="display: none;">
+                <span class="field-info hide">
                    Please enter a username
                 </span>
                 <span class="field-validation-error">
@@ -39,7 +39,7 @@
             <td class="field-label"><label for="Item_Email">Email</label></td>
             <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Email, new { @class = "fancy-field" } )%></td>
             <td class="field-helptext">
-                <span class="field-info" style="display: none;">
+                <span class="field-info hide">
                    Please enter your email address
                 </span>            
                 <span class="field-validation-error">
@@ -53,7 +53,7 @@
             <td class="field-label"><label for="Item_Postcode">Postcode</label></td>
             <td class="field-input"><%= Html.TextBoxFor( m => m.Item.Postcode, new { @class = "fancy-field" } )%></td>
             <td class="field-helptext">
-                <span class="field-info" style="display: none;">
+                <span class="field-info hide">
                    Please enter a valid UK postcode
                 </span> 
                 <span class="field-validation-error">
@@ -66,7 +66,7 @@
             <td class="field-label"><label for="Item_Password">Password</label></td>
             <td class="field-input"><%= Html.PasswordFor( m => m.Item.Password, new { @class = "fancy-field" } )%></td>
             <td class="field-helptext">
-                <span class="field-info" style="display: none;">
+                <span class="field-info hide">
                    Please enter a password of more than 6 characters
                 </span>             
                 <span class="field-validation-error">
@@ -79,7 +79,7 @@
             <td class="field-label"><label for="ConfirmPassword">Confirm Password</label></td>
             <td class="field-input"><%= Html.Password( "ConfirmPassword", string.Empty, new { @class = "fancy-field" } )%></td> 
             <td class="field-helptext">
-                <span class="field-info" style="display: none;">
+                <span class="field-info hide">
                    Please confirm your password
                 </span>             
                 <span class="field-validation-error">
