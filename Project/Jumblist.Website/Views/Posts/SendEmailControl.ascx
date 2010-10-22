@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 
-
-<div id="sendEmailForm" class="hide widget-green">
+<%-- 
+<div id="sendEmailFormDiv" class="hide widget-green">
     <% using ( Ajax.BeginForm( "email", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "system-message" } ) )
        { %>    
             <div id="messageSendEmailForm" class="hide"></div>
@@ -10,15 +10,17 @@
             <%= Html.SubmitButton( "submitSendEmailForm", "Send" )%> <a href="#" id="closeSendEmailForm">Cancel</a>
     <% } %>
 </div>
-
+ --%>
            
-<%--<div class="hide"> 
-	<div id="colorboxSendEmailContent" style="padding:10px; background:#fff;"> 
-	    <form action="/posts/emailunauthenticated" method="post">
-	    <p><strong><span id="posttitle"></span></strong></p>
-	    <input id="postid" name="postid" type="hidden" />
-	    <label for="email" style="display:none;">Email address</label><input id="postemailaddress" name="postemailaddress" type="text" value="Enter Email Address" />
-	    <input type="submit" value="Send" />  
+
+	<div id="sendEmailFormDiv" class="hide widget-green"> 
+        <div class="hide"><b>Success. Your email was sent.</b></div>
+        <img src="/assets/images/loading.gif" alt="Loading" class="hide" />	  
+	    <form action="<%= Url.Action( "email", "posts" ) %>" method="post">
+	        <div id="messageSendEmailForm" class="hide"></div>
+	        <input id="postId" name="postId" type="hidden" />
+	        <label for="emailAddress" class="hide">Email address</label>
+	        <input id="emailAddress" name="emailAddress" type="text" value="" />
+	        <input id="submitSendEmailForm" type="submit" value="Send" /> <img src="/assets/images/loading.gif" alt="Loading" class="hide" /> <a href="#" id="closeSendEmailForm">Cancel</a>
 	    </form>
 	</div> 
-</div> --%>

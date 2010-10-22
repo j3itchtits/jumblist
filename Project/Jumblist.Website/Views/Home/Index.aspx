@@ -7,37 +7,30 @@
     <%= Html.AutocompleteProjectRefs()%>
     
     <script src="<%= Url.Script( "jquery.cookie.js" )%>" type="text/javascript"></script>
-    
+    <script src="<%= Url.Script( "jquery.showedithide.js" )%>" type="text/javascript"></script>
+
+  
     <script type="text/javascript">
 
         $(document).ready(function() {
 
-            $("#tagSearch").autocomplete('<%= Url.Action( "AjaxFindTags", "Tags", new { area = "" } ) %>', { minChars: 1, multiple: true, multipleSeparator: " " });
 
-            $('#radius-edit').click(function() {
-                $('#radius-value').hide();
-                $('#radius-edit').hide();
-                $('#locationRadius').fadeIn().focus();
-                return false;
-            });
+            $("#tagSearch").autocomplete('<%= Url.Action( "AjaxFindTags", "Tags", new { area = "" } ) %>', { minChars: 1, multiple: true, multipleSeparator: " " }).focus();
 
-            $('#locationRadius').blur(function() {
-                $('#locationRadius').hide();
-                //need to pass the value from input to span
-                $('#radius-value').html($('#locationRadius').val()).fadeIn();
-                $('#radius-edit').fadeIn();
-                return false;
-            });
+            $('#radius-edit').showedithide();
 
-            $("#pane-tempmessage .hidetext").click(function() {
+            $("#pane-welcomemessage .hidetext").click(function() {
                 $(this).parent()
                     .animate({ backgroundColor: "#eee" }, "fast")
                     .animate({ opacity: "hide" }, "slow");
                 $.cookie('hide-welcomemessage', '1', { expires: 365 });
                 return false;
             });
+            
+            if ($.cookie('hide-welcomemessage') == '1') {
+                $("#pane-welcomemessage").hide();
+            }
 
-            if ($.cookie('hide-welcomemessage') == '1') $("#pane-tempmessage").hide();
         });
     
     

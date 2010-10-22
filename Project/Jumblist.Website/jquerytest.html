@@ -15,12 +15,85 @@
     <script src="/assets/colorbox/jquery.colorbox-min.js" type="text/javascript"></script> 
     <link href="/assets/colorbox/colorbox.css" rel="stylesheet" type="text/css"/> 
 
+    <script src="/assets/scripts/jquery.sendemailpopup.js" type="text/javascript"></script> 
 
 		<script>
 		    $(document).ready(function() {
 		        //Examples of how to assign the ColorBox event to elements
 		        $(".example8").colorbox({ width: "50%", inline: true, href: "#inline_example1" });
+
+		        $('.emailPostLink').sendemailpopup({ textfield_defaulttext: 'theclodes@googlemail.com' });
+		        //$('#submitSendEmailForm').replaceWith('<br /><img src="/assets/images/loading.gif" alt="Loading" />');
+
+		        $(".done").hide();
+		        
+		        //if submit button is clicked
+		        $('#submit').click(function() {
+
+		            $(".error").hide();
+
+		            
+		            //Get the data from all the fields
+		            var postId = $('input[name=postId]');
+		            var emailAddress = $('input[name=emailAddress]');
+
+		            if (postId.val() == '') {
+		                postId.after('<span class="error">You forgot to enter the name</span>');
+		                return false;
+		            }
+
+		            if (emailAddress.val() == '') {
+		                emailAddress.after('<span class="error">You forgot to enter the email address to send to</span>');
+		                return false;
+		            }
+
+		            if (!isValidEmailAddress(emailAddress.val())) {
+		                emailAddress.after('<span class="error">Please enter a valid email address</span>');
+		                return false;
+		            }
+
+		            //organize the data properly
+		            var data = 'postId=' + postId.val() + '&emailAddress=' + emailAddress.val();
+
+		            //disabled all the text fields
+		            $('input[type="text"]').attr('disabled', 'true');
+
+		            //replace submit button with loading graphic
+		            $('#submit').replaceWith('<img src="/assets/images/loading.gif" alt="Loading" />');
+
+	
+		            //start the ajax  
+
+
+		            $.post(
+                        "/posts/email",
+                        { postId: postId.val(), emailAddress: emailAddress.val() },
+                        function(html) {
+                            if (html == 1) {
+                                //hide the form
+                                $('.form').delay(500).fadeOut('slow');
+
+                                //show the success message
+                                $('.done').delay(500).fadeIn('slow');
+
+                                //if process.php returned 0/false (send mail failed)  
+                            } else alert('Sorry, unexpected error. Please try again later.');
+                        }
+                    );
+
+		            //cancel the submit button default behaviours
+		            return false;
+		        });
+
+
+
 		    });
+
+		    function isValidEmailAddress(emailAddress) {
+		        var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+		        return pattern.test(emailAddress);
+		    }
+		    
 		</script>
 	</head>
 	<body>
@@ -35,5 +108,44 @@
 			<p>The inline option preserves bound JavaScript events and changes, and it puts the content back where it came from when it is closed.<br />
 			</div>
 		</div>
+		
+        <h1>Basic Jquery Ajax form submission</h1>
+        <div class="block">
+            <div class="done hide">
+                <b>Thank you !</b> We have received your message. 
+            </div>
+	        <div class="form">
+	            <form method="post" action="/posts/email" id="myForm">
+	            <div class="element">
+		            <label>ID</label>
+		            <input type="text" name="postId" class="text" value="5000" />
+	            </div>	            
+	            <div class="element">
+		            <label>Email</label>
+		            <input type="text" name="emailAddress" class="text" />
+	            </div>
+	            <div class="element">
+		            <input type="submit" id="submit"/>
+	            </div>
+	            </form>
+	        </div>
+        </div>
+
+        <h1>Advanced Jquery Ajax form submission<span class="hide">Offered - Close to Ore village - Single ...</span><span class="hide">5000</span><img alt="Email post" title="Email post" src="/assets/images/email-icon.png" class="emailPostLink" style="cursor: pointer;" /> </h1>
+	    <div id="sendEmailFormDiv" class="hide widget-green"> 
+	        <div class="hide"><b>Success. Your email was sent.</b></div>
+	        <img src="/assets/images/loading.gif" alt="Loading" class="hide" />	    
+	        <form action="/posts/email" method="post">
+	        <div id="messageSendEmailForm" class="hide"></div>
+	        <input id="postId" name="postId" type="hidden" value="" />
+	        <label for="emailAddress" class="hide">Email address</label>
+	        <input id="emailAddress" name="emailAddress" type="text" value="" />
+	        <input id="submitSendEmailForm" type="submit" value="Send" /> <a href="#" id="closeSendEmailForm">Cancel</a>
+	        </form>
+	    </div> 
+	
+		
+	
+			
 	</body>
 </html>
