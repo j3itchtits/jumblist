@@ -53,6 +53,11 @@ td
 	display: none;
 }
 
+.bold
+{
+	font-weight: bold;
+}
+
 div
 {
 	border: 0px solid black;
@@ -280,7 +285,7 @@ a.icon
  ** Javascript divs *
  ****************************/
 
-#sendEmailForm
+#sendEmailFormDiv
 {
 	position:absolute; 
 	padding: 20px;
@@ -288,23 +293,23 @@ a.icon
 	height: 160px;
 }
 
-#sendEmailForm #messageSendEmailForm
+#sendEmailFormDiv #messageSendEmailForm
 {
 	margin: 10px 0px;
 }
 
-#sendEmailForm #emailAddress
+#sendEmailFormDiv #emailAddress
 {
 	width:240px;
 	margin-bottom: 10px;
 }
 
-#sendEmailForm form
+#sendEmailFormDiv form
 {
 	display:inline;
 }
 
-#pane-tempmessage
+#pane-welcomemessage
 {
 	border: 1px solid #aaa;
 	background: #CAF78A;
@@ -314,7 +319,7 @@ a.icon
 
 }
 
-#pane-tempmessage .hidetext
+#pane-welcomemessage .hidetext
 {
 	font-size: 80%;
     position: absolute;

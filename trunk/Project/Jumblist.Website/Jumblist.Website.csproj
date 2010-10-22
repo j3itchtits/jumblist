@@ -298,6 +298,7 @@
     <Content Include="Assets\Images\email-icon.png" />
     <Content Include="Assets\Images\facebook-icon.png" />
     <Content Include="Assets\Images\join-now-icon.png" />
+    <Content Include="Assets\Images\loading.gif" />
     <Content Include="Assets\Images\logo.png" />
     <Content Include="Assets\Images\logo2.png" />
     <Content Include="Assets\Images\map-icon.png" />
@@ -320,6 +321,7 @@
     <Content Include="Assets\Scripts\jquery.gmap.js" />
     <Content Include="Assets\Scripts\jquery.gmap-v2.js" />
     <Content Include="Assets\Scripts\jquery.sendemailpopup.js" />
+    <Content Include="Assets\Scripts\jquery.showedithide.js" />
     <Content Include="Assets\Scripts\jquery.truncate.js" />
     <Content Include="Assets\Scripts\jquery.simpletabs.js" />
     <Content Include="Assets\Validate\jquery.validate.min.js" />

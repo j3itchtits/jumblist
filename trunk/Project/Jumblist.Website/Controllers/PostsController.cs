@@ -336,31 +336,31 @@ namespace Jumblist.Website.Controllers
         //}
 
         [AcceptVerbs( HttpVerbs.Post )]
-        public PartialViewResult Email( string postId, string emailAddress )
+        public int Email( string postId, string emailAddress )
         {
             //need to check that postid is an int and emailaddress is an email string
-            Message model;
+            //Message model;
 
             int validPostId;
             bool isPostIdValid = Int32.TryParse( postId, out validPostId );
 
             if ( !isPostIdValid )
             {
-                model = new Message { Text = "Please select a valid post", StyleClass = "message" };
-                return PartialView( "MessageControl", model );
+                //model = new Message { Text = "Please select a valid post", StyleClass = "message" };
+                return 0;
             }
 
             if ( !Regex.IsMatch( emailAddress, StringExtensions.EmailOnlyRegex, RegexOptions.IgnoreCase ) )
             {
-                model = new Message { Text = "Please enter a valid email.", StyleClass = "message" };
-                return PartialView( "MessageControl", model );
+                //model = new Message { Text = "Please enter a valid email.", StyleClass = "message" };
+                return 0;
             }
 
-            //Post post = postService.SelectRecord( validPostId );
-            //mailService.SendPostEmail( post, emailAddress );
+            Post post = postService.SelectRecord( validPostId );
+            mailService.SendPostEmail( post, emailAddress );
 
-            model = new Message { Text = "The post details have been emailed to you at " + emailAddress + ".", StyleClass = "message" };
-            return PartialView( "MessageControl", model );
+            //model = new Message { Text = "The post details have been emailed to you at " + emailAddress + ".", StyleClass = "message" };
+            return 1;
         }
 
         [AcceptVerbs( HttpVerbs.Get )]
