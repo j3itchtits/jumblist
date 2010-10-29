@@ -30,6 +30,8 @@ namespace StuartClode.Mvc.Extension
         
         public const string EmailOnlyRegex = @"^(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6}$";
         public const string PasswordOnlyRegex = @"^[^\s]{6,50}$";
+        public const string StreetNameRegex = @"(road|street|gardens)";
+
 
         public static string ToFriendlyUrlEncode( this string helper )
         {
@@ -107,6 +109,18 @@ namespace StuartClode.Mvc.Extension
             }
 
             return input;
+        }
+
+        public static bool IsStringNullOrEmpty( this string input )
+        {
+            if ( !string.IsNullOrEmpty( input ) )
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public static string ReplaceLineBreaks( this string lines, string replacement )

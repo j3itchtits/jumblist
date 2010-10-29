@@ -20,7 +20,6 @@
 
         opts.submit_form_obj.click(function() {
             submitform(opts);
-            alert('ths is Fired multiple times');
             return false;
         });
         
@@ -140,12 +139,11 @@
                     //show the success message and hide the loading graphic
                     $options.form_obj.prev().prev().show();
                     $options.form_obj.prev().hide();
-                    //remove the form
-                    $options.formdiv_obj.delay(1000).slideUp('slow');
-                    
                 } else {
                     alert('Sorry, an unexpected error occurred. Please try again later.');
                 }
+                //remove the form
+                $options.formdiv_obj.delay(2000).slideUp('slow');
             }
         );
 

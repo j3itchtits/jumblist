@@ -342,12 +342,12 @@ namespace Jumblist.Core.Service
 
             //Set Latitude and Longitude Properties
             //Latitude and longitude may have already been set if a proper postcode was found in their post (see "SavePostLocations" method)
-            if ( !post.HaveLatitudeAndLongitudeValuesBeenPopulated )
-            {
-                double[] coordinates = GetLocationCoordinates( locationsSaved );
-                post.Latitude = coordinates[0];
-                post.Longitude = coordinates[1];
-            }
+            //if ( !post.HaveLatitudeAndLongitudeValuesBeenPopulated )
+            //{
+            //    double[] coordinates = GetLocationCoordinates( locationsSaved );
+            //    post.Latitude = coordinates[0];
+            //    post.Longitude = coordinates[1];
+            //}
 
             base.Save( post );
         }
@@ -406,65 +406,84 @@ namespace Jumblist.Core.Service
 
         public IList<PostLocation> SavePostLocations( ref Post post )
         {
-            IList<PostLocation> list = new List<PostLocation>();
+            IList<PostLocation> locations = new List<PostLocation>();
 
             string input = (post.Title + " " + post.Body).Replace( "'", string.Empty ).Replace( ".", string.Empty );
 
             //Check whether a full postcode exists in teh input - if it does we simply perform a geocode lookup and then update the post and return
-            Match match = Regex.Match( input, StringExtensions.UKPostcodeRegex, RegexOptions.IgnoreCase );
+            Match fullPostCode = Regex.Match( input, StringExtensions.UKPostcodeRegex, RegexOptions.IgnoreCase );
 
-            if ( match.Success )
+            if ( fullPostCode.Success )
             {
-                BingLocationService bingLocationService = new BingLocationService( match.ToString() );
-                if ( bingLocationService != null )
+                BingLocationService location = new BingLocationService( fullPostCode.ToString() );
+                if ( location != null )
                 {
-                    post.Latitude = bingLocationService.Latitude;
-                    post.Longitude = bingLocationService.Longitude;
-                    return list;                    
+                    post.Latitude = location.Latitude;
+                    post.Longitude = location.Longitude;
+                    return locations;                    
                 }
             }
+
+            //we need to do a similar check to the one above but with a district postcode instead - this is probably more reliable than postlocations below
+            //however we may have more than one district postcode (including false positives) so we need to be able to check that they actually return a valid location from bing maps
+
+            //Attempt to match input with locations stored in database
+            IEnumerable<Location> locationListByFeed = locationService.SelectRecordListByFeed( FeedLocation.WhereFeedIdEquals( post.FeedId ) );
+            //IEnumerable<Location> locationListPostcodes = locationService.SelectRecordList( Location.WhereLocationAreaIsNull() );
+            //IEnumerable<Location> locationList = locationListByFeed.Concat( locationListPostcodes );
+
+            foreach ( Location location in locationListByFeed )
+            {
+                string pattern = (location.IsPostcode) ? location.NameSearch + ".*" : location.NameSearch;
+                if ( input.IsPhraseRegexMatch( pattern, RegexOptions.IgnoreCase ) )
+                {
+                    PostLocation postLocation = new PostLocation { PostId = post.PostId, LocationId = location.LocationId };
+                    postLocationService.Save( postLocation );
+                    locations.Add( postLocation );
+                }
+            }
+
+            //Last try is to get the Default Location for a feed/group and apply it to the post but only if the item is "offered"
+            if ( locations.Count == 0 && post.Category.Name == PostCategoryId.Offered.ToString() )
+            {
+                Location location = locationService.SelectRecord( Location.WhereFeedEquals( post.Feed ) );
+                PostLocation postLocation = new PostLocation { PostId = post.PostId, LocationId = location.LocationId };
+                postLocationService.Save( postLocation );
+                locations.Add( postLocation );
+            }
+
+
+            Location principalLocation = GetPrincipalLocation( locations );
 
             //Perhaps the next step should be to parse the input looking for "road", "street", "avenue", "drive" etc
             //Then get the previous word and send it to BingLocationService combined with the town name from the feed
             //eg. var bingLocationService = new BingLocationService( "rodney avenue, hastings, uk" );
 
-            //string address = "rodney avenue, hastings, uk";
-            //if ( address )
+            //Match streetAddress = Regex.Match( input, StringExtensions.StreetNameRegex, RegexOptions.IgnoreCase );
+            //// Need to somehow get the previous word to the match and make that the streetAddress
+
+            //if ( streetAddress.Success )
             //{
-            //    BingLocationService bingLocationService = new BingLocationService( address );
-            //    if ( bingLocationService != null )
+            //    //string address = "rodney avenue, " + principalLocation.BingSearch;
+            //    string address = streetAddress.ToString() + ", " + principalLocation.BingSearch;
+            //    BingLocationService location = new BingLocationService( address );
+            //    if ( location != null )
             //    {
-            //        post.Latitude = bingLocationService.Latitude;
-            //        post.Longitude = bingLocationService.Longitude;
-            //        return list;
+            //        post.Latitude = location.Latitude;
+            //        post.Longitude = location.Longitude;
+            //        return locations;
             //    }
             //}
 
-            //Attempt to match input with locations stored in database
-            IEnumerable<Location> locationListByFeed = locationService.SelectRecordListByFeed( FeedLocation.WhereFeedIdEquals( post.FeedId ) );
-            IEnumerable<Location> locationListPostcodes = locationService.SelectRecordList( Location.WhereLocationAreaIsNull() );
-
-            foreach ( Location location in (locationListByFeed.Concat( locationListPostcodes )) )
+            //Set Latitude and Longitude Properties
+            //Latitude and longitude may have already been set if a proper postcode was found in their post or we were able to get a valid streetAddress from the input
+            if ( principalLocation != null )
             {
-                string pattern = (location.IsPostcode) ? location.NameSearch + ".*" : location.NameSearch;
-                if ( input.IsPhraseRegexMatch( pattern, RegexOptions.IgnoreCase ) )
-                {
-                    var postLocationItem = new PostLocation { PostId = post.PostId, LocationId = location.LocationId };
-                    postLocationService.Save( postLocationItem );
-                    list.Add( postLocationItem );
-                }
+                post.Latitude = principalLocation.Latitude;
+                post.Longitude = principalLocation.Longitude;
             }
-
-            //Last try is to get the Default Location for a feed/group and apply it to the post but only if the item is "offered"
-            if ( list.Count == 0 && post.Category.Name == PostCategoryId.Offered.ToString() )
-            {
-                Location location = locationService.SelectRecord( Location.WhereFeedEquals( post.Feed ) );
-                PostLocation postLocation = new PostLocation { PostId = post.PostId, LocationId = location.LocationId };
-                postLocationService.Save( postLocation );
-                list.Add( postLocation );
-            }
-
-            return list;
+            
+            return locations;
         }
 
         //public void Import( Post post )
@@ -566,25 +585,35 @@ namespace Jumblist.Core.Service
             //}
         }
 
-        private double[] GetLocationCoordinates( IList<PostLocation> locationsSaved )
+        private Location GetPrincipalLocation( IList<PostLocation> postLocations )
         {
-            double[] coordinates = new Double[2];
+            if ( postLocations.Count == 0 ) return null;
 
-            if (locationsSaved.Count == 0) return coordinates;
+            Location principalLocation = new Location();
 
-            coordinates[0] = locationsSaved[0].Location.Latitude;
-            coordinates[1] = locationsSaved[0].Location.Longitude;
-
-            foreach (var postLocation in locationsSaved)
+            foreach ( PostLocation postLocation in postLocations )
             {
-                if (!string.IsNullOrEmpty(postLocation.Location.NamePartOfTown))
+                //we need to catch at least one of these postlocations
+                if ( principalLocation.Name.IsStringNullOrEmpty() )
                 {
-                    coordinates[0] = postLocation.Location.Latitude;
-                    coordinates[1] = postLocation.Location.Longitude;
+                    principalLocation = postLocation.Location;
+                }
+
+                //if the location is not a postcode then use it but continue the loop
+                if ( !postLocation.Location.IsPostcode )
+                {
+                    principalLocation = postLocation.Location;
+                }
+
+                //if the location is part of a town name (eg. "ore, hastings") then use it and break out of the loop
+                if ( !postLocation.Location.NamePartOfTown.IsStringNullOrEmpty() )
+                {
+                    principalLocation = postLocation.Location;
+                    break;
                 }
             }
 
-            return coordinates;
+            return principalLocation;
         }
 
         private IEnumerable<Post> FilterListBySearchArray( IEnumerable<Post> list, string[] q )
