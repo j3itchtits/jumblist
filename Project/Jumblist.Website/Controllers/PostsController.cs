@@ -356,8 +356,16 @@ namespace Jumblist.Website.Controllers
                 return 0;
             }
 
-            Post post = postService.SelectRecord( validPostId );
-            mailService.SendPostEmail( post, emailAddress );
+            try
+            {
+                Post post = postService.SelectRecord( validPostId );
+                mailService.SendPostEmail( post, emailAddress );
+            }
+            catch ( Exception )
+            {
+                return 0;
+            }
+
 
             //model = new Message { Text = "The post details have been emailed to you at " + emailAddress + ".", StyleClass = "message" };
             return 1;
@@ -439,7 +447,7 @@ namespace Jumblist.Website.Controllers
             item.Latitude = user.Latitude;
             item.Longitude = user.Longitude;
             item.UserId = user.UserId;
-            
+
             string tags = Request.Form["Item.Tags"];
             if ( string.IsNullOrEmpty( tags ) ) tags = item.Title + ' ' + item.Body; 
 

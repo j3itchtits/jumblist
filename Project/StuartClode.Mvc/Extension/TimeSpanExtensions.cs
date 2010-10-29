@@ -58,9 +58,13 @@ namespace StuartClode.Mvc.Extension
             {
                 return string.Empty;
             }
-            else
+            else if (timeSpan.TotalDays < 1)
             {
                 return "<span class='highlight'>" + timeSpan.ToDateTimeDiff( dateTime ) + "</span>";
+            }
+            else
+            {
+                return timeSpan.ToDateTimeDiff( dateTime );
             }
         }
     }

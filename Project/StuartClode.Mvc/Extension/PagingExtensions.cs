@@ -12,6 +12,27 @@ namespace StuartClode.Mvc.Extension
     {
         #region HtmlHelper extensions
 
+        public static string PageSize( this HtmlHelper htmlHelper, int pageSize )
+        {
+            int[] pageSizeOptions = { 15, 30, 50 };
+            StringBuilder s = new StringBuilder();
+            UrlHelper urlHelper = ((Controller)htmlHelper.ViewContext.Controller).Url;
+
+            foreach ( int p in pageSizeOptions )
+            {
+                if ( p == pageSize )
+                {
+                    s.Append( " <span class='bold'>" + p.ToString() + "</span> " );
+                }
+                else
+                {
+                    s.Append( " <a href='" + urlHelper.RouteUrl( htmlHelper.ViewContext.RouteData.Values ) + "?pagesize=" + p.ToString() + "' title='show " + p.ToString() + " items per page'>" + p.ToString() + "</a> " );
+                }
+            }
+
+            return s.ToString();
+        }
+
         public static string Pager( this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount )
         {
             return Pager( htmlHelper, pageSize, currentPage, totalItemCount, null, null );

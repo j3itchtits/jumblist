@@ -360,6 +360,35 @@ a.icon
 	color: #fff;
 }
 
+.widget-grey
+{
+	-moz-border-radius:2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	-webkit-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
+	box-shadow: 1px 1px 2px rgba(0,0,0,.2);
+	background-color: #eee;
+	border: 5px solid #666;
+}
+
+.widget-grey input[type="submit"]
+{
+	color: #fff;
+	border: 1px solid #333;
+	background: #7f7f7f;
+}
+
+.widget-grey input[type="submit"]:hover
+{
+	background: #666;
+}
+
+.widget-grey a
+{
+	color: #000;
+}
+
 .widget-plain
 {
 	-moz-border-radius:5px;

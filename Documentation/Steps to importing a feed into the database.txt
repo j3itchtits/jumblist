@@ -31,11 +31,11 @@ Fields that need some more thought
 - ParentId - how do we recognise an item that has already been posted (ie. a follow-up post indicating an item has been taken)
 - PostCategoryId - we need a method which scans each word in the Title field and returns a PostCategory depending on whether it finds "Wanted", "Offered" or "Taken". (if it is "Taken" then we can find the original item and assign a ParentId
 - Display - if there are any issues that need processing in the Admin section then Display needs to be set to false and an email sent out
-- Latitude/Longtitude - we need a remote query to microsoft/google maps with the location information - returning a lat/long object
 - UserId - we need to take the item.Author field and use it to either find an existing user or add a new user (NO - WE WANT TO KEEP YAHOO REFERENCES TO A MINIMUM - THE USER IS ONLY SET IF THE ITEM HAS BEEN ADDED BY A JUMBLIST USER VIA THE "ADD ITEM" PAGE)
 - FeedId - fairly straitforward
 - Tags - a list of tags created by scanning the title and body fields and comparing each word to a list from the Tags table - if no tags are found then Display needs to be set to false
-- Locations - a list of locations (hopefully only one - the nearest possible) created by scanning the title and body? fields and comparing each word to a list from the Locations table - if no locations are found then Display needs to be set to false (NOTE - each location in the locations table needs an associated feedid in order to narrow down the search)
+- Latitude/Longtitude - we need a remote query to bing/yahoo/google maps web service with the location information - returning a lat/long object - but how do we know the location? See "Feeds and locations.txt" for answers.
+
 
 
 e. Save each (new) item to the database
