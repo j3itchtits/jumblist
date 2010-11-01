@@ -76,7 +76,6 @@
     </div>
 
 
-        
 <%--        <div style="margin: 20px;">
             User: <%= Model.User.Postcode %>, <%= Model.User.Radius %>, <%= Model.User.Latitude %>, <%= Model.User.Longitude %><br />
             UserSearchArea: <%= Model.UserSearchArea.LocationName %>, <%= Model.UserSearchArea.Radius %>, <%= Model.UserSearchArea.Latitude %>, <%= Model.UserSearchArea.Longitude %><br />
@@ -87,9 +86,7 @@
         <%= Html.MessageBox( ViewData.Model ) %>
     </div>
     
-    <div>
-        <b>Number of items: <%= Model.ListCount %></b>
-    </div>
+    <%= Html.PostListNumberOfItems( Model.ListCount ) %>
 
 <%  if ( !Model.User.IsAuthenticated )
     { %>
@@ -99,43 +96,45 @@
         </div>   
 <%  } %>
 
-	<div id="tabs">
-		
-		<ul class="tabNavigation">
-			<li><a href="#tabbedpostlist">Listing</a></li>
-			<li><a href="#tabbedmaplist">Map</a></li>
-		</ul>
+<%  if ( Model.ListCount > 0 )
+    { %>
+	    <div id="tabs">
+    		
+		    <ul class="tabNavigation">
+			    <li><a href="#tabbedpostlist">Listing</a></li>
+			    <li><a href="#tabbedmaplist">Map</a></li>
+		    </ul>
 
-		<div id="tabbedpostlist">
-    
-            <% Html.RenderPartial( "PostListControl", Model.PagedList ); %>
-          
-            <div class="pagerlinks">
-                <%= Html.Pager( Model.PagedList.PageSize, Model.PagedList.PageNumber, Model.PagedList.TotalItemCount )%>
-            </div>
-            
-            <div class="pagesizer">
-                <%= Html.PageSize( Model.PagedList.PageSize )%>
-            </div> 
-            
-		</div>
-				
-		<div id="tabbedmaplist">
-		
-            <% Html.RenderPartial( "GoogleMapControl", Model.Pushpins ); %>
-            <% Html.RenderPartial( "BasicMapListControl", Model.Pushpins ); %>
+		    <div id="tabbedpostlist">
+        
+                <% Html.RenderPartial( "PostListControl", Model.PagedList ); %>
+              
+                <div class="pagerlinks">
+                    <%= Html.Pager( Model.PagedList.PageSize, Model.PagedList.PageNumber, Model.PagedList.TotalItemCount )%>
+                </div>
+                
+                <div class="pagesizer">
+                    <%= Html.PageSize( Model.PagedList.PageSize )%>
+                </div> 
+                
+		    </div>
+    				
+		    <div id="tabbedmaplist">
+    		
+                <% Html.RenderPartial( "GoogleMapControl", Model.Pushpins ); %>
+                <% Html.RenderPartial( "BasicMapListControl", Model.Pushpins ); %>
 
-		</div>
-		
+		    </div>
 
-	</div>
+	    </div>
 
-	<!-- This contains the hidden content for inline map calls --> 
-	<% Html.RenderPartial( "GoogleMapPopupControl" ); %>
-	
-	<!-- This contains the hidden content for inline send email calls --> 	
-	<% Html.RenderPartial( "SendEmailControl" ); %>
-	
+	    <!-- This contains the hidden content for inline map calls --> 
+	    <% Html.RenderPartial( "GoogleMapPopupControl" ); %>
+    	
+	    <!-- This contains the hidden content for inline send email calls --> 	
+	    <% Html.RenderPartial( "SendEmailControl" ); %>
+
+<%  } %>
 	
 </asp:Content>
 

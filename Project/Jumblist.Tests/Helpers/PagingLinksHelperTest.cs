@@ -23,7 +23,7 @@ namespace Jumblist.Tests.Helpers
         public void PagingLinks_Produces_Anchor_Tags()
         {
             HtmlHelper helper = null;
-            string links = helper.PagingLinks( 2, 3, i => "Page" + i );
+            MvcHtmlString links = helper.PagingLinks( 2, 3, i => "Page" + i );
 
             Assert.AreEqual( @"<a href=""page1"">1</a> <a class=""selected"" href=""page2"">2</a> <a href=""page3"">3</a> ", links, "Html string is not right" );
         }
