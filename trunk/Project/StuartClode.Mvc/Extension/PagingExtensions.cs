@@ -12,7 +12,7 @@ namespace StuartClode.Mvc.Extension
     {
         #region HtmlHelper extensions
 
-        public static string PageSize( this HtmlHelper htmlHelper, int pageSize )
+        public static MvcHtmlString PageSize( this HtmlHelper htmlHelper, int pageSize )
         {
             int[] pageSizeOptions = { 15, 30, 50 };
             StringBuilder s = new StringBuilder();
@@ -30,35 +30,35 @@ namespace StuartClode.Mvc.Extension
                 }
             }
 
-            return s.ToString();
+            return MvcHtmlString.Create( s.ToString() );
         }
 
-        public static string Pager( this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount )
+        public static MvcHtmlString Pager( this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount )
         {
             return Pager( htmlHelper, pageSize, currentPage, totalItemCount, null, null );
         }
 
-        public static string Pager( this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount, string actionName )
+        public static MvcHtmlString Pager( this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount, string actionName )
         {
             return Pager( htmlHelper, pageSize, currentPage, totalItemCount, actionName, null );
         }
 
-        public static string Pager( this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount, object values )
+        public static MvcHtmlString Pager( this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount, object values )
         {
             return Pager( htmlHelper, pageSize, currentPage, totalItemCount, null, new RouteValueDictionary( values ) );
         }
 
-        public static string Pager( this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount, string actionName, object values )
+        public static MvcHtmlString Pager( this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount, string actionName, object values )
         {
             return Pager( htmlHelper, pageSize, currentPage, totalItemCount, actionName, new RouteValueDictionary( values ) );
         }
 
-        public static string Pager( this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount, RouteValueDictionary valuesDictionary )
+        public static MvcHtmlString Pager( this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount, RouteValueDictionary valuesDictionary )
         {
             return Pager( htmlHelper, pageSize, currentPage, totalItemCount, null, valuesDictionary );
         }
 
-        public static string Pager( this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount, string actionName, RouteValueDictionary valuesDictionary )
+        public static MvcHtmlString Pager( this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount, string actionName, RouteValueDictionary valuesDictionary )
         {
             if ( valuesDictionary == null )
             {
@@ -75,10 +75,10 @@ namespace StuartClode.Mvc.Extension
             }
             
             var pager = new Pager( htmlHelper.ViewContext, pageSize, currentPage, totalItemCount, valuesDictionary );
-            return pager.RenderHtml();
+            return MvcHtmlString.Create( pager.RenderHtml() );
         }
 
-        public static string PagingLinks( this HtmlHelper helper, int currentPage, int totalPages, Func<int, string> pageUrl )
+        public static MvcHtmlString PagingLinks( this HtmlHelper helper, int currentPage, int totalPages, Func<int, string> pageUrl )
         {
             StringBuilder result = new StringBuilder();
             for ( int i = 1; i <= totalPages; i++ )
@@ -90,10 +90,10 @@ namespace StuartClode.Mvc.Extension
                     tag.AddCssClass( "selected" );
                 result.Append( tag.ToString() + " " );
             }
-            return result.ToString();
+            return MvcHtmlString.Create( result.ToString() );
         }
 
-        public static string NextPreviousPageLinks( this HtmlHelper helper, int currentPage, bool hasPreviousPage, bool hasNextPage, Func<int, string> pageUrl )
+        public static MvcHtmlString NextPreviousPageLinks( this HtmlHelper helper, int currentPage, bool hasPreviousPage, bool hasNextPage, Func<int, string> pageUrl )
         {
             string result = string.Empty;
 
@@ -113,7 +113,7 @@ namespace StuartClode.Mvc.Extension
                 result += tag.ToString() + " ";
             }
 
-            return result;
+            return MvcHtmlString.Create( result );
         }
 
         #endregion

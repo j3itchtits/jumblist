@@ -20,6 +20,18 @@ namespace Jumblist.Website.Extension
 {
     public static class HtmlHelperExtensions
     {
+        public static MvcHtmlString PostListNumberOfItems( this HtmlHelper htmlHelper, int listCount ) 
+        {
+            if ( listCount > 0 )
+            {
+                return MvcHtmlString.Create( "<div><b>Number of items: " + listCount.ToString() + "</b></div>" );
+            }
+            else
+            {
+                return MvcHtmlString.Empty;
+            }
+        }
+
         public static MvcHtmlString HomepageLink( this HtmlHelper htmlHelper, string linkText )
         {
             return HomepageLink( htmlHelper, linkText, new { area = "", controller = "Home" }, null );
@@ -77,7 +89,7 @@ namespace Jumblist.Website.Extension
 
         public static MvcHtmlString MapPostImageLink( this HtmlHelper htmlHelper, string imgSrc, string altText, string jsFunc, Post post )
         {
-            if ( !post.HaveLatitudeAndLongitudeValuesBeenPopulated ) return MvcHtmlString.Create( string.Empty );
+            if ( !post.HaveLatitudeAndLongitudeValuesBeenPopulated ) return MvcHtmlString.Empty;
 
             //Cannot use the ImageLink method below because of the onclick event attached to the anchor link - this could be sorted in the future
             return MvcHtmlString.Create( "<a class=\"launchMapLink\" title='" + altText + "' href=\"#\" onclick=\"" + jsFunc + "( " + post.Latitude + ", " + post.Longitude + ", '" + HttpUtility.HtmlEncode( post.Title ) + "');\"><img src='" + imgSrc + "' width=\"25\" height=\"25\" alt='" + altText + "' /></a>" );
@@ -111,7 +123,7 @@ namespace Jumblist.Website.Extension
 
         public static MvcHtmlString EditPostLink( this HtmlHelper htmlHelper, string linkText, Post post, User user )
         {
-            if ( user.UserId == User.Anonymous.UserId || post.User.UserId != user.UserId ) return MvcHtmlString.Create( string.Empty );
+            if ( user.UserId == User.Anonymous.UserId || post.User.UserId != user.UserId ) return MvcHtmlString.Empty;
 
             return htmlHelper.ActionLink( linkText, "post", "users", new { id = post.PostId }, null );
         }
@@ -204,7 +216,7 @@ namespace Jumblist.Website.Extension
 
         public static MvcHtmlString MessageBox( this HtmlHelper htmlHelper, IBaseViewModel model )
         {
-            if ( model.Message == null ) return MvcHtmlString.Create( string.Empty );
+            if ( model.Message == null ) return MvcHtmlString.Empty;
 
             HtmlTextWriter writer = new HtmlTextWriter( new StringWriter() );
 
@@ -229,7 +241,7 @@ namespace Jumblist.Website.Extension
 
         public static MvcHtmlString MessageBox( this HtmlHelper htmlHelper, Message model )
         {
-            if ( model == null ) return MvcHtmlString.Create( string.Empty );
+            if ( model == null ) return MvcHtmlString.Empty;
 
             HtmlTextWriter writer = new HtmlTextWriter( new StringWriter() );
 
@@ -243,7 +255,7 @@ namespace Jumblist.Website.Extension
 
         public static MvcHtmlString PageTitle( this HtmlHelper htmlHelper, IBaseViewModel model )
         {
-            if ( model.PageTitle == null ) return MvcHtmlString.Create( string.Empty );
+            if ( model.PageTitle == null ) return MvcHtmlString.Empty;
 
             HtmlTextWriter writer = new HtmlTextWriter( new StringWriter() );
             writer.Write( model.PageTitle );
@@ -253,7 +265,7 @@ namespace Jumblist.Website.Extension
 
         public static MvcHtmlString PageTitle( this HtmlHelper htmlHelper, IBaseViewModel model, HtmlTextWriterTag tag )
         {
-            if ( model.PageTitle == null ) return MvcHtmlString.Create( string.Empty );
+            if ( model.PageTitle == null ) return MvcHtmlString.Empty;
 
             HtmlTextWriter writer = new HtmlTextWriter( new StringWriter() );
             writer.RenderBeginTag( tag );
