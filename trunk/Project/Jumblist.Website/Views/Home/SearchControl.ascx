@@ -43,10 +43,8 @@
             <table class="home-searchcriteria-taglocation" title="Search for Posts by Tag and Location">
             <tr>
                 <td>
-                    <label for="tagSearch">Tagged</label>
-                </td>
-                <td>
-                    <%= Html.TextBox( "tagSearch", string.Empty, new { tabindex = "1" } )%>
+                    <label for="tagSearch" class="hide">Tagged</label>
+                    <%= Html.TextBox( "tagSearch", "Tagged", new { tabindex = "1", @class="fadedtext" } )%>
                 </td>
                 <td>
                     <%= Html.SubmitButton( "submit", "Search", new { tabindex = "3" } )%>
@@ -54,10 +52,8 @@
             </tr>
             <tr>
                 <td>
-                    <label for="locationSearch">Location</label>
-                </td>
-                <td>
-                    <%= Html.TextBox( "locationSearch", string.Empty, new { tabindex = "2" } )%>
+                    <label for="locationSearch" class="hide">Location</label>
+                    <%= Html.TextBox( "locationSearch", "Location", new { tabindex = "2", @class = "fadedtext" } )%>
                 </td>
                 <td>
                 </td>                    
@@ -74,11 +70,11 @@
         <fieldset class="home-searchcategory">
             <legend>Please select a post category to filter your search by</legend>
             <input id="categoryAll" type="radio" name="postCategorySelection" value="" checked="checked" />
-            <label for="categoryAll">All</label>  &nbsp;
+            <label for="categoryAll">All</label>
             <input id="categoryOffered" type="radio" name="postCategorySelection" value="offered" />
-            <label for="categoryOffered">Offered</label>  &nbsp;
+            <label for="categoryOffered">Offered</label>
             <input id="categoryWanted" type="radio" name="postCategorySelection" value="wanted" />
-            <label for="categoryWanted">Wanted</label>  &nbsp;   
+            <label for="categoryWanted">Wanted</label>   
         </fieldset>
         
         <%

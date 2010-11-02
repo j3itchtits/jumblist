@@ -108,7 +108,7 @@ namespace Jumblist.Website.Controllers
 
             DefaultViewModel<Post> model = DefaultView.CreateModel<Post>().With( post );
 
-            model.PageTitle = string.Format( "Edit - {0}", post.Title );
+            model.PageTitle = string.Format( "Edit Post - {0}", post.Title );
 
             return View( model );
         }
@@ -164,7 +164,7 @@ namespace Jumblist.Website.Controllers
 
             DefaultViewModel<UserAlert> model = DefaultView.CreateModel<UserAlert>().With( userAlert );
 
-            model.PageTitle = string.Format( "Edit - {0}", userAlert.Name );
+            model.PageTitle = string.Format( "Edit Alert - {0}", userAlert.Name );
             model.PostListRouteValues = (PostListRouteValues)Serializer.Deserialize( userAlert.PostListRouteValues );
             model.UserSearchArea = (UserSearchArea)Serializer.Deserialize( userAlert.SearchArea );
 

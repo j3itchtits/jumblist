@@ -13,16 +13,21 @@
             textfield_defaulttext: 'Enter Email Address'
         };
 
+        //if no custom input field text entered (ie. we don't have an email address) then default back to "enter email address" text
         if (options.textfield_defaulttext.length == 0 || options.textfield_defaulttext == null) options.textfield_defaulttext = defaults.textfield_defaulttext;
+        
+        //we want the default input field text to be grey
+        if (options.textfield_defaulttext != defaults.textfield_defaulttext) defaults.textfield_obj.removeClass("fadedtext");
 
         // Compile default options and user specified options.
         var opts = $.extend(defaults, options);
+
 
         opts.submit_form_obj.click(function() {
             submitform(opts);
             return false;
         });
-        
+
         return this.each(function() {
 
             var obj = $(this);
@@ -48,6 +53,13 @@
             o.formdiv_obj.click(function(event) {
                 event.stopPropagation();
             });
+
+            //            o.textfield_obj.click(function() {
+            //            if ($(this).val() == o.textfield_defaulttext) {
+            //                    $(this).removeClass('fadedtext');
+            //                    $(this).val('');
+            //                }
+            //            });
 
             //            o.formdiv_obj.blur(function() {
             //                closeform(o);
@@ -75,7 +87,7 @@
             //reset the form if it has previously been submitted
             $options.form_obj.prev().prev().hide();
             $options.form_obj.show();
-            
+
             var cellPosition = $object.position();
             var horizontalPosition = cellPosition.left - 300;
             var verticalPosition = cellPosition.top + $object.outerHeight();
@@ -121,19 +133,19 @@
 
         //hide the form object
         $options.form_obj.hide();
-        
+
         //show loading graphic immediately before form object button
         $options.form_obj.prev().show();
 
         //alert($options.form_obj.attr('action'));
 
 
-        
+
         //start the ajax form post
         $.post(
             $options.form_obj.attr('action'),
             { postId: postId.val(), emailAddress: emailAddress.val() },
-            //return html is either 1 (success) or 0 (failure)
+        //return html is either 1 (success) or 0 (failure)
             function(html) {
                 if (html == 1) {
                     //show the success message and hide the loading graphic

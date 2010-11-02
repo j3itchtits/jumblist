@@ -13,43 +13,30 @@
         <%= Html.MessageBox( ViewData.Model )%>
     </div>
         
-    <p><%=Html.ActionLink( "[Edit]", "edit" ) %></p>
+    <p><%=Html.ActionLink( "[ Edit Profile ]", "edit" ) %>  </p>  
    
     <p>
-        Name:
-        <%= Html.Encode( Model.Item.Name )%>
-    </p>
-
-    <p>
-        Email:
-        <%= Html.Encode( Model.Item.Email )%>
-    </p>
-
-    <p>
-        Postcode:
-        <%= Html.Encode( Model.Item.Postcode )%>
-    </p>
-    
-    <p>
-        Radius:
-        <%= Html.Encode( Model.Item.Radius )%>
+        Name: <%= Html.Encode( Model.Item.Name )%><br />
+        Email:  <%= Html.Encode( Model.Item.Email )%><br />
+        Postcode: <%= Html.Encode( Model.Item.Postcode )%><br />
+        Default Search Radius: <%= Html.Encode( Model.Item.Radius )%> miles<br />
     </p>
         
-    <div class="user-alerts">
-       <b>Your alerts</b><br />
+    <table class="user-alerts">
+       <tr><th colspan="2">Your alerts</th></tr>
         <% foreach ( var alert in Model.Item.UserAlerts )
            { %>
-                <%= alert.Name %> <%= Html.ActionLink( "[Edit]", "alert", new { id = alert.UserAlertId } ) %><br /><%
+                <tr><td><%= alert.Name %></td><td><%= Html.ActionLink( "[ Edit ]", "alert", new { id = alert.UserAlertId } ) %></td></tr><%
            } %>
-    </div>
+    </table>
                 
-    <div class="user-posts">
-        <b>Your posts</b><br />
+    <table class="user-posts">
+        <tr><th colspan="3">Your posts</th></tr>
         <% foreach ( var post in Model.Item.Posts.OrderByDescending( t => t.PublishDateTime ) )
            { %>
-                <%= post.Title %> <%= Html.RouteLink( "[View]", "Post-Detail", new { id = post.PostId, name = post.Title.ToFriendlyUrlEncode() } ) %> <%= Html.ActionLink( "[Edit]", "post", new { id = post.PostId } ) %><br /><%
+                <tr><td><%= post.Title %></td><td><%= Html.RouteLink( "[ View ]", "Post-Detail", new { id = post.PostId, name = post.Title.ToFriendlyUrlEncode() } ) %></td><td><%= Html.ActionLink( "[ Edit ]", "post", new { id = post.PostId } ) %></td></tr><%
            } %>
-    </div>
+    </table>
       
 
 </asp:Content>

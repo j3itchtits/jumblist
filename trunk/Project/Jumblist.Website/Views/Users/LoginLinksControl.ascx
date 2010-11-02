@@ -4,11 +4,11 @@
 
     if (Model.IsAuthenticated)
     {
-        %> Welcome <b><%= Html.ActionLink(Model.Name, "Profile")%></b>! [ <%= Html.LogoutLink( "Log Out" )%> ] <%
+        %> Welcome <b><%= Html.ActionLink(Model.Name, "Profile")%></b>! <%= Html.LogoutLink( "[ Log Out ]" )%><%
         
         if ( Model.Role.UserCanAccessAdminArea ) 
         { 
-            %> | [ <%= Html.ActionLink( "Admin", "Index", new { area = "Admin", controller = "Home" } ) %> ] <% 
+            %> | <%= Html.ActionLink( "[ Admin ]", "Index", new { area = "Admin", controller = "Home" } ) %><%
         }
     }
     else

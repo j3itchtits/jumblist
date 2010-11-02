@@ -127,6 +127,11 @@ a.icon
 	margin: 0px 2px;
 }
 
+.fadedtext
+{
+	color: #999;
+}
+
 /****************************
  ** Layout *
  ****************************/
@@ -228,7 +233,7 @@ a.icon
 
 #container-leftcolumn form
 {
-	margin-top: 50px;
+	margin-top: 30px;
 }
 
 #tabs
@@ -435,6 +440,7 @@ a.icon
 .user-alerts, .user-posts
 {
 	margin-top: 16px;
+	width: 80%;
 }
 
 .pagerlinks
@@ -587,7 +593,7 @@ input[type="checkbox"]
 
 input[readonly="true"]
 {
-	background-color: #ccc;
+	background-color: #eee;
 	color: #999;
 }
 
@@ -649,6 +655,11 @@ option
 	margin: 14px 0px;
 }
 
+.button-submit a
+{
+	margin: 0px 10px;
+}
+
 .field-label
 {
 	width: 130px;
@@ -691,6 +702,11 @@ option
 table
 {
 	width: 100%;
+}
+
+th
+{
+	font-weight: bold;
 }
 
 table.post-list td
@@ -802,10 +818,16 @@ h2.post-title,  h2.postlist-title
  ** Search *
  ****************************/
 
+#home-search-control
+{
+	margin: 50px auto 30px;
+	width:50%;
+}
+
 table.home-searchcriteria-tag, table.home-searchcriteria-taglocation
 {
-	margin: 40px auto 0px;
-	width:40%;
+	margin: 0px;
+
 }
 
 table.home-searchcriteria-tag input[type="text"], table.home-searchcriteria-taglocation input[type="text"]
@@ -825,17 +847,16 @@ table.home-searchcriteria-taglocation td
 
 .home-searchlocation
 {
-	width: 100%; 
-	text-align: center; 
 	margin-top: 20px;
+	text-align: center;
 }
 
 fieldset.home-searchcategory
 {
-	width: 100%; 
-	text-align: center; 
 	margin-top: 20px;
+	margin-left: 4px;	
 	border: 0px;
+	text-align: center;	
 }
 
 fieldset.home-searchcategory legend
@@ -846,6 +867,7 @@ fieldset.home-searchcategory legend
 fieldset.home-searchcategory label
 {
 	display: inline;
+	margin-right: 10px;
 }
 
 /****************************
