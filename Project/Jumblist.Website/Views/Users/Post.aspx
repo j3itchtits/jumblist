@@ -23,6 +23,8 @@
         <%= Html.MessageBox( ViewData.Model )%>
     </div>
     
+    <p><%=Html.ActionLink( "[ Back to profile ]", "profile" ) %></p>
+    
     <%= Html.ClientSideValidation<Post>( "Item" )%>
     
     <% using ( Html.BeginForm() ) { %>
@@ -85,13 +87,11 @@
         <div class="button-submit">
             <%= Html.AntiForgeryToken() %>
             <%= Html.SubmitButton( "submit", "Save" ) %>
+            <%= Html.ActionLink( "[ Cancel ]", "profile" ) %>
         </div>
         
     <% } %>
 
-    <div>
-        [ <%= Html.ActionLink( "Back to profile", "profile" ) %> ]
-    </div>
             
 </asp:Content>
 

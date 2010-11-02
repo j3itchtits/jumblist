@@ -33,7 +33,17 @@ $(document).ready(function() {
         $(this).parent().parent().find(".field-info").css("display", "none");
     });
 
+    $(".fadedtext").click(function() {
+        if ($(this).val() == "Tagged" || $(this).val() == "Location" || $(this).val() == "Enter Email Address") {
+            $(this).removeClass('fadedtext');
+            $(this).val('');
+        }
+    });
 
+    $(".fadedtext").keypress(function(e) {
+        $(this).removeClass('fadedtext');
+    });
+    
 });
 
 

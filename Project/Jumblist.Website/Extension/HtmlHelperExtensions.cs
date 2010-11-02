@@ -20,6 +20,21 @@ namespace Jumblist.Website.Extension
 {
     public static class HtmlHelperExtensions
     {
+        public static MvcHtmlString AlertDefinition( this HtmlHelper htmlHelper, PostListRouteValues postListRouteValues, UserSearchArea userSearchArea )
+        {
+            string ret;
+
+            ret = (postListRouteValues.Category.IsStringNullOrEmpty()) ? "All" : postListRouteValues.Category;
+            ret += " Posts. ";
+            ret += (postListRouteValues.Action.IsStringNullOrEmpty()) ? string.Empty : postListRouteValues.Action + " with '" + postListRouteValues.Id + "'. ";
+            ret += (postListRouteValues.Q.IsStringNullOrEmpty()) ? string.Empty : "Filtered by " + postListRouteValues.Q + ". ";
+            ret += "Located within " + userSearchArea.Radius + " miles of " + userSearchArea.LocationName + ".";
+
+
+            return MvcHtmlString.Create( ret );
+
+        }
+
         public static MvcHtmlString PostListNumberOfItems( this HtmlHelper htmlHelper, int listCount ) 
         {
             if ( listCount > 0 )

@@ -60,12 +60,13 @@
         <div class="button-submit">
             <%= Html.AntiForgeryToken() %>
             <%= Html.SubmitButton( "submit", "Log On" )%>
+            <%= Html.ActionLink( "[ Forgotten password ]", "forgottenpassword", "users" ) %>
         </div>
         
 	<% } %>
 	        
     <div>
-        [ <%= Html.ActionLink( "Forgotten password", "forgottenpassword", "users" ) %> ]
+        
     </div>
         
 

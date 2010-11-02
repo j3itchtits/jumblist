@@ -20,7 +20,7 @@
 	        <div id="messageSendEmailForm" class="hide"></div>
 	        <input id="postId" name="postId" type="hidden" />
 	        <label for="emailAddress" class="hide">Email address</label>
-	        <input id="emailAddress" name="emailAddress" type="text" value="" />
-	        <input id="submitSendEmailForm" type="submit" value="Send" />&nbsp;&nbsp;<a href="#" id="closeSendEmailForm">Cancel</a>
+	        <input id="emailAddress" class="fadedtext" name="emailAddress" type="text" value="" />
+	        <input id="submitSendEmailForm" type="submit" value="Send" />&nbsp;&nbsp;<a href="#" id="closeSendEmailForm">[ Cancel ]</a>
 	    </form>
 	</div> 

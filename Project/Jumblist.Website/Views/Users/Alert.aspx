@@ -23,20 +23,19 @@
         <%= Html.MessageBox( ViewData.Model )%>
     </div>
     
+    <p><%=Html.ActionLink( "[ Back to profile ]", "profile" ) %></p>
+
+    <p>
+        <b>Alert Definition</b><br />
+        <%= Html.AlertDefinition( Model.PostListRouteValues, Model.UserSearchArea )%>
+    </p>   
+            
     <%= Html.ClientSideValidation<UserAlert>( "Item" )%>
     
     <% using ( Html.BeginForm() ) { %>
 
         <%= Html.HiddenFor( m => m.Item.UserAlertId )%>
 
-        <p>
-            Action: <%= Model.PostListRouteValues.Action %><br />
-            Id: <%= Model.PostListRouteValues.Id %><br />
-            Category: <%= Model.PostListRouteValues.Category %><br />
-            Q: <%= Model.PostListRouteValues.Q %><br />
-            Location: Within <%= Model.UserSearchArea.Radius%> miles of <%= Model.UserSearchArea.LocationName%><br /> 
-        </p>   
-                
         <table>
         <tr>
             <td class="field-label"><label for="Item_Name">Name</label></td>
@@ -105,13 +104,10 @@
         <div class="button-submit">
             <%= Html.AntiForgeryToken() %>
             <%= Html.SubmitButton( "submit", "Save" ) %>
+            <%= Html.ActionLink( "[ Cancel ]", "profile" ) %>
         </div>
 
     <% } %>
-
-    <div>
-        [ <%= Html.ActionLink( "Back to profile", "profile" ) %> ]
-    </div>
             
 </asp:Content>
 
