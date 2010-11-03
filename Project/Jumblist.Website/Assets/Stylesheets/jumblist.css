@@ -318,7 +318,7 @@ a.icon
 {
 	border: 1px solid #aaa;
 	background: #CAF78A;
-	margin: 20px 40px;
+	margin: 20px 0px;
 	padding: 12px;
     position: relative;
 
@@ -584,6 +584,7 @@ input[type="radio"]
 {
 	vertical-align: middle;
 	border: 0px;
+	padding: 2px;
 }
 
 input[type="checkbox"]
@@ -821,7 +822,7 @@ h2.post-title,  h2.postlist-title
 #home-search-control
 {
 	margin: 50px auto 30px;
-	width:50%;
+	width: 42%;
 }
 
 table.home-searchcriteria-tag, table.home-searchcriteria-taglocation
@@ -867,6 +868,8 @@ fieldset.home-searchcategory legend
 fieldset.home-searchcategory label
 {
 	display: inline;
+	margin: 0px;
+	padding: 0px;
 	margin-right: 10px;
 }
 

@@ -24,20 +24,13 @@
                 <span id="span-value"><%= Model.Radius%></span><input id="locationRadius" name="locationRadius" value="<%= Model.Radius%>" class="hide" style="width:1.5em;" /> <a href="#" id="radius-edit" style="font-size:0.75em;">[Edit]</a> miles of 
                 <%= Model.Postcode %>
             </div>
-            
 
             <%
         }
         else
         { 
             %>
-            
-            <div id="pane-welcomemessage">
-                Welcome to Jumblist, an open service allowing you to perform location-based searches of UK Freecycle and Freegle groups. If you <%= Html.RegisterLink( "register" ) %>, you can also setup email alerts to let you know when new posts matching your search have been posted.
-                <%= Html.ActionLink( "More details...", "about" ) %>
-                <a href="#" class="hidetext">Hide</a>
-            </div>           
-        
+       
             <%= Html.Hidden( "locationRadius", 5 ) %>
 
             <table class="home-searchcriteria-taglocation" title="Search for Posts by Tag and Location">

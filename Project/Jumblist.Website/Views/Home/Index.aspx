@@ -47,14 +47,24 @@
     <div id="system-message">
         <%= Html.MessageBox( ViewData.Model ) %>
     </div>
-    
+
+    <%  if (!Model.User.IsAuthenticated)
+        { %>
+            <div id="pane-welcomemessage">
+                Welcome to Jumblist, an open service allowing you to perform location-based searches of UK Freecycle and Freegle groups. If you <%= Html.RegisterLink( "register" ) %>, you can also setup email alerts to let you know when new posts matching your search have been posted.
+                <%= Html.ActionLink( "More details...", "about" ) %>
+                <a href="#" class="hidetext">Hide</a>
+            </div> <%
+        } 
+    %>
+                       
     <div id="home-search-control">
         <% Html.RenderPartial( "SearchControl", Model.User ); %>
     </div>
     
-    <div class="widget widget-socialmedia" style="width:130px; margin: 0 auto;">
-        <div class="facebook-share-button"><fb:share-button href="<%= Request.Url.AbsoluteUri %>" type="button"></fb:share-button></div>
-        <a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-via="jumblistuk">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+    <div class="widget widget-socialmedia" style="width:210px; margin: 0 auto;">
+        <div class="facebook-share-button"><fb:like href="<%= Request.Url.AbsoluteUri %>" layout="button_count"></fb:like></div>
+        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="jumblistuk" data-text="Check out Jumblist for all your free recycling needs">Tweet</a>
     </div>
     
 </asp:Content>
