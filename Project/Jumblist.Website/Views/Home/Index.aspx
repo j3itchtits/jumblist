@@ -64,7 +64,7 @@
     
     <div class="widget widget-socialmedia" style="width:210px; margin: 0 auto;">
         <div class="facebook-share-button"><fb:like href="<%= Request.Url.AbsoluteUri %>" layout="button_count"></fb:like></div>
-        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="jumblistuk" data-text="Check out Jumblist for all your free recycling needs">Tweet</a>
+        <a href="http://twitter.com/share" class="twitter-share-button" data-text="Check this out! Jumblist covers all UK free recycling..." data-count="horizontal" data-via="jumblistuk">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
     </div>
     
 </asp:Content>
