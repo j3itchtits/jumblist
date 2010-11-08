@@ -468,6 +468,9 @@ a.icon
 {
 	float: left;
 	margin-right: 10px;
+	margin-top: -3px;
+	padding-top: 0px;
+	vertical-align: top;
 }
 
 .twitter-share-button

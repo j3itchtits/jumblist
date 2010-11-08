@@ -102,7 +102,7 @@ namespace Jumblist.Website.Controllers
 
         }
 
-        [AcceptVerbs( HttpVerbs.Get )]
+        [AcceptVerbs( HttpVerbs.Get | HttpVerbs.Head )]
         [OutputCache( CacheProfile = "Dashboard" )]
         public ActionResult BasicPostList( int top )
         {
