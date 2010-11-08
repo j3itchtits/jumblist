@@ -16,7 +16,8 @@
      
     <script src="<%= Url.Script( "jquery.highlight-3.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.sendemailpopup.js" )%>" type="text/javascript"></script>
-    
+    <script src="http://cdn.topsy.com/topsy.js?init=topsyWidgetCreator" type="text/javascript"></script>
+        
     <script type="text/javascript">
 
         $(document).ready(function() {
@@ -90,7 +91,8 @@
     <div class="widget widget-socialmedia">
         <h3>Share with friends</h3>
         <div class="facebook-share-button"><fb:share-button href="<%= Request.Url.AbsoluteUri %>" type="button"></fb:share-button></div>
-        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script><a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-via="jumblistuk">Tweet</a>
+        <!--<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script><a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-via="jumblistuk">Tweet</a>-->
+        <div class="topsy_widget_data"><!-- { "url": "<%= Request.Url.AbsoluteUri %>", "nick": "jumblistuk", "order": "retweet,badge,count" } --></div>    
     </div>
           
     <div class="widget widget-green">
@@ -119,11 +121,6 @@
         </div>
 
     </div>
-
-
-    
-   
-
      
 </asp:Content>
 

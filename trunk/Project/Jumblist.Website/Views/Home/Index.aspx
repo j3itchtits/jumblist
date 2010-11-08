@@ -8,7 +8,7 @@
     
     <script src="<%= Url.Script( "jquery.cookie.js" )%>" type="text/javascript"></script>
     <script src="<%= Url.Script( "jquery.showedithide.js" )%>" type="text/javascript"></script>
-
+    <script src="http://cdn.topsy.com/topsy.js?init=topsyWidgetCreator" type="text/javascript"></script>
   
     <script type="text/javascript">
 
@@ -64,8 +64,9 @@
     
     <div class="widget widget-socialmedia" style="width:210px; margin: 0 auto;">
         <div class="facebook-share-button"><fb:like href="<%= Request.Url.AbsoluteUri %>" layout="button_count"></fb:like></div>
-        <a href="http://twitter.com/share" class="twitter-share-button" data-text="Check this out! Jumblist covers all UK free recycling..." data-count="horizontal" data-via="jumblistuk">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+        <div class="topsy_widget_data"><!-- { "url": "<%= Request.Url.AbsoluteUri %>", "title": "Jumblist covers all UK free recycling groups...", "nick": "jumblistuk", "order": "retweet,badge,count" } --></div>    
     </div>
+
     
 </asp:Content>
 
