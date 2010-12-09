@@ -8,7 +8,7 @@
 
             <%= Html.Hidden( "locationSearch", Model.Postcode )%>
 
-            <table class="home-searchcriteria-tag" title="Search for Posts">
+            <table class="home-searchcriteria-tag">
             <tr>
             <td style="width: 80px;">
                 <label for="tagSearch" class="hide">Search</label><%= Html.TextBox( "tagSearch", string.Empty, new { title = "Please enter your search term", @class = "input-left" } )%>
@@ -33,11 +33,11 @@
        
             <%= Html.Hidden( "locationRadius", 5 ) %>
 
-            <table class="home-searchcriteria-taglocation" title="Search for Posts by Tag and Location">
+            <table class="home-searchcriteria-taglocation">
             <tr>
                 <td>
                     <label for="tagSearch" class="hide">Tagged</label>
-                    <%= Html.TextBox( "tagSearch", "Tagged", new { tabindex = "1", @class="fadedtext" } )%>
+                    <%= Html.TextBox( "tagSearch", "Tagged", new { tabindex = "1", @class = "fadedtext", title = "Tagged" } )%>
                 </td>
                 <td>
                     <%= Html.SubmitButton( "submit", "Search", new { tabindex = "3" } )%>
@@ -46,7 +46,7 @@
             <tr>
                 <td>
                     <label for="locationSearch" class="hide">Location</label>
-                    <%= Html.TextBox( "locationSearch", "Location", new { tabindex = "2", @class = "fadedtext" } )%>
+                    <%= Html.TextBox( "locationSearch", "Location", new { tabindex = "2", @class = "fadedtext", title = "Location" } )%>
                 </td>
                 <td>
                 </td>                    

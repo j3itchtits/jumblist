@@ -94,7 +94,7 @@
         
     </div>     
        
-    <script type="text/javascript" charset="utf-8">
+<%--    <script type="text/javascript" charset="utf-8">
         var is_ssl = ("https:" == document.location.protocol);
         var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
         document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
@@ -108,20 +108,17 @@
         feedback_widget_options.color = "#2B2B2B";
         feedback_widget_options.style = "idea";
         var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
-    </script>     
+    </script>   --%>  
     
     <div id="fb-root"></div>
     <script type="text/javascript">
         window.fbAsyncInit = function() {
-            FB.init({ appId: '117636311620378', status: true, cookie: true,
-                xfbml: true
-            });
+            FB.init({ appId: '117636311620378', status: true, cookie: true, xfbml: true });
         };
         (function() {
             var e = document.createElement('script');
             e.type = 'text/javascript';
-            e.src = document.location.protocol +
-          '//connect.facebook.net/en_GB/all.js';
+            e.src = document.location.protocol + '//connect.facebook.net/en_GB/all.js';
             e.async = true;
             document.getElementById('fb-root').appendChild(e);
         } ());

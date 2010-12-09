@@ -51,8 +51,8 @@
     <%  if (!Model.User.IsAuthenticated)
         { %>
             <div id="pane-welcomemessage">
-                Welcome to Jumblist, an open service allowing you to perform location-based searches of UK Freecycle and Freegle groups. If you <%= Html.RegisterLink( "register" ) %>, you can also setup email alerts to let you know when new posts matching your search have been posted.
-                <%= Html.ActionLink( "More details...", "about" ) %>
+                Welcome to Jumblist, an free service allowing you to search UK Freecycle and Freegle groups by keyword and location. <%= Html.RegisterLink( "If you join" ) %>, you can setup email alerts to let you know when new posts matching your search have been posted.
+                <%= Html.ActionLink( "More...", "about" ) %>
                 <a href="#" class="hidetext">Hide</a>
             </div> <%
         } 
