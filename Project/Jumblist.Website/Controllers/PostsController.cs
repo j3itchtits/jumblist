@@ -73,7 +73,7 @@ namespace Jumblist.Website.Controllers
             string pageTitle = "All Posts";
             if ( !string.IsNullOrEmpty( q ) ) pageTitle += " filtered by search term '" + q + "'";
 
-            IEnumerable<Post> postList = postService.SelectRecordList( q.ToFriendlyQueryStringDecode(), jumblistSession.UserSearchArea ).OrderByDescending( t => t.PublishDateTime );
+            IEnumerable<Post> postList = postService.RecordList( q.ToFriendlyQueryStringDecode(), jumblistSession.UserSearchArea ).OrderByDescending( t => t.PublishDateTime );
             IPagedList<Post> pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
             IEnumerable<Pushpin> pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExistFunc() ).Take( currentPageSize );
 
@@ -124,7 +124,7 @@ namespace Jumblist.Website.Controllers
             string pageTitle = postCategory.Name + " Posts";
             if ( !string.IsNullOrEmpty( q ) ) pageTitle += " filtered by search term '" + q + "'";
 
-            IEnumerable<Post> postList = postService.SelectRecordList( postCategory, q.ToFriendlyQueryStringDecode(), jumblistSession.UserSearchArea ).OrderByDescending( t => t.PublishDateTime );
+            IEnumerable<Post> postList = postService.RecordList( postCategory, q.ToFriendlyQueryStringDecode(), jumblistSession.UserSearchArea ).OrderByDescending( t => t.PublishDateTime );
             IPagedList<Post> pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
             IEnumerable<Pushpin> pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
@@ -167,7 +167,7 @@ namespace Jumblist.Website.Controllers
             string pageTitle = category.ToTitleCase() + " Posts from " + feed.Name;
             if ( !string.IsNullOrEmpty( q ) ) pageTitle += " filtered by search term '" + q + "'";
 
-            IEnumerable<Post> postList = postService.SelectRecordList( feed, postCategory, q.ToFriendlyQueryStringDecode(), jumblistSession.UserSearchArea ).OrderByDescending( t => t.PublishDateTime ); ;
+            IEnumerable<Post> postList = postService.RecordList( feed, postCategory, q.ToFriendlyQueryStringDecode(), jumblistSession.UserSearchArea ).OrderByDescending( t => t.PublishDateTime ); ;
             IPagedList<Post> pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
             IEnumerable<Pushpin> pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
@@ -208,7 +208,7 @@ namespace Jumblist.Website.Controllers
             string pageTitle = category.ToTitleCase() + " Posts from the following locations, " + locationList.Select( x => x.Name ).ToFormattedStringList( "{0}, ", 2 );
             if ( !string.IsNullOrEmpty( q ) ) pageTitle += " filtered by search term '" + q + "'";
 
-            IEnumerable<Post> postList = postService.SelectRecordList( locationList, postCategory, q.ToFriendlyQueryStringDecode() ).OrderByDescending( t => t.PublishDateTime ); ;
+            IEnumerable<Post> postList = postService.RecordList( locationList, postCategory, q.ToFriendlyQueryStringDecode() ).OrderByDescending( t => t.PublishDateTime ); ;
             IPagedList<Post> pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
             IEnumerable<Pushpin> pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
@@ -251,7 +251,7 @@ namespace Jumblist.Website.Controllers
             string pageTitle = category.ToTitleCase() + " Posts tagged with " + tagList.Select( x => x.Name ).ToFormattedStringList( "{0}, ", 2 );
             if ( !string.IsNullOrEmpty( q ) ) pageTitle += " filtered by search term '" + q + "'";
 
-            IEnumerable<Post> postList = postService.SelectRecordList( tagList, postCategory, q.ToFriendlyQueryStringDecode(), jumblistSession.UserSearchArea ).OrderByDescending( t => t.PublishDateTime ); ;
+            IEnumerable<Post> postList = postService.RecordList( tagList, postCategory, q.ToFriendlyQueryStringDecode(), jumblistSession.UserSearchArea ).OrderByDescending( t => t.PublishDateTime ); ;
             IPagedList<Post> pagedPostList = postList.ToPagedList( currentPage, currentPageSize );
             IEnumerable<Pushpin> pushpinList = postList.ToFilteredPushPinList( Post.WhereLatLongValuesExist() ).Take( currentPageSize );
 
@@ -489,7 +489,7 @@ namespace Jumblist.Website.Controllers
                                     "TestFeedID",
                                     DateTime.Now );
 
-            IEnumerable<Post> postList = postService.GetPostList( rssActionName, rssActionId, rssActionCategory, q, jumblistSession.UserSearchArea )
+            IEnumerable<Post> postList = postService.RecordList( rssActionName, rssActionId, rssActionCategory, q, jumblistSession.UserSearchArea )
                 .Where( x => x.LastUpdatedDateTime > DateTime.Now.AddDays( -30 ) );
 
             IEnumerable<SyndicationItem> items = postList.Select( x => (

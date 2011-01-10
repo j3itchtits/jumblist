@@ -11,29 +11,29 @@ namespace Jumblist.Core.Service
         IQueryable<Post> SelectRecordList();
         IQueryable<Post> SelectRecordList( Expression<Func<Post, bool>> wherePostCondition );
         
-        IEnumerable<Post> SelectRecordList( Expression<Func<PostLocation, bool>> wherePostLocationCondition );
-        IEnumerable<Post> SelectRecordList( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostLocation, bool>> wherePostLocationCondition );
-        IEnumerable<Post> SelectRecordList( Expression<Func<PostTag, bool>> wherePostTagCondition );
-        IEnumerable<Post> SelectRecordList( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition );
+        IEnumerable<Post> RecordList( Expression<Func<PostLocation, bool>> wherePostLocationCondition );
+        IEnumerable<Post> RecordList( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostLocation, bool>> wherePostLocationCondition );
+        IEnumerable<Post> RecordList( Expression<Func<PostTag, bool>> wherePostTagCondition );
+        IEnumerable<Post> RecordList( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition );
 
-        IEnumerable<Post> SelectRecordList( string[] q );
-        IEnumerable<Post> SelectRecordList( string[] q, UserSearchArea userSearchArea );
+        IEnumerable<Post> RecordList( string[] q );
+        IEnumerable<Post> RecordList( string[] q, UserSearchArea userSearchArea );
  
-        IEnumerable<Post> SelectRecordList( PostCategory category, string[] q );
-        IEnumerable<Post> SelectRecordList( PostCategory category, string[] q, UserSearchArea userSearchArea );
+        IEnumerable<Post> RecordList( PostCategory category, string[] q );
+        IEnumerable<Post> RecordList( PostCategory category, string[] q, UserSearchArea userSearchArea );
 
-        IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category );
-        IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category, string[] q );
-        IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category, string[] q, UserSearchArea userSearchArea );
+        IEnumerable<Post> RecordList( Feed feed, PostCategory category );
+        IEnumerable<Post> RecordList( Feed feed, PostCategory category, string[] q );
+        IEnumerable<Post> RecordList( Feed feed, PostCategory category, string[] q, UserSearchArea userSearchArea );
 
-        IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string[] q );
-        IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string[] q, UserSearchArea userSearchArea );
+        IEnumerable<Post> RecordList( IEnumerable<Tag> tagList, PostCategory category, string[] q );
+        IEnumerable<Post> RecordList( IEnumerable<Tag> tagList, PostCategory category, string[] q, UserSearchArea userSearchArea );
 
-        IEnumerable<Post> SelectRecordList( IEnumerable<Location> locationList, PostCategory category );
-        IEnumerable<Post> SelectRecordList( IEnumerable<Location> locationList, PostCategory category, string[] q );
+        IEnumerable<Post> RecordList( IEnumerable<Location> locationList, PostCategory category );
+        IEnumerable<Post> RecordList( IEnumerable<Location> locationList, PostCategory category, string[] q );
 
-        IEnumerable<Post> GetPostList( PostListRouteValues postListRouteValues, UserSearchArea userSearchArea );
-        IEnumerable<Post> GetPostList( string action, string id, string category, string q, UserSearchArea userSearchArea );
+        IEnumerable<Post> RecordList( PostListRouteValues postListRouteValues, UserSearchArea userSearchArea );
+        IEnumerable<Post> RecordList( string action, string id, string category, string q, UserSearchArea userSearchArea );
 
         Post SelectRecord( int id );
         Post SelectRecord( Expression<Func<Post, bool>> whereCondition );

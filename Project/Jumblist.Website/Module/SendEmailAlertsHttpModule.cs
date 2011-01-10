@@ -61,7 +61,7 @@ namespace Jumblist.Website.Module
                 PostListRouteValues postListRouteValues = (PostListRouteValues)Serializer.Deserialize( alert.PostListRouteValues );
                 UserSearchArea userSearchArea = (UserSearchArea)Serializer.Deserialize( alert.SearchArea );
 
-                IEnumerable<Post> postList = postService.GetPostList( postListRouteValues, userSearchArea );
+                IEnumerable<Post> postList = postService.RecordList( postListRouteValues, userSearchArea );
                 postList = postList.Where( x => x.LastUpdatedDateTime > alert.DateTimeLastSent );
 
                 //We then loop though the postlist (if count > 0) for each alert and send out an email for each post

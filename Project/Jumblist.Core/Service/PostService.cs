@@ -59,54 +59,54 @@ namespace Jumblist.Core.Service
             return base.SelectRecordList( wherePostCondition );
         }
 
-        public IEnumerable<Post> SelectRecordList( Expression<Func<PostLocation, bool>> wherePostLocationCondition )
+        public IEnumerable<Post> RecordList( Expression<Func<PostLocation, bool>> wherePostLocationCondition )
         {
-            return from p in SelectRecordList().AsEnumerable()
-                   join pl in postLocationService.SelectRecordList( wherePostLocationCondition ).AsEnumerable() on p.PostId equals pl.PostId
-                   select p;
+            return (from p in SelectRecordList()
+                   join pl in postLocationService.SelectRecordList( wherePostLocationCondition ) on p.PostId equals pl.PostId
+                   select p).AsEnumerable();
         }
 
-        public IEnumerable<Post> SelectRecordList( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostLocation, bool>> wherePostLocationCondition )
+        public IEnumerable<Post> RecordList( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostLocation, bool>> wherePostLocationCondition )
         {
-            return from p in SelectRecordList( wherePostCondition ).AsEnumerable()
-                   join pl in postLocationService.SelectRecordList( wherePostLocationCondition ).AsEnumerable() on p.PostId equals pl.PostId
-                   select p;
-        }
-
-
-        public IEnumerable<Post> SelectRecordList( Expression<Func<PostTag, bool>> wherePostTagCondition )
-        {
-            return from p in SelectRecordList().AsEnumerable()
-                   join pt in postTagService.SelectRecordList( wherePostTagCondition ).AsEnumerable() on p.PostId equals pt.PostId
-                   select p;
+            return (from p in SelectRecordList( wherePostCondition )
+                   join pl in postLocationService.SelectRecordList( wherePostLocationCondition ) on p.PostId equals pl.PostId
+                   select p).AsEnumerable();
         }
 
 
-        public IEnumerable<Post> SelectRecordList( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition )
+        public IEnumerable<Post> RecordList( Expression<Func<PostTag, bool>> wherePostTagCondition )
         {
-            return from p in SelectRecordList( wherePostCondition ).AsEnumerable()
-                   join pt in postTagService.SelectRecordList( wherePostTagCondition ).AsEnumerable() on p.PostId equals pt.PostId
-                   select p;
+            return (from p in SelectRecordList()
+                   join pt in postTagService.SelectRecordList( wherePostTagCondition ) on p.PostId equals pt.PostId
+                   select p).AsEnumerable();
+        }
+
+
+        public IEnumerable<Post> RecordList( Expression<Func<Post, bool>> wherePostCondition, Expression<Func<PostTag, bool>> wherePostTagCondition )
+        {
+            return (from p in SelectRecordList( wherePostCondition )
+                   join pt in postTagService.SelectRecordList( wherePostTagCondition ) on p.PostId equals pt.PostId
+                   select p).AsEnumerable();
         }
 
 
 
-        public IEnumerable<Post> SelectRecordList( string[] searchParams )
+        public IEnumerable<Post> RecordList( string[] searchParams )
         {
-            return SelectRecordList( null, searchParams, null );
+            return RecordList( null, searchParams, null );
         }
 
-        public IEnumerable<Post> SelectRecordList( string[] searchParams, UserSearchArea userSearchArea )
+        public IEnumerable<Post> RecordList( string[] searchParams, UserSearchArea userSearchArea )
         {
-            return SelectRecordList( null, searchParams, userSearchArea );
+            return RecordList( null, searchParams, userSearchArea );
         }
 
-        public IEnumerable<Post> SelectRecordList( PostCategory category, string[] searchParams )
+        public IEnumerable<Post> RecordList( PostCategory category, string[] searchParams )
         {
-            return SelectRecordList( category, searchParams, null );
+            return RecordList( category, searchParams, null );
         }
 
-        public IEnumerable<Post> SelectRecordList( PostCategory category, string[] searchParams, UserSearchArea userSearchArea )
+        public IEnumerable<Post> RecordList( PostCategory category, string[] searchParams, UserSearchArea userSearchArea )
         {
             IEnumerable<Post> postList;
 
@@ -135,17 +135,17 @@ namespace Jumblist.Core.Service
             return postList;
         }
 
-        public IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category )
+        public IEnumerable<Post> RecordList( Feed feed, PostCategory category )
         {
-            return SelectRecordList( feed, category, null );
+            return RecordList( feed, category, null );
         }
 
-        public IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category, string[] searchParams )
+        public IEnumerable<Post> RecordList( Feed feed, PostCategory category, string[] searchParams )
         {
-            return SelectRecordList( feed, category, searchParams, null );
+            return RecordList( feed, category, searchParams, null );
         }
 
-        public IEnumerable<Post> SelectRecordList( Feed feed, PostCategory category, string[] searchParams, UserSearchArea userSearchArea )
+        public IEnumerable<Post> RecordList( Feed feed, PostCategory category, string[] searchParams, UserSearchArea userSearchArea )
         {
             IEnumerable<Post> postList;
 
@@ -174,12 +174,12 @@ namespace Jumblist.Core.Service
             return postList;
         }
 
-        public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string[] q )
+        public IEnumerable<Post> RecordList( IEnumerable<Tag> tagList, PostCategory category, string[] q )
         {
-            return SelectRecordList( tagList, category, q, null );
+            return RecordList( tagList, category, q, null );
         }
 
-        public IEnumerable<Post> SelectRecordList( IEnumerable<Tag> tagList, PostCategory category, string[] searchParams, UserSearchArea userSearchArea )
+        public IEnumerable<Post> RecordList( IEnumerable<Tag> tagList, PostCategory category, string[] searchParams, UserSearchArea userSearchArea )
         {
             IEnumerable<Post> postList;
 
@@ -208,26 +208,26 @@ namespace Jumblist.Core.Service
             return postList;
         }
 
-        public IEnumerable<Post> SelectRecordList( IEnumerable<Location> locationList, PostCategory category )
+        public IEnumerable<Post> RecordList( IEnumerable<Location> locationList, PostCategory category )
         {
-            return SelectRecordList( locationList, category, null );
+            return RecordList( locationList, category, null );
         }
 
-        public IEnumerable<Post> SelectRecordList( IEnumerable<Location> locationList, PostCategory category, string[] searchParams )
+        public IEnumerable<Post> RecordList( IEnumerable<Location> locationList, PostCategory category, string[] searchParams )
         {
             IEnumerable<Post> postList;
 
             if ( category != null && searchParams != null )
             {
-                postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereSearchParamsEqualsAnd( searchParams ) ).And( Post.WhereDisplayEquals( true ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) );
+                postList = RecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereSearchParamsEqualsAnd( searchParams ) ).And( Post.WhereDisplayEquals( true ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) );
             }
             else if ( category == null && searchParams != null )
             {
-                postList = SelectRecordList( Post.WhereSearchParamsEqualsAnd( searchParams ).And( Post.WhereDisplayEquals( true ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) );
+                postList = RecordList( Post.WhereSearchParamsEqualsAnd( searchParams ).And( Post.WhereDisplayEquals( true ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) );
             }
             else if ( category != null && searchParams == null )
             {
-                postList = SelectRecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) );
+                postList = RecordList( Post.WherePostCategoryEquals( category ).And( Post.WhereDisplayEquals( true ) ), PostLocation.WhereLocationNameListEqualsOr( locationList ) );
             }
             else
             {
@@ -237,12 +237,12 @@ namespace Jumblist.Core.Service
             return postList;
         }
 
-        public IEnumerable<Post> GetPostList( PostListRouteValues postListRouteValues, UserSearchArea userSearchArea )
+        public IEnumerable<Post> RecordList( PostListRouteValues postListRouteValues, UserSearchArea userSearchArea )
         {
-            return GetPostList( postListRouteValues.Action, postListRouteValues.Id, postListRouteValues.Category, postListRouteValues.Q, userSearchArea );
+            return RecordList( postListRouteValues.Action, postListRouteValues.Id, postListRouteValues.Category, postListRouteValues.Q, userSearchArea );
         }
 
-        public IEnumerable<Post> GetPostList( string action, string id, string category, string q, UserSearchArea userSearchArea )
+        public IEnumerable<Post> RecordList( string action, string id, string category, string q, UserSearchArea userSearchArea )
         {
             IEnumerable<Post> postList;
 
@@ -261,43 +261,43 @@ namespace Jumblist.Core.Service
                     postList = GetPostsByTag( id, category, q, userSearchArea );
                     break;
                 default:
-                    postList = GetPosts( q, userSearchArea );
+                    postList = GetPostsByQuery( q, userSearchArea );
                     break;
             }
 
             return postList;
         }
 
-        private IEnumerable<Post> GetPosts( string q, UserSearchArea userSearchArea )
+        private IEnumerable<Post> GetPostsByQuery( string q, UserSearchArea userSearchArea )
         {
-            return SelectRecordList( q.ToFriendlyQueryStringDecode(), userSearchArea ).OrderByDescending( t => t.PublishDateTime );
+            return RecordList( q.ToFriendlyQueryStringDecode(), userSearchArea ).OrderByDescending( t => t.PublishDateTime );
         }
 
         private IEnumerable<Post> GetPostsByTag( string tags, string category, string q, UserSearchArea userSearchArea )
         {
             var tagList = tagService.SelectRecordList( Tag.WhereFriendlyUrlListEqualsOr( tags.ToFriendlyUrlDecode() ) );
             var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-            return SelectRecordList( tagList, postCategory, q.ToFriendlyQueryStringDecode(), userSearchArea ).OrderByDescending( t => t.PublishDateTime ); ;
+            return RecordList( tagList, postCategory, q.ToFriendlyQueryStringDecode(), userSearchArea ).OrderByDescending( t => t.PublishDateTime ); ;
         }
 
         private IEnumerable<Post> GetPostsByLocation( string locations, string category )
         {
             var locationList = locationService.SelectRecordList( Location.WhereFriendlyUrlListEqualsOr( locations.ToFriendlyUrlDecode() ) );
             var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-            return SelectRecordList( locationList, postCategory ).OrderByDescending( t => t.PublishDateTime ); ;
+            return RecordList( locationList, postCategory ).OrderByDescending( t => t.PublishDateTime ); ;
         }
 
         private IEnumerable<Post> GetPostsByGroup( string feed, string category, string q )
         {
             var group = feedService.SelectRecord( Feed.WhereFriendlyUrlEquals( feed ) );
             var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-            return SelectRecordList( group, postCategory, q.ToFriendlyQueryStringDecode() ).OrderByDescending( t => t.PublishDateTime ); ;
+            return RecordList( group, postCategory, q.ToFriendlyQueryStringDecode() ).OrderByDescending( t => t.PublishDateTime ); ;
         }
 
         private IEnumerable<Post> GetPostsByCategory( string category, string q, UserSearchArea userSearchArea )
         {
             var postCategory = postCategoryService.SelectRecord( PostCategory.WhereNameEquals( category ) );
-            return SelectRecordList( postCategory, q.ToFriendlyQueryStringDecode(), userSearchArea ).OrderByDescending( t => t.PublishDateTime ); ;
+            return RecordList( postCategory, q.ToFriendlyQueryStringDecode(), userSearchArea ).OrderByDescending( t => t.PublishDateTime ); ;
         }
 
 
