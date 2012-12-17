@@ -1,6 +1,6 @@
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Web Developer Express 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jumblist.Website", "Jumblist.Website\Jumblist.Website.csproj", "{BC4A063C-BB13-49ED-9504-469DFE4E76FF}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{00000000-0000-0000-0000-000000000000}") = "Jumblist.Website", "Jumblist.Website\Jumblist.Website.csproj", "{BC4A063C-BB13-49ED-9504-469DFE4E76FF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jumblist.Core", "Jumblist.Core\Jumblist.Core.csproj", "{B491CACC-CB79-4FF1-BD9F-0EC617333D0F}"
 EndProject
